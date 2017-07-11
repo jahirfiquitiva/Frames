@@ -14,4 +14,7 @@
  * limitations under the License.
  */
 
-include ':app', ':library', ':wovic'
+package jahirfiquitiva.libs.frames.utils
+
+val PREFERENCES_NAME = "frames_preferences"
+val BACKUP_JSON = "backup_json"

@@ -13,5 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package jahirfiquitiva.libs.frames.fragments.presenters
 
-include ':app', ':library', ':wovic'
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.OnLifecycleEvent
+import android.view.View
+
+interface FramesFragmentPresenter {
+    fun getContentLayout():Int
+    fun initUI(content:View)
+
+    fun initViewModel()
+    fun registerObserver()
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    fun unregisterObserver()
+
+    fun loadDataFromViewModel()
+    fun onItemClicked(item:Any)
+}

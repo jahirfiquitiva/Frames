@@ -16,8 +16,8 @@
 
 ext.versions = [
         // Core app details
-        appId                 : "Wovic",
-        appPackage            : "co.wovic.app",
+        appId                 : "Frames",
+        appGroup              : "jahirfiquitiva.apps",
         libGroup              : "jahirfiquitiva.libs",
         minSdk                : 16,
         targetSdk             : 26,
@@ -37,7 +37,9 @@ ext.versions = [
         okhttp                : '3.8.1',
         glide                 : '3.7.0',
         volley                : '1.0.0',
+        kauExt                : 'b67f6fe',
         recyclerViewFastScroll: 'ab973f2',
+        inquiry               : '5.0.0',
         subsImageView         : '3.6.0',
         iaps                  : '1.0.39',
         muzeiApi              : '2.0',

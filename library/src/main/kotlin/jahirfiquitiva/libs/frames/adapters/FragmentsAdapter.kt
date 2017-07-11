@@ -14,4 +14,25 @@
  * limitations under the License.
  */
 
-include ':app', ':library', ':wovic'
+package jahirfiquitiva.libs.frames.adapters
+
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentStatePagerAdapter
+
+class FragmentsAdapter(manager:FragmentManager, vararg fragments:Fragment):
+        FragmentStatePagerAdapter(manager) {
+
+    private var fragments = ArrayList<Fragment>()
+
+    init {
+        this.fragments.addAll(fragments)
+    }
+
+    override fun getItem(position:Int):Fragment? {
+        if (position in 0..fragments.size) return fragments[position]
+        return null
+    }
+
+    override fun getCount():Int = fragments.size
+}

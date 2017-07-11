@@ -36,7 +36,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "jahirfiquitiva.apps.frames"
+        applicationId versions.appGroup + "." + versions.appId.toLowerCase()
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
         versionCode versions.versionCode

@@ -15,7 +15,6 @@
  */
 
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'kotlin-android'
 apply from: '../dependencies.gradle'
 
@@ -81,8 +80,12 @@ dependencies {
     // kapt 'com.github.bumptech.glide:compiler:' + versions.glide
     // Volley
     compile 'com.android.volley:volley:' + versions.volley
+    // KAU Extensions
+    compile 'me.jahirfiquitiva:KAUExtensions:' + versions.kauExt
     // RecyclerView Fast Scroller
     compile 'com.github.plusCubed:recycler-fast-scroll:' + versions.recyclerViewFastScroll
+    // Inquiry
+    compile 'com.afollestad:inquiry:' + versions.inquiry
     // Subsampling ImageView
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:' + versions.subsImageView
     // In-App Purchases
@@ -99,3 +102,5 @@ tasks.whenTaskAdded { task ->
         task.enabled = false
     }
 }
+
+apply from: '../lib-artifacts.gradle'

@@ -14,4 +14,5 @@
  * limitations under the License.
  */
 
-include ':app', ':library', ':wovic'
+package jahirfiquitiva.libs.frames.fragments
+

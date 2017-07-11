@@ -17,9 +17,24 @@
 package jahirfiquitiva.libs.frames.extensions
 
 import android.content.Context
+import android.graphics.drawable.StateListDrawable
+import ca.allanwang.kau.utils.tint
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.FutureTarget
+import jahirfiquitiva.libs.frames.utils.FramesKonfigs
+import jahirfiquitiva.libs.frames.utils.PREFERENCES_NAME
+import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
+import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import java.io.File
+
+fun Context.createHeartSelector():StateListDrawable {
+    val res = StateListDrawable()
+    res.addState(intArrayOf(android.R.attr.state_checked),
+                 "ic_heart".getDrawable(this).tint(activeIconsColor))
+    res.addState(intArrayOf(-android.R.attr.state_checked),
+                 "ic_heart_outline".getDrawable(this).tint(activeIconsColor))
+    return res
+}
 
 fun Context.runInAThread(item:() -> Unit) {
     Thread(Runnable(item)).start()
@@ -27,3 +42,8 @@ fun Context.runInAThread(item:() -> Unit) {
 
 fun Context.downloadOnly(url:String, width:Int = 500, height:Int = 500):FutureTarget<File> =
         Glide.with(this).load(url).downloadOnly(width, height)
+
+fun Context.getSharedPrefs() = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
+
+val Context.framesKonfigs
+    get() = FramesKonfigs.newInstance(this)

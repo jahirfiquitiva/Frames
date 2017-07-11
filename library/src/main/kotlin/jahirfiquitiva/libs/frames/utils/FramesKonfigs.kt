@@ -14,4 +14,17 @@
  * limitations under the License.
  */
 
-include ':app', ':library', ':wovic'
+package jahirfiquitiva.libs.frames.utils
+
+import android.content.Context
+import jahirfiquitiva.libs.kauextensions.utils.Konfigurations
+
+class FramesKonfigs(cntxt:Context):Konfigurations(cntxt) {
+    companion object {
+        fun newInstance(context:Context) = Konfigurations(context)
+    }
+
+    var backupJson:String
+        get() = prefs.getString(BACKUP_JSON, "[]")
+        set(value) = prefsEditor.putString(BACKUP_JSON, value).apply()
+}
