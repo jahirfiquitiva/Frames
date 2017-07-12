@@ -31,6 +31,7 @@ android {
 
     lintOptions {
         abortOnError false
+        checkReleaseBuilds false
         disable 'MissingTranslation'
         disable 'GoogleAppIndexingWarning'
     }
@@ -65,4 +66,10 @@ dependencies {
     compile 'org.jetbrains.kotlin:kotlin-stdlib:' + versions.kotlin
     // Frames Library
     compile project(path: ':library')
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name.contains("lint") || task.name.contains("test")) {
+        task.enabled = false
+    }
 }

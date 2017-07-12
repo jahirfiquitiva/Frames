@@ -17,6 +17,7 @@
 package jahirfiquitiva.libs.frames.extensions
 
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.drawable.StateListDrawable
 import ca.allanwang.kau.utils.tint
 import com.bumptech.glide.Glide
@@ -45,5 +46,8 @@ fun Context.downloadOnly(url:String, width:Int = 500, height:Int = 500):FutureTa
 
 fun Context.getSharedPrefs() = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
 
-val Context.framesKonfigs
+val Context.framesKonfigs:FramesKonfigs
     get() = FramesKonfigs.newInstance(this)
+
+val Context.isInHorizontalMode:Boolean
+    get() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE

@@ -16,22 +16,18 @@
 
 package jahirfiquitiva.libs.frames.adapters
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
+import android.view.ViewGroup
+import ca.allanwang.kau.utils.inflate
+import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.holders.WallpaperHolder
+import jahirfiquitiva.libs.frames.models.Wallpaper
 
-class FragmentsAdapter(manager:FragmentManager, vararg fragments:Fragment):
-        FragmentStatePagerAdapter(manager) {
-    private var fragments = ArrayList<Fragment>()
-
-    init {
-        this.fragments.addAll(fragments)
+class WallpapersAdapter(listener:(Wallpaper) -> Unit):
+        BaseListAdapter<Wallpaper, WallpaperHolder>(listener) {
+    override fun doBind(holder:WallpaperHolder, position:Int) {
+        holder.setItem(list[position], listener)
     }
 
-    override fun getItem(position:Int):Fragment? {
-        if (position in 0..fragments.size) return fragments[position]
-        return null
-    }
-
-    override fun getCount():Int = fragments.size
+    override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):WallpaperHolder? =
+            parent?.inflate(R.layout.item_wallpaper)?.let { WallpaperHolder(it) }
 }

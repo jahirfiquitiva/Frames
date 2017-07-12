@@ -16,7 +16,7 @@
 
 package jahirfiquitiva.libs.frames.models
 
-data class Wallpaper(val name:String, val author:String, val categories:String, val url:String,
+data class Wallpaper(val name:String, val author:String, val collections:String, val url:String,
                      val thumbUrl:String = url) {
     override fun equals(other:Any?):Boolean {
         if (other !is Wallpaper) return false
@@ -31,3 +31,5 @@ data class Wallpaper(val name:String, val author:String, val categories:String, 
         return result
     }
 }
+
+data class Collection(val name:String, val wallpapers:ArrayList<Wallpaper>)

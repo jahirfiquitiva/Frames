@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2017. Jahir Fiquitiva
   ~
@@ -14,12 +15,13 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <!-- TODO: Change this link -->
-    <string name="json_url">https://raw.githubusercontent.com/dragodev94/Wall-app/master/Wallpapers.json</string>
-    <string name="empty_section">Nothing to see here</string>
-    <string name="loading_section">This section is loading</string>
-    <string name="collections">Collections</string>
-    <string name="favorites">Favorites</string>
-    <string name="all">All</string>
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="rectangle">
+    <gradient
+            android:angle="90"
+            android:centerY="30%"
+            android:startColor="#66000000"
+            android:centerColor="#38000000"
+            android:endColor="@android:color/transparent"
+            android:type="linear"/>
+</shape>

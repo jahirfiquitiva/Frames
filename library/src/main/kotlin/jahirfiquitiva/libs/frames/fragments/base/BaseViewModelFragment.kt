@@ -27,7 +27,7 @@ import android.view.ViewGroup
 import jahirfiquitiva.libs.frames.fragments.presenters.FramesFragmentPresenter
 import jahirfiquitiva.libs.kauextensions.extensions.inflate
 
-abstract class BaseViewModelFragment:LifecycleFragment(), LifecycleObserver, FramesFragmentPresenter {
+abstract class BaseViewModelFragment<in T>:LifecycleFragment(), LifecycleObserver, FramesFragmentPresenter<T> {
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     override fun onStart() {
         super.onStart()
@@ -39,9 +39,7 @@ abstract class BaseViewModelFragment:LifecycleFragment(), LifecycleObserver, Fra
     override fun onCreateView(inflater:LayoutInflater?, container:ViewGroup?,
                               savedInstanceState:Bundle?):View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        val content = container?.inflate(getContentLayout())
-        content?.let { initUI(it) }
-        return content
+        return container?.inflate(getContentLayout())
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)

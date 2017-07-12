@@ -24,6 +24,7 @@ android {
 
     lintOptions {
         abortOnError false
+        checkReleaseBuilds false
         disable 'MissingTranslation'
         disable 'GoogleAppIndexingWarning'
     }

@@ -19,15 +19,14 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.OnLifecycleEvent
 import android.view.View
 
-interface FramesFragmentPresenter {
+interface FramesFragmentPresenter<in T> {
+    fun onItemClicked(item:T)
+
     fun getContentLayout():Int
-    fun initUI(content:View)
 
     fun initViewModel()
     fun registerObserver()
+    fun loadDataFromViewModel()
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun unregisterObserver()
-
-    fun loadDataFromViewModel()
-    fun onItemClicked(item:Any)
 }

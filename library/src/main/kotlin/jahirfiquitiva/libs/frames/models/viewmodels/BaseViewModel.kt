@@ -14,24 +14,17 @@
  * limitations under the License.
  */
 
-package jahirfiquitiva.libs.frames.adapters
+package jahirfiquitiva.libs.frames.models.viewmodels
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
+import android.content.Context
 
-class FragmentsAdapter(manager:FragmentManager, vararg fragments:Fragment):
-        FragmentStatePagerAdapter(manager) {
-    private var fragments = ArrayList<Fragment>()
-
-    init {
-        this.fragments.addAll(fragments)
+abstract class BaseViewModel<T>:ViewModel() {
+    val items = MutableLiveData<T>()
+    fun loadData(context:Context) {
+        items.postValue(items.value ?: loadItems(context))
     }
 
-    override fun getItem(position:Int):Fragment? {
-        if (position in 0..fragments.size) return fragments[position]
-        return null
-    }
-
-    override fun getCount():Int = fragments.size
+    abstract protected fun loadItems(context:Context):T
 }

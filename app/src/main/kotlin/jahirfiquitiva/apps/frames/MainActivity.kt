@@ -13,25 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package jahirfiquitiva.apps.frames
 
-package jahirfiquitiva.libs.frames.adapters
+import android.os.Bundle
+import com.github.javiersantos.piracychecker.PiracyChecker
+import jahirfiquitiva.libs.frames.activities.FramesActivity
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
+class MainActivity:FramesActivity() {
+    override fun donationsEnabled():Boolean = false
+    override fun amazonInstallsEnabled():Boolean = false
+    override fun getLicKey():String? = null
+    override fun getLicenseChecker():PiracyChecker? = null
 
-class FragmentsAdapter(manager:FragmentManager, vararg fragments:Fragment):
-        FragmentStatePagerAdapter(manager) {
-    private var fragments = ArrayList<Fragment>()
-
-    init {
-        this.fragments.addAll(fragments)
+    override fun onCreate(savedInstanceState:Bundle?) {
+        super.onCreate(savedInstanceState)
     }
-
-    override fun getItem(position:Int):Fragment? {
-        if (position in 0..fragments.size) return fragments[position]
-        return null
-    }
-
-    override fun getCount():Int = fragments.size
 }

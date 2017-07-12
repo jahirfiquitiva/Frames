@@ -16,22 +16,18 @@
 
 package jahirfiquitiva.libs.frames.adapters
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
+import android.view.ViewGroup
+import ca.allanwang.kau.utils.inflate
+import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.holders.CollectionHolder
+import jahirfiquitiva.libs.frames.models.Collection
 
-class FragmentsAdapter(manager:FragmentManager, vararg fragments:Fragment):
-        FragmentStatePagerAdapter(manager) {
-    private var fragments = ArrayList<Fragment>()
-
-    init {
-        this.fragments.addAll(fragments)
+class CollectionsAdapter(listener:(Collection) -> Unit):
+        BaseListAdapter<Collection, CollectionHolder>(listener) {
+    override fun doBind(holder:CollectionHolder, position:Int) {
+        holder.setItem(list[position], listener)
     }
 
-    override fun getItem(position:Int):Fragment? {
-        if (position in 0..fragments.size) return fragments[position]
-        return null
-    }
-
-    override fun getCount():Int = fragments.size
+    override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):CollectionHolder? =
+            parent?.inflate(R.layout.item_collection)?.let { CollectionHolder(it) }
 }

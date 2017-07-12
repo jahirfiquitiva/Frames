@@ -14,24 +14,19 @@
  * limitations under the License.
  */
 
-package jahirfiquitiva.libs.frames.adapters
+package jahirfiquitiva.libs.frames.models.viewmodels
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
+import android.content.Context
+import jahirfiquitiva.libs.frames.models.Wallpaper
+import jahirfiquitiva.libs.frames.utils.getFavoriteWallpapers
 
-class FragmentsAdapter(manager:FragmentManager, vararg fragments:Fragment):
-        FragmentStatePagerAdapter(manager) {
-    private var fragments = ArrayList<Fragment>()
-
-    init {
-        this.fragments.addAll(fragments)
+class FavoritesViewModel:BaseViewModel<ArrayList<Wallpaper>>() {
+    override fun loadItems(context:Context):ArrayList<Wallpaper> {
+        val wallpapers = ArrayList<Wallpaper>()
+        try {
+            wallpapers.addAll(context.getFavoriteWallpapers())
+        } catch (e:Exception) {
+        }
+        return wallpapers
     }
-
-    override fun getItem(position:Int):Fragment? {
-        if (position in 0..fragments.size) return fragments[position]
-        return null
-    }
-
-    override fun getCount():Int = fragments.size
 }

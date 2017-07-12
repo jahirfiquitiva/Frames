@@ -21,7 +21,7 @@ import jahirfiquitiva.libs.kauextensions.utils.Konfigurations
 
 class FramesKonfigs(cntxt:Context):Konfigurations(cntxt) {
     companion object {
-        fun newInstance(context:Context) = Konfigurations(context)
+        fun newInstance(context:Context) = FramesKonfigs(context)
     }
 
     var backupJson:String

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2017. Jahir Fiquitiva
   ~
@@ -14,12 +15,15 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <!-- TODO: Change this link -->
-    <string name="json_url">https://raw.githubusercontent.com/dragodev94/Wall-app/master/Wallpapers.json</string>
-    <string name="empty_section">Nothing to see here</string>
-    <string name="loading_section">This section is loading</string>
-    <string name="collections">Collections</string>
-    <string name="favorites">Favorites</string>
-    <string name="all">All</string>
-</resources>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+            android:opacity="opaque">
+    <!-- The background color, preferably the same as your normal theme -->
+    <item android:drawable="@color/clear_bg"/>
+    <!-- Your product logo - 288px x 288px color version of your app icon -->
+    <item android:bottom="@dimen/splash_logo_bottom">
+        <bitmap
+                android:gravity="center"
+                android:tileMode="disabled"
+                android:src="@drawable/app_logo"/>
+    </item>
+</layer-list>
