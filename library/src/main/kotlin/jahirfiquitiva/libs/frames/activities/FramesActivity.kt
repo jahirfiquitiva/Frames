@@ -43,7 +43,7 @@ abstract class FramesActivity:BaseFramesActivity() {
         statusBarColor = primaryDarkColor
         statusBarLight = primaryDarkColor.isColorLight()
         pager = findViewById<ViewPager>(R.id.pager)
-        // TODO: Add FavoritesDatabase fragments
+		
         pager.adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
                                          WallpapersFragment(), FavoritesFragment())
         tabs = findViewById<TabLayout>(R.id.tabs)
