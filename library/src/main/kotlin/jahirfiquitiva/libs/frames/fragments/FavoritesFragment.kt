@@ -16,8 +16,6 @@
 
 package jahirfiquitiva.libs.frames.fragments
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import ca.allanwang.kau.utils.dimenPixelSize
@@ -27,21 +25,19 @@ import jahirfiquitiva.libs.frames.adapters.WallpapersAdapter
 import jahirfiquitiva.libs.frames.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.frames.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.models.Wallpaper
-import jahirfiquitiva.libs.frames.models.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.frames.views.CheckableImageView
+import jahirfiquitiva.libs.kauextensions.extensions.printError
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
 class FavoritesFragment:BaseFramesFragment<Wallpaper>() {
-
-    private lateinit var favoritesModel:FavoritesViewModel
 
     private lateinit var rv:EmptyViewRecyclerView
     private lateinit var adapter:WallpapersAdapter
     private lateinit var fastScroll:RecyclerFastScroller
 
     override fun initUI(content:View) {
-        rv = content.findViewById<EmptyViewRecyclerView>(R.id.list_rv)
+        rv = content.findViewById(R.id.list_rv)
         rv.emptyView = content.findViewById(R.id.no_favorites_view)
         rv.textView = content.findViewById(R.id.empty_text)
         rv.emptyTextRes = R.string.no_favorites
@@ -65,43 +61,11 @@ class FavoritesFragment:BaseFramesFragment<Wallpaper>() {
         // TODO: Start viewer activity
     }
 
-    fun onHeartClicked(heart:CheckableImageView, item:Wallpaper) {
-        val isInDB = getDatabase().getFavorites().contains(item)
-        if (heart.isChecked) {
-            if (isInDB) {
-                getDatabase().removeFromFavorites(item)
-                heart.isChecked = false
-                loadDataFromViewModel()
-            }
-        } else {
-            if (!isInDB) {
-                getDatabase().addToFavorites(item)
-                heart.isChecked = true
-                loadDataFromViewModel()
-            }
-        }
-    }
-
     override fun getContentLayout():Int = R.layout.section_lists
 
-    override fun initViewModel() {
-        favoritesModel = ViewModelProviders.of(activity).get(FavoritesViewModel::class.java)
-    }
-
-    override fun registerObserver() {
-        favoritesModel.items.observe(this, Observer<ArrayList<Wallpaper>> { data ->
-            data?.let {
-                adapter.clearAndAddAll(it)
-                rv.state = EmptyViewRecyclerView.State.NORMAL
-            }
-        })
-    }
-
-    override fun loadDataFromViewModel() {
-        favoritesModel.loadData(getDatabase())
-    }
-
-    override fun unregisterObserver() {
-        favoritesModel.items.removeObservers(this)
+    override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
+        super.doOnFavoritesChange(data)
+        adapter.setItems(data)
+        rv.state = EmptyViewRecyclerView.State.NORMAL
     }
 }

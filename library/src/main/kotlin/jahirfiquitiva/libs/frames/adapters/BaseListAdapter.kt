@@ -17,8 +17,6 @@
 package jahirfiquitiva.libs.frames.adapters
 
 import android.support.v7.widget.RecyclerView
-import android.view.ViewGroup
-import ca.allanwang.kau.utils.inflate
 import jahirfiquitiva.libs.frames.adapters.presenters.ItemsAdapterPresenter
 
 abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>:
@@ -48,7 +46,31 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>:
         notifyItemRangeInserted(prevSize, items.size)
     }
 
-    override fun clearAndAddAll(items:ArrayList<T>?) {
-        super.clearAndAddAll(items)
+    override fun setItems(items:ArrayList<T>) {
+        list.clear()
+        list.addAll(items)
+        notifyDataSetChanged()
     }
+
+    override fun removeItem(item:T) {
+        val prevSize = itemCount
+        val index = list.indexOf(item)
+        if (index < 0) return
+        list.remove(item)
+        notifyItemRangeRemoved(index, prevSize)
+    }
+
+    override fun updateItem(item:T) {
+        val prevSize = itemCount
+        val index = list.indexOf(item)
+        if (index < 0) return
+        notifyItemRangeChanged(index, prevSize)
+    }
+
+    override fun addItem(item:T) {
+        val prevSize = itemCount
+        list.add(item)
+        notifyItemRangeInserted(prevSize, itemCount)
+    }
+
 }

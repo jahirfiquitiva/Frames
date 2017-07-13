@@ -16,8 +16,6 @@
 
 package jahirfiquitiva.libs.frames.fragments
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
@@ -26,15 +24,9 @@ import jahirfiquitiva.libs.frames.adapters.CollectionsAdapter
 import jahirfiquitiva.libs.frames.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.frames.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.models.Collection
-import jahirfiquitiva.libs.frames.models.Wallpaper
-import jahirfiquitiva.libs.frames.models.viewmodels.CollectionsViewModel
-import jahirfiquitiva.libs.frames.models.viewmodels.WallpapersViewModel
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
 class CollectionsFragment:BaseFramesFragment<Collection>() {
-
-    private lateinit var wallpapersModel:WallpapersViewModel
-    private lateinit var collectionsModel:CollectionsViewModel
 
     private lateinit var rv:EmptyViewRecyclerView
     private lateinit var adapter:CollectionsAdapter
@@ -62,36 +54,17 @@ class CollectionsFragment:BaseFramesFragment<Collection>() {
     }
 
     override fun onItemClicked(item:Collection) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // TODO: Open collections activity
     }
 
     override fun getContentLayout():Int = R.layout.section_lists
 
-    override fun initViewModel() {
-        wallpapersModel = ViewModelProviders.of(activity).get(WallpapersViewModel::class.java)
-        collectionsModel = ViewModelProviders.of(activity).get(CollectionsViewModel::class.java)
+    override fun doOnCollectionsChange(data:ArrayList<Collection>) {
+        super.doOnCollectionsChange(data)
+        if (data.size > 0) {
+            adapter.setItems(data)
+            rv.state = EmptyViewRecyclerView.State.NORMAL
+        }
     }
 
-    override fun registerObserver() {
-        wallpapersModel.items.observe(this, Observer<ArrayList<Wallpaper>> { data ->
-            data?.let { collectionsModel.loadData(it) }
-        })
-        collectionsModel.items.observe(this, Observer<ArrayList<Collection>> { data ->
-            data?.let {
-                if (it.size > 0) {
-                    adapter.clearAndAddAll(data)
-                    rv.state = EmptyViewRecyclerView.State.NORMAL
-                }
-            }
-        })
-    }
-
-    override fun loadDataFromViewModel() {
-        wallpapersModel.loadData(activity)
-    }
-
-    override fun unregisterObserver() {
-        wallpapersModel.items.removeObservers(this)
-        collectionsModel.items.removeObservers(this)
-    }
 }

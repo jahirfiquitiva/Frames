@@ -16,8 +16,6 @@
 
 package jahirfiquitiva.libs.frames.fragments
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import ca.allanwang.kau.utils.dimenPixelSize
@@ -27,14 +25,12 @@ import jahirfiquitiva.libs.frames.adapters.WallpapersAdapter
 import jahirfiquitiva.libs.frames.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.frames.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.models.Wallpaper
-import jahirfiquitiva.libs.frames.models.viewmodels.WallpapersViewModel
 import jahirfiquitiva.libs.frames.views.CheckableImageView
+import jahirfiquitiva.libs.kauextensions.extensions.printError
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
 class WallpapersFragment:BaseFramesFragment<Wallpaper>() {
-
-    private lateinit var wallpapersModel:WallpapersViewModel
 
     private lateinit var rv:EmptyViewRecyclerView
     private lateinit var adapter:WallpapersAdapter
@@ -64,44 +60,18 @@ class WallpapersFragment:BaseFramesFragment<Wallpaper>() {
         // TODO: Start viewer activity
     }
 
-    fun onHeartClicked(heart:CheckableImageView, item:Wallpaper) {
-        val isInDB = getDatabase().getFavorites().contains(item)
-        if (heart.isChecked) {
-            if (isInDB) {
-                getDatabase().removeFromFavorites(item)
-                heart.isChecked = false
-            }
-        } else {
-            if (!isInDB) {
-                getDatabase().addToFavorites(item)
-                heart.isChecked = true
-            }
-        }
-    }
-
     override fun getContentLayout():Int = R.layout.section_lists
 
-    override fun initViewModel() {
-        wallpapersModel = ViewModelProviders.of(activity).get(WallpapersViewModel::class.java)
+    override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
+        super.doOnFavoritesChange(data)
+        adapter.favorites = data
     }
 
-    override fun registerObserver() {
-        wallpapersModel.items.observe(this, Observer<ArrayList<Wallpaper>> { data ->
-            data?.let {
-                if (it.size > 0) {
-                    adapter.favorites = getDatabase().getFavorites() as ArrayList<Wallpaper>
-                    adapter.clearAndAddAll(data)
-                    rv.state = EmptyViewRecyclerView.State.NORMAL
-                }
-            }
-        })
-    }
-
-    override fun loadDataFromViewModel() {
-        wallpapersModel.loadData(activity)
-    }
-
-    override fun unregisterObserver() {
-        wallpapersModel.items.removeObservers(this)
+    override fun doOnWallpapersChange(data:ArrayList<Wallpaper>) {
+        super.doOnWallpapersChange(data)
+        if (data.size > 0) {
+            adapter.setItems(data)
+            rv.state = EmptyViewRecyclerView.State.NORMAL
+        }
     }
 }

@@ -30,36 +30,46 @@ import jahirfiquitiva.libs.kauextensions.extensions.runInAThread
 import org.json.JSONArray
 import java.io.File
 
-class WallpapersViewModel:ListViewModel<Wallpaper>() {
-
-    override fun loadItems(context:Context):ArrayList<Wallpaper> {
-        val wallz = ArrayList<Wallpaper>()
-        val volleyRequest = Volley.newRequestQueue(context)
+class WallpapersViewModel:ListViewModel<Wallpaper, Context>() {
+    override fun loadItems(p:Context):ArrayList<Wallpaper> {
+        val list = ArrayList<Wallpaper>()
+        val volleyRequest = Volley.newRequestQueue(p)
         volleyRequest.add(
-                StringRequest(Request.Method.GET, context.getString(R.string.json_url),
-                              Response.Listener<String> { response ->
-                                  if (response.isNotEmpty())
-                                      context.framesKonfigs.backupJson = response
-                                      items.postValue(
-                                              buildWallpapersListFromJson(context,
-                                                                          JSONArray(response)))
-                              }, Response.ErrorListener {
-                    if (context.framesKonfigs.backupJson.isNotEmpty())
-                        items.postValue(
-                                buildWallpapersListFromJson(context,
-                                                            JSONArray(
-                                                                    context.framesKonfigs.backupJson)))
-                }))
-        return wallz
+                StringRequest(Request.Method.GET, p.getString(R.string.json_url),
+                              Response.Listener<String> {
+                                  list.clear()
+                                  list.addAll(loadWallpapers(p, it))
+                              },
+                              Response.ErrorListener {
+                                  list.clear()
+                                  list.addAll(loadWallpapers(p, ""))
+                              }))
+        volleyRequest.addRequestFinishedListener<StringRequest> {
+            postResult(list)
+        }
+        return list
+    }
+
+
+    private fun loadWallpapers(context:Context, response:String):ArrayList<Wallpaper> {
+        if (response.isNotEmpty() && response.isNotBlank()) {
+            context.framesKonfigs.backupJson = response
+            return buildWallpapersListFromJson(context, JSONArray(response))
+        } else {
+            val prevResponse = context.framesKonfigs.backupJson
+            if (prevResponse.isNotEmpty()) {
+                return buildWallpapersListFromJson(context, JSONArray(prevResponse))
+            } else {
+                return ArrayList()
+            }
+        }
     }
 
     private fun buildWallpapersListFromJson(context:Context, json:JSONArray):ArrayList<Wallpaper> {
         val fWallpapers = ArrayList<Wallpaper>()
-        val wallsList = json
-        // val wallsList:JSONArray = json.getJSONArray("wallpapers")
-        for (index in 0..wallsList.length()) {
-            if (wallsList.isNull(index)) continue
-            val obj = wallsList.getJSONObject(index)
+        for (index in 0..json.length()) {
+            if (json.isNull(index)) continue
+            val obj = json.getJSONObject(index)
             var name = ""
             try {
                 name = obj.getString("name") ?: ""

@@ -16,26 +16,16 @@
 
 package jahirfiquitiva.libs.frames.models.viewmodels
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import jahirfiquitiva.libs.frames.models.Collection
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 
-class CollectionsViewModel:ViewModel() {
-    val items = MutableLiveData<ArrayList<Collection>>()
-
-    fun loadData(wallpapers:ArrayList<Wallpaper>) {
-        if (items.value != null && (items.value?.size ?: 0) > 0)
-            items.postValue(items.value)
-        items.postValue(loadItems(wallpapers))
-    }
-
-    private fun loadItems(wallpapers:ArrayList<Wallpaper>):ArrayList<Collection> {
+class CollectionsViewModel:ListViewModel<Collection, ArrayList<Wallpaper>>() {
+    override fun loadItems(p:ArrayList<Wallpaper>):ArrayList<Collection> {
         val collections = ArrayList<Collection>()
         val collectionsMap = HashMap<String, ArrayList<Wallpaper>>()
-        for ((index, wallpaper) in wallpapers.withIndex()) {
+        for ((index, wallpaper) in p.withIndex()) {
             val collectionsText = wallpaper.collections
             if (collectionsText.isNotEmpty()) {
                 val collectionsList = collectionsText.split("[,|]".toRegex())
@@ -47,7 +37,7 @@ class CollectionsViewModel:ViewModel() {
                                 wallsList.addAll(wallsInCollection)
                             }
                         }
-                        wallsList.add(wallpapers[index])
+                        wallsList.add(p[index])
                         collectionsMap.put(it, wallsList)
                     }
                 }

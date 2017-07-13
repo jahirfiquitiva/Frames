@@ -16,17 +16,49 @@
 
 package jahirfiquitiva.libs.frames.models.viewmodels
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.frames.models.db.FavoritesDao
 
-class FavoritesViewModel:ViewModel() {
-    val items = MutableLiveData<ArrayList<Wallpaper>>()
-    fun loadData(database:FavoritesDao) {
-        if (items.value != null && items.value?.size ?: 0 > 0) items.postValue(items.value)
+class FavoritesViewModel:ListViewModel<Wallpaper, FavoritesDao>() {
+    override fun loadItems(p:FavoritesDao):ArrayList<Wallpaper> {
         val list = ArrayList<Wallpaper>()
-        list.addAll(database.getFavorites())
-        items.postValue(list)
+        if (items.value != null && items.value?.size ?: 0 > 0) {
+            items.value?.let { list.addAll(it) }
+            return list
+        }
+        list.addAll(p.getFavorites())
+        return list
+    }
+
+    fun isInFavorites(wallpaper:Wallpaper):Boolean {
+        try {
+            return items.value?.contains(wallpaper) ?: false
+        } catch (ignored:Exception) {
+            return false
+        }
+    }
+
+    fun addToFavorites(wallpaper:Wallpaper):Boolean {
+        try {
+            if (isInFavorites(wallpaper)) return true
+            param?.addToFavorites(wallpaper)
+            items.value?.add(wallpaper)
+            items.value?.let { postResult(it) }
+            return true
+        } catch (ignored:Exception) {
+            return false
+        }
+    }
+
+    fun removeFromFavorites(wallpaper:Wallpaper):Boolean {
+        try {
+            if (!isInFavorites(wallpaper)) return true
+            param?.removeFromFavorites(wallpaper)
+            items.value?.remove(wallpaper)
+            items.value?.let { postResult(it) }
+            return true
+        } catch (ignored:Exception) {
+            return false
+        }
     }
 }

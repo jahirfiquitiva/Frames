@@ -17,6 +17,7 @@
 package jahirfiquitiva.libs.frames.adapters
 
 import android.view.ViewGroup
+import ca.allanwang.kau.kotlin.lazyContext
 import ca.allanwang.kau.utils.inflate
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.holders.WallpaperHolder
@@ -30,7 +31,8 @@ class WallpapersAdapter(val listener:(Wallpaper) -> Unit,
 
     var favorites = ArrayList<Wallpaper>()
         set(value) {
-            field = favorites
+            field.clear()
+            field.addAll(value)
             notifyDataSetChanged()
         }
 

@@ -30,8 +30,8 @@ import jahirfiquitiva.libs.kauextensions.extensions.inflate
 abstract class BaseViewModelFragment<in T>:LifecycleFragment(), LifecycleObserver, FramesFragmentPresenter<T> {
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     override fun onStart() {
-        super.onStart()
         initViewModel()
+        super.onStart()
         registerObserver()
         loadDataFromViewModel()
     }

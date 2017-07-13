@@ -18,16 +18,38 @@ package jahirfiquitiva.libs.frames.models.viewmodels
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.content.Context
+import jahirfiquitiva.libs.frames.utils.AsyncTaskManager
 
-abstract class ListViewModel<T>:ViewModel() {
+abstract class ListViewModel<T, P>:ViewModel() {
     val items = MutableLiveData<ArrayList<T>>()
+    var param:P? = null
+    var task:AsyncTaskManager<ArrayList<T>, P>? = null
 
-    open fun loadData(context:Context) {
-        if (items.value != null && (items.value?.size ?: 0) > 0)
-            items.postValue(items.value)
-        items.postValue(loadItems(context))
+    fun loadData(p:P) {
+        param = p
+        task = AsyncTaskManager(p, {},
+                                { internalLoad(it) },
+                                { postResult(it) })
+        task?.execute()
     }
 
-    abstract protected fun loadItems(context:Context):ArrayList<T>
+    fun stopTask(interrupt:Boolean = false) {
+        task?.cancelTask(interrupt)
+    }
+
+    private fun internalLoad(p:P):ArrayList<T> {
+        if (items.value != null && (items.value?.size ?: 0) > 0) {
+            val list = ArrayList<T>()
+            items.value?.let { list.addAll(it) }
+            return list
+        } else {
+            return loadItems(p)
+        }
+    }
+
+    open fun postResult(data:ArrayList<T>) {
+        items.postValue(data)
+    }
+
+    abstract protected fun loadItems(p:P):ArrayList<T>
 }
