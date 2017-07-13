@@ -58,6 +58,10 @@ android {
             java.srcDirs += 'src/main/kotlin'
         }
     }
+
+    packagingOptions {
+        pickFirst 'META-INF/library_release.kotlin_module'
+    }
 }
 
 dependencies {

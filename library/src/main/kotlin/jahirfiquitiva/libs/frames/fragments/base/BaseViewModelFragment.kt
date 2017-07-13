@@ -39,7 +39,9 @@ abstract class BaseViewModelFragment<in T>:LifecycleFragment(), LifecycleObserve
     override fun onCreateView(inflater:LayoutInflater?, container:ViewGroup?,
                               savedInstanceState:Bundle?):View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return container?.inflate(getContentLayout())
+        val content = container?.inflate(getContentLayout())
+        content?.let { initUI(it) }
+        return content
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)

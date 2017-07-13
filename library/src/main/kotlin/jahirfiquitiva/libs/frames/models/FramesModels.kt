@@ -16,8 +16,26 @@
 
 package jahirfiquitiva.libs.frames.models
 
-data class Wallpaper(val name:String, val author:String, val collections:String, val url:String,
-                     val thumbUrl:String = url) {
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
+
+@Entity(tableName = "FAVORITES")
+data class Wallpaper(
+        @ColumnInfo(name = "NAME")
+        var name:String = "",
+        @ColumnInfo(name = "AUTHOR")
+        var author:String = "",
+        @ColumnInfo(name = "COLLECTIONS")
+        var collections:String = "",
+        @ColumnInfo(name = "URL")
+        var url:String = "",
+        @ColumnInfo(name = "THUMB_URL")
+        var thumbUrl:String = url,
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "ID")
+        var id:Long = 0) {
+
     override fun equals(other:Any?):Boolean {
         if (other !is Wallpaper) return false
         return url.equals(other.url, true) || thumbUrl.equals(other.thumbUrl, true)

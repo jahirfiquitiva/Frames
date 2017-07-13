@@ -13,20 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package jahirfiquitiva.libs.frames.fragments.base
 
-package jahirfiquitiva.libs.frames.models.viewmodels
-
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import jahirfiquitiva.libs.frames.models.Wallpaper
+import android.arch.persistence.room.Room
 import jahirfiquitiva.libs.frames.models.db.FavoritesDao
+import jahirfiquitiva.libs.frames.models.db.FavoritesDatabase
+import jahirfiquitiva.libs.frames.utils.DATABASE_NAME
 
-class FavoritesViewModel:ViewModel() {
-    val items = MutableLiveData<ArrayList<Wallpaper>>()
-    fun loadData(database:FavoritesDao) {
-        if (items.value != null && items.value?.size ?: 0 > 0) items.postValue(items.value)
-        val list = ArrayList<Wallpaper>()
-        list.addAll(database.getFavorites())
-        items.postValue(list)
+abstract class BaseFramesFragment<in T>:BaseViewModelFragment<T>() {
+    private lateinit var database:FavoritesDatabase
+
+    override fun onStart() {
+        createDatabase()
+        super.onStart()
     }
+
+    fun createDatabase() {
+        database = Room.databaseBuilder(context, FavoritesDatabase::class.java, DATABASE_NAME)
+                .allowMainThreadQueries().build()
+    }
+
+    fun getDatabase():FavoritesDao = database.favoritesDao()
 }

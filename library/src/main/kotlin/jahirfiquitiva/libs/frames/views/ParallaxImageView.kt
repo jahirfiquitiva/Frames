@@ -13,86 +13,103 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package jahirfiquitiva.libs.frames.views
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.graphics.Canvas
 import android.os.Build
-import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
-import android.view.View
-import ca.allanwang.kau.utils.dpToPx
+import android.view.ViewTreeObserver
+import android.widget.ImageView
 import jahirfiquitiva.libs.kauextensions.ui.views.LandscapeImageView
 
 /**
- * Based on Lukas Koller ParallaxImageView from his app Camera Roll
+ * Based on Jiazhe Guo's ScrollParallaxImageView
+ * https://github.com/gjiazhe/ScrollParallaxImageView
  */
-class ParallaxImageView:LandscapeImageView {
+class ParallaxImageView:LandscapeImageView, ViewTreeObserver.OnScrollChangedListener {
 
-    var parallaxOffset = 50.dpToPx
-    var rvHeight = -1
-    var rvLocation = intArrayOf(-1, -1)
+    private var viewLocation = IntArray(2)
+    var parallaxEnabled = true
+        set(value) {
+            field = value
+            invalidate()
+        }
 
     constructor(context:Context):super(context)
-    constructor(context:Context, attributeSet:AttributeSet):super(context, attributeSet) {
-        init(context, attributeSet)
-    }
-
+    constructor(context:Context, attributeSet:AttributeSet):super(context, attributeSet)
     constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int)
-            :super(context, attributeSet, defStyleAttr) {
-        init(context, attributeSet)
-    }
+            :super(context, attributeSet, defStyleAttr)
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int, defStyleRes:Int)
-            :super(context, attributeSet, defStyleAttr, defStyleRes) {
-        init(context, attributeSet)
-    }
-
-    override fun init(context:Context, attributeSet:AttributeSet) {
-        super.init(context, attributeSet)
-    }
+            :super(context, attributeSet, defStyleAttr, defStyleRes)
 
     override fun onMeasure(widthMeasureSpec:Int, heightMeasureSpec:Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec + parallaxOffset)
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        invalidate()
     }
 
-    var isAttached = false
+    override fun onDraw(canvas:Canvas) {
+        if (!parallaxEnabled || drawable == null) {
+            super.onDraw(canvas)
+            return
+        }
+        getLocationInWindow(viewLocation)
+        transform(canvas, viewLocation[1])
+        super.onDraw(canvas)
+    }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        isAttached = true
-        translate()
-        val rv:View = rootView.findViewWithTag(PARALLAX_RV_TAG)
-        if (rv is RecyclerView) {
-            rv.addOnScrollListener(object:RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView:RecyclerView?, dx:Int, dy:Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    if (!isAttached) {
-                        recyclerView?.removeOnScrollListener(this)
-                        return
-                    }
-                    if (rvHeight == -1) {
-                        rvHeight = rv.height
-                        rv.getLocationOnScreen(rvLocation)
-                    }
-                    translate()
-                }
-            })
+        viewTreeObserver.addOnScrollChangedListener(this)
+    }
+
+    override fun onDetachedFromWindow() {
+        viewTreeObserver.removeOnScrollChangedListener(this)
+        super.onDetachedFromWindow()
+    }
+
+    override fun onScrollChanged() {
+        if (parallaxEnabled) {
+            invalidate()
         }
     }
 
-    fun translate() {
-        if (rvHeight < 0) return
-        val location = IntArray(2)
-        getLocationOnScreen(location)
-        val visible = location[1] + height > rvLocation[1] || location[1] < rvLocation[1] + rvHeight
-        if (!visible) return
-        val dy = location[1] - rvLocation[1]
-        val translationY = parallaxOffset * dy / rvHeight
-        setTranslationY(-translationY.toFloat())
-    }
-}
+    fun transform(canvas:Canvas, y:Int) {
+        var nY = y
+        if (scaleType != ImageView.ScaleType.CENTER_CROP) {
+            return
+        }
 
-const val PARALLAX_RV_TAG = "PARALLAX_RECYCLER_VIEW"
+        // image's width and height
+        val iWidth = drawable.intrinsicWidth
+        val iHeight = drawable.intrinsicHeight
+        if (iWidth <= 0 || iHeight <= 0) {
+            return
+        }
+
+        // view's width and height
+        val vWidth = width - paddingLeft - paddingRight
+        val vHeight = height - paddingTop - paddingBottom
+
+        // device's height
+        val dHeight = resources.displayMetrics.heightPixels
+
+        if (iWidth * vHeight < iHeight * vWidth) {
+            // avoid over scroll
+            if (nY < -vHeight) {
+                nY = -vHeight
+            } else if (nY > dHeight) {
+                nY = dHeight
+            }
+
+            val imgScale = vWidth.toFloat() / iWidth.toFloat()
+            val max_dy = Math.abs((iHeight * imgScale - vHeight) * 0.5f)
+            val translateY = -(2f * max_dy * nY.toFloat() + max_dy * (vHeight - dHeight)) / (vHeight + dHeight)
+            canvas.translate(0f, translateY)
+        }
+    }
+
+}

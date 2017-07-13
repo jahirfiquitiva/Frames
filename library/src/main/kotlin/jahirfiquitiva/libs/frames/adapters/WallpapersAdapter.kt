@@ -21,11 +21,22 @@ import ca.allanwang.kau.utils.inflate
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.holders.WallpaperHolder
 import jahirfiquitiva.libs.frames.models.Wallpaper
+import jahirfiquitiva.libs.frames.views.CheckableImageView
 
-class WallpapersAdapter(listener:(Wallpaper) -> Unit):
-        BaseListAdapter<Wallpaper, WallpaperHolder>(listener) {
+class WallpapersAdapter(val listener:(Wallpaper) -> Unit,
+                        val heartListener:(CheckableImageView, Wallpaper) -> Unit,
+                        val fromFavorites:Boolean = false):
+        BaseListAdapter<Wallpaper, WallpaperHolder>() {
+
+    var favorites = ArrayList<Wallpaper>()
+        set(value) {
+            field = favorites
+            notifyDataSetChanged()
+        }
+
     override fun doBind(holder:WallpaperHolder, position:Int) {
-        holder.setItem(list[position], listener)
+        val item = list[position]
+        holder.setItem(item, listener, heartListener, fromFavorites || favorites.contains(item))
     }
 
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):WallpaperHolder? =

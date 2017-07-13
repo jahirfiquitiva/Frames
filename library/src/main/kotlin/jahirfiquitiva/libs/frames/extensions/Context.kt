@@ -19,35 +19,32 @@ package jahirfiquitiva.libs.frames.extensions
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.drawable.StateListDrawable
+import android.support.annotation.ColorInt
 import ca.allanwang.kau.utils.tint
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.FutureTarget
 import jahirfiquitiva.libs.frames.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.utils.PREFERENCES_NAME
-import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
+import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
+import jahirfiquitiva.libs.kauextensions.extensions.getInactiveIconsColorFor
 import java.io.File
 
-fun Context.createHeartSelector():StateListDrawable {
+fun Context.createHeartSelector(@ColorInt backgroundColor:Int):StateListDrawable {
     val res = StateListDrawable()
     res.addState(intArrayOf(android.R.attr.state_checked),
-                 "ic_heart".getDrawable(this).tint(activeIconsColor))
+                 "ic_heart".getDrawable(this).tint(getActiveIconsColorFor(backgroundColor)))
     res.addState(intArrayOf(-android.R.attr.state_checked),
-                 "ic_heart_outline".getDrawable(this).tint(activeIconsColor))
+                 "ic_heart_outline".getDrawable(this).tint(
+                         getInactiveIconsColorFor(backgroundColor)))
     return res
-}
-
-fun Context.runInAThread(item:() -> Unit) {
-    Thread(Runnable(item)).start()
 }
 
 fun Context.downloadOnly(url:String, width:Int = 500, height:Int = 500):FutureTarget<File> =
         Glide.with(this).load(url).downloadOnly(width, height)
 
-fun Context.getSharedPrefs() = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
-
 val Context.framesKonfigs:FramesKonfigs
-    get() = FramesKonfigs.newInstance(this)
+    get() = FramesKonfigs.newInstance(PREFERENCES_NAME, this)
 
 val Context.isInHorizontalMode:Boolean
     get() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE

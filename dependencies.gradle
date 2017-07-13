@@ -37,7 +37,7 @@ ext.versions = [
         okhttp                : '3.8.1',
         glide                 : '3.7.0',
         volley                : '1.0.0',
-        kauExt                : 'b67f6fe',
+        kauExt                : '8e1e57b',
         recyclerViewFastScroll: 'ab973f2',
         inquiry               : '5.0.0',
         subsImageView         : '3.6.0',

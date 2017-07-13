@@ -20,11 +20,14 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
 
-abstract class BaseViewModel<T>:ViewModel() {
-    val items = MutableLiveData<T>()
-    fun loadData(context:Context) {
-        items.postValue(items.value ?: loadItems(context))
+abstract class ListViewModel<T>:ViewModel() {
+    val items = MutableLiveData<ArrayList<T>>()
+
+    open fun loadData(context:Context) {
+        if (items.value != null && (items.value?.size ?: 0) > 0)
+            items.postValue(items.value)
+        items.postValue(loadItems(context))
     }
 
-    abstract protected fun loadItems(context:Context):T
+    abstract protected fun loadItems(context:Context):ArrayList<T>
 }

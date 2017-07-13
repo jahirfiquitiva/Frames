@@ -18,4 +18,6 @@
     <!-- Splash screen dimens -->
     <dimen name="splash_logo_bottom">16dp</dimen>
     <dimen name="splash_brand_bottom">48dp</dimen>
+    <!-- Cards -->
+    <dimen name="cards_margin">8dp</dimen>
 </resources>

@@ -22,8 +22,7 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.holders.CollectionHolder
 import jahirfiquitiva.libs.frames.models.Collection
 
-class CollectionsAdapter(listener:(Collection) -> Unit):
-        BaseListAdapter<Collection, CollectionHolder>(listener) {
+class CollectionsAdapter(val listener:(Collection) -> Unit):BaseListAdapter<Collection, CollectionHolder>(){
     override fun doBind(holder:CollectionHolder, position:Int) {
         holder.setItem(list[position], listener)
     }

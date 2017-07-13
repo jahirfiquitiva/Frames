@@ -65,7 +65,11 @@ dependencies {
     // Architecture Components
     compile 'android.arch.lifecycle:runtime:' + versions.archComponents
     compile 'android.arch.lifecycle:extensions:' + versions.archComponents
+    compile 'android.arch.persistence.room:runtime:' + versions.archComponents
     annotationProcessor 'android.arch.lifecycle:compiler:' + versions.archComponents
+    annotationProcessor 'android.arch.persistence.room:compiler:' + versions.archComponents
+    kapt 'android.arch.lifecycle:compiler:' + versions.archComponents
+    kapt 'android.arch.persistence.room:compiler:' + versions.archComponents
     // Kotlin
     compile 'org.jetbrains.kotlin:kotlin-stdlib:' + versions.kotlin
     // Material Dialogs

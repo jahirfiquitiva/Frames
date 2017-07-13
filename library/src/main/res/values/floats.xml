@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2017. Jahir Fiquitiva
   ~
@@ -13,14 +14,6 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-    <!-- TODO: Change this link -->
-    <string name="json_url">https://raw.githubusercontent.com/dragodev94/Wall-app/master/Wallpapers.json</string>
-    <string name="empty_section">Nothing to see here</string>
-    <string name="loading_section">This section is loading</string>
-    <string name="no_favorites">Add some wallpapers to favorites first</string>
-    <string name="collections">Collections</string>
-    <string name="favorites">Favorites</string>
-    <string name="all">All</string>
+    <item name="heightMultiplier" format="float" type="dimen">1.25</item>
 </resources>

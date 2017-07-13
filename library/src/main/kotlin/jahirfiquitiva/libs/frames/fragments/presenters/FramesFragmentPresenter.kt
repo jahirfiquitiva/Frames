@@ -20,6 +20,7 @@ import android.arch.lifecycle.OnLifecycleEvent
 import android.view.View
 
 interface FramesFragmentPresenter<in T> {
+    fun initUI(content:View)
     fun onItemClicked(item:T)
 
     fun getContentLayout():Int

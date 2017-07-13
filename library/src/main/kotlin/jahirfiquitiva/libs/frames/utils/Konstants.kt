@@ -16,8 +16,10 @@
 
 package jahirfiquitiva.libs.frames.utils
 
-val PREFERENCES_NAME = "frames_preferences"
-val BACKUP_JSON = "backup_json"
+const val DATABASE_NAME = "FAVORITES"
+
+const val PREFERENCES_NAME = "frames_preferences"
+const val BACKUP_JSON = "backup_json"
 
 // Intent related stuff
 const val PLAY_STORE_LINK_PREFIX = "https://play.google.com/store/apps/details?id="

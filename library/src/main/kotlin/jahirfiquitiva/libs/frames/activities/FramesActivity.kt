@@ -21,66 +21,67 @@ import android.support.v4.view.ViewPager
 import android.support.v7.widget.Toolbar
 import ca.allanwang.kau.utils.statusBarColor
 import ca.allanwang.kau.utils.statusBarLight
-import ca.allanwang.kau.utils.tint
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.adapters.FragmentsAdapter
 import jahirfiquitiva.libs.frames.fragments.CollectionsFragment
-import jahirfiquitiva.libs.frames.utils.destroyFavoritesDatabase
-import jahirfiquitiva.libs.frames.utils.initFavoritesDatabase
-import jahirfiquitiva.libs.kauextensions.extensions.disabledTextColor
-import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.isColorLight
-import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
-import jahirfiquitiva.libs.kauextensions.extensions.primaryDarkColor
+import jahirfiquitiva.libs.frames.fragments.FavoritesFragment
+import jahirfiquitiva.libs.frames.fragments.WallpapersFragment
+import jahirfiquitiva.libs.kauextensions.extensions.*
 
 abstract class FramesActivity:BaseFramesActivity() {
 
-    private val pager:ViewPager by lazy(LazyThreadSafetyMode.NONE) {
-        findViewById<ViewPager>(R.id.pager).also {
-            // TODO: Add Wallpapers and Favorites fragments
-            it.adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment())
-            it.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
-            it.offscreenPageLimit = tabs.tabCount
-        }
-    }
-
-    private val tabs:TabLayout by lazy(LazyThreadSafetyMode.NONE) {
-        findViewById<TabLayout>(R.id.tabs).also {
-            // TODO: Change disabled text color
-            it.setTabTextColors(getPrimaryTextColorFor(primaryColor), disabledTextColor)
-            it.setSelectedTabIndicatorColor(getPrimaryTextColorFor(primaryColor))
-            it.addTab(it.newTab().setText(R.string.collections))
-            it.addTab(it.newTab().setText(R.string.all))
-            it.addTab(it.newTab().setText(R.string.favorites))
-            it.addOnTabSelectedListener(object:TabLayout.OnTabSelectedListener {
-                override fun onTabReselected(tab:TabLayout.Tab?) {
-                    // Do nothing
-                }
-
-                override fun onTabUnselected(tab:TabLayout.Tab?) {
-                    // Do nothing
-                }
-
-                override fun onTabSelected(tab:TabLayout.Tab?) {
-                    pager.setCurrentItem(tab?.position ?: 0, true)
-                }
-            })
-        }
-    }
+    private lateinit var pager:ViewPager
+    private lateinit var tabs:TabLayout
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
-        initFavoritesDatabase()
         setContentView(R.layout.activity_main)
         val toolbar:Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        toolbar.tint(getPrimaryTextColorFor(primaryColor), true)
+        toolbar.tint(getPrimaryTextColorFor(primaryColor), getSecondaryTextColorFor(primaryColor),
+                     getActiveIconsColorFor(primaryColor))
         statusBarColor = primaryDarkColor
         statusBarLight = primaryDarkColor.isColorLight()
+        pager = findViewById<ViewPager>(R.id.pager)
+        // TODO: Add FavoritesDatabase fragments
+        pager.adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
+                                         WallpapersFragment(), FavoritesFragment())
+        tabs = findViewById<TabLayout>(R.id.tabs)
+        tabs.setTabTextColors(getDisabledTextColorFor(primaryColor),
+                              getPrimaryTextColorFor(primaryColor))
+        tabs.setSelectedTabIndicatorColor(getPrimaryTextColorFor(primaryColor))
+        tabs.addTab(tabs.newTab().setText(R.string.collections))
+        tabs.addTab(tabs.newTab().setText(R.string.all))
+        tabs.addTab(tabs.newTab().setText(R.string.favorites))
+        tabs.addOnTabSelectedListener(object:TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab:TabLayout.Tab?) {
+                return
+            }
+
+            override fun onTabUnselected(tab:TabLayout.Tab?) {
+                // Do nothing
+            }
+
+            override fun onTabSelected(tab:TabLayout.Tab?) {
+                pager.setCurrentItem(tab?.position ?: 0, true)
+                /*
+                if (pager.adapter is FragmentsAdapter) {
+                    (pager.adapter as FragmentsAdapter).getItem(tab?.position ?: 0)?.let {
+                        if (it is FavoritesFragment) {
+                            it.loadDataFromViewModel()
+                        } else if (it is WallpapersFragment) {
+                            it.loadDataFromViewModel()
+                        }
+                    }
+                }
+                */
+            }
+        })
+        pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+        pager.offscreenPageLimit = tabs.tabCount
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        destroyFavoritesDatabase()
     }
 }

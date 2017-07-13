@@ -20,78 +20,88 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
+import ca.allanwang.kau.utils.dimenPixelSize
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.adapters.CollectionsAdapter
+import jahirfiquitiva.libs.frames.adapters.WallpapersAdapter
 import jahirfiquitiva.libs.frames.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.frames.fragments.base.BaseFramesFragment
-import jahirfiquitiva.libs.frames.models.Collection
 import jahirfiquitiva.libs.frames.models.Wallpaper
-import jahirfiquitiva.libs.frames.models.viewmodels.CollectionsViewModel
-import jahirfiquitiva.libs.frames.models.viewmodels.WallpapersViewModel
+import jahirfiquitiva.libs.frames.models.viewmodels.FavoritesViewModel
+import jahirfiquitiva.libs.frames.views.CheckableImageView
+import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
-class CollectionsFragment:BaseFramesFragment<Collection>() {
+class FavoritesFragment:BaseFramesFragment<Wallpaper>() {
 
-    private lateinit var wallpapersModel:WallpapersViewModel
-    private lateinit var collectionsModel:CollectionsViewModel
+    private lateinit var favoritesModel:FavoritesViewModel
 
     private lateinit var rv:EmptyViewRecyclerView
-    private lateinit var adapter:CollectionsAdapter
+    private lateinit var adapter:WallpapersAdapter
     private lateinit var fastScroll:RecyclerFastScroller
 
     override fun initUI(content:View) {
         rv = content.findViewById<EmptyViewRecyclerView>(R.id.list_rv)
-        rv.emptyView = content.findViewById(R.id.empty_view)
+        rv.emptyView = content.findViewById(R.id.no_favorites_view)
         rv.textView = content.findViewById(R.id.empty_text)
-        rv.emptyTextRes = R.string.empty_section
+        rv.emptyTextRes = R.string.no_favorites
         rv.loadingView = content.findViewById(R.id.loading_view)
         rv.loadingTextRes = R.string.loading_section
-        val spanCount = if (context.isInHorizontalMode) 2 else 1
+        val spanCount = if (context.isInHorizontalMode) 3 else 2
         rv.layoutManager = GridLayoutManager(context, spanCount,
                                              GridLayoutManager.VERTICAL, false)
-        /*
         rv.addItemDecoration(
-                GridSpacingItemDecoration(spanCount, context.dimenPixelSize(R.dimen.cards_margin),
-                                          true)) */
-        adapter = CollectionsAdapter { onItemClicked(it) }
+                GridSpacingItemDecoration(spanCount, context.dimenPixelSize(R.dimen.cards_margin)))
+        adapter = WallpapersAdapter({ onItemClicked(it) },
+                                    { heart, wall -> onHeartClicked(heart, wall) },
+                                    true)
         rv.adapter = adapter
         rv.state = EmptyViewRecyclerView.State.LOADING
         fastScroll = content.findViewById(R.id.fast_scroller)
         fastScroll.attachRecyclerView(rv)
     }
 
-    override fun onItemClicked(item:Collection) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onItemClicked(item:Wallpaper) {
+        // TODO: Start viewer activity
+    }
+
+    fun onHeartClicked(heart:CheckableImageView, item:Wallpaper) {
+        val isInDB = getDatabase().getFavorites().contains(item)
+        if (heart.isChecked) {
+            if (isInDB) {
+                getDatabase().removeFromFavorites(item)
+                heart.isChecked = false
+                loadDataFromViewModel()
+            }
+        } else {
+            if (!isInDB) {
+                getDatabase().addToFavorites(item)
+                heart.isChecked = true
+                loadDataFromViewModel()
+            }
+        }
     }
 
     override fun getContentLayout():Int = R.layout.section_lists
 
     override fun initViewModel() {
-        wallpapersModel = ViewModelProviders.of(activity).get(WallpapersViewModel::class.java)
-        collectionsModel = ViewModelProviders.of(activity).get(CollectionsViewModel::class.java)
+        favoritesModel = ViewModelProviders.of(activity).get(FavoritesViewModel::class.java)
     }
 
     override fun registerObserver() {
-        wallpapersModel.items.observe(this, Observer<ArrayList<Wallpaper>> { data ->
-            data?.let { collectionsModel.loadData(it) }
-        })
-        collectionsModel.items.observe(this, Observer<ArrayList<Collection>> { data ->
+        favoritesModel.items.observe(this, Observer<ArrayList<Wallpaper>> { data ->
             data?.let {
-                if (it.size > 0) {
-                    adapter.clearAndAddAll(data)
-                    rv.state = EmptyViewRecyclerView.State.NORMAL
-                }
+                adapter.clearAndAddAll(it)
+                rv.state = EmptyViewRecyclerView.State.NORMAL
             }
         })
     }
 
     override fun loadDataFromViewModel() {
-        wallpapersModel.loadData(activity)
+        favoritesModel.loadData(getDatabase())
     }
 
     override fun unregisterObserver() {
-        wallpapersModel.items.removeObservers(this)
-        collectionsModel.items.removeObservers(this)
+        favoritesModel.items.removeObservers(this)
     }
 }

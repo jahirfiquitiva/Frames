@@ -13,18 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package jahirfiquitiva.libs.frames.models.db
 
-package jahirfiquitiva.libs.frames.utils
+import android.arch.persistence.room.Database
+import android.arch.persistence.room.RoomDatabase
+import jahirfiquitiva.libs.frames.models.Wallpaper
 
-import android.content.Context
-import jahirfiquitiva.libs.kauextensions.utils.Konfigurations
-
-class FramesKonfigs(nm:String, cntxt:Context):Konfigurations(nm, cntxt) {
-    companion object {
-        fun newInstance(name:String, context:Context) = FramesKonfigs(name, context)
-    }
-
-    var backupJson:String
-        get() = prefs.getString(BACKUP_JSON, "[]")
-        set(value) = prefsEditor.putString(BACKUP_JSON, value).apply()
+@Database(entities = arrayOf(Wallpaper::class), version = 1, exportSchema = false)
+abstract class FavoritesDatabase:RoomDatabase() {
+    abstract fun favoritesDao():FavoritesDao
 }

@@ -13,20 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package jahirfiquitiva.libs.frames.models.db
 
-package jahirfiquitiva.libs.frames.models.viewmodels
-
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import android.arch.persistence.room.Dao
+import android.arch.persistence.room.Delete
+import android.arch.persistence.room.Insert
+import android.arch.persistence.room.OnConflictStrategy
+import android.arch.persistence.room.Query
 import jahirfiquitiva.libs.frames.models.Wallpaper
-import jahirfiquitiva.libs.frames.models.db.FavoritesDao
+import jahirfiquitiva.libs.frames.utils.DATABASE_NAME
 
-class FavoritesViewModel:ViewModel() {
-    val items = MutableLiveData<ArrayList<Wallpaper>>()
-    fun loadData(database:FavoritesDao) {
-        if (items.value != null && items.value?.size ?: 0 > 0) items.postValue(items.value)
-        val list = ArrayList<Wallpaper>()
-        list.addAll(database.getFavorites())
-        items.postValue(list)
-    }
+@Dao
+interface FavoritesDao {
+    @Query("SELECT * FROM $DATABASE_NAME")
+    fun getFavorites():List<Wallpaper>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addToFavorites(wallpaper:Wallpaper)
+
+    @Delete
+    fun removeFromFavorites(wallpaper:Wallpaper)
 }

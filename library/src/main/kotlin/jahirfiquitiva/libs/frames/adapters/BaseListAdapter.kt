@@ -21,7 +21,7 @@ import android.view.ViewGroup
 import ca.allanwang.kau.utils.inflate
 import jahirfiquitiva.libs.frames.adapters.presenters.ItemsAdapterPresenter
 
-abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>(val listener:(T) -> Unit):
+abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>:
         RecyclerView.Adapter<VH>(), ItemsAdapterPresenter<T> {
 
     val list = ArrayList<T>()
@@ -46,5 +46,9 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>(val listener:(T) -
         val prevSize = itemCount
         list.addAll(items)
         notifyItemRangeInserted(prevSize, items.size)
+    }
+
+    override fun clearAndAddAll(items:ArrayList<T>?) {
+        super.clearAndAddAll(items)
     }
 }

@@ -15,23 +15,26 @@
   ~ limitations under the License.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:foreground="?selectableItemBackground">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:foreground="?selectableItemBackground">
 
     <jahirfiquitiva.libs.kauextensions.ui.views.VerticalImageView
             android:id="@+id/wallpaper_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            app:heightMultiplier="@dimen/heightMultiplier"/>
 
     <LinearLayout
             android:id="@+id/wallpaper_details"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/gradient"
             android:padding="16dp"
             tools:ignore="UseCompoundDrawables">
 
@@ -48,8 +51,9 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:background="?selectableItemBackgroundBorderless"
+                android:visibility="gone"
                 tools:ignore="ContentDescription"/>
 
     </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>

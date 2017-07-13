@@ -25,46 +25,73 @@ import com.bumptech.glide.request.FutureTarget
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.extensions.downloadOnly
 import jahirfiquitiva.libs.frames.extensions.framesKonfigs
-import jahirfiquitiva.libs.frames.extensions.runInAThread
 import jahirfiquitiva.libs.frames.models.Wallpaper
+import jahirfiquitiva.libs.kauextensions.extensions.runInAThread
 import org.json.JSONArray
-import org.json.JSONObject
 import java.io.File
 
-class WallpapersViewModel:BaseViewModel<ArrayList<Wallpaper>>() {
+class WallpapersViewModel:ListViewModel<Wallpaper>() {
+
     override fun loadItems(context:Context):ArrayList<Wallpaper> {
-        val wallpapers = ArrayList<Wallpaper>()
+        val wallz = ArrayList<Wallpaper>()
         val volleyRequest = Volley.newRequestQueue(context)
         volleyRequest.add(
                 StringRequest(Request.Method.GET, context.getString(R.string.json_url),
                               Response.Listener<String> { response ->
                                   if (response.isNotEmpty())
-                                      wallpapers.addAll(buildWallpapersListFromJson(context,
-                                                                                    JSONObject(
-                                                                                            response)))
+                                      context.framesKonfigs.backupJson = response
+                                      items.postValue(
+                                              buildWallpapersListFromJson(context,
+                                                                          JSONArray(response)))
                               }, Response.ErrorListener {
                     if (context.framesKonfigs.backupJson.isNotEmpty())
-                        wallpapers.addAll(buildWallpapersListFromJson(context,
-                                                                      JSONObject(
-                                                                              context.framesKonfigs.backupJson)))
+                        items.postValue(
+                                buildWallpapersListFromJson(context,
+                                                            JSONArray(
+                                                                    context.framesKonfigs.backupJson)))
                 }))
-        return wallpapers
+        return wallz
     }
 
-    private fun buildWallpapersListFromJson(context:Context, json:JSONObject):ArrayList<Wallpaper> {
+    private fun buildWallpapersListFromJson(context:Context, json:JSONArray):ArrayList<Wallpaper> {
         val fWallpapers = ArrayList<Wallpaper>()
-        val wallsList:JSONArray = json.getJSONArray("wallpapers")
+        val wallsList = json
+        // val wallsList:JSONArray = json.getJSONArray("wallpapers")
         for (index in 0..wallsList.length()) {
             if (wallsList.isNull(index)) continue
             val obj = wallsList.getJSONObject(index)
-            val name = obj.getString("name") ?: ""
-            val author = obj.getString("author") ?: ""
-            val categories = obj.getString("categories") ?: ""
-            val url = obj.getString("url") ?: ""
-            val thumbUrl = obj.getString("thumbUrl") ?: url ?: ""
-            if (name.isNotEmpty() && categories.isNotEmpty() && url.isNotEmpty()) {
-                if (thumbUrl.isEmpty()) fWallpapers.add(Wallpaper(name, author, categories, url))
-                else fWallpapers.add(Wallpaper(name, author, categories, url, thumbUrl))
+            var name = ""
+            try {
+                name = obj.getString("name") ?: ""
+            } catch(ignored:Exception) {
+            }
+            var author = ""
+            try {
+                author = obj.getString("author") ?: ""
+            } catch(ignored:Exception) {
+            }
+            var collections = ""
+            try {
+                collections = obj.getString("categories")
+            } catch(ignored:Exception) {
+                try {
+                    collections = obj.getString("collections") ?: ""
+                } catch (ignored:Exception) {
+                }
+            }
+            var url = ""
+            try {
+                url = obj.getString("url") ?: ""
+            } catch(ignored:Exception) {
+            }
+            var thumbUrl = ""
+            try {
+                thumbUrl = obj.getString("thumbUrl") ?: url ?: ""
+            } catch (ignored:Exception) {
+            }
+            if (name.isNotEmpty() && collections.isNotEmpty() && url.isNotEmpty()) {
+                if (thumbUrl.isEmpty()) fWallpapers.add(Wallpaper(name, author, collections, url))
+                else fWallpapers.add(Wallpaper(name, author, collections, url, thumbUrl))
             }
         }
         context.runInAThread {

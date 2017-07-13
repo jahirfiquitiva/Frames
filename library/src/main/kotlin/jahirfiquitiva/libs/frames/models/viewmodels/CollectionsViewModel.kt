@@ -20,12 +20,16 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import jahirfiquitiva.libs.frames.models.Collection
 import jahirfiquitiva.libs.frames.models.Wallpaper
+import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
+import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 
 class CollectionsViewModel:ViewModel() {
     val items = MutableLiveData<ArrayList<Collection>>()
 
     fun loadData(wallpapers:ArrayList<Wallpaper>) {
-        items.postValue(items.value ?: loadItems(wallpapers))
+        if (items.value != null && (items.value?.size ?: 0) > 0)
+            items.postValue(items.value)
+        items.postValue(loadItems(wallpapers))
     }
 
     private fun loadItems(wallpapers:ArrayList<Wallpaper>):ArrayList<Collection> {
@@ -34,7 +38,7 @@ class CollectionsViewModel:ViewModel() {
         for ((index, wallpaper) in wallpapers.withIndex()) {
             val collectionsText = wallpaper.collections
             if (collectionsText.isNotEmpty()) {
-                val collectionsList = collectionsText.split(",")
+                val collectionsList = collectionsText.split("[,|]".toRegex())
                 if (collectionsList.isNotEmpty()) {
                     collectionsList.forEach {
                         val wallsList = ArrayList<Wallpaper>()
@@ -49,9 +53,11 @@ class CollectionsViewModel:ViewModel() {
                 }
             }
         }
+        collections.clear()
         for (key in collectionsMap.keys) {
             collectionsMap[key]?.let {
-                collections.add(Collection(key, it))
+                collections.add(
+                        Collection(key.formatCorrectly().replace("_", " ").toTitleCase(), it))
             }
         }
         return collections
