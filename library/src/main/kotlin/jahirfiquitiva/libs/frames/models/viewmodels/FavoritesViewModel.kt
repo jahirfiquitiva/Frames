@@ -26,7 +26,9 @@ class FavoritesViewModel:ListViewModel<Wallpaper, FavoritesDao>() {
             items.value?.let { list.addAll(it) }
             return list
         }
-        list.addAll(p.getFavorites())
+        val favs = p.getFavorites()
+        favs.distinct()
+        list.addAll(favs)
         return list
     }
 

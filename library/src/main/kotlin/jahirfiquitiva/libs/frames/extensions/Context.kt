@@ -18,17 +18,29 @@ package jahirfiquitiva.libs.frames.extensions
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Color
 import android.graphics.drawable.StateListDrawable
 import android.support.annotation.ColorInt
 import ca.allanwang.kau.utils.tint
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
 import com.bumptech.glide.request.FutureTarget
 import jahirfiquitiva.libs.frames.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.utils.PREFERENCES_NAME
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.getColorFromRes
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.getInactiveIconsColorFor
 import java.io.File
+
+fun Context.createHeartSelector():StateListDrawable {
+    val res = StateListDrawable()
+    res.addState(intArrayOf(android.R.attr.state_checked),
+                 "ic_heart".getDrawable(this).tint(getColorFromRes(android.R.color.white)))
+    res.addState(intArrayOf(-android.R.attr.state_checked),
+                 "ic_heart_outline".getDrawable(this).tint(Color.parseColor("#80ffffff")))
+    return res
+}
 
 fun Context.createHeartSelector(@ColorInt backgroundColor:Int):StateListDrawable {
     val res = StateListDrawable()

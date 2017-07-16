@@ -15,6 +15,5 @@
   ~ limitations under the License.
   -->
 <resources>
-    <item name="heightMultiplier" format="float" type="dimen">1.35</item>
-    <item name="heightDivider" format="float" type="dimen">2.5</item>
+    <bool name="enable_colored_tiles">false</bool>
 </resources>

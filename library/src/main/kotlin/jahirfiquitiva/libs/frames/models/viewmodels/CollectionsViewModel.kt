@@ -50,6 +50,7 @@ class CollectionsViewModel:ListViewModel<Collection, ArrayList<Wallpaper>>() {
                         Collection(key.formatCorrectly().replace("_", " ").toTitleCase(), it))
             }
         }
+        collections.distinct()
         return collections
     }
 }

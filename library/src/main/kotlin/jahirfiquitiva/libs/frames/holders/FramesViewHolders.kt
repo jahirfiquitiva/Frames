@@ -17,10 +17,14 @@
 package jahirfiquitiva.libs.frames.holders
 
 import android.graphics.Bitmap
+import android.support.v4.widget.TextViewCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
+import ca.allanwang.kau.utils.gone
+import ca.allanwang.kau.utils.goneIf
 import ca.allanwang.kau.utils.visible
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import jahirfiquitiva.libs.frames.R
@@ -28,21 +32,31 @@ import jahirfiquitiva.libs.frames.extensions.createHeartSelector
 import jahirfiquitiva.libs.frames.models.Collection
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.frames.views.CheckableImageView
-import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
-import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
-import jahirfiquitiva.libs.kauextensions.extensions.generatePalette
-import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.loadFromUrlsIntoTarget
+import jahirfiquitiva.libs.kauextensions.extensions.*
 import jahirfiquitiva.libs.kauextensions.ui.views.LandscapeImageView
 import jahirfiquitiva.libs.kauextensions.ui.views.VerticalImageView
 
 class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
     val img:LandscapeImageView = itemView.findViewById(R.id.collection_picture)
+    val detailsBg:LinearLayout = itemView.findViewById(R.id.collection_details)
     val title:TextView = itemView.findViewById(R.id.collection_title)
+    val amount:TextView = itemView.findViewById(R.id.collection_walls_number)
+    val progress:ProgressBar = itemView.findViewById(R.id.loading)
+
     fun setItem(collection:Collection, listener:(Collection) -> Unit) =
             with(itemView) {
-                loadImage(collection.wallpapers.first().url, collection.wallpapers.first().thumbUrl)
+                progress.gone()
+                val url = collection.wallpapers.first().url
+                val thumb = collection.wallpapers.first().thumbUrl
+                if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
+                    loadImage(url, if (thumb.equals(url, true)) "" else thumb)
+                } else {
+                    TextViewCompat.setTextAppearance(title, R.style.DetailsText)
+                    TextViewCompat.setTextAppearance(amount, R.style.DetailsText)
+                    img.loadFromUrls(url, if (thumb.equals(url, true)) "" else thumb)
+                }
                 title.text = collection.name
+                amount.text = (collection.wallpapers.size).toString()
                 setOnClickListener { listener(collection) }
             }
 
@@ -52,8 +66,10 @@ class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
                 resource?.let {
                     super.setResource(it)
                     val color = it.generatePalette().bestSwatch?.rgb ?: itemView.context.cardBackgroundColor
-                    title.setBackgroundColor(color)
+                    detailsBg.background = null
+                    detailsBg.setBackgroundColor(color)
                     title.setTextColor(itemView.context.getPrimaryTextColorFor(color))
+                    amount.setTextColor(itemView.context.getSecondaryTextColorFor(color))
                 }
             }
         }
@@ -63,16 +79,23 @@ class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
 
 class WallpaperHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
     val img:VerticalImageView = itemView.findViewById(R.id.wallpaper_image)
-    val titleBg:LinearLayout = itemView.findViewById(R.id.wallpaper_details)
-    val title:TextView = itemView.findViewById(R.id.wallpaper_name)
+    val detailsBg:LinearLayout = itemView.findViewById(R.id.wallpaper_details)
+    val name:TextView = itemView.findViewById(R.id.wallpaper_name)
+    val author:TextView = itemView.findViewById(R.id.wallpaper_author)
     val heartIcon:CheckableImageView = itemView.findViewById(R.id.heart_icon)
+    val progress:ProgressBar = itemView.findViewById(R.id.loading)
+
     fun setItem(wallpaper:Wallpaper, listener:(Wallpaper) -> Unit,
                 heartListener:(CheckableImageView, Wallpaper) -> Unit,
                 check:Boolean = false) =
             with(itemView) {
                 itemView.setOnClickListener { listener(wallpaper) }
-                loadImage(wallpaper.url, wallpaper.thumbUrl, check)
-                title.text = wallpaper.name
+                val url = wallpaper.url
+                val thumb = wallpaper.thumbUrl
+                loadImage(url, if (thumb.equals(url, true)) "" else thumb, check)
+                name.text = wallpaper.name
+                author.goneIf(wallpaper.author.isEmpty() || wallpaper.author.isBlank())
+                author.text = wallpaper.author
                 heartIcon.setOnClickListener {
                     heartListener(heartIcon, wallpaper)
                 }
@@ -82,13 +105,22 @@ class WallpaperHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
         val target = object:BitmapImageViewTarget(img) {
             override fun setResource(resource:Bitmap?) {
                 resource?.let {
+                    progress.gone()
                     super.setResource(it)
-                    val color = it.generatePalette().bestSwatch?.rgb ?: itemView.context.cardBackgroundColor
-                    titleBg.setBackgroundColor(color)
+                    if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
+                        val color = it.generatePalette().bestSwatch?.rgb ?: itemView.context.cardBackgroundColor
+                        detailsBg.background = null
+                        detailsBg.setBackgroundColor(color)
+                        heartIcon.setImageDrawable(itemView.context.createHeartSelector(color))
+                        name.setTextColor(itemView.context.getPrimaryTextColorFor(color))
+                        author.setTextColor(itemView.context.getSecondaryTextColorFor(color))
+                    } else {
+                        heartIcon.setImageDrawable(itemView.context.createHeartSelector())
+                        TextViewCompat.setTextAppearance(name, R.style.DetailsText)
+                        TextViewCompat.setTextAppearance(author, R.style.DetailsText_Small)
+                    }
                     heartIcon.visible()
-                    heartIcon.setImageDrawable(itemView.context.createHeartSelector(color))
                     heartIcon.isChecked = check
-                    title.setTextColor(itemView.context.getPrimaryTextColorFor(color))
                 }
             }
         }
