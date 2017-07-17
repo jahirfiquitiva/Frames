@@ -25,8 +25,6 @@ import jahirfiquitiva.libs.frames.adapters.WallpapersAdapter
 import jahirfiquitiva.libs.frames.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.frames.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.models.Wallpaper
-import jahirfiquitiva.libs.frames.views.CheckableImageView
-import jahirfiquitiva.libs.kauextensions.extensions.printError
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
@@ -48,8 +46,9 @@ class WallpapersFragment:BaseFramesFragment<Wallpaper>() {
                                              GridLayoutManager.VERTICAL, false)
         rv.addItemDecoration(
                 GridSpacingItemDecoration(spanCount, context.dimenPixelSize(R.dimen.cards_margin)))
-        adapter = WallpapersAdapter({ onItemClicked(it) },
-                                    { heart, wall -> onHeartClicked(heart, wall) })
+        adapter = WallpapersAdapter(
+                { wall, holder -> onWallpaperClicked(wall, holder) },
+                { heart, wall -> onHeartClicked(heart, wall) })
         rv.adapter = adapter
         rv.state = EmptyViewRecyclerView.State.LOADING
         fastScroll = content.findViewById(R.id.fast_scroller)
@@ -57,7 +56,7 @@ class WallpapersFragment:BaseFramesFragment<Wallpaper>() {
     }
 
     override fun onItemClicked(item:Wallpaper) {
-        // TODO: Start viewer activity
+        // Do nothing
     }
 
     override fun getContentLayout():Int = R.layout.section_lists

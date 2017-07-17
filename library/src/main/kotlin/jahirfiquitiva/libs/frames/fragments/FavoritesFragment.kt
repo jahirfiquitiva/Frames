@@ -18,6 +18,8 @@ package jahirfiquitiva.libs.frames.fragments
 
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import ca.allanwang.kau.utils.dimenPixelSize
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
@@ -25,8 +27,6 @@ import jahirfiquitiva.libs.frames.adapters.WallpapersAdapter
 import jahirfiquitiva.libs.frames.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.frames.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.models.Wallpaper
-import jahirfiquitiva.libs.frames.views.CheckableImageView
-import jahirfiquitiva.libs.kauextensions.extensions.printError
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
@@ -48,9 +48,10 @@ class FavoritesFragment:BaseFramesFragment<Wallpaper>() {
                                              GridLayoutManager.VERTICAL, false)
         rv.addItemDecoration(
                 GridSpacingItemDecoration(spanCount, context.dimenPixelSize(R.dimen.cards_margin)))
-        adapter = WallpapersAdapter({ onItemClicked(it) },
-                                    { heart, wall -> onHeartClicked(heart, wall) },
-                                    true)
+        adapter = WallpapersAdapter(
+                { wall, holder -> onWallpaperClicked(wall, holder) },
+                { heart, wall -> onHeartClicked(heart, wall) },
+                true)
         rv.adapter = adapter
         rv.state = EmptyViewRecyclerView.State.LOADING
         fastScroll = content.findViewById(R.id.fast_scroller)
@@ -58,7 +59,7 @@ class FavoritesFragment:BaseFramesFragment<Wallpaper>() {
     }
 
     override fun onItemClicked(item:Wallpaper) {
-        // TODO: Start viewer activity
+        // Do nothing
     }
 
     override fun getContentLayout():Int = R.layout.section_lists

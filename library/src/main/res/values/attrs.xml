@@ -16,4 +16,7 @@
   -->
 
 <resources>
+    <declare-styleable name="ScrimInsetsFrameLayout">
+        <attr name="insetForeground" format="reference|color" />
+    </declare-styleable>
 </resources>

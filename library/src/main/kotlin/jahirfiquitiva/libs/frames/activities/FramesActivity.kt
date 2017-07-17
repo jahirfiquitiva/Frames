@@ -43,7 +43,7 @@ abstract class FramesActivity:BaseFramesActivity() {
         statusBarColor = primaryDarkColor
         statusBarLight = primaryDarkColor.isColorLight()
         pager = findViewById<ViewPager>(R.id.pager)
-		
+
         pager.adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
                                          WallpapersFragment(), FavoritesFragment())
         tabs = findViewById<TabLayout>(R.id.tabs)
@@ -64,24 +64,15 @@ abstract class FramesActivity:BaseFramesActivity() {
 
             override fun onTabSelected(tab:TabLayout.Tab?) {
                 pager.setCurrentItem(tab?.position ?: 0, true)
-                /*
-                if (pager.adapter is FragmentsAdapter) {
-                    (pager.adapter as FragmentsAdapter).getItem(tab?.position ?: 0)?.let {
-                        if (it is FavoritesFragment) {
-                            it.loadDataFromViewModel()
-                        } else if (it is WallpapersFragment) {
-                            it.loadDataFromViewModel()
-                        }
-                    }
-                }
-                */
             }
         })
         pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
         pager.offscreenPageLimit = tabs.tabCount
+        pager.setCurrentItem(1, true)
     }
 
     override fun onDestroy() {
         super.onDestroy()
     }
+
 }

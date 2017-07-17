@@ -19,7 +19,8 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 import jahirfiquitiva.libs.frames.models.Wallpaper
 
-@Database(entities = arrayOf(Wallpaper::class), version = 1, exportSchema = false)
+// TODO: Be sure to increment update if one changes Wallpaper class structure
+@Database(entities = arrayOf(Wallpaper::class), version = 2, exportSchema = false)
 abstract class FavoritesDatabase:RoomDatabase() {
     abstract fun favoritesDao():FavoritesDao
 }

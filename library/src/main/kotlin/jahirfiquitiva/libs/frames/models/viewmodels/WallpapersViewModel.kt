@@ -52,18 +52,18 @@ class WallpapersViewModel:ListViewModel<Wallpaper, Context>() {
     private fun loadWallpapers(context:Context, response:String):ArrayList<Wallpaper> {
         if (response.isNotEmpty() && response.isNotBlank()) {
             context.framesKonfigs.backupJson = response
-            return buildWallpapersListFromJson(context, JSONArray(response))
+            return buildWallpapersListFromJson(JSONArray(response))
         } else {
             val prevResponse = context.framesKonfigs.backupJson
             if (prevResponse.isNotEmpty()) {
-                return buildWallpapersListFromJson(context, JSONArray(prevResponse))
+                return buildWallpapersListFromJson(JSONArray(prevResponse))
             } else {
                 return ArrayList()
             }
         }
     }
 
-    private fun buildWallpapersListFromJson(context:Context, json:JSONArray):ArrayList<Wallpaper> {
+    private fun buildWallpapersListFromJson(json:JSONArray):ArrayList<Wallpaper> {
         val fWallpapers = ArrayList<Wallpaper>()
         for (index in 0..json.length()) {
             if (json.isNull(index)) continue
@@ -87,6 +87,15 @@ class WallpapersViewModel:ListViewModel<Wallpaper, Context>() {
                 } catch (ignored:Exception) {
                 }
             }
+            var downloadable = true
+            try {
+                downloadable = obj.getBoolean("downloadable")
+            } catch (ignored:Exception) {
+                try {
+                    downloadable = (obj.getString("downloadable") ?: "true").equals("true", true)
+                } catch (ignored:Exception) {
+                }
+            }
             var url = ""
             try {
                 url = obj.getString("url") ?: ""
@@ -100,8 +109,11 @@ class WallpapersViewModel:ListViewModel<Wallpaper, Context>() {
             name = name.formatCorrectly().replace("_", " ").toTitleCase()
             author = author.formatCorrectly().replace("_", " ").toTitleCase()
             if (name.isNotEmpty() && collections.isNotEmpty() && url.isNotEmpty()) {
-                if (thumbUrl.isEmpty()) fWallpapers.add(Wallpaper(name, author, collections, url))
-                else fWallpapers.add(Wallpaper(name, author, collections, url, thumbUrl))
+                if (thumbUrl.isEmpty())
+                    fWallpapers.add(Wallpaper(name, author, collections, downloadable, url))
+                else
+                    fWallpapers.add(
+                            Wallpaper(name, author, collections, downloadable, url, thumbUrl))
             }
         }
         fWallpapers.distinct()

@@ -109,6 +109,13 @@
                 <data android:mimeType="image/*"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".activities.ViewerActivity"/>
+
+        <!-- Picture Quality Configuration -->
+        <meta-data android:name="jahirfiquitiva.libs.frames.configs.GlideConfiguration"
+                   android:value="GlideModule"/>
+
     </application>
 
 </manifest>

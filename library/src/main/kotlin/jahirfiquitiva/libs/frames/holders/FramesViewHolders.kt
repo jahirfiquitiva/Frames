@@ -17,6 +17,7 @@
 package jahirfiquitiva.libs.frames.holders
 
 import android.graphics.Bitmap
+import android.support.v4.view.ViewCompat
 import android.support.v4.widget.TextViewCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -42,29 +43,34 @@ class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
     val title:TextView = itemView.findViewById(R.id.collection_title)
     val amount:TextView = itemView.findViewById(R.id.collection_walls_number)
     val progress:ProgressBar = itemView.findViewById(R.id.loading)
+    var bitmap:Bitmap? = null
 
-    fun setItem(collection:Collection, listener:(Collection) -> Unit) =
-            with(itemView) {
-                progress.gone()
-                val url = collection.wallpapers.first().url
-                val thumb = collection.wallpapers.first().thumbUrl
-                if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
-                    loadImage(url, if (thumb.equals(url, true)) "" else thumb)
-                } else {
-                    TextViewCompat.setTextAppearance(title, R.style.DetailsText)
-                    TextViewCompat.setTextAppearance(amount, R.style.DetailsText)
-                    img.loadFromUrls(url, if (thumb.equals(url, true)) "" else thumb)
-                }
-                title.text = collection.name
-                amount.text = (collection.wallpapers.size).toString()
-                setOnClickListener { listener(collection) }
+    fun setItem(collection:Collection, listener:(Collection, CollectionHolder) -> Unit) {
+        with(itemView) {
+            progress.gone()
+            ViewCompat.setTransitionName(img, "img_transition_$adapterPosition")
+            ViewCompat.setTransitionName(title, "title_transition_$adapterPosition")
+            val url = collection.wallpapers.first().url
+            val thumb = collection.wallpapers.first().thumbUrl
+            if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
+                loadImage(url, if (thumb.equals(url, true)) "" else thumb)
+            } else {
+                TextViewCompat.setTextAppearance(title, R.style.DetailsText)
+                TextViewCompat.setTextAppearance(amount, R.style.DetailsText_Small)
+                img.loadFromUrls(url, if (thumb.equals(url, true)) "" else thumb)
             }
+            title.text = collection.name
+            amount.text = (collection.wallpapers.size).toString()
+        }
+        itemView.setOnClickListener { listener(collection, this) }
+    }
 
     fun loadImage(url:String, thumbUrl:String) {
         val target = object:BitmapImageViewTarget(img) {
             override fun setResource(resource:Bitmap?) {
                 resource?.let {
                     super.setResource(it)
+                    bitmap = it
                     val color = it.generatePalette().bestSwatch?.rgb ?: itemView.context.cardBackgroundColor
                     detailsBg.background = null
                     detailsBg.setBackgroundColor(color)
@@ -84,22 +90,27 @@ class WallpaperHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
     val author:TextView = itemView.findViewById(R.id.wallpaper_author)
     val heartIcon:CheckableImageView = itemView.findViewById(R.id.heart_icon)
     val progress:ProgressBar = itemView.findViewById(R.id.loading)
+    var bitmap:Bitmap? = null
 
-    fun setItem(wallpaper:Wallpaper, listener:(Wallpaper) -> Unit,
+    fun setItem(wallpaper:Wallpaper, listener:(Wallpaper, WallpaperHolder) -> Unit,
                 heartListener:(CheckableImageView, Wallpaper) -> Unit,
-                check:Boolean = false) =
-            with(itemView) {
-                itemView.setOnClickListener { listener(wallpaper) }
-                val url = wallpaper.url
-                val thumb = wallpaper.thumbUrl
-                loadImage(url, if (thumb.equals(url, true)) "" else thumb, check)
-                name.text = wallpaper.name
-                author.goneIf(wallpaper.author.isEmpty() || wallpaper.author.isBlank())
-                author.text = wallpaper.author
-                heartIcon.setOnClickListener {
-                    heartListener(heartIcon, wallpaper)
-                }
+                check:Boolean = false) {
+        with(itemView) {
+            ViewCompat.setTransitionName(img, "img_transition_$adapterPosition")
+            ViewCompat.setTransitionName(name, "name_transition_$adapterPosition")
+            ViewCompat.setTransitionName(author, "author_transition_$adapterPosition")
+            val url = wallpaper.url
+            val thumb = wallpaper.thumbUrl
+            loadImage(url, if (thumb.equals(url, true)) "" else thumb, check)
+            name.text = wallpaper.name
+            author.goneIf(wallpaper.author.isEmpty() || wallpaper.author.isBlank())
+            author.text = wallpaper.author
+            heartIcon.setOnClickListener {
+                heartListener(heartIcon, wallpaper)
             }
+        }
+        itemView.setOnClickListener { listener(wallpaper, this) }
+    }
 
     fun loadImage(url:String, thumbUrl:String, check:Boolean) {
         val target = object:BitmapImageViewTarget(img) {
@@ -107,6 +118,7 @@ class WallpaperHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
                 resource?.let {
                     progress.gone()
                     super.setResource(it)
+                    bitmap = it
                     if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
                         val color = it.generatePalette().bestSwatch?.rgb ?: itemView.context.cardBackgroundColor
                         detailsBg.background = null

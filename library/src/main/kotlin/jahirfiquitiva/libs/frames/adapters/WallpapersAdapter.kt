@@ -17,14 +17,15 @@
 package jahirfiquitiva.libs.frames.adapters
 
 import android.view.ViewGroup
-import ca.allanwang.kau.kotlin.lazyContext
+import android.widget.ImageView
+import android.widget.TextView
 import ca.allanwang.kau.utils.inflate
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.holders.WallpaperHolder
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.frames.views.CheckableImageView
 
-class WallpapersAdapter(val listener:(Wallpaper) -> Unit,
+class WallpapersAdapter(val listener:(Wallpaper, WallpaperHolder) -> Unit,
                         val heartListener:(CheckableImageView, Wallpaper) -> Unit,
                         val fromFavorites:Boolean = false):
         BaseListAdapter<Wallpaper, WallpaperHolder>() {

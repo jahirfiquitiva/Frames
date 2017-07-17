@@ -46,7 +46,9 @@ class CollectionsFragment:BaseFramesFragment<Collection>() {
         rv.addItemDecoration(
                 GridSpacingItemDecoration(spanCount, context.dimenPixelSize(R.dimen.cards_margin),
                                           true)) */
-        adapter = CollectionsAdapter { onItemClicked(it) }
+        adapter = CollectionsAdapter { collection, holder ->
+            onCollectionClicked(collection, holder)
+        }
         rv.adapter = adapter
         rv.state = EmptyViewRecyclerView.State.LOADING
         fastScroll = content.findViewById(R.id.fast_scroller)
@@ -54,8 +56,15 @@ class CollectionsFragment:BaseFramesFragment<Collection>() {
     }
 
     override fun onItemClicked(item:Collection) {
+        // Do nothing
+    }
+
+    /*
+    override fun onCollectionClicked(collection:Collection, img:ImageView, name:TextView) {
+        super.onCollectionClicked(collection, img, name)
         // TODO: Open collections activity
     }
+    */
 
     override fun getContentLayout():Int = R.layout.section_lists
 

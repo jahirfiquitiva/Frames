@@ -18,6 +18,18 @@ package jahirfiquitiva.libs.frames.fragments.base
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.arch.persistence.room.Room
+import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.support.v4.app.ActivityCompat
+import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.util.Pair
+import android.support.v4.view.ViewCompat
+import android.view.View
+import jahirfiquitiva.libs.frames.activities.ViewerActivity
+import jahirfiquitiva.libs.frames.configs.GlideConfiguration
+import jahirfiquitiva.libs.frames.holders.CollectionHolder
+import jahirfiquitiva.libs.frames.holders.WallpaperHolder
 import jahirfiquitiva.libs.frames.models.Collection
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.frames.models.db.FavoritesDao
@@ -28,6 +40,7 @@ import jahirfiquitiva.libs.frames.models.viewmodels.WallpapersViewModel
 import jahirfiquitiva.libs.frames.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.views.CheckableImageView
 import jahirfiquitiva.libs.kauextensions.extensions.printError
+
 
 abstract class BaseFramesFragment<in T>:BaseViewModelFragment<T>() {
 
@@ -94,9 +107,46 @@ abstract class BaseFramesFragment<in T>:BaseViewModelFragment<T>() {
         }
     }
 
+    open fun onCollectionClicked(collection:Collection, holder:CollectionHolder) {
+        // Do nothing
+    }
+
+    open fun onWallpaperClicked(wallpaper:Wallpaper, holder:WallpaperHolder) {
+        val intent = Intent(activity, ViewerActivity::class.java)
+        intent.putExtra("wallpaper", wallpaper)
+        val imgTransition = ViewCompat.getTransitionName(holder.img)
+        val nameTransition = ViewCompat.getTransitionName(holder.name)
+        val authorTransition = ViewCompat.getTransitionName(holder.author)
+        intent.putExtra("imgTransition", imgTransition)
+        intent.putExtra("nameTransition", nameTransition)
+        intent.putExtra("authorTransition", authorTransition)
+
+        try {
+            holder.bitmap?.let {
+                val filename = "thumb.png"
+                val stream = activity.openFileOutput(filename, Context.MODE_PRIVATE)
+                it.compress(Bitmap.CompressFormat.JPEG,
+                            GlideConfiguration.getMaxPictureRes(context), stream)
+                stream.flush()
+                stream.close()
+                intent.putExtra("image", filename)
+            }
+            val imgPair = Pair<View, String>(holder.img, imgTransition)
+            val namePair = Pair<View, String>(holder.name, nameTransition)
+            val authorPair = Pair<View, String>(holder.author, authorTransition)
+
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imgPair,
+                                                                             namePair, authorPair)
+            ActivityCompat.startActivityForResult(activity, intent, 10, options.toBundle())
+        } catch (ignored:Exception) {
+            ActivityCompat.startActivityForResult(activity, intent, 10, null)
+        }
+    }
+
     open fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {}
     open fun doOnWallpapersChange(data:ArrayList<Wallpaper>) {
         collectionsModel.loadData(data)
     }
+
     open fun doOnCollectionsChange(data:ArrayList<Collection>) {}
 }
