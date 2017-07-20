@@ -20,8 +20,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import jahirfiquitiva.libs.frames.configs.GlideConfiguration
-
+import jahirfiquitiva.libs.frames.configs.bestBitmapConfig
 
 fun Drawable.toBitmap(context:Context):Bitmap {
     val bitmap:Bitmap
@@ -29,10 +28,9 @@ fun Drawable.toBitmap(context:Context):Bitmap {
         this.bitmap?.let { return it }
     }
     if (intrinsicWidth <= 0 || intrinsicHeight <= 0) {
-        bitmap = Bitmap.createBitmap(1, 1, GlideConfiguration.getBitmapsConfig(context))
+        bitmap = Bitmap.createBitmap(1, 1, context.bestBitmapConfig)
     } else {
-        bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight,
-                                     GlideConfiguration.getBitmapsConfig(context))
+        bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, context.bestBitmapConfig)
     }
     val canvas = Canvas(bitmap)
     setBounds(0, 0, intrinsicWidth, intrinsicHeight)

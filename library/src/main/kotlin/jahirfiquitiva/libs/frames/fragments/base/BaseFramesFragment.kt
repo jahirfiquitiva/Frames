@@ -27,7 +27,7 @@ import android.support.v4.util.Pair
 import android.support.v4.view.ViewCompat
 import android.view.View
 import jahirfiquitiva.libs.frames.activities.ViewerActivity
-import jahirfiquitiva.libs.frames.configs.GlideConfiguration
+import jahirfiquitiva.libs.frames.configs.maxPictureRes
 import jahirfiquitiva.libs.frames.holders.CollectionHolder
 import jahirfiquitiva.libs.frames.holders.WallpaperHolder
 import jahirfiquitiva.libs.frames.models.Collection
@@ -55,11 +55,15 @@ abstract class BaseFramesFragment<in T>:BaseViewModelFragment<T>() {
     }
 
     fun createDatabase() {
-        database = Room.databaseBuilder(context, FavoritesDatabase::class.java, DATABASE_NAME)
-                .allowMainThreadQueries().build()
+        database = Room.databaseBuilder(context, FavoritesDatabase::class.java, DATABASE_NAME).build()
         collectionsModel = ViewModelProviders.of(activity).get(CollectionsViewModel::class.java)
         wallpapersModel = ViewModelProviders.of(activity).get(WallpapersViewModel::class.java)
         favoritesModel = ViewModelProviders.of(activity).get(FavoritesViewModel::class.java)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        database.close()
     }
 
     override fun initViewModel() {
@@ -125,8 +129,7 @@ abstract class BaseFramesFragment<in T>:BaseViewModelFragment<T>() {
             holder.bitmap?.let {
                 val filename = "thumb.png"
                 val stream = activity.openFileOutput(filename, Context.MODE_PRIVATE)
-                it.compress(Bitmap.CompressFormat.JPEG,
-                            GlideConfiguration.getMaxPictureRes(context), stream)
+                it.compress(Bitmap.CompressFormat.JPEG, context.maxPictureRes, stream)
                 stream.flush()
                 stream.close()
                 intent.putExtra("image", filename)

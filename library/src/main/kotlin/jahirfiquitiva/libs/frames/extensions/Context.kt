@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package jahirfiquitiva.libs.frames.extensions
 
 import android.content.Context
@@ -21,17 +20,31 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.StateListDrawable
 import android.support.annotation.ColorInt
+import ca.allanwang.kau.utils.dimenPixelSize
 import ca.allanwang.kau.utils.tint
-import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
-import com.bumptech.glide.request.FutureTarget
+import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.utils.PREFERENCES_NAME
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getColorFromRes
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.getInactiveIconsColorFor
-import java.io.File
+
+fun Context.getStatusBarHeight(force:Boolean = false):Int {
+    var result = 0
+    val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+    if (resourceId > 0) {
+        result = resources.getDimensionPixelSize(resourceId)
+    }
+    val dimenResult = dimenPixelSize(R.dimen.status_bar_height)
+    //if our dimension is 0 return 0 because on those devices we don't need the height
+    if (dimenResult == 0 && !force) {
+        return 0
+    } else {
+        //if our dimens is > 0 && the result == 0 use the dimenResult else the result;
+        return if (result == 0) dimenResult else result
+    }
+}
 
 fun Context.createHeartSelector():StateListDrawable {
     val res = StateListDrawable()
@@ -51,9 +64,6 @@ fun Context.createHeartSelector(@ColorInt backgroundColor:Int):StateListDrawable
                          getInactiveIconsColorFor(backgroundColor)))
     return res
 }
-
-fun Context.downloadOnly(url:String, width:Int = 500, height:Int = 500):FutureTarget<File> =
-        Glide.with(this).load(url).downloadOnly(width, height)
 
 val Context.framesKonfigs:FramesKonfigs
     get() = FramesKonfigs.newInstance(PREFERENCES_NAME, this)

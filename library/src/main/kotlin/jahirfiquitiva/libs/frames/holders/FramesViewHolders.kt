@@ -30,15 +30,18 @@ import ca.allanwang.kau.utils.visible
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.extensions.createHeartSelector
+import jahirfiquitiva.libs.frames.extensions.loadFromUrls
+import jahirfiquitiva.libs.frames.extensions.loadFromUrlsIntoTarget
 import jahirfiquitiva.libs.frames.models.Collection
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.frames.views.CheckableImageView
+import jahirfiquitiva.libs.frames.views.ParallaxImageView
 import jahirfiquitiva.libs.kauextensions.extensions.*
 import jahirfiquitiva.libs.kauextensions.ui.views.LandscapeImageView
 import jahirfiquitiva.libs.kauextensions.ui.views.VerticalImageView
 
 class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
-    val img:LandscapeImageView = itemView.findViewById(R.id.collection_picture)
+    val img:ParallaxImageView = itemView.findViewById(R.id.collection_picture)
     val detailsBg:LinearLayout = itemView.findViewById(R.id.collection_details)
     val title:TextView = itemView.findViewById(R.id.collection_title)
     val amount:TextView = itemView.findViewById(R.id.collection_walls_number)
@@ -59,6 +62,7 @@ class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
                 TextViewCompat.setTextAppearance(amount, R.style.DetailsText_Small)
                 img.loadFromUrls(url, if (thumb.equals(url, true)) "" else thumb)
             }
+            img.parallaxEnabled = true
             title.text = collection.name
             amount.text = (collection.wallpapers.size).toString()
         }
@@ -76,6 +80,7 @@ class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
                     detailsBg.setBackgroundColor(color)
                     title.setTextColor(itemView.context.getPrimaryTextColorFor(color))
                     amount.setTextColor(itemView.context.getSecondaryTextColorFor(color))
+                    img.invalidate()
                 }
             }
         }

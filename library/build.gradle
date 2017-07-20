@@ -74,23 +74,18 @@ dependencies {
     compile 'org.jetbrains.kotlin:kotlin-stdlib:' + versions.kotlin
     // Material Dialogs
     compile 'com.afollestad.material-dialogs:core:' + versions.materialDialogs
-    // Navigation Drawer
-    compile('com.mikepenz:materialdrawer:' + versions.materialDrawer + '@aar') {
-        transitive = true
-    }
-    // OkHttp
-    compile 'com.squareup.okhttp3:okhttp:' + versions.okhttp
-    // Glide Image Loading
-    compile 'com.github.bumptech.glide:glide:' + versions.glide
-    // kapt 'com.github.bumptech.glide:compiler:' + versions.glide
     // Volley
     compile 'com.android.volley:volley:' + versions.volley
+    // Glide Image Loading
+    compile 'com.github.bumptech.glide:glide:' + versions.glide
+    // annotationProcessor 'com.github.bumptech.glide:compiler:' + versions.glide
+    // kapt 'com.github.bumptech.glide:compiler:' + versions.glide
     // KAU Extensions
     compile 'me.jahirfiquitiva:KAUExtensions:' + versions.kauExt
     // RecyclerView Fast Scroller
     compile 'com.github.plusCubed:recycler-fast-scroll:' + versions.recyclerViewFastScroll
-    // Inquiry
-    compile 'com.afollestad:inquiry:' + versions.inquiry
+	// Floating Toolbar
+	compile 'com.github.rubensousa:floatingtoolbar:' + versions.floatingToolbar
     // Subsampling ImageView
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:' + versions.subsImageView
     // In-App Purchases

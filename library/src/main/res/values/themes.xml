@@ -46,19 +46,6 @@
         <item name="md_negative_color">@color/light_theme_dialogs_button_color</item>
         <item name="md_neutral_color">@color/light_theme_dialogs_button_color</item>
         <item name="md_background_color">@color/light_theme_card_background</item>
-
-        <!-- MaterialDrawer specific values -->
-        <item name="material_drawer_background">@color/material_drawer_background</item>
-        <item name="material_drawer_primary_text">@color/material_drawer_primary_text</item>
-        <item name="material_drawer_primary_icon">@color/material_drawer_primary_icon</item>
-        <item name="material_drawer_secondary_text">@color/material_drawer_secondary_text</item>
-        <item name="material_drawer_hint_text">@color/material_drawer_hint_text</item>
-        <item name="material_drawer_divider">@color/material_drawer_divider</item>
-        <item name="material_drawer_selected">@color/material_drawer_selected</item>
-        <item name="material_drawer_selected_text">@color/light_theme_accent</item>
-        <item name="material_drawer_header_selection_text">
-            @color/material_drawer_header_selection_text
-        </item>
     </style>
 
     <style name="AppTheme.Base.Dark" parent="Theme.AppCompat.NoActionBar">
@@ -81,20 +68,6 @@
         <item name="md_negative_color">@color/dark_theme_dialogs_button_color</item>
         <item name="md_neutral_color">@color/dark_theme_dialogs_button_color</item>
         <item name="md_background_color">@color/dark_theme_card_background</item>
-
-        <!-- MaterialDrawer specific values -->
-        <item name="material_drawer_background">@color/material_drawer_dark_background</item>
-        <item name="material_drawer_primary_text">@color/material_drawer_dark_primary_text</item>
-        <item name="material_drawer_primary_icon">@color/material_drawer_dark_primary_icon</item>
-        <item name="material_drawer_secondary_text">@color/material_drawer_dark_secondary_text
-        </item>
-        <item name="material_drawer_hint_text">@color/material_drawer_dark_hint_text</item>
-        <item name="material_drawer_divider">@color/material_drawer_dark_divider</item>
-        <item name="material_drawer_selected">@color/material_drawer_dark_selected</item>
-        <item name="material_drawer_selected_text">@color/light_theme_accent</item>
-        <item name="material_drawer_header_selection_text">
-            @color/material_drawer_dark_header_selection_text
-        </item>
     </style>
 
     <color name="clear_bg">#70000000</color>
@@ -103,7 +76,7 @@
         <item name="android:windowBackground">@color/clear_bg</item>
         <item name="cardBackgroundColor">#30000000</item>
         <item name="md_background_color">#30000000</item>
-        <item name="material_drawer_background">#30000000</item>
+        <!-- <item name="material_drawer_background">#30000000</item> -->
     </style>
 
     <color name="amoled_bg">#0f0f0f</color>
@@ -114,7 +87,7 @@
         <item name="android:windowBackground">@color/amoled_bg</item>
         <item name="cardBackgroundColor">#101010</item>
         <item name="md_background_color">#101010</item>
-        <item name="material_drawer_background">#101010</item>
+        <!-- <item name="material_drawer_background">#101010</item> -->
     </style>
 
     <style name="LightTheme.SplashScreen">

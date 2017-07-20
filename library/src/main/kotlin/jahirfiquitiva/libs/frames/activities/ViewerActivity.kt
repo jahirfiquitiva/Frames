@@ -19,10 +19,7 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
@@ -37,18 +34,16 @@ import ca.allanwang.kau.utils.updateTopMargin
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable
 import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.SimpleTarget
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-import com.mikepenz.materialize.util.UIUtils
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.getColorFromRes
 import jahirfiquitiva.libs.kauextensions.extensions.setupStatusBarStyle
-
 
 class ViewerActivity:ThemedActivity() {
 
@@ -69,7 +64,7 @@ class ViewerActivity:ThemedActivity() {
         statusBarColor = Color.parseColor("#80000000")
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar.updateTopMargin(UIUtils.getStatusBarHeight(this, true))
+        toolbar.updateTopMargin(getStatusBarHeight(true))
         setSupportActionBar(toolbar)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -115,16 +110,19 @@ class ViewerActivity:ThemedActivity() {
             }
         }
 
-        val d:Drawable
-        if (bmp != null) {
-            d = GlideBitmapDrawable(resources, bmp)
-        } else {
-            d = ColorDrawable(ContextCompat.getColor(this, android.R.color.transparent))
-        }
-
         val target = object:SimpleTarget<Bitmap>() {
+            /*
+            override fun onLoadStarted(placeholder:Drawable?) {
+                super.onLoadStarted(placeholder)
+                view.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP)
+                bmp?.let {
+                    view.setImage(ImageSource.bitmap(bmp))
+                }
+            }
+            */
+
             override fun onResourceReady(resource:Bitmap?,
-                                         glideAnimation:GlideAnimation<in Bitmap>?) {
+                                         anim:GlideAnimation<in Bitmap>?) {
                 findViewById<ProgressBar>(R.id.loading).gone()
                 view.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP)
                 view.setImage(ImageSource.cachedBitmap(resource))
@@ -133,10 +131,12 @@ class ViewerActivity:ThemedActivity() {
 
         wallpaper?.let {
             val thumbRequest = Glide.with(this).load(it.thumbUrl).asBitmap()
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE).priority(Priority.IMMEDIATE)
+                    .priority(Priority.IMMEDIATE).diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .thumbnail(if (it.url.equals(it.thumbUrl, true)) 0.5F else 1F)
-            Glide.with(this).load(it.url).asBitmap().placeholder(d).thumbnail(thumbRequest)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE).priority(Priority.HIGH)
+
+            Glide.with(this).load(it.url).asBitmap()
+                    .priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .thumbnail(thumbRequest)
                     .into(target)
         }
     }

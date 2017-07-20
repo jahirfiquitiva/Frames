@@ -25,6 +25,7 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
+import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 import org.json.JSONArray
 
@@ -108,7 +109,7 @@ class WallpapersViewModel:ListViewModel<Wallpaper, Context>() {
             }
             name = name.formatCorrectly().replace("_", " ").toTitleCase()
             author = author.formatCorrectly().replace("_", " ").toTitleCase()
-            if (name.isNotEmpty() && collections.isNotEmpty() && url.isNotEmpty()) {
+            if (name.isNotEmpty() && url.isNotEmpty()) {
                 if (thumbUrl.isEmpty())
                     fWallpapers.add(Wallpaper(name, author, collections, downloadable, url))
                 else
