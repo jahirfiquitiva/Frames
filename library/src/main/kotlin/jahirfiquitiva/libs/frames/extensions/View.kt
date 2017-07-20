@@ -33,7 +33,7 @@ fun ImageView.loadFromUrl(url:String, error:Drawable? = null) {
         Glide.with(context).load(error).into(this)
     } else {
         Glide.with(context).load(url)
-                .priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE).priority(Priority.HIGH)
                 .into(this)
     }
 }
@@ -41,16 +41,15 @@ fun ImageView.loadFromUrl(url:String, error:Drawable? = null) {
 fun ImageView.loadFromUrls(url:String, thumbUrl:String, sizeMultiplier:Float = 0.5F) {
     if (thumbUrl.isNotEmpty()) {
         Glide.with(context).load(url)
-                .priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .thumbnail(Glide.with(context).load(thumbUrl)
-                                   .priority(Priority.IMMEDIATE)
+                                   .thumbnail(sizeMultiplier)
                                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                   .thumbnail(sizeMultiplier))
+                                   .priority(Priority.IMMEDIATE))
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE).priority(Priority.HIGH)
                 .into(this)
     } else if (url.isNotEmpty()) {
-        Glide.with(context).load(url)
-                .priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .thumbnail(sizeMultiplier).into(this)
+        Glide.with(context).load(url).thumbnail(sizeMultiplier)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE).priority(Priority.HIGH).into(this)
     }
 }
 
@@ -58,15 +57,15 @@ fun ImageView.loadFromUrlsIntoTarget(url:String, thumbUrl:String, target:BitmapI
                                      sizeMultiplier:Float = 0.5F) {
     if (thumbUrl.isNotEmpty()) {
         Glide.with(context).load(url).asBitmap()
-                .priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .thumbnail(Glide.with(context).load(thumbUrl).asBitmap()
-                                   .priority(Priority.IMMEDIATE)
+                                   .thumbnail(sizeMultiplier)
                                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                   .thumbnail(sizeMultiplier))
+                                   .priority(Priority.IMMEDIATE))
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE).priority(Priority.HIGH)
                 .into(target)
     } else if (url.isNotEmpty()) {
-        Glide.with(context).load(url).asBitmap()
-                .priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .thumbnail(sizeMultiplier).into(target)
+        Glide.with(context).load(url).asBitmap().thumbnail(sizeMultiplier)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE).priority(Priority.HIGH)
+                .into(target)
     }
 }
