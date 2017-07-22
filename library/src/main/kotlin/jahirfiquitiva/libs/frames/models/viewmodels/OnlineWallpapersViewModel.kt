@@ -17,6 +17,7 @@
 package jahirfiquitiva.libs.frames.models.viewmodels
 
 import android.content.Context
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -25,25 +26,27 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
-import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 import org.json.JSONArray
 
-class WallpapersViewModel:ListViewModel<Wallpaper, Context>() {
+class OnlineWallpapersViewModel:ListViewModel<Wallpaper, Context>() {
     override fun loadItems(p:Context):ArrayList<Wallpaper> {
         val list = ArrayList<Wallpaper>()
-        val volleyRequest = Volley.newRequestQueue(p)
-        volleyRequest.add(
-                StringRequest(Request.Method.GET, p.getString(R.string.json_url),
-                              Response.Listener<String> {
-                                  list.clear()
-                                  list.addAll(loadWallpapers(p, it))
-                              },
-                              Response.ErrorListener {
-                                  list.clear()
-                                  list.addAll(loadWallpapers(p, ""))
-                              }))
-        volleyRequest.addRequestFinishedListener<StringRequest> {
+        val volley = Volley.newRequestQueue(p)
+        val request = StringRequest(Request.Method.GET, p.getString(R.string.json_url),
+                                    Response.Listener<String> {
+                                        list.clear()
+                                        list.addAll(loadWallpapers(p, it))
+                                    },
+                                    Response.ErrorListener {
+                                        list.clear()
+                                        list.addAll(loadWallpapers(p, ""))
+                                    })
+        request.retryPolicy = DefaultRetryPolicy(5000,
+                                                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        volley.add(request)
+        volley.addRequestFinishedListener<StringRequest> {
             postResult(list)
         }
         return list

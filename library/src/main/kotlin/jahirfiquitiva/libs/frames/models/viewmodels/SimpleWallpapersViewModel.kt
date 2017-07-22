@@ -13,19 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package jahirfiquitiva.libs.frames.models.viewmodels
 
-package jahirfiquitiva.libs.frames.fragments
-
-import jahirfiquitiva.libs.frames.fragments.base.BaseWallpapersFragment
+import jahirfiquitiva.libs.frames.models.Collection
 import jahirfiquitiva.libs.frames.models.Wallpaper
-import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
-class FavoritesFragment:BaseWallpapersFragment() {
-    override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
-        super.doOnFavoritesChange(data)
-        adapter.setItems(data)
-        rv.state = EmptyViewRecyclerView.State.NORMAL
+class SimpleWallpapersViewModel:ListViewModel<Wallpaper, Collection>() {
+    override fun loadItems(p:Collection):ArrayList<Wallpaper> {
+        return p.wallpapers
     }
-
-    override fun fromFavorites():Boolean = true
 }

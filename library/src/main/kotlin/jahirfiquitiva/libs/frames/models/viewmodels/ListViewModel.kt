@@ -25,10 +25,10 @@ abstract class ListViewModel<T, P>:ViewModel() {
     var param:P? = null
     var task:AsyncTaskManager<ArrayList<T>, P>? = null
 
-    fun loadData(p:P) {
+    fun loadData(p:P, forceLoad:Boolean = false) {
         param = p
         task = AsyncTaskManager(p, {},
-                                { internalLoad(it) },
+                                { internalLoad(it, forceLoad) },
                                 { postResult(it) })
         task?.execute()
     }
@@ -37,13 +37,17 @@ abstract class ListViewModel<T, P>:ViewModel() {
         task?.cancelTask(interrupt)
     }
 
-    private fun internalLoad(p:P):ArrayList<T> {
-        if (items.value != null && (items.value?.size ?: 0) > 0) {
-            val list = ArrayList<T>()
-            items.value?.let { list.addAll(it) }
-            return list
-        } else {
+    private fun internalLoad(p:P, forceLoad:Boolean = false):ArrayList<T> {
+        if (forceLoad) {
             return loadItems(p)
+        } else {
+            if (items.value != null && (items.value?.size ?: 0) > 0) {
+                val list = ArrayList<T>()
+                items.value?.let { list.addAll(it) }
+                return list
+            } else {
+                return loadItems(p)
+            }
         }
     }
 

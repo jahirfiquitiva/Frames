@@ -21,6 +21,7 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
+import java.util.*
 
 @Entity(tableName = "FAVORITES")
 data class Wallpaper(
@@ -87,4 +88,29 @@ data class Wallpaper(
     }
 }
 
-data class Collection(val name:String, val wallpapers:ArrayList<Wallpaper>)
+data class Collection(val name:String,
+                      var wallpapers:ArrayList<Wallpaper> = ArrayList<Wallpaper>()):Parcelable {
+
+    constructor(parcel:Parcel):this(parcel.readString()) {
+        parcel.readTypedList(wallpapers, Wallpaper.CREATOR)
+    }
+
+    override fun writeToParcel(parcel:Parcel, flags:Int) {
+        parcel.writeString(name)
+        parcel.writeTypedList(wallpapers)
+    }
+
+    override fun describeContents():Int {
+        return 0
+    }
+
+    companion object CREATOR:Parcelable.Creator<Collection> {
+        override fun createFromParcel(parcel:Parcel):Collection {
+            return Collection(parcel)
+        }
+
+        override fun newArray(size:Int):Array<Collection?> {
+            return arrayOfNulls(size)
+        }
+    }
+}

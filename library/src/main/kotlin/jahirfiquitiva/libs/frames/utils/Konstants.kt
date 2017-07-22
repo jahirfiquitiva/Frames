@@ -20,6 +20,10 @@ const val DATABASE_NAME = "FAVORITES"
 
 const val PREFERENCES_NAME = "frames_preferences"
 const val BACKUP_JSON = "backup_json"
+const val COLUMNS_NUMBER = "columns_number"
+const val ANIMATIONS_ENABLED = "animations_enabled"
+const val STORAGE_PERMISSION_REQUESTED = "storage_permission_requested"
+const val DOWNLOADS_FOLDER = "downloads_folder"
 
 // Intent related stuff
 const val PLAY_STORE_LINK_PREFIX = "https://play.google.com/store/apps/details?id="

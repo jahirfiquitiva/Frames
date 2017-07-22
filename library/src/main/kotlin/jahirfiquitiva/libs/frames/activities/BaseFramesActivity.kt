@@ -17,10 +17,12 @@ package jahirfiquitiva.libs.frames.activities
 
 import android.content.Intent
 import android.os.Bundle
+import ca.allanwang.kau.utils.navigationBarColor
 import com.github.javiersantos.piracychecker.PiracyChecker
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.utils.*
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
+import jahirfiquitiva.libs.kauextensions.extensions.primaryDarkColor
 
 abstract class BaseFramesActivity:ThemedActivity() {
     var picker:Int = 0

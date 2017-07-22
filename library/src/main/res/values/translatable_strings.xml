@@ -1,0 +1,53 @@
+<!--
+  ~ Copyright (c) 2017. Jahir Fiquitiva
+  ~
+  ~ Licensed under the CreativeCommons Attribution-ShareAlike
+  ~ 4.0 International License. You may not use this file except in compliance
+  ~ with the License. You may obtain a copy of the License at
+  ~
+  ~    http://creativecommons.org/licenses/by-sa/4.0/legalcode
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <string name="empty_section">Nothing found</string>
+    <string name="loading_section">Loading content…</string>
+    <string name="no_favorites">Add some wallpapers to favorites first</string>
+
+    <string name="collections">Collections</string>
+    <string name="all">All</string>
+    <string name="favorites">Favorites</string>
+    <string name="favorite">Favorite</string>
+    <string name="apply">Apply</string>
+    <string name="download">Download</string>
+    <string name="info">Information</string>
+
+    <string name="permission_denied">Access to storage permission has been denied</string>
+    <string name="permission_denied_completely">Access to storage permission has been denied. You will have to manually enable it in Settings.</string>
+    <string name="permission_request">%1$s requires access to storage in order to be able to apply and save wallpapers</string>
+    <string name="allow">Allow</string>
+
+    <string name="downloading_wallpaper">Downloading \'%1$s\'…</string>
+    <string name="download_successful">Wallpaper downloaded successfully to \'%1$s\'</string>
+
+    <string name="open">Open</string>
+
+    <string name="file_exists">Wallpaper is already downloaded. Do you want to download to replace it?</string>
+    <string name="file_replace">Replace</string>
+    <string name="file_create_new">Create new</string>
+
+    <string name="applying_wallpaper">Applying \'%1$s\'…</string>
+    <string name="apply_to">Apply to:</string>
+    <string name="home_screen">Home screen</string>
+    <string name="lock_screen">Lock screen</string>
+    <string name="home_lock_screen">Home and lock screens</string>
+    <string name="apply_successful">Wallpaper applied successfully to %1$s</string>
+
+    <!-- IMPORTANT: KEEP THIS EMPTY! -->
+    <string name="empty">""</string>
+</resources>

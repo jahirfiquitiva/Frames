@@ -111,6 +111,7 @@
         </activity>
 
         <activity android:name=".activities.ViewerActivity"/>
+        <activity android:name=".activities.CollectionActivity"/>
 
         <!-- Picture Quality Configuration -->
         <meta-data android:name="jahirfiquitiva.libs.frames.configs.GlideConfiguration"

@@ -38,18 +38,19 @@ abstract class FramesActivity:BaseFramesActivity() {
         setContentView(R.layout.activity_main)
         val toolbar:Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        toolbar.tint(getPrimaryTextColorFor(primaryColor), getSecondaryTextColorFor(primaryColor),
-                     getActiveIconsColorFor(primaryColor))
+        toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
+                     getSecondaryTextColorFor(primaryColor, 0.6F),
+                     getActiveIconsColorFor(primaryColor, 0.6F))
         statusBarColor = primaryDarkColor
-        statusBarLight = primaryDarkColor.isColorLight()
+        statusBarLight = primaryDarkColor.isColorLight(0.6F)
         pager = findViewById<ViewPager>(R.id.pager)
 
         pager.adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
                                          WallpapersFragment(), FavoritesFragment())
         tabs = findViewById<TabLayout>(R.id.tabs)
-        tabs.setTabTextColors(getDisabledTextColorFor(primaryColor),
-                              getPrimaryTextColorFor(primaryColor))
-        tabs.setSelectedTabIndicatorColor(getPrimaryTextColorFor(primaryColor))
+        tabs.setTabTextColors(getDisabledTextColorFor(primaryColor, 0.6F),
+                              getPrimaryTextColorFor(primaryColor, 0.6F))
+        tabs.setSelectedTabIndicatorColor(getPrimaryTextColorFor(primaryColor, 0.6F))
         tabs.addTab(tabs.newTab().setText(R.string.collections))
         tabs.addTab(tabs.newTab().setText(R.string.all))
         tabs.addTab(tabs.newTab().setText(R.string.favorites))

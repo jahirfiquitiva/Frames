@@ -16,12 +16,12 @@
 package jahirfiquitiva.libs.frames.extensions
 
 import android.content.Context
-import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.StateListDrawable
 import android.support.annotation.ColorInt
 import ca.allanwang.kau.utils.dimenPixelSize
 import ca.allanwang.kau.utils.tint
+import com.afollestad.materialdialogs.MaterialDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.utils.PREFERENCES_NAME
@@ -68,5 +68,10 @@ fun Context.createHeartSelector(@ColorInt backgroundColor:Int):StateListDrawable
 val Context.framesKonfigs:FramesKonfigs
     get() = FramesKonfigs.newInstance(PREFERENCES_NAME, this)
 
-val Context.isInHorizontalMode:Boolean
-    get() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+fun Context.run(f:() -> Unit):Runnable = Runnable { f() }
+
+inline fun Context.buildMaterialDialog(action:MaterialDialog.Builder.() -> Unit):MaterialDialog {
+    val builder = MaterialDialog.Builder(this)
+    builder.action()
+    return builder.build()
+}

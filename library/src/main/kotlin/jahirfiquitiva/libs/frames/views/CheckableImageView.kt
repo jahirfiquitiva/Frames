@@ -22,19 +22,24 @@ import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Checkable
+import ca.allanwang.kau.utils.gone
+import ca.allanwang.kau.utils.visible
+import jahirfiquitiva.libs.frames.extensions.run
 
 class CheckableImageView:AppCompatImageView, Checkable {
 
     private val CHECKED_STATE_SET = intArrayOf(android.R.attr.state_checked)
-    private var isChecked = false
+    private var internalIsChecked = false
 
-    override fun isChecked():Boolean = isChecked
+    override fun isChecked():Boolean = internalIsChecked
 
-    override fun toggle() = setChecked(!isChecked())
+    override fun toggle() {
+        isChecked = !isChecked
+    }
 
     override fun setChecked(check:Boolean) {
-        if (isChecked() != check) {
-            isChecked = check
+        if (isChecked != check) {
+            internalIsChecked = check
             animateCheck()
         }
     }

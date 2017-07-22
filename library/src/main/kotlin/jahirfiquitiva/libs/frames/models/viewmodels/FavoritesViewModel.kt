@@ -18,49 +18,99 @@ package jahirfiquitiva.libs.frames.models.viewmodels
 
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.frames.models.db.FavoritesDao
+import jahirfiquitiva.libs.frames.utils.AsyncTaskManager
 
 class FavoritesViewModel:ListViewModel<Wallpaper, FavoritesDao>() {
     override fun loadItems(p:FavoritesDao):ArrayList<Wallpaper> {
         val list = ArrayList<Wallpaper>()
-        if (items.value != null && items.value?.size ?: 0 > 0) {
-            items.value?.let { list.addAll(it) }
-            return list
+        try {
+            val favs = p.getFavorites().distinct()
+            list.addAll(favs.distinct())
+        } catch (e:Exception) {
+            e.printStackTrace()
         }
-        val favs = p.getFavorites()
-        favs.distinct()
-        list.addAll(favs)
         return list
+    }
+
+    fun forceUpdateFavorites(items:List<Wallpaper>) {
+        param?.let {
+            AsyncTaskManager(it, {}, {
+                try {
+                    val currentItems = it.getFavorites()
+                    for (item in currentItems) {
+                        it.removeFromFavorites(item)
+                    }
+                    it.insertAll(items)
+                    for (item in items) {
+                        it.addToFavorites(item)
+                    }
+                    val list = ArrayList<Wallpaper>()
+                    list.addAll(it.getFavorites())
+                    list.distinct()
+                    postResult(list)
+                    return@AsyncTaskManager true
+                } catch (e:Exception) {
+                    e.printStackTrace()
+                    return@AsyncTaskManager false
+                }
+            }, {})
+        }
     }
 
     fun isInFavorites(wallpaper:Wallpaper):Boolean {
         try {
             return items.value?.contains(wallpaper) ?: false
-        } catch (ignored:Exception) {
+        } catch (e:Exception) {
+            e.printStackTrace()
             return false
         }
     }
 
-    fun addToFavorites(wallpaper:Wallpaper):Boolean {
+    fun addToFavorites(wallpaper:Wallpaper, onSuccess:() -> Unit) {
         try {
-            if (isInFavorites(wallpaper)) return true
-            param?.addToFavorites(wallpaper)
-            items.value?.add(wallpaper)
-            items.value?.let { postResult(it) }
-            return true
-        } catch (ignored:Exception) {
-            return false
+            if (isInFavorites(wallpaper)) return
+            AsyncTaskManager(
+                    wallpaper,
+                    {},
+                    { it ->
+                        try {
+                            param?.addToFavorites(it)
+                            items.value?.add(it)
+                            items.value?.let { postResult(it) }
+                            onSuccess()
+                            return@AsyncTaskManager true
+                        } catch (e:Exception) {
+                            e.printStackTrace()
+                            return@AsyncTaskManager false
+                        }
+                    },
+                    {}).execute()
+        } catch (e:Exception) {
+            e.printStackTrace()
         }
     }
 
-    fun removeFromFavorites(wallpaper:Wallpaper):Boolean {
+    fun removeFromFavorites(wallpaper:Wallpaper, onSuccess:() -> Unit) {
         try {
-            if (!isInFavorites(wallpaper)) return true
-            param?.removeFromFavorites(wallpaper)
-            items.value?.remove(wallpaper)
-            items.value?.let { postResult(it) }
-            return true
-        } catch (ignored:Exception) {
-            return false
+            if (!isInFavorites(wallpaper)) return
+            AsyncTaskManager(
+                    wallpaper,
+                    {},
+                    { it ->
+                        try {
+                            param?.removeFromFavorites(it)
+                            items.value?.remove(it)
+                            items.value?.let { postResult(it) }
+                            onSuccess()
+                            return@AsyncTaskManager true
+                        } catch (e:Exception) {
+                            e.printStackTrace()
+                            return@AsyncTaskManager false
+                        }
+                    },
+                    {}).execute()
+        } catch (e:Exception) {
+            e.printStackTrace()
         }
     }
 }

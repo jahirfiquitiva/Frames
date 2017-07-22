@@ -17,6 +17,7 @@
 <jahirfiquitiva.libs.kauextensions.ui.layouts.CustomCoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
@@ -36,6 +37,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"/>
+
+    <com.github.rubensousa.floatingtoolbar.FloatingToolbar
+            android:id="@+id/floatingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="bottom"/>
+
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="bottom|end"
+            android:layout_marginRight="@dimen/kau_fab_margin"
+            android:layout_marginEnd="@dimen/kau_fab_margin"
+            android:layout_marginBottom="@dimen/kau_fab_margin"
+            app:fabSize="normal"
+            app:backgroundTint="?attr/colorAccent"/>
 
     <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"

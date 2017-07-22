@@ -35,9 +35,9 @@ ext.versions = [
         materialDialogs       : '9a175e3',
         glide                 : '3.7.0', // '4.0.0-RC1'
         volley                : '1.0.0',
-        kauExt                : 'f3368bd',
+        kauExt                : 'fd0b5ed',
         recyclerViewFastScroll: 'ab973f2',
-        floatingToolbar       : '1.4.4',
+        floatingToolbar       : '32a8e6b',
         subsImageView         : '3.6.0',
         iaps                  : '1.0.39',
         muzeiApi              : '2.0',

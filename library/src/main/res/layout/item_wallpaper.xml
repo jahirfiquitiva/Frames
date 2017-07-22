@@ -83,8 +83,9 @@
 
         <jahirfiquitiva.libs.frames.views.CheckableImageView
                 android:id="@+id/heart_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="@dimen/cards_margin"
                 android:background="?selectableItemBackgroundBorderless"
                 android:visibility="gone"
                 android:layout_gravity="center_vertical"

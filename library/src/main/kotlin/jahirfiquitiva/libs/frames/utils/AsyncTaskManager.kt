@@ -17,10 +17,10 @@ package jahirfiquitiva.libs.frames.utils
 
 import android.os.AsyncTask
 
-class AsyncTaskManager<T, P>(val param:P,
-                             val onPreEx:() -> Unit,
-                             val loadStuff:(p:P) -> T,
-                             val onReady:(T) -> Unit) {
+open class AsyncTaskManager<T, P>(val param:P,
+                                  val onPreEx:() -> Unit,
+                                  val loadStuff:(p:P) -> T,
+                                  val onReady:(T) -> Unit) {
 
     private var task:AsyncTask<Unit, Unit, T>
 
