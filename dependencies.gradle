@@ -19,7 +19,7 @@ ext.versions = [
         appId                 : "Frames",
         appGroup              : "jahirfiquitiva.apps",
         libGroup              : "jahirfiquitiva.libs",
-        minSdk                : 16,
+        minSdk                : 19,
         targetSdk             : 26,
         compileSdk            : 26,
         buildTools            : '26.0.0',
@@ -35,7 +35,7 @@ ext.versions = [
         materialDialogs       : '9a175e3',
         glide                 : '3.7.0', // '4.0.0-RC1'
         volley                : '1.0.0',
-        kau                   : '3.0',
+        kau                   : '2d6b833',
         kauExt                : 'ae6f63c',
         sectionedRecyclerView : '0.5.0',
         recyclerViewFastScroll: 'ab973f2',
