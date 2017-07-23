@@ -80,6 +80,7 @@ wovic/
 .idea
 .idea/*
 !/.idea/copyright
+!.idea/copyright
 #gradle.properties
 *.iml
 =======
