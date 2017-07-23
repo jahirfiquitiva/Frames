@@ -24,7 +24,7 @@
             android:id="@+id/photo"
             android:layout_width="@dimen/photo_size"
             android:layout_height="@dimen/photo_size"
-            android:layout_margin="@dimen/kau_fab_margin"
+            android:layout_margin="@dimen/fabs_margin"
             android:layout_gravity="center_horizontal"
             tools:ignore="ContentDescription"/>
 
@@ -41,7 +41,7 @@
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/kau_fab_margin"
+            android:layout_marginTop="@dimen/fabs_margin"
             android:layout_marginLeft="?actionBarSize"
             android:layout_marginRight="?actionBarSize"
             android:layout_gravity="center_horizontal"
@@ -55,7 +55,7 @@
             android:id="@+id/buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/kau_fab_margin"
+            android:layout_margin="@dimen/fabs_margin"
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="horizontal"/>

@@ -25,8 +25,8 @@
             android:id="@+id/photo"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginLeft="@dimen/kau_fab_margin"
-            android:layout_marginStart="@dimen/kau_fab_margin"
+            android:layout_marginLeft="@dimen/fabs_margin"
+            android:layout_marginStart="@dimen/fabs_margin"
             android:background="@color/amoled_bg"/>
 
     <LinearLayout
@@ -39,10 +39,10 @@
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/kau_fab_margin"
-                android:layout_marginLeft="@dimen/kau_fab_margin"
-                android:layout_marginEnd="@dimen/kau_fab_margin"
-                android:layout_marginRight="@dimen/kau_fab_margin"
+                android:layout_marginStart="@dimen/fabs_margin"
+                android:layout_marginLeft="@dimen/fabs_margin"
+                android:layout_marginEnd="@dimen/fabs_margin"
+                android:layout_marginRight="@dimen/fabs_margin"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textSize="16sp"
                 android:maxLines="1"
@@ -54,10 +54,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:layout_marginStart="@dimen/kau_fab_margin"
-                android:layout_marginLeft="@dimen/kau_fab_margin"
-                android:layout_marginEnd="@dimen/kau_fab_margin"
-                android:layout_marginRight="@dimen/kau_fab_margin"
+                android:layout_marginStart="@dimen/fabs_margin"
+                android:layout_marginLeft="@dimen/fabs_margin"
+                android:layout_marginEnd="@dimen/fabs_margin"
+                android:layout_marginRight="@dimen/fabs_margin"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="14sp"
                 android:maxLines="3"
@@ -72,8 +72,8 @@
                 android:gravity="start"
                 android:layout_marginStart="4dp"
                 android:layout_marginLeft="4dp"
-                android:layout_marginEnd="@dimen/kau_fab_margin"
-                android:layout_marginRight="@dimen/kau_fab_margin"
+                android:layout_marginEnd="@dimen/fabs_margin"
+                android:layout_marginRight="@dimen/fabs_margin"
                 android:orientation="horizontal"/>
 
     </LinearLayout>

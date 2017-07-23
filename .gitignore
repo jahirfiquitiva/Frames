@@ -75,23 +75,13 @@ proguard/
 # Android Studio related files
 #############################################################################
 
-!/.idea/copyright/*
+!/.idea/copyright
 /.idea
 #gradle.properties
 *.iml
 =======
-*.iml
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
 .DS_Store
-/build
 /captures
 /projectFilesBackup
 /reports
 /report
-reports
-report
-.report
-.reports

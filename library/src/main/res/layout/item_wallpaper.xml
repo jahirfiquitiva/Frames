@@ -44,7 +44,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="68dp"
-            android:padding="@dimen/kau_fab_margin"
+            android:padding="@dimen/fabs_margin"
             android:background="@drawable/gradient"
             android:layout_gravity="start|bottom"
             android:gravity="start|bottom"
