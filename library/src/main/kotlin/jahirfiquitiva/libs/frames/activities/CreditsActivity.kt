@@ -16,6 +16,7 @@
 package jahirfiquitiva.libs.frames.activities
 
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.Toolbar
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
@@ -25,6 +26,7 @@ import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
@@ -52,8 +54,11 @@ class CreditsActivity:ThemedActivity() {
 
         rv = findViewById(R.id.list_rv)
         rv.state = EmptyViewRecyclerView.State.LOADING
-
+        val layoutManager = GridLayoutManager(this, if (isInHorizontalMode) 2 else 1,
+                                              GridLayoutManager.VERTICAL, false)
+        rv.layoutManager = layoutManager
         val adapter = CreditsAdapter(buildCreditsList())
+        adapter.setLayoutManager(layoutManager)
         rv.adapter = adapter
         rv.state = EmptyViewRecyclerView.State.NORMAL
 
@@ -82,7 +87,7 @@ class CreditsActivity:ThemedActivity() {
                         JAHIR_LINKS.split("|")))
 
         list.add(Credit(Credit.Type.DASHBOARD, SHERRY_PHOTO_URL, "Sherry Sabatine",
-                        resources.getString(R.string.dashboard_copyright),
+                        resources.getString(R.string.sherry_description),
                         SHERRY_BUTTONS.split("|"), SHERRY_LINKS.split("|")))
 
         list.add(Credit(Credit.Type.DEV_CONTRIBUTION, MAX_PHOTO_URL, "Maximilian Keppeler",

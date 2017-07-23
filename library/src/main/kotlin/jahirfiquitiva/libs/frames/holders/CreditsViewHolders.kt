@@ -45,16 +45,16 @@ data class Credit(val type:Type, val photo:String, val name:String, val descript
     }
 }
 
-class CreditHeaderViewHolder(itemView:View):SectionedViewHolder(itemView) {
-    val divider:View = itemView.findViewById(R.id.section_divider)
-    val title:TextView = itemView.findViewById(R.id.section_title)
-    val icon:ImageView = itemView.findViewById(R.id.section_icon)
+class CreditHeaderViewHolder(itemView:View?):SectionedViewHolder(itemView) {
+    val divider:View? = itemView?.findViewById(R.id.section_divider)
+    val title:TextView? = itemView?.findViewById(R.id.section_title)
+    val icon:ImageView? = itemView?.findViewById(R.id.section_icon)
 
     fun setTitle(@StringRes text:Int, expanded:Boolean) {
-        title.setTextColor(itemView.context.primaryTextColor)
-        title.text = itemView.context.getString(text)
-        icon.drawable.tint(itemView.context.activeIconsColor)
-        if (expanded) icon.rotation = 180F else icon.rotation = 0F
+        title?.setTextColor(itemView.context.primaryTextColor)
+        title?.text = itemView.context.getString(text)
+        icon?.drawable?.tint(itemView.context.activeIconsColor)
+        icon?.rotation = if (expanded) 180F else 0F
     }
 }
 

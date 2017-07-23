@@ -87,13 +87,13 @@ class CreditsAdapter(val credits:ArrayList<Credit>):
         }
     }
 
-    override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):SectionedViewHolder? {
+    override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):SectionedViewHolder {
         when (viewType) {
             0 -> return CreatorCreditViewHolder(parent?.inflate(R.layout.item_creator_credits))
             1 -> return DashboardCreditViewHolder(parent?.inflate(R.layout.item_dashboard_credits))
             2, 3 -> return SimpleCreditViewHolder(parent?.inflate(R.layout.item_dashboard_credits))
         }
-        return null
+        return CreditHeaderViewHolder(parent?.inflate(R.layout.item_section_header))
     }
 
     override fun onBindFooterViewHolder(holder:SectionedViewHolder?, section:Int) {

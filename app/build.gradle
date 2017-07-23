@@ -43,6 +43,7 @@ android {
         versionCode versions.versionCode
         versionName versions.versionName
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled = true
     }
 
     buildTypes {
@@ -65,10 +66,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    // Kotlin
-    compile 'org.jetbrains.kotlin:kotlin-stdlib:' + versions.kotlin
-    // Frames Library
     compile project(path: ':library')
 }
 

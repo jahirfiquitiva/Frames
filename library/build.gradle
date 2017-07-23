@@ -27,6 +27,7 @@ android {
         checkReleaseBuilds false
         disable 'MissingTranslation'
         disable 'GoogleAppIndexingWarning'
+        disable 'unchecked'
     }
 
     defaultConfig {
@@ -35,11 +36,17 @@ android {
         versionCode versions.versionCode
         versionName versions.versionName
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled = true
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -50,18 +57,15 @@ android {
             java.srcDirs += 'src/main/kotlin'
         }
     }
+
+    dexOptions {
+        jumboMode true
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    // Android Support Libraries
-    compile 'com.android.support:support-v13:' + versions.supportLibsTest
-    compile 'com.android.support:appcompat-v7:' + versions.supportLibsTest
-    compile 'com.android.support:recyclerview-v7:' + versions.supportLibsTest
-    compile 'com.android.support:cardview-v7:' + versions.supportLibsTest
-    compile 'com.android.support:palette-v7:' + versions.supportLibsTest
-    compile 'com.android.support:design:' + versions.supportLibsTest
-    compile 'com.android.support:customtabs:' + versions.supportLibsTest
+    // MultiDex
+    compile 'com.android.support:multidex:' + versions.multidex
     // Architecture Components
     compile 'android.arch.lifecycle:runtime:' + versions.archComponents
     compile 'android.arch.lifecycle:extensions:' + versions.archComponents
@@ -70,8 +74,6 @@ dependencies {
     annotationProcessor 'android.arch.persistence.room:compiler:' + versions.archComponents
     kapt 'android.arch.lifecycle:compiler:' + versions.archComponents
     kapt 'android.arch.persistence.room:compiler:' + versions.archComponents
-    // Kotlin
-    compile 'org.jetbrains.kotlin:kotlin-stdlib:' + versions.kotlin
     // Material Dialogs
     compile 'com.afollestad.material-dialogs:core:' + versions.materialDialogs
     // Volley

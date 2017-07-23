@@ -54,9 +54,10 @@
         <TextView
                 android:id="@+id/collection_title"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="@dimen/fabs_margin"
+                android:paddingLeft="@dimen/fabs_margin"
+                android:paddingRight="@dimen/fabs_margin"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textColor="@android:color/white"
@@ -65,20 +66,19 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textSize="16sp"
                 android:clipToPadding="false"
-                android:includeFontPadding="false"
                 tools:text="Material Design"/>
 
         <TextView
                 android:id="@+id/collection_walls_number"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/fabs_margin"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/fabs_margin"
+                android:paddingRight="@dimen/fabs_margin"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 android:clipToPadding="false"
-                android:includeFontPadding="false"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 tools:text="10"/>

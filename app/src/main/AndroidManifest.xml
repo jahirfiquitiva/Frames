@@ -24,7 +24,9 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/SplashScreen">
+            android:theme="@style/SplashScreen"
+            android:name="jahirfiquitiva.libs.frames.applications.FramesApplication">
+
         <activity
                 android:name=".MainActivity"
                 android:label="@string/app_name">
