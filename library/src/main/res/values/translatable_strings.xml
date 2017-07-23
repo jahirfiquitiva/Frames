@@ -48,6 +48,13 @@
     <string name="home_lock_screen">Home and lock screens</string>
     <string name="apply_successful">Wallpaper applied successfully to %1$s</string>
 
+    <string name="search">Search</string>
+    <string name="about">About</string>
+    <string name="refresh">Refresh</string>
+    <string name="donate">Donate</string>
+
+    <string name="settings">Settings</string>
+
     <!-- IMPORTANT: KEEP THIS EMPTY! -->
     <string name="empty">""</string>
 </resources>

@@ -15,10 +15,13 @@
  */
 package jahirfiquitiva.libs.frames.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.Toolbar
+import android.view.Menu
+import android.view.MenuItem
 import ca.allanwang.kau.utils.statusBarColor
 import ca.allanwang.kau.utils.statusBarLight
 import jahirfiquitiva.libs.frames.R
@@ -70,6 +73,24 @@ abstract class FramesActivity:BaseFramesActivity() {
         pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
         pager.offscreenPageLimit = tabs.tabCount
         pager.setCurrentItem(1, true)
+    }
+
+    override fun onCreateOptionsMenu(menu:Menu?):Boolean {
+        menuInflater.inflate(R.menu.frames_menu, menu)
+        // TODO: Tint properly
+        tintToolbarMenu(null, menu, getActiveIconsColorFor(primaryColor, 0.6F))
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item:MenuItem?):Boolean {
+        item?.let {
+            if (it.itemId == R.id.about) {
+                startActivity(Intent(this, CreditsActivity::class.java))
+                return true
+            }
+            // TODO: Manage other items
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroy() {
