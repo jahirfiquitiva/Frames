@@ -28,6 +28,7 @@
             android:layout_height="48dp"
             android:layout_marginLeft="@dimen/fabs_margin"
             android:layout_marginStart="@dimen/fabs_margin"
+            android:scaleType="centerCrop"
             android:background="@color/amoled_bg"/>
 
     <LinearLayout

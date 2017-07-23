@@ -99,6 +99,8 @@ dependencies {
     // Muzei API
     //noinspection GradleDynamicVersion
     compile 'com.google.android.apps.muzei:muzei-api:' + versions.muzeiApi
+    // Licenses Dialog
+    compile 'de.psdev.licensesdialog:licensesdialog:' + versions.licensesDialog
     // License Checker
     compile 'com.github.javiersantos:PiracyChecker:' + versions.checker
 }

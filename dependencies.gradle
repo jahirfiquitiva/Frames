@@ -43,5 +43,6 @@ ext.versions = [
         subsImageView         : '3.6.0',
         iaps                  : '1.0.39',
         muzeiApi              : '2.0',
+        licensesDialog        : '1.8.3',
         checker               : '1.1'
 ]
