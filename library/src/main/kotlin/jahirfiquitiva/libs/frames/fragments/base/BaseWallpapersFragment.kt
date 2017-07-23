@@ -32,6 +32,7 @@ import jahirfiquitiva.libs.frames.configs.maxPictureRes
 import jahirfiquitiva.libs.frames.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.holders.WallpaperHolder
 import jahirfiquitiva.libs.frames.models.Wallpaper
+import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
@@ -48,7 +49,8 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         rv.emptyTextRes = R.string.no_favorites
         rv.loadingView = content.findViewById(R.id.loading_view)
         rv.loadingTextRes = R.string.loading_section
-        val spanCount = context.framesKonfigs.columns
+        var spanCount = context.framesKonfigs.columns
+        if (context.isInHorizontalMode) spanCount = ((spanCount * 1.5).toInt())
         rv.layoutManager = GridLayoutManager(context, spanCount,
                                              GridLayoutManager.VERTICAL, false)
         rv.addItemDecoration(

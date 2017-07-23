@@ -42,11 +42,11 @@
     <LinearLayout
             android:id="@+id/collection_details"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:orientation="horizontal"
-            android:padding="@dimen/kau_fab_margin"
             android:layout_gravity="start|bottom"
             android:gravity="start|bottom"
+            android:baselineAligned="false"
             android:background="@drawable/gradient">
 
         <TextView
@@ -54,21 +54,26 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:padding="@dimen/kau_fab_margin"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textColor="@android:color/white"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="16sp"
+                android:includeFontPadding="false"
                 tools:text="Material Design"/>
 
         <TextView
                 android:id="@+id/collection_walls_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/kau_fab_margin"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textColor="@android:color/white"
+                android:textSize="12sp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 tools:text="10"/>

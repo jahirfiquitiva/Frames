@@ -80,8 +80,12 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:' + versions.glide
     // annotationProcessor 'com.github.bumptech.glide:compiler:' + versions.glide
     // kapt 'com.github.bumptech.glide:compiler:' + versions.glide
+    // KAU Kprefs TODO
+    compile 'ca.allanwang.kau:kpref-activity:' + versions.kau
     // KAU Extensions
     compile 'me.jahirfiquitiva:KAUExtensions:' + versions.kauExt
+    // Sectioned RecyclerView
+    compile 'com.afollestad:sectioned-recyclerview:' + versions.sectionedRecyclerView
     // RecyclerView Fast Scroller
     compile 'com.github.plusCubed:recycler-fast-scroll:' + versions.recyclerViewFastScroll
 	// Floating Toolbar

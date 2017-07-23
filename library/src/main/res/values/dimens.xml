@@ -23,5 +23,7 @@
     <!-- Status Bar -->
     <dimen name="status_bar_height">0dp</dimen>
     <!-- Wallpapers spacing -->
-    <dimen name="wallpapers_grid_spacing">2dp</dimen>
+    <dimen name="wallpapers_grid_spacing">4dp</dimen>
+    <!-- Credits photo size -->
+    <dimen name="photo_size">72dp</dimen>
 </resources>

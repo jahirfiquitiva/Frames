@@ -16,6 +16,17 @@
   -->
 <resources>
 
+    <style name="ButtonSimple" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+    </style>
+
+    <style name="ButtonText" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:padding">0dp</item>
+    </style>
+
     <style name="DetailsText" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:shadowColor">@android:color/black</item>

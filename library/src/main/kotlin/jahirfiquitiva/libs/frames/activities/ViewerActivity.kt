@@ -41,13 +41,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
-import ca.allanwang.kau.utils.gone
-import ca.allanwang.kau.utils.isColorDark
-import ca.allanwang.kau.utils.statusBarColor
-import ca.allanwang.kau.utils.tint
-import ca.allanwang.kau.utils.updateLeftMargin
-import ca.allanwang.kau.utils.updateRightMargin
-import ca.allanwang.kau.utils.updateTopMargin
+import ca.allanwang.kau.utils.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
@@ -187,7 +181,7 @@ class ViewerActivity:ThemedActivity() {
             intent.putExtra("inFavorites", isInFavorites)
         }
         setResult(10, intent)
-        actionDialog?.dismiss()
+        properlyCancelDialog()
         try {
             ActivityCompat.finishAfterTransition(this)
         } catch(ignored:Exception) {
@@ -323,7 +317,7 @@ class ViewerActivity:ThemedActivity() {
 
     private fun checkIfFileExists() {
         wallpaper?.let {
-            actionDialog?.dismiss()
+            properlyCancelDialog()
             val folder = File(framesKonfigs.downloadsFolder)
             folder.mkdirs()
             val extension = it.url.substring(it.url.lastIndexOf("."))
@@ -352,7 +346,7 @@ class ViewerActivity:ThemedActivity() {
 
     private fun startDownload(dest:File) {
         wallpaper?.let {
-            actionDialog?.dismiss()
+            properlyCancelDialog()
             actionDialog = buildMaterialDialog {
                 content(getString(R.string.downloading_wallpaper, it.name))
                 progress(true, 0)
@@ -369,7 +363,7 @@ class ViewerActivity:ThemedActivity() {
                                                    Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
                                                    Uri.fromFile(dest)))
                                            runOnUiThread {
-                                               actionDialog?.dismiss()
+                                               properlyCancelDialog()
                                                showSnackbar(
                                                        getString(R.string.download_successful,
                                                                  dest.toString()), {
@@ -411,7 +405,7 @@ class ViewerActivity:ThemedActivity() {
     }
 
     private fun showWallpaperApplyOptions() {
-        actionDialog?.dismiss()
+        properlyCancelDialog()
         actionDialog = buildMaterialDialog {
             title(R.string.apply_to)
             items(getString(R.string.home_screen), getString(R.string.lock_screen),
@@ -420,19 +414,24 @@ class ViewerActivity:ThemedActivity() {
                 applyWallpaper(position == 0, position == 1, position == 2)
             }
         }
+        actionDialog?.setOnDismissListener { floatingToolbar.hide() }
         actionDialog?.show()
     }
 
     private fun applyWallpaper(toHomescreen:Boolean, toLockscreen:Boolean, toBoth:Boolean) {
         wallpaper?.let {
-            floatingToolbar.hide()
-            actionDialog?.dismiss()
-            actionDialog = buildMaterialDialog {
-                content(getString(R.string.applying_wallpaper, it.name))
-                progress(true, 0)
-                cancelable(false)
-            }
-            actionDialog?.show()
+            postDelayed(10, {
+                runOnUiThread {
+                    floatingToolbar.hide()
+                    properlyCancelDialog()
+                    actionDialog = buildMaterialDialog {
+                        content(getString(R.string.applying_wallpaper, it.name))
+                        progress(true, 0)
+                        cancelable(false)
+                    }
+                    actionDialog?.show()
+                }
+            })
             val applyTarget = object:SimpleTarget<Bitmap>() {
                 override fun onResourceReady(resource:Bitmap?,
                                              glideAnimation:GlideAnimation<in Bitmap>?) {
@@ -457,23 +456,25 @@ class ViewerActivity:ThemedActivity() {
                             } else {
                                 wm.setBitmap(wallpaper)
                             }
-                            actionDialog?.dismiss()
+                            properlyCancelDialog()
                             showSnackbar(getString(R.string.apply_successful,
                                                    getString(
                                                            if (toBoth) R.string.home_lock_screen else
                                                                if (toHomescreen) R.string.home_screen else
                                                                    if (toLockscreen) R.string.lock_screen else R.string.empty
-                                                            )))
+                                                            ).toLowerCase()))
                         } catch (e:Exception) {
                             e.printStackTrace()
                         }
                     }
                 }
             }
-            runOnUiThread {
-                Glide.with(this).load(it.url).asBitmap().dontAnimate().diskCacheStrategy(
-                        DiskCacheStrategy.SOURCE).into(applyTarget)
-            }
+            postDelayed(100, {
+                runOnUiThread {
+                    Glide.with(this).load(it.url).asBitmap().dontAnimate().diskCacheStrategy(
+                            DiskCacheStrategy.SOURCE).into(applyTarget)
+                }
+            })
         }
     }
 
@@ -574,5 +575,9 @@ class ViewerActivity:ThemedActivity() {
         }
     }
 
+    private fun properlyCancelDialog(){
+        actionDialog?.dismiss()
+        actionDialog = null
+    }
 
 }
