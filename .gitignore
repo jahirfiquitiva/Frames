@@ -76,7 +76,10 @@ proguard/
 #############################################################################
 
 !/.idea/copyright
-/.idea
+/.idea/dictionaries
+/.idea/libraries
+/.idea/markdown-navigator
+/.idea/*.xml
 #gradle.properties
 *.iml
 =======

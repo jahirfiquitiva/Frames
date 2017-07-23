@@ -80,10 +80,10 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:' + versions.glide
     // annotationProcessor 'com.github.bumptech.glide:compiler:' + versions.glide
     // kapt 'com.github.bumptech.glide:compiler:' + versions.glide
-    // KAU Kprefs TODO
-    // compile 'ca.allanwang.kau:kpref-activity:' + versions.kau
+    // KAU Kprefs
+    compile 'ca.allanwang.kau:kpref-activity:' + versions.kau
     // KAU Extensions
-    compile("me.jahirfiquitiva:KAUExtensions:${versions.kauExt}") {
+    compile('me.jahirfiquitiva:KAUExtensions:' + versions.kauExt) {
         exclude group: 'ca.allanwang.kau'
     }
     // Sectioned RecyclerView
