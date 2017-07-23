@@ -103,7 +103,7 @@ class ViewerActivity:ThemedActivity() {
         statusBarColor = Color.parseColor("#80000000")
 
         toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar.updateTopMargin(getStatusBarHeight(true))
+        toolbar.setMarginTop(getStatusBarHeight(true))
 
         setSupportActionBar(toolbar)
         supportActionBar?.setHomeButtonEnabled(true)
@@ -154,8 +154,8 @@ class ViewerActivity:ThemedActivity() {
     override fun onResume() {
         super.onResume()
         try {
-            if (currentRotation == 270) toolbar.updateLeftMargin(navigationBarHeight)
-            else if (currentRotation == 90) toolbar.updateRightMargin(navigationBarHeight)
+            if (currentRotation == 270) toolbar.setMarginLeft(navigationBarHeight)
+            else if (currentRotation == 90) toolbar.setMarginRight(navigationBarHeight)
             fab.setNavBarMargins()
             floatingToolbar.setNavBarMargins()
         } catch (ignored:Exception) {
