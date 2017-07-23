@@ -15,6 +15,7 @@
   ~ limitations under the License.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -47,7 +48,7 @@
                 android:textSize="16sp"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:text="Jahir Fiquitiva"/>
+                tools:text="Jahir Fiquitiva"/>
 
         <TextView
                 android:id="@+id/description"
@@ -62,7 +63,7 @@
                 android:textSize="14sp"
                 android:maxLines="3"
                 android:ellipsize="end"
-                android:text="This is a description that took me so long to create I can't even stop typing."/>
+                tools:text="This is a description that took me so long to create I can't even stop typing."/>
 
         <jahirfiquitiva.libs.kauextensions.ui.layouts.SplitButtonsLayout
                 android:id="@+id/buttons"
