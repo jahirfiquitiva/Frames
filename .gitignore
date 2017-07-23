@@ -78,7 +78,6 @@ proguard/
 wovic/
 /wovic
 !/.idea/copyright
-/.idea/*.xml
 #gradle.properties
 *.iml
 =======

@@ -81,7 +81,7 @@ dependencies {
     // annotationProcessor 'com.github.bumptech.glide:compiler:' + versions.glide
     // kapt 'com.github.bumptech.glide:compiler:' + versions.glide
     // KAU Kprefs TODO
-    compile 'ca.allanwang.kau:kpref-activity:' + versions.kau
+    // compile 'ca.allanwang.kau:kpref-activity:' + versions.kau
     // KAU Extensions
     compile 'me.jahirfiquitiva:KAUExtensions:' + versions.kauExt
     // Sectioned RecyclerView
