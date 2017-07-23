@@ -33,17 +33,20 @@ import jahirfiquitiva.libs.kauextensions.extensions.*
 
 abstract class FramesActivity:BaseFramesActivity() {
 
+    private lateinit var toolbar:Toolbar
     private lateinit var pager:ViewPager
     private lateinit var tabs:TabLayout
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val toolbar:Toolbar = findViewById(R.id.toolbar)
+
+        toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
                      getSecondaryTextColorFor(primaryColor, 0.6F),
                      getActiveIconsColorFor(primaryColor, 0.6F))
+
         statusBarColor = primaryDarkColor
         statusBarLight = primaryDarkColor.isColorLight(0.6F)
         pager = findViewById<ViewPager>(R.id.pager)
@@ -77,8 +80,9 @@ abstract class FramesActivity:BaseFramesActivity() {
 
     override fun onCreateOptionsMenu(menu:Menu?):Boolean {
         menuInflater.inflate(R.menu.frames_menu, menu)
-        // TODO: Tint properly
-        tintToolbarMenu(null, menu, getActiveIconsColorFor(primaryColor, 0.6F))
+        toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
+                     getSecondaryTextColorFor(primaryColor, 0.6F),
+                     getActiveIconsColorFor(primaryColor, 0.6F))
         return super.onCreateOptionsMenu(menu)
     }
 

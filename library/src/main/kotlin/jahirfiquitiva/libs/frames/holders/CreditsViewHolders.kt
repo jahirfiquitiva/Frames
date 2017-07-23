@@ -18,6 +18,7 @@ package jahirfiquitiva.libs.frames.holders
 import android.graphics.Bitmap
 import android.support.annotation.StringRes
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
+import android.support.v7.widget.AppCompatButton
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
@@ -29,6 +30,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.extensions.hasContent
+import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
 import jahirfiquitiva.libs.kauextensions.extensions.openLink
 import jahirfiquitiva.libs.kauextensions.extensions.primaryTextColor
@@ -45,20 +47,24 @@ data class Credit(val type:Type, val photo:String, val name:String, val descript
     }
 }
 
+const val SECTION_ICON_ANIMATION_DURATION:Long = 250
+
 class CreditHeaderViewHolder(itemView:View?):SectionedViewHolder(itemView) {
     val divider:View? = itemView?.findViewById(R.id.section_divider)
     val title:TextView? = itemView?.findViewById(R.id.section_title)
     val icon:ImageView? = itemView?.findViewById(R.id.section_icon)
 
-    fun setTitle(@StringRes text:Int, expanded:Boolean) {
+    fun setTitle(@StringRes text:Int, expanded:Boolean = true, listener:() -> Unit = {}) {
         title?.setTextColor(itemView.context.primaryTextColor)
         title?.text = itemView.context.getString(text)
         icon?.drawable?.tint(itemView.context.activeIconsColor)
-        icon?.rotation = if (expanded) 180F else 0F
+        icon?.animate()?.rotation(if (expanded) 180F else 0F)?.setDuration(
+                SECTION_ICON_ANIMATION_DURATION)?.start()
+        itemView?.setOnClickListener { listener() }
     }
 }
 
-open class CreatorCreditViewHolder(itemView:View?):SectionedViewHolder(itemView) {
+open class DashboardCreditViewHolder(itemView:View?):SectionedViewHolder(itemView) {
     val photo:ImageView? = itemView?.findViewById(R.id.photo)
     val name:TextView? = itemView?.findViewById(R.id.name)
     val description:TextView? = itemView?.findViewById(R.id.description)
@@ -73,7 +79,7 @@ open class CreatorCreditViewHolder(itemView:View?):SectionedViewHolder(itemView)
                             val roundedPic = RoundedBitmapDrawableFactory.create(
                                     itemView.context.resources, resource)
                             roundedPic.isCircular = true
-                            super.setResource(roundedPic.bitmap)
+                            it.setImageDrawable(roundedPic)
                         }
                     })
         }
@@ -91,17 +97,25 @@ open class CreatorCreditViewHolder(itemView:View?):SectionedViewHolder(itemView)
             if (credit.buttonsTitles.size == credit.buttonsLinks.size) {
                 buttons?.buttonCount = credit.buttonsTitles.size
                 for (index in 0 until credit.buttonsTitles.size) {
-                    buttons?.addButton(credit.buttonsTitles[index], credit.buttonsLinks[index],
-                                       fillAvailableSpace)
-                    buttons?.getChildAt(index)?.setOnClickListener { view ->
-                        if (view.tag is String) {
-                            view.context.openLink(view.tag as String)
+                    val hasThemAll = buttons?.hasAllButtons() ?: true
+                    if (!hasThemAll) {
+                        buttons?.addButton(credit.buttonsTitles[index], credit.buttonsLinks[index],
+                                           fillAvailableSpace)
+                        val btn = buttons?.getChildAt(index)
+                        btn?.let {
+                            it.setOnClickListener { view ->
+                                if (view.tag is String) {
+                                    view.context.openLink(view.tag as String)
+                                }
+                            }
+                            (it as? AppCompatButton)?.setTextColor(it.context.accentColor)
                         }
                     }
                 }
             } else {
                 buttons?.gone()
                 if (credit.link.hasContent()) {
+                    itemView?.setOnClickListener { view -> view.context.openLink(credit.link) }
                     try {
                         val outValue = TypedValue()
                         itemView.context.theme.resolveAttribute(
@@ -109,20 +123,13 @@ open class CreatorCreditViewHolder(itemView:View?):SectionedViewHolder(itemView)
                         itemView?.setBackgroundResource(outValue.resourceId)
                     } catch (ignored:Exception) {
                     }
-                    itemView?.setOnClickListener { it.context.openLink(credit.link) }
                 }
             }
         }
     }
 }
 
-class DashboardCreditViewHolder(itemView:View?):CreatorCreditViewHolder(itemView) {
-    override fun setItem(credit:Credit, fillAvailableSpace:Boolean, shouldHideButtons:Boolean) {
-        super.setItem(credit, false, false)
-    }
-}
-
-class SimpleCreditViewHolder(itemView:View?):CreatorCreditViewHolder(itemView) {
+class SimpleCreditViewHolder(itemView:View?):DashboardCreditViewHolder(itemView) {
     override fun setItem(credit:Credit, fillAvailableSpace:Boolean, shouldHideButtons:Boolean) {
         super.setItem(credit, false, true)
     }

@@ -18,6 +18,7 @@ package jahirfiquitiva.libs.frames.activities
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.Toolbar
+import android.view.MenuItem
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.adapters.CreditsAdapter
@@ -46,24 +47,42 @@ class CreditsActivity:ThemedActivity() {
         setContentView(R.layout.activity_credits)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
+
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = getString(R.string.about)
+        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
                      getSecondaryTextColorFor(primaryColor, 0.6F),
                      getActiveIconsColorFor(primaryColor, 0.6F))
 
-        setSupportActionBar(toolbar)
-
         rv = findViewById(R.id.list_rv)
         rv.state = EmptyViewRecyclerView.State.LOADING
+
         val layoutManager = GridLayoutManager(this, if (isInHorizontalMode) 2 else 1,
                                               GridLayoutManager.VERTICAL, false)
         rv.layoutManager = layoutManager
+
         val adapter = CreditsAdapter(buildCreditsList())
         adapter.setLayoutManager(layoutManager)
+
         rv.adapter = adapter
         rv.state = EmptyViewRecyclerView.State.NORMAL
 
         fastScroll = findViewById(R.id.fast_scroller)
         fastScroll.attachRecyclerView(rv)
+
+        adapter.collapseSection(2)
+        adapter.collapseSection(3)
+    }
+
+    override fun onOptionsItemSelected(item:MenuItem?):Boolean {
+        item?.let {
+            if (it.itemId == android.R.id.home) finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun buildCreditsList():ArrayList<Credit> {
@@ -90,8 +109,9 @@ class CreditsActivity:ThemedActivity() {
                         resources.getString(R.string.sherry_description),
                         SHERRY_BUTTONS.split("|"), SHERRY_LINKS.split("|")))
 
-        list.add(Credit(Credit.Type.DEV_CONTRIBUTION, MAX_PHOTO_URL, "Maximilian Keppeler",
-                        link = "https://plus.google.com/+MaxKeppeler"))
+        list.add(Credit(Credit.Type.DEV_CONTRIBUTION, MAX_PHOTO_URL, "Maximilian Keppeler", "",
+                        ArrayList<String>(), ArrayList<String>(),
+                        "https://plus.google.com/+MaxKeppeler"))
 
         list.add(Credit(Credit.Type.UI_CONTRIBUTION, PATRYK_PHOTO_URL, "Patryk Goworowski",
                         link = "https://plus.google.com/+PatrykGoworowski"))

@@ -21,7 +21,6 @@ import ca.allanwang.kau.utils.inflate
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.holders.CreatorCreditViewHolder
 import jahirfiquitiva.libs.frames.holders.Credit
 import jahirfiquitiva.libs.frames.holders.CreditHeaderViewHolder
 import jahirfiquitiva.libs.frames.holders.DashboardCreditViewHolder
@@ -36,6 +35,7 @@ class CreditsAdapter(val credits:ArrayList<Credit>):
     private val UI_CONTRIBUTION_CREDIT_VIEW_TYPE = 3
 
     init {
+        shouldShowHeadersForEmptySections(true)
         shouldShowFooters(false)
     }
 
@@ -47,7 +47,7 @@ class CreditsAdapter(val credits:ArrayList<Credit>):
     override fun onBindViewHolder(holder:SectionedViewHolder?, section:Int, relativePosition:Int,
                                   absolutePosition:Int) {
         holder?.let {
-            if (it is CreatorCreditViewHolder) {
+            if (it is DashboardCreditViewHolder) {
                 when (section) {
                     0 -> it.setItem(
                             credits.filter { it.type == Credit.Type.CREATOR }[relativePosition])
@@ -75,23 +75,27 @@ class CreditsAdapter(val credits:ArrayList<Credit>):
     override fun onBindHeaderViewHolder(holder:SectionedViewHolder?, section:Int,
                                         expanded:Boolean) {
         if (holder is CreditHeaderViewHolder) {
-            if (section == 0) {
-                holder.itemView.gone()
-            } else {
-                when (section) {
-                    1 -> holder.setTitle(R.string.dashboard, expanded)
-                    2 -> holder.setTitle(R.string.dev_contributions, expanded)
-                    3 -> holder.setTitle(R.string.ui_contributions, expanded)
+            when (section) {
+                0 -> {
+                    holder.setTitle(R.string.app_name, expanded)
+                    holder.icon?.gone()
                 }
+                1 -> {
+                    holder.setTitle(R.string.dashboard, expanded)
+                    holder.icon?.gone()
+                }
+                2 -> holder.setTitle(R.string.dev_contributions, expanded,
+                                     { toggleSectionExpanded(section) })
+                3 -> holder.setTitle(R.string.ui_contributions, expanded,
+                                     { toggleSectionExpanded(section) })
             }
         }
     }
 
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):SectionedViewHolder {
         when (viewType) {
-            0 -> return CreatorCreditViewHolder(parent?.inflate(R.layout.item_creator_credits))
-            1 -> return DashboardCreditViewHolder(parent?.inflate(R.layout.item_dashboard_credits))
-            2, 3 -> return SimpleCreditViewHolder(parent?.inflate(R.layout.item_dashboard_credits))
+            0, 1 -> return DashboardCreditViewHolder(parent?.inflate(R.layout.item_credits))
+            2, 3 -> return SimpleCreditViewHolder(parent?.inflate(R.layout.item_credits))
         }
         return CreditHeaderViewHolder(parent?.inflate(R.layout.item_section_header))
     }
