@@ -24,35 +24,35 @@
             android:icon="@drawable/ic_search"
             android:orderInCategory="100"
             app:actionViewClass="android.support.v7.widget.SearchView"
-            app:showAsAction="always|collapseActionView"
+            app:showAsAction="ifRoom|collapseActionView"
             tools:ignore="AppCompatResource"/>
-
-    <item
-            android:id="@+id/about"
-            android:title="@string/about"
-            android:icon="@drawable/ic_about"
-            android:orderInCategory="200"
-            app:showAsAction="ifRoom|never"/>
-
-    <item
-            android:id="@+id/settings"
-            android:title="@string/settings"
-            android:icon="@drawable/ic_settings"
-            android:orderInCategory="300"
-            app:showAsAction="ifRoom|never"/>
-
-    <item
-            android:id="@+id/donate"
-            android:title="@string/donate"
-            android:icon="@drawable/ic_donate"
-            android:orderInCategory="400"
-            app:showAsAction="ifRoom|never"/>
 
     <item
             android:id="@+id/refresh"
             android:title="@string/refresh"
             android:icon="@drawable/ic_refresh"
+            android:orderInCategory="200"
+            app:showAsAction="ifRoom"/>
+
+    <item
+            android:id="@+id/about"
+            android:title="@string/about"
+            android:icon="@drawable/ic_about"
+            android:orderInCategory="300"
+            app:showAsAction="ifRoom"/>
+
+    <item
+            android:id="@+id/settings"
+            android:title="@string/settings"
+            android:icon="@drawable/ic_settings"
+            android:orderInCategory="400"
+            app:showAsAction="ifRoom"/>
+
+    <item
+            android:id="@+id/donate"
+            android:title="@string/donate"
+            android:icon="@drawable/ic_donate"
             android:orderInCategory="500"
-            app:showAsAction="ifRoom|never"/>
+            app:showAsAction="ifRoom"/>
 
 </menu>

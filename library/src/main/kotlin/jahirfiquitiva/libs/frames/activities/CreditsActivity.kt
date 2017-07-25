@@ -15,15 +15,21 @@
  */
 package jahirfiquitiva.libs.frames.activities
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.Toolbar
+import android.view.Menu
 import android.view.MenuItem
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
+import de.psdev.licensesdialog.LicenseResolver
+import de.psdev.licensesdialog.LicensesDialog
+import de.psdev.licensesdialog.licenses.License
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.adapters.CreditsAdapter
 import jahirfiquitiva.libs.frames.holders.Credit
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
+import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
@@ -32,6 +38,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
+
 class CreditsActivity:ThemedActivity() {
 
     override fun lightTheme():Int = R.style.LightTheme
@@ -39,6 +46,7 @@ class CreditsActivity:ThemedActivity() {
     override fun transparentTheme():Int = R.style.ClearTheme
     override fun amoledTheme():Int = R.style.AmoledTheme
 
+    private lateinit var toolbar:Toolbar
     private lateinit var rv:EmptyViewRecyclerView
     private lateinit var fastScroll:RecyclerFastScroller
 
@@ -46,17 +54,15 @@ class CreditsActivity:ThemedActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_credits)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        registerCCLicense()
+
+        toolbar = findViewById(R.id.toolbar)
 
         setSupportActionBar(toolbar)
         supportActionBar?.title = getString(R.string.about)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-
-        toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
-                     getSecondaryTextColorFor(primaryColor, 0.6F),
-                     getActiveIconsColorFor(primaryColor, 0.6F))
 
         rv = findViewById(R.id.list_rv)
         rv.state = EmptyViewRecyclerView.State.LOADING
@@ -78,11 +84,81 @@ class CreditsActivity:ThemedActivity() {
         adapter.collapseSection(3)
     }
 
+    override fun onCreateOptionsMenu(menu:Menu?):Boolean {
+        menuInflater.inflate(R.menu.about_menu, menu)
+        toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
+                     getSecondaryTextColorFor(primaryColor, 0.6F),
+                     getActiveIconsColorFor(primaryColor, 0.6F))
+        return super.onCreateOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item:MenuItem?):Boolean {
         item?.let {
             if (it.itemId == android.R.id.home) finish()
+            else if (it.itemId == R.id.licenses) {
+                LicensesDialog.Builder(this)
+                        .setTitle(R.string.licenses)
+                        .setNotices(R.raw.notices)
+                        .setShowFullLicenseText(false)
+                        .setIncludeOwnLicense(false)
+                        .setDividerColor(dividerColor)
+                        .setThemeResourceId(getCustomTheme())
+                        .build().show()
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun registerCCLicense() {
+        val ccLicense = object:License() {
+            override fun getName():String = "CreativeCommons Attribution-ShareAlike 4.0 International License"
+
+            override fun readSummaryTextFromResources(
+                    context:Context):String = readFullTextFromResources(context)
+
+            override fun readFullTextFromResources(context:Context):String {
+                return "\tLicensed under the CreativeCommons Attribution-ShareAlike\n\t4.0 " +
+                       "International License. You may not use this file except in compliance \n" +
+                       "\twith the License. You may obtain a copy of the License at\n\n\t\t" +
+                       "http://creativecommons.org/licenses/by-sa/4.0/legalcode\n\n" +
+                       "\tUnless required by applicable law or agreed to in writing, software\n" +
+                       "\tdistributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+                       "\tWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+                       "\tSee the License for the specific language governing permissions and\n" +
+                       "\tlimitations under the License."
+            }
+
+            override fun getVersion():String = "4.0"
+
+            override fun getUrl():String = "http://creativecommons.org/licenses/by-sa/4.0/legalcode"
+        }
+
+        val eclLicense = object:License() {
+            override fun getName():String = "Educational Community License v2.0"
+
+            override fun readSummaryTextFromResources(
+                    context:Context):String = readFullTextFromResources(context)
+
+            override fun readFullTextFromResources(context:Context):String {
+                return "The Educational Community License version 2.0 (\"ECL\") consists of the " +
+                       "Apache 2.0 license, modified to change the scope of the patent grant in " +
+                       "section 3 to be specific to the needs of the education communities " +
+                       "using this license.\n\nLicensed under the Apache License, Version 2.0 " +
+                       "(the \"License\");\n" + "you may not use this file except in compliance with " +
+                       "the License.\nYou may obtain a copy of the License at\n\n\t" +
+                       "http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable " +
+                       "law or agreed to in writing, software\ndistributed under the License is " +
+                       "distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY " +
+                       "KIND, either express or implied.\nSee the License for the specific " +
+                       "language governing permissions and\nlimitations under the License."
+            }
+
+            override fun getVersion():String = "2.0"
+
+            override fun getUrl():String = "https://opensource.org/licenses/ECL-2.0"
+        }
+        LicenseResolver.registerLicense(ccLicense)
+        LicenseResolver.registerLicense(eclLicense)
     }
 
     private fun buildCreditsList():ArrayList<Credit> {
@@ -96,8 +172,8 @@ class CreditsActivity:ThemedActivity() {
 
         if (descriptions.size == titles.size && photos.size == titles.size) {
             (0 until titles.size).mapTo(list) {
-                Credit(Credit.Type.CREATOR, photos[it], titles[it],
-                       descriptions[it], buttons[it].split("|"), links[it].split("|"))
+                Credit(Credit.Type.CREATOR, photos[it], titles[it], descriptions[it],
+                       buttons[it].split("|"), links[it].split("|"))
             }
         }
 
@@ -106,8 +182,8 @@ class CreditsActivity:ThemedActivity() {
                         JAHIR_LINKS.split("|")))
 
         list.add(Credit(Credit.Type.DASHBOARD, SHERRY_PHOTO_URL, "Sherry Sabatine",
-                        resources.getString(R.string.sherry_description),
-                        SHERRY_BUTTONS.split("|"), SHERRY_LINKS.split("|")))
+                        resources.getString(R.string.sherry_description), SHERRY_BUTTONS.split("|"),
+                        SHERRY_LINKS.split("|")))
 
         list.add(Credit(Credit.Type.DEV_CONTRIBUTION, MAX_PHOTO_URL, "Maximilian Keppeler", "",
                         ArrayList<String>(), ArrayList<String>(),

@@ -53,12 +53,13 @@
     <string name="refresh">Refresh</string>
     <string name="donate">Donate</string>
 
+    <string name="licenses">Licenses</string>
     <string name="dashboard">Dashboard</string>
     <string name="dev_contributions">Development Help</string>
     <string name="ui_contributions">UI Help</string>
 
-    <string name="dashboard_copyright">I am a 20 years old Android development enthusiast and the developer of the dashboard.\n\nShared from Colombia to the world, under CreativeCommons Attribution-ShareAlike License.\nCopyright © 2017.</string>
-    <string name="sherry_description">An ever evolving woman who never tires of learning. Also a creative photographer and the person who made this dashboard free and open-source.</string>
+    <string name="dashboard_copyright">I am a 20 years old Android development enthusiast and the developer of the dashboard.</string>
+    <string name="sherry_description">An ever evolving woman who never tires of learning, creative photographer and the person who made this dashboard possible.</string>
 
     <string name="settings">Settings</string>
 

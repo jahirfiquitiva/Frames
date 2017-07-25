@@ -43,9 +43,6 @@ abstract class FramesActivity:BaseFramesActivity() {
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
-                     getSecondaryTextColorFor(primaryColor, 0.6F),
-                     getActiveIconsColorFor(primaryColor, 0.6F))
 
         statusBarColor = primaryDarkColor
         statusBarLight = primaryDarkColor.isColorLight(0.6F)

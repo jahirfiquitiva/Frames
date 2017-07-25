@@ -93,6 +93,16 @@ open class DashboardCreditViewHolder(itemView:View?):SectionedViewHolder(itemVie
         }
         if (shouldHideButtons || credit.buttonsTitles.isEmpty()) {
             buttons?.gone()
+            if (credit.link.hasContent()) {
+                itemView?.setOnClickListener { view -> view.context.openLink(credit.link) }
+                try {
+                    val outValue = TypedValue()
+                    itemView.context.theme.resolveAttribute(
+                            android.R.attr.selectableItemBackground, outValue, true)
+                    itemView?.setBackgroundResource(outValue.resourceId)
+                } catch (ignored:Exception) {
+                }
+            }
         } else {
             if (credit.buttonsTitles.size == credit.buttonsLinks.size) {
                 buttons?.buttonCount = credit.buttonsTitles.size
@@ -114,16 +124,6 @@ open class DashboardCreditViewHolder(itemView:View?):SectionedViewHolder(itemVie
                 }
             } else {
                 buttons?.gone()
-                if (credit.link.hasContent()) {
-                    itemView?.setOnClickListener { view -> view.context.openLink(credit.link) }
-                    try {
-                        val outValue = TypedValue()
-                        itemView.context.theme.resolveAttribute(
-                                android.R.attr.selectableItemBackground, outValue, true)
-                        itemView?.setBackgroundResource(outValue.resourceId)
-                    } catch (ignored:Exception) {
-                    }
-                }
             }
         }
     }

@@ -21,7 +21,6 @@ import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
-import ca.allanwang.kau.utils.dimenPixelSize
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.activities.CollectionActivity
@@ -50,10 +49,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         val spanCount = if (context.isInHorizontalMode) 2 else 1
         rv.layoutManager = GridLayoutManager(context, spanCount,
                                              GridLayoutManager.VERTICAL, false)
-        rv.addItemDecoration(
-                GridSpacingItemDecoration(spanCount,
-                                          context.dimenPixelSize(R.dimen.wallpapers_grid_spacing),
-                                          true))
+        rv.addItemDecoration(GridSpacingItemDecoration(spanCount, 0, true))
         adapter = CollectionsAdapter { collection, holder ->
             onItemClicked(collection, holder)
         }
