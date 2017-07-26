@@ -16,35 +16,38 @@
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
+              android:minHeight="56dp"
+              android:maxHeight="88dp"
               android:paddingTop="@dimen/cards_margin"
               android:paddingBottom="@dimen/cards_margin">
 
     <ImageView
             android:id="@+id/photo"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginLeft="@dimen/kau_fab_margin"
-            android:layout_marginStart="@dimen/kau_fab_margin"
-            android:background="@color/amoled_bg"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/fabs_margin"
+            android:layout_marginStart="@dimen/fabs_margin"
+            android:scaleType="centerCrop"/>
 
     <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginStart="@dimen/kau_fab_margin"
-            android:layout_marginLeft="@dimen/kau_fab_margin"
-            android:layout_marginEnd="@dimen/kau_fab_margin"
-            android:layout_marginRight="@dimen/kau_fab_margin"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="vertical">
 
         <TextView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="@dimen/fabs_margin"
+                android:paddingLeft="@dimen/fabs_margin"
+                android:paddingEnd="@dimen/fabs_margin"
+                android:paddingRight="@dimen/fabs_margin"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textSize="16sp"
                 android:maxLines="1"
@@ -54,22 +57,30 @@
         <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="4dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="14sp"
+                android:paddingStart="@dimen/fabs_margin"
+                android:paddingLeft="@dimen/fabs_margin"
+                android:paddingEnd="@dimen/fabs_margin"
+                android:paddingRight="@dimen/fabs_margin"
                 android:maxLines="3"
                 android:ellipsize="end"
-                tools:text="This is a description that took me so long to create I can't even stop typing."/>
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textSize="14sp"
+                tools:text="@string/dashboard_copyright"/>
 
         <jahirfiquitiva.libs.kauextensions.ui.layouts.SplitButtonsLayout
                 android:id="@+id/buttons"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:gravity="start"
-                android:orientation="horizontal"
-                app:itemsPadding="@dimen/cards_margin"/>
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginEnd="@dimen/fabs_margin"
+                android:layout_marginRight="@dimen/fabs_margin"
+                android:orientation="horizontal"/>
 
     </LinearLayout>
 

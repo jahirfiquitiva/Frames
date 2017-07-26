@@ -32,7 +32,9 @@ import jahirfiquitiva.libs.frames.configs.maxPictureRes
 import jahirfiquitiva.libs.frames.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.holders.WallpaperHolder
 import jahirfiquitiva.libs.frames.models.Wallpaper
+import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
+import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
@@ -44,9 +46,10 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
 
     override fun initUI(content:View) {
         rv = content.findViewById(R.id.list_rv)
-        rv.emptyView = content.findViewById(R.id.no_favorites_view)
         rv.textView = content.findViewById(R.id.empty_text)
-        rv.emptyTextRes = R.string.no_favorites
+        rv.emptyView = content.findViewById(
+                if (fromFavorites()) R.id.no_favorites_view else R.id.empty_view)
+        rv.emptyTextRes = if (fromFavorites()) R.string.no_favorites else R.string.empty_section
         rv.loadingView = content.findViewById(R.id.loading_view)
         rv.loadingTextRes = R.string.loading_section
         var spanCount = context.framesKonfigs.columns
@@ -70,6 +73,36 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
 
     override fun onItemClicked(item:Wallpaper, holder:WallpaperHolder) {
         onWallpaperClicked(item, holder)
+    }
+
+    override fun applyFilter(filter:String) {
+        if (fromFavorites()) {
+            favoritesModel.items.value?.let {
+                if (filter.hasContent()) {
+                    rv.emptyView = content.findViewById(R.id.no_results_view)
+                    rv.emptyTextRes = R.string.kau_no_results_found
+                    adapter.setItems(ArrayList(it.filter { it.name.contains(filter, true) }))
+                } else {
+                    rv.emptyView = content.findViewById(R.id.no_favorites_view)
+                    rv.emptyTextRes = R.string.no_favorites
+                    adapter.setItems(it)
+                }
+            }
+        } else {
+            wallpapersModel.items.value?.let {
+                if (filter.hasContent()) {
+                    rv.emptyView = content.findViewById(R.id.no_results_view)
+                    rv.emptyTextRes = R.string.kau_no_results_found
+                    adapter.setItems(ArrayList(it.filter { it.name.contains(filter, true) }))
+                } else {
+                    rv.emptyView = content.findViewById(R.id.empty_view)
+                    rv.emptyTextRes = R.string.empty_section
+                    adapter.setItems(it)
+                }
+            }
+        }
+        context.printInfo("Did search: $filter")
+        rv.state = EmptyViewRecyclerView.State.NORMAL
     }
 
     private fun onWallpaperClicked(wallpaper:Wallpaper, holder:WallpaperHolder) {
@@ -111,9 +144,9 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
                 if (it.getBooleanExtra("modified", false)) {
                     val item = it.getParcelableExtra<Wallpaper>("item")
                     if (it.getBooleanExtra("inFavorites", false)) {
-                        item?.let { addToFavorites(it, {}) }
+                        item?.let { addToFavorites(it) }
                     } else {
-                        item?.let { removeFromFavorites(it, {}) }
+                        item?.let { removeFromFavorites(it) }
                     }
                 }
             }

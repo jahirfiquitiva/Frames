@@ -36,8 +36,12 @@ import jahirfiquitiva.libs.frames.models.Collection
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.frames.views.CheckableImageView
 import jahirfiquitiva.libs.frames.views.ParallaxImageView
-import jahirfiquitiva.libs.kauextensions.extensions.*
-import jahirfiquitiva.libs.kauextensions.ui.views.LandscapeImageView
+import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
+import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
+import jahirfiquitiva.libs.kauextensions.extensions.generatePalette
+import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
+import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.ui.views.VerticalImageView
 
 class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
@@ -110,9 +114,7 @@ class WallpaperHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
             name.text = wallpaper.name
             author.goneIf(wallpaper.author.isEmpty() || wallpaper.author.isBlank())
             author.text = wallpaper.author
-            heartIcon.setOnClickListener {
-                heartListener(heartIcon, wallpaper)
-            }
+            heartIcon.setOnClickListener { heartListener(heartIcon, wallpaper) }
         }
         itemView.setOnClickListener { listener(wallpaper, this) }
     }

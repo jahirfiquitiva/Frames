@@ -18,6 +18,8 @@ package jahirfiquitiva.libs.frames.fragments
 import android.os.Bundle
 import jahirfiquitiva.libs.frames.fragments.base.BaseWallpapersFragment
 import jahirfiquitiva.libs.frames.models.Wallpaper
+import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
+import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
 class WallpapersInCollectionFragment:BaseWallpapersFragment() {
@@ -25,17 +27,23 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
 
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
-        currentFavorites.clear()
-        currentFavorites.addAll(data)
-        adapter.favorites = currentFavorites
+        collection?.let {
+            val coll = it
+            adapter.favorites = ArrayList<Wallpaper>(data.filter {
+                it.collections.formatCorrectly().replace("_", " ").contains(coll.name, true)
+            })
+            rv.state = EmptyViewRecyclerView.State.NORMAL
+        }
     }
 
     override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollection:Boolean) {
-        if (fromCollection) {
-            if (data.size > 0) {
-                adapter.setItems(data)
-                rv.state = EmptyViewRecyclerView.State.NORMAL
-            }
+        collection?.let {
+            val coll = it
+            adapter.setItems(
+                    ArrayList<Wallpaper>(data.filter {
+                        it.collections.formatCorrectly().replace("_", " ").contains(coll.name, true)
+                    }))
+            rv.state = EmptyViewRecyclerView.State.NORMAL
         }
     }
 

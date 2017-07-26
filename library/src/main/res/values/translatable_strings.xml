@@ -48,6 +48,23 @@
     <string name="home_lock_screen">Home and lock screens</string>
     <string name="apply_successful">Wallpaper applied successfully to %1$s</string>
 
+    <string name="search">Search</string>
+    <string name="search_x">Search %1$s…</string>
+
+    <string name="about">About</string>
+    <string name="refresh">Refresh</string>
+    <string name="donate">Donate</string>
+
+    <string name="licenses">Licenses</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="dev_contributions">Development Help</string>
+    <string name="ui_contributions">UI Help</string>
+
+    <string name="dashboard_copyright">I am a 20 years old Android development enthusiast and the developer of the dashboard.</string>
+    <string name="sherry_description">An ever evolving woman who never tires of learning, creative photographer and the person who made this dashboard possible.</string>
+
+    <string name="settings">Settings</string>
+
     <!-- IMPORTANT: KEEP THIS EMPTY! -->
     <string name="empty">""</string>
 </resources>

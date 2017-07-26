@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jahirfiquitiva.libs.frames.models.viewmodels
+package jahirfiquitiva.libs.frames.applications
 
-import jahirfiquitiva.libs.frames.models.Collection
-import jahirfiquitiva.libs.frames.models.Wallpaper
+import android.support.multidex.MultiDex
+import android.support.multidex.MultiDexApplication
 
-class SimpleWallpapersViewModel:ListViewModel<Wallpaper, Collection>() {
-    override fun loadItems(p:Collection):ArrayList<Wallpaper> {
-        return p.wallpapers
+open class FramesApplication:MultiDexApplication() {
+    override fun onCreate() {
+        super.onCreate()
+        MultiDex.install(this)
     }
 }

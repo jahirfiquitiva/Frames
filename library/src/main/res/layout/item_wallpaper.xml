@@ -44,15 +44,18 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="68dp"
-            android:padding="@dimen/kau_fab_margin"
             android:background="@drawable/gradient"
+            android:paddingStart="@dimen/fabs_margin"
+            android:paddingLeft="@dimen/fabs_margin"
+            android:paddingEnd="@dimen/fabs_margin"
+            android:paddingRight="@dimen/fabs_margin"
             android:layout_gravity="start|bottom"
             android:gravity="start|bottom"
             tools:ignore="UseCompoundDrawables">
 
         <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:layout_gravity="center_vertical"
@@ -67,6 +70,8 @@
                     android:textColor="@android:color/white"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textSize="16sp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
                     tools:text="Wallpaper name"/>
 
             <TextView
@@ -79,6 +84,8 @@
                     android:textColor="@android:color/white"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textSize="12sp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
                     tools:text="John Doe"/>
 
         </LinearLayout>
@@ -87,11 +94,10 @@
                 android:id="@+id/heart_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:padding="@dimen/cards_margin"
                 android:background="?selectableItemBackgroundBorderless"
                 android:visibility="gone"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:gravity="center"
                 tools:ignore="ContentDescription"/>
 
     </LinearLayout>

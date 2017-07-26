@@ -39,20 +39,20 @@ abstract class ListViewModel<T, P>:ViewModel() {
 
     private fun internalLoad(p:P, forceLoad:Boolean = false):ArrayList<T> {
         if (forceLoad) {
-            return loadItems(p)
+            return ArrayList(loadItems(p).distinct())
         } else {
             if (items.value != null && (items.value?.size ?: 0) > 0) {
                 val list = ArrayList<T>()
-                items.value?.let { list.addAll(it) }
+                items.value?.let { list.addAll(it.distinct()) }
                 return list
             } else {
-                return loadItems(p)
+                return ArrayList(loadItems(p).distinct())
             }
         }
     }
 
     open fun postResult(data:ArrayList<T>) {
-        items.postValue(data)
+        items.postValue(ArrayList(data.distinct()))
     }
 
     abstract protected fun loadItems(p:P):ArrayList<T>

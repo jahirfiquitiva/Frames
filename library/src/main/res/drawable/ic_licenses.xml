@@ -14,18 +14,12 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources>
-    <!-- Splash screen dimens -->
-    <dimen name="splash_logo_bottom">16dp</dimen>
-    <dimen name="splash_brand_bottom">48dp</dimen>
-    <!-- Cards -->
-    <dimen name="cards_margin">8dp</dimen>
-    <!-- FABs -->
-    <dimen name="fabs_margin">16dp</dimen>
-    <!-- Status Bar -->
-    <dimen name="status_bar_height">0dp</dimen>
-    <!-- Wallpapers spacing -->
-    <dimen name="wallpapers_grid_spacing">4dp</dimen>
-    <!-- Credits photo size -->
-    <dimen name="photo_size">72dp</dimen>
-</resources>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:height="24dp"
+        android:width="24dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
+    <path
+            android:fillColor="#000"
+            android:pathData="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z"/>
+</vector>
