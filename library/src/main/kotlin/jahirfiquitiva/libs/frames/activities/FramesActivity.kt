@@ -34,7 +34,6 @@ import jahirfiquitiva.libs.frames.fragments.WallpapersFragment
 import jahirfiquitiva.libs.frames.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.kauextensions.extensions.*
 
-
 abstract class FramesActivity:BaseFramesActivity() {
 
     private lateinit var toolbar:Toolbar

@@ -31,7 +31,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 
-class CollectionActivity:BaseActivityWithFragments() {
+open class CollectionActivity:BaseActivityWithFragments() {
 
     override fun lightTheme():Int = R.style.LightTheme
     override fun darkTheme():Int = R.style.DarkTheme

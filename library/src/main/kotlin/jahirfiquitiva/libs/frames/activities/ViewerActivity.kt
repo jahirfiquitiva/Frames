@@ -65,7 +65,7 @@ import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ViewerActivity:ThemedActivity() {
+open class ViewerActivity:ThemedActivity() {
 
     override fun lightTheme():Int = R.style.ViewerLightTheme
     override fun darkTheme():Int = R.style.ViewerDarkTheme

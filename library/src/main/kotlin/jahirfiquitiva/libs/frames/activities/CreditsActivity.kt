@@ -38,8 +38,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
-
-class CreditsActivity:ThemedActivity() {
+open class CreditsActivity:ThemedActivity() {
 
     override fun lightTheme():Int = R.style.LightTheme
     override fun darkTheme():Int = R.style.DarkTheme
