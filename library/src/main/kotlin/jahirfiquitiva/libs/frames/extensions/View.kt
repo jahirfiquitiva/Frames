@@ -32,6 +32,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
+import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
 
 fun ImageView.loadFromUrl(url:String, @DrawableRes error:Int) {
@@ -49,7 +50,7 @@ fun ImageView.loadFromUrl(url:String, error:Drawable? = null) {
 }
 
 fun ImageView.loadFromUrls(url:String, thumbUrl:String, sizeMultiplier:Float = 0.5F) {
-    if (thumbUrl.isNotEmpty()) {
+    if (thumbUrl.hasContent()) {
         Glide.with(context).load(url)
                 .thumbnail(Glide.with(context).load(thumbUrl)
                                    .thumbnail(sizeMultiplier)
@@ -57,7 +58,7 @@ fun ImageView.loadFromUrls(url:String, thumbUrl:String, sizeMultiplier:Float = 0
                                    .priority(Priority.IMMEDIATE))
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE).priority(Priority.HIGH)
                 .into(this)
-    } else if (url.isNotEmpty()) {
+    } else if (url.hasContent()) {
         Glide.with(context).load(url).thumbnail(sizeMultiplier)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE).priority(Priority.HIGH).into(this)
     }
@@ -65,7 +66,7 @@ fun ImageView.loadFromUrls(url:String, thumbUrl:String, sizeMultiplier:Float = 0
 
 fun ImageView.loadFromUrlsIntoTarget(url:String, thumbUrl:String, target:BitmapImageViewTarget,
                                      sizeMultiplier:Float = 0.5F) {
-    if (thumbUrl.isNotEmpty()) {
+    if (thumbUrl.hasContent()) {
         Glide.with(context).load(url).asBitmap()
                 .thumbnail(Glide.with(context).load(thumbUrl).asBitmap()
                                    .thumbnail(sizeMultiplier)
@@ -73,7 +74,7 @@ fun ImageView.loadFromUrlsIntoTarget(url:String, thumbUrl:String, target:BitmapI
                                    .priority(Priority.IMMEDIATE))
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE).priority(Priority.HIGH)
                 .into(target)
-    } else if (url.isNotEmpty()) {
+    } else if (url.hasContent()) {
         Glide.with(context).load(url).asBitmap().thumbnail(sizeMultiplier)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE).priority(Priority.HIGH)
                 .into(target)

@@ -75,6 +75,11 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         onWallpaperClicked(item, holder)
     }
 
+    override fun reloadData(section:Int) {
+        rv.state = EmptyViewRecyclerView.State.LOADING
+        super.reloadData(section)
+    }
+
     override fun applyFilter(filter:String) {
         if (fromFavorites()) {
             favoritesModel.items.value?.let {

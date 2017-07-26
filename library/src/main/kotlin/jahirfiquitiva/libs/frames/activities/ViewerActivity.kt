@@ -192,7 +192,7 @@ open class ViewerActivity:ThemedActivity() {
     private fun setupWallpaper(view:SubsamplingScaleImageView, wallpaper:Wallpaper?) {
         var bmp:Bitmap? = null
         val filename = intent?.getStringExtra("image") ?: ""
-        if (filename.isNotEmpty() && filename.isNotBlank()) {
+        if (filename.hasContent()) {
             try {
                 val stream = openFileInput(filename)
                 bmp = BitmapFactory.decodeStream(stream)

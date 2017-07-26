@@ -144,6 +144,9 @@ abstract class FramesActivity:BaseFramesActivity() {
             if (it.itemId == R.id.about) {
                 startActivity(Intent(this, CreditsActivity::class.java))
                 return true
+            } else if (it.itemId == R.id.refresh) {
+                refreshContent()
+                return true
             }
             // TODO: Manage other items
         }
@@ -173,6 +176,21 @@ abstract class FramesActivity:BaseFramesActivity() {
                 if (it is BaseFramesFragment<*, *>) {
                     try {
                         it.applyFilter(filter)
+                    } catch (ignored:Exception) {
+                    }
+                }
+            }
+        }
+    }
+
+    private fun refreshContent() {
+        val adapter = pager.adapter
+        if (adapter is FragmentsAdapter) {
+            val frag = adapter.getItem(lastSection)
+            frag?.let {
+                if (it is BaseFramesFragment<*, *>) {
+                    try {
+                        it.reloadData(lastSection)
                     } catch (ignored:Exception) {
                     }
                 }

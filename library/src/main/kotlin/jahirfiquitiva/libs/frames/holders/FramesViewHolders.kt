@@ -42,6 +42,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.generatePalette
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.ui.views.VerticalImageView
 
 class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
@@ -112,7 +113,7 @@ class WallpaperHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
             val thumb = wallpaper.thumbUrl
             loadImage(url, if (thumb.equals(url, true)) "" else thumb, check)
             name.text = wallpaper.name
-            author.goneIf(wallpaper.author.isEmpty() || wallpaper.author.isBlank())
+            author.goneIf(!wallpaper.author.hasContent())
             author.text = wallpaper.author
             heartIcon.setOnClickListener { heartListener(heartIcon, wallpaper) }
         }
