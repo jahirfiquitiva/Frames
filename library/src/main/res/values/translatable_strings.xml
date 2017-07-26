@@ -49,6 +49,8 @@
     <string name="apply_successful">Wallpaper applied successfully to %1$s</string>
 
     <string name="search">Search</string>
+    <string name="search_x">Search %1$s…</string>
+
     <string name="about">About</string>
     <string name="refresh">Refresh</string>
     <string name="donate">Donate</string>

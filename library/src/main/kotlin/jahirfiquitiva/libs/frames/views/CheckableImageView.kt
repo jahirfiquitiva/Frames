@@ -16,15 +16,14 @@
 
 package jahirfiquitiva.libs.frames.views
 
-import android.animation.Animator
 import android.content.Context
 import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
-import android.view.View
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.ScaleAnimation
 import android.widget.Checkable
-import ca.allanwang.kau.utils.gone
-import ca.allanwang.kau.utils.visible
-import jahirfiquitiva.libs.frames.extensions.run
+import org.jetbrains.anko.runOnUiThread
 
 class CheckableImageView:AppCompatImageView, Checkable {
 
@@ -40,29 +39,8 @@ class CheckableImageView:AppCompatImageView, Checkable {
     override fun setChecked(check:Boolean) {
         if (isChecked != check) {
             internalIsChecked = check
-            animateCheck()
+            refreshDrawableState()
         }
-    }
-
-    fun animateCheck() {
-        animate().scaleX(0F).scaleY(0F).setListener(object:Animator.AnimatorListener {
-            override fun onAnimationRepeat(p0:Animator?) {
-                // Do nothing
-            }
-
-            override fun onAnimationCancel(p0:Animator?) {
-                // Do nothing
-            }
-
-            override fun onAnimationStart(p0:Animator?) {
-                // Do nothing
-            }
-
-            override fun onAnimationEnd(p0:Animator?) {
-                refreshDrawableState()
-                animate().scaleX(1F).scaleY(1F).start()
-            }
-        })
     }
 
     constructor(context:Context):super(context)
@@ -72,7 +50,25 @@ class CheckableImageView:AppCompatImageView, Checkable {
 
     override fun onCreateDrawableState(extraSpace:Int):IntArray {
         val state = super.onCreateDrawableState(extraSpace + 1)
-        if (isChecked()) View.mergeDrawableStates(state, CHECKED_STATE_SET)
+        if (isChecked) mergeDrawableStates(state, CHECKED_STATE_SET)
         return state
+    }
+}
+
+abstract class SimpleAnimationListener:Animation.AnimationListener {
+    open fun onStart(animation:Animation) {}
+    open fun onEnd(animation:Animation) {}
+    open fun onRepeat(animation:Animation) {}
+
+    override fun onAnimationRepeat(animation:Animation?) {
+        animation?.let { onRepeat(it) }
+    }
+
+    override fun onAnimationEnd(animation:Animation?) {
+        animation?.let { onEnd(it) }
+    }
+
+    override fun onAnimationStart(animation:Animation?) {
+        animation?.let { onStart(it) }
     }
 }

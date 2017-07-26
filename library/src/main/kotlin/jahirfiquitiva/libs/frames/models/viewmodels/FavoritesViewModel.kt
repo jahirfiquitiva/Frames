@@ -66,49 +66,43 @@ class FavoritesViewModel:ListViewModel<Wallpaper, FavoritesDao>() {
         }
     }
 
-    fun addToFavorites(wallpaper:Wallpaper, onSuccess:() -> Unit) {
+    fun addToFavorites(wallpaper:Wallpaper) {
         try {
             if (isInFavorites(wallpaper)) return
             AsyncTaskManager(
-                    wallpaper,
-                    {},
+                    wallpaper, {},
                     { it ->
                         try {
                             param?.addToFavorites(it)
                             items.value?.add(it)
                             items.value?.let { postResult(it) }
-                            onSuccess()
                             return@AsyncTaskManager true
                         } catch (e:Exception) {
                             e.printStackTrace()
                             return@AsyncTaskManager false
                         }
-                    },
-                    {}).execute()
+                    }, {}).execute()
         } catch (e:Exception) {
             e.printStackTrace()
         }
     }
 
-    fun removeFromFavorites(wallpaper:Wallpaper, onSuccess:() -> Unit) {
+    fun removeFromFavorites(wallpaper:Wallpaper) {
         try {
             if (!isInFavorites(wallpaper)) return
             AsyncTaskManager(
-                    wallpaper,
-                    {},
+                    wallpaper, {},
                     { it ->
                         try {
                             param?.removeFromFavorites(it)
                             items.value?.remove(it)
                             items.value?.let { postResult(it) }
-                            onSuccess()
                             return@AsyncTaskManager true
                         } catch (e:Exception) {
                             e.printStackTrace()
                             return@AsyncTaskManager false
                         }
-                    },
-                    {}).execute()
+                    }, {}).execute()
         } catch (e:Exception) {
             e.printStackTrace()
         }

@@ -106,6 +106,7 @@
             android:padding="24dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="italic"
+            android:visibility="gone"
             tools:text="This is an empty section."/>
 
 </RelativeLayout>

@@ -23,6 +23,7 @@ class WallpapersFragment:BaseWallpapersFragment() {
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
         adapter.favorites = data
+        rv.state = EmptyViewRecyclerView.State.NORMAL
     }
 
     override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollection:Boolean) {

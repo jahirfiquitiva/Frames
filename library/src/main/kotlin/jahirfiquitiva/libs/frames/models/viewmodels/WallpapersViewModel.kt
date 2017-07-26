@@ -29,7 +29,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 import org.json.JSONArray
 
-class OnlineWallpapersViewModel:ListViewModel<Wallpaper, Context>() {
+class WallpapersViewModel:ListViewModel<Wallpaper, Context>() {
     override fun loadItems(p:Context):ArrayList<Wallpaper> {
         val list = ArrayList<Wallpaper>()
         val volley = Volley.newRequestQueue(p)

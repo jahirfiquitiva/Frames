@@ -29,6 +29,7 @@ import jahirfiquitiva.libs.frames.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.holders.CollectionHolder
 import jahirfiquitiva.libs.frames.models.Collection
 import jahirfiquitiva.libs.frames.models.Wallpaper
+import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
@@ -41,8 +42,8 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
 
     override fun initUI(content:View) {
         rv = content.findViewById(R.id.list_rv)
-        rv.emptyView = content.findViewById(R.id.empty_view)
         rv.textView = content.findViewById(R.id.empty_text)
+        rv.emptyView = content.findViewById(R.id.empty_view)
         rv.emptyTextRes = R.string.empty_section
         rv.loadingView = content.findViewById(R.id.loading_view)
         rv.loadingTextRes = R.string.loading_section
@@ -73,6 +74,21 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         }
     }
 
+    override fun applyFilter(filter:String) {
+        collectionsModel.items.value?.let {
+            if (filter.hasContent()) {
+                rv.emptyView = content.findViewById(R.id.no_results_view)
+                rv.emptyTextRes = R.string.kau_no_results_found
+                adapter.setItems(ArrayList(it.filter { it.name.contains(filter, true) }))
+            } else {
+                rv.emptyView = content.findViewById(R.id.empty_view)
+                rv.emptyTextRes = R.string.empty_section
+                adapter.setItems(it)
+            }
+        }
+        rv.state = EmptyViewRecyclerView.State.NORMAL
+    }
+
     override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == 11) {
@@ -83,7 +99,6 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
                         try {
                             val rFavs = favs as ArrayList<Wallpaper>
                             favoritesModel.forceUpdateFavorites(rFavs)
-                            // favoritesModel.postResult(rFavs)
                         } catch (e:Exception) {
                             e.printStackTrace()
                         }

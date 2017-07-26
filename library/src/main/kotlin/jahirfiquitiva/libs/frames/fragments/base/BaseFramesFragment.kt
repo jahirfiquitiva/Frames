@@ -21,18 +21,17 @@ import android.support.v7.widget.RecyclerView
 import jahirfiquitiva.libs.frames.models.Collection
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.frames.models.viewmodels.CollectionsViewModel
-import jahirfiquitiva.libs.frames.models.viewmodels.OnlineWallpapersViewModel
+import jahirfiquitiva.libs.frames.models.viewmodels.WallpapersViewModel
 
 abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatabaseFragment<T, VH>() {
 
-    private lateinit var wallpapersModel:OnlineWallpapersViewModel
-    private lateinit var collectionsModel:CollectionsViewModel
+    internal lateinit var wallpapersModel:WallpapersViewModel
+    internal lateinit var collectionsModel:CollectionsViewModel
 
-    override fun createDatabase() {
-        super.createDatabase()
+    override fun initViewModel() {
+        super.initViewModel()
         collectionsModel = ViewModelProviders.of(activity).get(CollectionsViewModel::class.java)
-        wallpapersModel = ViewModelProviders.of(activity).get(
-                OnlineWallpapersViewModel::class.java)
+        wallpapersModel = ViewModelProviders.of(activity).get(WallpapersViewModel::class.java)
     }
 
     override fun registerObserver() {
@@ -66,4 +65,5 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
     }
 
     open fun doOnCollectionsChange(data:ArrayList<Collection>) {}
+    abstract fun applyFilter(filter:String)
 }
