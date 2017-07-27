@@ -70,7 +70,7 @@ open class ViewerActivity:ThemedActivity() {
     override fun lightTheme():Int = R.style.ViewerLightTheme
     override fun darkTheme():Int = R.style.ViewerDarkTheme
     override fun amoledTheme():Int = R.style.ViewerAmoledTheme
-    override fun transparentTheme():Int = R.style.ViewerClearTheme
+    override fun transparentTheme():Int = R.style.ViewerTransparentTheme
     override fun autoStatusBarTint():Boolean = false
 
     private var wallpaper:Wallpaper? = null

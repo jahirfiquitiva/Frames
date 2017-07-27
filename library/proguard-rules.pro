@@ -33,11 +33,12 @@
 
 -keep class com.google.**
 -keep class autovalue.shaded.com.google.**
--keep public class com.android.vending.licensing.ILicensingService
+-keep class com.android.vending.billing.**
 
 -dontwarn org.apache.**
 -dontwarn com.google.**
 -dontwarn autovalue.shaded.com.google.**
+-dontwarn class com.android.vending.billing.**
 
 -dontwarn
 -ignorewarnings

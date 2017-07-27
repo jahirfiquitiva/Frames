@@ -20,14 +20,14 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import jahirfiquitiva.libs.frames.utils.AsyncTaskManager
 
-abstract class ListViewModel<T, P>:ViewModel() {
-    val items = MutableLiveData<ArrayList<T>>()
-    var param:P? = null
-    var task:AsyncTaskManager<ArrayList<T>, P>? = null
+abstract class ListViewModel<Parameter, Result>:ViewModel() {
+    val items = MutableLiveData<ArrayList<Result>>()
+    var param:Parameter? = null
+    var task:AsyncTaskManager<ArrayList<Result>, Parameter>? = null
 
-    fun loadData(p:P, forceLoad:Boolean = false) {
-        param = p
-        task = AsyncTaskManager(p, {},
+    fun loadData(parameter:Parameter, forceLoad:Boolean = false) {
+        param = parameter
+        task = AsyncTaskManager(parameter, {},
                                 { internalLoad(it, forceLoad) },
                                 { postResult(it) })
         task?.execute()
@@ -37,23 +37,23 @@ abstract class ListViewModel<T, P>:ViewModel() {
         task?.cancelTask(interrupt)
     }
 
-    private fun internalLoad(p:P, forceLoad:Boolean = false):ArrayList<T> {
+    private fun internalLoad(param:Parameter, forceLoad:Boolean = false):ArrayList<Result> {
         if (forceLoad) {
-            return ArrayList(loadItems(p).distinct())
+            return ArrayList(loadItems(param).distinct())
         } else {
             if (items.value != null && (items.value?.size ?: 0) > 0) {
-                val list = ArrayList<T>()
+                val list = ArrayList<Result>()
                 items.value?.let { list.addAll(it.distinct()) }
                 return list
             } else {
-                return ArrayList(loadItems(p).distinct())
+                return ArrayList(loadItems(param).distinct())
             }
         }
     }
 
-    open fun postResult(data:ArrayList<T>) {
+    open fun postResult(data:ArrayList<Result>) {
         items.postValue(ArrayList(data.distinct()))
     }
 
-    abstract protected fun loadItems(p:P):ArrayList<T>
+    abstract protected fun loadItems(param:Parameter):ArrayList<Result>
 }

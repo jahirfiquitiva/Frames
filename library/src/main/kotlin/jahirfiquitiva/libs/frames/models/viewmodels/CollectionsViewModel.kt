@@ -22,11 +22,11 @@ import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 
-class CollectionsViewModel:ListViewModel<Collection, ArrayList<Wallpaper>>() {
-    override fun loadItems(p:ArrayList<Wallpaper>):ArrayList<Collection> {
+class CollectionsViewModel:ListViewModel<ArrayList<Wallpaper>, Collection>() {
+    override fun loadItems(param:ArrayList<Wallpaper>):ArrayList<Collection> {
         val collections = ArrayList<Collection>()
         val collectionsMap = HashMap<String, ArrayList<Wallpaper>>()
-        for ((index, wallpaper) in p.withIndex()) {
+        for ((index, wallpaper) in param.withIndex()) {
             val collectionsText = wallpaper.collections
             if (collectionsText.hasContent()) {
                 val collectionsList = collectionsText.split("[,|]".toRegex())
@@ -38,7 +38,7 @@ class CollectionsViewModel:ListViewModel<Collection, ArrayList<Wallpaper>>() {
                                 wallsList.addAll(wallsInCollection)
                             }
                         }
-                        wallsList.add(p[index])
+                        wallsList.add(param[index])
                         collectionsMap.put(it, wallsList)
                     }
                 }

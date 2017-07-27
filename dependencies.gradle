@@ -41,7 +41,7 @@ ext.versions = [
         recyclerViewFastScroll: 'ab973f2',
         floatingToolbar       : '32a8e6b',
         subsImageView         : '3.6.0',
-        iaps                  : '1.0.39',
+        iaps                  : '1.0.43',
         muzeiApi              : '2.0',
         licensesDialog        : '1.8.3',
         checker               : '1.1'

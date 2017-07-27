@@ -74,6 +74,11 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         }
     }
 
+    override fun loadDataFromViewModel() {
+        rv.state = EmptyViewRecyclerView.State.LOADING
+        super.loadDataFromViewModel()
+    }
+
     override fun reloadData(section:Int) {
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)

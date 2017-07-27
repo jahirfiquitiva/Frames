@@ -24,7 +24,7 @@ class MainActivity:FramesActivity() {
      * These things here have the default values. You can delete the ones you don't want to change
      * and/or modify the ones you want to.
      */
-    override fun donationsEnabled():Boolean = false
+    override var donationsEnabled = false
     override fun amazonInstallsEnabled():Boolean = false
     override fun checkLPF():Boolean = true
     override fun checkStores():Boolean = true

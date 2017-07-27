@@ -24,6 +24,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.activities.base.BaseActivityWithFragments
 import jahirfiquitiva.libs.frames.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.fragments.SettingsFragment
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
@@ -38,7 +39,7 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
     override fun lightTheme():Int = R.style.LightTheme
     override fun darkTheme():Int = R.style.DarkTheme
     override fun amoledTheme():Int = R.style.AmoledTheme
-    override fun transparentTheme():Int = R.style.ClearTheme
+    override fun transparentTheme():Int = R.style.TransparentTheme
 
     var hasClearedFavs = false
     var locationChooserDialog:FolderChooserDialog? = null
