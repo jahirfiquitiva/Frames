@@ -78,7 +78,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
     }
-
+  
     override fun applyFilter(filter:String) {
         collectionsModel.items.value?.let {
             if (filter.hasContent()) {
