@@ -57,4 +57,6 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
     }
 
     override fun fromFavorites():Boolean = false
+    // TODO: Should I set this to false?
+    override fun showFavoritesIcon():Boolean = true
 }

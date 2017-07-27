@@ -93,7 +93,8 @@ class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
     }
 }
 
-class WallpaperHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
+class WallpaperHolder(itemView:View, val showFavIcon:Boolean = true):RecyclerView.ViewHolder(
+        itemView) {
     val img:VerticalImageView = itemView.findViewById(R.id.wallpaper_image)
     val detailsBg:LinearLayout = itemView.findViewById(R.id.wallpaper_details)
     val name:TextView = itemView.findViewById(R.id.wallpaper_name)
@@ -115,7 +116,11 @@ class WallpaperHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
             name.text = wallpaper.name
             author.goneIf(!wallpaper.author.hasContent())
             author.text = wallpaper.author
-            heartIcon.setOnClickListener { heartListener(heartIcon, wallpaper) }
+            if (showFavIcon) {
+                heartIcon.setOnClickListener { heartListener(heartIcon, wallpaper) }
+            } else {
+                heartIcon.gone()
+            }
         }
         itemView.setOnClickListener { listener(wallpaper, this) }
     }
@@ -139,8 +144,8 @@ class WallpaperHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
                         TextViewCompat.setTextAppearance(name, R.style.DetailsText)
                         TextViewCompat.setTextAppearance(author, R.style.DetailsText_Small)
                     }
-                    heartIcon.visible()
                     heartIcon.isChecked = check
+                    heartIcon.visible()
                 }
             }
         }

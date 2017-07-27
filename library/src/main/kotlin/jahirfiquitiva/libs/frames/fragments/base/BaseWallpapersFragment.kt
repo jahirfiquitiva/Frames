@@ -59,7 +59,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         adapter = WallpapersAdapter(
                 { wall, holder -> onItemClicked(wall, holder) },
                 { heart, wall -> onHeartClicked(heart, wall) },
-                fromFavorites())
+                fromFavorites(), showFavoritesIcon())
         rv.adapter = adapter
         rv.state = EmptyViewRecyclerView.State.LOADING
         fastScroll = content.findViewById(R.id.fast_scroller)
@@ -95,7 +95,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
     }
-  
+
     override fun applyFilter(filter:String) {
         if (fromFavorites()) {
             favoritesModel.items.value?.let {
@@ -175,4 +175,5 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     }
 
     abstract fun fromFavorites():Boolean
+    abstract fun showFavoritesIcon():Boolean
 }

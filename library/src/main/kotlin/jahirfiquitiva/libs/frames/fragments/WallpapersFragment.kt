@@ -35,4 +35,5 @@ class WallpapersFragment:BaseWallpapersFragment() {
     }
 
     override fun fromFavorites():Boolean = false
+    override fun showFavoritesIcon():Boolean = true
 }

@@ -17,8 +17,6 @@
 package jahirfiquitiva.libs.frames.adapters
 
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import ca.allanwang.kau.utils.inflate
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.holders.WallpaperHolder
@@ -27,7 +25,7 @@ import jahirfiquitiva.libs.frames.views.CheckableImageView
 
 class WallpapersAdapter(val listener:(Wallpaper, WallpaperHolder) -> Unit,
                         val heartListener:(CheckableImageView, Wallpaper) -> Unit,
-                        val fromFavorites:Boolean = false):
+                        val fromFavorites:Boolean = false, val showFavIcon:Boolean = true):
         BaseListAdapter<Wallpaper, WallpaperHolder>() {
 
     var favorites = ArrayList<Wallpaper>()
@@ -43,5 +41,5 @@ class WallpapersAdapter(val listener:(Wallpaper, WallpaperHolder) -> Unit,
     }
 
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):WallpaperHolder? =
-            parent?.inflate(R.layout.item_wallpaper)?.let { WallpaperHolder(it) }
+            parent?.inflate(R.layout.item_wallpaper)?.let { WallpaperHolder(it, showFavIcon) }
 }
