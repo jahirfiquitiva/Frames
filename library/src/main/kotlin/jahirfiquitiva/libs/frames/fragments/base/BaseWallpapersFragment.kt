@@ -44,6 +44,9 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     internal lateinit var adapter:WallpapersAdapter
     private lateinit var fastScroll:RecyclerFastScroller
 
+    private var spanCount = 0
+    private var spacingDecoration:GridSpacingItemDecoration? = null
+
     override fun initUI(content:View) {
         rv = content.findViewById(R.id.list_rv)
         rv.textView = content.findViewById(R.id.empty_text)
@@ -52,13 +55,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         rv.emptyTextRes = if (fromFavorites()) R.string.no_favorites else R.string.empty_section
         rv.loadingView = content.findViewById(R.id.loading_view)
         rv.loadingTextRes = R.string.loading_section
-        var spanCount = context.framesKonfigs.columns
-        if (context.isInHorizontalMode) spanCount = ((spanCount * 1.5).toInt())
-        rv.layoutManager = GridLayoutManager(context, spanCount,
-                                             GridLayoutManager.VERTICAL, false)
-        rv.addItemDecoration(
-                GridSpacingItemDecoration(spanCount,
-                                          context.dimenPixelSize(R.dimen.wallpapers_grid_spacing)))
+        configureRVColumns()
         adapter = WallpapersAdapter(
                 { wall, holder -> onItemClicked(wall, holder) },
                 { heart, wall -> onHeartClicked(heart, wall) },
@@ -67,6 +64,25 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         rv.state = EmptyViewRecyclerView.State.LOADING
         fastScroll = content.findViewById(R.id.fast_scroller)
         fastScroll.attachRecyclerView(rv)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        configureRVColumns()
+    }
+
+    private fun configureRVColumns() {
+        if (context.framesKonfigs.columns != spanCount) {
+            rv.removeItemDecoration(spacingDecoration)
+            spanCount = context.framesKonfigs.columns
+            rv.layoutManager = GridLayoutManager(context,
+                                                 if (context.isInHorizontalMode) ((spanCount * 1.5).toInt()) else spanCount,
+                                                 GridLayoutManager.VERTICAL, false)
+            spacingDecoration = GridSpacingItemDecoration(spanCount,
+                                                          context.dimenPixelSize(
+                                                                  R.dimen.wallpapers_grid_spacing))
+            rv.addItemDecoration(spacingDecoration)
+        }
     }
 
     override fun getContentLayout():Int = R.layout.section_lists

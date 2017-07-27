@@ -36,4 +36,7 @@ interface FavoritesDao {
 
     @Delete
     fun removeFromFavorites(wallpaper:Wallpaper)
+
+    @Query("DELETE FROM $DATABASE_NAME")
+    fun nukeFavorites()
 }

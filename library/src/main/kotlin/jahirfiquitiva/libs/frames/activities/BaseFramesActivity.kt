@@ -32,6 +32,7 @@ abstract class BaseFramesActivity:ThemedActivity() {
     override fun darkTheme():Int = R.style.DarkTheme
     override fun amoledTheme():Int = R.style.AmoledTheme
     override fun transparentTheme():Int = R.style.ClearTheme
+    override fun autoStatusBarTint():Boolean = true
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)

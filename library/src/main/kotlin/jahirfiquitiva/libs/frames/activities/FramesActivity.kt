@@ -24,15 +24,19 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
-import ca.allanwang.kau.utils.statusBarColor
-import ca.allanwang.kau.utils.statusBarLight
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.adapters.FragmentsAdapter
 import jahirfiquitiva.libs.frames.fragments.CollectionsFragment
 import jahirfiquitiva.libs.frames.fragments.FavoritesFragment
 import jahirfiquitiva.libs.frames.fragments.WallpapersFragment
 import jahirfiquitiva.libs.frames.fragments.base.BaseFramesFragment
-import jahirfiquitiva.libs.kauextensions.extensions.*
+import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.getDisabledTextColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
+import jahirfiquitiva.libs.kauextensions.extensions.printInfo
+import jahirfiquitiva.libs.kauextensions.extensions.tint
 
 abstract class FramesActivity:BaseFramesActivity() {
 
@@ -50,8 +54,6 @@ abstract class FramesActivity:BaseFramesActivity() {
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        statusBarColor = primaryDarkColor
-        statusBarLight = primaryDarkColor.isColorLight(0.6F)
         pager = findViewById<ViewPager>(R.id.pager)
 
         pager.adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
@@ -141,16 +143,29 @@ abstract class FramesActivity:BaseFramesActivity() {
 
     override fun onOptionsItemSelected(item:MenuItem?):Boolean {
         item?.let {
-            if (it.itemId == R.id.about) {
-                startActivity(Intent(this, CreditsActivity::class.java))
-                return true
-            } else if (it.itemId == R.id.refresh) {
+            if (it.itemId == R.id.refresh) {
                 refreshContent()
-                return true
+            } else if (it.itemId == R.id.about) {
+                startActivity(Intent(this, CreditsActivity::class.java))
+            } else if (it.itemId == R.id.settings) {
+                startActivityForResult(Intent(this, SettingsActivity::class.java), 22)
             }
             // TODO: Manage other items
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 22) {
+            data?.let {
+                val cleared = it.getBooleanExtra("clearedFavs", false)
+                printInfo("Has cleared favs? $cleared")
+                if (cleared) {
+                    reloadFavorites()
+                }
+            }
+        }
     }
 
     override fun onSaveInstanceState(outState:Bundle?) {
@@ -191,6 +206,21 @@ abstract class FramesActivity:BaseFramesActivity() {
                 if (it is BaseFramesFragment<*, *>) {
                     try {
                         it.reloadData(lastSection)
+                    } catch (ignored:Exception) {
+                    }
+                }
+            }
+        }
+    }
+
+    private fun reloadFavorites() {
+        val adapter = pager.adapter
+        if (adapter is FragmentsAdapter) {
+            val frag = adapter.getItem(lastSection)
+            frag?.let {
+                if (it is BaseFramesFragment<*, *>) {
+                    try {
+                        it.reloadData(2)
                     } catch (ignored:Exception) {
                     }
                 }

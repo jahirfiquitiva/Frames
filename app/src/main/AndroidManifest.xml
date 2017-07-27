@@ -25,7 +25,8 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/SplashScreen"
-            android:name="jahirfiquitiva.libs.frames.applications.FramesApplication">
+            android:name="jahirfiquitiva.libs.frames.applications.FramesApplication"
+            android:manageSpaceActivity="jahirfiquitiva.libs.frames.activities.SettingsActivity">
 
         <activity
                 android:name=".MainActivity"

@@ -18,36 +18,36 @@ package jahirfiquitiva.libs.frames.activities
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
-import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.FrameLayout
 import android.widget.TextView
+import com.afollestad.materialdialogs.folderselector.FolderChooserDialog
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.fragments.WallpapersInCollectionFragment
-import jahirfiquitiva.libs.frames.models.Collection
+import jahirfiquitiva.libs.frames.extensions.framesKonfigs
+import jahirfiquitiva.libs.frames.fragments.SettingsFragment
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
-import jahirfiquitiva.libs.kauextensions.extensions.setupStatusBarStyle
 import jahirfiquitiva.libs.kauextensions.extensions.tint
+import java.io.File
 
-open class CollectionActivity:BaseActivityWithFragments() {
+open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.FolderCallback {
 
     override fun lightTheme():Int = R.style.LightTheme
     override fun darkTheme():Int = R.style.DarkTheme
-    override fun transparentTheme():Int = R.style.ClearTheme
     override fun amoledTheme():Int = R.style.AmoledTheme
-    override fun hasBottomBar():Boolean = true
-    override fun fragmentsContainer():Int = R.id.fragments_container
+    override fun transparentTheme():Int = R.style.ClearTheme
 
-    private var collection:Collection? = null
-    private lateinit var frag:WallpapersInCollectionFragment
+    var hasClearedFavs = false
+    var locationChooserDialog:FolderChooserDialog? = null
+    private lateinit var fragment:SettingsFragment
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_with_fragments)
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         val toolbarTitle = findViewById<TextView>(R.id.toolbar_title)
 
@@ -60,40 +60,65 @@ open class CollectionActivity:BaseActivityWithFragments() {
                      getSecondaryTextColorFor(primaryColor, 0.6F),
                      getActiveIconsColorFor(primaryColor, 0.6F))
         toolbarTitle.setTextColor(getPrimaryTextColorFor(primaryColor, 0.6F))
-        setupStatusBarStyle(false)
+        toolbarTitle.text = getString(R.string.settings)
 
         val container = findViewById<FrameLayout>(fragmentsContainer())
         container?.let {
             it.setPadding(it.paddingLeft, it.paddingTop, it.paddingRight, 0)
         }
 
-        ViewCompat.setTransitionName(toolbarTitle, "title")
-
-        collection = intent?.getParcelableExtra<Collection>("item")
-        toolbarTitle.text = collection?.name ?: ""
-
-        val bundle = Bundle()
-        bundle.putParcelable("collection", collection)
-        frag = WallpapersInCollectionFragment.newInstance(bundle)
-        changeFragment(frag)
+        fragment = SettingsFragment()
+        changeFragment(fragment, "Settings")
     }
 
     override fun onOptionsItemSelected(item:MenuItem?):Boolean {
-        if (item?.itemId == android.R.id.home) {
-            doFinish()
+        item?.let {
+            if (it.itemId == android.R.id.home) {
+                doFinish()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         doFinish()
     }
 
-    private fun doFinish() {
+    fun showLocationChooserDialog() {
+        clearDialog()
+        locationChooserDialog = FolderChooserDialog.Builder(this)
+                .chooseButton(R.string.choose_folder)
+                .initialPath(framesKonfigs.downloadsFolder)
+                .allowNewFolder(true, R.string.create_folder)
+                .build()
+        locationChooserDialog?.show(this)
+    }
+
+    fun clearDialog() {
+        locationChooserDialog?.dismiss()
+        locationChooserDialog = null
+    }
+
+    fun doFinish() {
         val intent = Intent()
-        intent.putExtra("favs", frag.currentFavorites)
-        setResult(11, intent)
+        intent.putExtra("clearedFavs", hasClearedFavs)
+        setResult(22, intent)
+        clearDialog()
         ActivityCompat.finishAfterTransition(this)
     }
+
+    override fun onFolderChooserDismissed(dialog:FolderChooserDialog) {
+        // Do nothing
+    }
+
+    override fun onFolderSelection(dialog:FolderChooserDialog, folder:File) {
+        framesKonfigs.downloadsFolder = folder.absolutePath
+        fragment.updateDownloadLocation()
+    }
+
+    override fun fragmentsContainer():Int = R.id.fragments_container
+
+    override fun hasBottomBar():Boolean = true
 
 }

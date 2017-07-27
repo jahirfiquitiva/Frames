@@ -65,6 +65,44 @@
 
     <string name="settings">Settings</string>
 
-    <!-- IMPORTANT: KEEP THIS EMPTY! -->
-    <string name="empty">""</string>
+    <string name="ui_settings_title">User Interface</string>
+
+    <string name="theme_setting_title">App theme</string>
+    <string name="theme_setting_content">Choose the main theme for the app</string>
+
+    <!-- Light Theme -->
+    <string name="light_theme">Light</string>
+    <!-- Dark Theme -->
+    <string name="dark_theme">Dark</string>
+    <!-- Amoled Theme -->
+    <string name="amoled_theme">Amoled</string>
+    <!-- Transparent Theme -->
+    <string name="transparent_theme">Transparent</string>
+    <!-- Automatic Light-Dark Theme -->
+    <string name="auto_dark">Automatic Light-Dark</string>
+    <!-- Automatic Light-Amoled Theme -->
+    <string name="auto_amoled">Automatic Light-Amoled</string>
+
+    <string name="navbar_color_setting_title">Color navigation bar</string>
+    <string name="navbar_color_setting_content">Color navigation bar with app\'s primary dark color</string>
+
+    <string name="wallpapers_columns_setting_title">Wallpapers columns</string>
+    <string name="wallpapers_columns_setting_content">Choose the amount of columns you want to see for wallpapers</string>
+
+    <string name="storage_settings_title">Storage</string>
+
+    <string name="wallpapers_download_location_setting_title">Wallpapers download location</string>
+    <string name="wallpapers_download_location_setting_content">Change location to download wallpapers.\nCurrent location: %1$s</string>
+
+    <string name="create_folder">Create folder</string>
+    <string name="choose_folder">Choose</string>
+
+    <string name="data_cache_setting_title">Clear app data and cache</string>
+    <string name="data_cache_setting_content">This will delete app cache and preferences.\nCurrent cache size: %1$s</string>
+    <string name="data_cache_confirmation">Are you sure you want to delete app data, cache and settings?</string>
+
+    <string name="clear_favorites_setting_title">Clear favorites database</string>
+    <string name="clear_favorites_setting_content">Clear the list of your favorite wallpapers</string>
+    <string name="clear_favorites_confirmation">Are you sure you want to delete the favorites database?</string>
+
 </resources>

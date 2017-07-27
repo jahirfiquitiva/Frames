@@ -18,6 +18,7 @@ package jahirfiquitiva.libs.frames.extensions
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.StateListDrawable
+import android.os.Environment
 import android.support.annotation.ColorInt
 import ca.allanwang.kau.utils.dimenPixelSize
 import ca.allanwang.kau.utils.tint
@@ -29,6 +30,8 @@ import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getColorFromRes
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.getInactiveIconsColorFor
+import java.io.File
+
 
 fun Context.getStatusBarHeight(force:Boolean = false):Int {
     var result = 0
@@ -74,4 +77,64 @@ inline fun Context.buildMaterialDialog(action:MaterialDialog.Builder.() -> Unit)
     val builder = MaterialDialog.Builder(this)
     builder.action()
     return builder.build()
+}
+
+val Context.dataCacheSize:String
+    get() {
+        var cache:Long = 0
+        var extCache:Long = 0
+
+        try {
+            cacheDir.listFiles().forEach {
+                cache += if (it.isDirectory) it.dirSize else it.length()
+            }
+        } catch (ignored:Exception) {
+        }
+
+        try {
+            externalCacheDir.listFiles().forEach {
+                extCache += if (it.isDirectory) it.dirSize else it.length()
+            }
+        } catch (ignored:Exception) {
+        }
+
+        val finalResult = ((cache + extCache) / 1024).toDouble()
+
+        return if (finalResult > 1024) String.format("%.2f", finalResult / 1024) + " MB"
+        else String.format("%.2f", finalResult) + " KB"
+    }
+
+fun Context.clearDataAndCache() {
+    val appDir = File(cacheDir?.parent)
+    appDir.let {
+        if (it.exists()) {
+            it.list().forEach {
+                if (!(it.equals("lib", true))) {
+                    deleteFile(File(appDir, it))
+                }
+            }
+        }
+    }
+    clearCache()
+    framesKonfigs.downloadsFolder = getString(R.string.default_download_folder,
+                                              Environment.getExternalStorageDirectory().absolutePath)
+}
+
+fun Context.clearCache() {
+    try {
+        cacheDir?.let {
+            deleteFile(it)
+        }
+    } catch (ignored:Exception) {
+    }
+}
+
+fun Context.deleteFile(f:File) {
+    if (f.isDirectory) {
+        f.list().forEach {
+            deleteFile(File(f, it))
+        }
+    } else {
+        f.delete()
+    }
 }

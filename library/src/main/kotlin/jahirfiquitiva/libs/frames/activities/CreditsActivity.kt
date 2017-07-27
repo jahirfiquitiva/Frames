@@ -29,13 +29,7 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.adapters.CreditsAdapter
 import jahirfiquitiva.libs.frames.holders.Credit
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
-import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
-import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
-import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
-import jahirfiquitiva.libs.kauextensions.extensions.tint
+import jahirfiquitiva.libs.kauextensions.extensions.*
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
 open class CreditsActivity:ThemedActivity() {
@@ -44,6 +38,7 @@ open class CreditsActivity:ThemedActivity() {
     override fun darkTheme():Int = R.style.DarkTheme
     override fun transparentTheme():Int = R.style.ClearTheme
     override fun amoledTheme():Int = R.style.AmoledTheme
+    override fun autoStatusBarTint():Boolean = true
 
     private lateinit var toolbar:Toolbar
     private lateinit var rv:EmptyViewRecyclerView
@@ -101,7 +96,6 @@ open class CreditsActivity:ThemedActivity() {
                         .setShowFullLicenseText(false)
                         .setIncludeOwnLicense(false)
                         .setDividerColor(dividerColor)
-                        .setThemeResourceId(getCustomTheme())
                         .build().show()
             }
         }
