@@ -76,6 +76,7 @@ dependencies {
     kapt 'android.arch.persistence.room:compiler:' + versions.archComponents
     // Material Dialogs
     compile 'com.afollestad.material-dialogs:core:' + versions.materialDialogs
+	compile 'com.afollestad.material-dialogs:commons:' + versions.materialDialogs
     // Volley
     compile 'com.android.volley:volley:' + versions.volley
     // Glide Image Loading
