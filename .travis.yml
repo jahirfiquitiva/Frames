@@ -33,7 +33,7 @@ notifications:
   slack: 
     rooms: jahirfiquitiva:w8qaFnNhW1jUcyryDYvAHgYK
     template: 
-      - "Build <%{build_url}|#%{build_number}> for (<%{compare_url}|%{commit}>) with message %{commit_message} of %{repository_name}@%{branch} by %{author}, %{result} in %{duration}. <%{build_url}|Check details>."
+      - "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) with message '*%{commit_message}*' for *%{repository_name}@%{branch}* by *%{author}*, *%{result}* in %{duration}. <%{build_url}|Check details>."
 
 sudo: false
 
