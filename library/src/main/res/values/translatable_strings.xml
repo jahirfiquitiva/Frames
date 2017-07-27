@@ -105,4 +105,16 @@
     <string name="clear_favorites_setting_content">Clear the list of your favorite wallpapers</string>
     <string name="clear_favorites_confirmation">Are you sure you want to delete the favorites database?</string>
 
+    <!-- License -->
+    <string name="license_valid_title">License valid</string>
+    <string name="license_valid_content">Thanks for downloading %1$s from a valid store. Enjoy it!</string>
+
+    <string name="license_invalid_title">You shall not pass!</string>
+    <string name="license_invalid_content">Sorry, but we have detected that your license for %1$s is not valid. This can also be because you are using pirate apps. %2$s. If you think this is an error, please try again later. Otherwise, please download the app from a valid store.</string>
+    <string name="license_invalid_content_extra">Or specifically: \'%1$s\' app, so please uninstall it</string>
+
+    <string name="license_error_title">Error</string>
+    <string name="license_error_content">Sorry, there was an error while checking your license. Please try again later.</string>
+    <string name="try_now">Try now</string>
+
 </resources>
