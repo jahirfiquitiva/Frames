@@ -19,7 +19,7 @@ ext.versions = [
         appId                 : "Frames",
         appGroup              : "jahirfiquitiva.apps",
         libGroup              : "jahirfiquitiva.libs",
-        minSdk                : 19,
+        minSdk                : 16,
         targetSdk             : 26,
         compileSdk            : 26,
         buildTools            : '26.0.1',

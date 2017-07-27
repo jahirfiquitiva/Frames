@@ -25,9 +25,16 @@ import android.view.WindowManager
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
 
+val Activity.hasVisibleNavigationBar:Boolean
+    get() {
+        val resId = resources.getIdentifier("config_showNavigationBar", "bool", "android")
+        return (resId > 0 && resources.getBoolean(resId))
+    }
+
 val Activity.navigationBarHeight:Int
     get() {
         var height = 0
+        if (!hasVisibleNavigationBar) return height
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val isTablet = resources.getBoolean(R.bool.md_is_tablet)
             val resourceId:Int
