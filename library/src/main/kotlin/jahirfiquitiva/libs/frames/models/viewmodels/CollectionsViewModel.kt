@@ -19,6 +19,7 @@ package jahirfiquitiva.libs.frames.models.viewmodels
 import jahirfiquitiva.libs.frames.models.Collection
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
+import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 
 class CollectionsViewModel:ListViewModel<Collection, ArrayList<Wallpaper>>() {
@@ -27,7 +28,7 @@ class CollectionsViewModel:ListViewModel<Collection, ArrayList<Wallpaper>>() {
         val collectionsMap = HashMap<String, ArrayList<Wallpaper>>()
         for ((index, wallpaper) in p.withIndex()) {
             val collectionsText = wallpaper.collections
-            if (collectionsText.isNotEmpty()) {
+            if (collectionsText.hasContent()) {
                 val collectionsList = collectionsText.split("[,|]".toRegex())
                 if (collectionsList.isNotEmpty()) {
                     collectionsList.forEach {

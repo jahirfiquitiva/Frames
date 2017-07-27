@@ -29,7 +29,8 @@ branches:
     - gh-pages
 
 notifications:
-  email: true
+  email: false
+  slack: jahirfiquitiva:w8qaFnNhW1jUcyryDYvAHgYK
 
 sudo: false
 

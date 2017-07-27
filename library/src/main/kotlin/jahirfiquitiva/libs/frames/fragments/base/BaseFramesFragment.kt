@@ -64,6 +64,13 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
         }
     }
 
+    open fun reloadData(section:Int) {
+        when (section) {
+            0, 1 -> wallpapersModel.loadData(context, true)
+            2 -> favoritesModel.loadData(getDatabase(), true)
+        }
+    }
+
     open fun doOnCollectionsChange(data:ArrayList<Collection>) {}
     abstract fun applyFilter(filter:String)
 }

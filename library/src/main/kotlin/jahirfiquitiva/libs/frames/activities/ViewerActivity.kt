@@ -71,6 +71,7 @@ open class ViewerActivity:ThemedActivity() {
     override fun darkTheme():Int = R.style.ViewerDarkTheme
     override fun amoledTheme():Int = R.style.ViewerAmoledTheme
     override fun transparentTheme():Int = R.style.ViewerClearTheme
+    override fun autoStatusBarTint():Boolean = false
 
     private var wallpaper:Wallpaper? = null
     private var actionDialog:MaterialDialog? = null
@@ -182,17 +183,13 @@ open class ViewerActivity:ThemedActivity() {
         }
         setResult(10, intent)
         properlyCancelDialog()
-        try {
-            ActivityCompat.finishAfterTransition(this)
-        } catch(ignored:Exception) {
-            finish()
-        }
+        ActivityCompat.finishAfterTransition(this)
     }
 
     private fun setupWallpaper(view:SubsamplingScaleImageView, wallpaper:Wallpaper?) {
         var bmp:Bitmap? = null
         val filename = intent?.getStringExtra("image") ?: ""
-        if (filename.isNotEmpty() && filename.isNotBlank()) {
+        if (filename.hasContent()) {
             try {
                 val stream = openFileInput(filename)
                 bmp = BitmapFactory.decodeStream(stream)
@@ -575,7 +572,7 @@ open class ViewerActivity:ThemedActivity() {
         }
     }
 
-    private fun properlyCancelDialog(){
+    private fun properlyCancelDialog() {
         actionDialog?.dismiss()
         actionDialog = null
     }
