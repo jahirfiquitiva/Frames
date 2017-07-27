@@ -22,8 +22,15 @@ import jahirfiquitiva.libs.frames.activities.FramesActivity
 class MainActivity:FramesActivity() {
     override fun donationsEnabled():Boolean = false
     override fun amazonInstallsEnabled():Boolean = false
-    override fun getLicKey():String? = null
-    override fun getLicenseChecker():PiracyChecker? = null
+
+    override fun getLicKey():String? = "your_key_here"
+
+    override fun getLicenseChecker():PiracyChecker? {
+        destroyChecker() // Important
+        // Create your own implementation if you want to. Otherwise, leave it as it is
+        if (BuildConfig.DEBUG) return null
+        return super.getLicenseChecker()
+    }
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)

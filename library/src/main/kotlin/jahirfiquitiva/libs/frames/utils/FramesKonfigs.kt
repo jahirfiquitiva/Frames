@@ -48,4 +48,8 @@ open class FramesKonfigs(nm:String, cntxt:Context):Konfigurations(nm, cntxt) {
                                 context.getString(R.string.default_download_folder,
                                                   Environment.getExternalStorageDirectory().absolutePath))
         set(value) = prefsEditor.putString(DOWNLOADS_FOLDER, value).apply()
+
+    var functionalDashboard:Boolean
+        get() = prefs.getBoolean(FUNCTIONAL_DASHBOARD, false)
+        set(value) = prefsEditor.putBoolean(FUNCTIONAL_DASHBOARD, value).apply()
 }
