@@ -139,6 +139,7 @@ open class ViewerActivity:ThemedActivity() {
             override fun onItemClick(item:FloatingToolbarItem?) {
                 item?.let { doItemClick(it) }
             }
+
             override fun onItemLongClick(item:FloatingToolbarItem?) {
                 // Do nothing
             }
@@ -170,7 +171,12 @@ open class ViewerActivity:ThemedActivity() {
     }
 
     override fun onBackPressed() {
-        doFinish()
+        if (floatingToolbar.isShowing) {
+            floatingToolbar.removeMorphListeners()
+            floatingToolbar.hide()
+        } else {
+            doFinish()
+        }
     }
 
     private fun doFinish() {

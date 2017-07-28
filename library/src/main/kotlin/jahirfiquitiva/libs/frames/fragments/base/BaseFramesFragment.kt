@@ -57,17 +57,23 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
         wallpapersModel.stopTask()
     }
 
-    override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollection:Boolean) {
-        if (!fromCollection) {
-            super.doOnWallpapersChange(data, fromCollection)
+    override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
+        super.doOnWallpapersChange(data, fromCollectionActivity)
+        if (!fromCollectionActivity) {
             collectionsModel.loadData(data)
         }
     }
 
     open fun reloadData(section:Int) {
         when (section) {
-            0, 1 -> wallpapersModel.loadData(context, true)
-            2 -> favoritesModel.loadData(getDatabase(), true)
+            0, 1 -> {
+                wallpapersModel.stopTask(true)
+                wallpapersModel.loadData(context, true)
+            }
+            2 -> {
+                favoritesModel.stopTask(true)
+                favoritesModel.loadData(getDatabase(), true)
+            }
         }
     }
 

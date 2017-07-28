@@ -26,12 +26,10 @@ class WallpapersFragment:BaseWallpapersFragment() {
         rv.state = EmptyViewRecyclerView.State.NORMAL
     }
 
-    override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollection:Boolean) {
-        super.doOnWallpapersChange(data, fromCollection)
-        if (data.size > 0) {
-            adapter.setItems(data)
-            rv.state = EmptyViewRecyclerView.State.NORMAL
-        }
+    override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
+        super.doOnWallpapersChange(data, fromCollectionActivity)
+        adapter.setItems(data)
+        rv.state = EmptyViewRecyclerView.State.NORMAL
     }
 
     override fun fromFavorites():Boolean = false

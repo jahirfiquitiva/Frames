@@ -31,6 +31,7 @@ import jahirfiquitiva.libs.frames.models.Collection
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
+import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
@@ -83,7 +84,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
     }
-  
+
     override fun applyFilter(filter:String) {
         collectionsModel.items.value?.let {
             if (filter.hasContent()) {
@@ -126,9 +127,8 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
 
     override fun doOnCollectionsChange(data:ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
-        if (data.size > 0) {
-            adapter.setItems(data)
-            rv.state = EmptyViewRecyclerView.State.NORMAL
-        }
+        data.forEach { context.printInfo("Found collection: " + it.toString()) }
+        adapter.setItems(data)
+        rv.state = EmptyViewRecyclerView.State.NORMAL
     }
 }
