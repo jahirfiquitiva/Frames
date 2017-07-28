@@ -36,8 +36,9 @@ open class AsyncTaskManager<Result, Parameter>(val param:Parameter,
             }
 
             override fun onPostExecute(result:Result?) {
+                super.onPostExecute(result)
                 result?.let {
-                    super.onPostExecute(it)
+                    onReady(it)
                 }
             }
         }
