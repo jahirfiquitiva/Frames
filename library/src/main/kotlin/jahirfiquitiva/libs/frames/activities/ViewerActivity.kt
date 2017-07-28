@@ -136,12 +136,11 @@ open class ViewerActivity:ThemedActivity() {
         setupWallpaper(image, wallpaper)
 
         floatingToolbar.setClickListener(object:FloatingToolbar.ItemClickListener {
+            override fun onItemClick(item:FloatingToolbarItem?) {
+                item?.let { doItemClick(it) }
+            }
             override fun onItemLongClick(item:FloatingToolbarItem?) {
                 // Do nothing
-            }
-
-            override fun onItemClick(item:FloatingToolbarItem?) {
-                item?.let { doItemClick(item) }
             }
         })
 

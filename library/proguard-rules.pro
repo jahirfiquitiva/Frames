@@ -38,7 +38,7 @@
 -dontwarn org.apache.**
 -dontwarn com.google.**
 -dontwarn autovalue.shaded.com.google.**
--dontwarn class com.android.vending.billing.**
+-dontwarn com.android.vending.billing.**
 
 -dontwarn
 -ignorewarnings
