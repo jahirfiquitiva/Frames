@@ -45,7 +45,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isFirstRunEver
 import jahirfiquitiva.libs.kauextensions.extensions.justUpdated
 import jahirfiquitiva.libs.kauextensions.extensions.printError
-import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 
 @Suppress("LeakingThis")
 abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
@@ -72,14 +71,26 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
         if (donationsEnabled) {
             if (BillingProcessor.isIabServiceAvailable(this)) {
                 destroyBillingProcessor()
-                billingProcessor = BillingProcessor.newBillingProcessor(this, getLicKey(), this)
-                billingProcessor?.let {
-                    donationsEnabled = it.isOneTimePurchaseSupported
+                val licKey:String? = getLicKey()
+                if (licKey != null) {
+                    billingProcessor = BillingProcessor(this, licKey, this)
+                    billingProcessor?.let {
+                        if (!it.isInitialized) {
+                            it.initialize()
+                        }
+                        try {
+                            donationsEnabled = it.isOneTimePurchaseSupported
+                        } catch (ignored:Exception) {
+                        }
+                    }
+                } else {
+                    donationsEnabled = false
                 }
             } else {
                 donationsEnabled = false
             }
         }
+        startLicenseCheck()
     }
 
     internal fun startLicenseCheck() {
@@ -222,8 +233,10 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
 
     internal fun initDonation() {
         destroyDialog()
-        billingProcessor?.initialize()
         billingProcessor?.let {
+            if (!it.isInitialized) {
+                it.initialize()
+            }
             if (it.isInitialized) {
                 val donationViewModel = IAPViewModel(it)
                 donationViewModel.items.observe(this, Observer<ArrayList<IAPItem>> {
@@ -237,6 +250,7 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
                     } else {
                         // TODO: Show some error
                     }
+                    donationViewModel.items.removeObservers(this@BaseFramesActivity)
                 })
                 dialog = buildMaterialDialog {
                     content(R.string.loading)
@@ -265,7 +279,6 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
     }
 
     override fun onProductPurchased(productId:String?, details:TransactionDetails?) {
-        printInfo("Product '$productId' has been purchased! Details: " + details.toString())
         productId?.let {
             billingProcessor?.let {
                 if (it.consumePurchase(productId)) {

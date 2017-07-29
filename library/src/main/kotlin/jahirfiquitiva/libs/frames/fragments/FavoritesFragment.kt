@@ -24,7 +24,6 @@ import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 class FavoritesFragment:BaseWallpapersFragment() {
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
-        data.forEach { context.printInfo("Found favorite: " + it.toString()) }
         adapter.setItems(data)
         rv.state = EmptyViewRecyclerView.State.NORMAL
     }

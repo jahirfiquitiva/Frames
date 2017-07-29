@@ -37,7 +37,7 @@ android {
     }
 
     defaultConfig {
-        applicationId versions.appGroup + "." + versions.appId.toLowerCase()
+        applicationId versions.appGroup + "." + versions.appId.toLowerCase() + ".sample"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
         versionCode versions.versionCode

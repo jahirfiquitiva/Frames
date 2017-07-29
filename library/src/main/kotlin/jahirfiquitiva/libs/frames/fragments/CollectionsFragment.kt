@@ -127,7 +127,6 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
 
     override fun doOnCollectionsChange(data:ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
-        data.forEach { context.printInfo("Found collection: " + it.toString()) }
         adapter.setItems(data)
         rv.state = EmptyViewRecyclerView.State.NORMAL
     }
