@@ -26,14 +26,11 @@ import android.support.design.widget.Snackbar
 import android.text.InputType
 import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.buildIsLollipopAndUp
+import ca.allanwang.kau.utils.snackbar
 import com.afollestad.materialdialogs.MaterialDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.activities.SettingsActivity
-import jahirfiquitiva.libs.frames.extensions.buildMaterialDialog
-import jahirfiquitiva.libs.frames.extensions.buildSnackbar
-import jahirfiquitiva.libs.frames.extensions.clearDataAndCache
-import jahirfiquitiva.libs.frames.extensions.dataCacheSize
-import jahirfiquitiva.libs.frames.extensions.framesKonfigs
+import jahirfiquitiva.libs.frames.extensions.*
 import jahirfiquitiva.libs.frames.fragments.base.PreferenceFragment
 import jahirfiquitiva.libs.frames.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.utils.DATABASE_NAME
@@ -166,38 +163,40 @@ open class SettingsFragment:PreferenceFragment() {
     }
 
     fun requestPermission() {
-        activity.kauRequestPermissions(
+        activity.checkPermission(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                callback = { granted, _ ->
-                    if (granted) {
-                        clearDialog()
-                        if (activity is SettingsActivity) {
-                            (activity as SettingsActivity).showLocationChooserDialog()
-                        }
-                    } else {
-                        activity.contentView?.let {
-                            val snack = it.buildSnackbar(
-                                    getString(R.string.permission_request,
-                                              activity.getAppName()),
-                                    builder = {
-                                        setAction(R.string.allow,
-                                                  { dismiss() })
-                                        addCallback(
-                                                object:Snackbar.Callback() {
-                                                    override fun onDismissed(
-                                                            transientBottomBar:Snackbar?,
-                                                            event:Int) {
-                                                        super.onDismissed(
-                                                                transientBottomBar,
-                                                                event)
-                                                        requestPermission()
-                                                    }
-                                                })
-                                    })
-                            snack.show()
-                        }
+                object:PermissionRequestListener {
+                    override fun onPermissionRequest(permission:String) {
+                        activity.requestPermissions(permission)
                     }
 
+                    override fun showPermissionInformation(permission:String) {
+                        activity.snackbar(getString(R.string.permission_request,
+                                                    activity.getAppName()),
+                                          builder = {
+                                              setAction(R.string.allow, { dismiss() })
+                                              addCallback(
+                                                      object:Snackbar.Callback() {
+                                                          override fun onDismissed(
+                                                                  transientBottomBar:Snackbar?,
+                                                                  event:Int) {
+                                                              super.onDismissed(
+                                                                      transientBottomBar,
+                                                                      event)
+                                                              onPermissionRequest(permission)
+                                                          }
+                                                      })
+                                          })
+                    }
+
+                    override fun onPermissionCompletelyDenied() {
+                        activity.snackbar(R.string.permission_denied_completely)
+                    }
+
+                    override fun onPermissionGranted() {
+                        if (activity is SettingsActivity)
+                            (activity as SettingsActivity).showLocationChooserDialog()
+                    }
                 })
     }
 

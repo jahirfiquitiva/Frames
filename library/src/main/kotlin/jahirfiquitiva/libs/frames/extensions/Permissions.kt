@@ -15,6 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.extensions
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
@@ -39,7 +40,7 @@ fun Activity.requestPermissions(vararg which:String) {
     ActivityCompat.requestPermissions(this, which, PERMISSION_REQUEST_CODE)
 }
 
-@TargetApi(Build.VERSION_CODES.M)
+@SuppressLint("NewApi")
 fun Activity.checkPermission(permission:String, listener:PermissionRequestListener) {
     if (shouldRequestPermission(permission)) {
         // Permission has not been granted

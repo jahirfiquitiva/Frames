@@ -48,9 +48,10 @@ import jahirfiquitiva.libs.kauextensions.extensions.printError
 
 @Suppress("LeakingThis")
 abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
-        LifecycleObserver, BillingProcessor.IBillingHandler {
+                                  LifecycleObserver, BillingProcessor.IBillingHandler {
 
     private var picker:Int = 0
+    private var donationsReady = false
 
     override fun lightTheme():Int = R.style.LightTheme
     override fun darkTheme():Int = R.style.DarkTheme
@@ -68,6 +69,12 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         picker = getPickerKey()
+        initDonations()
+        startLicenseCheck()
+    }
+
+    internal fun initDonations() {
+        if (donationsReady) return
         if (donationsEnabled) {
             if (BillingProcessor.isIabServiceAvailable(this)) {
                 destroyBillingProcessor()
@@ -82,6 +89,7 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
                             donationsEnabled = it.isOneTimePurchaseSupported
                         } catch (ignored:Exception) {
                         }
+                        donationsReady = true
                     }
                 } else {
                     donationsEnabled = false
@@ -90,7 +98,6 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
                 donationsEnabled = false
             }
         }
-        startLicenseCheck()
     }
 
     internal fun startLicenseCheck() {
@@ -207,7 +214,7 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
     internal fun showLicenseErrorDialog() {
         destroyDialog()
         dialog = buildMaterialDialog {
-            title(R.string.license_error_title)
+            title(R.string.error_title)
             content(R.string.license_error_content)
             positiveText(android.R.string.ok)
             neutralText(R.string.try_now)
@@ -231,7 +238,8 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
         dialog?.show()
     }
 
-    internal fun initDonation() {
+    internal fun doDonation() {
+        initDonations()
         destroyDialog()
         billingProcessor?.let {
             if (!it.isInitialized) {
@@ -245,10 +253,10 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
                         if (list.size > 0) {
                             showDonationDialog(list)
                         } else {
-                            // TODO: Show some error
+                            showDonationErrorDialog(0, null)
                         }
                     } else {
-                        // TODO: Show some error
+                        showDonationErrorDialog(0, null)
                     }
                     donationViewModel.items.removeObservers(this@BaseFramesActivity)
                 })
@@ -278,6 +286,14 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
         dialog?.show()
     }
 
+    private fun showDonationErrorDialog(error:Int, reason:String?) {
+        destroyDialog()
+        dialog = buildMaterialDialog {
+            title(R.string.error_title)
+            content(getString(R.string.donate_error, error.toString(), reason))
+        }
+    }
+
     override fun onProductPurchased(productId:String?, details:TransactionDetails?) {
         productId?.let {
             billingProcessor?.let {
@@ -295,9 +311,8 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
     }
 
     override fun onBillingError(errorCode:Int, error:Throwable?) {
-        printError(
-                "Unexpected error $errorCode occurred due to " + (error?.message ?: "unknown reasons"))
-        // TODO: Show error dialog
+        showDonationErrorDialog(errorCode,
+                                (error?.message ?: getString(R.string.donate_error_unknown)))
         destroyBillingProcessor()
     }
 
@@ -322,6 +337,7 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
     fun destroyBillingProcessor() {
         billingProcessor?.release()
         billingProcessor = null
+        donationsReady = false
     }
 
     override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?) {
