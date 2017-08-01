@@ -155,7 +155,7 @@ abstract class FramesActivity:BaseFramesActivity() {
             } else if (it.itemId == R.id.settings) {
                 startActivityForResult(Intent(this, SettingsActivity::class.java), 22)
             } else if (it.itemId == R.id.donate) {
-                initDonation()
+                doDonation()
             }
             // TODO: Manage other items
         }
