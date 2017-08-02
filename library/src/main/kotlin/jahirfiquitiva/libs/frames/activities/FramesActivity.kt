@@ -37,7 +37,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.getDisabledTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
-import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 
 abstract class FramesActivity:BaseFramesActivity() {
@@ -132,7 +131,6 @@ abstract class FramesActivity:BaseFramesActivity() {
                 override fun onMenuItemActionExpand(item:MenuItem?):Boolean = true
 
                 override fun onMenuItemActionCollapse(item:MenuItem?):Boolean {
-                    printInfo("Search collapsed")
                     searchView?.setQuery("", true)
                     doSearch()
                     return true
@@ -167,7 +165,6 @@ abstract class FramesActivity:BaseFramesActivity() {
         if (requestCode == 22) {
             data?.let {
                 val cleared = it.getBooleanExtra("clearedFavs", false)
-                printInfo("Has cleared favs? $cleared")
                 if (cleared) {
                     reloadFavorites()
                 }
