@@ -52,7 +52,7 @@ class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
     val amount:TextView = itemView.findViewById(R.id.collection_walls_number)
     val progress:ProgressBar = itemView.findViewById(R.id.loading)
     var bitmap:Bitmap? = null
-
+    
     fun setItem(collection:Collection, listener:(Collection, CollectionHolder) -> Unit) {
         with(itemView) {
             progress.gone()
@@ -73,7 +73,7 @@ class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
         }
         itemView.setOnClickListener { listener(collection, this) }
     }
-
+    
     fun loadImage(url:String, thumbUrl:String) {
         val target = object:BitmapImageViewTarget(img) {
             override fun setResource(resource:Bitmap?) {
@@ -102,7 +102,7 @@ class WallpaperHolder(itemView:View, val showFavIcon:Boolean = true):RecyclerVie
     val heartIcon:CheckableImageView = itemView.findViewById(R.id.heart_icon)
     val progress:ProgressBar = itemView.findViewById(R.id.loading)
     var bitmap:Bitmap? = null
-
+    
     fun setItem(wallpaper:Wallpaper, listener:(Wallpaper, WallpaperHolder) -> Unit,
                 heartListener:(CheckableImageView, Wallpaper) -> Unit,
                 check:Boolean = false) {
@@ -124,7 +124,7 @@ class WallpaperHolder(itemView:View, val showFavIcon:Boolean = true):RecyclerVie
         }
         itemView.setOnClickListener { listener(wallpaper, this) }
     }
-
+    
     fun loadImage(url:String, thumbUrl:String, check:Boolean) {
         val target = object:BitmapImageViewTarget(img) {
             override fun setResource(resource:Bitmap?) {

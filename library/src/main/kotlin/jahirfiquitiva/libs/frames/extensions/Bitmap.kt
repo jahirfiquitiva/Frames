@@ -21,13 +21,13 @@ import android.util.DisplayMetrics
 
 fun Bitmap.adjustToDeviceScreen(activity:Activity):Bitmap {
     var flag = true
-
+    
     val displayMetrics = DisplayMetrics()
     activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
-
+    
     val deviceWidth = displayMetrics.widthPixels
     val deviceHeight = displayMetrics.heightPixels
-
+    
     if (width > deviceWidth) {
         flag = false
         var scaledHeight = deviceHeight
@@ -41,7 +41,7 @@ fun Bitmap.adjustToDeviceScreen(activity:Activity):Bitmap {
             e.printStackTrace()
         }
     }
-
+    
     if (flag) {
         if (height > deviceHeight) {
             var scaledWidth = deviceHeight * width / height
@@ -54,6 +54,6 @@ fun Bitmap.adjustToDeviceScreen(activity:Activity):Bitmap {
             }
         }
     }
-
+    
     return this
 }

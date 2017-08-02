@@ -83,23 +83,23 @@ val Context.dataCacheSize:String
     get() {
         var cache:Long = 0
         var extCache:Long = 0
-
+        
         try {
             cacheDir.listFiles().forEach {
                 cache += if (it.isDirectory) it.dirSize else it.length()
             }
         } catch (ignored:Exception) {
         }
-
+        
         try {
             externalCacheDir.listFiles().forEach {
                 extCache += if (it.isDirectory) it.dirSize else it.length()
             }
         } catch (ignored:Exception) {
         }
-
+        
         val finalResult = ((cache + extCache) / 1024).toDouble()
-
+        
         return if (finalResult > 1024) String.format("%.2f", finalResult / 1024) + " MB"
         else String.format("%.2f", finalResult) + " KB"
     }

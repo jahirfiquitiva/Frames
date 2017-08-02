@@ -53,7 +53,7 @@ class CreditHeaderViewHolder(itemView:View?):SectionedViewHolder(itemView) {
     val divider:View? = itemView?.findViewById(R.id.section_divider)
     val title:TextView? = itemView?.findViewById(R.id.section_title)
     val icon:ImageView? = itemView?.findViewById(R.id.section_icon)
-
+    
     fun setTitle(@StringRes text:Int, expanded:Boolean = true, listener:() -> Unit = {}) {
         title?.setTextColor(itemView.context.primaryTextColor)
         title?.text = itemView.context.getString(text)
@@ -69,7 +69,7 @@ open class DashboardCreditViewHolder(itemView:View?):SectionedViewHolder(itemVie
     val name:TextView? = itemView?.findViewById(R.id.name)
     val description:TextView? = itemView?.findViewById(R.id.description)
     val buttons:SplitButtonsLayout? = itemView?.findViewById(R.id.buttons)
-
+    
     open fun setItem(credit:Credit, fillAvailableSpace:Boolean = true,
                      shouldHideButtons:Boolean = false) {
         photo?.let {

@@ -15,6 +15,7 @@
   ~ limitations under the License.
   -->
 <resources>
+
     <style name="LightTheme.SplashScreen">
         <item name="android:windowBackground">@drawable/splash_screen_light</item>
         <item name="colorPrimaryDark">@color/splash_light_status_bar</item>

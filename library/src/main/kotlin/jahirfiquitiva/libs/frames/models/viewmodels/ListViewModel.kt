@@ -24,7 +24,7 @@ abstract class ListViewModel<Parameter, Result>:ViewModel() {
     val items = MutableLiveData<ArrayList<Result>>()
     var param:Parameter? = null
     var task:AsyncTaskManager<ArrayList<Result>, Parameter>? = null
-
+    
     fun loadData(parameter:Parameter, forceLoad:Boolean = false) {
         param = parameter
         task = AsyncTaskManager(parameter, {},
@@ -32,11 +32,11 @@ abstract class ListViewModel<Parameter, Result>:ViewModel() {
                                 { postResult(it) })
         task?.execute()
     }
-
+    
     fun stopTask(interrupt:Boolean = false) {
         task?.cancelTask(interrupt)
     }
-
+    
     private fun internalLoad(param:Parameter, forceLoad:Boolean = false):ArrayList<Result> {
         if (forceLoad) {
             return ArrayList(loadItems(param).distinct())
@@ -50,10 +50,10 @@ abstract class ListViewModel<Parameter, Result>:ViewModel() {
             }
         }
     }
-
+    
     open fun postResult(data:ArrayList<Result>) {
         items.postValue(ArrayList(data.distinct()))
     }
-
+    
     abstract protected fun loadItems(param:Parameter):ArrayList<Result>
 }

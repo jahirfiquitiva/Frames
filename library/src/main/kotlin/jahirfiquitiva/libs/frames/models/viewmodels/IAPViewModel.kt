@@ -15,12 +15,11 @@
  */
 package jahirfiquitiva.libs.frames.models.viewmodels
 
-import android.util.Log
 import com.anjlab.android.iab.v3.BillingProcessor
 
 class IAPViewModel(val iapBillingProcessor:BillingProcessor):
         ListViewModel<Array<String>, IAPItem>() {
-
+    
     override fun loadItems(param:Array<String>):ArrayList<IAPItem> {
         val iaps = ArrayList<IAPItem>()
         param.forEach {

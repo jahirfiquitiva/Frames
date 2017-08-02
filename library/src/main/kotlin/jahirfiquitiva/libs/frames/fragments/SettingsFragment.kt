@@ -24,20 +24,24 @@ import android.preference.PreferenceCategory
 import android.preference.SwitchPreference
 import android.support.design.widget.Snackbar
 import android.text.InputType
-import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.buildIsLollipopAndUp
 import ca.allanwang.kau.utils.snackbar
 import com.afollestad.materialdialogs.MaterialDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.activities.SettingsActivity
-import jahirfiquitiva.libs.frames.extensions.*
+import jahirfiquitiva.libs.frames.extensions.PermissionRequestListener
+import jahirfiquitiva.libs.frames.extensions.buildMaterialDialog
+import jahirfiquitiva.libs.frames.extensions.checkPermission
+import jahirfiquitiva.libs.frames.extensions.clearDataAndCache
+import jahirfiquitiva.libs.frames.extensions.dataCacheSize
+import jahirfiquitiva.libs.frames.extensions.framesKonfigs
+import jahirfiquitiva.libs.frames.extensions.requestPermissions
 import jahirfiquitiva.libs.frames.fragments.base.PreferenceFragment
 import jahirfiquitiva.libs.frames.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.utils.DATABASE_NAME
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.konfigs
-import org.jetbrains.anko.contentView
 import org.jetbrains.anko.doAsync
 
 open class SettingsFragment:PreferenceFragment() {

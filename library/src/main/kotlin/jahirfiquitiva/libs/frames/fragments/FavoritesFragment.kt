@@ -18,7 +18,6 @@ package jahirfiquitiva.libs.frames.fragments
 
 import jahirfiquitiva.libs.frames.fragments.base.BaseWallpapersFragment
 import jahirfiquitiva.libs.frames.models.Wallpaper
-import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
 class FavoritesFragment:BaseWallpapersFragment() {

@@ -41,7 +41,14 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
-import ca.allanwang.kau.utils.*
+import ca.allanwang.kau.utils.gone
+import ca.allanwang.kau.utils.isColorDark
+import ca.allanwang.kau.utils.postDelayed
+import ca.allanwang.kau.utils.setMarginLeft
+import ca.allanwang.kau.utils.setMarginRight
+import ca.allanwang.kau.utils.setMarginTop
+import ca.allanwang.kau.utils.statusBarColor
+import ca.allanwang.kau.utils.tint
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
@@ -54,11 +61,35 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
 import com.github.rubensousa.floatingtoolbar.FloatingToolbarItem
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.extensions.*
+import jahirfiquitiva.libs.frames.extensions.PERMISSION_REQUEST_CODE
+import jahirfiquitiva.libs.frames.extensions.PermissionRequestListener
+import jahirfiquitiva.libs.frames.extensions.adjustToDeviceScreen
+import jahirfiquitiva.libs.frames.extensions.buildMaterialDialog
+import jahirfiquitiva.libs.frames.extensions.buildSnackbar
+import jahirfiquitiva.libs.frames.extensions.checkPermission
+import jahirfiquitiva.libs.frames.extensions.framesKonfigs
+import jahirfiquitiva.libs.frames.extensions.getStatusBarHeight
+import jahirfiquitiva.libs.frames.extensions.navigationBarHeight
+import jahirfiquitiva.libs.frames.extensions.requestPermissions
+import jahirfiquitiva.libs.frames.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.frames.utils.GlidePictureDownloader
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
-import jahirfiquitiva.libs.kauextensions.extensions.*
+import jahirfiquitiva.libs.kauextensions.extensions.accentColor
+import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
+import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
+import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
+import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.getAppName
+import jahirfiquitiva.libs.kauextensions.extensions.getColorFromRes
+import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
+import jahirfiquitiva.libs.kauextensions.extensions.getRippleColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.getUri
+import jahirfiquitiva.libs.kauextensions.extensions.hasContent
+import jahirfiquitiva.libs.kauextensions.extensions.isColorLight
+import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
+import jahirfiquitiva.libs.kauextensions.extensions.printError
+import jahirfiquitiva.libs.kauextensions.extensions.setupStatusBarStyle
 import org.jetbrains.anko.contentView
 import java.io.File
 import java.io.FileOutputStream
@@ -66,53 +97,53 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 open class ViewerActivity:ThemedActivity() {
-
+    
     override fun lightTheme():Int = R.style.ViewerLightTheme
     override fun darkTheme():Int = R.style.ViewerDarkTheme
     override fun amoledTheme():Int = R.style.ViewerAmoledTheme
     override fun transparentTheme():Int = R.style.ViewerTransparentTheme
     override fun autoStatusBarTint():Boolean = false
-
+    
     private var wallpaper:Wallpaper? = null
     private var actionDialog:MaterialDialog? = null
-
+    
     private lateinit var toolbar:Toolbar
     private lateinit var fab:FloatingActionButton
     private lateinit var floatingToolbar:FloatingToolbar
-
+    
     private var isInFavorites = false
     private var hasModifiedFavs = false
-
+    
     private val DOWNLOAD_ITEM_ID = 1
     private val APPLY_ITEM_ID = 2
     private val FAVORITE_ITEM_ID = 3
-
+    
     @ColorInt
     private var toolbarColor:Int = 0
-
+    
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_viewer)
-
+        
         wallpaper = intent?.getParcelableExtra("wallpaper")
-
+        
         isInFavorites = intent?.getBooleanExtra("inFavorites", false) ?: false
-
+        
         setupStatusBarStyle(true, false)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-
+        
         statusBarColor = Color.parseColor("#80000000")
-
+        
         toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.setMarginTop(getStatusBarHeight(true))
-
+        
         setSupportActionBar(toolbar)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-
+        
         toolbar.tint(getColorFromRes(android.R.color.white), false)
-
+        
         val toolbarTitle = findViewById<TextView>(R.id.toolbar_title)
         val toolbarSubtitle = findViewById<TextView>(R.id.toolbar_subtitle)
         ViewCompat.setTransitionName(toolbarTitle, intent?.getStringExtra("nameTransition") ?: "")
@@ -120,38 +151,38 @@ open class ViewerActivity:ThemedActivity() {
                                      intent?.getStringExtra("authorTransition") ?: "")
         toolbarTitle.text = wallpaper?.name ?: ""
         toolbarSubtitle.text = wallpaper?.author ?: ""
-
+        
         fab = findViewById(R.id.fab)
         floatingToolbar = findViewById(R.id.floatingToolbar)
         floatingToolbar.enableAutoHide(false)
-
+        
         toolbarColor = accentColor
         setupFabToolbarIcons()
-
+        
         floatingToolbar.attachFab(fab)
-
+        
         val image = findViewById<SubsamplingScaleImageView>(R.id.wallpaper)
         ViewCompat.setTransitionName(image, intent?.getStringExtra("imgTransition") ?: "")
-
+        
         setupWallpaper(image, wallpaper)
-
+        
         floatingToolbar.setClickListener(object:FloatingToolbar.ItemClickListener {
             override fun onItemClick(item:FloatingToolbarItem?) {
                 item?.let { doItemClick(it) }
             }
-
+            
             override fun onItemLongClick(item:FloatingToolbarItem?) {
                 // Do nothing
             }
         })
-
+        
         image.setOnClickListener { if (floatingToolbar.isShowing) floatingToolbar.hide() }
         image.setOnTouchListener { _, motionEvent ->
             if (floatingToolbar.isShowing) floatingToolbar.hide()
             return@setOnTouchListener image.onTouchEvent(motionEvent)
         }
     }
-
+    
     override fun onResume() {
         super.onResume()
         try {
@@ -162,14 +193,14 @@ open class ViewerActivity:ThemedActivity() {
         } catch (ignored:Exception) {
         }
     }
-
+    
     override fun onOptionsItemSelected(item:MenuItem?):Boolean {
         if (item?.itemId == android.R.id.home) {
             doFinish()
         }
         return super.onOptionsItemSelected(item)
     }
-
+    
     override fun onBackPressed() {
         if (floatingToolbar.isShowing) {
             floatingToolbar.removeMorphListeners()
@@ -178,7 +209,7 @@ open class ViewerActivity:ThemedActivity() {
             doFinish()
         }
     }
-
+    
     private fun doFinish() {
         val intent = Intent()
         intent.putExtra("modified", hasModifiedFavs)
@@ -190,7 +221,7 @@ open class ViewerActivity:ThemedActivity() {
         properlyCancelDialog()
         ActivityCompat.finishAfterTransition(this)
     }
-
+    
     private fun setupWallpaper(view:SubsamplingScaleImageView, wallpaper:Wallpaper?) {
         var bmp:Bitmap? = null
         val filename = intent?.getStringExtra("image") ?: ""
@@ -202,14 +233,14 @@ open class ViewerActivity:ThemedActivity() {
             } catch (ignored:Exception) {
             }
         }
-
+        
         val d:Drawable
         if (bmp != null) {
             d = GlideBitmapDrawable(resources, bmp)
         } else {
             d = ColorDrawable(ContextCompat.getColor(this, android.R.color.transparent))
         }
-
+        
         val target = object:SimpleTarget<Bitmap>() {
             override fun onResourceReady(resource:Bitmap?,
                                          anim:GlideAnimation<in Bitmap>?) {
@@ -229,43 +260,43 @@ open class ViewerActivity:ThemedActivity() {
                 }
             }
         }
-
+        
         wallpaper?.let {
             val thumbRequest = Glide.with(this).load(it.thumbUrl).asBitmap()
                     .placeholder(d).thumbnail(if (it.url.equals(it.thumbUrl, true)) 0.5F else 1F)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE).priority(Priority.IMMEDIATE)
-
+            
             Glide.with(this).load(it.url).asBitmap()
                     .placeholder(d).thumbnail(thumbRequest)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE).priority(Priority.HIGH)
                     .into(target)
         }
     }
-
+    
     private fun setupFabToolbarIcons() {
         fab.setImageDrawable(
                 "ic_plus".getDrawable(this).tint(getActiveIconsColorFor(toolbarColor, 0.6F)))
         val list = ArrayList<FloatingToolbarItem>()
-
+        
         val downloadIcon = "ic_download".getDrawable(this).tint(
                 getActiveIconsColorFor(toolbarColor, 0.6F))
         val downloadItem = FloatingToolbarItem(this, DOWNLOAD_ITEM_ID, R.string.download,
                                                downloadIcon)
         wallpaper?.let { if (it.downloadable) list.add(downloadItem) }
-
+        
         val applyIcon = "ic_apply_wallpaper".getDrawable(this).tint(
                 getActiveIconsColorFor(toolbarColor, 0.6F))
         val applyItem = FloatingToolbarItem(this, APPLY_ITEM_ID, R.string.apply, applyIcon)
         list.add(applyItem)
-
+        
         val favIcon = (if (isInFavorites) "ic_heart" else "ic_heart_outline").getDrawable(
                 this).tint(getActiveIconsColorFor(toolbarColor, 0.6F))
         val favItem = FloatingToolbarItem(this, FAVORITE_ITEM_ID, R.string.favorite, favIcon)
         list.add(favItem)
-
+        
         floatingToolbar.setItems(list)
     }
-
+    
     override fun onRequestPermissionsResult(requestCode:Int, permissions:Array<out String>,
                                             grantResults:IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -277,7 +308,7 @@ open class ViewerActivity:ThemedActivity() {
             }
         }
     }
-
+    
     private fun doItemClick(item:FloatingToolbarItem) {
         when (item.id) {
             DOWNLOAD_ITEM_ID -> downloadWallpaper()
@@ -285,7 +316,7 @@ open class ViewerActivity:ThemedActivity() {
             FAVORITE_ITEM_ID -> toggleFavorite()
         }
     }
-
+    
     @SuppressLint("NewApi")
     private fun downloadWallpaper() {
         checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -293,7 +324,7 @@ open class ViewerActivity:ThemedActivity() {
                             override fun onPermissionRequest(permission:String) {
                                 requestPermissions(permission)
                             }
-
+            
                             override fun showPermissionInformation(permission:String) {
                                 showSnackbar(getString(R.string.permission_request, getAppName()), {
                                     setAction(R.string.allow, { dismiss() })
@@ -306,17 +337,17 @@ open class ViewerActivity:ThemedActivity() {
                                     })
                                 })
                             }
-
+            
                             override fun onPermissionCompletelyDenied() {
                                 showSnackbar(R.string.permission_denied_completely)
                             }
-
+            
                             override fun onPermissionGranted() {
                                 checkIfFileExists()
                             }
                         })
     }
-
+    
     private fun checkIfFileExists() {
         wallpaper?.let {
             properlyCancelDialog()
@@ -345,7 +376,7 @@ open class ViewerActivity:ThemedActivity() {
             }
         }
     }
-
+    
     private fun startDownload(dest:File) {
         wallpaper?.let {
             properlyCancelDialog()
@@ -382,7 +413,7 @@ open class ViewerActivity:ThemedActivity() {
                                   ).execute(it.url)
         }
     }
-
+    
     private fun openWallpaper(uri:Uri) {
         val intent = Intent()
         intent.action = Intent.ACTION_VIEW
@@ -390,14 +421,14 @@ open class ViewerActivity:ThemedActivity() {
         intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         startActivity(intent)
     }
-
+    
     private fun getCurrentTimeStamp():String {
         val sdfDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val now = Date()
         val strDate = sdfDate.format(now)
         return strDate
     }
-
+    
     private fun getWallpaperExtension(currenExt:String):String {
         val validExtensions = arrayOf(".jpg", ".jpeg", ".png")
         validExtensions.forEach {
@@ -405,7 +436,7 @@ open class ViewerActivity:ThemedActivity() {
         }
         return ".png"
     }
-
+    
     private fun showWallpaperApplyOptions() {
         properlyCancelDialog()
         actionDialog = buildMaterialDialog {
@@ -419,7 +450,7 @@ open class ViewerActivity:ThemedActivity() {
         actionDialog?.setOnDismissListener { floatingToolbar.hide() }
         actionDialog?.show()
     }
-
+    
     private fun applyWallpaper(toHomescreen:Boolean, toLockscreen:Boolean, toBoth:Boolean) {
         wallpaper?.let {
             postDelayed(10, {
@@ -479,7 +510,7 @@ open class ViewerActivity:ThemedActivity() {
             })
         }
     }
-
+    
     private fun toggleFavorite() {
         if (isInFavorites) {
             isInFavorites = false
@@ -494,46 +525,46 @@ open class ViewerActivity:ThemedActivity() {
                     getActiveIconsColorFor(toolbarColor, 0.6F)))
         }
     }
-
+    
     private fun showSnackbar(@StringRes text:Int, settings:Snackbar.() -> Unit = {}) {
         showSnackbar(resources.getString(text), settings)
     }
-
+    
     private fun showSnackbar(text:String, settings:Snackbar.() -> Unit = {}) {
         if (floatingToolbar.isShowing) {
             floatingToolbar.removeMorphListeners()
-
+            
             val morphListener = object:FloatingToolbar.MorphListener {
                 override fun onMorphEnd() {
                     // Do nothing
                 }
-
+                
                 override fun onMorphStart() {
                     // Do nothing
                 }
-
+                
                 override fun onUnmorphStart() {
                     // Do nothing
                 }
-
+                
                 override fun onUnmorphEnd() {
                     justShowSnackbar(text, settings)
                 }
             }
-
+            
             floatingToolbar.addMorphListener(morphListener)
             floatingToolbar.hide()
         } else {
             justShowSnackbar(text, settings)
         }
     }
-
+    
     private fun justShowSnackbar(text:String, settings:Snackbar.() -> Unit) {
         contentView?.let {
             fab.hide()
-
+            
             val snack = it.buildSnackbar(text, builder = settings)
-
+            
             snack.addCallback(object:Snackbar.Callback() {
                 override fun onDismissed(transientBottomBar:Snackbar?,
                                          event:Int) {
@@ -544,7 +575,7 @@ open class ViewerActivity:ThemedActivity() {
                     floatingToolbar.removeMorphListeners()
                 }
             })
-
+            
             var bottomNavBar = 0
             var sideNavBar = 0
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -555,12 +586,12 @@ open class ViewerActivity:ThemedActivity() {
                     sideNavBar = navigationBarHeight
                 }
             }
-
+            
             var extraLeft = 0
             var extraRight = 0
             if (currentRotation == 90) extraRight = sideNavBar
             else if (currentRotation == 270) extraLeft = sideNavBar
-
+            
             snack.view.findViewById<TextView>(R.id.snackbar_text)?.setTextColor(Color.WHITE)
             snack.view.setPadding(snack.view.paddingLeft + extraLeft, snack.view.paddingTop,
                                   snack.view.paddingRight + extraRight,
@@ -576,10 +607,10 @@ open class ViewerActivity:ThemedActivity() {
             snack.show()
         }
     }
-
+    
     private fun properlyCancelDialog() {
         actionDialog?.dismiss()
         actionDialog = null
     }
-
+    
 }

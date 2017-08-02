@@ -17,18 +17,17 @@
 package jahirfiquitiva.libs.frames.adapters
 
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import ca.allanwang.kau.utils.inflate
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.holders.CollectionHolder
 import jahirfiquitiva.libs.frames.models.Collection
 
-class CollectionsAdapter(val listener:(Collection, CollectionHolder) -> Unit):BaseListAdapter<Collection, CollectionHolder>(){
+class CollectionsAdapter(
+        val listener:(Collection, CollectionHolder) -> Unit):BaseListAdapter<Collection, CollectionHolder>() {
     override fun doBind(holder:CollectionHolder, position:Int) {
         holder.setItem(list[position], listener)
     }
-
+    
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):CollectionHolder? =
             parent?.inflate(R.layout.item_collection)?.let { CollectionHolder(it) }
 }

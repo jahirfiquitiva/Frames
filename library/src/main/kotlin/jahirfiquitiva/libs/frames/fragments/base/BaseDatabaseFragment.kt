@@ -84,7 +84,9 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     }
 
     open fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {}
-    open fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean = false) {}
+    open fun doOnWallpapersChange(data:ArrayList<Wallpaper>,
+                                  fromCollectionActivity:Boolean = false) {
+    }
 
     internal fun getDatabase():FavoritesDao = database.favoritesDao()
     internal fun isInFavorites(item:Wallpaper) = favoritesModel.isInFavorites(item)

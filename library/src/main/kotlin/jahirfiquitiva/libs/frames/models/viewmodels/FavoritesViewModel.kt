@@ -31,7 +31,7 @@ class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
         }
         return list
     }
-
+    
     fun forceUpdateFavorites(items:List<Wallpaper>) {
         param?.let {
             AsyncTaskManager(it, {}, {
@@ -56,7 +56,7 @@ class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
             }, {})
         }
     }
-
+    
     fun isInFavorites(wallpaper:Wallpaper):Boolean {
         try {
             return items.value?.contains(wallpaper) ?: false
@@ -65,7 +65,7 @@ class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
             return false
         }
     }
-
+    
     fun addToFavorites(wallpaper:Wallpaper) {
         try {
             if (isInFavorites(wallpaper)) return
@@ -86,7 +86,7 @@ class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
             e.printStackTrace()
         }
     }
-
+    
     fun removeFromFavorites(wallpaper:Wallpaper) {
         try {
             if (!isInFavorites(wallpaper)) return
