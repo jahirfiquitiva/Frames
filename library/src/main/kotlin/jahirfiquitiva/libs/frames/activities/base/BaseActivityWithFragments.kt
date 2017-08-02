@@ -22,11 +22,11 @@ import jahirfiquitiva.libs.frames.extensions.framesKonfigs
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 
 abstract class BaseActivityWithFragments:ThemedActivity() {
-
+    
     abstract fun hasBottomBar():Boolean
     abstract fun fragmentsContainer():Int
     override fun autoStatusBarTint():Boolean = true
-
+    
     internal fun changeFragment(f:Fragment, tag:String? = null) {
         try {
             val manager = supportFragmentManager.beginTransaction()
@@ -41,7 +41,7 @@ abstract class BaseActivityWithFragments:ThemedActivity() {
         } catch (ignored:Exception) {
         }
     }
-
+    
     internal fun clearBackStack() {
         try {
             val manager = supportFragmentManager
@@ -53,7 +53,7 @@ abstract class BaseActivityWithFragments:ThemedActivity() {
             e.printStackTrace()
         }
     }
-
+    
     override fun onDestroy() {
         super.onDestroy()
         clearBackStack()

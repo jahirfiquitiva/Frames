@@ -20,10 +20,7 @@ import android.content.Context
 import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
 import android.view.animation.Animation
-import android.view.animation.LinearInterpolator
-import android.view.animation.ScaleAnimation
 import android.widget.Checkable
-import org.jetbrains.anko.runOnUiThread
 
 class CheckableImageView:AppCompatImageView, Checkable {
 

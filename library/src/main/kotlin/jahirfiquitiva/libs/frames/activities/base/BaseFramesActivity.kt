@@ -37,42 +37,48 @@ import jahirfiquitiva.libs.frames.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.models.viewmodels.IAPItem
 import jahirfiquitiva.libs.frames.models.viewmodels.IAPViewModel
-import jahirfiquitiva.libs.frames.utils.*
+import jahirfiquitiva.libs.frames.utils.ADW_ACTION
+import jahirfiquitiva.libs.frames.utils.APPLY_ACTION
+import jahirfiquitiva.libs.frames.utils.ICONS_APPLIER
+import jahirfiquitiva.libs.frames.utils.IMAGE_PICKER
+import jahirfiquitiva.libs.frames.utils.NOVA_ACTION
+import jahirfiquitiva.libs.frames.utils.PLAY_STORE_LINK_PREFIX
+import jahirfiquitiva.libs.frames.utils.TURBO_ACTION
+import jahirfiquitiva.libs.frames.utils.WALLS_PICKER
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getStringArray
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isFirstRunEver
 import jahirfiquitiva.libs.kauextensions.extensions.justUpdated
-import jahirfiquitiva.libs.kauextensions.extensions.printError
 
 @Suppress("LeakingThis")
 abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
                                   LifecycleObserver, BillingProcessor.IBillingHandler {
-
+    
     private var picker:Int = 0
     private var donationsReady = false
-
+    
     override fun lightTheme():Int = R.style.LightTheme
     override fun darkTheme():Int = R.style.DarkTheme
     override fun amoledTheme():Int = R.style.AmoledTheme
     override fun transparentTheme():Int = R.style.TransparentTheme
     override fun autoStatusBarTint():Boolean = true
-
+    
     private var checker:PiracyChecker? = null
     private var dialog:MaterialDialog? = null
     internal var billingProcessor:BillingProcessor? = null
-
+    
     val lcOwner = LifecycleRegistry(this)
     override fun getLifecycle():LifecycleRegistry = lcOwner
-
+    
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         picker = getPickerKey()
         initDonations()
         startLicenseCheck()
     }
-
+    
     internal fun initDonations() {
         if (donationsReady) return
         if (donationsEnabled) {
@@ -99,7 +105,7 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
             }
         }
     }
-
+    
     internal fun startLicenseCheck() {
         if (isFirstRunEver || justUpdated || (!framesKonfigs.functionalDashboard)) {
             checker = getLicenseChecker()
@@ -107,11 +113,11 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
                 override fun allow() {
                     showLicensedDialog()
                 }
-
+                
                 override fun dontAllow(error:PiracyCheckerError, app:PirateApp?) {
                     showNotLicensedDialog(app)
                 }
-
+                
                 override fun onError(error:PiracyCheckerError) {
                     super.onError(error)
                     showLicenseErrorDialog()
@@ -120,7 +126,7 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
             checker?.start()
         }
     }
-
+    
     internal fun getShortcut():String {
         if (intent != null && intent.dataString != null && intent.dataString.contains(
                 "_shortcut")) {
@@ -128,7 +134,7 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
         }
         return ""
     }
-
+    
     internal fun getPickerKey():Int {
         if (intent != null && intent.action != null) {
             when (intent.action) {
@@ -140,13 +146,13 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
         }
         return 0
     }
-
+    
     open var donationsEnabled = false
     open fun amazonInstallsEnabled():Boolean = false
     open fun checkLPF():Boolean = true
     open fun checkStores():Boolean = true
     abstract fun getLicKey():String?
-
+    
     // Not really needed to override
     open fun getLicenseChecker():PiracyChecker? {
         destroyChecker() // Important
@@ -161,7 +167,7 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
         checker.enableEmulatorCheck(true).enableDebugCheck()
         return checker
     }
-
+    
     internal fun showLicensedDialog() {
         destroyDialog()
         dialog = buildMaterialDialog {
@@ -174,7 +180,7 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
         dialog?.setOnCancelListener { framesKonfigs.functionalDashboard = true }
         dialog?.show()
     }
-
+    
     internal fun showNotLicensedDialog(pirateApp:PirateApp?) {
         destroyDialog()
         val pirateAppName = pirateApp?.name ?: ""
@@ -210,7 +216,7 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
         }
         dialog?.show()
     }
-
+    
     internal fun showLicenseErrorDialog() {
         destroyDialog()
         dialog = buildMaterialDialog {
@@ -237,7 +243,7 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
         }
         dialog?.show()
     }
-
+    
     internal fun doDonation() {
         initDonations()
         destroyDialog()
@@ -270,7 +276,7 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
             }
         }
     }
-
+    
     private fun showDonationDialog(items:ArrayList<IAPItem>) {
         destroyDialog()
         dialog = buildMaterialDialog {
@@ -285,7 +291,7 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
         }
         dialog?.show()
     }
-
+    
     private fun showDonationErrorDialog(error:Int, reason:String?) {
         destroyDialog()
         dialog = buildMaterialDialog {
@@ -293,7 +299,7 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
             content(getString(R.string.donate_error, error.toString(), reason))
         }
     }
-
+    
     override fun onProductPurchased(productId:String?, details:TransactionDetails?) {
         productId?.let {
             billingProcessor?.let {
@@ -309,13 +315,13 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
             }
         }
     }
-
+    
     override fun onBillingError(errorCode:Int, error:Throwable?) {
         showDonationErrorDialog(errorCode,
                                 (error?.message ?: getString(R.string.donate_error_unknown)))
         destroyBillingProcessor()
     }
-
+    
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     override fun onDestroy() {
         super.onDestroy()
@@ -323,23 +329,23 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
         destroyBillingProcessor()
         destroyChecker()
     }
-
+    
     fun destroyChecker() {
         checker?.destroy()
         checker = null
     }
-
+    
     fun destroyDialog() {
         dialog?.dismiss()
         dialog = null
     }
-
+    
     fun destroyBillingProcessor() {
         billingProcessor?.release()
         billingProcessor = null
         donationsReady = false
     }
-
+    
     override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?) {
         if (billingProcessor != null) {
             billingProcessor?.let {
@@ -351,11 +357,11 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
             super.onActivityResult(requestCode, resultCode, data)
         }
     }
-
+    
     override fun onBillingInitialized() {
         // Do nothing
     }
-
+    
     override fun onPurchaseHistoryRestored() {
         // Do nothing
     }

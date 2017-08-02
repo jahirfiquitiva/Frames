@@ -28,22 +28,22 @@ import jahirfiquitiva.libs.frames.holders.SimpleCreditViewHolder
 
 class CreditsAdapter(val credits:ArrayList<Credit>):
         SectionedRecyclerViewAdapter<SectionedViewHolder>() {
-
+    
     private val CREATOR_CREDIT_VIEW_TYPE = 0
     private val DASHBOARD_CREDIT_VIEW_TYPE = 1
     private val DEV_CONTRIBUTION_CREDIT_VIEW_TYPE = 2
     private val UI_CONTRIBUTION_CREDIT_VIEW_TYPE = 3
-
+    
     init {
         shouldShowHeadersForEmptySections(true)
         shouldShowFooters(false)
     }
-
+    
     override fun getSectionCount():Int = 4
-
+    
     override fun getItemViewType(section:Int, relativePosition:Int,
                                  absolutePosition:Int):Int = section
-
+    
     override fun onBindViewHolder(holder:SectionedViewHolder?, section:Int, relativePosition:Int,
                                   absolutePosition:Int) {
         holder?.let {
@@ -61,7 +61,7 @@ class CreditsAdapter(val credits:ArrayList<Credit>):
             }
         }
     }
-
+    
     override fun getItemCount(section:Int):Int {
         when (section) {
             0 -> return credits.filter { it.type == Credit.Type.CREATOR }.size
@@ -71,7 +71,7 @@ class CreditsAdapter(val credits:ArrayList<Credit>):
             else -> return 0
         }
     }
-
+    
     override fun onBindHeaderViewHolder(holder:SectionedViewHolder?, section:Int,
                                         expanded:Boolean) {
         if (holder is CreditHeaderViewHolder) {
@@ -91,7 +91,7 @@ class CreditsAdapter(val credits:ArrayList<Credit>):
             }
         }
     }
-
+    
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):SectionedViewHolder {
         when (viewType) {
             0, 1 -> return DashboardCreditViewHolder(parent?.inflate(R.layout.item_credits))
@@ -99,7 +99,7 @@ class CreditsAdapter(val credits:ArrayList<Credit>):
         }
         return CreditHeaderViewHolder(parent?.inflate(R.layout.item_section_header))
     }
-
+    
     override fun onBindFooterViewHolder(holder:SectionedViewHolder?, section:Int) {
         return
     }

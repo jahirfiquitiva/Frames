@@ -116,8 +116,9 @@
         <activity android:name=".activities.SettingsActivity"/>
 
         <!-- Picture Quality Configuration -->
-        <meta-data android:name="jahirfiquitiva.libs.frames.configs.GlideConfiguration"
-                   android:value="GlideModule"/>
+        <meta-data
+                android:name="jahirfiquitiva.libs.frames.configs.GlideConfiguration"
+                android:value="GlideModule"/>
 
     </application>
 

@@ -21,37 +21,37 @@ import jahirfiquitiva.libs.frames.adapters.presenters.ItemsAdapterPresenter
 
 abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>:
         RecyclerView.Adapter<VH>(), ItemsAdapterPresenter<T> {
-
+    
     val list = ArrayList<T>()
-
+    
     override fun onBindViewHolder(holder:VH, position:Int) {
         if (position in 0..itemCount) {
             doBind(holder, position)
         }
     }
-
+    
     abstract fun doBind(holder:VH, position:Int)
-
+    
     override fun getItemCount():Int = list.size
-
+    
     override fun clearList() {
         val size = itemCount
         list.clear()
         notifyItemRangeRemoved(0, size)
     }
-
+    
     override fun addAll(items:ArrayList<T>) {
         val prevSize = itemCount
         list.addAll(items)
         notifyItemRangeInserted(prevSize, items.size)
     }
-
+    
     override fun setItems(items:ArrayList<T>) {
         list.clear()
         list.addAll(items)
         notifyDataSetChanged()
     }
-
+    
     override fun removeItem(item:T) {
         val prevSize = itemCount
         val index = list.indexOf(item)
@@ -59,18 +59,18 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>:
         list.remove(item)
         notifyItemRangeRemoved(index, prevSize)
     }
-
+    
     override fun updateItem(item:T) {
         val prevSize = itemCount
         val index = list.indexOf(item)
         if (index < 0) return
         notifyItemRangeChanged(index, prevSize)
     }
-
+    
     override fun addItem(item:T) {
         val prevSize = itemCount
         list.add(item)
         notifyItemRangeInserted(prevSize, itemCount)
     }
-
+    
 }

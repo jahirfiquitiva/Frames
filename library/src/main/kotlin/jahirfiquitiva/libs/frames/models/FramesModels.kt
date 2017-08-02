@@ -40,7 +40,7 @@ data class Wallpaper(
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "ID")
         var id:Long = 0):Parcelable {
-
+    
     constructor(parcel:Parcel):this(
             parcel.readString(),
             parcel.readString(),
@@ -49,12 +49,12 @@ data class Wallpaper(
             parcel.readString(),
             parcel.readString(),
             parcel.readLong())
-
+    
     override fun equals(other:Any?):Boolean {
         if (other !is Wallpaper) return false
         return url.equals(other.url, true) || thumbUrl.equals(other.thumbUrl, true)
     }
-
+    
     override fun hashCode():Int {
         var result = name.hashCode()
         result = 31 * result + author.hashCode()
@@ -62,7 +62,7 @@ data class Wallpaper(
         result = 31 * result + thumbUrl.hashCode()
         return result
     }
-
+    
     override fun writeToParcel(parcel:Parcel, flags:Int) {
         parcel.writeString(name)
         parcel.writeString(author)
@@ -72,16 +72,16 @@ data class Wallpaper(
         parcel.writeString(thumbUrl)
         parcel.writeLong(id)
     }
-
+    
     override fun describeContents():Int {
         return 0
     }
-
+    
     companion object CREATOR:Parcelable.Creator<Wallpaper> {
         override fun createFromParcel(parcel:Parcel):Wallpaper {
             return Wallpaper(parcel)
         }
-
+        
         override fun newArray(size:Int):Array<Wallpaper?> {
             return arrayOfNulls(size)
         }
@@ -90,25 +90,25 @@ data class Wallpaper(
 
 data class Collection(val name:String,
                       var wallpapers:ArrayList<Wallpaper> = ArrayList<Wallpaper>()):Parcelable {
-
+    
     constructor(parcel:Parcel):this(parcel.readString()) {
         parcel.readTypedList(wallpapers, Wallpaper.CREATOR)
     }
-
+    
     override fun writeToParcel(parcel:Parcel, flags:Int) {
         parcel.writeString(name)
         parcel.writeTypedList(wallpapers)
     }
-
+    
     override fun describeContents():Int {
         return 0
     }
-
+    
     companion object CREATOR:Parcelable.Creator<Collection> {
         override fun createFromParcel(parcel:Parcel):Collection {
             return Collection(parcel)
         }
-
+        
         override fun newArray(size:Int):Array<Collection?> {
             return arrayOfNulls(size)
         }

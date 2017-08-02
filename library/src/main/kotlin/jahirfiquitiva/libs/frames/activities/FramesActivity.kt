@@ -24,7 +24,6 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
-import com.anjlab.android.iab.v3.BillingProcessor
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.adapters.FragmentsAdapter
@@ -40,23 +39,23 @@ import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 
 abstract class FramesActivity:BaseFramesActivity() {
-
+    
     private lateinit var toolbar:Toolbar
     private lateinit var pager:ViewPager
     private lateinit var tabs:TabLayout
-
+    
     private var searchView:SearchView? = null
     private var lastSection = 1
-
+    
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
+        
         pager = findViewById<ViewPager>(R.id.pager)
-
+        
         pager.adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
                                          WallpapersFragment(), FavoritesFragment())
         tabs = findViewById<TabLayout>(R.id.tabs)
@@ -70,11 +69,11 @@ abstract class FramesActivity:BaseFramesActivity() {
             override fun onTabReselected(tab:TabLayout.Tab?) {
                 return
             }
-
+            
             override fun onTabUnselected(tab:TabLayout.Tab?) {
                 // Do nothing
             }
-
+            
             override fun onTabSelected(tab:TabLayout.Tab?) {
                 tab?.let {
                     lastSection = it.position
@@ -95,14 +94,14 @@ abstract class FramesActivity:BaseFramesActivity() {
         pager.offscreenPageLimit = tabs.tabCount
         pager.setCurrentItem(1, true)
     }
-
+    
     override fun onCreateOptionsMenu(menu:Menu?):Boolean {
         menuInflater.inflate(R.menu.frames_menu, menu)
-
+        
         menu?.let {
             val donationItem = it.findItem(R.id.donate)
             donationItem?.isVisible = donationsEnabled
-
+            
             val searchItem = it.findItem(R.id.search)
             searchView = searchItem.actionView as SearchView
             searchView?.let {
@@ -116,7 +115,7 @@ abstract class FramesActivity:BaseFramesActivity() {
                             }
                             return false
                         }
-
+                        
                         override fun onQueryTextChange(newText:String?):Boolean {
                             newText?.let {
                                 doSearch(it.trim())
@@ -129,7 +128,7 @@ abstract class FramesActivity:BaseFramesActivity() {
             }
             searchItem.setOnActionExpandListener(object:MenuItem.OnActionExpandListener {
                 override fun onMenuItemActionExpand(item:MenuItem?):Boolean = true
-
+                
                 override fun onMenuItemActionCollapse(item:MenuItem?):Boolean {
                     searchView?.setQuery("", true)
                     doSearch()
@@ -137,13 +136,13 @@ abstract class FramesActivity:BaseFramesActivity() {
                 }
             })
         }
-
+        
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
                      getSecondaryTextColorFor(primaryColor, 0.6F),
                      getActiveIconsColorFor(primaryColor, 0.6F))
         return super.onCreateOptionsMenu(menu)
     }
-
+    
     override fun onOptionsItemSelected(item:MenuItem?):Boolean {
         item?.let {
             if (it.itemId == R.id.refresh) {
@@ -159,7 +158,7 @@ abstract class FramesActivity:BaseFramesActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
+    
     override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 22) {
@@ -171,18 +170,18 @@ abstract class FramesActivity:BaseFramesActivity() {
             }
         }
     }
-
+    
     override fun onSaveInstanceState(outState:Bundle?) {
         outState?.putInt("current", lastSection)
         super.onSaveInstanceState(outState)
     }
-
+    
     override fun onRestoreInstanceState(savedInstanceState:Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
         lastSection = savedInstanceState?.getInt("current", 1) ?: 1
         pager.setCurrentItem(lastSection, true)
     }
-
+    
     private fun doSearch(filter:String = "") {
         val adapter = pager.adapter
         if (adapter is FragmentsAdapter) {
@@ -197,7 +196,7 @@ abstract class FramesActivity:BaseFramesActivity() {
             }
         }
     }
-
+    
     private fun refreshContent() {
         val adapter = pager.adapter
         if (adapter is FragmentsAdapter) {
@@ -212,7 +211,7 @@ abstract class FramesActivity:BaseFramesActivity() {
             }
         }
     }
-
+    
     private fun reloadFavorites() {
         val adapter = pager.adapter
         if (adapter is FragmentsAdapter) {
@@ -227,5 +226,5 @@ abstract class FramesActivity:BaseFramesActivity() {
             }
         }
     }
-
+    
 }

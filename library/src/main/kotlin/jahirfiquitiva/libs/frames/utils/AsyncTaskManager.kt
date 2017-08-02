@@ -21,20 +21,20 @@ open class AsyncTaskManager<Result, Parameter>(val param:Parameter,
                                                val onPreEx:() -> Unit,
                                                val loadStuff:(param:Parameter) -> Result,
                                                val onReady:(Result) -> Unit) {
-
+    
     private var task:AsyncTask<Unit, Unit, Result>
-
+    
     init {
         task = object:AsyncTask<Unit, Unit, Result>() {
             override fun onPreExecute() {
                 super.onPreExecute()
                 onPreEx()
             }
-
+            
             override fun doInBackground(vararg params:Unit?):Result {
                 return loadStuff(param)
             }
-
+            
             override fun onPostExecute(result:Result?) {
                 super.onPostExecute(result)
                 result?.let {
@@ -43,14 +43,14 @@ open class AsyncTaskManager<Result, Parameter>(val param:Parameter,
             }
         }
     }
-
+    
     fun execute() {
         try {
             task.execute()
         } catch (ignored:Exception) {
         }
     }
-
+    
     fun cancelTask(interrupt:Boolean = false) {
         try {
             task.cancel(interrupt)

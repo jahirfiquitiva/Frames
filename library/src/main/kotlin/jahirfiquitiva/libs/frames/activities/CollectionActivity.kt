@@ -35,66 +35,66 @@ import jahirfiquitiva.libs.kauextensions.extensions.setupStatusBarStyle
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 
 open class CollectionActivity:BaseActivityWithFragments() {
-
+    
     override fun lightTheme():Int = R.style.LightTheme
     override fun darkTheme():Int = R.style.DarkTheme
     override fun transparentTheme():Int = R.style.TransparentTheme
     override fun amoledTheme():Int = R.style.AmoledTheme
     override fun hasBottomBar():Boolean = true
     override fun fragmentsContainer():Int = R.id.fragments_container
-
+    
     private var collection:Collection? = null
     private lateinit var frag:WallpapersInCollectionFragment
-
+    
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_with_fragments)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         val toolbarTitle = findViewById<TextView>(R.id.toolbar_title)
-
+        
         setSupportActionBar(toolbar)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-
+        
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
                      getSecondaryTextColorFor(primaryColor, 0.6F),
                      getActiveIconsColorFor(primaryColor, 0.6F))
         toolbarTitle.setTextColor(getPrimaryTextColorFor(primaryColor, 0.6F))
         setupStatusBarStyle(false)
-
+        
         val container = findViewById<FrameLayout>(fragmentsContainer())
         container?.let {
             it.setPadding(it.paddingLeft, it.paddingTop, it.paddingRight, 0)
         }
-
+        
         ViewCompat.setTransitionName(toolbarTitle, "title")
-
+        
         collection = intent?.getParcelableExtra<Collection>("item")
         toolbarTitle.text = collection?.name ?: ""
-
+        
         val bundle = Bundle()
         bundle.putParcelable("collection", collection)
         frag = WallpapersInCollectionFragment.newInstance(bundle)
         changeFragment(frag)
     }
-
+    
     override fun onOptionsItemSelected(item:MenuItem?):Boolean {
         if (item?.itemId == android.R.id.home) {
             doFinish()
         }
         return super.onOptionsItemSelected(item)
     }
-
+    
     override fun onBackPressed() {
         doFinish()
     }
-
+    
     private fun doFinish() {
         val intent = Intent()
         intent.putExtra("favs", frag.currentFavorites)
         setResult(11, intent)
         ActivityCompat.finishAfterTransition(this)
     }
-
+    
 }

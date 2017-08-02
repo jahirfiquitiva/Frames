@@ -16,14 +16,10 @@
 package jahirfiquitiva.libs.frames.extensions
 
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Build
 import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.buildIsMarshmallowAndUp
 
 const val PERMISSION_REQUEST_CODE = 42

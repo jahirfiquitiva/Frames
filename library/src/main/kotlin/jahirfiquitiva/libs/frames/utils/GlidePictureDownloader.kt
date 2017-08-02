@@ -27,10 +27,10 @@ import java.util.concurrent.*
 
 class GlidePictureDownloader(val glide:RequestManager,
                              val onResult:(result:Result) -> Unit = {}):AsyncTask<String, File, Result>() {
-
+    
     override fun doInBackground(vararg params:String?):Result {
         val requests = arrayOfNulls<FutureTarget<*>>(params.size)
-
+        
         // fire everything into Glide queue
         for (i in 0..params.size - 1) {
             if (isCancelled) {
@@ -40,7 +40,7 @@ class GlidePictureDownloader(val glide:RequestManager,
                     .load(params[i])
                     .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
         }
-
+        
         val result = Result()
         for (i in 0..params.size - 1) {
             if (isCancelled) {
@@ -62,22 +62,22 @@ class GlidePictureDownloader(val glide:RequestManager,
         }
         return result
     }
-
+    
     override fun onProgressUpdate(vararg values:File) {
         for (file in values) {
             Log.v("WallpaperDownload", "Finished " + file)
         }
     }
-
+    
     override fun onPostExecute(result:Result?) {
         super.onPostExecute(result)
         result?.let {
             Log.i("WallpaperDownload", String.format(Locale.ROOT, "Downloaded %d files, %d failed.",
-                                                it.success.size, it.failures.size))
+                                                     it.success.size, it.failures.size))
             onResult(it)
         }
     }
-
+    
 }
 
 class Result {

@@ -26,29 +26,29 @@ open class FramesKonfigs(nm:String, cntxt:Context):Konfigurations(nm, cntxt) {
     companion object {
         fun newInstance(name:String, context:Context) = FramesKonfigs(name, context)
     }
-
+    
     var backupJson:String
         get() = prefs.getString(BACKUP_JSON, "[]")
         set(value) = prefsEditor.putString(BACKUP_JSON, value).apply()
-
+    
     var columns:Int
         get() = prefs.getInt(COLUMNS_NUMBER, if (context.isInHorizontalMode) 3 else 2)
         set(value) = prefsEditor.putInt(COLUMNS_NUMBER, value).apply()
-
+    
     var animationsEnabled:Boolean
         get() = prefs.getBoolean(ANIMATIONS_ENABLED, true)
         set(value) = prefsEditor.putBoolean(ANIMATIONS_ENABLED, value).apply()
-
+    
     var storagePermissionRequested:Boolean
         get() = prefs.getBoolean(STORAGE_PERMISSION_REQUESTED, false)
         set(value) = prefsEditor.putBoolean(STORAGE_PERMISSION_REQUESTED, value).apply()
-
+    
     var downloadsFolder:String
         get() = prefs.getString(DOWNLOADS_FOLDER,
                                 context.getString(R.string.default_download_folder,
                                                   Environment.getExternalStorageDirectory().absolutePath))
         set(value) = prefsEditor.putString(DOWNLOADS_FOLDER, value).apply()
-
+    
     var functionalDashboard:Boolean
         get() = prefs.getBoolean(FUNCTIONAL_DASHBOARD, false)
         set(value) = prefsEditor.putBoolean(FUNCTIONAL_DASHBOARD, value).apply()

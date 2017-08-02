@@ -50,8 +50,8 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
         }
         return list
     }
-
-
+    
+    
     private fun loadWallpapers(context:Context, response:String):ArrayList<Wallpaper> {
         if (response.hasContent()) {
             context.framesKonfigs.backupJson = response
@@ -65,7 +65,7 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
             }
         }
     }
-
+    
     private fun buildWallpapersListFromJson(json:JSONArray):ArrayList<Wallpaper> {
         val fWallpapers = ArrayList<Wallpaper>()
         for (index in 0..json.length()) {
@@ -122,5 +122,5 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
         fWallpapers.distinct()
         return fWallpapers
     }
-
+    
 }

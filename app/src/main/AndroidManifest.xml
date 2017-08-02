@@ -18,7 +18,7 @@
           package="jahirfiquitiva.apps.frames.sample">
 
     <!-- Permission required for donations -->
-    <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="com.android.vending.BILLING"/>
 
     <application
             android:allowBackup="true"

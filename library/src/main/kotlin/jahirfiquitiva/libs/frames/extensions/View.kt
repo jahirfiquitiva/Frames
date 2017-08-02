@@ -89,7 +89,7 @@ fun View.setNavBarMargins() {
     val top = if (this is FloatingActionButton) 16.dpToPx else 0
     var bottomNavBar = 0
     var sideNavBar = 0
-
+    
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         val tabletMode = context.resources.getBoolean(R.bool.md_is_tablet)
         if (tabletMode || context.isInPortraitMode) {
@@ -98,16 +98,16 @@ fun View.setNavBarMargins() {
             sideNavBar = (context as? Activity)?.navigationBarHeight ?: 0
         }
     }
-
+    
     val navBar = (context as? Activity)?.navigationBarHeight ?: 0
     if (bottom > bottomNavBar && bottom - navBar > 0) bottom -= navBar
     if (right > sideNavBar && right - navBar > 0) right -= navBar
-
+    
     var extraLeft = 0
     var extraRight = 0
     if (context.currentRotation == 90) extraRight = sideNavBar
     else if (context.currentRotation == 270) extraLeft = sideNavBar
-
+    
     params.setMargins(left + extraLeft, top, right + extraRight, bottom + bottomNavBar)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
         params.marginEnd = right + extraRight

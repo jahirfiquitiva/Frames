@@ -76,7 +76,7 @@ dependencies {
     kapt 'android.arch.persistence.room:compiler:' + versions.archComponents
     // Material Dialogs
     compile 'com.afollestad.material-dialogs:core:' + versions.materialDialogs
-	compile 'com.afollestad.material-dialogs:commons:' + versions.materialDialogs
+    compile 'com.afollestad.material-dialogs:commons:' + versions.materialDialogs
     // Volley
     compile 'com.android.volley:volley:' + versions.volley
     // Glide Image Loading
@@ -84,7 +84,7 @@ dependencies {
     // annotationProcessor 'com.github.bumptech.glide:compiler:' + versions.glide
     // kapt 'com.github.bumptech.glide:compiler:' + versions.glide
     // KAU Extensions
-    compile'me.jahirfiquitiva:KAUExtensions:' + versions.kauExt
+    compile 'me.jahirfiquitiva:KAUExtensions:' + versions.kauExt
     // Sectioned RecyclerView
     compile 'com.afollestad:sectioned-recyclerview:' + versions.sectionedRecyclerView
     // RecyclerView Fast Scroller
