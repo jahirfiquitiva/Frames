@@ -118,6 +118,9 @@ class WallpaperHolder(itemView:View, val showFavIcon:Boolean = true):RecyclerVie
             author.text = wallpaper.author
             if (showFavIcon) {
                 heartIcon.setOnClickListener { heartListener(heartIcon, wallpaper) }
+                heartIcon.setImageDrawable(itemView.context.createHeartSelector())
+                heartIcon.isChecked = check
+                heartIcon.visible()
             } else {
                 heartIcon.gone()
             }
@@ -145,7 +148,6 @@ class WallpaperHolder(itemView:View, val showFavIcon:Boolean = true):RecyclerVie
                         TextViewCompat.setTextAppearance(author, R.style.DetailsText_Small)
                     }
                     heartIcon.isChecked = check
-                    heartIcon.visible()
                 }
             }
         }

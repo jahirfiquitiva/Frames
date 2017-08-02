@@ -59,7 +59,7 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
-import com.github.rubensousa.floatingtoolbar.FloatingToolbarItem
+import com.github.rubensousa.floatingtoolbar.FloatingToolbarMenuBuilder
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.extensions.PERMISSION_REQUEST_CODE
 import jahirfiquitiva.libs.frames.extensions.PermissionRequestListener
@@ -89,6 +89,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isColorLight
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
 import jahirfiquitiva.libs.kauextensions.extensions.printError
+import jahirfiquitiva.libs.kauextensions.extensions.setOptionIcon
 import jahirfiquitiva.libs.kauextensions.extensions.setupStatusBarStyle
 import org.jetbrains.anko.contentView
 import java.io.File
@@ -167,11 +168,11 @@ open class ViewerActivity:ThemedActivity() {
         setupWallpaper(image, wallpaper)
         
         floatingToolbar.setClickListener(object:FloatingToolbar.ItemClickListener {
-            override fun onItemClick(item:FloatingToolbarItem?) {
+            override fun onItemClick(item:MenuItem?) {
                 item?.let { doItemClick(it) }
             }
             
-            override fun onItemLongClick(item:FloatingToolbarItem?) {
+            override fun onItemLongClick(item:MenuItem?) {
                 // Do nothing
             }
         })
@@ -276,25 +277,38 @@ open class ViewerActivity:ThemedActivity() {
     private fun setupFabToolbarIcons() {
         fab.setImageDrawable(
                 "ic_plus".getDrawable(this).tint(getActiveIconsColorFor(toolbarColor, 0.6F)))
-        val list = ArrayList<FloatingToolbarItem>()
+        // val list = ArrayList<FloatingToolbarItem>()
+        val menuBuilder = FloatingToolbarMenuBuilder(this)
         
         val downloadIcon = "ic_download".getDrawable(this).tint(
                 getActiveIconsColorFor(toolbarColor, 0.6F))
+        /*
         val downloadItem = FloatingToolbarItem(this, DOWNLOAD_ITEM_ID, R.string.download,
                                                downloadIcon)
         wallpaper?.let { if (it.downloadable) list.add(downloadItem) }
+        */
+        wallpaper?.let {
+            if (it.downloadable) menuBuilder.addItem(DOWNLOAD_ITEM_ID, downloadIcon,
+                                                     R.string.download)
+        }
         
         val applyIcon = "ic_apply_wallpaper".getDrawable(this).tint(
                 getActiveIconsColorFor(toolbarColor, 0.6F))
+        /*
         val applyItem = FloatingToolbarItem(this, APPLY_ITEM_ID, R.string.apply, applyIcon)
         list.add(applyItem)
+        */
+        menuBuilder.addItem(APPLY_ITEM_ID, applyIcon, R.string.apply)
         
         val favIcon = (if (isInFavorites) "ic_heart" else "ic_heart_outline").getDrawable(
                 this).tint(getActiveIconsColorFor(toolbarColor, 0.6F))
+        /*
         val favItem = FloatingToolbarItem(this, FAVORITE_ITEM_ID, R.string.favorite, favIcon)
         list.add(favItem)
+        */
+        menuBuilder.addItem(FAVORITE_ITEM_ID, favIcon, R.string.favorite)
         
-        floatingToolbar.setItems(list)
+        floatingToolbar.setMenu(menuBuilder.build())
     }
     
     override fun onRequestPermissionsResult(requestCode:Int, permissions:Array<out String>,
@@ -309,8 +323,8 @@ open class ViewerActivity:ThemedActivity() {
         }
     }
     
-    private fun doItemClick(item:FloatingToolbarItem) {
-        when (item.id) {
+    private fun doItemClick(item:MenuItem) {
+        when (item.itemId) {
             DOWNLOAD_ITEM_ID -> downloadWallpaper()
             APPLY_ITEM_ID -> showWallpaperApplyOptions()
             FAVORITE_ITEM_ID -> toggleFavorite()
@@ -512,18 +526,18 @@ open class ViewerActivity:ThemedActivity() {
     }
     
     private fun toggleFavorite() {
-        if (isInFavorites) {
-            isInFavorites = false
-            hasModifiedFavs = true
-            floatingToolbar.updateItemIcon(FAVORITE_ITEM_ID,
-                                           "ic_heart_outline".getDrawable(this).tint(
-                                                   getActiveIconsColorFor(toolbarColor, 0.6F)))
-        } else {
-            isInFavorites = true
-            hasModifiedFavs = true
-            floatingToolbar.updateItemIcon(FAVORITE_ITEM_ID, "ic_heart".getDrawable(this).tint(
-                    getActiveIconsColorFor(toolbarColor, 0.6F)))
+        val ftMenu = floatingToolbar.menu
+        ftMenu?.setOptionIcon(FAVORITE_ITEM_ID,
+                              (if (isInFavorites) "ic_heart_outline" else "ic_heart").getDrawable(
+                                      this).tint(getActiveIconsColorFor(toolbarColor, 0.6F)))
+        floatingToolbar.menu = ftMenu
+        wallpaper?.let {
+            showSnackbar(getString(
+                    (if (isInFavorites) R.string.removed_from_favorites else R.string.added_to_favorites),
+                    it.name))
         }
+        hasModifiedFavs = true
+        isInFavorites = !isInFavorites
     }
     
     private fun showSnackbar(@StringRes text:Int, settings:Snackbar.() -> Unit = {}) {
@@ -566,8 +580,7 @@ open class ViewerActivity:ThemedActivity() {
             val snack = it.buildSnackbar(text, builder = settings)
             
             snack.addCallback(object:Snackbar.Callback() {
-                override fun onDismissed(transientBottomBar:Snackbar?,
-                                         event:Int) {
+                override fun onDismissed(transientBottomBar:Snackbar?, event:Int) {
                     super.onDismissed(transientBottomBar, event)
                     fab.setNavBarMargins()
                     floatingToolbar.setNavBarMargins()

@@ -27,12 +27,6 @@
         <license>CreativeCommons Attribution-ShareAlike 4.0 International License</license>
     </notice>
     <notice>
-        <name>Floating Toolbar</name>
-        <url>https://github.com/jahirfiquitiva/FloatingToolbar</url>
-        <copyright>Copyright (c) 2016-2017 Rúben Sousa</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
-    <notice>
         <name>Material Dialogs</name>
         <url>https://github.com/afollestad/material-dialogs</url>
         <copyright>Copyright (c) 2014-2017 Aidan Michael Follestad</copyright>
@@ -66,6 +60,12 @@
         <name>RecyclerFastScroll</name>
         <url>https://github.com/plusCubed/recycler-fast-scroll</url>
         <copyright>Copyright 2016 Daniel Ciao</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Floating Toolbar</name>
+        <url>https://github.com/rubensousa/FloatingToolbar/</url>
+        <copyright>Copyright (c) 2016-2017 Rúben Sousa</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>

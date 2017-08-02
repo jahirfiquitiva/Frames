@@ -18,11 +18,16 @@ package jahirfiquitiva.libs.frames.fragments.base
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.arch.persistence.room.Room
+import android.graphics.Color
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.ScaleAnimation
+import android.widget.TextView
+import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.extensions.buildSnackbar
 import jahirfiquitiva.libs.frames.models.Collection
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.frames.models.db.FavoritesDao
@@ -35,33 +40,34 @@ import org.jetbrains.anko.runOnUiThread
 
 @Suppress("NAME_SHADOWING")
 abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseViewModelFragment<T>() {
-
+    
     internal lateinit var database:FavoritesDatabase
     internal lateinit var favoritesModel:FavoritesViewModel
-
+    
     internal var collection:Collection? = null
-
+    internal var snack:Snackbar? = null
+    
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         initDatabase()
     }
-
+    
     open fun initDatabase() {
         database = Room.databaseBuilder(context, FavoritesDatabase::class.java,
                                         DATABASE_NAME).build()
         initViewModel()
     }
-
+    
     override fun initViewModel() {
         favoritesModel = ViewModelProviders.of(activity).get(FavoritesViewModel::class.java)
     }
-
+    
     override fun registerObserver() {
         favoritesModel.items.observe(this, Observer<ArrayList<Wallpaper>> { data ->
             data?.let { doOnFavoritesChange(it) }
         })
     }
-
+    
     override fun loadDataFromViewModel() {
         arguments?.let {
             val argCollection = it.getParcelable<Collection>("collection")
@@ -73,32 +79,32 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
         }
         favoritesModel.loadData(getDatabase())
     }
-
+    
     override fun unregisterObserver() {
         favoritesModel.items.removeObservers(this)
         favoritesModel.stopTask()
     }
-
+    
     internal fun onHeartClicked(heart:CheckableImageView, item:Wallpaper) {
         animateHeartClick(heart, item, !heart.isChecked)
     }
-
+    
     open fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {}
     open fun doOnWallpapersChange(data:ArrayList<Wallpaper>,
                                   fromCollectionActivity:Boolean = false) {
     }
-
+    
     internal fun getDatabase():FavoritesDao = database.favoritesDao()
     internal fun isInFavorites(item:Wallpaper) = favoritesModel.isInFavorites(item)
     internal fun addToFavorites(item:Wallpaper) = favoritesModel.addToFavorites(item)
     internal fun removeFromFavorites(item:Wallpaper) = favoritesModel.removeFromFavorites(item)
-
+    
     override fun onItemClicked(item:T) {
         // Do nothing
     }
-
+    
     abstract fun onItemClicked(item:T, holder:VH)
-
+    
     private val ANIMATION_DURATION:Long = 250
     private fun animateHeartClick(heart:CheckableImageView, item:Wallpaper, check:Boolean) {
         context.runOnUiThread {
@@ -119,8 +125,24 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
                             super.onEnd(animation)
                             if (check) {
                                 addToFavorites(item)
+                                snack?.dismiss()
+                                snack = null
+                                snack = content.buildSnackbar(
+                                        getString(R.string.added_to_favorites, item.name),
+                                        Snackbar.LENGTH_SHORT)
+                                snack?.view?.findViewById<TextView>(
+                                        R.id.snackbar_text)?.setTextColor(Color.WHITE)
+                                snack?.show()
                             } else {
                                 removeFromFavorites(item)
+                                snack?.dismiss()
+                                snack = null
+                                snack = content.buildSnackbar(
+                                        getString(R.string.removed_from_favorites, item.name),
+                                        Snackbar.LENGTH_SHORT)
+                                snack?.view?.findViewById<TextView>(
+                                        R.id.snackbar_text)?.setTextColor(Color.WHITE)
+                                snack?.show()
                             }
                         }
                     })

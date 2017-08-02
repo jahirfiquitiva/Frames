@@ -21,8 +21,12 @@
 
     <string name="collections">Collections</string>
     <string name="all">All</string>
+
     <string name="favorites">Favorites</string>
     <string name="favorite">Favorite</string>
+    <string name="added_to_favorites">\'%1$s\' has been added to favorites.</string>
+    <string name="removed_from_favorites">\'%1$s\' has been removed from favorites.</string>
+
     <string name="apply">Apply</string>
     <string name="download">Download</string>
     <string name="info">Information</string>
