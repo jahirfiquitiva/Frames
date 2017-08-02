@@ -13,12 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jahirfiquitiva.libs.frames.activities
+package jahirfiquitiva.libs.frames.activities.base
 
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleObserver
+import android.arch.lifecycle.LifecycleRegistry
+import android.arch.lifecycle.LifecycleRegistryOwner
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Intent
 import android.os.Bundle
 import ca.allanwang.kau.utils.startLink
 import com.afollestad.materialdialogs.MaterialDialog
+import com.anjlab.android.iab.v3.BillingProcessor
+import com.anjlab.android.iab.v3.TransactionDetails
 import com.github.javiersantos.piracychecker.PiracyChecker
 import com.github.javiersantos.piracychecker.enums.InstallerID
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerCallback
@@ -27,28 +35,69 @@ import com.github.javiersantos.piracychecker.enums.PirateApp
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.extensions.framesKonfigs
+import jahirfiquitiva.libs.frames.models.viewmodels.IAPItem
+import jahirfiquitiva.libs.frames.models.viewmodels.IAPViewModel
 import jahirfiquitiva.libs.frames.utils.*
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
+import jahirfiquitiva.libs.kauextensions.extensions.getStringArray
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isFirstRunEver
 import jahirfiquitiva.libs.kauextensions.extensions.justUpdated
+import jahirfiquitiva.libs.kauextensions.extensions.printError
 
-abstract class BaseFramesActivity:ThemedActivity() {
-    var picker:Int = 0
-    var checker:PiracyChecker? = null
+@Suppress("LeakingThis")
+abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
+                                  LifecycleObserver, BillingProcessor.IBillingHandler {
+
+    private var picker:Int = 0
+    private var donationsReady = false
 
     override fun lightTheme():Int = R.style.LightTheme
     override fun darkTheme():Int = R.style.DarkTheme
     override fun amoledTheme():Int = R.style.AmoledTheme
-    override fun transparentTheme():Int = R.style.ClearTheme
+    override fun transparentTheme():Int = R.style.TransparentTheme
     override fun autoStatusBarTint():Boolean = true
 
+    private var checker:PiracyChecker? = null
     private var dialog:MaterialDialog? = null
+    internal var billingProcessor:BillingProcessor? = null
+
+    val lcOwner = LifecycleRegistry(this)
+    override fun getLifecycle():LifecycleRegistry = lcOwner
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         picker = getPickerKey()
+        initDonations()
+        startLicenseCheck()
+    }
+
+    internal fun initDonations() {
+        if (donationsReady) return
+        if (donationsEnabled) {
+            if (BillingProcessor.isIabServiceAvailable(this)) {
+                destroyBillingProcessor()
+                val licKey:String? = getLicKey()
+                if (licKey != null) {
+                    billingProcessor = BillingProcessor(this, licKey, this)
+                    billingProcessor?.let {
+                        if (!it.isInitialized) {
+                            it.initialize()
+                        }
+                        try {
+                            donationsEnabled = it.isOneTimePurchaseSupported
+                        } catch (ignored:Exception) {
+                        }
+                        donationsReady = true
+                    }
+                } else {
+                    donationsEnabled = false
+                }
+            } else {
+                donationsEnabled = false
+            }
+        }
     }
 
     internal fun startLicenseCheck() {
@@ -92,7 +141,7 @@ abstract class BaseFramesActivity:ThemedActivity() {
         return 0
     }
 
-    open fun donationsEnabled():Boolean = false
+    open var donationsEnabled = false
     open fun amazonInstallsEnabled():Boolean = false
     open fun checkLPF():Boolean = true
     open fun checkStores():Boolean = true
@@ -102,7 +151,9 @@ abstract class BaseFramesActivity:ThemedActivity() {
     open fun getLicenseChecker():PiracyChecker? {
         destroyChecker() // Important
         val checker = PiracyChecker(this)
-        checker.enableGooglePlayLicensing(getLicKey())
+        getLicKey()?.let {
+            if (it.hasContent() && it.length > 50) checker.enableGooglePlayLicensing(it)
+        }
         checker.enableInstallerId(InstallerID.GOOGLE_PLAY)
         if (amazonInstallsEnabled()) checker.enableInstallerId(InstallerID.AMAZON_APP_STORE)
         if (checkLPF()) checker.enableUnauthorizedAppsCheck()
@@ -163,7 +214,7 @@ abstract class BaseFramesActivity:ThemedActivity() {
     internal fun showLicenseErrorDialog() {
         destroyDialog()
         dialog = buildMaterialDialog {
-            title(R.string.license_error_title)
+            title(R.string.error_title)
             content(R.string.license_error_content)
             positiveText(android.R.string.ok)
             neutralText(R.string.try_now)
@@ -187,8 +238,89 @@ abstract class BaseFramesActivity:ThemedActivity() {
         dialog?.show()
     }
 
+    internal fun doDonation() {
+        initDonations()
+        destroyDialog()
+        billingProcessor?.let {
+            if (!it.isInitialized) {
+                it.initialize()
+            }
+            if (it.isInitialized) {
+                val donationViewModel = IAPViewModel(it)
+                donationViewModel.items.observe(this, Observer<ArrayList<IAPItem>> {
+                    list ->
+                    if (list != null) {
+                        if (list.size > 0) {
+                            showDonationDialog(list)
+                        } else {
+                            showDonationErrorDialog(0, null)
+                        }
+                    } else {
+                        showDonationErrorDialog(0, null)
+                    }
+                    donationViewModel.items.removeObservers(this@BaseFramesActivity)
+                })
+                dialog = buildMaterialDialog {
+                    content(R.string.loading)
+                    progress(true, 0)
+                    cancelable(false)
+                }
+                donationViewModel.loadData(getStringArray(R.array.donation_items), true)
+                dialog?.show()
+            }
+        }
+    }
+
+    private fun showDonationDialog(items:ArrayList<IAPItem>) {
+        destroyDialog()
+        dialog = buildMaterialDialog {
+            title(R.string.donate)
+            items(items)
+            itemsCallbackSingleChoice(0, { _, _, which, _ ->
+                billingProcessor?.purchase(this@BaseFramesActivity, items[which].id)
+                true
+            })
+            negativeText(android.R.string.cancel)
+            positiveText(R.string.donate)
+        }
+        dialog?.show()
+    }
+
+    private fun showDonationErrorDialog(error:Int, reason:String?) {
+        destroyDialog()
+        dialog = buildMaterialDialog {
+            title(R.string.error_title)
+            content(getString(R.string.donate_error, error.toString(), reason))
+        }
+    }
+
+    override fun onProductPurchased(productId:String?, details:TransactionDetails?) {
+        productId?.let {
+            billingProcessor?.let {
+                if (it.consumePurchase(productId)) {
+                    destroyDialog()
+                    dialog = buildMaterialDialog {
+                        title(R.string.donate_success_title)
+                        content(getString(R.string.donate_success_content, getAppName()))
+                        positiveText(R.string.close)
+                    }
+                    dialog?.show()
+                }
+            }
+        }
+    }
+
+    override fun onBillingError(errorCode:Int, error:Throwable?) {
+        showDonationErrorDialog(errorCode,
+                                (error?.message ?: getString(R.string.donate_error_unknown)))
+        destroyBillingProcessor()
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     override fun onDestroy() {
         super.onDestroy()
+        destroyDialog()
+        destroyBillingProcessor()
         destroyChecker()
     }
 
@@ -202,4 +334,29 @@ abstract class BaseFramesActivity:ThemedActivity() {
         dialog = null
     }
 
+    fun destroyBillingProcessor() {
+        billingProcessor?.release()
+        billingProcessor = null
+        donationsReady = false
+    }
+
+    override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?) {
+        if (billingProcessor != null) {
+            billingProcessor?.let {
+                if (!(it.handleActivityResult(requestCode, resultCode, data))) {
+                    super.onActivityResult(requestCode, resultCode, data)
+                }
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    override fun onBillingInitialized() {
+        // Do nothing
+    }
+
+    override fun onPurchaseHistoryRestored() {
+        // Do nothing
+    }
 }

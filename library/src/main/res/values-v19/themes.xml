@@ -34,7 +34,7 @@
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
-    <style name="ViewerClearTheme" parent="ClearTheme">
+    <style name="ViewerTransparentTheme" parent="TransparentTheme">
         <item name="android:fitsSystemWindows">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>

@@ -70,7 +70,7 @@ open class ViewerActivity:ThemedActivity() {
     override fun lightTheme():Int = R.style.ViewerLightTheme
     override fun darkTheme():Int = R.style.ViewerDarkTheme
     override fun amoledTheme():Int = R.style.ViewerAmoledTheme
-    override fun transparentTheme():Int = R.style.ViewerClearTheme
+    override fun transparentTheme():Int = R.style.ViewerTransparentTheme
     override fun autoStatusBarTint():Boolean = false
 
     private var wallpaper:Wallpaper? = null
@@ -136,12 +136,12 @@ open class ViewerActivity:ThemedActivity() {
         setupWallpaper(image, wallpaper)
 
         floatingToolbar.setClickListener(object:FloatingToolbar.ItemClickListener {
-            override fun onItemLongClick(item:FloatingToolbarItem?) {
-                // Do nothing
+            override fun onItemClick(item:FloatingToolbarItem?) {
+                item?.let { doItemClick(it) }
             }
 
-            override fun onItemClick(item:FloatingToolbarItem?) {
-                item?.let { doItemClick(item) }
+            override fun onItemLongClick(item:FloatingToolbarItem?) {
+                // Do nothing
             }
         })
 
@@ -171,7 +171,12 @@ open class ViewerActivity:ThemedActivity() {
     }
 
     override fun onBackPressed() {
-        doFinish()
+        if (floatingToolbar.isShowing) {
+            floatingToolbar.removeMorphListeners()
+            floatingToolbar.hide()
+        } else {
+            doFinish()
+        }
     }
 
     private fun doFinish() {

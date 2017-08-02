@@ -17,27 +17,27 @@ package jahirfiquitiva.libs.frames.utils
 
 import android.os.AsyncTask
 
-open class AsyncTaskManager<T, P>(val param:P,
-                                  val onPreEx:() -> Unit,
-                                  val loadStuff:(p:P) -> T,
-                                  val onReady:(T) -> Unit) {
+open class AsyncTaskManager<Result, Parameter>(val param:Parameter,
+                                               val onPreEx:() -> Unit,
+                                               val loadStuff:(param:Parameter) -> Result,
+                                               val onReady:(Result) -> Unit) {
 
-    private var task:AsyncTask<Unit, Unit, T>
+    private var task:AsyncTask<Unit, Unit, Result>
 
     init {
-        task = object:AsyncTask<Unit, Unit, T>() {
+        task = object:AsyncTask<Unit, Unit, Result>() {
             override fun onPreExecute() {
                 super.onPreExecute()
                 onPreEx()
             }
 
-            override fun doInBackground(vararg p0:Unit?):T {
+            override fun doInBackground(vararg params:Unit?):Result {
                 return loadStuff(param)
             }
 
-            override fun onPostExecute(result:T?) {
+            override fun onPostExecute(result:Result?) {
+                super.onPostExecute(result)
                 result?.let {
-                    super.onPostExecute(it)
                     onReady(it)
                 }
             }

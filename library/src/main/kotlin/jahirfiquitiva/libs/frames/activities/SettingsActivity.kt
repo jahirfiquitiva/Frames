@@ -16,14 +16,18 @@
 package jahirfiquitiva.libs.frames.activities
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.FrameLayout
 import android.widget.TextView
+import ca.allanwang.kau.utils.snackbar
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.activities.base.BaseActivityWithFragments
+import jahirfiquitiva.libs.frames.extensions.PERMISSION_REQUEST_CODE
 import jahirfiquitiva.libs.frames.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.fragments.SettingsFragment
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
@@ -38,7 +42,7 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
     override fun lightTheme():Int = R.style.LightTheme
     override fun darkTheme():Int = R.style.DarkTheme
     override fun amoledTheme():Int = R.style.AmoledTheme
-    override fun transparentTheme():Int = R.style.ClearTheme
+    override fun transparentTheme():Int = R.style.TransparentTheme
 
     var hasClearedFavs = false
     var locationChooserDialog:FolderChooserDialog? = null
@@ -69,6 +73,18 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
 
         fragment = SettingsFragment()
         changeFragment(fragment, "Settings")
+    }
+
+    override fun onRequestPermissionsResult(requestCode:Int, permissions:Array<out String>,
+                                            grantResults:IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                showLocationChooserDialog()
+            } else {
+                snackbar(R.string.permission_denied)
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item:MenuItem?):Boolean {

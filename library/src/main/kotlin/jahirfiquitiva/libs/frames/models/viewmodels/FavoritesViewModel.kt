@@ -20,11 +20,11 @@ import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.frames.models.db.FavoritesDao
 import jahirfiquitiva.libs.frames.utils.AsyncTaskManager
 
-class FavoritesViewModel:ListViewModel<Wallpaper, FavoritesDao>() {
-    override fun loadItems(p:FavoritesDao):ArrayList<Wallpaper> {
+class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
+    override fun loadItems(param:FavoritesDao):ArrayList<Wallpaper> {
         val list = ArrayList<Wallpaper>()
         try {
-            val favs = p.getFavorites().distinct()
+            val favs = param.getFavorites().distinct()
             list.addAll(favs.distinct())
         } catch (e:Exception) {
             e.printStackTrace()

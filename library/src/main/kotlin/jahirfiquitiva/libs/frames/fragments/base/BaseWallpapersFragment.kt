@@ -34,7 +34,6 @@ import jahirfiquitiva.libs.frames.holders.WallpaperHolder
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
-import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
@@ -91,6 +90,11 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         onWallpaperClicked(item, holder)
     }
 
+    override fun loadDataFromViewModel() {
+        rv.state = EmptyViewRecyclerView.State.LOADING
+        super.loadDataFromViewModel()
+    }
+
     override fun reloadData(section:Int) {
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
@@ -122,7 +126,6 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
                 }
             }
         }
-        context.printInfo("Did search: $filter")
         rv.state = EmptyViewRecyclerView.State.NORMAL
     }
 

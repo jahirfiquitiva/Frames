@@ -36,7 +36,8 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
         }
     }
 
-    override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollection:Boolean) {
+    override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
+        super.doOnWallpapersChange(data, fromCollectionActivity)
         collection?.let {
             val coll = it
             adapter.setItems(

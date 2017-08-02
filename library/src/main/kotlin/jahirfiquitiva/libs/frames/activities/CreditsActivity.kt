@@ -36,7 +36,7 @@ open class CreditsActivity:ThemedActivity() {
 
     override fun lightTheme():Int = R.style.LightTheme
     override fun darkTheme():Int = R.style.DarkTheme
-    override fun transparentTheme():Int = R.style.ClearTheme
+    override fun transparentTheme():Int = R.style.TransparentTheme
     override fun amoledTheme():Int = R.style.AmoledTheme
     override fun autoStatusBarTint():Boolean = true
 

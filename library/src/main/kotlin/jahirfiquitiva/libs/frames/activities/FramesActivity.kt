@@ -24,7 +24,9 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
+import com.anjlab.android.iab.v3.BillingProcessor
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.adapters.FragmentsAdapter
 import jahirfiquitiva.libs.frames.fragments.CollectionsFragment
 import jahirfiquitiva.libs.frames.fragments.FavoritesFragment
@@ -35,7 +37,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.getDisabledTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
-import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 
 abstract class FramesActivity:BaseFramesActivity() {
@@ -43,8 +44,8 @@ abstract class FramesActivity:BaseFramesActivity() {
     private lateinit var toolbar:Toolbar
     private lateinit var pager:ViewPager
     private lateinit var tabs:TabLayout
-    private var searchView:SearchView? = null
 
+    private var searchView:SearchView? = null
     private var lastSection = 1
 
     override fun onCreate(savedInstanceState:Bundle?) {
@@ -99,6 +100,9 @@ abstract class FramesActivity:BaseFramesActivity() {
         menuInflater.inflate(R.menu.frames_menu, menu)
 
         menu?.let {
+            val donationItem = it.findItem(R.id.donate)
+            donationItem?.isVisible = donationsEnabled
+
             val searchItem = it.findItem(R.id.search)
             searchView = searchItem.actionView as SearchView
             searchView?.let {
@@ -127,7 +131,6 @@ abstract class FramesActivity:BaseFramesActivity() {
                 override fun onMenuItemActionExpand(item:MenuItem?):Boolean = true
 
                 override fun onMenuItemActionCollapse(item:MenuItem?):Boolean {
-                    printInfo("Search collapsed")
                     searchView?.setQuery("", true)
                     doSearch()
                     return true
@@ -149,6 +152,8 @@ abstract class FramesActivity:BaseFramesActivity() {
                 startActivity(Intent(this, CreditsActivity::class.java))
             } else if (it.itemId == R.id.settings) {
                 startActivityForResult(Intent(this, SettingsActivity::class.java), 22)
+            } else if (it.itemId == R.id.donate) {
+                doDonation()
             }
             // TODO: Manage other items
         }
@@ -160,7 +165,6 @@ abstract class FramesActivity:BaseFramesActivity() {
         if (requestCode == 22) {
             data?.let {
                 val cleared = it.getBooleanExtra("clearedFavs", false)
-                printInfo("Has cleared favs? $cleared")
                 if (cleared) {
                     reloadFavorites()
                 }
@@ -177,10 +181,6 @@ abstract class FramesActivity:BaseFramesActivity() {
         super.onRestoreInstanceState(savedInstanceState)
         lastSection = savedInstanceState?.getInt("current", 1) ?: 1
         pager.setCurrentItem(lastSection, true)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 
     private fun doSearch(filter:String = "") {

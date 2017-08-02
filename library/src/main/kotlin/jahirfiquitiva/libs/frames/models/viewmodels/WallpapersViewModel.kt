@@ -30,18 +30,18 @@ import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 import org.json.JSONArray
 
-class WallpapersViewModel:ListViewModel<Wallpaper, Context>() {
-    override fun loadItems(p:Context):ArrayList<Wallpaper> {
+class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
+    override fun loadItems(param:Context):ArrayList<Wallpaper> {
         val list = ArrayList<Wallpaper>()
-        val volley = Volley.newRequestQueue(p)
-        val request = StringRequest(Request.Method.GET, p.getString(R.string.json_url),
+        val volley = Volley.newRequestQueue(param)
+        val request = StringRequest(Request.Method.GET, param.getString(R.string.json_url),
                                     Response.Listener<String> {
                                         list.clear()
-                                        list.addAll(loadWallpapers(p, it))
+                                        list.addAll(loadWallpapers(param, it))
                                     },
                                     Response.ErrorListener {
                                         list.clear()
-                                        list.addAll(loadWallpapers(p, ""))
+                                        list.addAll(loadWallpapers(param, ""))
                                     })
         request.retryPolicy = DefaultRetryPolicy(5000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         volley.add(request)
