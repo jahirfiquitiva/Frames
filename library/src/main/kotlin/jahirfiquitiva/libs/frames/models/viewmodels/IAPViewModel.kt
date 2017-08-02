@@ -27,7 +27,7 @@ class IAPViewModel(val iapBillingProcessor:BillingProcessor):
             val id = it
             val item = iapBillingProcessor.getPurchaseListingDetails(id)
             item?.let {
-                val name = item.title.substring(0, item.title.lastIndexOf("(")).remove(" ","")
+                val name = item.title.substring(0, item.title.lastIndexOf("(")).replace(" ","")
                 iaps.add(IAPItem(id, name, item.priceText))
             }
         }
