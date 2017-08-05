@@ -21,6 +21,7 @@ import android.arch.lifecycle.LifecycleRegistry
 import android.arch.lifecycle.LifecycleRegistryOwner
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.OnLifecycleEvent
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import ca.allanwang.kau.utils.startLink
@@ -51,6 +52,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.getStringArray
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isFirstRunEver
 import jahirfiquitiva.libs.kauextensions.extensions.justUpdated
+import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 
 @Suppress("LeakingThis")
 abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
@@ -109,21 +111,30 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
     internal fun startLicenseCheck() {
         if (isFirstRunEver || justUpdated || (!framesKonfigs.functionalDashboard)) {
             checker = getLicenseChecker()
-            checker?.callback(object:PiracyCheckerCallback() {
-                override fun allow() {
-                    showLicensedDialog()
+            if (checker != null) {
+                checker?.let {
+                    with(it) {
+                        callback(object:PiracyCheckerCallback() {
+                            override fun allow() {
+                                showLicensedDialog()
+                            }
+                            
+                            override fun dontAllow(error:PiracyCheckerError, app:PirateApp?) {
+                                showNotLicensedDialog(app)
+                            }
+                            
+                            override fun onError(error:PiracyCheckerError) {
+                                super.onError(error)
+                                showLicenseErrorDialog()
+                            }
+                        })
+                        start()
+                    }
                 }
-                
-                override fun dontAllow(error:PiracyCheckerError, app:PirateApp?) {
-                    showNotLicensedDialog(app)
-                }
-                
-                override fun onError(error:PiracyCheckerError) {
-                    super.onError(error)
-                    showLicenseErrorDialog()
-                }
-            })
-            checker?.start()
+            } else {
+                printInfo("License checker was null. Enabling dashboard features.")
+                framesKonfigs.functionalDashboard = true
+            }
         }
     }
     
@@ -252,7 +263,8 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
                 it.initialize()
             }
             if (it.isInitialized) {
-                val donationViewModel = IAPViewModel(it)
+                val donationViewModel = ViewModelProviders.of(this).get(IAPViewModel::class.java)
+                donationViewModel.iapBillingProcessor = it
                 donationViewModel.items.observe(this, Observer<ArrayList<IAPItem>> {
                     list ->
                     if (list != null) {
@@ -266,6 +278,7 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
                     }
                     donationViewModel.items.removeObservers(this@BaseFramesActivity)
                 })
+                destroyDialog()
                 dialog = buildMaterialDialog {
                     content(R.string.loading)
                     progress(true, 0)
@@ -296,8 +309,10 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
         destroyDialog()
         dialog = buildMaterialDialog {
             title(R.string.error_title)
-            content(getString(R.string.donate_error, error.toString(), reason))
+            content(getString(R.string.donate_error, error.toString(),
+                              reason ?: getString(R.string.donate_error_unknown)))
         }
+        dialog?.show()
     }
     
     override fun onProductPurchased(productId:String?, details:TransactionDetails?) {

@@ -25,6 +25,9 @@ const val ANIMATIONS_ENABLED = "animations_enabled"
 const val STORAGE_PERMISSION_REQUESTED = "storage_permission_requested"
 const val DOWNLOADS_FOLDER = "downloads_folder"
 const val FUNCTIONAL_DASHBOARD = "functional_dashboard"
+const val REFRESH_MUZEI_ON_WIFI_ONLY = "refresh_muzei_on_wifi_only"
+const val MUZEI_REFRESH_INTERVAL = "muzei_refresh_interval"
+const val MUZEI_COLLECTIONS = "muzei_collections"
 
 // Intent related stuff
 const val PLAY_STORE_LINK_PREFIX = "https://play.google.com/store/apps/details?id="

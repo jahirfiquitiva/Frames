@@ -63,7 +63,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     }
     
     override fun registerObserver() {
-        favoritesModel.items.observe(this, Observer<ArrayList<Wallpaper>> { data ->
+        favoritesModel.items.observe(this, Observer { data ->
             data?.let { doOnFavoritesChange(it) }
         })
     }

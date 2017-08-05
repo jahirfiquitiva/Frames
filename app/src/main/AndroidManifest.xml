@@ -15,6 +15,7 @@
   ~ limitations under the License.
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="jahirfiquitiva.apps.frames.sample">
 
     <!-- Permission required for donations -->
@@ -40,6 +41,24 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!-- Muzei Service -->
+        <service
+                android:name="jahirfiquitiva.libs.frames.services.FramesArtSource"
+                android:label="@string/app_name"
+                android:icon="@drawable/ic_muzei_icon"
+                tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="com.google.android.apps.muzei.api.MuzeiArtSource"/>
+            </intent-filter>
+
+            <meta-data
+                    android:name="color"
+                    android:value="@color/muzei_color"/>
+            <meta-data
+                    android:name="settingsActivity"
+                    android:value="jahirfiquitiva.libs.frames.activities.MuzeiSettingsActivity"/>
+        </service>
 
         <!-- Required for files access !!! DO NOT REMOVE !!! -->
         <provider

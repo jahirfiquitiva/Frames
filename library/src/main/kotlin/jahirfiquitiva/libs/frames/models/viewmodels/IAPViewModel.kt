@@ -17,18 +17,22 @@ package jahirfiquitiva.libs.frames.models.viewmodels
 
 import com.anjlab.android.iab.v3.BillingProcessor
 
-class IAPViewModel(val iapBillingProcessor:BillingProcessor):
-        ListViewModel<Array<String>, IAPItem>() {
+class IAPViewModel:ListViewModel<Array<String>, IAPItem>() {
+    
+    var iapBillingProcessor:BillingProcessor?=null
     
     override fun loadItems(param:Array<String>):ArrayList<IAPItem> {
         val iaps = ArrayList<IAPItem>()
-        param.forEach {
-            val id = it
-            val item = iapBillingProcessor.getPurchaseListingDetails(id)
-            item?.let {
-                val name = item.title.substring(0, item.title.lastIndexOf("(") - 1)
-                iaps.add(IAPItem(id, name, item.priceText))
+        try {
+            param.forEach {
+                val id = it
+                val item = iapBillingProcessor?.getPurchaseListingDetails(id)
+                item?.let {
+                    val name = it.title.substring(0, it.title.lastIndexOf("("))
+                    iaps.add(IAPItem(id, name, it.priceText))
+                }
             }
+        } catch (ignored:Exception) {
         }
         return iaps
     }

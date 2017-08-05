@@ -61,7 +61,6 @@ open class CollectionActivity:BaseActivityWithFragments() {
                      getSecondaryTextColorFor(primaryColor, 0.6F),
                      getActiveIconsColorFor(primaryColor, 0.6F))
         toolbarTitle.setTextColor(getPrimaryTextColorFor(primaryColor, 0.6F))
-        setupStatusBarStyle(false)
         
         val container = findViewById<FrameLayout>(fragmentsContainer())
         container?.let {

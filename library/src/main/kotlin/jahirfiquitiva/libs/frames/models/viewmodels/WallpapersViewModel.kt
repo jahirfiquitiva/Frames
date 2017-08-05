@@ -17,6 +17,7 @@
 package jahirfiquitiva.libs.frames.models.viewmodels
 
 import android.content.Context
+import android.util.Log
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
@@ -27,28 +28,26 @@ import jahirfiquitiva.libs.frames.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
+import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 import org.json.JSONArray
 
 class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
+    
+    
     override fun loadItems(param:Context):ArrayList<Wallpaper> {
-        val list = ArrayList<Wallpaper>()
         val volley = Volley.newRequestQueue(param)
         val request = StringRequest(Request.Method.GET, param.getString(R.string.json_url),
                                     Response.Listener<String> {
-                                        list.clear()
-                                        list.addAll(loadWallpapers(param, it))
+                                        postResult(loadWallpapers(param, it))
                                     },
                                     Response.ErrorListener {
-                                        list.clear()
-                                        list.addAll(loadWallpapers(param, ""))
+                                        postResult(ArrayList())
                                     })
         request.retryPolicy = DefaultRetryPolicy(5000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         volley.add(request)
-        volley.addRequestFinishedListener<StringRequest> {
-            postResult(list)
-        }
-        return list
+        volley.start()
+        return ArrayList()
     }
     
     

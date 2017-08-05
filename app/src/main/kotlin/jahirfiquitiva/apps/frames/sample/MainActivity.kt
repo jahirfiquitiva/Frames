@@ -39,6 +39,7 @@ class MainActivity:FramesActivity() {
      * This is the license checker code. Feel free to create your own implementation or
      * leave it as it is.
      * Anyways, keep the 'destroyChecker()' as the very first line of this code block
+     * Return null to disable license check
      */
     override fun getLicenseChecker():PiracyChecker? {
         destroyChecker() // Important

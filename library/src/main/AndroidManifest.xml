@@ -114,6 +114,9 @@
         <activity android:name=".activities.CollectionActivity"/>
         <activity android:name=".activities.CreditsActivity"/>
         <activity android:name=".activities.SettingsActivity"/>
+        <activity
+                android:name=".activities.MuzeiSettingsActivity"
+                android:exported="true"/>
 
         <!-- Picture Quality Configuration -->
         <meta-data

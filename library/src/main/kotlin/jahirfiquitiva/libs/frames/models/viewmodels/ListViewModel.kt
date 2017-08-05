@@ -21,9 +21,15 @@ import android.arch.lifecycle.ViewModel
 import jahirfiquitiva.libs.frames.utils.AsyncTaskManager
 
 abstract class ListViewModel<Parameter, Result>:ViewModel() {
+    
     val items = MutableLiveData<ArrayList<Result>>()
     var param:Parameter? = null
     var task:AsyncTaskManager<ArrayList<Result>, Parameter>? = null
+    private var observer:CustomObserver<ArrayList<Result>>? = null
+    
+    fun setCustomObserver(observer:CustomObserver<ArrayList<Result>>) {
+        this.observer = observer
+    }
     
     fun loadData(parameter:Parameter, forceLoad:Boolean = false) {
         param = parameter
@@ -51,9 +57,14 @@ abstract class ListViewModel<Parameter, Result>:ViewModel() {
         }
     }
     
-    open fun postResult(data:ArrayList<Result>) {
+    internal fun postResult(data:ArrayList<Result>) {
         items.postValue(ArrayList(data.distinct()))
+        observer?.onValuePosted(ArrayList(data.distinct()))
     }
     
     abstract protected fun loadItems(param:Parameter):ArrayList<Result>
+    
+    interface CustomObserver<in Result> {
+        fun onValuePosted(data:Result)
+    }
 }

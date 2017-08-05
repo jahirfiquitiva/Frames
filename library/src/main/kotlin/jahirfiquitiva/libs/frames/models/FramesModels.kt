@@ -91,6 +91,19 @@ data class Wallpaper(
 data class Collection(val name:String,
                       var wallpapers:ArrayList<Wallpaper> = ArrayList<Wallpaper>()):Parcelable {
     
+    override fun equals(other:Any?):Boolean {
+        if (other !is Collection) return false
+        return name.equals(other.name, true)
+    }
+    
+    override fun hashCode():Int {
+        return super.hashCode()
+    }
+    
+    override fun toString():String {
+        return name
+    }
+    
     constructor(parcel:Parcel):this(parcel.readString()) {
         parcel.readTypedList(wallpapers, Wallpaper.CREATOR)
     }

@@ -52,4 +52,16 @@ open class FramesKonfigs(nm:String, cntxt:Context):Konfigurations(nm, cntxt) {
     var functionalDashboard:Boolean
         get() = prefs.getBoolean(FUNCTIONAL_DASHBOARD, false)
         set(value) = prefsEditor.putBoolean(FUNCTIONAL_DASHBOARD, value).apply()
+    
+    var refreshMuzeiOnWiFiOnly:Boolean
+        get() = prefs.getBoolean(REFRESH_MUZEI_ON_WIFI_ONLY, false)
+        set(value) = prefsEditor.putBoolean(REFRESH_MUZEI_ON_WIFI_ONLY, value).apply()
+    
+    var muzeiRefreshInterval:Int
+        get() = prefs.getInt(MUZEI_REFRESH_INTERVAL, 10)
+        set(value) = prefsEditor.putInt(MUZEI_REFRESH_INTERVAL, value).apply()
+    
+    var muzeiCollections:String
+        get() = prefs.getString(MUZEI_COLLECTIONS, "")
+        set(value) = prefsEditor.putString(MUZEI_COLLECTIONS, value).apply()
 }
