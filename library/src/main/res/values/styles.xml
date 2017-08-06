@@ -15,6 +15,7 @@
   ~ limitations under the License.
   -->
 <resources>
+
     <style name="DetailsText" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:shadowColor">@android:color/black</item>
