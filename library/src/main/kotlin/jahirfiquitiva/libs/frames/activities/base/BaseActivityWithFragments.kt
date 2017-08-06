@@ -27,7 +27,7 @@ abstract class BaseActivityWithFragments:ThemedActivity() {
     abstract fun fragmentsContainer():Int
     override fun autoStatusBarTint():Boolean = true
     
-    internal fun changeFragment(f:Fragment, tag:String? = null) {
+    fun changeFragment(f:Fragment, tag:String? = null) {
         try {
             val manager = supportFragmentManager.beginTransaction()
             if (hasBottomBar()) clearBackStack()
@@ -42,7 +42,7 @@ abstract class BaseActivityWithFragments:ThemedActivity() {
         }
     }
     
-    internal fun clearBackStack() {
+    fun clearBackStack() {
         try {
             val manager = supportFragmentManager
             if (manager.backStackEntryCount > 0) {
