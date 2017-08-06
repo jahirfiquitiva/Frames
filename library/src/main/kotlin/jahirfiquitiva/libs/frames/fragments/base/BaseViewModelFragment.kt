@@ -24,8 +24,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import ca.allanwang.kau.utils.inflate
 import jahirfiquitiva.libs.frames.fragments.presenters.FramesFragmentPresenter
-import jahirfiquitiva.libs.kauextensions.extensions.inflate
 
 abstract class BaseViewModelFragment<in T>:LifecycleFragment(), LifecycleObserver, FramesFragmentPresenter<T> {
 
