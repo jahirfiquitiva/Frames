@@ -84,20 +84,24 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
     internal fun initDonations() {
         if (donationsReady) return
         if (donationsEnabled) {
-            if (BillingProcessor.isIabServiceAvailable(this)) {
-                destroyBillingProcessor()
-                val licKey:String? = getLicKey()
-                if (licKey != null) {
-                    billingProcessor = BillingProcessor(this, licKey, this)
-                    billingProcessor?.let {
-                        if (!it.isInitialized) {
-                            it.initialize()
+            if (getStringArray(R.array.donation_items).isNotEmpty()) {
+                if (BillingProcessor.isIabServiceAvailable(this)) {
+                    destroyBillingProcessor()
+                    val licKey:String? = getLicKey()
+                    if (licKey != null) {
+                        billingProcessor = BillingProcessor(this, licKey, this)
+                        billingProcessor?.let {
+                            if (!it.isInitialized) {
+                                it.initialize()
+                            }
+                            try {
+                                donationsEnabled = it.isOneTimePurchaseSupported
+                            } catch (ignored:Exception) {
+                            }
+                            donationsReady = true
                         }
-                        try {
-                            donationsEnabled = it.isOneTimePurchaseSupported
-                        } catch (ignored:Exception) {
-                        }
-                        donationsReady = true
+                    } else {
+                        donationsEnabled = false
                     }
                 } else {
                     donationsEnabled = false
@@ -258,6 +262,10 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
     internal fun doDonation() {
         initDonations()
         destroyDialog()
+        if (!donationsReady) {
+            showDonationErrorDialog(0, null)
+            return
+        }
         billingProcessor?.let {
             if (!it.isInitialized) {
                 it.initialize()
