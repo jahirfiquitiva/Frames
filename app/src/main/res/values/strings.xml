@@ -15,7 +15,16 @@
   -->
 
 <resources>
+
+    <!-- Your app name -->
     <string name="app_name">Frames</string>
-    <!-- This one applies for Muzei too. Try not to exceed a tweet length (140 characters) -->
+
+    <!--    This one applies for Muzei too. Try not to exceed a tweet length (140 characters) -->
     <string name="app_description">A great wallpapers app with hundreds of cool pictures.</string>
+
+    <!--    TODO: Change this link -->
+    <string name="json_url">https://raw.githubusercontent.com/dragodev94/Wall-app/master/Wallpapers.json</string>
+
+    <!--    Default wallpapers download folder. Always write it like '%1$s/xxxxxxx' -->
+    <string name="default_download_folder">%1$s/Frames/Wallpapers</string>
 </resources>

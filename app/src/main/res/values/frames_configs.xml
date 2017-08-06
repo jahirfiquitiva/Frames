@@ -40,5 +40,8 @@
 
     <!--    These are your donation items. Only put their ids here -->
     <string-array name="donation_items">
+        <item>coffee</item>
+        <item>pizza</item>
+        <item>burger</item>
     </string-array>
 </resources>

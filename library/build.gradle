@@ -36,16 +36,10 @@ android {
         versionCode versions.versionCode
         versionName versions.versionName
         vectorDrawables.useSupportLibrary = true
-        multiDexEnabled = true
     }
 
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-        debug {
             minifyEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -57,15 +51,9 @@ android {
             java.srcDirs += 'src/main/kotlin'
         }
     }
-
-    dexOptions {
-        jumboMode true
-    }
 }
 
 dependencies {
-    // MultiDex
-    compile 'com.android.support:multidex:' + versions.multidex
     // Architecture Components
     compile 'android.arch.lifecycle:runtime:' + versions.archComponents
     compile 'android.arch.lifecycle:extensions:' + versions.archComponents
