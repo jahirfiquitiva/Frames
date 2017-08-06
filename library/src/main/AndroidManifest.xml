@@ -113,7 +113,12 @@
         <activity android:name=".activities.ViewerActivity"/>
         <activity android:name=".activities.CollectionActivity"/>
         <activity android:name=".activities.CreditsActivity"/>
-        <activity android:name=".activities.SettingsActivity"/>
+        <activity android:name=".activities.SettingsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity
                 android:name=".activities.MuzeiSettingsActivity"
                 android:exported="true"/>
