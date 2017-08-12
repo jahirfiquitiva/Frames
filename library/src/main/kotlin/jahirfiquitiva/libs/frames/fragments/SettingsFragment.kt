@@ -45,28 +45,28 @@ import jahirfiquitiva.libs.kauextensions.extensions.konfigs
 import org.jetbrains.anko.doAsync
 
 open class SettingsFragment:PreferenceFragment() {
-
+    
     internal lateinit var database:FavoritesDatabase
     internal var downloadLocation:Preference? = null
-
+    
     var dialog:MaterialDialog? = null
-
+    
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
-
+        
         database = Room.databaseBuilder(activity, FavoritesDatabase::class.java,
                                         DATABASE_NAME).build()
-
+        
         addPreferencesFromResource(R.xml.preferences)
-
+        
         val uiPrefs = findPreference("ui_settings") as PreferenceCategory
         val navbarPref = findPreference("color_navbar") as SwitchPreference
-
+        
         if (!buildIsLollipopAndUp) {
             uiPrefs.removePreference(navbarPref)
         }
-
+        
         val themePref = findPreference("theme")
         themePref?.setOnPreferenceClickListener {
             clearDialog()
@@ -87,7 +87,7 @@ open class SettingsFragment:PreferenceFragment() {
             dialog?.show()
             false
         }
-
+        
         navbarPref.isChecked = activity.konfigs.hasColoredNavbar
         navbarPref.setOnPreferenceChangeListener { _, any ->
             val tint = any.toString().equals("true", true)
@@ -97,7 +97,7 @@ open class SettingsFragment:PreferenceFragment() {
             }
             true
         }
-
+        
         val columns = findPreference("columns")
         columns?.setOnPreferenceClickListener {
             clearDialog()
@@ -116,14 +116,14 @@ open class SettingsFragment:PreferenceFragment() {
             dialog?.show()
             false
         }
-
+        
         downloadLocation = findPreference("wallpapers_download_location")
         updateDownloadLocation()
         downloadLocation?.setOnPreferenceClickListener {
             requestPermission()
             true
         }
-
+        
         val clearData = findPreference("clear_data")
         clearData?.summary = getString(R.string.data_cache_setting_content, activity.dataCacheSize)
         clearData?.setOnPreferenceClickListener {
@@ -142,7 +142,7 @@ open class SettingsFragment:PreferenceFragment() {
             dialog?.show()
             true
         }
-
+        
         val clearDatabase = findPreference("clear_database")
         clearDatabase?.setOnPreferenceClickListener {
             clearDialog()
@@ -163,9 +163,9 @@ open class SettingsFragment:PreferenceFragment() {
             dialog?.show()
             true
         }
-
+        
     }
-
+    
     fun requestPermission() {
         activity.checkPermission(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -173,7 +173,7 @@ open class SettingsFragment:PreferenceFragment() {
                     override fun onPermissionRequest(permission:String) {
                         activity.requestPermissions(permission)
                     }
-
+                    
                     override fun showPermissionInformation(permission:String) {
                         activity.snackbar(getString(R.string.permission_request,
                                                     activity.getAppName()),
@@ -192,31 +192,31 @@ open class SettingsFragment:PreferenceFragment() {
                                                       })
                                           })
                     }
-
+                    
                     override fun onPermissionCompletelyDenied() {
                         activity.snackbar(R.string.permission_denied_completely)
                     }
-
+                    
                     override fun onPermissionGranted() {
                         if (activity is SettingsActivity)
                             (activity as SettingsActivity).showLocationChooserDialog()
                     }
                 })
     }
-
+    
     fun updateDownloadLocation() {
         downloadLocation?.summary = getString(R.string.wallpapers_download_location_setting_content,
                                               activity.framesKonfigs.downloadsFolder)
     }
-
+    
     fun clearDialog() {
         dialog?.dismiss()
         dialog = null
     }
-
+    
     override fun onDestroy() {
         super.onDestroy()
         clearDialog()
     }
-
+    
 }

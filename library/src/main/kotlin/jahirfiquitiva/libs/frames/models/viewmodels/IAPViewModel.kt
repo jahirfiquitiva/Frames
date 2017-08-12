@@ -19,7 +19,7 @@ import com.anjlab.android.iab.v3.BillingProcessor
 
 class IAPViewModel:ListViewModel<Array<String>, IAPItem>() {
     
-    var iapBillingProcessor:BillingProcessor?=null
+    var iapBillingProcessor:BillingProcessor? = null
     
     override fun loadItems(param:Array<String>):ArrayList<IAPItem> {
         val iaps = ArrayList<IAPItem>()

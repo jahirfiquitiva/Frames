@@ -17,7 +17,6 @@
 package jahirfiquitiva.libs.frames.models.viewmodels
 
 import android.content.Context
-import android.util.Log
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
@@ -28,7 +27,6 @@ import jahirfiquitiva.libs.frames.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 import org.json.JSONArray
 

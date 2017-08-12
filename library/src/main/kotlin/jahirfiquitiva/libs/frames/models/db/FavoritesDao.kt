@@ -27,16 +27,16 @@ import jahirfiquitiva.libs.frames.utils.DATABASE_NAME
 interface FavoritesDao {
     @Query("SELECT * FROM $DATABASE_NAME")
     fun getFavorites():List<Wallpaper>
-
+    
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(wallpaper:List<Wallpaper>)
-
+    
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addToFavorites(wallpaper:Wallpaper)
-
+    
     @Delete
     fun removeFromFavorites(wallpaper:Wallpaper)
-
+    
     @Query("DELETE FROM $DATABASE_NAME")
     fun nukeFavorites()
 }

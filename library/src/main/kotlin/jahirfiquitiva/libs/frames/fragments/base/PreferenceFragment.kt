@@ -35,24 +35,24 @@ import android.widget.ListView
 /**
  * A PreferenceFragment for the support library. Based on the platform's code with some removed
  * features and a basic ListView layout.
-
+ 
  * @author Christophe Beyls
  */
 abstract class PreferenceFragment:Fragment() {
-
+    
     private val FIRST_REQUEST_CODE = 100
     private val MSG_BIND_PREFERENCES = 1
     private val MSG_REQUEST_FOCUS = 2
     private val PREFERENCES_TAG = "android:preferences"
     private var HC_HORIZONTAL_PADDING = 0.8 //5.33
-
+    
     private var mHavePrefs:Boolean = false
     private var mInitDone:Boolean = false
     private var mList:ListView? = null
-
+    
     var preferenceManager:PreferenceManager? = null
         private set
-
+    
     @SuppressLint("HandlerLeak")
     private val mHandler = object:Handler() {
         override fun handleMessage(msg:Message) {
@@ -62,7 +62,7 @@ abstract class PreferenceFragment:Fragment() {
             }
         }
     }
-
+    
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         try {
@@ -72,9 +72,9 @@ abstract class PreferenceFragment:Fragment() {
             preferenceManager = c.newInstance(activity, FIRST_REQUEST_CODE)
         } catch (ignored:Exception) {
         }
-
+        
     }
-
+    
     override fun onCreateView(layoutInflater:LayoutInflater?, viewGroup:ViewGroup?,
                               savedInstanceState:Bundle?):View {
         val listView = ListView(activity)
@@ -89,7 +89,7 @@ abstract class PreferenceFragment:Fragment() {
         }
         return listView
     }
-
+    
     override fun onActivityCreated(savedInstanceState:Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (mHavePrefs) {
@@ -103,7 +103,7 @@ abstract class PreferenceFragment:Fragment() {
             }
         }
     }
-
+    
     override fun onStop() {
         super.onStop()
         try {
@@ -113,13 +113,13 @@ abstract class PreferenceFragment:Fragment() {
         } catch (ignored:Exception) {
         }
     }
-
+    
     override fun onDestroyView() {
         mList = null
         mHandler.removeCallbacksAndMessages(null)
         super.onDestroyView()
     }
-
+    
     override fun onDestroy() {
         super.onDestroy()
         try {
@@ -129,7 +129,7 @@ abstract class PreferenceFragment:Fragment() {
         } catch (ignored:Exception) {
         }
     }
-
+    
     override fun onSaveInstanceState(outState:Bundle?) {
         super.onSaveInstanceState(outState)
         preferenceScreen?.let {
@@ -138,7 +138,7 @@ abstract class PreferenceFragment:Fragment() {
             outState?.putBundle(PREFERENCES_TAG, container)
         }
     }
-
+    
     override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent) {
         super.onActivityResult(requestCode, resultCode, data)
         try {
@@ -151,7 +151,7 @@ abstract class PreferenceFragment:Fragment() {
         } catch (ignored:Exception) {
         }
     }
-
+    
     private var preferenceScreen:PreferenceScreen?
         get() {
             try {
@@ -161,7 +161,7 @@ abstract class PreferenceFragment:Fragment() {
             } catch (e:Exception) {
                 return null
             }
-
+            
         }
         set(screen) = try {
             val m = PreferenceManager::class.java.getDeclaredMethod("setPreferences",
@@ -176,7 +176,7 @@ abstract class PreferenceFragment:Fragment() {
             }
         } catch (ignored:Exception) {
         }
-
+    
     fun addPreferencesFromIntent(intent:Intent) {
         requirePreferenceManager()
         try {
@@ -190,7 +190,7 @@ abstract class PreferenceFragment:Fragment() {
         } catch (ignored:Exception) {
         }
     }
-
+    
     protected fun addPreferencesFromResource(resId:Int) {
         requirePreferenceManager()
         try {
@@ -205,36 +205,36 @@ abstract class PreferenceFragment:Fragment() {
         } catch (ignored:Exception) {
         }
     }
-
+    
     protected fun findPreference(key:CharSequence):Preference? {
         preferenceManager?.let {
             return it.findPreference(key)
         }
         return null
     }
-
+    
     private fun requirePreferenceManager() {
         if (preferenceManager == null) {
             throw RuntimeException("This should be called after super.onCreate.")
         }
     }
-
+    
     private fun postBindPreferences() {
         if (!mHandler.hasMessages(MSG_BIND_PREFERENCES)) {
             mHandler.sendEmptyMessage(MSG_BIND_PREFERENCES)
         }
     }
-
+    
     private fun bindPreferences() {
         preferenceScreen?.bind(listView)
     }
-
+    
     private val listView:ListView?
         get() {
             ensureList()
             return mList
         }
-
+    
     private fun ensureList() {
         if (mList != null) {
             return

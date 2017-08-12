@@ -25,13 +25,13 @@ class WallpapersFragment:BaseWallpapersFragment() {
         adapter.favorites = data
         rv.state = EmptyViewRecyclerView.State.NORMAL
     }
-
+    
     override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
         adapter.setItems(data)
         rv.state = EmptyViewRecyclerView.State.NORMAL
     }
-
+    
     override fun fromFavorites():Boolean = false
     override fun showFavoritesIcon():Boolean = true
 }

@@ -22,9 +22,9 @@ import android.view.View
 interface FramesFragmentPresenter<in T> {
     fun initUI(content:View)
     fun onItemClicked(item:T)
-
+    
     fun getContentLayout():Int
-
+    
     fun initViewModel()
     fun registerObserver()
     fun loadDataFromViewModel()

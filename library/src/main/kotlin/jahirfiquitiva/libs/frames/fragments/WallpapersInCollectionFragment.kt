@@ -23,7 +23,7 @@ import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
 class WallpapersInCollectionFragment:BaseWallpapersFragment() {
     val currentFavorites = ArrayList<Wallpaper>()
-
+    
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
         collection?.let {
@@ -34,7 +34,7 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
             rv.state = EmptyViewRecyclerView.State.NORMAL
         }
     }
-
+    
     override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
         collection?.let {
@@ -46,7 +46,7 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
             rv.state = EmptyViewRecyclerView.State.NORMAL
         }
     }
-
+    
     companion object {
         @JvmStatic
         fun newInstance(args:Bundle):WallpapersInCollectionFragment {
@@ -55,7 +55,7 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
             return newsFragment
         }
     }
-
+    
     override fun fromFavorites():Boolean = false
     // TODO: Should I set this to false?
     override fun showFavoritesIcon():Boolean = true

@@ -26,7 +26,7 @@ class FavoritesFragment:BaseWallpapersFragment() {
         adapter.setItems(data)
         rv.state = EmptyViewRecyclerView.State.NORMAL
     }
-
+    
     override fun fromFavorites():Boolean = true
     override fun showFavoritesIcon():Boolean = true
 }

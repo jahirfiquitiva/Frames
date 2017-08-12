@@ -31,7 +31,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
-import jahirfiquitiva.libs.kauextensions.extensions.setupStatusBarStyle
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 
 open class CollectionActivity:BaseActivityWithFragments() {

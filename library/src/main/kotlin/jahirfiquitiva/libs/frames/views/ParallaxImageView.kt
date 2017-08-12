@@ -29,28 +29,28 @@ import jahirfiquitiva.libs.kauextensions.ui.views.LandscapeImageView
  * https://github.com/gjiazhe/ScrollParallaxImageView
  */
 class ParallaxImageView:LandscapeImageView, ViewTreeObserver.OnScrollChangedListener {
-
+    
     private var viewLocation = IntArray(2)
     var parallaxEnabled = true
         set(value) {
             field = value
             invalidate()
         }
-
+    
     constructor(context:Context):super(context)
     constructor(context:Context, attributeSet:AttributeSet):super(context, attributeSet)
     constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int)
             :super(context, attributeSet, defStyleAttr)
-
+    
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int, defStyleRes:Int)
             :super(context, attributeSet, defStyleAttr, defStyleRes)
-
+    
     override fun onMeasure(widthMeasureSpec:Int, heightMeasureSpec:Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         invalidate()
     }
-
+    
     override fun onDraw(canvas:Canvas) {
         if (!parallaxEnabled || drawable == null) {
             super.onDraw(canvas)
@@ -60,43 +60,43 @@ class ParallaxImageView:LandscapeImageView, ViewTreeObserver.OnScrollChangedList
         transform(canvas, viewLocation[1])
         super.onDraw(canvas)
     }
-
+    
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         viewTreeObserver.addOnScrollChangedListener(this)
     }
-
+    
     override fun onDetachedFromWindow() {
         viewTreeObserver.removeOnScrollChangedListener(this)
         super.onDetachedFromWindow()
     }
-
+    
     override fun onScrollChanged() {
         if (parallaxEnabled) {
             invalidate()
         }
     }
-
+    
     fun transform(canvas:Canvas, y:Int) {
         var nY = y
         if (scaleType != ImageView.ScaleType.CENTER_CROP) {
             return
         }
-
+        
         // image's width and height
         val iWidth = drawable.intrinsicWidth
         val iHeight = drawable.intrinsicHeight
         if (iWidth <= 0 || iHeight <= 0) {
             return
         }
-
+        
         // view's width and height
         val vWidth = width - paddingLeft - paddingRight
         val vHeight = height - paddingTop - paddingBottom
-
+        
         // device's height
         val dHeight = resources.displayMetrics.heightPixels
-
+        
         if (iWidth * vHeight < iHeight * vWidth) {
             // avoid over scroll
             if (nY < -vHeight) {
@@ -104,12 +104,12 @@ class ParallaxImageView:LandscapeImageView, ViewTreeObserver.OnScrollChangedList
             } else if (nY > dHeight) {
                 nY = dHeight
             }
-
+            
             val imgScale = vWidth.toFloat() / iWidth.toFloat()
             val max_dy = Math.abs((iHeight * imgScale - vHeight) * 0.5f)
             val translateY = -(2f * max_dy * nY.toFloat() + max_dy * (vHeight - dHeight)) / (vHeight + dHeight)
             canvas.translate(0f, translateY)
         }
     }
-
+    
 }

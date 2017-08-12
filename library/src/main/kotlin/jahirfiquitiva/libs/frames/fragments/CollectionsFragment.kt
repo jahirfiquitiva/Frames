@@ -35,11 +35,11 @@ import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoratio
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
 class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
-
+    
     private lateinit var rv:EmptyViewRecyclerView
     private lateinit var adapter:CollectionsAdapter
     private lateinit var fastScroll:RecyclerFastScroller
-
+    
     override fun initUI(content:View) {
         rv = content.findViewById(R.id.list_rv)
         rv.textView = content.findViewById(R.id.empty_text)
@@ -59,9 +59,9 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         fastScroll = content.findViewById(R.id.fast_scroller)
         fastScroll.attachRecyclerView(rv)
     }
-
+    
     override fun getContentLayout():Int = R.layout.section_lists
-
+    
     override fun onItemClicked(item:Collection, holder:CollectionHolder) {
         val intent = Intent(activity, CollectionActivity::class.java)
         intent.putExtra("item", item)
@@ -73,17 +73,17 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
             startActivityForResult(intent, 11)
         }
     }
-
+    
     override fun loadDataFromViewModel() {
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.loadDataFromViewModel()
     }
-
+    
     override fun reloadData(section:Int) {
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
     }
-
+    
     override fun applyFilter(filter:String) {
         collectionsModel.items.value?.let {
             if (filter.hasContent()) {
@@ -98,7 +98,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         }
         rv.state = EmptyViewRecyclerView.State.NORMAL
     }
-
+    
     override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == 11) {
@@ -119,11 +119,11 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
             }
         }
     }
-
+    
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
     }
-
+    
     override fun doOnCollectionsChange(data:ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
         adapter.setItems(data)

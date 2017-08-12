@@ -28,9 +28,9 @@ import ca.allanwang.kau.utils.inflate
 import jahirfiquitiva.libs.frames.fragments.presenters.FramesFragmentPresenter
 
 abstract class BaseViewModelFragment<in T>:LifecycleFragment(), LifecycleObserver, FramesFragmentPresenter<T> {
-
+    
     internal lateinit var content:View
-
+    
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     override fun onStart() {
         initViewModel()
@@ -38,7 +38,7 @@ abstract class BaseViewModelFragment<in T>:LifecycleFragment(), LifecycleObserve
         registerObserver()
         loadDataFromViewModel()
     }
-
+    
     override fun onCreateView(inflater:LayoutInflater?, container:ViewGroup?,
                               savedInstanceState:Bundle?):View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -49,7 +49,7 @@ abstract class BaseViewModelFragment<in T>:LifecycleFragment(), LifecycleObserve
         }
         return contentView
     }
-
+    
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     abstract override fun unregisterObserver()
 }

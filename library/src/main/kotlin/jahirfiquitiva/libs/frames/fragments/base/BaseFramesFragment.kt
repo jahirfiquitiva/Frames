@@ -24,16 +24,16 @@ import jahirfiquitiva.libs.frames.models.viewmodels.CollectionsViewModel
 import jahirfiquitiva.libs.frames.models.viewmodels.WallpapersViewModel
 
 abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatabaseFragment<T, VH>() {
-
+    
     internal lateinit var wallpapersModel:WallpapersViewModel
     internal lateinit var collectionsModel:CollectionsViewModel
-
+    
     override fun initViewModel() {
         super.initViewModel()
         collectionsModel = ViewModelProviders.of(activity).get(CollectionsViewModel::class.java)
         wallpapersModel = ViewModelProviders.of(activity).get(WallpapersViewModel::class.java)
     }
-
+    
     override fun registerObserver() {
         super.registerObserver()
         collectionsModel.items.observe(this, Observer { data ->
@@ -43,12 +43,12 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
             data?.let { doOnWallpapersChange(it) }
         })
     }
-
+    
     override fun loadDataFromViewModel() {
         super.loadDataFromViewModel()
         wallpapersModel.loadData(context)
     }
-
+    
     override fun unregisterObserver() {
         super.unregisterObserver()
         collectionsModel.items.removeObservers(this)
@@ -56,14 +56,14 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
         collectionsModel.stopTask()
         wallpapersModel.stopTask()
     }
-
+    
     override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
         if (!fromCollectionActivity) {
             collectionsModel.loadData(data)
         }
     }
-
+    
     open fun reloadData(section:Int) {
         when (section) {
             0, 1 -> {
@@ -76,7 +76,7 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
             }
         }
     }
-
+    
     open fun doOnCollectionsChange(data:ArrayList<Collection>) {}
     abstract fun applyFilter(filter:String)
 }

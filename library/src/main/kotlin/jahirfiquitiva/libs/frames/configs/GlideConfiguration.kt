@@ -33,7 +33,7 @@ class GlideConfiguration:GlideModule {
                     else DecodeFormat.PREFER_ARGB_8888 else DecodeFormat.PREFER_RGB_565)
         }
     }
-
+    
     override fun registerComponents(context:Context?, glide:Glide?) {}
 }
 

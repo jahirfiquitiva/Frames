@@ -38,14 +38,14 @@ import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoratio
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
 abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHolder>() {
-
-    internal lateinit var rv:EmptyViewRecyclerView
-    internal lateinit var adapter:WallpapersAdapter
-    private lateinit var fastScroll:RecyclerFastScroller
-
+    
+    lateinit var rv:EmptyViewRecyclerView
+    lateinit var adapter:WallpapersAdapter
+    lateinit var fastScroll:RecyclerFastScroller
+    
     private var spanCount = 0
     private var spacingDecoration:GridSpacingItemDecoration? = null
-
+    
     override fun initUI(content:View) {
         rv = content.findViewById(R.id.list_rv)
         rv.textView = content.findViewById(R.id.empty_text)
@@ -64,13 +64,13 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         fastScroll = content.findViewById(R.id.fast_scroller)
         fastScroll.attachRecyclerView(rv)
     }
-
+    
     override fun onResume() {
         super.onResume()
         configureRVColumns()
     }
-
-    private fun configureRVColumns() {
+    
+    fun configureRVColumns() {
         if (context.framesKonfigs.columns != spanCount) {
             rv.removeItemDecoration(spacingDecoration)
             spanCount = context.framesKonfigs.columns
@@ -83,23 +83,23 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
             rv.addItemDecoration(spacingDecoration)
         }
     }
-
+    
     override fun getContentLayout():Int = R.layout.section_lists
-
+    
     override fun onItemClicked(item:Wallpaper, holder:WallpaperHolder) {
         onWallpaperClicked(item, holder)
     }
-
+    
     override fun loadDataFromViewModel() {
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.loadDataFromViewModel()
     }
-
+    
     override fun reloadData(section:Int) {
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
     }
-
+    
     override fun applyFilter(filter:String) {
         if (fromFavorites()) {
             favoritesModel.items.value?.let {
@@ -128,7 +128,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         }
         rv.state = EmptyViewRecyclerView.State.NORMAL
     }
-
+    
     private fun onWallpaperClicked(wallpaper:Wallpaper, holder:WallpaperHolder) {
         val intent = Intent(activity, ViewerActivity::class.java)
         intent.putExtra("wallpaper", wallpaper)
@@ -139,7 +139,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         intent.putExtra("imgTransition", imgTransition)
         intent.putExtra("nameTransition", nameTransition)
         intent.putExtra("authorTransition", authorTransition)
-
+        
         try {
             holder.bitmap?.let {
                 val filename = "thumb.png"
@@ -152,7 +152,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
             val imgPair = Pair<View, String>(holder.img, imgTransition)
             val namePair = Pair<View, String>(holder.name, nameTransition)
             val authorPair = Pair<View, String>(holder.author, authorTransition)
-
+            
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imgPair,
                                                                              namePair, authorPair)
             startActivityForResult(intent, 10, options.toBundle())
@@ -160,7 +160,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
             startActivityForResult(intent, 10)
         }
     }
-
+    
     override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == 10) {
@@ -176,7 +176,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
             }
         }
     }
-
+    
     abstract fun fromFavorites():Boolean
     abstract fun showFavoritesIcon():Boolean
 }

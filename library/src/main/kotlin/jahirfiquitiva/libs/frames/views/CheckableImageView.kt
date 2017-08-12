@@ -23,28 +23,28 @@ import android.view.animation.Animation
 import android.widget.Checkable
 
 class CheckableImageView:AppCompatImageView, Checkable {
-
+    
     private val CHECKED_STATE_SET = intArrayOf(android.R.attr.state_checked)
     private var internalIsChecked = false
-
+    
     override fun isChecked():Boolean = internalIsChecked
-
+    
     override fun toggle() {
         isChecked = !isChecked
     }
-
+    
     override fun setChecked(check:Boolean) {
         if (isChecked != check) {
             internalIsChecked = check
             refreshDrawableState()
         }
     }
-
+    
     constructor(context:Context):super(context)
     constructor(context:Context, attributeSet:AttributeSet):super(context, attributeSet)
     constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int)
             :super(context, attributeSet, defStyleAttr)
-
+    
     override fun onCreateDrawableState(extraSpace:Int):IntArray {
         val state = super.onCreateDrawableState(extraSpace + 1)
         if (isChecked) mergeDrawableStates(state, CHECKED_STATE_SET)
@@ -56,15 +56,15 @@ abstract class SimpleAnimationListener:Animation.AnimationListener {
     open fun onStart(animation:Animation) {}
     open fun onEnd(animation:Animation) {}
     open fun onRepeat(animation:Animation) {}
-
+    
     override fun onAnimationRepeat(animation:Animation?) {
         animation?.let { onRepeat(it) }
     }
-
+    
     override fun onAnimationEnd(animation:Animation?) {
         animation?.let { onEnd(it) }
     }
-
+    
     override fun onAnimationStart(animation:Animation?) {
         animation?.let { onStart(it) }
     }
