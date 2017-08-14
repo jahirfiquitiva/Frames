@@ -133,6 +133,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         val intent = Intent(activity, ViewerActivity::class.java)
         intent.putExtra("wallpaper", wallpaper)
         intent.putExtra("inFavorites", favoritesModel.isInFavorites(wallpaper))
+        intent.putExtra("showFavoritesButton", showFavoritesIcon())
         val imgTransition = ViewCompat.getTransitionName(holder.img)
         val nameTransition = ViewCompat.getTransitionName(holder.name)
         val authorTransition = ViewCompat.getTransitionName(holder.author)

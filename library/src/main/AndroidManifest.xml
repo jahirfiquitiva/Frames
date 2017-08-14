@@ -72,47 +72,17 @@
         <!--suppress AndroidDomInspection -->
         <activity
                 android:name=".activities.FramesActivity"
-                android:windowSoftInputMode="stateHidden">
-            <intent-filter tools:ignore="GoogleAppIndexingDeepLinkError,GoogleAppIndexingUrlError,
-                GoogleAppIndexingWarning">
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SET_WALLPAPER"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.GET_CONTENT"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.OPENABLE"/>
-
-                <data android:mimeType="image/*"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.PICK"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="image/*"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.PICK"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.OPENABLE"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.PICK"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="image/*"/>
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".activities.ViewerActivity"/>
-        <activity android:name=".activities.CollectionActivity"/>
-        <activity android:name=".activities.CreditsActivity"/>
+                android:windowSoftInputMode="stateHidden"
+                android:exported="false"/>
+        <activity
+                android:name=".activities.ViewerActivity"
+                android:exported="false"/>
+        <activity
+                android:name=".activities.CollectionActivity"
+                android:exported="false"/>
+        <activity
+                android:name=".activities.CreditsActivity"
+                android:exported="false"/>
         <activity android:name=".activities.SettingsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES"/>

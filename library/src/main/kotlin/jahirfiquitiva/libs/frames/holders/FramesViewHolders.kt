@@ -112,6 +112,10 @@ class WallpaperHolder(itemView:View, val showFavIcon:Boolean = true):RecyclerVie
             ViewCompat.setTransitionName(author, "author_transition_$adapterPosition")
             val url = wallpaper.url
             val thumb = wallpaper.thumbUrl
+            if (!(itemView.context.getBoolean(R.bool.enable_colored_tiles))) {
+                TextViewCompat.setTextAppearance(name, R.style.DetailsText)
+                TextViewCompat.setTextAppearance(author, R.style.DetailsText_Small)
+            }
             loadImage(url, if (thumb.equals(url, true)) "" else thumb, check)
             name.text = wallpaper.name
             author.goneIf(!wallpaper.author.hasContent())
@@ -144,8 +148,6 @@ class WallpaperHolder(itemView:View, val showFavIcon:Boolean = true):RecyclerVie
                         author.setTextColor(itemView.context.getSecondaryTextColorFor(color))
                     } else {
                         heartIcon.setImageDrawable(itemView.context.createHeartSelector())
-                        TextViewCompat.setTextAppearance(name, R.style.DetailsText)
-                        TextViewCompat.setTextAppearance(author, R.style.DetailsText_Small)
                     }
                     heartIcon.isChecked = check
                 }

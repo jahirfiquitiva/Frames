@@ -41,9 +41,11 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import ca.allanwang.kau.utils.dpToPx
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.isColorDark
 import ca.allanwang.kau.utils.postDelayed
+import ca.allanwang.kau.utils.setMarginBottom
 import ca.allanwang.kau.utils.setMarginLeft
 import ca.allanwang.kau.utils.setMarginRight
 import ca.allanwang.kau.utils.setMarginTop
@@ -114,6 +116,7 @@ open class ViewerActivity:ThemedActivity() {
     
     private var isInFavorites = false
     private var hasModifiedFavs = false
+    private var showFavoritesButton = false
     
     private val DOWNLOAD_ITEM_ID = 1
     private val APPLY_ITEM_ID = 2
@@ -127,8 +130,8 @@ open class ViewerActivity:ThemedActivity() {
         setContentView(R.layout.activity_viewer)
         
         wallpaper = intent?.getParcelableExtra("wallpaper")
-        
         isInFavorites = intent?.getBooleanExtra("inFavorites", false) ?: false
+        showFavoritesButton = intent?.getBooleanExtra("showFavoritesButton", false) ?: false
         
         setupStatusBarStyle(true, false)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -277,16 +280,11 @@ open class ViewerActivity:ThemedActivity() {
     private fun setupFabToolbarIcons() {
         fab.setImageDrawable(
                 "ic_plus".getDrawable(this).tint(getActiveIconsColorFor(toolbarColor, 0.6F)))
-        // val list = ArrayList<FloatingToolbarItem>()
+        
         val menuBuilder = FloatingToolbarMenuBuilder(this)
         
         val downloadIcon = "ic_download".getDrawable(this).tint(
                 getActiveIconsColorFor(toolbarColor, 0.6F))
-        /*
-        val downloadItem = FloatingToolbarItem(this, DOWNLOAD_ITEM_ID, R.string.download,
-                                               downloadIcon)
-        wallpaper?.let { if (it.downloadable) list.add(downloadItem) }
-        */
         wallpaper?.let {
             if (it.downloadable) menuBuilder.addItem(DOWNLOAD_ITEM_ID, downloadIcon,
                                                      R.string.download)
@@ -294,21 +292,15 @@ open class ViewerActivity:ThemedActivity() {
         
         val applyIcon = "ic_apply_wallpaper".getDrawable(this).tint(
                 getActiveIconsColorFor(toolbarColor, 0.6F))
-        /*
-        val applyItem = FloatingToolbarItem(this, APPLY_ITEM_ID, R.string.apply, applyIcon)
-        list.add(applyItem)
-        */
         menuBuilder.addItem(APPLY_ITEM_ID, applyIcon, R.string.apply)
         
-        val favIcon = (if (isInFavorites) "ic_heart" else "ic_heart_outline").getDrawable(
-                this).tint(getActiveIconsColorFor(toolbarColor, 0.6F))
-        /*
-        val favItem = FloatingToolbarItem(this, FAVORITE_ITEM_ID, R.string.favorite, favIcon)
-        list.add(favItem)
-        */
-        menuBuilder.addItem(FAVORITE_ITEM_ID, favIcon, R.string.favorite)
+        if (showFavoritesButton) {
+            val favIcon = (if (isInFavorites) "ic_heart" else "ic_heart_outline").getDrawable(
+                    this).tint(getActiveIconsColorFor(toolbarColor, 0.6F))
+            menuBuilder.addItem(FAVORITE_ITEM_ID, favIcon, R.string.favorite)
+        }
         
-        floatingToolbar.setMenu(menuBuilder.build())
+        floatingToolbar.menu = menuBuilder.build()
     }
     
     override fun onRequestPermissionsResult(requestCode:Int, permissions:Array<out String>,
@@ -575,7 +567,7 @@ open class ViewerActivity:ThemedActivity() {
     
     private fun justShowSnackbar(text:String, settings:Snackbar.() -> Unit) {
         contentView?.let {
-            fab.hide()
+            // fab.hide()
             
             val snack = it.buildSnackbar(text, builder = settings)
             
@@ -583,9 +575,14 @@ open class ViewerActivity:ThemedActivity() {
                 override fun onDismissed(transientBottomBar:Snackbar?, event:Int) {
                     super.onDismissed(transientBottomBar, event)
                     fab.setNavBarMargins()
-                    floatingToolbar.setNavBarMargins()
-                    fab.show()
+                    // floatingToolbar.setNavBarMargins()
+                    // fab.show()
                     floatingToolbar.removeMorphListeners()
+                }
+    
+                override fun onShown(sb:Snackbar?) {
+                    super.onShown(sb)
+                    fab.setMarginBottom(16.dpToPx)
                 }
             })
             
@@ -605,10 +602,12 @@ open class ViewerActivity:ThemedActivity() {
             if (currentRotation == 90) extraRight = sideNavBar
             else if (currentRotation == 270) extraLeft = sideNavBar
             
-            snack.view.findViewById<TextView>(R.id.snackbar_text)?.setTextColor(Color.WHITE)
             snack.view.setPadding(snack.view.paddingLeft + extraLeft, snack.view.paddingTop,
                                   snack.view.paddingRight + extraRight,
                                   snack.view.paddingBottom + bottomNavBar)
+            
+            snack.view.findViewById<TextView>(R.id.snackbar_text)?.setTextColor(Color.WHITE)
+            
             val backColor = snack.view.solidColor
             if (backColor.isColorDark) {
                 snack.setActionTextColor(
@@ -617,7 +616,8 @@ open class ViewerActivity:ThemedActivity() {
                 snack.setActionTextColor(
                         if (toolbarColor.isColorDark) toolbarColor else accentColor)
             }
-            snack.show()
+            floatingToolbar.showSnackBar(snack)
+            // snack.show()
         }
     }
     
