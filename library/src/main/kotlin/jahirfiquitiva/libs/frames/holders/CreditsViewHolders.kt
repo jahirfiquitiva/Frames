@@ -37,7 +37,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.primaryTextColor
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kauextensions.ui.layouts.SplitButtonsLayout
 
-
 @Suppress("ArrayInDataClass")
 data class Credit(val type:Type, val photo:String, val name:String, val description:String = "",
                   val buttonsTitles:List<String> = ArrayList<String>(),
