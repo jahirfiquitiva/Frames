@@ -72,9 +72,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
         arguments?.let {
             val argCollection = it.getParcelable<Collection>("collection")
             argCollection?.let {
-                if (it is Collection) {
-                    collection = it
-                }
+                collection = it
             }
         }
         favoritesModel.loadData(getDatabase())
