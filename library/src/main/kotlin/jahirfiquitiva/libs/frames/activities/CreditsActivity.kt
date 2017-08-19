@@ -17,7 +17,9 @@ package jahirfiquitiva.libs.frames.activities
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
@@ -65,6 +67,7 @@ open class CreditsActivity:ThemedActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         
         rv = findViewById(R.id.list_rv)
+        rv.itemAnimator = DefaultItemAnimator()
         rv.state = EmptyViewRecyclerView.State.LOADING
         
         val layoutManager = GridLayoutManager(this, if (isInHorizontalMode) 2 else 1,

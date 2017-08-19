@@ -19,6 +19,7 @@ package jahirfiquitiva.libs.frames.fragments
 import android.content.Intent
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
+import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
@@ -42,6 +43,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     
     override fun initUI(content:View) {
         rv = content.findViewById(R.id.list_rv)
+        rv.itemAnimator = DefaultItemAnimator()
         rv.textView = content.findViewById(R.id.empty_text)
         rv.emptyView = content.findViewById(R.id.empty_view)
         rv.emptyTextRes = R.string.empty_section

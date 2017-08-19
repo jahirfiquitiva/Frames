@@ -24,6 +24,7 @@ import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -55,9 +56,9 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable
-import com.bumptech.glide.request.animation.GlideAnimation
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
@@ -237,14 +238,13 @@ open class ViewerActivity:ThemedActivity() {
         
         val d:Drawable
         d = if (bmp != null) {
-            GlideBitmapDrawable(resources, bmp)
+            BitmapDrawable(resources, bmp)
         } else {
             ColorDrawable(ContextCompat.getColor(this, android.R.color.transparent))
         }
         
         val target = object:SimpleTarget<Bitmap>() {
-            override fun onResourceReady(resource:Bitmap?,
-                                         anim:GlideAnimation<in Bitmap>?) {
+            override fun onResourceReady(resource:Bitmap?, transition:Transition<in Bitmap>?) {
                 findViewById<ProgressBar>(R.id.loading).gone()
                 view.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP)
                 resource?.let {
@@ -263,13 +263,14 @@ open class ViewerActivity:ThemedActivity() {
         }
         
         wallpaper?.let {
-            val thumbRequest = Glide.with(this).load(it.thumbUrl).asBitmap()
-                    .placeholder(d).thumbnail(if (it.url.equals(it.thumbUrl, true)) 0.5F else 1F)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE).priority(Priority.IMMEDIATE)
+            val thumbRequest = Glide.with(this).asBitmap().load(it.thumbUrl)
+                    .thumbnail(if (it.url.equals(it.thumbUrl, true)) 0.5F else 1F)
+                    .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                                   .priority(Priority.IMMEDIATE).placeholder(d))
             
-            Glide.with(this).load(it.url).asBitmap()
-                    .placeholder(d).thumbnail(thumbRequest)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE).priority(Priority.HIGH)
+            Glide.with(this).asBitmap().load(it.url).thumbnail(thumbRequest)
+                    .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                                   .priority(Priority.HIGH).placeholder(d))
                     .into(target)
         }
     }
@@ -474,7 +475,7 @@ open class ViewerActivity:ThemedActivity() {
             })
             val applyTarget = object:SimpleTarget<Bitmap>() {
                 override fun onResourceReady(resource:Bitmap?,
-                                             glideAnimation:GlideAnimation<in Bitmap>?) {
+                                             glideAnimation:Transition<in Bitmap>?) {
                     resource?.let {
                         val wm = WallpaperManager.getInstance(this@ViewerActivity)
                         val wallpaper = it.adjustToDeviceScreen(this@ViewerActivity)
@@ -510,8 +511,10 @@ open class ViewerActivity:ThemedActivity() {
             }
             postDelayed(100, {
                 runOnUiThread {
-                    Glide.with(this).load(it.url).asBitmap().dontAnimate().diskCacheStrategy(
-                            DiskCacheStrategy.SOURCE).into(applyTarget)
+                    Glide.with(this).asBitmap().load(it.url).apply(
+                            RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                                    .priority(Priority.HIGH).dontAnimate().dontTransform())
+                            .into(applyTarget)
                 }
             })
         }

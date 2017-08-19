@@ -81,9 +81,8 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
         favoritesModel.stopTask()
     }
     
-    internal fun onHeartClicked(heart:CheckableImageView, item:Wallpaper) = animateHeartClick(heart,
-                                                                                              item,
-                                                                                              !heart.isChecked)
+    internal fun onHeartClicked(heart:CheckableImageView, item:Wallpaper) =
+            animateHeartClick(heart, item, !heart.isChecked)
     
     open fun doOnFavoritesChange(data:ArrayList<Wallpaper>) = Unit
     open fun doOnWallpapersChange(data:ArrayList<Wallpaper>,
@@ -94,8 +93,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     internal fun addToFavorites(item:Wallpaper) = favoritesModel.addToFavorites(item)
     internal fun removeFromFavorites(item:Wallpaper) = favoritesModel.removeFromFavorites(item)
     
-    override fun onItemClicked(item:T) = // Do nothing
-            Unit
+    override fun onItemClicked(item:T) {}
     
     abstract fun onItemClicked(item:T, holder:VH)
     

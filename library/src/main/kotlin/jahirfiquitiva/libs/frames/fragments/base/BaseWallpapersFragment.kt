@@ -21,6 +21,7 @@ import android.graphics.Bitmap
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
 import android.support.v4.view.ViewCompat
+import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import ca.allanwang.kau.utils.dimenPixelSize
@@ -48,6 +49,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     
     override fun initUI(content:View) {
         rv = content.findViewById(R.id.list_rv)
+        rv.itemAnimator = DefaultItemAnimator()
         rv.textView = content.findViewById(R.id.empty_text)
         rv.emptyView = content.findViewById(
                 if (fromFavorites()) R.id.no_favorites_view else R.id.empty_view)
@@ -60,9 +62,9 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
                 { heart, wall -> onHeartClicked(heart, wall) },
                 fromFavorites(), showFavoritesIcon())
         rv.adapter = adapter
-        rv.state = EmptyViewRecyclerView.State.LOADING
         fastScroll = content.findViewById(R.id.fast_scroller)
         fastScroll.attachRecyclerView(rv)
+        rv.state = EmptyViewRecyclerView.State.LOADING
     }
     
     override fun onResume() {

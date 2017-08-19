@@ -36,7 +36,6 @@ abstract class BaseViewModelFragment<in T>:LifecycleFragment(), LifecycleObserve
         initViewModel()
         super.onStart()
         registerObserver()
-        loadDataFromViewModel()
     }
     
     override fun onCreateView(inflater:LayoutInflater?, container:ViewGroup?,
@@ -46,6 +45,7 @@ abstract class BaseViewModelFragment<in T>:LifecycleFragment(), LifecycleObserve
         contentView?.let {
             content = it
             initUI(content)
+            loadDataFromViewModel()
         }
         return contentView
     }

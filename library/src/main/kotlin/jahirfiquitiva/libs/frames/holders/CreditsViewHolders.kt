@@ -15,9 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.holders
 
-import android.graphics.Bitmap
 import android.support.annotation.StringRes
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v7.widget.AppCompatButton
 import android.util.TypedValue
 import android.view.View
@@ -27,7 +25,9 @@ import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.tint
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.BitmapImageViewTarget
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
@@ -66,21 +66,16 @@ class CreditHeaderViewHolder(itemView:View?):SectionedViewHolder(itemView) {
 open class DashboardCreditViewHolder(itemView:View?):SectionedViewHolder(itemView) {
     val photo:ImageView? = itemView?.findViewById(R.id.photo)
     val name:TextView? = itemView?.findViewById(R.id.name)
-    val description:TextView? = itemView?.findViewById(R.id.description)
-    val buttons:SplitButtonsLayout? = itemView?.findViewById(R.id.buttons)
+    private val description:TextView? = itemView?.findViewById(R.id.description)
+    private val buttons:SplitButtonsLayout? = itemView?.findViewById(R.id.buttons)
     
     open fun setItem(credit:Credit, fillAvailableSpace:Boolean = true,
                      shouldHideButtons:Boolean = false) {
         photo?.let {
-            Glide.with(itemView.context).load(credit.photo).asBitmap().centerCrop().into(
-                    object:BitmapImageViewTarget(it) {
-                        override fun setResource(resource:Bitmap?) {
-                            val roundedPic = RoundedBitmapDrawableFactory.create(
-                                    itemView.context.resources, resource)
-                            roundedPic.isCircular = true
-                            it.setImageDrawable(roundedPic)
-                        }
-                    })
+            Glide.with(itemView.context).asBitmap().load(credit.photo)
+                    .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                                   .priority(Priority.HIGH).centerCrop().circleCrop())
+                    .into(it)
         }
         name?.setTextColor(itemView.context.primaryTextColor)
         name?.text = credit.name

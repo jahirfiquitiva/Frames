@@ -17,7 +17,6 @@ package jahirfiquitiva.libs.frames.utils
 
 import android.os.AsyncTask
 import android.util.Log
-import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.target.Target
@@ -25,6 +24,7 @@ import java.io.File
 import java.util.*
 import java.util.concurrent.*
 
+@Suppress("DEPRECATION")
 class GlidePictureDownloader(val glide:RequestManager,
                              val onResult:(result:Result) -> Unit = {}):AsyncTask<String, File, Result>() {
     
@@ -45,7 +45,7 @@ class GlidePictureDownloader(val glide:RequestManager,
         for (i in 0 until params.size) {
             if (isCancelled) {
                 for (j in i until params.size) {
-                    if (requests[i] != null) Glide.clear(requests[i])
+                    if (requests[i] != null) glide.clear(requests[i])
                     result.failures.put(params[j] ?: "Error $j", CancellationException())
                 }
                 break
@@ -57,7 +57,7 @@ class GlidePictureDownloader(val glide:RequestManager,
             } catch (e:Exception) {
                 result.failures.put(params[i] ?: "Error $i", e)
             } finally {
-                Glide.clear(requests[i])
+                glide.clear(requests[i])
             }
         }
         return result
