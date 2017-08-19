@@ -130,15 +130,15 @@ open class ViewerActivity:ThemedActivity() {
         setContentView(R.layout.activity_viewer)
         
         wallpaper = intent?.getParcelableExtra("wallpaper")
-        isInFavorites = intent?.getBooleanExtra("inFavorites", false) ?: false
-        showFavoritesButton = intent?.getBooleanExtra("showFavoritesButton", false) ?: false
+        isInFavorites = intent?.getBooleanExtra("inFavorites", false) == true
+        showFavoritesButton = intent?.getBooleanExtra("showFavoritesButton", false) == true
         
         setupStatusBarStyle(true, false)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         
         statusBarColor = Color.parseColor("#80000000")
         
-        toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar = findViewById(R.id.toolbar)
         toolbar.setMarginTop(getStatusBarHeight(true))
         
         setSupportActionBar(toolbar)
@@ -175,9 +175,8 @@ open class ViewerActivity:ThemedActivity() {
                 item?.let { doItemClick(it) }
             }
             
-            override fun onItemLongClick(item:MenuItem?) {
-                // Do nothing
-            }
+            override fun onItemLongClick(item:MenuItem?) = // Do nothing
+                    Unit
         })
         
         image.setOnClickListener { if (floatingToolbar.isShowing) floatingToolbar.hide() }
@@ -205,13 +204,11 @@ open class ViewerActivity:ThemedActivity() {
         return super.onOptionsItemSelected(item)
     }
     
-    override fun onBackPressed() {
-        if (floatingToolbar.isShowing) {
-            floatingToolbar.removeMorphListeners()
-            floatingToolbar.hide()
-        } else {
-            doFinish()
-        }
+    override fun onBackPressed() = if (floatingToolbar.isShowing) {
+        floatingToolbar.removeMorphListeners()
+        floatingToolbar.hide()
+    } else {
+        doFinish()
     }
     
     private fun doFinish() {
@@ -239,10 +236,10 @@ open class ViewerActivity:ThemedActivity() {
         }
         
         val d:Drawable
-        if (bmp != null) {
-            d = GlideBitmapDrawable(resources, bmp)
+        d = if (bmp != null) {
+            GlideBitmapDrawable(resources, bmp)
         } else {
-            d = ColorDrawable(ContextCompat.getColor(this, android.R.color.transparent))
+            ColorDrawable(ContextCompat.getColor(this, android.R.color.transparent))
         }
         
         val target = object:SimpleTarget<Bitmap>() {
@@ -324,35 +321,40 @@ open class ViewerActivity:ThemedActivity() {
     }
     
     @SuppressLint("NewApi")
-    private fun downloadWallpaper() {
-        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        object:PermissionRequestListener {
-                            override fun onPermissionRequest(permission:String) {
-                                requestPermissions(permission)
-                            }
-            
-                            override fun showPermissionInformation(permission:String) {
-                                showSnackbar(getString(R.string.permission_request, getAppName()), {
-                                    setAction(R.string.allow, { dismiss() })
-                                    addCallback(object:Snackbar.Callback() {
-                                        override fun onDismissed(transientBottomBar:Snackbar?,
-                                                                 event:Int) {
-                                            super.onDismissed(transientBottomBar, event)
-                                            onPermissionRequest(permission)
-                                        }
-                                    })
-                                })
-                            }
-            
-                            override fun onPermissionCompletelyDenied() {
-                                showSnackbar(R.string.permission_denied_completely)
-                            }
-            
-                            override fun onPermissionGranted() {
-                                checkIfFileExists()
-                            }
-                        })
-    }
+    private fun downloadWallpaper() = checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                                      object:PermissionRequestListener {
+                                                          override fun onPermissionRequest(
+                                                                  permission:String) =
+                                                                  requestPermissions(permission)
+        
+                                                          override fun showPermissionInformation(
+                                                                  permission:String) =
+                                                                  showSnackbar(getString(
+                                                                          R.string.permission_request,
+                                                                          getAppName()), {
+                                                                                   setAction(
+                                                                                           R.string.allow,
+                                                                                           { dismiss() })
+                                                                                   addCallback(
+                                                                                           object:Snackbar.Callback() {
+                                                                                               override fun onDismissed(
+                                                                                                       transientBottomBar:Snackbar?,
+                                                                                                       event:Int) {
+                                                                                                   super.onDismissed(
+                                                                                                           transientBottomBar,
+                                                                                                           event)
+                                                                                                   onPermissionRequest(
+                                                                                                           permission)
+                                                                                               }
+                                                                                           })
+                                                                               })
+        
+                                                          override fun onPermissionCompletelyDenied() =
+                                                                  showSnackbar(
+                                                                          R.string.permission_denied_completely)
+        
+                                                          override fun onPermissionGranted() = checkIfFileExists()
+                                                      })
     
     private fun checkIfFileExists() {
         wallpaper?.let {
@@ -431,8 +433,7 @@ open class ViewerActivity:ThemedActivity() {
     private fun getCurrentTimeStamp():String {
         val sdfDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val now = Date()
-        val strDate = sdfDate.format(now)
-        return strDate
+        return sdfDate.format(now)
     }
     
     private fun getWallpaperExtension(currenExt:String):String {
@@ -482,14 +483,12 @@ open class ViewerActivity:ThemedActivity() {
                                 if (toBoth) {
                                     wm.setBitmap(wallpaper, null, true)
                                 } else {
-                                    if (toHomescreen) {
-                                        wm.setBitmap(wallpaper, null, true,
-                                                     WallpaperManager.FLAG_SYSTEM)
-                                    } else if (toLockscreen) {
-                                        wm.setBitmap(wallpaper, null, true,
-                                                     WallpaperManager.FLAG_LOCK)
-                                    } else {
-                                        printError("The unexpected case has happened :O")
+                                    when {
+                                        toHomescreen -> wm.setBitmap(wallpaper, null, true,
+                                                                     WallpaperManager.FLAG_SYSTEM)
+                                        toLockscreen -> wm.setBitmap(wallpaper, null, true,
+                                                                     WallpaperManager.FLAG_LOCK)
+                                        else -> printError("The unexpected case has happened :O")
                                     }
                                 }
                             } else {
@@ -497,11 +496,12 @@ open class ViewerActivity:ThemedActivity() {
                             }
                             properlyCancelDialog()
                             showSnackbar(getString(R.string.apply_successful,
-                                                   getString(
-                                                           if (toBoth) R.string.home_lock_screen else
-                                                               if (toHomescreen) R.string.home_screen else
-                                                                   if (toLockscreen) R.string.lock_screen else R.string.empty
-                                                            ).toLowerCase()))
+                                                   getString(when {
+                                                                 toBoth -> R.string.home_lock_screen
+                                                                 toHomescreen -> R.string.home_screen
+                                                                 toLockscreen -> R.string.lock_screen
+                                                                 else -> R.string.empty
+                                                             }).toLowerCase()))
                         } catch (e:Exception) {
                             e.printStackTrace()
                         }
@@ -532,38 +532,31 @@ open class ViewerActivity:ThemedActivity() {
         isInFavorites = !isInFavorites
     }
     
-    private fun showSnackbar(@StringRes text:Int, settings:Snackbar.() -> Unit = {}) {
-        showSnackbar(resources.getString(text), settings)
-    }
+    private fun showSnackbar(@StringRes text:Int, settings:Snackbar.() -> Unit = {}) =
+            showSnackbar(resources.getString(text), settings)
     
-    private fun showSnackbar(text:String, settings:Snackbar.() -> Unit = {}) {
-        if (floatingToolbar.isShowing) {
-            floatingToolbar.removeMorphListeners()
-            
-            val morphListener = object:FloatingToolbar.MorphListener {
-                override fun onMorphEnd() {
-                    // Do nothing
+    private fun showSnackbar(text:String, settings:Snackbar.() -> Unit = {}) =
+            if (floatingToolbar.isShowing) {
+                floatingToolbar.removeMorphListeners()
+                
+                val morphListener = object:FloatingToolbar.MorphListener {
+                    override fun onMorphEnd() = // Do nothing
+                            Unit
+                    
+                    override fun onMorphStart() = // Do nothing
+                            Unit
+                    
+                    override fun onUnmorphStart() = // Do nothing
+                            Unit
+                    
+                    override fun onUnmorphEnd() = justShowSnackbar(text, settings)
                 }
                 
-                override fun onMorphStart() {
-                    // Do nothing
-                }
-                
-                override fun onUnmorphStart() {
-                    // Do nothing
-                }
-                
-                override fun onUnmorphEnd() {
-                    justShowSnackbar(text, settings)
-                }
+                floatingToolbar.addMorphListener(morphListener)
+                floatingToolbar.hide()
+            } else {
+                justShowSnackbar(text, settings)
             }
-            
-            floatingToolbar.addMorphListener(morphListener)
-            floatingToolbar.hide()
-        } else {
-            justShowSnackbar(text, settings)
-        }
-    }
     
     private fun justShowSnackbar(text:String, settings:Snackbar.() -> Unit) {
         contentView?.let {
@@ -579,7 +572,7 @@ open class ViewerActivity:ThemedActivity() {
                     // fab.show()
                     floatingToolbar.removeMorphListeners()
                 }
-    
+                
                 override fun onShown(sb:Snackbar?) {
                     super.onShown(sb)
                     fab.setMarginBottom(16.dpToPx)

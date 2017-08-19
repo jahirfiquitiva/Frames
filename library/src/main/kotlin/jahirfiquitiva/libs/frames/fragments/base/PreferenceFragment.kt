@@ -153,15 +153,12 @@ abstract class PreferenceFragment:Fragment() {
     }
     
     private var preferenceScreen:PreferenceScreen?
-        get() {
-            try {
-                val m = PreferenceManager::class.java.getDeclaredMethod("getPreferenceScreen")
-                m.isAccessible = true
-                return m.invoke(preferenceManager) as PreferenceScreen
-            } catch (e:Exception) {
-                return null
-            }
-            
+        get() = try {
+            val m = PreferenceManager::class.java.getDeclaredMethod("getPreferenceScreen")
+            m.isAccessible = true
+            m.invoke(preferenceManager) as PreferenceScreen
+        } catch (e:Exception) {
+            null
         }
         set(screen) = try {
             val m = PreferenceManager::class.java.getDeclaredMethod("setPreferences",

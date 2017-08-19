@@ -86,9 +86,8 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     
     override fun getContentLayout():Int = R.layout.section_lists
     
-    override fun onItemClicked(item:Wallpaper, holder:WallpaperHolder) {
-        onWallpaperClicked(item, holder)
-    }
+    override fun onItemClicked(item:Wallpaper, holder:WallpaperHolder) = onWallpaperClicked(item,
+                                                                                            holder)
     
     override fun loadDataFromViewModel() {
         rv.state = EmptyViewRecyclerView.State.LOADING

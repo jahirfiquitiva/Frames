@@ -53,9 +53,9 @@ class CheckableImageView:AppCompatImageView, Checkable {
 }
 
 abstract class SimpleAnimationListener:Animation.AnimationListener {
-    open fun onStart(animation:Animation) {}
-    open fun onEnd(animation:Animation) {}
-    open fun onRepeat(animation:Animation) {}
+    open fun onStart(animation:Animation) = Unit
+    open fun onEnd(animation:Animation) = Unit
+    open fun onRepeat(animation:Animation) = Unit
     
     override fun onAnimationRepeat(animation:Animation?) {
         animation?.let { onRepeat(it) }

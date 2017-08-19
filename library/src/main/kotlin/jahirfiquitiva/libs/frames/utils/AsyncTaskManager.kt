@@ -31,9 +31,7 @@ open class AsyncTaskManager<Result, Parameter>(val param:Parameter,
                 onPreEx()
             }
             
-            override fun doInBackground(vararg params:Unit?):Result {
-                return loadStuff(param)
-            }
+            override fun doInBackground(vararg params:Unit?):Result = loadStuff(param)
             
             override fun onPostExecute(result:Result?) {
                 super.onPostExecute(result)

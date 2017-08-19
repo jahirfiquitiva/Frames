@@ -39,8 +39,8 @@ import jahirfiquitiva.libs.kauextensions.ui.layouts.SplitButtonsLayout
 
 @Suppress("ArrayInDataClass")
 data class Credit(val type:Type, val photo:String, val name:String, val description:String = "",
-                  val buttonsTitles:List<String> = ArrayList<String>(),
-                  val buttonsLinks:List<String> = ArrayList<String>(), val link:String = "") {
+                  val buttonsTitles:List<String> = ArrayList(),
+                  val buttonsLinks:List<String> = ArrayList(), val link:String = "") {
     enum class Type {
         CREATOR, DASHBOARD, DEV_CONTRIBUTION, UI_CONTRIBUTION
     }
@@ -106,7 +106,7 @@ open class DashboardCreditViewHolder(itemView:View?):SectionedViewHolder(itemVie
             if (credit.buttonsTitles.size == credit.buttonsLinks.size) {
                 buttons?.buttonCount = credit.buttonsTitles.size
                 for (index in 0 until credit.buttonsTitles.size) {
-                    val hasThemAll = buttons?.hasAllButtons() ?: true
+                    val hasThemAll = buttons?.hasAllButtons() != false
                     if (!hasThemAll) {
                         buttons?.addButton(credit.buttonsTitles[index], credit.buttonsLinks[index],
                                            fillAvailableSpace)
@@ -129,7 +129,6 @@ open class DashboardCreditViewHolder(itemView:View?):SectionedViewHolder(itemVie
 }
 
 class SimpleCreditViewHolder(itemView:View?):DashboardCreditViewHolder(itemView) {
-    override fun setItem(credit:Credit, fillAvailableSpace:Boolean, shouldHideButtons:Boolean) {
-        super.setItem(credit, false, true)
-    }
+    override fun setItem(credit:Credit, fillAvailableSpace:Boolean, shouldHideButtons:Boolean) =
+            super.setItem(credit, false, true)
 }

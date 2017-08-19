@@ -41,11 +41,11 @@ fun Context.getStatusBarHeight(force:Boolean = false):Int {
     }
     val dimenResult = dimenPixelSize(R.dimen.status_bar_height)
     //if our dimension is 0 return 0 because on those devices we don't need the height
-    if (dimenResult == 0 && !force) {
-        return 0
+    return if (dimenResult == 0 && !force) {
+        0
     } else {
         //if our dimens is > 0 && the result == 0 use the dimenResult else the result;
-        return if (result == 0) dimenResult else result
+        if (result == 0) dimenResult else result
     }
 }
 

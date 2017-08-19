@@ -68,7 +68,7 @@ open class CollectionActivity:BaseActivityWithFragments() {
         
         ViewCompat.setTransitionName(toolbarTitle, "title")
         
-        collection = intent?.getParcelableExtra<Collection>("item")
+        collection = intent?.getParcelableExtra("item")
         toolbarTitle.text = collection?.name ?: ""
         
         val bundle = Bundle()
@@ -84,9 +84,7 @@ open class CollectionActivity:BaseActivityWithFragments() {
         return super.onOptionsItemSelected(item)
     }
     
-    override fun onBackPressed() {
-        doFinish()
-    }
+    override fun onBackPressed() = doFinish()
     
     private fun doFinish() {
         val intent = Intent()

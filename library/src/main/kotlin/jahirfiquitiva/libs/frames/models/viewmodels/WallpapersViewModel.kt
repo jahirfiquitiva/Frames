@@ -49,19 +49,18 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
     }
     
     
-    private fun loadWallpapers(context:Context, response:String):ArrayList<Wallpaper> {
-        if (response.hasContent()) {
-            context.framesKonfigs.backupJson = response
-            return buildWallpapersListFromJson(JSONArray(response))
-        } else {
-            val prevResponse = context.framesKonfigs.backupJson
-            if (prevResponse.hasContent()) {
-                return buildWallpapersListFromJson(JSONArray(prevResponse))
+    private fun loadWallpapers(context:Context, response:String):ArrayList<Wallpaper> =
+            if (response.hasContent()) {
+                context.framesKonfigs.backupJson = response
+                buildWallpapersListFromJson(JSONArray(response))
             } else {
-                return ArrayList()
+                val prevResponse = context.framesKonfigs.backupJson
+                if (prevResponse.hasContent()) {
+                    buildWallpapersListFromJson(JSONArray(prevResponse))
+                } else {
+                    ArrayList()
+                }
             }
-        }
-    }
     
     private fun buildWallpapersListFromJson(json:JSONArray):ArrayList<Wallpaper> {
         val fWallpapers = ArrayList<Wallpaper>()
@@ -71,17 +70,17 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
             var name = ""
             try {
                 name = obj.getString("name") ?: ""
-            } catch(ignored:Exception) {
+            } catch (ignored:Exception) {
             }
             var author = ""
             try {
                 author = obj.getString("author") ?: ""
-            } catch(ignored:Exception) {
+            } catch (ignored:Exception) {
             }
             var collections = ""
             try {
                 collections = obj.getString("categories")
-            } catch(ignored:Exception) {
+            } catch (ignored:Exception) {
                 try {
                     collections = obj.getString("collections") ?: ""
                 } catch (ignored:Exception) {
@@ -99,7 +98,7 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
             var url = ""
             try {
                 url = obj.getString("url") ?: ""
-            } catch(ignored:Exception) {
+            } catch (ignored:Exception) {
             }
             var thumbUrl = ""
             try {

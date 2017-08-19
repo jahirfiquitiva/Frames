@@ -166,43 +166,40 @@ open class SettingsFragment:PreferenceFragment() {
         
     }
     
-    fun requestPermission() {
-        activity.checkPermission(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                object:PermissionRequestListener {
-                    override fun onPermissionRequest(permission:String) {
-                        activity.requestPermissions(permission)
-                    }
-                    
-                    override fun showPermissionInformation(permission:String) {
-                        activity.snackbar(getString(R.string.permission_request,
-                                                    activity.getAppName()),
-                                          builder = {
-                                              setAction(R.string.allow, { dismiss() })
-                                              addCallback(
-                                                      object:Snackbar.Callback() {
-                                                          override fun onDismissed(
-                                                                  transientBottomBar:Snackbar?,
-                                                                  event:Int) {
-                                                              super.onDismissed(
-                                                                      transientBottomBar,
-                                                                      event)
-                                                              onPermissionRequest(permission)
-                                                          }
-                                                      })
-                                          })
-                    }
-                    
-                    override fun onPermissionCompletelyDenied() {
-                        activity.snackbar(R.string.permission_denied_completely)
-                    }
-                    
-                    override fun onPermissionGranted() {
-                        if (activity is SettingsActivity)
-                            (activity as SettingsActivity).showLocationChooserDialog()
-                    }
-                })
-    }
+    fun requestPermission() = activity.checkPermission(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            object:PermissionRequestListener {
+                override fun onPermissionRequest(permission:String) = activity.requestPermissions(
+                        permission)
+                
+                override fun showPermissionInformation(permission:String) {
+                    activity.snackbar(getString(R.string.permission_request,
+                                                activity.getAppName()),
+                                      builder = {
+                                          setAction(R.string.allow, { dismiss() })
+                                          addCallback(
+                                                  object:Snackbar.Callback() {
+                                                      override fun onDismissed(
+                                                              transientBottomBar:Snackbar?,
+                                                              event:Int) {
+                                                          super.onDismissed(
+                                                                  transientBottomBar,
+                                                                  event)
+                                                          onPermissionRequest(permission)
+                                                      }
+                                                  })
+                                      })
+                }
+                
+                override fun onPermissionCompletelyDenied() {
+                    activity.snackbar(R.string.permission_denied_completely)
+                }
+                
+                override fun onPermissionGranted() {
+                    if (activity is SettingsActivity)
+                        (activity as SettingsActivity).showLocationChooserDialog()
+                }
+            })
     
     fun updateDownloadLocation() {
         downloadLocation?.summary = getString(R.string.wallpapers_download_location_setting_content,

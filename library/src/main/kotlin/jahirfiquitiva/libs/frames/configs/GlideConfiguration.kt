@@ -34,17 +34,15 @@ class GlideConfiguration:GlideModule {
         }
     }
     
-    override fun registerComponents(context:Context?, glide:Glide?) {}
+    override fun registerComponents(context:Context?, glide:Glide?) = Unit
 }
 
 val Context.maxPictureRes
     get() = if (runsMinSDK) if (isLowRamDevice) 30 else 55 else 50
 
 val Context.bestBitmapConfig:Bitmap.Config
-    get() {
-        return if (runsMinSDK) if (isLowRamDevice) Bitmap.Config.RGB_565
-        else Bitmap.Config.ARGB_8888 else Bitmap.Config.RGB_565
-    }
+    get() = if (runsMinSDK) if (isLowRamDevice) Bitmap.Config.RGB_565
+    else Bitmap.Config.ARGB_8888 else Bitmap.Config.RGB_565
 
 val Context.runsMinSDK
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
@@ -53,12 +51,12 @@ val Context.isLowRamDevice:Boolean
     get() {
         val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val lowRAMDevice:Boolean
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            lowRAMDevice = activityManager.isLowRamDevice
+        lowRAMDevice = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            activityManager.isLowRamDevice
         } else {
             val memInfo = ActivityManager.MemoryInfo()
             activityManager.getMemoryInfo(memInfo)
-            lowRAMDevice = memInfo.lowMemory
+            memInfo.lowMemory
         }
         return lowRAMDevice
     }

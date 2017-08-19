@@ -16,13 +16,10 @@
 package jahirfiquitiva.libs.frames.extensions
 
 import android.app.Activity
-import android.graphics.drawable.Drawable
 import android.os.Build
-import android.support.annotation.DrawableRes
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
-import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
 import ca.allanwang.kau.utils.dpToPx
@@ -34,20 +31,6 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
-
-fun ImageView.loadFromUrl(url:String, @DrawableRes error:Int) {
-    loadFromUrl(url, ContextCompat.getDrawable(context, error))
-}
-
-fun ImageView.loadFromUrl(url:String, error:Drawable? = null) {
-    if (url.isEmpty() && error != null) {
-        Glide.with(context).load(error).into(this)
-    } else {
-        Glide.with(context).load(url)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE).priority(Priority.HIGH)
-                .into(this)
-    }
-}
 
 fun ImageView.loadFromUrls(url:String, thumbUrl:String, sizeMultiplier:Float = 0.5F) {
     if (thumbUrl.hasContent()) {

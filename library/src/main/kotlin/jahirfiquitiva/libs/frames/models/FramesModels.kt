@@ -73,36 +73,26 @@ data class Wallpaper(
         parcel.writeLong(id)
     }
     
-    override fun describeContents():Int {
-        return 0
-    }
+    override fun describeContents():Int = 0
     
     companion object CREATOR:Parcelable.Creator<Wallpaper> {
-        override fun createFromParcel(parcel:Parcel):Wallpaper {
-            return Wallpaper(parcel)
-        }
+        override fun createFromParcel(parcel:Parcel):Wallpaper = Wallpaper(parcel)
         
-        override fun newArray(size:Int):Array<Wallpaper?> {
-            return arrayOfNulls(size)
-        }
+        override fun newArray(size:Int):Array<Wallpaper?> = arrayOfNulls(size)
     }
 }
 
 data class Collection(val name:String,
-                      var wallpapers:ArrayList<Wallpaper> = ArrayList<Wallpaper>()):Parcelable {
+                      var wallpapers:ArrayList<Wallpaper> = ArrayList()):Parcelable {
     
     override fun equals(other:Any?):Boolean {
         if (other !is Collection) return false
         return name.equals(other.name, true)
     }
     
-    override fun hashCode():Int {
-        return super.hashCode()
-    }
+    override fun hashCode():Int = super.hashCode()
     
-    override fun toString():String {
-        return name
-    }
+    override fun toString():String = name
     
     constructor(parcel:Parcel):this(parcel.readString()) {
         parcel.readTypedList(wallpapers, Wallpaper.CREATOR)
@@ -113,17 +103,11 @@ data class Collection(val name:String,
         parcel.writeTypedList(wallpapers)
     }
     
-    override fun describeContents():Int {
-        return 0
-    }
+    override fun describeContents():Int = 0
     
     companion object CREATOR:Parcelable.Creator<Collection> {
-        override fun createFromParcel(parcel:Parcel):Collection {
-            return Collection(parcel)
-        }
+        override fun createFromParcel(parcel:Parcel):Collection = Collection(parcel)
         
-        override fun newArray(size:Int):Array<Collection?> {
-            return arrayOfNulls(size)
-        }
+        override fun newArray(size:Int):Array<Collection?> = arrayOfNulls(size)
     }
 }

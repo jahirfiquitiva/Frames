@@ -29,11 +29,6 @@ import jahirfiquitiva.libs.frames.holders.SimpleCreditViewHolder
 class CreditsAdapter(val credits:ArrayList<Credit>):
         SectionedRecyclerViewAdapter<SectionedViewHolder>() {
     
-    private val CREATOR_CREDIT_VIEW_TYPE = 0
-    private val DASHBOARD_CREDIT_VIEW_TYPE = 1
-    private val DEV_CONTRIBUTION_CREDIT_VIEW_TYPE = 2
-    private val UI_CONTRIBUTION_CREDIT_VIEW_TYPE = 3
-    
     init {
         shouldShowHeadersForEmptySections(true)
         shouldShowFooters(false)
@@ -62,14 +57,12 @@ class CreditsAdapter(val credits:ArrayList<Credit>):
         }
     }
     
-    override fun getItemCount(section:Int):Int {
-        when (section) {
-            0 -> return credits.filter { it.type == Credit.Type.CREATOR }.size
-            1 -> return credits.filter { it.type == Credit.Type.DASHBOARD }.size
-            2 -> return credits.filter { it.type == Credit.Type.DEV_CONTRIBUTION }.size
-            3 -> return credits.filter { it.type == Credit.Type.UI_CONTRIBUTION }.size
-            else -> return 0
-        }
+    override fun getItemCount(section:Int):Int = when (section) {
+        0 -> credits.filter { it.type == Credit.Type.CREATOR }.size
+        1 -> credits.filter { it.type == Credit.Type.DASHBOARD }.size
+        2 -> credits.filter { it.type == Credit.Type.DEV_CONTRIBUTION }.size
+        3 -> credits.filter { it.type == Credit.Type.UI_CONTRIBUTION }.size
+        else -> 0
     }
     
     override fun onBindHeaderViewHolder(holder:SectionedViewHolder?, section:Int,
@@ -92,13 +85,12 @@ class CreditsAdapter(val credits:ArrayList<Credit>):
         }
     }
     
-    override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):SectionedViewHolder {
-        when (viewType) {
-            0, 1 -> return DashboardCreditViewHolder(parent?.inflate(R.layout.item_credits))
-            2, 3 -> return SimpleCreditViewHolder(parent?.inflate(R.layout.item_credits))
-        }
-        return CreditHeaderViewHolder(parent?.inflate(R.layout.item_section_header))
-    }
+    override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):SectionedViewHolder =
+            when (viewType) {
+                0, 1 -> DashboardCreditViewHolder(parent?.inflate(R.layout.item_credits))
+                2, 3 -> SimpleCreditViewHolder(parent?.inflate(R.layout.item_credits))
+                else -> CreditHeaderViewHolder(parent?.inflate(R.layout.item_section_header))
+            }
     
     override fun onBindFooterViewHolder(holder:SectionedViewHolder?, section:Int) {
         return

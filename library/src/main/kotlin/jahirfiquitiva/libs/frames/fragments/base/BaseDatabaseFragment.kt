@@ -62,11 +62,9 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
         favoritesModel = ViewModelProviders.of(activity).get(FavoritesViewModel::class.java)
     }
     
-    override fun registerObserver() {
-        favoritesModel.items.observe(this, Observer { data ->
-            data?.let { doOnFavoritesChange(it) }
-        })
-    }
+    override fun registerObserver() = favoritesModel.items.observe(this, Observer { data ->
+        data?.let { doOnFavoritesChange(it) }
+    })
     
     override fun loadDataFromViewModel() {
         arguments?.let {
@@ -83,71 +81,68 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
         favoritesModel.stopTask()
     }
     
-    internal fun onHeartClicked(heart:CheckableImageView, item:Wallpaper) {
-        animateHeartClick(heart, item, !heart.isChecked)
-    }
+    internal fun onHeartClicked(heart:CheckableImageView, item:Wallpaper) = animateHeartClick(heart,
+                                                                                              item,
+                                                                                              !heart.isChecked)
     
-    open fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {}
+    open fun doOnFavoritesChange(data:ArrayList<Wallpaper>) = Unit
     open fun doOnWallpapersChange(data:ArrayList<Wallpaper>,
-                                  fromCollectionActivity:Boolean = false) {
-    }
+                                  fromCollectionActivity:Boolean = false) = Unit
     
     internal fun getDatabase():FavoritesDao = database.favoritesDao()
     internal fun isInFavorites(item:Wallpaper) = favoritesModel.isInFavorites(item)
     internal fun addToFavorites(item:Wallpaper) = favoritesModel.addToFavorites(item)
     internal fun removeFromFavorites(item:Wallpaper) = favoritesModel.removeFromFavorites(item)
     
-    override fun onItemClicked(item:T) {
-        // Do nothing
-    }
+    override fun onItemClicked(item:T) = // Do nothing
+            Unit
     
     abstract fun onItemClicked(item:T, holder:VH)
     
     private val ANIMATION_DURATION:Long = 250
-    private fun animateHeartClick(heart:CheckableImageView, item:Wallpaper, check:Boolean) {
-        context.runOnUiThread {
-            val scale = ScaleAnimation(1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5f,
-                                       Animation.RELATIVE_TO_SELF, 0.5f)
-            scale.duration = ANIMATION_DURATION
-            scale.interpolator = LinearInterpolator()
-            scale.setAnimationListener(object:SimpleAnimationListener() {
-                override fun onEnd(animation:Animation) {
-                    super.onEnd(animation)
-                    heart.isChecked = check
-                    val nScale = ScaleAnimation(0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5f,
-                                                Animation.RELATIVE_TO_SELF, 0.5f)
-                    nScale.duration = ANIMATION_DURATION
-                    nScale.interpolator = LinearInterpolator()
-                    nScale.setAnimationListener(object:SimpleAnimationListener() {
-                        override fun onEnd(animation:Animation) {
-                            super.onEnd(animation)
-                            if (check) {
-                                addToFavorites(item)
-                                snack?.dismiss()
-                                snack = null
-                                snack = content.buildSnackbar(
-                                        getString(R.string.added_to_favorites, item.name),
-                                        Snackbar.LENGTH_SHORT)
-                                snack?.view?.findViewById<TextView>(
-                                        R.id.snackbar_text)?.setTextColor(Color.WHITE)
-                                snack?.show()
-                            } else {
-                                removeFromFavorites(item)
-                                snack?.dismiss()
-                                snack = null
-                                snack = content.buildSnackbar(
-                                        getString(R.string.removed_from_favorites, item.name),
-                                        Snackbar.LENGTH_SHORT)
-                                snack?.view?.findViewById<TextView>(
-                                        R.id.snackbar_text)?.setTextColor(Color.WHITE)
-                                snack?.show()
-                            }
+    private fun animateHeartClick(heart:CheckableImageView, item:Wallpaper,
+                                  check:Boolean) = context.runOnUiThread {
+        val scale = ScaleAnimation(1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5f,
+                                   Animation.RELATIVE_TO_SELF, 0.5f)
+        scale.duration = ANIMATION_DURATION
+        scale.interpolator = LinearInterpolator()
+        scale.setAnimationListener(object:SimpleAnimationListener() {
+            override fun onEnd(animation:Animation) {
+                super.onEnd(animation)
+                heart.isChecked = check
+                val nScale = ScaleAnimation(0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5f,
+                                            Animation.RELATIVE_TO_SELF, 0.5f)
+                nScale.duration = ANIMATION_DURATION
+                nScale.interpolator = LinearInterpolator()
+                nScale.setAnimationListener(object:SimpleAnimationListener() {
+                    override fun onEnd(animation:Animation) {
+                        super.onEnd(animation)
+                        if (check) {
+                            addToFavorites(item)
+                            snack?.dismiss()
+                            snack = null
+                            snack = content.buildSnackbar(
+                                    getString(R.string.added_to_favorites, item.name),
+                                    Snackbar.LENGTH_SHORT)
+                            snack?.view?.findViewById<TextView>(
+                                    R.id.snackbar_text)?.setTextColor(Color.WHITE)
+                            snack?.show()
+                        } else {
+                            removeFromFavorites(item)
+                            snack?.dismiss()
+                            snack = null
+                            snack = content.buildSnackbar(
+                                    getString(R.string.removed_from_favorites, item.name),
+                                    Snackbar.LENGTH_SHORT)
+                            snack?.view?.findViewById<TextView>(
+                                    R.id.snackbar_text)?.setTextColor(Color.WHITE)
+                            snack?.show()
                         }
-                    })
-                    heart.startAnimation(nScale)
-                }
-            })
-            heart.startAnimation(scale)
-        }
+                    }
+                })
+                heart.startAnimation(nScale)
+            }
+        })
+        heart.startAnimation(scale)
     }
 }

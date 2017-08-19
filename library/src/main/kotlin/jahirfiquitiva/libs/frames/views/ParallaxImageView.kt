@@ -15,10 +15,8 @@
  */
 package jahirfiquitiva.libs.frames.views
 
-import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.Canvas
-import android.os.Build
 import android.util.AttributeSet
 import android.view.ViewTreeObserver
 import android.widget.ImageView
@@ -41,10 +39,6 @@ class ParallaxImageView:LandscapeImageView, ViewTreeObserver.OnScrollChangedList
     constructor(context:Context, attributeSet:AttributeSet):super(context, attributeSet)
     constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int)
             :super(context, attributeSet, defStyleAttr)
-    
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int, defStyleRes:Int)
-            :super(context, attributeSet, defStyleAttr, defStyleRes)
     
     override fun onMeasure(widthMeasureSpec:Int, heightMeasureSpec:Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -77,7 +71,7 @@ class ParallaxImageView:LandscapeImageView, ViewTreeObserver.OnScrollChangedList
         }
     }
     
-    fun transform(canvas:Canvas, y:Int) {
+    private fun transform(canvas:Canvas, y:Int) {
         var nY = y
         if (scaleType != ImageView.ScaleType.CENTER_CROP) {
             return
@@ -111,5 +105,4 @@ class ParallaxImageView:LandscapeImageView, ViewTreeObserver.OnScrollChangedList
             canvas.translate(0f, translateY)
         }
     }
-    
 }

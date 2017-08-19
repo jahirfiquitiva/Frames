@@ -120,9 +120,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         }
     }
     
-    override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
-        super.doOnFavoritesChange(data)
-    }
+    override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) = super.doOnFavoritesChange(data)
     
     override fun doOnCollectionsChange(data:ArrayList<Collection>) {
         super.doOnCollectionsChange(data)

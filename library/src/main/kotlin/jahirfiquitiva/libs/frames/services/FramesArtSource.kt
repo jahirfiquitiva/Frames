@@ -184,13 +184,11 @@ class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleReg
         favsDB = null
     }
     
-    private fun getRandomIndex(maxValue:Int):Int {
-        try {
-            return Random().nextInt(maxValue)
-        } catch (e:Exception) {
-            e.printStackTrace()
-            return 0
-        }
+    private fun getRandomIndex(maxValue:Int):Int = try {
+        Random().nextInt(maxValue)
+    } catch (e:Exception) {
+        e.printStackTrace()
+        0
     }
     
     private fun publishToMuzei(name:String, author:String, url:String) {

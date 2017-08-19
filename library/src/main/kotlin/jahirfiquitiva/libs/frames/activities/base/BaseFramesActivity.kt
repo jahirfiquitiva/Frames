@@ -119,13 +119,10 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
                 checker?.let {
                     with(it) {
                         callback(object:PiracyCheckerCallback() {
-                            override fun allow() {
-                                showLicensedDialog()
-                            }
+                            override fun allow() = showLicensedDialog()
                             
-                            override fun dontAllow(error:PiracyCheckerError, app:PirateApp?) {
-                                showNotLicensedDialog(app)
-                            }
+                            override fun dontAllow(error:PiracyCheckerError, app:PirateApp?) =
+                                    showNotLicensedDialog(app)
                             
                             override fun onError(error:PiracyCheckerError) {
                                 super.onError(error)
@@ -152,11 +149,11 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
     
     internal fun getPickerKey():Int {
         if (intent != null && intent.action != null) {
-            when (intent.action) {
-                APPLY_ACTION -> return ICONS_APPLIER
-                ADW_ACTION, TURBO_ACTION, NOVA_ACTION, Intent.ACTION_PICK, Intent.ACTION_GET_CONTENT -> return IMAGE_PICKER
-                Intent.ACTION_SET_WALLPAPER -> return WALLS_PICKER
-                else -> return 0
+            return when (intent.action) {
+                APPLY_ACTION -> ICONS_APPLIER
+                ADW_ACTION, TURBO_ACTION, NOVA_ACTION, Intent.ACTION_PICK, Intent.ACTION_GET_CONTENT -> IMAGE_PICKER
+                Intent.ACTION_SET_WALLPAPER -> WALLS_PICKER
+                else -> 0
             }
         }
         return 0
@@ -199,12 +196,11 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
     internal fun showNotLicensedDialog(pirateApp:PirateApp?) {
         destroyDialog()
         val pirateAppName = pirateApp?.name ?: ""
-        val content:String
-        if (pirateAppName.hasContent()) {
-            content = getString(R.string.license_invalid_content, getAppName(),
-                                getString(R.string.license_invalid_content_extra, pirateAppName))
+        val content = if (pirateAppName.hasContent()) {
+            getString(R.string.license_invalid_content, getAppName(),
+                      getString(R.string.license_invalid_content_extra, pirateAppName))
         } else {
-            content = getString(R.string.license_invalid_content, getAppName())
+            getString(R.string.license_invalid_content, getAppName())
         }
         dialog = buildMaterialDialog {
             title(R.string.license_invalid_title)
@@ -273,8 +269,7 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
             if (it.isInitialized) {
                 val donationViewModel = ViewModelProviders.of(this).get(IAPViewModel::class.java)
                 donationViewModel.iapBillingProcessor = it
-                donationViewModel.items.observe(this, Observer<ArrayList<IAPItem>> {
-                    list ->
+                donationViewModel.items.observe(this, Observer<ArrayList<IAPItem>> { list ->
                     if (list != null) {
                         if (list.size > 0) {
                             showDonationDialog(list)
@@ -323,18 +318,16 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
         dialog?.show()
     }
     
-    override fun onProductPurchased(productId:String?, details:TransactionDetails?) {
-        productId?.let {
-            billingProcessor?.let {
-                if (it.consumePurchase(productId)) {
-                    destroyDialog()
-                    dialog = buildMaterialDialog {
-                        title(R.string.donate_success_title)
-                        content(getString(R.string.donate_success_content, getAppName()))
-                        positiveText(R.string.close)
-                    }
-                    dialog?.show()
+    override fun onProductPurchased(productId:String, details:TransactionDetails?) {
+        billingProcessor?.let {
+            if (it.consumePurchase(productId)) {
+                destroyDialog()
+                dialog = buildMaterialDialog {
+                    title(R.string.donate_success_title)
+                    content(getString(R.string.donate_success_content, getAppName()))
+                    positiveText(R.string.close)
                 }
+                dialog?.show()
             }
         }
     }
@@ -381,11 +374,9 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
         }
     }
     
-    override fun onBillingInitialized() {
-        // Do nothing
-    }
+    override fun onBillingInitialized() = // Do nothing
+            Unit
     
-    override fun onPurchaseHistoryRestored() {
-        // Do nothing
-    }
+    override fun onPurchaseHistoryRestored() = // Do nothing
+            Unit
 }

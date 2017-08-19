@@ -58,11 +58,11 @@ class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
     }
     
     fun isInFavorites(wallpaper:Wallpaper):Boolean {
-        try {
-            return items.value?.contains(wallpaper) ?: false
+        return try {
+            items.value?.contains(wallpaper) == true
         } catch (e:Exception) {
             e.printStackTrace()
-            return false
+            false
         }
     }
     

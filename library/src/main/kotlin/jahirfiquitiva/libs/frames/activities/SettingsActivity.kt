@@ -124,9 +124,8 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
         ActivityCompat.finishAfterTransition(this)
     }
     
-    override fun onFolderChooserDismissed(dialog:FolderChooserDialog) {
-        // Do nothing
-    }
+    override fun onFolderChooserDismissed(dialog:FolderChooserDialog) = // Do nothing
+            Unit
     
     override fun onFolderSelection(dialog:FolderChooserDialog, folder:File) {
         framesKonfigs.downloadsFolder = folder.absolutePath

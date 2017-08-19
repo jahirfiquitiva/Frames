@@ -43,19 +43,18 @@ abstract class ListViewModel<Parameter, Result>:ViewModel() {
         task?.cancelTask(interrupt)
     }
     
-    private fun internalLoad(param:Parameter, forceLoad:Boolean = false):ArrayList<Result> {
-        if (forceLoad) {
-            return ArrayList(loadItems(param).distinct())
-        } else {
-            if (items.value != null && (items.value?.size ?: 0) > 0) {
-                val list = ArrayList<Result>()
-                items.value?.let { list.addAll(it.distinct()) }
-                return list
+    private fun internalLoad(param:Parameter, forceLoad:Boolean = false):ArrayList<Result> =
+            if (forceLoad) {
+                ArrayList(loadItems(param).distinct())
             } else {
-                return ArrayList(loadItems(param).distinct())
+                if (items.value != null && (items.value?.size ?: 0) > 0) {
+                    val list = ArrayList<Result>()
+                    items.value?.let { list.addAll(it.distinct()) }
+                    list
+                } else {
+                    ArrayList(loadItems(param).distinct())
+                }
             }
-        }
-    }
     
     internal fun postResult(data:ArrayList<Result>) {
         items.postValue(ArrayList(data.distinct()))

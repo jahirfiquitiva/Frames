@@ -77,6 +77,6 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
         }
     }
     
-    open fun doOnCollectionsChange(data:ArrayList<Collection>) {}
+    open fun doOnCollectionsChange(data:ArrayList<Collection>) = Unit
     abstract fun applyFilter(filter:String)
 }

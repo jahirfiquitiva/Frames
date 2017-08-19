@@ -54,11 +54,11 @@ abstract class FramesActivity:BaseFramesActivity() {
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         
-        pager = findViewById<ViewPager>(R.id.pager)
+        pager = findViewById(R.id.pager)
         
         pager.adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
                                          WallpapersFragment(), FavoritesFragment())
-        tabs = findViewById<TabLayout>(R.id.tabs)
+        tabs = findViewById(R.id.tabs)
         tabs.setTabTextColors(getDisabledTextColorFor(primaryColor, 0.6F),
                               getPrimaryTextColorFor(primaryColor, 0.6F))
         tabs.setSelectedTabIndicatorColor(getPrimaryTextColorFor(primaryColor, 0.6F))
@@ -70,9 +70,8 @@ abstract class FramesActivity:BaseFramesActivity() {
                 return
             }
             
-            override fun onTabUnselected(tab:TabLayout.Tab?) {
-                // Do nothing
-            }
+            override fun onTabUnselected(tab:TabLayout.Tab?) = // Do nothing
+                    Unit
             
             override fun onTabSelected(tab:TabLayout.Tab?) {
                 tab?.let {
@@ -82,7 +81,7 @@ abstract class FramesActivity:BaseFramesActivity() {
                         val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
                         it.queryHint = getString(R.string.search_x, hint.toLowerCase())
                     }
-                    val isClosed = searchView?.isIconified ?: true
+                    val isClosed = searchView?.isIconified != false
                     if (!isClosed) {
                         doSearch()
                         invalidateOptionsMenu()
@@ -145,14 +144,13 @@ abstract class FramesActivity:BaseFramesActivity() {
     
     override fun onOptionsItemSelected(item:MenuItem?):Boolean {
         item?.let {
-            if (it.itemId == R.id.refresh) {
-                refreshContent()
-            } else if (it.itemId == R.id.about) {
-                startActivity(Intent(this, CreditsActivity::class.java))
-            } else if (it.itemId == R.id.settings) {
-                startActivityForResult(Intent(this, SettingsActivity::class.java), 22)
-            } else if (it.itemId == R.id.donate) {
-                doDonation()
+            val id = it.itemId
+            when (id) {
+                R.id.refresh -> refreshContent()
+                R.id.about -> startActivity(Intent(this, CreditsActivity::class.java))
+                R.id.settings -> startActivityForResult(Intent(this, SettingsActivity::class.java),
+                                                        22)
+                R.id.donate -> doDonation()
             }
             // TODO: Manage other items
         }

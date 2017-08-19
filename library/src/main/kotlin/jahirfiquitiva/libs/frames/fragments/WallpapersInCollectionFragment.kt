@@ -27,9 +27,8 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
         collection?.let {
-            val coll = it
-            adapter.favorites = ArrayList<Wallpaper>(data.filter {
-                it.collections.formatCorrectly().replace("_", " ").contains(coll.name, true)
+            adapter.favorites = ArrayList(data.filter {
+                it.collections.formatCorrectly().replace("_", " ").contains(it.name, true)
             })
             rv.state = EmptyViewRecyclerView.State.NORMAL
         }
@@ -38,11 +37,9 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
     override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
         collection?.let {
-            val coll = it
-            adapter.setItems(
-                    ArrayList<Wallpaper>(data.filter {
-                        it.collections.formatCorrectly().replace("_", " ").contains(coll.name, true)
-                    }))
+            adapter.setItems(ArrayList(data.filter {
+                it.collections.formatCorrectly().replace("_", " ").contains(it.name, true)
+            }))
             rv.state = EmptyViewRecyclerView.State.NORMAL
         }
     }

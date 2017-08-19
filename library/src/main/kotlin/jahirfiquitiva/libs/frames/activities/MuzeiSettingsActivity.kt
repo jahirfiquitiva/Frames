@@ -116,7 +116,7 @@ class MuzeiSettingsActivity:ThemedActivity(), LifecycleRegistryOwner, LifecycleO
         findViewById<TextView>(R.id.wifi_only_title).setTextColor(primaryTextColor)
         findViewById<TextView>(R.id.wifi_only_summary).setTextColor(secondaryTextColor)
         
-        checkBox = findViewById<AppCompatCheckBox>(R.id.wifi_checkbox)
+        checkBox = findViewById(R.id.wifi_checkbox)
         checkBox.isChecked = framesKonfigs.refreshMuzeiOnWiFiOnly
         
         findViewById<LinearLayout>(R.id.wifi_only).setOnClickListener {
@@ -126,7 +126,7 @@ class MuzeiSettingsActivity:ThemedActivity(), LifecycleRegistryOwner, LifecycleO
         
         findViewById<TextView>(R.id.choose_collections_title).setTextColor(primaryTextColor)
         
-        collsSummaryText = findViewById<TextView>(R.id.choose_collections_summary)
+        collsSummaryText = findViewById(R.id.choose_collections_summary)
         collsSummaryText.setTextColor(secondaryTextColor)
         collsSummaryText.text = getString(R.string.choose_collections_summary, selectedCollections)
         
@@ -147,13 +147,11 @@ class MuzeiSettingsActivity:ThemedActivity(), LifecycleRegistryOwner, LifecycleO
                 saveChanges()
             }
             
-            override fun onStartTrackingTouch(p0:SeekBar?) {
-                // Do nothing
-            }
+            override fun onStartTrackingTouch(p0:SeekBar?) = // Do nothing
+                    Unit
             
-            override fun onStopTrackingTouch(p0:SeekBar?) {
-                // Do nothing
-            }
+            override fun onStopTrackingTouch(p0:SeekBar?) = // Do nothing
+                    Unit
         })
         
     }
@@ -167,9 +165,7 @@ class MuzeiSettingsActivity:ThemedActivity(), LifecycleRegistryOwner, LifecycleO
         return super.onOptionsItemSelected(item)
     }
     
-    override fun onBackPressed() {
-        doFinish()
-    }
+    override fun onBackPressed() = doFinish()
     
     private fun saveChanges() {
         framesKonfigs.muzeiRefreshInterval = seekBar.progress

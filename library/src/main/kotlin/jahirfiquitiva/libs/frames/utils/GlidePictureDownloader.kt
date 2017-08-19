@@ -32,7 +32,7 @@ class GlidePictureDownloader(val glide:RequestManager,
         val requests = arrayOfNulls<FutureTarget<*>>(params.size)
         
         // fire everything into Glide queue
-        for (i in 0..params.size - 1) {
+        for (i in 0 until params.size) {
             if (isCancelled) {
                 break
             }
@@ -42,9 +42,9 @@ class GlidePictureDownloader(val glide:RequestManager,
         }
         
         val result = Result()
-        for (i in 0..params.size - 1) {
+        for (i in 0 until params.size) {
             if (isCancelled) {
-                for (j in i..params.size - 1) {
+                for (j in i until params.size) {
                     if (requests[i] != null) Glide.clear(requests[i])
                     result.failures.put(params[j] ?: "Error $j", CancellationException())
                 }
