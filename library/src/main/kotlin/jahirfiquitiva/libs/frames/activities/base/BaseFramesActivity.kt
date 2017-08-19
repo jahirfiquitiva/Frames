@@ -374,9 +374,6 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
         }
     }
     
-    override fun onBillingInitialized() = // Do nothing
-            Unit
-    
-    override fun onPurchaseHistoryRestored() = // Do nothing
-            Unit
+    override fun onBillingInitialized() {}
+    override fun onPurchaseHistoryRestored() {}
 }

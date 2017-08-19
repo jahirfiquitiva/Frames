@@ -22,23 +22,33 @@ import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
 class WallpapersInCollectionFragment:BaseWallpapersFragment() {
-    val currentFavorites = ArrayList<Wallpaper>()
+    
+    private var firstFavsModification = true
+    var newFavs = ArrayList<Wallpaper>()
     
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
         collection?.let {
-            adapter.favorites = ArrayList(data.filter {
-                it.collections.formatCorrectly().replace("_", " ").contains(it.name, true)
+            val collectionName = it.name
+            adapter.favorites = ArrayList<Wallpaper>(data.filter {
+                it.collections.formatCorrectly().replace("_", " ").contains(collectionName, true)
             })
             rv.state = EmptyViewRecyclerView.State.NORMAL
+            if (!firstFavsModification) {
+                newFavs.clear()
+                newFavs.addAll(data)
+            } else {
+                firstFavsModification = false
+            }
         }
     }
     
     override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
         collection?.let {
-            adapter.setItems(ArrayList(data.filter {
-                it.collections.formatCorrectly().replace("_", " ").contains(it.name, true)
+            val collectionName = it.name
+            adapter.setItems(ArrayList<Wallpaper>(data.filter {
+                it.collections.formatCorrectly().replace("_", " ").contains(collectionName, true)
             }))
             rv.state = EmptyViewRecyclerView.State.NORMAL
         }

@@ -31,11 +31,13 @@ import jahirfiquitiva.libs.frames.fragments.CollectionsFragment
 import jahirfiquitiva.libs.frames.fragments.FavoritesFragment
 import jahirfiquitiva.libs.frames.fragments.WallpapersFragment
 import jahirfiquitiva.libs.frames.fragments.base.BaseFramesFragment
+import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getDisabledTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
+import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 
 abstract class FramesActivity:BaseFramesActivity() {
@@ -66,12 +68,9 @@ abstract class FramesActivity:BaseFramesActivity() {
         tabs.addTab(tabs.newTab().setText(R.string.all))
         tabs.addTab(tabs.newTab().setText(R.string.favorites))
         tabs.addOnTabSelectedListener(object:TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab:TabLayout.Tab?) {
-                return
-            }
+            override fun onTabReselected(tab:TabLayout.Tab?) {}
             
-            override fun onTabUnselected(tab:TabLayout.Tab?) = // Do nothing
-                    Unit
+            override fun onTabUnselected(tab:TabLayout.Tab?) {}
             
             override fun onTabSelected(tab:TabLayout.Tab?) {
                 tab?.let {
@@ -166,6 +165,20 @@ abstract class FramesActivity:BaseFramesActivity() {
                     reloadFavorites()
                 }
             }
+        } else if (requestCode == 11) {
+            try {
+                data?.let {
+                    try {
+                        val nFavs = data.getSerializableExtra("nFavs") as ArrayList<Wallpaper>
+                        nFavs.forEach { printInfo(it.toString()) }
+                        setNewFavorites(nFavs)
+                    } catch (e:Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            } catch (e:Exception) {
+                e.printStackTrace()
+            }
         }
     }
     
@@ -218,6 +231,22 @@ abstract class FramesActivity:BaseFramesActivity() {
                 if (it is BaseFramesFragment<*, *>) {
                     try {
                         it.reloadData(2)
+                    } catch (ignored:Exception) {
+                    }
+                }
+            }
+        }
+    }
+    
+    private fun setNewFavorites(list:ArrayList<Wallpaper>) {
+        val adapter = pager.adapter
+        if (adapter is FragmentsAdapter) {
+            val frag = adapter.getItem(2)
+            frag?.let {
+                if (it is BaseFramesFragment<*, *>) {
+                    try {
+                        it.favoritesModel.stopTask(true)
+                        it.favoritesModel.forceUpdateFavorites(list)
                     } catch (ignored:Exception) {
                     }
                 }

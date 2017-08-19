@@ -88,8 +88,8 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     
     override fun getContentLayout():Int = R.layout.section_lists
     
-    override fun onItemClicked(item:Wallpaper, holder:WallpaperHolder) = onWallpaperClicked(item,
-                                                                                            holder)
+    override fun onItemClicked(item:Wallpaper, holder:WallpaperHolder) =
+            onWallpaperClicked(item, holder)
     
     override fun loadDataFromViewModel() {
         rv.state = EmptyViewRecyclerView.State.LOADING
@@ -107,7 +107,8 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
                 if (filter.hasContent()) {
                     rv.emptyView = content.findViewById(R.id.no_results_view)
                     rv.emptyTextRes = R.string.kau_no_results_found
-                    adapter.setItems(ArrayList(it.filter { it.name.contains(filter, true) }))
+                    adapter.setItems(
+                            ArrayList<Wallpaper>(it.filter { it.name.contains(filter, true) }))
                 } else {
                     rv.emptyView = content.findViewById(R.id.no_favorites_view)
                     rv.emptyTextRes = R.string.no_favorites
@@ -119,7 +120,8 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
                 if (filter.hasContent()) {
                     rv.emptyView = content.findViewById(R.id.no_results_view)
                     rv.emptyTextRes = R.string.kau_no_results_found
-                    adapter.setItems(ArrayList(it.filter { it.name.contains(filter, true) }))
+                    adapter.setItems(
+                            ArrayList<Wallpaper>(it.filter { it.name.contains(filter, true) }))
                 } else {
                     rv.emptyView = content.findViewById(R.id.empty_view)
                     rv.emptyTextRes = R.string.empty_section
@@ -161,6 +163,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         } catch (ignored:Exception) {
             startActivityForResult(intent, 10)
         }
+        activity.overridePendingTransition(0, 0)
     }
     
     override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?) {

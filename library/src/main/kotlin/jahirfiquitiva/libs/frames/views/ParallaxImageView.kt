@@ -29,11 +29,6 @@ import jahirfiquitiva.libs.kauextensions.ui.views.LandscapeImageView
 class ParallaxImageView:LandscapeImageView, ViewTreeObserver.OnScrollChangedListener {
     
     private var viewLocation = IntArray(2)
-    var parallaxEnabled = true
-        set(value) {
-            field = value
-            invalidate()
-        }
     
     constructor(context:Context):super(context)
     constructor(context:Context, attributeSet:AttributeSet):super(context, attributeSet)
@@ -46,7 +41,7 @@ class ParallaxImageView:LandscapeImageView, ViewTreeObserver.OnScrollChangedList
     }
     
     override fun onDraw(canvas:Canvas) {
-        if (!parallaxEnabled || drawable == null) {
+        if (drawable == null) {
             super.onDraw(canvas)
             return
         }
@@ -66,9 +61,7 @@ class ParallaxImageView:LandscapeImageView, ViewTreeObserver.OnScrollChangedList
     }
     
     override fun onScrollChanged() {
-        if (parallaxEnabled) {
-            invalidate()
-        }
+        invalidate()
     }
     
     private fun transform(canvas:Canvas, y:Int) {

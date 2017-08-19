@@ -70,10 +70,11 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         val titlePair = Pair<View, String>(holder.title, "title")
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, titlePair)
         try {
-            startActivityForResult(intent, 11, options.toBundle())
+            activity.startActivityForResult(intent, 11, options.toBundle())
         } catch (ignored:Exception) {
-            startActivityForResult(intent, 11)
+            activity.startActivityForResult(intent, 11)
         }
+        activity.overridePendingTransition(0, 0)
     }
     
     override fun loadDataFromViewModel() {
@@ -99,27 +100,6 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
             }
         }
         rv.state = EmptyViewRecyclerView.State.NORMAL
-    }
-    
-    override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == 11) {
-            try {
-                data?.let {
-                    val favs = data.getSerializableExtra("favs")
-                    favs?.let {
-                        try {
-                            val rFavs = favs as ArrayList<Wallpaper>
-                            favoritesModel.forceUpdateFavorites(rFavs)
-                        } catch (e:Exception) {
-                            e.printStackTrace()
-                        }
-                    }
-                }
-            } catch (e:Exception) {
-                e.printStackTrace()
-            }
-        }
     }
     
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) = super.doOnFavoritesChange(data)

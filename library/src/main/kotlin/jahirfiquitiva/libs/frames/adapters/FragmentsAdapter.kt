@@ -22,9 +22,10 @@ import android.support.v4.app.FragmentStatePagerAdapter
 
 class FragmentsAdapter(manager:FragmentManager, vararg fragments:Fragment):
         FragmentStatePagerAdapter(manager) {
-    private var fragments = ArrayList<Fragment>()
+    val fragments = ArrayList<Fragment>()
     
     init {
+        this.fragments.clear()
         this.fragments.addAll(fragments)
     }
     

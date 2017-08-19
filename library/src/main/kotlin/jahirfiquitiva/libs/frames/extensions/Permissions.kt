@@ -32,31 +32,29 @@ fun Context.shouldRequestPermission(which:String):Boolean {
     return false
 }
 
-fun Activity.requestPermissions(vararg which:String) = ActivityCompat.requestPermissions(this,
-                                                                                         which,
-                                                                                         PERMISSION_REQUEST_CODE)
+fun Activity.requestPermissions(vararg which:String) =
+        ActivityCompat.requestPermissions(this, which, PERMISSION_REQUEST_CODE)
 
 @SuppressLint("NewApi")
-fun Activity.checkPermission(permission:String,
-                             listener:PermissionRequestListener) = if (shouldRequestPermission(
-        permission)) {
-    // Permission has not been granted
-    if (shouldShowRequestPermissionRationale(permission)) {
-        // Permission needs some explanation
-        listener.showPermissionInformation(permission)
-    } else {
-        if (!framesKonfigs.storagePermissionRequested) {
-            // Request permission
-            listener.onPermissionRequest(permission)
+fun Activity.checkPermission(permission:String, listener:PermissionRequestListener) =
+        if (shouldRequestPermission(permission)) {
+            // Permission has not been granted
+            if (shouldShowRequestPermissionRationale(permission)) {
+                // Permission needs some explanation
+                listener.showPermissionInformation(permission)
+            } else {
+                if (!framesKonfigs.storagePermissionRequested) {
+                    // Request permission
+                    listener.onPermissionRequest(permission)
+                } else {
+                    // Handle the feature without permission or ask user to manually allow it
+                    listener.onPermissionCompletelyDenied()
+                }
+            }
+            framesKonfigs.storagePermissionRequested = true
         } else {
-            // Handle the feature without permission or ask user to manually allow it
-            listener.onPermissionCompletelyDenied()
+            listener.onPermissionGranted()
         }
-    }
-    framesKonfigs.storagePermissionRequested = true
-} else {
-    listener.onPermissionGranted()
-}
 
 interface PermissionRequestListener {
     fun onPermissionRequest(permission:String)

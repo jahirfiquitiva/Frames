@@ -53,7 +53,7 @@ class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
                     e.printStackTrace()
                     return@AsyncTaskManager false
                 }
-            }, {})
+            }, {}).execute()
         }
     }
     

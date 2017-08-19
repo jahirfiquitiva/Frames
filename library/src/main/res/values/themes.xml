@@ -44,6 +44,8 @@
         <item name="md_negative_color">@color/light_theme_dialogs_button_color</item>
         <item name="md_neutral_color">@color/light_theme_dialogs_button_color</item>
         <item name="md_background_color">@color/light_theme_card_background</item>
+
+        <item name="isDark">false</item>
     </style>
 
     <style name="AppTheme.Base.Dark" parent="Theme.AppCompat.NoActionBar">
@@ -66,6 +68,8 @@
         <item name="md_negative_color">@color/dark_theme_dialogs_button_color</item>
         <item name="md_neutral_color">@color/dark_theme_dialogs_button_color</item>
         <item name="md_background_color">@color/dark_theme_card_background</item>
+
+        <item name="isDark">true</item>
     </style>
 
     <color name="clear_bg">#70000000</color>
@@ -74,7 +78,6 @@
         <item name="android:windowBackground">@color/clear_bg</item>
         <item name="cardBackgroundColor">#30000000</item>
         <item name="md_background_color">#30000000</item>
-        <!-- <item name="material_drawer_background">#30000000</item> -->
     </style>
 
     <color name="amoled_bg">#0f0f0f</color>
@@ -85,7 +88,6 @@
         <item name="android:windowBackground">@color/amoled_bg</item>
         <item name="cardBackgroundColor">#101010</item>
         <item name="md_background_color">#101010</item>
-        <!-- <item name="material_drawer_background">#101010</item> -->
     </style>
 
     <style name="LightTheme.SplashScreen">

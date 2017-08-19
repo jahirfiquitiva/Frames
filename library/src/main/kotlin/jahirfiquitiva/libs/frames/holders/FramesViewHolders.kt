@@ -67,7 +67,6 @@ class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
                 TextViewCompat.setTextAppearance(amount, R.style.DetailsText_Small)
                 img.loadFromUrls(url, if (thumb.equals(url, true)) "" else thumb)
             }
-            img.parallaxEnabled = true
             title.text = collection.name
             amount.text = (collection.wallpapers.size).toString()
         }
@@ -85,7 +84,6 @@ class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
                     detailsBg.setBackgroundColor(color)
                     title.setTextColor(itemView.context.getPrimaryTextColorFor(color))
                     amount.setTextColor(itemView.context.getSecondaryTextColorFor(color))
-                    img.invalidate()
                 }
             }
         }
@@ -93,8 +91,8 @@ class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
     }
 }
 
-class WallpaperHolder(itemView:View, val showFavIcon:Boolean = true):RecyclerView.ViewHolder(
-        itemView) {
+class WallpaperHolder(itemView:View, val showFavIcon:Boolean = true):
+        RecyclerView.ViewHolder(itemView) {
     val img:VerticalImageView = itemView.findViewById(R.id.wallpaper_image)
     val detailsBg:LinearLayout = itemView.findViewById(R.id.wallpaper_details)
     val name:TextView = itemView.findViewById(R.id.wallpaper_name)

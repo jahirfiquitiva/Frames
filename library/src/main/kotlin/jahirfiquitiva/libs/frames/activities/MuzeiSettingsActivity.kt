@@ -147,11 +147,9 @@ class MuzeiSettingsActivity:ThemedActivity(), LifecycleRegistryOwner, LifecycleO
                 saveChanges()
             }
             
-            override fun onStartTrackingTouch(p0:SeekBar?) = // Do nothing
-                    Unit
+            override fun onStartTrackingTouch(p0:SeekBar?) {}
             
-            override fun onStopTrackingTouch(p0:SeekBar?) = // Do nothing
-                    Unit
+            override fun onStopTrackingTouch(p0:SeekBar?) {}
         })
         
     }

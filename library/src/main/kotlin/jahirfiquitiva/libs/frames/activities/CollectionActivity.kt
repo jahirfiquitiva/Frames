@@ -88,9 +88,10 @@ open class CollectionActivity:BaseActivityWithFragments() {
     
     private fun doFinish() {
         val intent = Intent()
-        intent.putExtra("favs", frag.currentFavorites)
+        intent.putExtra("nFavs", frag.newFavs)
         setResult(11, intent)
         ActivityCompat.finishAfterTransition(this)
+        overridePendingTransition(0, 0)
     }
     
 }

@@ -77,7 +77,6 @@ data class Wallpaper(
     
     companion object CREATOR:Parcelable.Creator<Wallpaper> {
         override fun createFromParcel(parcel:Parcel):Wallpaper = Wallpaper(parcel)
-        
         override fun newArray(size:Int):Array<Wallpaper?> = arrayOfNulls(size)
     }
 }
@@ -107,7 +106,6 @@ data class Collection(val name:String,
     
     companion object CREATOR:Parcelable.Creator<Collection> {
         override fun createFromParcel(parcel:Parcel):Collection = Collection(parcel)
-        
         override fun newArray(size:Int):Array<Collection?> = arrayOfNulls(size)
     }
 }

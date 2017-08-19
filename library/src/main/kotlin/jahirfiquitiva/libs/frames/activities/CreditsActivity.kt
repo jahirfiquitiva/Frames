@@ -19,7 +19,6 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
@@ -118,16 +117,16 @@ open class CreditsActivity:ThemedActivity() {
             override fun readSummaryTextFromResources(
                     context:Context):String = readFullTextFromResources(context)
             
-            override fun readFullTextFromResources(
-                    context:Context):String = "\tLicensed under the CreativeCommons Attribution-ShareAlike\n\t4.0 " +
-                    "International License. You may not use this file except in compliance \n" +
-                    "\twith the License. You may obtain a copy of the License at\n\n\t\t" +
-                    "http://creativecommons.org/licenses/by-sa/4.0/legalcode\n\n" +
-                    "\tUnless required by applicable law or agreed to in writing, software\n" +
-                    "\tdistributed under the License is distributed on an \"AS IS\" BASIS,\n" +
-                    "\tWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
-                    "\tSee the License for the specific language governing permissions and\n" +
-                    "\tlimitations under the License."
+            override fun readFullTextFromResources(context:Context):String =
+                    "\tLicensed under the CreativeCommons Attribution-ShareAlike\n\t4.0 " +
+                            "International License. You may not use this file except in compliance \n" +
+                            "\twith the License. You may obtain a copy of the License at\n\n\t\t" +
+                            "http://creativecommons.org/licenses/by-sa/4.0/legalcode\n\n" +
+                            "\tUnless required by applicable law or agreed to in writing, software\n" +
+                            "\tdistributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+                            "\tWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+                            "\tSee the License for the specific language governing permissions and\n" +
+                            "\tlimitations under the License."
             
             override fun getVersion():String = "4.0"
             
@@ -140,18 +139,18 @@ open class CreditsActivity:ThemedActivity() {
             override fun readSummaryTextFromResources(
                     context:Context):String = readFullTextFromResources(context)
             
-            override fun readFullTextFromResources(
-                    context:Context):String = "The Educational Community License version 2.0 (\"ECL\") consists of the " +
-                    "Apache 2.0 license, modified to change the scope of the patent grant in " +
-                    "section 3 to be specific to the needs of the education communities " +
-                    "using this license.\n\nLicensed under the Apache License, Version 2.0 " +
-                    "(the \"License\");\n" + "you may not use this file except in compliance with " +
-                    "the License.\nYou may obtain a copy of the License at\n\n\t" +
-                    "http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable " +
-                    "law or agreed to in writing, software\ndistributed under the License is " +
-                    "distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY " +
-                    "KIND, either express or implied.\nSee the License for the specific " +
-                    "language governing permissions and\nlimitations under the License."
+            override fun readFullTextFromResources(context:Context):String =
+                    "The Educational Community License version 2.0 (\"ECL\") consists of the " +
+                            "Apache 2.0 license, modified to change the scope of the patent grant in " +
+                            "section 3 to be specific to the needs of the education communities " +
+                            "using this license.\n\nLicensed under the Apache License, Version 2.0 " +
+                            "(the \"License\");\n" + "you may not use this file except in compliance with " +
+                            "the License.\nYou may obtain a copy of the License at\n\n\t" +
+                            "http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable " +
+                            "law or agreed to in writing, software\ndistributed under the License is " +
+                            "distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY " +
+                            "KIND, either express or implied.\nSee the License for the specific " +
+                            "language governing permissions and\nlimitations under the License."
             
             override fun getVersion():String = "2.0"
             

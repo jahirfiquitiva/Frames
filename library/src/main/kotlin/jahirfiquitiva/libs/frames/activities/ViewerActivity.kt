@@ -55,9 +55,13 @@ import ca.allanwang.kau.utils.tint
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
+import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
@@ -75,6 +79,7 @@ import jahirfiquitiva.libs.frames.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.frames.extensions.navigationBarHeight
 import jahirfiquitiva.libs.frames.extensions.requestPermissions
 import jahirfiquitiva.libs.frames.extensions.setNavBarMargins
+import jahirfiquitiva.libs.frames.extensions.toBitmap
 import jahirfiquitiva.libs.frames.models.Wallpaper
 import jahirfiquitiva.libs.frames.utils.GlidePictureDownloader
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
@@ -149,6 +154,8 @@ open class ViewerActivity:ThemedActivity() {
         
         toolbar.tint(getColorFromRes(android.R.color.white), false)
         
+        ActivityCompat.postponeEnterTransition(this)
+        
         val toolbarTitle = findViewById<TextView>(R.id.toolbar_title)
         val toolbarSubtitle = findViewById<TextView>(R.id.toolbar_subtitle)
         ViewCompat.setTransitionName(toolbarTitle, intent?.getStringExtra("nameTransition") ?: "")
@@ -176,8 +183,7 @@ open class ViewerActivity:ThemedActivity() {
                 item?.let { doItemClick(it) }
             }
             
-            override fun onItemLongClick(item:MenuItem?) = // Do nothing
-                    Unit
+            override fun onItemLongClick(item:MenuItem?) {}
         })
         
         image.setOnClickListener { if (floatingToolbar.isShowing) floatingToolbar.hide() }
@@ -222,6 +228,7 @@ open class ViewerActivity:ThemedActivity() {
         setResult(10, intent)
         properlyCancelDialog()
         ActivityCompat.finishAfterTransition(this)
+        overridePendingTransition(0, 0)
     }
     
     private fun setupWallpaper(view:SubsamplingScaleImageView, wallpaper:Wallpaper?) {
@@ -245,20 +252,22 @@ open class ViewerActivity:ThemedActivity() {
         
         val target = object:SimpleTarget<Bitmap>() {
             override fun onResourceReady(resource:Bitmap?, transition:Transition<in Bitmap>?) {
-                findViewById<ProgressBar>(R.id.loading).gone()
-                view.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP)
-                resource?.let {
-                    view.setImage(ImageSource.cachedBitmap(it))
-                    it.bestSwatch?.let {
-                        val color = it.rgb
-                        fab.backgroundTintList = ColorStateList.valueOf(color)
-                        fab.rippleColor = getRippleColorFor(color)
-                        floatingToolbar.setBackgroundColor(color)
-                        floatingToolbar.background = ColorDrawable(color)
-                        toolbarColor = color
-                        setupFabToolbarIcons()
-                    }
-                }
+                setImageInto(resource, view)
+            }
+            
+            override fun onLoadStarted(placeholder:Drawable?) {
+                super.onLoadStarted(placeholder)
+                setImageInto(placeholder?.toBitmap(this@ViewerActivity), view)
+            }
+            
+            override fun onLoadCleared(placeholder:Drawable?) {
+                super.onLoadCleared(placeholder)
+                setImageInto(placeholder?.toBitmap(this@ViewerActivity), view)
+            }
+            
+            override fun onLoadFailed(errorDrawable:Drawable?) {
+                super.onLoadFailed(errorDrawable)
+                setImageInto(errorDrawable?.toBitmap(this@ViewerActivity), view)
             }
         }
         
@@ -266,13 +275,48 @@ open class ViewerActivity:ThemedActivity() {
             val thumbRequest = Glide.with(this).asBitmap().load(it.thumbUrl)
                     .thumbnail(if (it.url.equals(it.thumbUrl, true)) 0.5F else 1F)
                     .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                                   .priority(Priority.IMMEDIATE).placeholder(d))
+                                   .priority(Priority.IMMEDIATE).placeholder(d)
+                                   .dontTransform())
+                    .listener(object:RequestListener<Bitmap> {
+                        override fun onResourceReady(resource:Bitmap?, model:Any?,
+                                                     target:Target<Bitmap>?, dataSource:DataSource?,
+                                                     isFirstResource:Boolean):Boolean {
+                            setImageInto(resource, view)
+                            return true
+                        }
+                        
+                        override fun onLoadFailed(e:GlideException?, model:Any?,
+                                                  target:Target<Bitmap>?,
+                                                  isFirstResource:Boolean):Boolean {
+                            setImageInto(d.toBitmap(this@ViewerActivity), view)
+                            return false
+                        }
+                    })
             
             Glide.with(this).asBitmap().load(it.url).thumbnail(thumbRequest)
                     .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                                   .priority(Priority.HIGH).placeholder(d))
+                                   .priority(Priority.HIGH).placeholder(d)
+                                   .dontTransform())
                     .into(target)
         }
+    }
+    
+    private fun setImageInto(resource:Bitmap?, view:SubsamplingScaleImageView) {
+        findViewById<ProgressBar>(R.id.loading).gone()
+        view.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP)
+        resource?.let {
+            view.setImage(ImageSource.cachedBitmap(it))
+            it.bestSwatch?.let {
+                val color = it.rgb
+                fab.backgroundTintList = ColorStateList.valueOf(color)
+                fab.rippleColor = getRippleColorFor(color)
+                floatingToolbar.setBackgroundColor(color)
+                floatingToolbar.background = ColorDrawable(color)
+                toolbarColor = color
+                setupFabToolbarIcons()
+            }
+        }
+        ActivityCompat.startPostponedEnterTransition(this@ViewerActivity)
     }
     
     private fun setupFabToolbarIcons() {
@@ -322,40 +366,31 @@ open class ViewerActivity:ThemedActivity() {
     }
     
     @SuppressLint("NewApi")
-    private fun downloadWallpaper() = checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                                      object:PermissionRequestListener {
-                                                          override fun onPermissionRequest(
-                                                                  permission:String) =
-                                                                  requestPermissions(permission)
-        
-                                                          override fun showPermissionInformation(
-                                                                  permission:String) =
-                                                                  showSnackbar(getString(
-                                                                          R.string.permission_request,
-                                                                          getAppName()), {
-                                                                                   setAction(
-                                                                                           R.string.allow,
-                                                                                           { dismiss() })
-                                                                                   addCallback(
-                                                                                           object:Snackbar.Callback() {
-                                                                                               override fun onDismissed(
-                                                                                                       transientBottomBar:Snackbar?,
-                                                                                                       event:Int) {
-                                                                                                   super.onDismissed(
-                                                                                                           transientBottomBar,
-                                                                                                           event)
-                                                                                                   onPermissionRequest(
-                                                                                                           permission)
-                                                                                               }
-                                                                                           })
-                                                                               })
-        
-                                                          override fun onPermissionCompletelyDenied() =
-                                                                  showSnackbar(
-                                                                          R.string.permission_denied_completely)
-        
-                                                          override fun onPermissionGranted() = checkIfFileExists()
-                                                      })
+    private fun downloadWallpaper() =
+            checkPermission(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    object:PermissionRequestListener {
+                        override fun onPermissionRequest(permission:String) =
+                                requestPermissions(permission)
+                        
+                        override fun showPermissionInformation(permission:String) =
+                                showSnackbar(getString(R.string.permission_request, getAppName()), {
+                                    setAction(R.string.allow, { dismiss() })
+                                    addCallback(
+                                            object:Snackbar.Callback() {
+                                                override fun onDismissed(
+                                                        transientBottomBar:Snackbar?, event:Int) {
+                                                    super.onDismissed(transientBottomBar, event)
+                                                    onPermissionRequest(permission)
+                                                }
+                                            })
+                                })
+                        
+                        override fun onPermissionCompletelyDenied() =
+                                showSnackbar(R.string.permission_denied_completely)
+                        
+                        override fun onPermissionGranted() = checkIfFileExists()
+                    })
     
     private fun checkIfFileExists() {
         wallpaper?.let {
@@ -543,15 +578,9 @@ open class ViewerActivity:ThemedActivity() {
                 floatingToolbar.removeMorphListeners()
                 
                 val morphListener = object:FloatingToolbar.MorphListener {
-                    override fun onMorphEnd() = // Do nothing
-                            Unit
-                    
-                    override fun onMorphStart() = // Do nothing
-                            Unit
-                    
-                    override fun onUnmorphStart() = // Do nothing
-                            Unit
-                    
+                    override fun onMorphEnd() {}
+                    override fun onMorphStart() {}
+                    override fun onUnmorphStart() {}
                     override fun onUnmorphEnd() = justShowSnackbar(text, settings)
                 }
                 
@@ -563,16 +592,12 @@ open class ViewerActivity:ThemedActivity() {
     
     private fun justShowSnackbar(text:String, settings:Snackbar.() -> Unit) {
         contentView?.let {
-            // fab.hide()
-            
             val snack = it.buildSnackbar(text, builder = settings)
             
             snack.addCallback(object:Snackbar.Callback() {
                 override fun onDismissed(transientBottomBar:Snackbar?, event:Int) {
                     super.onDismissed(transientBottomBar, event)
                     fab.setNavBarMargins()
-                    // floatingToolbar.setNavBarMargins()
-                    // fab.show()
                     floatingToolbar.removeMorphListeners()
                 }
                 
@@ -613,7 +638,6 @@ open class ViewerActivity:ThemedActivity() {
                         if (toolbarColor.isColorDark) toolbarColor else accentColor)
             }
             floatingToolbar.showSnackBar(snack)
-            // snack.show()
         }
     }
     
@@ -621,5 +645,4 @@ open class ViewerActivity:ThemedActivity() {
         actionDialog?.dismiss()
         actionDialog = null
     }
-    
 }
