@@ -81,6 +81,8 @@ dependencies {
     compile 'com.github.plusCubed:recycler-fast-scroll:' + versions.recyclerViewFastScroll
     // Floating Toolbar
     compile 'com.github.rubensousa:floatingtoolbar:' + versions.floatingToolbar
+    // Material Number Picker
+    compile 'biz.kasual:materialnumberpicker:' + versions.mnp
     // Subsampling ImageView
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:' + versions.subsImageView
     // In-App Purchases

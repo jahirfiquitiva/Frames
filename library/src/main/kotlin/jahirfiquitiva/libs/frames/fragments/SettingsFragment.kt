@@ -18,12 +18,13 @@ package jahirfiquitiva.libs.frames.fragments
 import android.Manifest
 import android.annotation.SuppressLint
 import android.arch.persistence.room.Room
+import android.graphics.Color
 import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceCategory
 import android.preference.SwitchPreference
 import android.support.design.widget.Snackbar
-import android.text.InputType
+import biz.kasual.materialnumberpicker.MaterialNumberPicker
 import ca.allanwang.kau.utils.buildIsLollipopAndUp
 import ca.allanwang.kau.utils.snackbar
 import com.afollestad.materialdialogs.MaterialDialog
@@ -40,8 +41,10 @@ import jahirfiquitiva.libs.frames.fragments.base.PreferenceFragment
 import jahirfiquitiva.libs.frames.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.utils.DATABASE_NAME
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
+import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.konfigs
+import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import org.jetbrains.anko.doAsync
 
 open class SettingsFragment:PreferenceFragment() {
@@ -101,17 +104,31 @@ open class SettingsFragment:PreferenceFragment() {
         val columns = findPreference("columns")
         columns?.setOnPreferenceClickListener {
             clearDialog()
-            dialog = activity.buildMaterialDialog {
+            val currentColumns = context.framesKonfigs.columns
+            
+            val numberPicker = MaterialNumberPicker.Builder(context)
+                    .minValue(1)
+                    .maxValue(6)
+                    .defaultValue(currentColumns)
+                    .backgroundColor(context.cardBackgroundColor)
+                    .separatorColor(Color.TRANSPARENT)
+                    .textColor(context.secondaryTextColor)
+                    .enableFocusability(false)
+                    .wrapSelectorWheel(true)
+                    .build()
+            
+            dialog = context.buildMaterialDialog {
                 title(R.string.wallpapers_columns_setting_title)
-                inputType(InputType.TYPE_CLASS_NUMBER)
-                input(0, 0, false, { _, input ->
+                customView(numberPicker, false)
+                positiveText(android.R.string.ok)
+                onPositive { dialog, _ ->
                     try {
-                        var cols = input.toString().toInt()
-                        if (cols <= 0) cols = 2
-                        activity.framesKonfigs.columns = cols
+                        val newColumns = numberPicker.value
+                        if (currentColumns != newColumns) context.framesKonfigs.columns = newColumns
                     } catch (ignored:Exception) {
                     }
-                })
+                    dialog.dismiss()
+                }
             }
             dialog?.show()
             false
