@@ -52,6 +52,7 @@ import ca.allanwang.kau.utils.setMarginRight
 import ca.allanwang.kau.utils.setMarginTop
 import ca.allanwang.kau.utils.statusBarColor
 import ca.allanwang.kau.utils.tint
+import ca.allanwang.kau.utils.visible
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
@@ -68,6 +69,7 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
 import com.github.rubensousa.floatingtoolbar.FloatingToolbarMenuBuilder
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.PERMISSION_REQUEST_CODE
 import jahirfiquitiva.libs.frames.helpers.extensions.PermissionRequestListener
 import jahirfiquitiva.libs.frames.helpers.extensions.adjustToDeviceScreen
@@ -80,10 +82,10 @@ import jahirfiquitiva.libs.frames.helpers.extensions.navigationBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.requestPermissions
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.helpers.extensions.toBitmap
-import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.GlidePictureDownloader
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
+import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
 import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
@@ -252,22 +254,22 @@ open class ViewerActivity:ThemedActivity() {
         
         val target = object:SimpleTarget<Bitmap>() {
             override fun onResourceReady(resource:Bitmap?, transition:Transition<in Bitmap>?) {
-                setImageInto(resource, view)
+                setImageInto(resource, view, false)
             }
             
             override fun onLoadStarted(placeholder:Drawable?) {
                 super.onLoadStarted(placeholder)
-                setImageInto(placeholder?.toBitmap(this@ViewerActivity), view)
+                setImageInto(placeholder?.toBitmap(this@ViewerActivity), view, true)
             }
             
             override fun onLoadCleared(placeholder:Drawable?) {
                 super.onLoadCleared(placeholder)
-                setImageInto(placeholder?.toBitmap(this@ViewerActivity), view)
+                setImageInto(placeholder?.toBitmap(this@ViewerActivity), view, false)
             }
             
             override fun onLoadFailed(errorDrawable:Drawable?) {
                 super.onLoadFailed(errorDrawable)
-                setImageInto(errorDrawable?.toBitmap(this@ViewerActivity), view)
+                setImageInto(errorDrawable?.toBitmap(this@ViewerActivity), view, false)
             }
         }
         
@@ -281,15 +283,15 @@ open class ViewerActivity:ThemedActivity() {
                         override fun onResourceReady(resource:Bitmap?, model:Any?,
                                                      target:Target<Bitmap>?, dataSource:DataSource?,
                                                      isFirstResource:Boolean):Boolean {
-                            setImageInto(resource, view)
+                            setImageInto(resource, view, true)
                             return true
                         }
                         
                         override fun onLoadFailed(e:GlideException?, model:Any?,
                                                   target:Target<Bitmap>?,
                                                   isFirstResource:Boolean):Boolean {
-                            setImageInto(d.toBitmap(this@ViewerActivity), view)
-                            return false
+                            setImageInto(d.toBitmap(this@ViewerActivity), view, false)
+                            return true
                         }
                     })
             
@@ -301,8 +303,10 @@ open class ViewerActivity:ThemedActivity() {
         }
     }
     
-    private fun setImageInto(resource:Bitmap?, view:SubsamplingScaleImageView) {
-        findViewById<ProgressBar>(R.id.loading).gone()
+    private fun setImageInto(resource:Bitmap?, view:SubsamplingScaleImageView,
+                             isThumbnail:Boolean) {
+        val progressBar = findViewById<ProgressBar>(R.id.loading)
+        if (!isThumbnail) progressBar.gone()
         view.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP)
         resource?.let {
             view.setImage(ImageSource.cachedBitmap(it))
@@ -314,6 +318,13 @@ open class ViewerActivity:ThemedActivity() {
                 floatingToolbar.background = ColorDrawable(color)
                 toolbarColor = color
                 setupFabToolbarIcons()
+                try {
+                    if (isThumbnail) {
+                        progressBar.indeterminateDrawable.applyColorFilter(color)
+                        progressBar.visible()
+                    }
+                } catch (ignored:Exception) {
+                }
             }
         }
         ActivityCompat.startPostponedEnterTransition(this@ViewerActivity)

@@ -75,6 +75,7 @@
     <color name="clear_bg">#70000000</color>
 
     <style name="AppTheme.Base.Clear" parent="AppTheme.Base.Dark">
+        <item name="android:windowShowWallpaper">true</item>
         <item name="android:windowBackground">@color/clear_bg</item>
         <item name="cardBackgroundColor">#30000000</item>
         <item name="md_background_color">#30000000</item>

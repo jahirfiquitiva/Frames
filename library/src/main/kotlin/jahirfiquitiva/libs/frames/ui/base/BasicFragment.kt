@@ -13,37 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package jahirfiquitiva.libs.frames.ui.base
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
+import android.arch.lifecycle.LifecycleFragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import jahirfiquitiva.libs.frames.ui.fragments.presenters.ViewModelFragmentPresenter
+import jahirfiquitiva.libs.frames.ui.fragments.presenters.BasicFragmentPresenter
 
-abstract class BaseViewModelFragment<in T>:BasicFragment<T>(), LifecycleObserver, ViewModelFragmentPresenter<T> {
-    override fun onCreate(savedInstanceState:Bundle?) {
-        super.onCreate(savedInstanceState)
-        initVM()
-    }
-    
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun initVM() {
-        initViewModel()
-        registerObserver()
-    }
-    
+abstract class BasicFragment<in T>:LifecycleFragment(), BasicFragmentPresenter<T> {
+    lateinit var content:View
     override fun onCreateView(inflater:LayoutInflater?, container:ViewGroup?,
                               savedInstanceState:Bundle?):View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
-        loadDataFromViewModel()
-        return view
+        if (getContentLayout() != 0) {
+            val contentView = inflater?.inflate(getContentLayout(), container, false)
+            contentView?.let {
+                content = it
+                initUI(content)
+            }
+            return contentView
+        }
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
-    
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    abstract override fun unregisterObserver()
 }

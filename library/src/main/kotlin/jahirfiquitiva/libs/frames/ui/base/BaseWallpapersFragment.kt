@@ -27,12 +27,12 @@ import android.view.View
 import ca.allanwang.kau.utils.dimenPixelSize
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.ui.activities.ViewerActivity
-import jahirfiquitiva.libs.frames.ui.adapters.WallpapersAdapter
+import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.configs.maxPictureRes
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
+import jahirfiquitiva.libs.frames.ui.activities.ViewerActivity
+import jahirfiquitiva.libs.frames.ui.adapters.WallpapersAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.holders.WallpaperHolder
-import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
@@ -156,7 +156,6 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
             val imgPair = Pair<View, String>(holder.img, imgTransition)
             val namePair = Pair<View, String>(holder.name, nameTransition)
             val authorPair = Pair<View, String>(holder.author, authorTransition)
-            
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imgPair,
                                                                              namePair, authorPair)
             startActivityForResult(intent, 10, options.toBundle())

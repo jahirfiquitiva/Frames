@@ -19,9 +19,7 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.OnLifecycleEvent
 
 interface ViewModelFragmentPresenter<in T>:BasicFragmentPresenter<T> {
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun initViewModel()
-    
     fun registerObserver()
     fun loadDataFromViewModel()
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
