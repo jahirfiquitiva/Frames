@@ -32,7 +32,7 @@
             android:gravity="center"
             android:visibility="visible"/>
 
-    <jahirfiquitiva.libs.frames.views.ParallaxImageView
+    <jahirfiquitiva.libs.frames.ui.widgets.ParallaxImageView
             android:id="@+id/collection_picture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
