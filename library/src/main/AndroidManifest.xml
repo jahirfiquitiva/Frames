@@ -71,26 +71,26 @@
 
         <!--suppress AndroidDomInspection -->
         <activity
-                android:name="jahirfiquitiva.libs.frames.ui.activities.FramesActivity"
+                android:name=".ui.activities.FramesActivity"
                 android:windowSoftInputMode="stateHidden"
                 android:exported="false"/>
         <activity
-                android:name="jahirfiquitiva.libs.frames.ui.activities.ViewerActivity"
+                android:name=".ui.activities.ViewerActivity"
                 android:exported="false"/>
         <activity
-                android:name="jahirfiquitiva.libs.frames.ui.activities.CollectionActivity"
+                android:name=".ui.activities.CollectionActivity"
                 android:exported="false"/>
         <activity
-                android:name="jahirfiquitiva.libs.frames.ui.activities.CreditsActivity"
+                android:name=".ui.activities.CreditsActivity"
                 android:exported="false"/>
-        <activity android:name="jahirfiquitiva.libs.frames.ui.activities.SettingsActivity">
+        <activity android:name=".ui.activities.SettingsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
-                android:name="jahirfiquitiva.libs.frames.ui.activities.MuzeiSettingsActivity"
+                android:name=".ui.activities.MuzeiSettingsActivity"
                 android:exported="true"/>
     </application>
 
