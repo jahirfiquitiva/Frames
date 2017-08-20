@@ -25,9 +25,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ca.allanwang.kau.utils.inflate
-import jahirfiquitiva.libs.frames.fragments.presenters.FramesFragmentPresenter
+import jahirfiquitiva.libs.frames.fragments.presenters.ViewModelFragmentPresenter
 
-abstract class BaseViewModelFragment<in T>:LifecycleFragment(), LifecycleObserver, FramesFragmentPresenter<T> {
+abstract class BaseViewModelFragment<in T>:LifecycleFragment(), LifecycleObserver, ViewModelFragmentPresenter<T> {
     
     internal lateinit var content:View
     
@@ -45,6 +45,7 @@ abstract class BaseViewModelFragment<in T>:LifecycleFragment(), LifecycleObserve
     override fun onCreateView(inflater:LayoutInflater?, container:ViewGroup?,
                               savedInstanceState:Bundle?):View? {
         super.onCreateView(inflater, container, savedInstanceState)
+        container?.removeAllViews()
         val contentView = container?.inflate(getContentLayout())
         contentView?.let {
             content = it

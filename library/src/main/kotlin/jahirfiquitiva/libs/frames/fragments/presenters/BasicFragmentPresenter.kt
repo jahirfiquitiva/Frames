@@ -15,19 +15,10 @@
  */
 package jahirfiquitiva.libs.frames.fragments.presenters
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.OnLifecycleEvent
 import android.view.View
 
-interface FramesFragmentPresenter<in T> {
+interface BasicFragmentPresenter<in T> {
+    fun getContentLayout():Int
     fun initUI(content:View)
     fun onItemClicked(item:T)
-    
-    fun getContentLayout():Int
-    
-    fun initViewModel()
-    fun registerObserver()
-    fun loadDataFromViewModel()
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun unregisterObserver()
 }
