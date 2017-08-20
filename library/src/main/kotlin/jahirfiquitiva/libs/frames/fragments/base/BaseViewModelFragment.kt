@@ -31,10 +31,14 @@ abstract class BaseViewModelFragment<in T>:LifecycleFragment(), LifecycleObserve
     
     internal lateinit var content:View
     
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    override fun onStart() {
+    override fun onCreate(savedInstanceState:Bundle?) {
+        super.onCreate(savedInstanceState)
+        init()
+    }
+    
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun init() {
         initViewModel()
-        super.onStart()
         registerObserver()
     }
     
