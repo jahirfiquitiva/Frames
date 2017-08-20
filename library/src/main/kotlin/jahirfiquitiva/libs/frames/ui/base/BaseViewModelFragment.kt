@@ -44,15 +44,17 @@ abstract class BaseViewModelFragment<in T>:LifecycleFragment(), LifecycleObserve
     
     override fun onCreateView(inflater:LayoutInflater?, container:ViewGroup?,
                               savedInstanceState:Bundle?):View? {
-        super.onCreateView(inflater, container, savedInstanceState)
         container?.removeAllViews()
-        val contentView = container?.inflate(getContentLayout())
-        contentView?.let {
-            content = it
-            initUI(content)
-            loadDataFromViewModel()
+        if (getContentLayout() != 0) {
+            val contentView = container?.inflate(getContentLayout())
+            contentView?.let {
+                content = it
+                initUI(content)
+                loadDataFromViewModel()
+            }
+            return contentView
         }
-        return contentView
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
     
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
