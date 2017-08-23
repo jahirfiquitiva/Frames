@@ -24,16 +24,16 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
-import jahirfiquitiva.libs.frames.ui.adapters.CollectionsAdapter
-import jahirfiquitiva.libs.frames.ui.base.BaseFramesFragment
-import jahirfiquitiva.libs.frames.ui.adapters.holders.CollectionHolder
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
+import jahirfiquitiva.libs.frames.ui.adapters.CollectionsAdapter
+import jahirfiquitiva.libs.frames.ui.adapters.holders.CollectionHolder
+import jahirfiquitiva.libs.frames.ui.base.BaseFramesFragment
+import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
-import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
 class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     
@@ -46,20 +46,20 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         rv.itemAnimator = DefaultItemAnimator()
         rv.textView = content.findViewById(R.id.empty_text)
         rv.emptyView = content.findViewById(R.id.empty_view)
-        rv.emptyTextRes = R.string.empty_section
+        rv.setEmptyImage(R.drawable.empty_section)
+        rv.setEmptyText(R.string.empty_section)
         rv.loadingView = content.findViewById(R.id.loading_view)
-        rv.loadingTextRes = R.string.loading_section
+        rv.setLoadingText(R.string.loading_section)
         val spanCount = if (context.isInHorizontalMode) 2 else 1
-        rv.layoutManager = GridLayoutManager(context, spanCount,
-                                             GridLayoutManager.VERTICAL, false)
+        rv.layoutManager = GridLayoutManager(context, spanCount, GridLayoutManager.VERTICAL, false)
         rv.addItemDecoration(GridSpacingItemDecoration(spanCount, 0, true))
         adapter = CollectionsAdapter { collection, holder ->
             onItemClicked(collection, holder)
         }
         rv.adapter = adapter
-        rv.state = EmptyViewRecyclerView.State.LOADING
         fastScroll = content.findViewById(R.id.fast_scroller)
         fastScroll.attachRecyclerView(rv)
+        rv.state = EmptyViewRecyclerView.State.LOADING
     }
     
     override fun getContentLayout():Int = R.layout.section_lists
@@ -90,16 +90,15 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     override fun applyFilter(filter:String) {
         collectionsModel.items.value?.let {
             if (filter.hasContent()) {
-                rv.emptyView = content.findViewById(R.id.no_results_view)
-                rv.emptyTextRes = R.string.kau_no_results_found
+                rv.setEmptyImage(R.drawable.no_results)
+                rv.setEmptyText(R.string.search_no_results)
                 adapter.setItems(ArrayList(it.filter { it.name.contains(filter, true) }))
             } else {
-                rv.emptyView = content.findViewById(R.id.empty_view)
-                rv.emptyTextRes = R.string.empty_section
+                rv.setEmptyImage(R.drawable.empty_section)
+                rv.setEmptyText(R.string.empty_section)
                 adapter.setItems(it)
             }
         }
-        rv.state = EmptyViewRecyclerView.State.NORMAL
     }
     
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) = super.doOnFavoritesChange(data)
@@ -107,6 +106,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     override fun doOnCollectionsChange(data:ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
         adapter.setItems(data)
-        rv.state = EmptyViewRecyclerView.State.NORMAL
     }
+    
+    override fun autoStartLoad():Boolean = true
 }

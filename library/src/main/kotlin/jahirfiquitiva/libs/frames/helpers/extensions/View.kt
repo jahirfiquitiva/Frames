@@ -49,7 +49,8 @@ fun ImageView.loadFromUrls(url:String, thumbUrl:String, sizeMultiplier:Float = 0
         Glide.with(context).load(url).thumbnail(sizeMultiplier)
                 .apply(RequestOptions().dontTransform()
                                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                               .priority(Priority.HIGH)).into(this)
+                               .priority(Priority.HIGH))
+                .into(this)
     }
 }
 
@@ -69,7 +70,8 @@ fun ImageView.loadFromUrlsIntoTarget(url:String, thumbUrl:String, target:BitmapI
                 .into(target)
     } else if (url.hasContent()) {
         Glide.with(context).asBitmap().load(url).thumbnail(sizeMultiplier)
-                .apply(RequestOptions().dontTransform().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .apply(RequestOptions().dontTransform()
+                               .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                                .priority(Priority.HIGH))
                 .into(target)
     }

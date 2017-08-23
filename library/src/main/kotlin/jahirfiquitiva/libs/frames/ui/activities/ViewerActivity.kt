@@ -52,6 +52,7 @@ import ca.allanwang.kau.utils.setMarginRight
 import ca.allanwang.kau.utils.setMarginTop
 import ca.allanwang.kau.utils.statusBarColor
 import ca.allanwang.kau.utils.tint
+import ca.allanwang.kau.utils.toBitmap
 import ca.allanwang.kau.utils.visible
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
@@ -70,6 +71,7 @@ import com.github.rubensousa.floatingtoolbar.FloatingToolbar
 import com.github.rubensousa.floatingtoolbar.FloatingToolbarMenuBuilder
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.helpers.configs.bestBitmapConfig
 import jahirfiquitiva.libs.frames.helpers.extensions.PERMISSION_REQUEST_CODE
 import jahirfiquitiva.libs.frames.helpers.extensions.PermissionRequestListener
 import jahirfiquitiva.libs.frames.helpers.extensions.adjustToDeviceScreen
@@ -81,7 +83,6 @@ import jahirfiquitiva.libs.frames.helpers.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.navigationBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.requestPermissions
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
-import jahirfiquitiva.libs.frames.helpers.extensions.toBitmap
 import jahirfiquitiva.libs.frames.helpers.utils.GlidePictureDownloader
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
@@ -259,17 +260,17 @@ open class ViewerActivity:ThemedActivity() {
             
             override fun onLoadStarted(placeholder:Drawable?) {
                 super.onLoadStarted(placeholder)
-                setImageInto(placeholder?.toBitmap(this@ViewerActivity), view, true)
+                setImageInto(placeholder?.toBitmap(config = bestBitmapConfig), view, true)
             }
             
             override fun onLoadCleared(placeholder:Drawable?) {
                 super.onLoadCleared(placeholder)
-                setImageInto(placeholder?.toBitmap(this@ViewerActivity), view, false)
+                setImageInto(placeholder?.toBitmap(config = bestBitmapConfig), view, false)
             }
             
             override fun onLoadFailed(errorDrawable:Drawable?) {
                 super.onLoadFailed(errorDrawable)
-                setImageInto(errorDrawable?.toBitmap(this@ViewerActivity), view, false)
+                setImageInto(errorDrawable?.toBitmap(config = bestBitmapConfig), view, false)
             }
         }
         
@@ -290,7 +291,7 @@ open class ViewerActivity:ThemedActivity() {
                         override fun onLoadFailed(e:GlideException?, model:Any?,
                                                   target:Target<Bitmap>?,
                                                   isFirstResource:Boolean):Boolean {
-                            setImageInto(d.toBitmap(this@ViewerActivity), view, false)
+                            setImageInto(d.toBitmap(config = bestBitmapConfig), view, false)
                             return true
                         }
                     })
@@ -345,6 +346,7 @@ open class ViewerActivity:ThemedActivity() {
         
         val applyIcon = "ic_apply_wallpaper".getDrawable(this).tint(
                 getActiveIconsColorFor(toolbarColor, 0.6F))
+        applyIcon.toBitmap(config = bestBitmapConfig)
         menuBuilder.addItem(APPLY_ITEM_ID, applyIcon, R.string.apply)
         
         if (showFavoritesButton) {

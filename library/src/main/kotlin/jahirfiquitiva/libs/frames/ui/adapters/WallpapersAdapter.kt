@@ -19,8 +19,8 @@ package jahirfiquitiva.libs.frames.ui.adapters
 import android.view.ViewGroup
 import ca.allanwang.kau.utils.inflate
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.ui.adapters.holders.WallpaperHolder
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.ui.adapters.holders.WallpaperHolder
 import jahirfiquitiva.libs.frames.ui.widgets.CheckableImageView
 
 class WallpapersAdapter(val listener:(Wallpaper, WallpaperHolder) -> Unit,

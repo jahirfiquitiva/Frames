@@ -33,10 +33,10 @@ import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.ui.activities.ViewerActivity
 import jahirfiquitiva.libs.frames.ui.adapters.WallpapersAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.holders.WallpaperHolder
+import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
-import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
 abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHolder>() {
     
@@ -51,11 +51,11 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         rv = content.findViewById(R.id.list_rv)
         rv.itemAnimator = DefaultItemAnimator()
         rv.textView = content.findViewById(R.id.empty_text)
-        rv.emptyView = content.findViewById(
-                if (fromFavorites()) R.id.no_favorites_view else R.id.empty_view)
-        rv.emptyTextRes = if (fromFavorites()) R.string.no_favorites else R.string.empty_section
+        rv.emptyView = content.findViewById(R.id.empty_view)
+        rv.setEmptyImage(if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
+        rv.setEmptyText(if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
         rv.loadingView = content.findViewById(R.id.loading_view)
-        rv.loadingTextRes = R.string.loading_section
+        rv.setLoadingText(R.string.loading_section)
         configureRVColumns()
         adapter = WallpapersAdapter(
                 { wall, holder -> onItemClicked(wall, holder) },
@@ -102,34 +102,19 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     }
     
     override fun applyFilter(filter:String) {
-        if (fromFavorites()) {
-            favoritesModel.items.value?.let {
-                if (filter.hasContent()) {
-                    rv.emptyView = content.findViewById(R.id.no_results_view)
-                    rv.emptyTextRes = R.string.kau_no_results_found
-                    adapter.setItems(
-                            ArrayList<Wallpaper>(it.filter { it.name.contains(filter, true) }))
-                } else {
-                    rv.emptyView = content.findViewById(R.id.no_favorites_view)
-                    rv.emptyTextRes = R.string.no_favorites
-                    adapter.setItems(it)
-                }
+        val list = if (fromFavorites()) favoritesModel.items.value else wallpapersModel.items.value
+        if (filter.hasContent()) {
+            rv.setEmptyImage(R.drawable.no_results)
+            rv.setEmptyText(R.string.search_no_results)
+            list?.let {
+                adapter.setItems(ArrayList<Wallpaper>(it.filter { it.name.contains(filter, true) }))
             }
         } else {
-            wallpapersModel.items.value?.let {
-                if (filter.hasContent()) {
-                    rv.emptyView = content.findViewById(R.id.no_results_view)
-                    rv.emptyTextRes = R.string.kau_no_results_found
-                    adapter.setItems(
-                            ArrayList<Wallpaper>(it.filter { it.name.contains(filter, true) }))
-                } else {
-                    rv.emptyView = content.findViewById(R.id.empty_view)
-                    rv.emptyTextRes = R.string.empty_section
-                    adapter.setItems(it)
-                }
-            }
+            rv.setEmptyImage(
+                    if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
+            rv.setEmptyText(if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
+            list?.let { adapter.setItems(it) }
         }
-        rv.state = EmptyViewRecyclerView.State.NORMAL
     }
     
     private fun onWallpaperClicked(wallpaper:Wallpaper, holder:WallpaperHolder) {

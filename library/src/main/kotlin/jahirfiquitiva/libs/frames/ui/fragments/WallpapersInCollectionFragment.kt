@@ -16,10 +16,9 @@
 package jahirfiquitiva.libs.frames.ui.fragments
 
 import android.os.Bundle
-import jahirfiquitiva.libs.frames.ui.base.BaseWallpapersFragment
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.ui.base.BaseWallpapersFragment
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
-import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
 class WallpapersInCollectionFragment:BaseWallpapersFragment() {
     
@@ -33,13 +32,12 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
             adapter.favorites = ArrayList<Wallpaper>(data.filter {
                 it.collections.formatCorrectly().replace("_", " ").contains(collectionName, true)
             })
-            rv.state = EmptyViewRecyclerView.State.NORMAL
-            if (!firstFavsModification) {
-                newFavs.clear()
-                newFavs.addAll(data)
-            } else {
-                firstFavsModification = false
-            }
+        }
+        if (!firstFavsModification) {
+            newFavs.clear()
+            newFavs.addAll(data)
+        } else {
+            firstFavsModification = false
         }
     }
     
@@ -50,7 +48,6 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
             adapter.setItems(ArrayList<Wallpaper>(data.filter {
                 it.collections.formatCorrectly().replace("_", " ").contains(collectionName, true)
             }))
-            rv.state = EmptyViewRecyclerView.State.NORMAL
         }
     }
     
@@ -63,7 +60,7 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
         }
     }
     
+    override fun autoStartLoad():Boolean = false
     override fun fromFavorites():Boolean = false
-    // TODO: Should I set this to false?
     override fun showFavoritesIcon():Boolean = true
 }

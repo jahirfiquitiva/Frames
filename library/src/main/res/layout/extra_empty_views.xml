@@ -49,49 +49,6 @@
                 android:scaleType="centerInside"
                 android:scaleX="0.75"
                 android:scaleY="0.75"
-                android:src="@drawable/empty_section"
-                tools:ignore="ContentDescription"/>
-
-        <ImageView
-                android:id="@+id/no_results_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:visibility="gone"
-                android:scaleType="centerInside"
-                android:scaleX="0.75"
-                android:scaleY="0.75"
-                android:src="@drawable/no_results"
-                tools:ignore="ContentDescription"/>
-
-        <ImageView
-                android:id="@+id/no_favorites_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:visibility="gone"
-                android:scaleType="centerInside"
-                android:scaleX="0.75"
-                android:scaleY="0.75"
-                android:src="@drawable/no_favorites"
-                tools:ignore="ContentDescription"/>
-
-        <ImageView
-                android:id="@+id/no_connected_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:visibility="gone"
-                android:scaleType="centerInside"
-                android:scaleX="0.75"
-                android:scaleY="0.75"
-                android:src="@drawable/no_connection"
                 tools:ignore="ContentDescription"/>
 
     </RelativeLayout>

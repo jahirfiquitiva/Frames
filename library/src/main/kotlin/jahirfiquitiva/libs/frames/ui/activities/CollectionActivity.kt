@@ -16,17 +16,19 @@
 package jahirfiquitiva.libs.frames.ui.activities
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
+import android.transition.Transition
 import android.view.MenuItem
 import android.widget.FrameLayout
 import android.widget.TextView
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.ui.base.BaseActivityWithFragments
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersInCollectionFragment
-import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
@@ -75,6 +77,20 @@ open class CollectionActivity:BaseActivityWithFragments() {
         bundle.putParcelable("collection", collection)
         frag = WallpapersInCollectionFragment.newInstance(bundle)
         changeFragment(frag)
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val transition = window.sharedElementEnterTransition
+            transition?.addListener(object:Transition.TransitionListener {
+                override fun onTransitionEnd(p0:Transition?) {
+                    frag.loadDataFromViewModel()
+                }
+                
+                override fun onTransitionResume(p0:Transition?) {}
+                override fun onTransitionPause(p0:Transition?) {}
+                override fun onTransitionCancel(p0:Transition?) {}
+                override fun onTransitionStart(p0:Transition?) {}
+            })
+        }
     }
     
     override fun onOptionsItemSelected(item:MenuItem?):Boolean {

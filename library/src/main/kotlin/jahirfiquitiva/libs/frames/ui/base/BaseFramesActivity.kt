@@ -36,8 +36,6 @@ import com.github.javiersantos.piracychecker.enums.PirateApp
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
-import jahirfiquitiva.libs.frames.providers.viewmodels.IAPItem
-import jahirfiquitiva.libs.frames.providers.viewmodels.IAPViewModel
 import jahirfiquitiva.libs.frames.helpers.utils.ADW_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.APPLY_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.ICONS_APPLIER
@@ -46,6 +44,8 @@ import jahirfiquitiva.libs.frames.helpers.utils.NOVA_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.PLAY_STORE_LINK_PREFIX
 import jahirfiquitiva.libs.frames.helpers.utils.TURBO_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.WALLS_PICKER
+import jahirfiquitiva.libs.frames.providers.viewmodels.IAPItem
+import jahirfiquitiva.libs.frames.providers.viewmodels.IAPViewModel
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getStringArray

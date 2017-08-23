@@ -25,19 +25,18 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.ui.base.BaseFramesActivity
+import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.adapters.FragmentsAdapter
+import jahirfiquitiva.libs.frames.ui.base.BaseFramesActivity
+import jahirfiquitiva.libs.frames.ui.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.fragments.CollectionsFragment
 import jahirfiquitiva.libs.frames.ui.fragments.FavoritesFragment
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersFragment
-import jahirfiquitiva.libs.frames.ui.base.BaseFramesFragment
-import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getDisabledTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
-import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 
 abstract class FramesActivity:BaseFramesActivity() {
@@ -170,7 +169,6 @@ abstract class FramesActivity:BaseFramesActivity() {
                 data?.let {
                     try {
                         val nFavs = data.getSerializableExtra("nFavs") as ArrayList<Wallpaper>
-                        nFavs.forEach { printInfo(it.toString()) }
                         setNewFavorites(nFavs)
                     } catch (e:Exception) {
                         e.printStackTrace()

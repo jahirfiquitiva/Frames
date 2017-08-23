@@ -40,10 +40,12 @@ abstract class BaseViewModelFragment<in T>:BasicFragment<T>(), LifecycleObserver
     override fun onCreateView(inflater:LayoutInflater?, container:ViewGroup?,
                               savedInstanceState:Bundle?):View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
-        loadDataFromViewModel()
+        if (autoStartLoad()) loadDataFromViewModel()
         return view
     }
     
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     abstract override fun unregisterObserver()
+    
+    abstract fun autoStartLoad():Boolean
 }

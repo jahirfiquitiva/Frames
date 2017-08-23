@@ -58,6 +58,7 @@
 
     <string name="search">Search</string>
     <string name="search_x">Search %1$s…</string>
+    <string name="search_no_results">No results found</string>
 
     <string name="about">About</string>
     <string name="refresh">Refresh</string>

@@ -29,6 +29,7 @@ import de.psdev.licensesdialog.licenses.License
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.ui.adapters.CreditsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.holders.Credit
+import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
@@ -37,7 +38,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
-import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
 
 open class CreditsActivity:ThemedActivity() {
     
@@ -75,9 +75,7 @@ open class CreditsActivity:ThemedActivity() {
         
         val adapter = CreditsAdapter(buildCreditsList())
         adapter.setLayoutManager(layoutManager)
-        
         rv.adapter = adapter
-        rv.state = EmptyViewRecyclerView.State.NORMAL
         
         fastScroll = findViewById(R.id.fast_scroller)
         fastScroll.attachRecyclerView(rv)

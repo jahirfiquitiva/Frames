@@ -29,11 +29,11 @@ import ca.allanwang.kau.utils.goneIf
 import ca.allanwang.kau.utils.visible
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.data.models.Collection
+import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartSelector
 import jahirfiquitiva.libs.frames.helpers.extensions.loadFromUrls
 import jahirfiquitiva.libs.frames.helpers.extensions.loadFromUrlsIntoTarget
-import jahirfiquitiva.libs.frames.data.models.Collection
-import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.widgets.CheckableImageView
 import jahirfiquitiva.libs.frames.ui.widgets.ParallaxImageView
 import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch

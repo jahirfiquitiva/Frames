@@ -27,14 +27,14 @@ import com.google.android.apps.muzei.api.MuzeiArtSource
 import com.google.android.apps.muzei.api.RemoteMuzeiArtSource
 import com.google.android.apps.muzei.api.UserCommand
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
+import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
+import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
+import jahirfiquitiva.libs.frames.helpers.utils.PLAY_STORE_LINK_PREFIX
 import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.frames.providers.viewmodels.ListViewModel
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
-import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
-import jahirfiquitiva.libs.frames.helpers.utils.PLAY_STORE_LINK_PREFIX
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
@@ -69,7 +69,7 @@ class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleReg
         try {
             onTryUpdate(MuzeiArtSource.UPDATE_REASON_USER_NEXT)
         } catch (e:Exception) {
-            printError("Error updating Muzei: " + e.message)
+            printError("Error updating Muzei: ${e.message}")
         }
     }
     

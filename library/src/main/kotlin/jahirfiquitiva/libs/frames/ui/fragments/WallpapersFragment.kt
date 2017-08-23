@@ -15,23 +15,21 @@
  */
 package jahirfiquitiva.libs.frames.ui.fragments
 
-import jahirfiquitiva.libs.frames.ui.base.BaseWallpapersFragment
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.kauextensions.ui.views.EmptyViewRecyclerView
+import jahirfiquitiva.libs.frames.ui.base.BaseWallpapersFragment
 
 class WallpapersFragment:BaseWallpapersFragment() {
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
         adapter.favorites = data
-        rv.state = EmptyViewRecyclerView.State.NORMAL
     }
     
     override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
         adapter.setItems(data)
-        rv.state = EmptyViewRecyclerView.State.NORMAL
     }
     
+    override fun autoStartLoad():Boolean = true
     override fun fromFavorites():Boolean = false
     override fun showFavoritesIcon():Boolean = true
 }

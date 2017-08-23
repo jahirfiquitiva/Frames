@@ -26,9 +26,9 @@ import android.widget.TextView
 import ca.allanwang.kau.utils.snackbar
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.ui.base.BaseActivityWithFragments
 import jahirfiquitiva.libs.frames.helpers.extensions.PERMISSION_REQUEST_CODE
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
+import jahirfiquitiva.libs.frames.ui.base.BaseActivityWithFragments
 import jahirfiquitiva.libs.frames.ui.fragments.SettingsFragment
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
