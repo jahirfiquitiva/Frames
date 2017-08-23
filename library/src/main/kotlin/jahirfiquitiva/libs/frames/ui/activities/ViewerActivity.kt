@@ -148,8 +148,6 @@ open class ViewerActivity:ThemedActivity() {
         
         toolbar.tint(getColorFromRes(android.R.color.white), false)
         
-        // ActivityCompat.postponeEnterTransition(this)
-        
         val toolbarTitle = findViewById<TextView>(R.id.toolbar_title)
         val toolbarSubtitle = findViewById<TextView>(R.id.toolbar_subtitle)
         ViewCompat.setTransitionName(toolbarTitle, intent?.getStringExtra("nameTransition") ?: "")
@@ -323,7 +321,6 @@ open class ViewerActivity:ThemedActivity() {
             } catch (ignored:Exception) {
             }
         }
-        // ActivityCompat.startPostponedEnterTransition(this@ViewerActivity)
     }
     
     private fun setupFabToolbarIcons() {
