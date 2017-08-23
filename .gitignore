@@ -76,6 +76,7 @@ proguard/
 #############################################################################
 
 !/.idea/copyright
+/.idea/inspectionProfiles
 /.idea/dictionaries
 /.idea/libraries
 /.idea/markdown-navigator
