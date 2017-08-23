@@ -26,4 +26,6 @@
         <item>@string/auto_dark</item>
         <item>@string/auto_amoled</item>
     </string-array>
+
+    <bool name="isFrames">true</bool>
 </resources>

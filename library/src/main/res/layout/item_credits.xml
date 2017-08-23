@@ -63,7 +63,7 @@
                 android:paddingLeft="@dimen/fabs_margin"
                 android:paddingEnd="@dimen/fabs_margin"
                 android:paddingRight="@dimen/fabs_margin"
-                android:maxLines="3"
+                android:maxLines="4"
                 android:ellipsize="end"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="14sp"

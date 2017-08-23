@@ -20,10 +20,12 @@ import android.view.ViewGroup
 import ca.allanwang.kau.utils.inflate
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.ui.adapters.holders.WallpaperHolder
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import jahirfiquitiva.libs.frames.ui.widgets.CheckableImageView
 
-class WallpapersAdapter(val listener:(Wallpaper, WallpaperHolder) -> Unit,
+class WallpapersAdapter(val singleTap:(Wallpaper, WallpaperHolder) -> Unit,
+                        val doubleTap:(CheckableImageView, Wallpaper) -> Unit,
+                        val longPress:(Wallpaper, WallpaperHolder) -> Unit,
                         val heartListener:(CheckableImageView, Wallpaper) -> Unit,
                         val fromFavorites:Boolean = false, val showFavIcon:Boolean = true):
         BaseListAdapter<Wallpaper, WallpaperHolder>() {
@@ -37,7 +39,8 @@ class WallpapersAdapter(val listener:(Wallpaper, WallpaperHolder) -> Unit,
     
     override fun doBind(holder:WallpaperHolder, position:Int) {
         val item = list[position]
-        holder.setItem(item, listener, heartListener, fromFavorites || favorites.contains(item))
+        holder.setItem(item, singleTap, doubleTap, longPress, heartListener,
+                       fromFavorites || favorites.contains(item))
     }
     
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):WallpaperHolder? =

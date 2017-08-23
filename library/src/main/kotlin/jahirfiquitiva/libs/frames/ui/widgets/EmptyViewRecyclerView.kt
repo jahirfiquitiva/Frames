@@ -143,11 +143,20 @@ open class EmptyViewRecyclerView:RecyclerView {
     }
     
     override fun setAdapter(adapter:Adapter<*>?) {
+        setAdapterInternal(adapter, false)
+    }
+    
+    private fun setAdapterInternal(adapter:Adapter<*>?, autoUpdateState:Boolean) {
         val oldAdapter = getAdapter()
         oldAdapter?.unregisterAdapterDataObserver(observer)
         super.setAdapter(adapter)
         adapter?.registerAdapterDataObserver(observer)
-        updateStateViews()
+        if (autoUpdateState) setStateInternal()
+        else updateStateViews()
+    }
+    
+    fun setAdapter(adapter:Adapter<*>?, autoUpdateState:Boolean) {
+        setAdapterInternal(adapter, autoUpdateState)
     }
     
     enum class State {

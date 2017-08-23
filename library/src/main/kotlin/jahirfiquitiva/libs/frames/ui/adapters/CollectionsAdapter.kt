@@ -20,7 +20,7 @@ import android.view.ViewGroup
 import ca.allanwang.kau.utils.inflate
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
-import jahirfiquitiva.libs.frames.ui.adapters.holders.CollectionHolder
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
 
 class CollectionsAdapter(
         val listener:(Collection, CollectionHolder) -> Unit):BaseListAdapter<Collection, CollectionHolder>() {

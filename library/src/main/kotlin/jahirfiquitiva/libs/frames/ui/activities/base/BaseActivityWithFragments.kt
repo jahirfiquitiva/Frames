@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jahirfiquitiva.libs.frames.ui.base
+package jahirfiquitiva.libs.frames.ui.activities.base
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager

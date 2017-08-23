@@ -32,10 +32,11 @@
             android:visibility="visible"
             android:fitsSystemWindows="true"/>
 
-    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+    <jahirfiquitiva.libs.kauextensions.ui.views.TouchImageView
             android:id="@+id/wallpaper"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             android:fitsSystemWindows="true"/>
 
     <com.github.rubensousa.floatingtoolbar.FloatingToolbar

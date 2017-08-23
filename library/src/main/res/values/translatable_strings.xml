@@ -42,6 +42,7 @@
 
     <string name="downloading_wallpaper">Downloading \'%1$s\'…</string>
     <string name="download_successful">Wallpaper downloaded successfully to \'%1$s\'</string>
+    <string name="download_successful_short">Wallpaper downloaded successfully</string>
 
     <string name="open">Open</string>
 
@@ -55,6 +56,7 @@
     <string name="lock_screen">Lock screen</string>
     <string name="home_lock_screen">Home and lock screens</string>
     <string name="apply_successful">Wallpaper applied successfully to %1$s</string>
+    <string name="apply_successful_short">Wallpaper applied successfully</string>
 
     <string name="search">Search</string>
     <string name="search_x">Search %1$s…</string>
@@ -70,6 +72,7 @@
 
     <string name="dashboard_copyright">I am a 20 years old Android development enthusiast and the developer of the dashboard.</string>
     <string name="sherry_description">An ever evolving woman who never tires of learning, creative photographer and the person who made this dashboard possible.</string>
+    <string name="allan_description">First an icon pack creator, then a themer, now also a developer.\nI have helped with part of this dashboard\'s development.</string>
 
     <string name="settings">Settings</string>
 
@@ -122,6 +125,7 @@
     <string name="license_invalid_content_extra">Or specifically: \'%1$s\' app, so please uninstall it</string>
 
     <string name="error_title">Error</string>
+    <string name="action_error_content">Sorry, an unexpected error occurred while trying to complete this action.</string>
     <string name="license_error_content">Sorry, there was an error while checking your license. Please try again later.</string>
     <string name="try_now">Try now</string>
 

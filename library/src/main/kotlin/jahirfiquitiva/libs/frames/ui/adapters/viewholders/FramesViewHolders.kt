@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package jahirfiquitiva.libs.frames.ui.adapters.holders
+package jahirfiquitiva.libs.frames.ui.adapters.viewholders
 
 import android.graphics.Bitmap
 import android.support.v4.view.ViewCompat
@@ -35,6 +35,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.createHeartSelector
 import jahirfiquitiva.libs.frames.helpers.extensions.loadFromUrls
 import jahirfiquitiva.libs.frames.helpers.extensions.loadFromUrlsIntoTarget
 import jahirfiquitiva.libs.frames.ui.widgets.CheckableImageView
+import jahirfiquitiva.libs.frames.ui.widgets.MultipleTapsListener
 import jahirfiquitiva.libs.frames.ui.widgets.ParallaxImageView
 import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
@@ -101,7 +102,9 @@ class WallpaperHolder(itemView:View, val showFavIcon:Boolean = true):
     val progress:ProgressBar = itemView.findViewById(R.id.loading)
     var bitmap:Bitmap? = null
     
-    fun setItem(wallpaper:Wallpaper, listener:(Wallpaper, WallpaperHolder) -> Unit,
+    fun setItem(wallpaper:Wallpaper, singleTap:(Wallpaper, WallpaperHolder) -> Unit,
+                doubleTap:(CheckableImageView, Wallpaper) -> Unit,
+                longPress:(Wallpaper, WallpaperHolder) -> Unit,
                 heartListener:(CheckableImageView, Wallpaper) -> Unit,
                 check:Boolean = false) {
         with(itemView) {
@@ -127,7 +130,19 @@ class WallpaperHolder(itemView:View, val showFavIcon:Boolean = true):
                 heartIcon.gone()
             }
         }
-        itemView.setOnClickListener { listener(wallpaper, this) }
+        itemView.setOnTouchListener(object:MultipleTapsListener() {
+            override fun onSingleTap() {
+                singleTap(wallpaper, this@WallpaperHolder)
+            }
+            
+            override fun onDoubleTap() {
+                doubleTap(heartIcon, wallpaper)
+            }
+            
+            override fun onLongPress() {
+                longPress(wallpaper, this@WallpaperHolder)
+            }
+        })
     }
     
     fun loadImage(url:String, thumbUrl:String, check:Boolean) {

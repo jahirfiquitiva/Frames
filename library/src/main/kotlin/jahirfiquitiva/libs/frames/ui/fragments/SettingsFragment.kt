@@ -39,10 +39,11 @@ import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.requestPermissions
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.ui.activities.SettingsActivity
-import jahirfiquitiva.libs.frames.ui.base.PreferenceFragment
+import jahirfiquitiva.libs.frames.ui.fragments.base.PreferenceFragment
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
+import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.konfigs
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import org.jetbrains.anko.doAsync
@@ -57,7 +58,10 @@ open class SettingsFragment:PreferenceFragment() {
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
-        
+        initPreferences()
+    }
+    
+    open fun initPreferences() {
         database = Room.databaseBuilder(activity, FavoritesDatabase::class.java,
                                         DATABASE_NAME).build()
         
@@ -102,37 +106,44 @@ open class SettingsFragment:PreferenceFragment() {
         }
         
         val columns = findPreference("columns")
-        columns?.setOnPreferenceClickListener {
-            clearDialog()
-            val currentColumns = context.framesKonfigs.columns
-            
-            val numberPicker = MaterialNumberPicker.Builder(context)
-                    .minValue(1)
-                    .maxValue(6)
-                    .defaultValue(currentColumns)
-                    .backgroundColor(context.cardBackgroundColor)
-                    .separatorColor(Color.TRANSPARENT)
-                    .textColor(context.secondaryTextColor)
-                    .enableFocusability(false)
-                    .wrapSelectorWheel(true)
-                    .build()
-            
-            dialog = context.buildMaterialDialog {
-                title(R.string.wallpapers_columns_setting_title)
-                customView(numberPicker, false)
-                positiveText(android.R.string.ok)
-                onPositive { dialog, _ ->
-                    try {
-                        val newColumns = numberPicker.value
-                        if (currentColumns != newColumns) context.framesKonfigs.columns = newColumns
-                    } catch (ignored:Exception) {
+        if (context.getBoolean(R.bool.isFrames)) {
+            columns?.setOnPreferenceClickListener {
+                clearDialog()
+                val currentColumns = context.framesKonfigs.columns
+                
+                val numberPicker = MaterialNumberPicker.Builder(context)
+                        .minValue(1)
+                        .maxValue(6)
+                        .defaultValue(currentColumns)
+                        .backgroundColor(context.cardBackgroundColor)
+                        .separatorColor(Color.TRANSPARENT)
+                        .textColor(context.secondaryTextColor)
+                        .enableFocusability(false)
+                        .wrapSelectorWheel(true)
+                        .build()
+                
+                dialog = context.buildMaterialDialog {
+                    title(R.string.wallpapers_columns_setting_title)
+                    customView(numberPicker, false)
+                    positiveText(android.R.string.ok)
+                    onPositive { dialog, _ ->
+                        try {
+                            val newColumns = numberPicker.value
+                            if (currentColumns != newColumns) context.framesKonfigs.columns = newColumns
+                        } catch (ignored:Exception) {
+                        }
+                        dialog.dismiss()
                     }
-                    dialog.dismiss()
                 }
+                dialog?.show()
+                false
             }
-            dialog?.show()
-            false
+        } else {
+            uiPrefs.removePreference(columns)
         }
+        
+        
+        val storagePrefs = findPreference("storage_settings") as PreferenceCategory
         
         downloadLocation = findPreference("wallpapers_download_location")
         updateDownloadLocation()
@@ -161,51 +172,39 @@ open class SettingsFragment:PreferenceFragment() {
         }
         
         val clearDatabase = findPreference("clear_database")
-        clearDatabase?.setOnPreferenceClickListener {
-            clearDialog()
-            dialog = activity.buildMaterialDialog {
-                title(R.string.clear_favorites_setting_title)
-                content(R.string.clear_favorites_confirmation)
-                positiveText(android.R.string.ok)
-                negativeText(android.R.string.cancel)
-                onPositive { _, _ ->
-                    doAsync {
-                        database.favoritesDao().nukeFavorites()
-                    }
-                    if (activity is SettingsActivity) {
-                        (activity as SettingsActivity).hasClearedFavs = true
+        if (context.getBoolean(R.bool.isFrames)) {
+            clearDatabase?.setOnPreferenceClickListener {
+                clearDialog()
+                dialog = activity.buildMaterialDialog {
+                    title(R.string.clear_favorites_setting_title)
+                    content(R.string.clear_favorites_confirmation)
+                    positiveText(android.R.string.ok)
+                    negativeText(android.R.string.cancel)
+                    onPositive { _, _ ->
+                        doAsync {
+                            database.favoritesDao().nukeFavorites()
+                        }
+                        if (activity is SettingsActivity) {
+                            (activity as SettingsActivity).hasClearedFavs = true
+                        }
                     }
                 }
+                dialog?.show()
+                true
             }
-            dialog?.show()
-            true
+        } else {
+            storagePrefs.removePreference(clearDatabase)
         }
-        
     }
     
     fun requestPermission() = activity.checkPermission(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             object:PermissionRequestListener {
-                override fun onPermissionRequest(permission:String) = activity.requestPermissions(
-                        permission)
+                override fun onPermissionRequest(permission:String) =
+                        activity.requestPermissions(42, permission)
                 
                 override fun showPermissionInformation(permission:String) {
-                    activity.snackbar(getString(R.string.permission_request,
-                                                activity.getAppName()),
-                                      builder = {
-                                          setAction(R.string.allow, { dismiss() })
-                                          addCallback(
-                                                  object:Snackbar.Callback() {
-                                                      override fun onDismissed(
-                                                              transientBottomBar:Snackbar?,
-                                                              event:Int) {
-                                                          super.onDismissed(
-                                                                  transientBottomBar,
-                                                                  event)
-                                                          onPermissionRequest(permission)
-                                                      }
-                                                  })
-                                      })
+                    doShowPermissionInformation()
                 }
                 
                 override fun onPermissionCompletelyDenied() {
@@ -217,6 +216,20 @@ open class SettingsFragment:PreferenceFragment() {
                         (activity as SettingsActivity).showLocationChooserDialog()
                 }
             })
+    
+    private fun doShowPermissionInformation() {
+        activity.snackbar(
+                getString(R.string.permission_request, activity.getAppName()),
+                builder = {
+                    setAction(R.string.allow, { dismiss() })
+                    addCallback(object:Snackbar.Callback() {
+                        override fun onDismissed(transientBottomBar:Snackbar?, event:Int) {
+                            super.onDismissed(transientBottomBar, event)
+                            requestPermission()
+                        }
+                    })
+                })
+    }
     
     fun updateDownloadLocation() {
         downloadLocation?.summary = getString(R.string.wallpapers_download_location_setting_content,

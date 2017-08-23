@@ -22,8 +22,6 @@ import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import ca.allanwang.kau.utils.buildIsMarshmallowAndUp
 
-const val PERMISSION_REQUEST_CODE = 42
-
 fun Context.shouldRequestPermission(which:String):Boolean {
     if (buildIsMarshmallowAndUp) {
         val permissionResult = ActivityCompat.checkSelfPermission(this, which)
@@ -32,8 +30,8 @@ fun Context.shouldRequestPermission(which:String):Boolean {
     return false
 }
 
-fun Activity.requestPermissions(vararg which:String) =
-        ActivityCompat.requestPermissions(this, which, PERMISSION_REQUEST_CODE)
+fun Activity.requestPermissions(requestCode:Int, vararg which:String) =
+        ActivityCompat.requestPermissions(this, which, requestCode)
 
 @SuppressLint("NewApi")
 fun Activity.checkPermission(permission:String, listener:PermissionRequestListener) =

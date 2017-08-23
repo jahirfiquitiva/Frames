@@ -26,12 +26,12 @@ import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.ui.adapters.FragmentsAdapter
-import jahirfiquitiva.libs.frames.ui.base.BaseFramesActivity
-import jahirfiquitiva.libs.frames.ui.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.fragments.CollectionsFragment
 import jahirfiquitiva.libs.frames.ui.fragments.FavoritesFragment
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersFragment
+import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getDisabledTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
@@ -150,7 +150,6 @@ abstract class FramesActivity:BaseFramesActivity() {
                                                         22)
                 R.id.donate -> doDonation()
             }
-            // TODO: Manage other items
         }
         return super.onOptionsItemSelected(item)
     }

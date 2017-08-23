@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jahirfiquitiva.libs.frames.ui.base
+package jahirfiquitiva.libs.frames.ui.fragments.base
 
 import android.content.Context
 import android.content.Intent
@@ -32,10 +32,11 @@ import jahirfiquitiva.libs.frames.helpers.configs.maxPictureRes
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.ui.activities.ViewerActivity
 import jahirfiquitiva.libs.frames.ui.adapters.WallpapersAdapter
-import jahirfiquitiva.libs.frames.ui.adapters.holders.WallpaperHolder
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
+import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 
 abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHolder>() {
@@ -59,6 +60,9 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         configureRVColumns()
         adapter = WallpapersAdapter(
                 { wall, holder -> onItemClicked(wall, holder) },
+                { heart, wall -> onHeartClicked(heart, wall) },
+                // TODO: Implement long-click listener
+                { wall, _ -> context.printInfo("Long pressed $wall") },
                 { heart, wall -> onHeartClicked(heart, wall) },
                 fromFavorites(), showFavoritesIcon())
         rv.adapter = adapter

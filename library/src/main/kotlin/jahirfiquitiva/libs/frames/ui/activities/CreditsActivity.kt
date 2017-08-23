@@ -28,13 +28,14 @@ import de.psdev.licensesdialog.LicensesDialog
 import de.psdev.licensesdialog.licenses.License
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.ui.adapters.CreditsAdapter
-import jahirfiquitiva.libs.frames.ui.adapters.holders.Credit
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.getStringArray
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
@@ -75,13 +76,16 @@ open class CreditsActivity:ThemedActivity() {
         
         val adapter = CreditsAdapter(buildCreditsList())
         adapter.setLayoutManager(layoutManager)
-        rv.adapter = adapter
+        rv.setAdapter(adapter, true)
         
         fastScroll = findViewById(R.id.fast_scroller)
         fastScroll.attachRecyclerView(rv)
         
-        adapter.collapseSection(2)
-        adapter.collapseSection(3)
+        try {
+            adapter.collapseSection(2)
+            adapter.collapseSection(3)
+        } catch (ignored:Exception) {
+        }
     }
     
     override fun onCreateOptionsMenu(menu:Menu?):Boolean {
@@ -161,35 +165,46 @@ open class CreditsActivity:ThemedActivity() {
     private fun buildCreditsList():ArrayList<Credit> {
         val list = ArrayList<Credit>()
         
-        val titles = resources.getStringArray(R.array.credits_titles)
-        val descriptions = resources.getStringArray(R.array.credits_descriptions)
-        val photos = resources.getStringArray(R.array.credits_photos)
-        val buttons = resources.getStringArray(R.array.credits_buttons)
-        val links = resources.getStringArray(R.array.credits_links)
-        
-        if (descriptions.size == titles.size && photos.size == titles.size) {
-            (0 until titles.size).mapTo(list) {
-                Credit(Credit.Type.CREATOR, photos[it], titles[it], descriptions[it],
-                       buttons[it].split("|"), links[it].split("|"))
+        try {
+            val titles = getStringArray(R.array.credits_titles)
+            val descriptions = getStringArray(R.array.credits_descriptions)
+            val photos = getStringArray(R.array.credits_photos)
+            val buttons = getStringArray(R.array.credits_buttons)
+            val links = getStringArray(R.array.credits_links)
+            
+            if (descriptions.size == titles.size && photos.size == titles.size) {
+                (0 until titles.size).mapTo(list) {
+                    Credit(Credit.Type.CREATOR, photos[it], titles[it], descriptions[it],
+                           buttons[it].split("|"), links[it].split("|"))
+                }
             }
+            
+            list.add(Credit(Credit.Type.DASHBOARD, JAHIR_PHOTO_URL, "Jahir Fiquitiva",
+                            getString(R.string.dashboard_copyright), JAHIR_BUTTONS.split("|"),
+                            JAHIR_LINKS.split("|")))
+            
+            list.add(Credit(Credit.Type.DASHBOARD, ALLAN_PHOTO_URL, "Allan Wang",
+                            getString(R.string.allan_description), ALLAN_BUTTONS.split("|"),
+                            ALLAN_LINKS.split("|")))
+            
+            list.add(Credit(Credit.Type.DASHBOARD, SHERRY_PHOTO_URL, "Sherry Sabatine",
+                            getString(R.string.sherry_description), SHERRY_BUTTONS.split("|"),
+                            SHERRY_LINKS.split("|")))
+            
+            list.add(Credit(Credit.Type.DEV_CONTRIBUTION, JAMES_PHOTO_URL, "James Fenn", "",
+                            link = "https://plus.google.com/+JamesFennJAFFA2157"))
+            
+            list.add(Credit(Credit.Type.DEV_CONTRIBUTION, MAX_PHOTO_URL, "Maximilian Keppeler", "",
+                            link = "https://plus.google.com/+MaxKeppeler"))
+            
+            list.add(Credit(Credit.Type.UI_CONTRIBUTION, PATRYK_PHOTO_URL, "Patryk Goworowski",
+                            link = "https://plus.google.com/+PatrykGoworowski"))
+            
+            list.add(Credit(Credit.Type.UI_CONTRIBUTION, LUMIQ_PHOTO_URL, "Lumiq Creative",
+                            link = "https://plus.google.com/+LumiqCreative"))
+        } catch (e:Exception) {
+            e.printStackTrace()
         }
-        
-        list.add(Credit(Credit.Type.DASHBOARD, JAHIR_PHOTO_URL, "Jahir Fiquitiva",
-                        resources.getString(R.string.dashboard_copyright), JAHIR_BUTTONS.split("|"),
-                        JAHIR_LINKS.split("|")))
-        
-        list.add(Credit(Credit.Type.DASHBOARD, SHERRY_PHOTO_URL, "Sherry Sabatine",
-                        resources.getString(R.string.sherry_description), SHERRY_BUTTONS.split("|"),
-                        SHERRY_LINKS.split("|")))
-        
-        list.add(Credit(Credit.Type.DEV_CONTRIBUTION, MAX_PHOTO_URL, "Maximilian Keppeler", "",
-                        ArrayList(), ArrayList(), "https://plus.google.com/+MaxKeppeler"))
-        
-        list.add(Credit(Credit.Type.UI_CONTRIBUTION, PATRYK_PHOTO_URL, "Patryk Goworowski",
-                        link = "https://plus.google.com/+PatrykGoworowski"))
-        
-        list.add(Credit(Credit.Type.UI_CONTRIBUTION, LUMIQ_PHOTO_URL, "Lumiq Creative",
-                        link = "https://plus.google.com/+LumiqCreative"))
         
         return list
     }
@@ -198,10 +213,16 @@ open class CreditsActivity:ThemedActivity() {
 const val JAHIR_PHOTO_URL = "https://github.com/jahirfiquitiva/Website-Resources/raw/master/myself/me-square-white.png"
 const val JAHIR_BUTTONS = "Website|Google+|Play Store"
 const val JAHIR_LINKS = "https://www.jahirfiquitiva.me/|https://www.google.com/+JahirFiquitivaR|https://play.google.com/store/apps/dev?id=7438639276314720952"
+
+const val ALLAN_PHOTO_URL = "https://avatars0.githubusercontent.com/u/6251823?v=4&s=400"
+const val ALLAN_BUTTONS = "GitHub|Google+|Play Store"
+const val ALLAN_LINKS = "https://github.com/AllanWang|https://plus.google.com/+AllanWPitchedApps|https://play.google.com/store/apps/dev?id=9057916668129524571"
+
 const val SHERRY_PHOTO_URL = "https://pbs.twimg.com/profile_images/853258651326459904/yogDkP9p.jpg"
 const val SHERRY_BUTTONS = "Website|Google+"
 const val SHERRY_LINKS = "http://photography-by-sherry.com/home|https://plus.google.com/+SherrySabatine"
 
+const val JAMES_PHOTO_URL = "https://lh3.googleusercontent.com/H1lDr6FlSvHQe4oIogYUGNWIDLb69LcIVCYciPUzql7Q_Nrq4wp-3yKh1uSfTPV3iM0DnC1icD-80YQ=w1107-h623-rw-no"
 const val MAX_PHOTO_URL = "https://lh3.googleusercontent.com/yvcLR6mThBOpHYo6iIG9SlyEHmmVgO1LaPIv_Eu9unSGqt99fnaBVLtR1rom16c_t98tz_sxGeo8Ba5MPCI=w1107-h623-rw-no"
 const val LUMIQ_PHOTO_URL = "https://lh3.googleusercontent.com/AEM9NXPSVn77YGo4SIQIeMyyTb7BWkwp96XcJlnYfHZU1fFxDZ2cvXlJSzu-3Nb-rj7Sl4x-0QMG8m_3Rg=w1107-h623-rw-no"
 const val PATRYK_PHOTO_URL = "https://lh3.googleusercontent.com/EpfG2M4si7jn_lk01ure5CGDPF07Aw3YPA88NMvoG1txfGIPc-feN2LdrBby_5W8VPJNCBNGjzCtOYclHck=w1107-h623-rw-no"

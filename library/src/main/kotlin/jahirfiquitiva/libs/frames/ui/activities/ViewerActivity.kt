@@ -17,7 +17,6 @@ package jahirfiquitiva.libs.frames.ui.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.WallpaperManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
@@ -45,14 +44,12 @@ import android.widget.TextView
 import ca.allanwang.kau.utils.dpToPx
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.isColorDark
-import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.setMarginBottom
 import ca.allanwang.kau.utils.setMarginLeft
 import ca.allanwang.kau.utils.setMarginRight
 import ca.allanwang.kau.utils.setMarginTop
 import ca.allanwang.kau.utils.statusBarColor
 import ca.allanwang.kau.utils.tint
-import ca.allanwang.kau.utils.toBitmap
 import ca.allanwang.kau.utils.visible
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
@@ -62,28 +59,22 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.request.transition.Transition
-import com.davemorrissey.labs.subscaleview.ImageSource
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar
 import com.github.rubensousa.floatingtoolbar.FloatingToolbarMenuBuilder
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.configs.bestBitmapConfig
-import jahirfiquitiva.libs.frames.helpers.extensions.PERMISSION_REQUEST_CODE
 import jahirfiquitiva.libs.frames.helpers.extensions.PermissionRequestListener
-import jahirfiquitiva.libs.frames.helpers.extensions.adjustToDeviceScreen
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.buildSnackbar
 import jahirfiquitiva.libs.frames.helpers.extensions.checkPermission
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.navigationBarHeight
+import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.requestPermissions
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
-import jahirfiquitiva.libs.frames.helpers.utils.GlidePictureDownloader
+import jahirfiquitiva.libs.frames.ui.fragments.WallpaperActionsFragment
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
@@ -99,12 +90,11 @@ import jahirfiquitiva.libs.kauextensions.extensions.getUri
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isColorLight
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
-import jahirfiquitiva.libs.kauextensions.extensions.printError
 import jahirfiquitiva.libs.kauextensions.extensions.setOptionIcon
 import jahirfiquitiva.libs.kauextensions.extensions.setupStatusBarStyle
+import jahirfiquitiva.libs.kauextensions.ui.views.TouchImageView
 import org.jetbrains.anko.contentView
 import java.io.File
-import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -118,6 +108,7 @@ open class ViewerActivity:ThemedActivity() {
     
     private var wallpaper:Wallpaper? = null
     private var actionDialog:MaterialDialog? = null
+    private var wallActions:WallpaperActionsFragment? = null
     
     private lateinit var toolbar:Toolbar
     private lateinit var fab:FloatingActionButton
@@ -157,7 +148,7 @@ open class ViewerActivity:ThemedActivity() {
         
         toolbar.tint(getColorFromRes(android.R.color.white), false)
         
-        ActivityCompat.postponeEnterTransition(this)
+        // ActivityCompat.postponeEnterTransition(this)
         
         val toolbarTitle = findViewById<TextView>(R.id.toolbar_title)
         val toolbarSubtitle = findViewById<TextView>(R.id.toolbar_subtitle)
@@ -176,7 +167,7 @@ open class ViewerActivity:ThemedActivity() {
         
         floatingToolbar.attachFab(fab)
         
-        val image = findViewById<SubsamplingScaleImageView>(R.id.wallpaper)
+        val image = findViewById<TouchImageView>(R.id.wallpaper)
         ViewCompat.setTransitionName(image, intent?.getStringExtra("imgTransition") ?: "")
         
         setupWallpaper(image, wallpaper)
@@ -234,7 +225,7 @@ open class ViewerActivity:ThemedActivity() {
         overridePendingTransition(0, 0)
     }
     
-    private fun setupWallpaper(view:SubsamplingScaleImageView, wallpaper:Wallpaper?) {
+    private fun setupWallpaper(view:TouchImageView, wallpaper:Wallpaper?) {
         var bmp:Bitmap? = null
         val filename = intent?.getStringExtra("image") ?: ""
         if (filename.hasContent()) {
@@ -248,87 +239,91 @@ open class ViewerActivity:ThemedActivity() {
         
         val d:Drawable
         d = if (bmp != null) {
+            setupImageColors(bmp, true)
             BitmapDrawable(resources, bmp)
         } else {
             ColorDrawable(ContextCompat.getColor(this, android.R.color.transparent))
         }
         
-        val target = object:SimpleTarget<Bitmap>() {
-            override fun onResourceReady(resource:Bitmap?, transition:Transition<in Bitmap>?) {
-                setImageInto(resource, view, false)
-            }
-            
-            override fun onLoadStarted(placeholder:Drawable?) {
-                super.onLoadStarted(placeholder)
-                setImageInto(placeholder?.toBitmap(config = bestBitmapConfig), view, true)
-            }
-            
-            override fun onLoadCleared(placeholder:Drawable?) {
-                super.onLoadCleared(placeholder)
-                setImageInto(placeholder?.toBitmap(config = bestBitmapConfig), view, false)
-            }
-            
-            override fun onLoadFailed(errorDrawable:Drawable?) {
-                super.onLoadFailed(errorDrawable)
-                setImageInto(errorDrawable?.toBitmap(config = bestBitmapConfig), view, false)
-            }
-        }
-        
         wallpaper?.let {
-            val thumbRequest = Glide.with(this).asBitmap().load(it.thumbUrl)
-                    .thumbnail(if (it.url.equals(it.thumbUrl, true)) 0.5F else 1F)
-                    .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                                   .priority(Priority.IMMEDIATE).placeholder(d)
-                                   .dontTransform())
-                    .listener(object:RequestListener<Bitmap> {
-                        override fun onResourceReady(resource:Bitmap?, model:Any?,
-                                                     target:Target<Bitmap>?, dataSource:DataSource?,
-                                                     isFirstResource:Boolean):Boolean {
-                            setImageInto(resource, view, true)
-                            return true
-                        }
-                        
-                        override fun onLoadFailed(e:GlideException?, model:Any?,
-                                                  target:Target<Bitmap>?,
-                                                  isFirstResource:Boolean):Boolean {
-                            setImageInto(d.toBitmap(config = bestBitmapConfig), view, false)
-                            return true
-                        }
-                    })
+            val listener = object:RequestListener<Bitmap> {
+                override fun onResourceReady(resource:Bitmap?, model:Any?, target:Target<Bitmap>?,
+                                             dataSource:DataSource?,
+                                             isFirstResource:Boolean):Boolean {
+                    resource?.let {
+                        setupImageColors(it, false)
+                    }
+                    return false
+                }
+                
+                override fun onLoadFailed(e:GlideException?, model:Any?, target:Target<Bitmap>?,
+                                          isFirstResource:Boolean):Boolean = false
+            }
             
-            Glide.with(this).asBitmap().load(it.url).thumbnail(thumbRequest)
-                    .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                                   .priority(Priority.HIGH).placeholder(d)
-                                   .dontTransform())
-                    .into(target)
+            if (it.thumbUrl.equals(it.url, true)) {
+                Glide.with(this).asBitmap()
+                        .load(it.url)
+                        .apply(RequestOptions().dontTransform()
+                                       .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                                       .priority(Priority.HIGH).placeholder(d))
+                        .thumbnail(0.5F)
+                        .listener(listener)
+                        .into(view)
+            } else {
+                val thumbnailRequest = Glide.with(this).asBitmap()
+                        .load(it.thumbUrl)
+                        .apply(RequestOptions().dontTransform()
+                                       .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                                       .priority(Priority.IMMEDIATE).placeholder(d))
+                        .thumbnail(0.5F)
+                        .listener(object:RequestListener<Bitmap> {
+                            override fun onResourceReady(resource:Bitmap?, model:Any?,
+                                                         target:Target<Bitmap>?,
+                                                         dataSource:DataSource?,
+                                                         isFirstResource:Boolean):Boolean {
+                                resource?.let {
+                                    setupImageColors(it, true)
+                                }
+                                return false
+                            }
+                            
+                            override fun onLoadFailed(e:GlideException?, model:Any?,
+                                                      target:Target<Bitmap>?,
+                                                      isFirstResource:Boolean):Boolean = false
+                        })
+                
+                Glide.with(this).asBitmap()
+                        .load(it.url)
+                        .apply(RequestOptions().dontTransform()
+                                       .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                                       .priority(Priority.HIGH).placeholder(d))
+                        .thumbnail(thumbnailRequest)
+                        .listener(listener)
+                        .into(view)
+            }
         }
     }
     
-    private fun setImageInto(resource:Bitmap?, view:SubsamplingScaleImageView,
-                             isThumbnail:Boolean) {
+    private fun setupImageColors(resource:Bitmap, isThumbnail:Boolean) {
         val progressBar = findViewById<ProgressBar>(R.id.loading)
         if (!isThumbnail) progressBar.gone()
-        view.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP)
-        resource?.let {
-            view.setImage(ImageSource.cachedBitmap(it))
-            it.bestSwatch?.let {
-                val color = it.rgb
-                fab.backgroundTintList = ColorStateList.valueOf(color)
-                fab.rippleColor = getRippleColorFor(color)
-                floatingToolbar.setBackgroundColor(color)
-                floatingToolbar.background = ColorDrawable(color)
-                toolbarColor = color
-                setupFabToolbarIcons()
-                try {
-                    if (isThumbnail) {
-                        progressBar.indeterminateDrawable.applyColorFilter(color)
-                        progressBar.visible()
-                    }
-                } catch (ignored:Exception) {
+        resource.bestSwatch?.let {
+            val color = it.rgb
+            fab.backgroundTintList = ColorStateList.valueOf(color)
+            fab.rippleColor = getRippleColorFor(color)
+            floatingToolbar.setBackgroundColor(color)
+            floatingToolbar.background = ColorDrawable(color)
+            toolbarColor = color
+            setupFabToolbarIcons()
+            try {
+                if (isThumbnail) {
+                    progressBar.indeterminateDrawable.applyColorFilter(color)
+                    progressBar.visible()
                 }
+            } catch (ignored:Exception) {
             }
         }
-        ActivityCompat.startPostponedEnterTransition(this@ViewerActivity)
+        // ActivityCompat.startPostponedEnterTransition(this@ViewerActivity)
     }
     
     private fun setupFabToolbarIcons() {
@@ -337,21 +332,20 @@ open class ViewerActivity:ThemedActivity() {
         
         val menuBuilder = FloatingToolbarMenuBuilder(this)
         
-        val downloadIcon = "ic_download".getDrawable(this).tint(
-                getActiveIconsColorFor(toolbarColor, 0.6F))
+        val downloadIcon = "ic_download".getDrawable(this)
+                .tint(getActiveIconsColorFor(toolbarColor, 0.6F))
         wallpaper?.let {
             if (it.downloadable) menuBuilder.addItem(DOWNLOAD_ITEM_ID, downloadIcon,
                                                      R.string.download)
         }
         
-        val applyIcon = "ic_apply_wallpaper".getDrawable(this).tint(
-                getActiveIconsColorFor(toolbarColor, 0.6F))
-        applyIcon.toBitmap(config = bestBitmapConfig)
+        val applyIcon = "ic_apply_wallpaper".getDrawable(this)
+                .tint(getActiveIconsColorFor(toolbarColor, 0.6F))
         menuBuilder.addItem(APPLY_ITEM_ID, applyIcon, R.string.apply)
         
         if (showFavoritesButton) {
-            val favIcon = (if (isInFavorites) "ic_heart" else "ic_heart_outline").getDrawable(
-                    this).tint(getActiveIconsColorFor(toolbarColor, 0.6F))
+            val favIcon = (if (isInFavorites) "ic_heart" else "ic_heart_outline")
+                    .getDrawable(this).tint(getActiveIconsColorFor(toolbarColor, 0.6F))
             menuBuilder.addItem(FAVORITE_ITEM_ID, favIcon, R.string.favorite)
         }
         
@@ -361,9 +355,9 @@ open class ViewerActivity:ThemedActivity() {
     override fun onRequestPermissionsResult(requestCode:Int, permissions:Array<out String>,
                                             grantResults:IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == PERMISSION_REQUEST_CODE) {
+        if (requestCode == 41 || requestCode == 42) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                checkIfFileExists()
+                checkIfFileExists(requestCode == 41)
             } else {
                 showSnackbar(R.string.permission_denied)
             }
@@ -372,47 +366,47 @@ open class ViewerActivity:ThemedActivity() {
     
     private fun doItemClick(item:MenuItem) {
         when (item.itemId) {
-            DOWNLOAD_ITEM_ID -> downloadWallpaper()
-            APPLY_ITEM_ID -> showWallpaperApplyOptions()
+            DOWNLOAD_ITEM_ID -> downloadWallpaper(false)
+            APPLY_ITEM_ID -> downloadWallpaper(true)
             FAVORITE_ITEM_ID -> toggleFavorite()
         }
     }
     
     @SuppressLint("NewApi")
-    private fun downloadWallpaper() =
+    private fun downloadWallpaper(toApply:Boolean) =
             checkPermission(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     object:PermissionRequestListener {
                         override fun onPermissionRequest(permission:String) =
-                                requestPermissions(permission)
+                                requestPermissions(if (toApply) 41 else 42, permission)
                         
                         override fun showPermissionInformation(permission:String) =
-                                showSnackbar(getString(R.string.permission_request, getAppName()), {
-                                    setAction(R.string.allow, { dismiss() })
-                                    addCallback(
-                                            object:Snackbar.Callback() {
-                                                override fun onDismissed(
-                                                        transientBottomBar:Snackbar?, event:Int) {
-                                                    super.onDismissed(transientBottomBar, event)
-                                                    onPermissionRequest(permission)
-                                                }
-                                            })
-                                })
+                                showPermissionInformation(toApply)
                         
                         override fun onPermissionCompletelyDenied() =
                                 showSnackbar(R.string.permission_denied_completely)
                         
-                        override fun onPermissionGranted() = checkIfFileExists()
+                        override fun onPermissionGranted() = checkIfFileExists(toApply)
                     })
     
-    private fun checkIfFileExists() {
+    private fun showPermissionInformation(toApply:Boolean) {
+        showSnackbar(getString(R.string.permission_request, getAppName()), {
+            setAction(R.string.allow, {
+                dismiss()
+                downloadWallpaper(toApply)
+            })
+        })
+    }
+    
+    private fun checkIfFileExists(toApply:Boolean) {
         wallpaper?.let {
             properlyCancelDialog()
             val folder = File(framesKonfigs.downloadsFolder)
             folder.mkdirs()
             val extension = it.url.substring(it.url.lastIndexOf("."))
             val fileName = it.name.formatCorrectly()
-            val correctExtension = getWallpaperExtension(extension)
+            var correctExtension = getWallpaperExtension(extension)
+            if (toApply) correctExtension = ".temp" + correctExtension
             val dest = File(folder, fileName + correctExtension)
             if (dest.exists()) {
                 actionDialog = buildMaterialDialog {
@@ -420,16 +414,20 @@ open class ViewerActivity:ThemedActivity() {
                     negativeText(R.string.file_replace)
                     positiveText(R.string.file_create_new)
                     onPositive { _, _ ->
-                        val time = getCurrentTimeStamp().replace(" ", "_")
-                        startDownload(File(folder, fileName + "_" + time + correctExtension))
+                        val time = getCurrentTimeStamp().formatCorrectly().replace(" ", "_")
+                        val newDest = File(folder, fileName + "_" + time + correctExtension)
+                        if (toApply) showWallpaperApplyOptions(newDest)
+                        else startDownload(newDest)
                     }
                     onNegative { _, _ ->
-                        startDownload(dest)
+                        if (toApply) showWallpaperApplyOptions(dest)
+                        else startDownload(dest)
                     }
                 }
                 actionDialog?.show()
             } else {
-                startDownload(dest)
+                if (toApply) showWallpaperApplyOptions(dest)
+                else startDownload(dest)
             }
         }
     }
@@ -437,48 +435,26 @@ open class ViewerActivity:ThemedActivity() {
     private fun startDownload(dest:File) {
         wallpaper?.let {
             properlyCancelDialog()
-            actionDialog = buildMaterialDialog {
-                content(getString(R.string.downloading_wallpaper, it.name))
-                progress(true, 0)
-                cancelable(false)
-            }
-            actionDialog?.show()
-            GlidePictureDownloader(Glide.with(this),
-                                   { result ->
-                                       result.success.forEach { _, file ->
-                                           val output = FileOutputStream(dest)
-                                           output.write(file.readBytes())
-                                           output.close()
-                                           sendBroadcast(Intent(
-                                                   Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-                                                   Uri.fromFile(dest)))
-                                           runOnUiThread {
-                                               properlyCancelDialog()
-                                               showSnackbar(
-                                                       getString(R.string.download_successful,
-                                                                 dest.toString()), {
-                                                           setAction(R.string.open, {
-                                                               dest.getUri(
-                                                                       this@ViewerActivity)?.let {
-                                                                   openWallpaper(it)
-                                                               }
-                                                           })
-                                                       })
-                                           }
-                                       }
-                                   }
-                                  ).execute(it.url)
+            wallActions = WallpaperActionsFragment()
+            wallActions?.show(this, it, dest)
         }
     }
     
-    private fun openWallpaper(uri:Uri) {
-        val intent = Intent()
-        intent.action = Intent.ACTION_VIEW
-        intent.setDataAndType(uri, "image/*")
-        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        startActivity(intent)
+    fun showWallpaperDownloadedSnackbar(dest:File) {
+        sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(dest)))
+        runOnUiThread {
+            properlyCancelDialog()
+            showSnackbar(getString(R.string.download_successful, dest.toString()), {
+                setAction(R.string.open, {
+                    dest.getUri(this@ViewerActivity)?.let {
+                        openWallpaper(it)
+                    }
+                })
+            })
+        }
     }
     
+    @SuppressLint("SimpleDateFormat")
     private fun getCurrentTimeStamp():String {
         val sdfDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val now = Date()
@@ -493,86 +469,46 @@ open class ViewerActivity:ThemedActivity() {
         return ".png"
     }
     
-    private fun showWallpaperApplyOptions() {
+    private fun showWallpaperApplyOptions(dest:File) {
         properlyCancelDialog()
         actionDialog = buildMaterialDialog {
             title(R.string.apply_to)
             items(getString(R.string.home_screen), getString(R.string.lock_screen),
                   getString(R.string.home_lock_screen))
             itemsCallback { _, _, position, _ ->
-                applyWallpaper(position == 0, position == 1, position == 2)
+                applyWallpaper(dest, position == 0, position == 1, position == 2)
             }
         }
         actionDialog?.setOnDismissListener { floatingToolbar.hide() }
         actionDialog?.show()
     }
     
-    private fun applyWallpaper(toHomescreen:Boolean, toLockscreen:Boolean, toBoth:Boolean) {
+    private fun applyWallpaper(dest:File, toHomeScreen:Boolean, toLockScreen:Boolean,
+                               toBoth:Boolean) {
         wallpaper?.let {
-            postDelayed(10, {
-                runOnUiThread {
-                    floatingToolbar.hide()
-                    properlyCancelDialog()
-                    actionDialog = buildMaterialDialog {
-                        content(getString(R.string.applying_wallpaper, it.name))
-                        progress(true, 0)
-                        cancelable(false)
-                    }
-                    actionDialog?.show()
-                }
-            })
-            val applyTarget = object:SimpleTarget<Bitmap>() {
-                override fun onResourceReady(resource:Bitmap?,
-                                             glideAnimation:Transition<in Bitmap>?) {
-                    resource?.let {
-                        val wm = WallpaperManager.getInstance(this@ViewerActivity)
-                        val wallpaper = it.adjustToDeviceScreen(this@ViewerActivity)
-                        try {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                if (toBoth) {
-                                    wm.setBitmap(wallpaper, null, true)
-                                } else {
-                                    when {
-                                        toHomescreen -> wm.setBitmap(wallpaper, null, true,
-                                                                     WallpaperManager.FLAG_SYSTEM)
-                                        toLockscreen -> wm.setBitmap(wallpaper, null, true,
-                                                                     WallpaperManager.FLAG_LOCK)
-                                        else -> printError("The unexpected case has happened :O")
-                                    }
-                                }
-                            } else {
-                                wm.setBitmap(wallpaper)
-                            }
-                            properlyCancelDialog()
-                            showSnackbar(getString(R.string.apply_successful,
-                                                   getString(when {
-                                                                 toBoth -> R.string.home_lock_screen
-                                                                 toHomescreen -> R.string.home_screen
-                                                                 toLockscreen -> R.string.lock_screen
-                                                                 else -> R.string.empty
-                                                             }).toLowerCase()))
-                        } catch (e:Exception) {
-                            e.printStackTrace()
-                        }
-                    }
-                }
-            }
-            postDelayed(100, {
-                runOnUiThread {
-                    Glide.with(this).asBitmap().load(it.url).apply(
-                            RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                                    .priority(Priority.HIGH).dontAnimate().dontTransform())
-                            .into(applyTarget)
-                }
-            })
+            properlyCancelDialog()
+            wallActions = WallpaperActionsFragment()
+            wallActions?.show(this, it, dest, toHomeScreen, toLockScreen, toBoth)
         }
+    }
+    
+    fun showWallpaperAppliedSnackbar(toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean) {
+        properlyCancelDialog()
+        showSnackbar(getString(R.string.apply_successful,
+                               getString(when {
+                                             toBoth -> R.string.home_lock_screen
+                                             toHomeScreen -> R.string.home_screen
+                                             toLockScreen -> R.string.lock_screen
+                                             else -> R.string.empty
+                                         }).toLowerCase()))
     }
     
     private fun toggleFavorite() {
         val ftMenu = floatingToolbar.menu
         ftMenu?.setOptionIcon(FAVORITE_ITEM_ID,
-                              (if (isInFavorites) "ic_heart_outline" else "ic_heart").getDrawable(
-                                      this).tint(getActiveIconsColorFor(toolbarColor, 0.6F)))
+                              (if (isInFavorites) "ic_heart_outline" else "ic_heart")
+                                      .getDrawable(this).tint(
+                                      getActiveIconsColorFor(toolbarColor, 0.6F)))
         floatingToolbar.menu = ftMenu
         wallpaper?.let {
             showSnackbar(getString(
@@ -640,7 +576,7 @@ open class ViewerActivity:ThemedActivity() {
                                   snack.view.paddingRight + extraRight,
                                   snack.view.paddingBottom + bottomNavBar)
             
-            snack.view.findViewById<TextView>(R.id.snackbar_text)?.setTextColor(Color.WHITE)
+            snack.view.findViewById<TextView>(R.id.snackbar_text).setTextColor(Color.WHITE)
             
             val backColor = snack.view.solidColor
             if (backColor.isColorDark) {
@@ -655,6 +591,9 @@ open class ViewerActivity:ThemedActivity() {
     }
     
     private fun properlyCancelDialog() {
+        wallActions?.stopActions()
+        wallActions?.dismiss(this)
+        wallActions = null
         actionDialog?.dismiss()
         actionDialog = null
     }

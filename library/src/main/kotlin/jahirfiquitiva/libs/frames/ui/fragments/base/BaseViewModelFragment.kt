@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package jahirfiquitiva.libs.frames.ui.base
+package jahirfiquitiva.libs.frames.ui.fragments.base
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver

@@ -28,8 +28,8 @@ import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
 import jahirfiquitiva.libs.frames.ui.adapters.CollectionsAdapter
-import jahirfiquitiva.libs.frames.ui.adapters.holders.CollectionHolder
-import jahirfiquitiva.libs.frames.ui.base.BaseFramesFragment
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
+import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode

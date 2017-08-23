@@ -34,7 +34,7 @@ ext.versions = [
         materialDialogs       : '0.9.4.7',
         glide                 : '4.0.0',
         volley                : '1.0.0',
-        kauExt                : '831d31f',
+        kauExt                : '628ab70',
         sectionedRecyclerView : '0.5.0',
         recyclerViewFastScroll: 'ab973f2',
         floatingToolbar       : '1.5.1',

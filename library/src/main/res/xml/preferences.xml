@@ -42,7 +42,9 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/storage_settings_title">
+    <PreferenceCategory
+            android:key="storage_settings"
+            android:title="@string/storage_settings_title">
 
         <Preference
                 android:key="wallpapers_download_location"

@@ -17,7 +17,7 @@
 package jahirfiquitiva.libs.frames.ui.fragments
 
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.ui.base.BaseWallpapersFragment
+import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
 
 class FavoritesFragment:BaseWallpapersFragment() {
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {

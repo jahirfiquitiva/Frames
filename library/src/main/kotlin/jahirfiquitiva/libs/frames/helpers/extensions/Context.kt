@@ -16,8 +16,10 @@
 package jahirfiquitiva.libs.frames.helpers.extensions
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.StateListDrawable
+import android.net.Uri
 import android.os.Environment
 import android.support.annotation.ColorInt
 import ca.allanwang.kau.utils.dimenPixelSize
@@ -31,7 +33,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.getColorFromRes
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.getInactiveIconsColorFor
 import java.io.File
-
 
 fun Context.getStatusBarHeight(force:Boolean = false):Int {
     var result = 0
@@ -47,6 +48,14 @@ fun Context.getStatusBarHeight(force:Boolean = false):Int {
         //if our dimens is > 0 && the result == 0 use the dimenResult else the result;
         if (result == 0) dimenResult else result
     }
+}
+
+fun Context.openWallpaper(uri:Uri) {
+    val intent = Intent()
+    intent.action = Intent.ACTION_VIEW
+    intent.setDataAndType(uri, "image/*")
+    intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+    startActivity(intent)
 }
 
 fun Context.createHeartSelector():StateListDrawable {

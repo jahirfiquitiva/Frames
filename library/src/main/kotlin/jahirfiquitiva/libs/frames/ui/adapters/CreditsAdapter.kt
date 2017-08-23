@@ -21,12 +21,12 @@ import ca.allanwang.kau.utils.inflate
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.ui.adapters.holders.Credit
-import jahirfiquitiva.libs.frames.ui.adapters.holders.CreditHeaderViewHolder
-import jahirfiquitiva.libs.frames.ui.adapters.holders.DashboardCreditViewHolder
-import jahirfiquitiva.libs.frames.ui.adapters.holders.SimpleCreditViewHolder
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CreditHeaderViewHolder
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.DashboardCreditViewHolder
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SimpleCreditViewHolder
 
-class CreditsAdapter(val credits:ArrayList<Credit>):
+class CreditsAdapter(private val credits:ArrayList<Credit>):
         SectionedRecyclerViewAdapter<SectionedViewHolder>() {
     
     init {

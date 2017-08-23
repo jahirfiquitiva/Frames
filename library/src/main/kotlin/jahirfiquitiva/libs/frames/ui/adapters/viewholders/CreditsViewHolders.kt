@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jahirfiquitiva.libs.frames.ui.adapters.holders
+package jahirfiquitiva.libs.frames.ui.adapters.viewholders
 
 import android.support.annotation.StringRes
 import android.support.v7.widget.AppCompatButton
