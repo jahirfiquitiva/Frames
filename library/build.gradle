@@ -83,12 +83,9 @@ dependencies {
     compile 'com.github.rubensousa:floatingtoolbar:' + versions.floatingToolbar
     // Material Number Picker
     compile 'biz.kasual:materialnumberpicker:' + versions.mnp
-    // Subsampling ImageView
-    compile 'com.davemorrissey.labs:subsampling-scale-image-view:' + versions.subsImageView
     // In-App Purchases
     compile 'com.anjlab.android.iab.v3:library:' + versions.iaps
     // Muzei API
-    //noinspection GradleDynamicVersion
     compile 'com.google.android.apps.muzei:muzei-api:' + versions.muzeiApi
     // Licenses Dialog
     compile 'de.psdev.licensesdialog:licensesdialog:' + versions.licensesDialog
