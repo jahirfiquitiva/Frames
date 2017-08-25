@@ -28,6 +28,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.PREFERENCES_NAME
+import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getColorFromRes
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
@@ -57,6 +58,9 @@ fun Context.openWallpaper(uri:Uri) {
     intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
     startActivity(intent)
 }
+
+val Context.thumbnailColor
+    get() = dividerColor
 
 fun Context.createHeartSelector():StateListDrawable {
     val res = StateListDrawable()

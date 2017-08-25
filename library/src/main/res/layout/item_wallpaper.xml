@@ -23,15 +23,6 @@
              android:orientation="vertical"
              android:foreground="?selectableItemBackground">
 
-    <ProgressBar
-            android:id="@+id/loading"
-            style="?android:progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:visibility="visible"/>
-
     <jahirfiquitiva.libs.kauextensions.ui.views.VerticalImageView
             android:id="@+id/wallpaper_image"
             android:layout_width="match_parent"
@@ -44,7 +35,6 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="68dp"
-            android:background="@drawable/gradient"
             android:paddingStart="@dimen/fabs_margin"
             android:paddingLeft="@dimen/fabs_margin"
             android:paddingEnd="@dimen/fabs_margin"

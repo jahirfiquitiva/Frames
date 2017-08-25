@@ -23,12 +23,11 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import jahirfiquitiva.libs.frames.ui.widgets.CheckableImageView
 
-class WallpapersAdapter(val singleTap:(Wallpaper, WallpaperHolder) -> Unit,
-                        val doubleTap:(CheckableImageView, Wallpaper) -> Unit,
-                        val longPress:(Wallpaper, WallpaperHolder) -> Unit,
-                        val heartListener:(CheckableImageView, Wallpaper) -> Unit,
-                        val fromFavorites:Boolean = false, val showFavIcon:Boolean = true):
-        BaseListAdapter<Wallpaper, WallpaperHolder>() {
+class WallpapersAdapter(private val singleTap:(Wallpaper, WallpaperHolder) -> Unit,
+                        private val longPress:(Wallpaper, WallpaperHolder) -> Unit,
+                        private val heartListener:(CheckableImageView, Wallpaper) -> Unit,
+                        private val fromFavorites:Boolean = false,
+                        private val showFavIcon:Boolean = true):BaseListAdapter<Wallpaper, WallpaperHolder>() {
     
     var favorites = ArrayList<Wallpaper>()
         set(value) {
@@ -39,7 +38,7 @@ class WallpapersAdapter(val singleTap:(Wallpaper, WallpaperHolder) -> Unit,
     
     override fun doBind(holder:WallpaperHolder, position:Int) {
         val item = list[position]
-        holder.setItem(item, singleTap, doubleTap, longPress, heartListener,
+        holder.setItem(item, singleTap, longPress, heartListener,
                        fromFavorites || favorites.contains(item))
     }
     

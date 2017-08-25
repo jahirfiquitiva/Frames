@@ -78,7 +78,7 @@ dependencies {
     // Sectioned RecyclerView
     compile 'com.afollestad:sectioned-recyclerview:' + versions.sectionedRecyclerView
     // RecyclerView Fast Scroller
-    compile 'com.github.plusCubed:recycler-fast-scroll:' + versions.recyclerViewFastScroll
+    compile ('com.github.pluscubed:recycler-fast-scroll:' + versions.recyclerViewFastScroll + '@aar')
     // Floating Toolbar
     compile 'com.github.rubensousa:floatingtoolbar:' + versions.floatingToolbar
     // Material Number Picker

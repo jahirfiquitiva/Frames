@@ -60,7 +60,6 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         configureRVColumns()
         adapter = WallpapersAdapter(
                 { wall, holder -> onItemClicked(wall, holder) },
-                { heart, wall -> onHeartClicked(heart, wall) },
                 // TODO: Implement long-click listener
                 { wall, _ -> context.printInfo("Long pressed $wall") },
                 { heart, wall -> onHeartClicked(heart, wall) },

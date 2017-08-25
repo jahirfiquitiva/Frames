@@ -15,46 +15,32 @@
  */
 package jahirfiquitiva.libs.frames.helpers.extensions
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.app.Activity
+import android.graphics.Bitmap
+import android.graphics.ColorMatrixColorFilter
 import android.os.Build
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import ca.allanwang.kau.utils.dpToPx
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.BitmapImageViewTarget
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.ui.graphics.ObservableColorMatrix
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
 
-fun ImageView.loadFromUrls(url:String, thumbUrl:String, sizeMultiplier:Float = 0.5F) {
-    if (thumbUrl.hasContent()) {
-        Glide.with(context).load(url)
-                .thumbnail(Glide.with(context).load(thumbUrl)
-                                   .thumbnail(sizeMultiplier)
-                                   .apply(RequestOptions().dontTransform()
-                                                  .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                                                  .priority(Priority.IMMEDIATE)))
-                .apply(RequestOptions().dontTransform()
-                               .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                               .priority(Priority.IMMEDIATE))
-                .into(this)
-    } else if (url.hasContent()) {
-        Glide.with(context).load(url).thumbnail(sizeMultiplier)
-                .apply(RequestOptions().dontTransform()
-                               .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                               .priority(Priority.HIGH))
-                .into(this)
-    }
-}
-
-fun ImageView.loadFromUrlsIntoTarget(url:String, thumbUrl:String, target:BitmapImageViewTarget,
+fun ImageView.loadFromUrls(url:String, thumbUrl:String, listener:RequestListener<Bitmap>,
                                      sizeMultiplier:Float = 0.5F) {
     if (thumbUrl.hasContent()) {
         Glide.with(context).asBitmap().load(url)
@@ -67,13 +53,15 @@ fun ImageView.loadFromUrlsIntoTarget(url:String, thumbUrl:String, target:BitmapI
                 .apply(RequestOptions().dontTransform()
                                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                                .priority(Priority.HIGH))
-                .into(target)
+                .listener(listener)
+                .into(this)
     } else if (url.hasContent()) {
         Glide.with(context).asBitmap().load(url).thumbnail(sizeMultiplier)
                 .apply(RequestOptions().dontTransform()
                                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                                .priority(Priority.HIGH))
-                .into(target)
+                .listener(listener)
+                .into(this)
     }
 }
 
@@ -117,4 +105,30 @@ fun View.buildSnackbar(text:String, duration:Int = Snackbar.LENGTH_LONG,
     val snackbar = Snackbar.make(this, text, duration)
     snackbar.builder()
     return snackbar
+}
+
+/**
+ * Credits to Mysplash
+ * https://goo.gl/M2sqE2
+ */
+fun ImageView.animateColorTransition() {
+    setHasTransientState(true)
+    val matrix = ObservableColorMatrix()
+    val saturation = ObjectAnimator.ofFloat(matrix, ObservableColorMatrix.SATURATION, 0F, 1F)
+    saturation.addUpdateListener {
+        colorFilter = ColorMatrixColorFilter(matrix)
+    }
+    saturation.duration = 1500
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        saturation.interpolator = AnimationUtils.loadInterpolator(context,
+                                                                  android.R.interpolator.fast_out_slow_in)
+    }
+    saturation.addListener(object:AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation:Animator?) {
+            super.onAnimationEnd(animation)
+            clearColorFilter()
+            setHasTransientState(false)
+        }
+    })
+    saturation.start()
 }

@@ -23,15 +23,6 @@
              android:orientation="vertical"
              android:foreground="?selectableItemBackground">
 
-    <ProgressBar
-            android:id="@+id/loading"
-            style="?android:progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:visibility="visible"/>
-
     <jahirfiquitiva.libs.frames.ui.widgets.ParallaxImageView
             android:id="@+id/collection_picture"
             android:layout_width="match_parent"
@@ -48,8 +39,7 @@
             android:gravity="start|bottom"
             android:baselineAligned="false"
             android:clipToPadding="false"
-            android:clipChildren="false"
-            android:background="@drawable/gradient">
+            android:clipChildren="false">
 
         <TextView
                 android:id="@+id/collection_title"
