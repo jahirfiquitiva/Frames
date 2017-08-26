@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jahirfiquitiva.libs.frames.ui.fragments
+package jahirfiquitiva.libs.frames.ui.fragments.dialogs
 
 import android.app.Dialog
 import android.app.DownloadManager
@@ -263,23 +263,30 @@ class WallpaperActionsFragment:DialogFragment() {
     }
     
     fun show(context:FragmentActivity, wallpaper:Wallpaper, destFile:File) {
-        val frag = context.supportFragmentManager.findFragmentByTag(TAG)
+        val frag = context.supportFragmentManager.findFragmentByTag(
+                TAG)
         if (frag != null) (frag as WallpaperActionsFragment).dismiss()
-        WallpaperActionsFragment.invoke(context, wallpaper, destFile, false, false, false)
-                .show(context.supportFragmentManager, TAG)
+        invoke(
+                context, wallpaper, destFile, false, false, false)
+                .show(context.supportFragmentManager,
+                      TAG)
     }
     
     fun show(context:FragmentActivity, wallpaper:Wallpaper, destFile:File,
              toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean) {
-        val frag = context.supportFragmentManager.findFragmentByTag(TAG)
+        val frag = context.supportFragmentManager.findFragmentByTag(
+                TAG)
         if (frag != null) (frag as WallpaperActionsFragment).dismiss()
-        WallpaperActionsFragment.invoke(context, wallpaper, destFile, toHomeScreen, toLockScreen,
-                                        toBoth).show(context.supportFragmentManager, TAG)
+        invoke(
+                context, wallpaper, destFile, toHomeScreen, toLockScreen,
+                toBoth).show(context.supportFragmentManager,
+                             TAG)
     }
     
     fun dismiss(context:FragmentActivity) {
         try {
-            val frag = context.supportFragmentManager.findFragmentByTag(TAG)
+            val frag = context.supportFragmentManager.findFragmentByTag(
+                    TAG)
             if (frag != null) (frag as WallpaperActionsFragment).dismiss()
         } catch (ignored:Exception) {
         }
@@ -292,19 +299,27 @@ class WallpaperActionsFragment:DialogFragment() {
     override fun onActivityCreated(savedInstanceState:Bundle?) {
         super.onActivityCreated(savedInstanceState)
         savedInstanceState?.let {
-            wallpaper = it.getParcelable(WALLPAPER)
-            toHomeScreen = it.getBoolean(TO_HOME_SCREEN)
-            toLockScreen = it.getBoolean(TO_LOCK_SCREEN)
-            toBoth = it.getBoolean(TO_BOTH)
+            wallpaper = it.getParcelable(
+                    WALLPAPER)
+            toHomeScreen = it.getBoolean(
+                    TO_HOME_SCREEN)
+            toLockScreen = it.getBoolean(
+                    TO_LOCK_SCREEN)
+            toBoth = it.getBoolean(
+                    TO_BOTH)
         }
     }
     
     override fun onSaveInstanceState(outState:Bundle?) {
         outState?.let {
-            it.putParcelable(WALLPAPER, wallpaper)
-            it.putBoolean(TO_HOME_SCREEN, toHomeScreen)
-            it.putBoolean(TO_LOCK_SCREEN, toLockScreen)
-            it.putBoolean(TO_BOTH, toBoth)
+            it.putParcelable(
+                    WALLPAPER, wallpaper)
+            it.putBoolean(
+                    TO_HOME_SCREEN, toHomeScreen)
+            it.putBoolean(
+                    TO_LOCK_SCREEN, toLockScreen)
+            it.putBoolean(
+                    TO_BOTH, toBoth)
         }
         super.onSaveInstanceState(outState)
     }

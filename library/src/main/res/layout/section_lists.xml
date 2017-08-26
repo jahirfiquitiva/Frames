@@ -14,32 +14,40 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
-<RelativeLayout
+<android.support.v4.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/list_layout"
+        android:id="@+id/swipe_to_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <include layout="@layout/extra_empty_views"/>
-
-    <jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
-            android:id="@+id/list_rv"
+    <RelativeLayout
+            android:id="@+id/list_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:overScrollMode="ifContentScrolls"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <com.pluscubed.recyclerfastscroll.RecyclerFastScroller
-            android:id="@+id/fast_scroller"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="end"/>
+        <include layout="@layout/extra_empty_views"/>
 
-</RelativeLayout>
+        <jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
+                android:id="@+id/list_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:overScrollMode="ifContentScrolls"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+        <com.pluscubed.recyclerfastscroll.RecyclerFastScroller
+                android:id="@+id/fast_scroller"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="end"/>
+
+    </RelativeLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>

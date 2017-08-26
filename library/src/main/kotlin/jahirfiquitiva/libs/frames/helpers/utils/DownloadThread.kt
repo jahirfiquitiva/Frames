@@ -19,7 +19,7 @@ import android.app.DownloadManager
 import android.database.CursorIndexOutOfBoundsException
 import android.os.Handler
 import android.os.Looper
-import jahirfiquitiva.libs.frames.ui.fragments.WallpaperActionsFragment
+import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsFragment
 import java.lang.ref.WeakReference
 
 class DownloadThread(frag:WallpaperActionsFragment,

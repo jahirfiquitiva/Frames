@@ -21,12 +21,14 @@ import android.graphics.Bitmap
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
 import android.support.v4.view.ViewCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import ca.allanwang.kau.utils.dimenPixelSize
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.configs.maxPictureRes
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
@@ -34,6 +36,8 @@ import jahirfiquitiva.libs.frames.ui.activities.ViewerActivity
 import jahirfiquitiva.libs.frames.ui.adapters.WallpapersAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
+import jahirfiquitiva.libs.kauextensions.extensions.accentColor
+import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.extensions.printInfo
@@ -41,6 +45,7 @@ import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoratio
 
 abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHolder>() {
     
+    lateinit var swipeToRefresh:SwipeRefreshLayout
     lateinit var rv:EmptyViewRecyclerView
     lateinit var adapter:WallpapersAdapter
     lateinit var fastScroll:RecyclerFastScroller
@@ -49,6 +54,13 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     private var spacingDecoration:GridSpacingItemDecoration? = null
     
     override fun initUI(content:View) {
+        swipeToRefresh = content.findViewById(R.id.swipe_to_refresh)
+        swipeToRefresh.setProgressBackgroundColorSchemeColor(context.cardBackgroundColor)
+        swipeToRefresh.setColorSchemeColors(context.accentColor)
+        swipeToRefresh.setOnRefreshListener {
+            reloadData(if (fromFavorites()) 2 else 1)
+        }
+        
         rv = content.findViewById(R.id.list_rv)
         rv.itemAnimator = DefaultItemAnimator()
         rv.textView = content.findViewById(R.id.empty_text)
@@ -102,6 +114,21 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     override fun reloadData(section:Int) {
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
+    }
+    
+    override fun doOnCollectionsChange(data:ArrayList<Collection>) {
+        super.doOnCollectionsChange(data)
+        swipeToRefresh.isRefreshing = false
+    }
+    
+    override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
+        super.doOnFavoritesChange(data)
+        swipeToRefresh.isRefreshing = false
+    }
+    
+    override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
+        super.doOnWallpapersChange(data, fromCollectionActivity)
+        swipeToRefresh.isRefreshing = false
     }
     
     override fun applyFilter(filter:String) {

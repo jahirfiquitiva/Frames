@@ -19,6 +19,7 @@ package jahirfiquitiva.libs.frames.ui.fragments
 import android.content.Intent
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
@@ -31,17 +32,27 @@ import jahirfiquitiva.libs.frames.ui.adapters.CollectionsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
+import jahirfiquitiva.libs.kauextensions.extensions.accentColor
+import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 
 class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     
+    private lateinit var swipeToRefresh:SwipeRefreshLayout
     private lateinit var rv:EmptyViewRecyclerView
     private lateinit var adapter:CollectionsAdapter
     private lateinit var fastScroll:RecyclerFastScroller
     
     override fun initUI(content:View) {
+        swipeToRefresh = content.findViewById(R.id.swipe_to_refresh)
+        swipeToRefresh.setProgressBackgroundColorSchemeColor(context.cardBackgroundColor)
+        swipeToRefresh.setColorSchemeColors(context.accentColor)
+        swipeToRefresh.setOnRefreshListener {
+            reloadData(0)
+        }
+        
         rv = content.findViewById(R.id.list_rv)
         rv.itemAnimator = DefaultItemAnimator()
         rv.textView = content.findViewById(R.id.empty_text)
@@ -101,11 +112,20 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         }
     }
     
-    override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) = super.doOnFavoritesChange(data)
+    override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
+        super.doOnFavoritesChange(data)
+        swipeToRefresh.isRefreshing = false
+    }
+    
+    override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
+        super.doOnWallpapersChange(data, fromCollectionActivity)
+        swipeToRefresh.isRefreshing = false
+    }
     
     override fun doOnCollectionsChange(data:ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
         adapter.setItems(data)
+        swipeToRefresh.isRefreshing = false
     }
     
     override fun autoStartLoad():Boolean = true

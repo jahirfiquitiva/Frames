@@ -73,7 +73,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.navigationBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.requestPermissions
-import jahirfiquitiva.libs.frames.ui.fragments.WallpaperActionsFragment
+import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsFragment
 import jahirfiquitiva.libs.frames.ui.widgets.SimpleAnimationListener
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
