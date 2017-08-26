@@ -37,7 +37,6 @@ ext.versions = [
         kauExt                : '628ab70',
         sectionedRecyclerView : '0.5.0',
         recyclerViewFastScroll: 'ab973f2',
-        floatingToolbar       : '1.5.1',
         mnp                   : '1.2.1',
         subsImageView         : '3.6.0',
         iaps                  : '1.0.44',
