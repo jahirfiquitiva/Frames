@@ -19,7 +19,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -29,9 +28,10 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.support.annotation.ColorInt
 import android.support.annotation.StringRes
-import android.support.design.widget.FloatingActionButton
+import android.support.design.widget.AppBarLayout
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
@@ -39,16 +39,18 @@ import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.ScaleAnimation
+import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.TextView
-import ca.allanwang.kau.utils.dpToPx
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.isColorDark
-import ca.allanwang.kau.utils.setMarginBottom
-import ca.allanwang.kau.utils.setMarginLeft
-import ca.allanwang.kau.utils.setMarginRight
+import ca.allanwang.kau.utils.navigationBarColor
 import ca.allanwang.kau.utils.setMarginTop
-import ca.allanwang.kau.utils.statusBarColor
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.visible
 import com.afollestad.materialdialogs.MaterialDialog
@@ -60,8 +62,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
-import com.github.rubensousa.floatingtoolbar.FloatingToolbar
-import com.github.rubensousa.floatingtoolbar.FloatingToolbarMenuBuilder
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.PermissionRequestListener
@@ -73,24 +73,19 @@ import jahirfiquitiva.libs.frames.helpers.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.navigationBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.requestPermissions
-import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.ui.fragments.WallpaperActionsFragment
+import jahirfiquitiva.libs.frames.ui.widgets.SimpleAnimationListener
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
-import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
-import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
-import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getColorFromRes
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
-import jahirfiquitiva.libs.kauextensions.extensions.getRippleColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getUri
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isColorLight
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
-import jahirfiquitiva.libs.kauextensions.extensions.setOptionIcon
 import jahirfiquitiva.libs.kauextensions.extensions.setupStatusBarStyle
 import jahirfiquitiva.libs.kauextensions.ui.views.TouchImageView
 import org.jetbrains.anko.contentView
@@ -110,34 +105,36 @@ open class ViewerActivity:ThemedActivity() {
     private var actionDialog:MaterialDialog? = null
     private var wallActions:WallpaperActionsFragment? = null
     
+    private lateinit var appbar:AppBarLayout
     private lateinit var toolbar:Toolbar
-    private lateinit var fab:FloatingActionButton
-    private lateinit var floatingToolbar:FloatingToolbar
+    private lateinit var bottomBar:View
     
     private var isInFavorites = false
     private var hasModifiedFavs = false
     private var showFavoritesButton = false
     
-    private val DOWNLOAD_ITEM_ID = 1
-    private val APPLY_ITEM_ID = 2
-    private val FAVORITE_ITEM_ID = 3
+    private var visibleSystemUI = true
+    private var visibleBottomBar = true
+    
+    private val DOWNLOAD_ACTION_ID = 1
+    private val APPLY_ACTION_ID = 2
+    private val FAVORITE_ACTION_ID = 3
     
     @ColorInt
     private var toolbarColor:Int = 0
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
+        setupStatusBarStyle(true, false)
+        navigationBarColor = Color.parseColor("#33000000")
+        
         setContentView(R.layout.activity_viewer)
         
         wallpaper = intent?.getParcelableExtra("wallpaper")
         isInFavorites = intent?.getBooleanExtra("inFavorites", false) == true
         showFavoritesButton = intent?.getBooleanExtra("showFavoritesButton", false) == true
         
-        setupStatusBarStyle(true, false)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        
-        statusBarColor = Color.parseColor("#80000000")
-        
+        appbar = findViewById(R.id.appbar)
         toolbar = findViewById(R.id.toolbar)
         toolbar.setMarginTop(getStatusBarHeight(true))
         
@@ -156,43 +153,36 @@ open class ViewerActivity:ThemedActivity() {
         toolbarTitle.text = wallpaper?.name ?: ""
         toolbarSubtitle.text = wallpaper?.author ?: ""
         
-        fab = findViewById(R.id.fab)
-        floatingToolbar = findViewById(R.id.floatingToolbar)
-        floatingToolbar.enableAutoHide(false)
-        
         toolbarColor = accentColor
-        setupFabToolbarIcons()
         
-        floatingToolbar.attachFab(fab)
+        findViewById<ImageView>(R.id.download_button).setOnClickListener {
+            doItemClick(DOWNLOAD_ACTION_ID)
+        }
+        findViewById<ImageView>(R.id.apply_button).setOnClickListener {
+            doItemClick(APPLY_ACTION_ID)
+        }
+        
+        if (showFavoritesButton) {
+            val favIcon = (if (isInFavorites) "ic_heart" else "ic_heart_outline").getDrawable(this)
+            val favImageView = findViewById<ImageView>(R.id.fav_button)
+            ViewCompat.setTransitionName(favImageView,
+                                         intent?.getStringExtra("favTransition") ?: "")
+            favImageView.setImageDrawable(favIcon)
+            favImageView.setOnClickListener { doItemClick(FAVORITE_ACTION_ID) }
+        } else {
+            findViewById<RelativeLayout>(R.id.fav_container).gone()
+        }
+        
+        bottomBar = findViewById(R.id.bottom_bar)
         
         val image = findViewById<TouchImageView>(R.id.wallpaper)
         ViewCompat.setTransitionName(image, intent?.getStringExtra("imgTransition") ?: "")
         
         setupWallpaper(image, wallpaper)
         
-        floatingToolbar.setClickListener(object:FloatingToolbar.ItemClickListener {
-            override fun onItemClick(item:MenuItem?) {
-                item?.let { doItemClick(it) }
-            }
-            
-            override fun onItemLongClick(item:MenuItem?) {}
-        })
-        
-        image.setOnClickListener { if (floatingToolbar.isShowing) floatingToolbar.hide() }
-        image.setOnTouchListener { _, motionEvent ->
-            if (floatingToolbar.isShowing) floatingToolbar.hide()
-            return@setOnTouchListener image.onTouchEvent(motionEvent)
-        }
-    }
-    
-    override fun onResume() {
-        super.onResume()
-        try {
-            if (currentRotation == 270) toolbar.setMarginLeft(navigationBarHeight)
-            else if (currentRotation == 90) toolbar.setMarginRight(navigationBarHeight)
-            fab.setNavBarMargins()
-            floatingToolbar.setNavBarMargins()
-        } catch (ignored:Exception) {
+        image.setOnSingleTapListener {
+            toggleSystemUI()
+            true
         }
     }
     
@@ -203,10 +193,8 @@ open class ViewerActivity:ThemedActivity() {
         return super.onOptionsItemSelected(item)
     }
     
-    override fun onBackPressed() = if (floatingToolbar.isShowing) {
-        floatingToolbar.removeMorphListeners()
-        floatingToolbar.hide()
-    } else {
+    override fun onBackPressed() {
+        super.onBackPressed()
         doFinish()
     }
     
@@ -237,7 +225,7 @@ open class ViewerActivity:ThemedActivity() {
         
         val d:Drawable
         d = if (bmp != null) {
-            setupImageColors(bmp, true)
+            findViewById<ProgressBar>(R.id.loading).visible()
             BitmapDrawable(resources, bmp)
         } else {
             ColorDrawable(ContextCompat.getColor(this, android.R.color.transparent))
@@ -249,7 +237,7 @@ open class ViewerActivity:ThemedActivity() {
                                              dataSource:DataSource?,
                                              isFirstResource:Boolean):Boolean {
                     resource?.let {
-                        setupImageColors(it, false)
+                        findViewById<ProgressBar>(R.id.loading).gone()
                     }
                     return false
                 }
@@ -280,7 +268,7 @@ open class ViewerActivity:ThemedActivity() {
                                                          dataSource:DataSource?,
                                                          isFirstResource:Boolean):Boolean {
                                 resource?.let {
-                                    setupImageColors(it, true)
+                                    findViewById<ProgressBar>(R.id.loading).visible()
                                 }
                                 return false
                             }
@@ -302,53 +290,6 @@ open class ViewerActivity:ThemedActivity() {
         }
     }
     
-    private fun setupImageColors(resource:Bitmap, isThumbnail:Boolean) {
-        val progressBar = findViewById<ProgressBar>(R.id.loading)
-        if (!isThumbnail) progressBar.gone()
-        resource.bestSwatch?.let {
-            val color = it.rgb
-            fab.backgroundTintList = ColorStateList.valueOf(color)
-            fab.rippleColor = getRippleColorFor(color)
-            floatingToolbar.setBackgroundColor(color)
-            floatingToolbar.background = ColorDrawable(color)
-            toolbarColor = color
-            setupFabToolbarIcons()
-            try {
-                if (isThumbnail) {
-                    progressBar.indeterminateDrawable.applyColorFilter(color)
-                    progressBar.visible()
-                }
-            } catch (ignored:Exception) {
-            }
-        }
-    }
-    
-    private fun setupFabToolbarIcons() {
-        fab.setImageDrawable(
-                "ic_plus".getDrawable(this).tint(getActiveIconsColorFor(toolbarColor, 0.6F)))
-        
-        val menuBuilder = FloatingToolbarMenuBuilder(this)
-        
-        val downloadIcon = "ic_download".getDrawable(this)
-                .tint(getActiveIconsColorFor(toolbarColor, 0.6F))
-        wallpaper?.let {
-            if (it.downloadable) menuBuilder.addItem(DOWNLOAD_ITEM_ID, downloadIcon,
-                                                     R.string.download)
-        }
-        
-        val applyIcon = "ic_apply_wallpaper".getDrawable(this)
-                .tint(getActiveIconsColorFor(toolbarColor, 0.6F))
-        menuBuilder.addItem(APPLY_ITEM_ID, applyIcon, R.string.apply)
-        
-        if (showFavoritesButton) {
-            val favIcon = (if (isInFavorites) "ic_heart" else "ic_heart_outline")
-                    .getDrawable(this).tint(getActiveIconsColorFor(toolbarColor, 0.6F))
-            menuBuilder.addItem(FAVORITE_ITEM_ID, favIcon, R.string.favorite)
-        }
-        
-        floatingToolbar.menu = menuBuilder.build()
-    }
-    
     override fun onRequestPermissionsResult(requestCode:Int, permissions:Array<out String>,
                                             grantResults:IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -361,11 +302,11 @@ open class ViewerActivity:ThemedActivity() {
         }
     }
     
-    private fun doItemClick(item:MenuItem) {
-        when (item.itemId) {
-            DOWNLOAD_ITEM_ID -> downloadWallpaper(false)
-            APPLY_ITEM_ID -> downloadWallpaper(true)
-            FAVORITE_ITEM_ID -> toggleFavorite()
+    private fun doItemClick(actionId:Int) {
+        when (actionId) {
+            DOWNLOAD_ACTION_ID -> downloadWallpaper(false)
+            APPLY_ACTION_ID -> downloadWallpaper(true)
+            FAVORITE_ACTION_ID -> toggleFavorite()
         }
     }
     
@@ -476,7 +417,6 @@ open class ViewerActivity:ThemedActivity() {
                 applyWallpaper(dest, position == 0, position == 1, position == 2)
             }
         }
-        actionDialog?.setOnDismissListener { floatingToolbar.hide() }
         actionDialog?.show()
     }
     
@@ -500,56 +440,58 @@ open class ViewerActivity:ThemedActivity() {
                                          }).toLowerCase()))
     }
     
-    private fun toggleFavorite() {
-        val ftMenu = floatingToolbar.menu
-        ftMenu?.setOptionIcon(FAVORITE_ITEM_ID,
-                              (if (isInFavorites) "ic_heart_outline" else "ic_heart")
-                                      .getDrawable(this).tint(
-                                      getActiveIconsColorFor(toolbarColor, 0.6F)))
-        floatingToolbar.menu = ftMenu
-        wallpaper?.let {
-            showSnackbar(getString(
-                    (if (isInFavorites) R.string.removed_from_favorites else R.string.added_to_favorites),
-                    it.name))
-        }
-        hasModifiedFavs = true
-        isInFavorites = !isInFavorites
+    private val ANIMATION_DURATION:Long = 250
+    private fun toggleFavorite() = runOnUiThread {
+        val favImageView = findViewById<ImageView>(R.id.fav_button)
+        val scale = ScaleAnimation(1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5f,
+                                   Animation.RELATIVE_TO_SELF, 0.5f)
+        scale.duration = ANIMATION_DURATION
+        scale.interpolator = LinearInterpolator()
+        scale.setAnimationListener(object:SimpleAnimationListener() {
+            override fun onEnd(animation:Animation) {
+                super.onEnd(animation)
+                favImageView.setImageDrawable(
+                        (if (isInFavorites) "ic_heart_outline" else "ic_heart")
+                                .getDrawable(this@ViewerActivity))
+                
+                val nScale = ScaleAnimation(0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5f,
+                                            Animation.RELATIVE_TO_SELF, 0.5f)
+                nScale.duration = ANIMATION_DURATION
+                nScale.interpolator = LinearInterpolator()
+                nScale.setAnimationListener(object:SimpleAnimationListener() {
+                    override fun onEnd(animation:Animation) {
+                        super.onEnd(animation)
+                        wallpaper?.let {
+                            showSnackbar(getString(
+                                    (if (isInFavorites) R.string.removed_from_favorites else R.string.added_to_favorites),
+                                    it.name))
+                        }
+                        hasModifiedFavs = true
+                        isInFavorites = !isInFavorites
+                    }
+                })
+                favImageView.startAnimation(nScale)
+            }
+        })
+        favImageView.startAnimation(scale)
     }
     
     private fun showSnackbar(@StringRes text:Int, settings:Snackbar.() -> Unit = {}) =
             showSnackbar(resources.getString(text), settings)
     
-    private fun showSnackbar(text:String, settings:Snackbar.() -> Unit = {}) =
-            if (floatingToolbar.isShowing) {
-                floatingToolbar.removeMorphListeners()
-                
-                val morphListener = object:FloatingToolbar.MorphListener {
-                    override fun onMorphEnd() {}
-                    override fun onMorphStart() {}
-                    override fun onUnmorphStart() {}
-                    override fun onUnmorphEnd() = justShowSnackbar(text, settings)
-                }
-                
-                floatingToolbar.addMorphListener(morphListener)
-                floatingToolbar.hide()
-            } else {
-                justShowSnackbar(text, settings)
-            }
-    
-    private fun justShowSnackbar(text:String, settings:Snackbar.() -> Unit) {
+    private fun showSnackbar(text:String, settings:Snackbar.() -> Unit = {}) {
         contentView?.let {
             val snack = it.buildSnackbar(text, builder = settings)
+            val bottomBarWasVisible = visibleBottomBar
             
             snack.addCallback(object:Snackbar.Callback() {
                 override fun onDismissed(transientBottomBar:Snackbar?, event:Int) {
                     super.onDismissed(transientBottomBar, event)
-                    fab.setNavBarMargins()
-                    floatingToolbar.removeMorphListeners()
+                    if (bottomBarWasVisible) changeBottomBarVisibility(true)
                 }
                 
                 override fun onShown(sb:Snackbar?) {
                     super.onShown(sb)
-                    fab.setMarginBottom(16.dpToPx)
                 }
             })
             
@@ -583,8 +525,50 @@ open class ViewerActivity:ThemedActivity() {
                 snack.setActionTextColor(
                         if (toolbarColor.isColorDark) toolbarColor else accentColor)
             }
-            floatingToolbar.showSnackBar(snack)
+            if (visibleBottomBar) changeBottomBarVisibility(false)
+            snack.show()
         }
+    }
+    
+    private fun toggleSystemUI() {
+        visibleSystemUI = !visibleSystemUI
+        Handler().post({
+                           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                               window.decorView.systemUiVisibility = if (visibleSystemUI)
+                                   View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                                           View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                                           View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                               else
+                                   View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                                           View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                                           View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                                           View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                                           View.SYSTEM_UI_FLAG_FULLSCREEN or
+                                           View.SYSTEM_UI_FLAG_IMMERSIVE or
+                                           View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                           }
+                           changeBarsVisibility(visibleSystemUI)
+                       })
+    }
+    
+    private fun changeBarsVisibility(show:Boolean) {
+        changeAppBarVisibility(show)
+        changeBottomBarVisibility(show)
+    }
+    
+    private fun changeAppBarVisibility(show:Boolean) {
+        val transY = (if (show) 0 else -appbar.height).toFloat()
+        appbar.animate().translationY(transY)
+                .setInterpolator(AccelerateDecelerateInterpolator())
+                .start()
+    }
+    
+    private fun changeBottomBarVisibility(show:Boolean) {
+        visibleBottomBar = show
+        val transY = (if (show) 0 else ((bottomBar.parent as View).height + navigationBarHeight)).toFloat()
+        (bottomBar.parent as View).animate().translationY(transY)
+                .setInterpolator(AccelerateDecelerateInterpolator())
+                .start()
     }
     
     private fun properlyCancelDialog() {

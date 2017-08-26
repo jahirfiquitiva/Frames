@@ -39,57 +39,51 @@
             android:scaleType="centerCrop"
             android:fitsSystemWindows="true"/>
 
-    <com.github.rubensousa.floatingtoolbar.FloatingToolbar
-            android:id="@+id/floatingToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="bottom"/>
+    <include layout="@layout/viewer_bottom_bar"/>
 
-    <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
+    <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="bottom|end"
-            android:layout_marginRight="@dimen/fabs_margin"
-            android:layout_marginEnd="@dimen/fabs_margin"
-            android:layout_marginBottom="@dimen/fabs_margin"
-            app:fabSize="normal"
-            app:backgroundTint="?attr/colorAccent"/>
+            android:clipChildren="false"
+            android:fitsSystemWindows="true"
+            android:background="@drawable/gradient_inverse"
+            app:elevation="0dp">
 
-    <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="@drawable/gradient_inverse">
-
-        <LinearLayout
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
+                android:layout_height="?actionBarSize"
+                android:minHeight="?actionBarSize"
+                app:elevation="0dp">
 
-            <TextView
-                    android:id="@+id/toolbar_title"
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/white"
-                    android:textAppearance="@style/DetailsText"
-                    tools:text="Title"/>
+                    android:orientation="vertical"
+                    android:gravity="center_vertical">
 
-            <TextView
-                    android:id="@+id/toolbar_subtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textColor="@android:color/white"
-                    android:textAppearance="@style/DetailsText.Small"
-                    tools:text="Subtitle"/>
+                <TextView
+                        android:id="@+id/toolbar_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:textAppearance="@style/DetailsText"
+                        tools:text="Title"/>
 
-        </LinearLayout>
+                <TextView
+                        android:id="@+id/toolbar_subtitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@android:color/white"
+                        android:textAppearance="@style/DetailsText.Small"
+                        tools:text="Subtitle"/>
 
-    </android.support.v7.widget.Toolbar>
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
 
 </jahirfiquitiva.libs.kauextensions.ui.layouts.CustomCoordinatorLayout>
