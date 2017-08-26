@@ -50,8 +50,6 @@ import android.widget.TextView
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.isColorDark
 import ca.allanwang.kau.utils.navigationBarColor
-import ca.allanwang.kau.utils.setMarginLeft
-import ca.allanwang.kau.utils.setMarginRight
 import ca.allanwang.kau.utils.setMarginTop
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.visible
@@ -188,17 +186,6 @@ open class ViewerActivity:ThemedActivity() {
         }
     }
     
-    override fun onResume() {
-        super.onResume()
-        try {
-            if (currentRotation == 270) toolbar.setMarginLeft(navigationBarHeight)
-            else if (currentRotation == 90) toolbar.setMarginRight(navigationBarHeight)
-            // fab.setNavBarMargins()
-            // floatingToolbar.setNavBarMargins()
-        } catch (ignored:Exception) {
-        }
-    }
-    
     override fun onOptionsItemSelected(item:MenuItem?):Boolean {
         if (item?.itemId == android.R.id.home) {
             doFinish()
@@ -210,15 +197,6 @@ open class ViewerActivity:ThemedActivity() {
         super.onBackPressed()
         doFinish()
     }
-    
-    /*
-    override fun onBackPressed() = if (floatingToolbar.isShowing) {
-        floatingToolbar.removeMorphListeners()
-        floatingToolbar.hide()
-    } else {
-        doFinish()
-    }
-    */
     
     private fun doFinish() {
         val intent = Intent()

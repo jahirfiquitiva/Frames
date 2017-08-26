@@ -18,7 +18,6 @@ package jahirfiquitiva.libs.frames.helpers.extensions
 import android.app.Activity
 import android.content.Context
 import android.graphics.Point
-import android.graphics.Rect
 import android.os.Build
 import android.view.Display
 import android.view.WindowManager
@@ -65,10 +64,3 @@ fun Context.getRealScreenSize():Point {
     }
     return size
 }
-
-val Activity.screenSize:IntArray
-    get() {
-        val displayRect = Rect()
-        window.decorView.getWindowVisibleDisplayFrame(displayRect)
-        return intArrayOf(displayRect.left, displayRect.top, displayRect.right, displayRect.bottom)
-    }
