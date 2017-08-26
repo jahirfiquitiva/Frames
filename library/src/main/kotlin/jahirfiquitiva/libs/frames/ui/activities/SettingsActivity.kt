@@ -19,6 +19,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
+import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.FrameLayout
@@ -45,7 +46,7 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
     
     var hasClearedFavs = false
     var locationChooserDialog:FolderChooserDialog? = null
-    private lateinit var fragment:SettingsFragment
+    private lateinit var fragment:Fragment
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +71,7 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
             it.setPadding(it.paddingLeft, it.paddingTop, it.paddingRight, 0)
         }
         
-        fragment = SettingsFragment()
+        fragment = settingsFragment()
         changeFragment(fragment, "Settings")
     }
     
@@ -127,11 +128,12 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
     
     override fun onFolderSelection(dialog:FolderChooserDialog, folder:File) {
         framesKonfigs.downloadsFolder = folder.absolutePath
-        fragment.updateDownloadLocation()
+        if (fragment is SettingsFragment) {
+            (fragment as SettingsFragment).updateDownloadLocation()
+        }
     }
     
+    open fun settingsFragment():Fragment = SettingsFragment()
     override fun fragmentsContainer():Int = R.id.fragments_container
-    
     override fun hasBottomBar():Boolean = true
-    
 }

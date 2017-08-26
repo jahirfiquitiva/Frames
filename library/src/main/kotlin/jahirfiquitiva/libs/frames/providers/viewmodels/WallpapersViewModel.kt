@@ -32,7 +32,6 @@ import org.json.JSONArray
 
 class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
     
-    
     override fun loadItems(param:Context):ArrayList<Wallpaper> {
         val volley = Volley.newRequestQueue(param)
         val request = StringRequest(Request.Method.GET, param.getString(R.string.json_url),
@@ -40,14 +39,13 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
                                         postResult(loadWallpapers(param, it))
                                     },
                                     Response.ErrorListener {
-                                        postResult(ArrayList())
+                                        postResult(loadWallpapers(param, ""))
                                     })
         request.retryPolicy = DefaultRetryPolicy(5000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         volley.add(request)
         volley.start()
         return ArrayList()
     }
-    
     
     private fun loadWallpapers(context:Context, response:String):ArrayList<Wallpaper> =
             if (response.hasContent()) {
@@ -118,5 +116,4 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
         fWallpapers.distinct()
         return fWallpapers
     }
-    
 }

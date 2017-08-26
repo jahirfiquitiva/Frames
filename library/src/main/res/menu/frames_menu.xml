@@ -28,30 +28,30 @@
             tools:ignore="AppCompatResource"/>
 
     <item
-            android:id="@+id/refresh"
-            android:title="@string/refresh"
-            android:icon="@drawable/ic_refresh"
-            android:orderInCategory="200"
-            app:showAsAction="ifRoom"/>
-
-    <item
             android:id="@+id/about"
             android:title="@string/about"
             android:icon="@drawable/ic_about"
-            android:orderInCategory="300"
+            android:orderInCategory="200"
             app:showAsAction="ifRoom"/>
 
     <item
             android:id="@+id/settings"
             android:title="@string/settings"
             android:icon="@drawable/ic_settings"
-            android:orderInCategory="400"
+            android:orderInCategory="300"
             app:showAsAction="ifRoom"/>
 
     <item
             android:id="@+id/donate"
             android:title="@string/donate"
             android:icon="@drawable/ic_donate"
+            android:orderInCategory="400"
+            app:showAsAction="ifRoom"/>
+
+    <item
+            android:id="@+id/refresh"
+            android:title="@string/refresh"
+            android:icon="@drawable/ic_refresh"
             android:orderInCategory="500"
             app:showAsAction="ifRoom"/>
 

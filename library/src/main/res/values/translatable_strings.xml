@@ -156,4 +156,6 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
+    <string name="not_connected_content">Unfortunately this action requires Internet connection. Please try again later.</string>
+
 </resources>

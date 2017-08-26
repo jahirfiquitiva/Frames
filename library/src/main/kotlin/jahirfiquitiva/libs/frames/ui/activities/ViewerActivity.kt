@@ -49,6 +49,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.isColorDark
+import ca.allanwang.kau.utils.isNetworkAvailable
 import ca.allanwang.kau.utils.navigationBarColor
 import ca.allanwang.kau.utils.setMarginTop
 import ca.allanwang.kau.utils.tint
@@ -311,7 +312,8 @@ open class ViewerActivity:ThemedActivity() {
     }
     
     @SuppressLint("NewApi")
-    private fun downloadWallpaper(toApply:Boolean) =
+    private fun downloadWallpaper(toApply:Boolean) {
+        if (isNetworkAvailable) {
             checkPermission(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     object:PermissionRequestListener {
@@ -326,6 +328,10 @@ open class ViewerActivity:ThemedActivity() {
                         
                         override fun onPermissionGranted() = checkIfFileExists(toApply)
                     })
+        } else {
+            showNotConnectedDialog()
+        }
+    }
     
     private fun showPermissionInformation(toApply:Boolean) {
         showSnackbar(getString(R.string.permission_request, getAppName()), {
@@ -569,6 +575,16 @@ open class ViewerActivity:ThemedActivity() {
         (bottomBar.parent as View).animate().translationY(transY)
                 .setInterpolator(AccelerateDecelerateInterpolator())
                 .start()
+    }
+    
+    private fun showNotConnectedDialog() {
+        properlyCancelDialog()
+        actionDialog = buildMaterialDialog {
+            title(R.string.muzei_not_connected_title)
+            content(R.string.not_connected_content)
+            positiveText(android.R.string.ok)
+        }
+        actionDialog?.show()
     }
     
     private fun properlyCancelDialog() {
