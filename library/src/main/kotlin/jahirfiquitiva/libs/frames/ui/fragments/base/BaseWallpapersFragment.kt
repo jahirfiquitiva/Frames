@@ -128,9 +128,11 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         val imgTransition = ViewCompat.getTransitionName(holder.img)
         val nameTransition = ViewCompat.getTransitionName(holder.name)
         val authorTransition = ViewCompat.getTransitionName(holder.author)
+        val heartTransition = ViewCompat.getTransitionName(holder.heartIcon)
         intent.putExtra("imgTransition", imgTransition)
         intent.putExtra("nameTransition", nameTransition)
         intent.putExtra("authorTransition", authorTransition)
+        intent.putExtra("favTransition", heartTransition)
         
         try {
             holder.bitmap?.let {
@@ -144,8 +146,10 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
             val imgPair = Pair<View, String>(holder.img, imgTransition)
             val namePair = Pair<View, String>(holder.name, nameTransition)
             val authorPair = Pair<View, String>(holder.author, authorTransition)
+            val heartPair = Pair<View, String>(holder.heartIcon, heartTransition)
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imgPair,
-                                                                             namePair, authorPair)
+                                                                             namePair, authorPair,
+                                                                             heartPair)
             startActivityForResult(intent, 10, options.toBundle())
         } catch (ignored:Exception) {
             startActivityForResult(intent, 10)

@@ -129,6 +129,7 @@ class WallpaperHolder(itemView:View, val showFavIcon:Boolean = true):
             ViewCompat.setTransitionName(img, "img_transition_$adapterPosition")
             ViewCompat.setTransitionName(name, "name_transition_$adapterPosition")
             ViewCompat.setTransitionName(author, "author_transition_$adapterPosition")
+            ViewCompat.setTransitionName(heartIcon, "fav_transition_$adapterPosition")
             setBackgroundColor(context.thumbnailColor)
             val url = wallpaper.url
             val thumb = wallpaper.thumbUrl
