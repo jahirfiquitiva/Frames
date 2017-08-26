@@ -30,6 +30,17 @@
             android:supportsRtl="true"
             android:theme="@style/MySplashScreen">
 
+        <!--    Notification receiver -->
+        <receiver
+                android:name=".MyNotificationReceiver"
+                android:enabled="true"
+                android:process=":remote"
+                tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="@string/frames_notifications_action"/>
+            </intent-filter>
+        </receiver>
+
         <activity
                 android:name=".MainActivity"
                 android:label="@string/app_name">

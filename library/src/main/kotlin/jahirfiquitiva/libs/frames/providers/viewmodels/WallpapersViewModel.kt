@@ -60,7 +60,7 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
                 }
             }
     
-    private fun buildWallpapersListFromJson(json:JSONArray):ArrayList<Wallpaper> {
+    fun buildWallpapersListFromJson(json:JSONArray):ArrayList<Wallpaper> {
         val fWallpapers = ArrayList<Wallpaper>()
         for (index in 0..json.length()) {
             if (json.isNull(index)) continue

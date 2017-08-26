@@ -53,6 +53,10 @@ open class FramesKonfigs(nm:String, cntxt:Context):Konfigurations(nm, cntxt) {
         get() = prefs.getBoolean(FUNCTIONAL_DASHBOARD, false)
         set(value) = prefsEditor.putBoolean(FUNCTIONAL_DASHBOARD, value).apply()
     
+    var notificationsEnabled:Boolean
+        get() = prefs.getBoolean(NOTIFICATIONS_ENABLED, false)
+        set(value) = prefsEditor.putBoolean(NOTIFICATIONS_ENABLED, value).apply()
+    
     var refreshMuzeiOnWiFiOnly:Boolean
         get() = prefs.getBoolean(REFRESH_MUZEI_ON_WIFI_ONLY, false)
         set(value) = prefsEditor.putBoolean(REFRESH_MUZEI_ON_WIFI_ONLY, value).apply()

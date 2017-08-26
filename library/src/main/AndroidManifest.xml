@@ -68,6 +68,17 @@
                 android:name="com.lge.support.SPLIT_WINDOW"
                 android:value="true"/>
 
+        <!--    Notification receiver -->
+        <!--suppress AndroidDomInspection -->
+        <receiver
+                android:name=".data.services.FramesNotificationReceiver"
+                android:enabled="false"
+                android:process=":remote"
+                tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="@string/frames_notifications_action"/>
+            </intent-filter>
+        </receiver>
 
         <!--suppress AndroidDomInspection -->
         <activity
