@@ -32,8 +32,12 @@ import jahirfiquitiva.libs.frames.ui.fragments.CollectionsFragment
 import jahirfiquitiva.libs.frames.ui.fragments.FavoritesFragment
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersFragment
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
+import jahirfiquitiva.libs.frames.ui.widgets.CustomTabLayout
+import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.getDisabledTextColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.getInactiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
@@ -43,7 +47,7 @@ abstract class FramesActivity:BaseFramesActivity() {
     
     private lateinit var toolbar:Toolbar
     private lateinit var pager:ViewPager
-    private lateinit var tabs:TabLayout
+    private lateinit var tabs:CustomTabLayout
     
     private var searchView:SearchView? = null
     private var lastSection = 1
@@ -60,20 +64,61 @@ abstract class FramesActivity:BaseFramesActivity() {
         pager.adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
                                          WallpapersFragment(), FavoritesFragment())
         tabs = findViewById(R.id.tabs)
+        
+        val useAccentColor = getBoolean(R.bool.enable_accent_color_in_tabs)
         tabs.setTabTextColors(getDisabledTextColorFor(primaryColor, 0.6F),
-                              getPrimaryTextColorFor(primaryColor, 0.6F))
-        tabs.setSelectedTabIndicatorColor(getPrimaryTextColorFor(primaryColor, 0.6F))
-        tabs.addTab(tabs.newTab().setText(R.string.collections))
-        tabs.addTab(tabs.newTab().setText(R.string.all))
-        tabs.addTab(tabs.newTab().setText(R.string.favorites))
+                              if (useAccentColor) accentColor else
+                                  getPrimaryTextColorFor(primaryColor, 0.6F))
+        tabs.setSelectedTabIndicatorColor(
+                if (useAccentColor) accentColor else getPrimaryTextColorFor(primaryColor, 0.6F))
+        
+        val showTexts = getBoolean(R.bool.show_texts_in_tabs)
+        val showIcons = getBoolean(R.bool.show_icons_in_tabs)
+        val reallyShowTexts = showTexts || (!showTexts && !showIcons)
+        
+        tabs.removeAllTabs()
+        for (i in 0 until 3) {
+            val icon = when (i) {
+                0 -> R.drawable.ic_collections
+                1 -> R.drawable.ic_all_wallpapers
+                2 -> R.drawable.ic_heart
+                else -> 0
+            }
+            
+            val text = when (i) {
+                0 -> R.string.collections
+                1 -> R.string.all
+                2 -> R.string.favorites
+                else -> 0
+            }
+            
+            val tab = tabs.newTab()
+            if (reallyShowTexts) {
+                if (text != 0) tab.setText(text)
+                if (showIcons && icon != 0) {
+                    tab.setIcon(icon)
+                }
+            } else {
+                if (showIcons) {
+                    if (icon != 0) tab.setIcon(icon)
+                } else {
+                    if (text != 0) tab.setText(text)
+                }
+            }
+            tabs.addTab(tab)
+        }
+        
         tabs.addOnTabSelectedListener(object:TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab:TabLayout.Tab?) {}
-            
             override fun onTabUnselected(tab:TabLayout.Tab?) {}
-            
             override fun onTabSelected(tab:TabLayout.Tab?) {
                 tab?.let {
                     lastSection = it.position
+                    if (showIcons) {
+                        tabs.setTabsIconsColors(getInactiveIconsColorFor(primaryColor, 0.6F),
+                                                if (useAccentColor) accentColor else
+                                                    getActiveIconsColorFor(primaryColor, 0.6F))
+                    }
                     pager.setCurrentItem(it.position, true)
                     searchView?.let {
                         val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()

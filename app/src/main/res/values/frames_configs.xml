@@ -38,6 +38,24 @@
     <!--    Choose whether you want colored tiles by default -->
     <bool name="enable_colored_tiles">false</bool>
 
+    <!--    Accent color in tabs
+    -       If true, the accent color will be used in tabs
+    -       If false, the color will be set depending on your primary color
+    -->
+    <bool name="enable_accent_color_in_tabs">false</bool>
+
+    <!--    Show icons in tabs
+    -       True means yes
+    -       False means no
+    -->
+    <bool name="show_icons_in_tabs">false</bool>
+
+    <!--    Show texts in tabs
+    -       True means yes
+    -       False means no
+    -->
+    <bool name="show_texts_in_tabs">true</bool>
+
     <!--    These are your donation items. Only put their ids here -->
     <string-array name="donation_items">
         <item>coffee</item>

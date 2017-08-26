@@ -34,7 +34,7 @@
                 android:background="?colorPrimary"
                 app:layout_scrollFlags="scroll"/>
 
-        <android.support.design.widget.TabLayout
+        <jahirfiquitiva.libs.frames.ui.widgets.CustomTabLayout
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
