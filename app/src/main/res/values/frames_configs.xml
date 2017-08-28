@@ -16,6 +16,12 @@
   -->
 <resources>
 
+    <!--    Notifications class name
+    -       Must be something similar to:
+    -       com.mypackage.name.MyNotificationReceiver
+    -->
+    <string name="notifications_class">jahirfiquitiva.apps.frames.sample.MyNotificationReceiver</string>
+
     <!--    Configure your own Splash Screen style
     -       Only change the parent. Available Styles:
     -       LightTheme.SplashScreen

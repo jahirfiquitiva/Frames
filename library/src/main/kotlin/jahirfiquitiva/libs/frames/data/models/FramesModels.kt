@@ -21,6 +21,8 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
+import jahirfiquitiva.libs.kauextensions.extensions.readBoolean
+import jahirfiquitiva.libs.kauextensions.extensions.writeBoolean
 import java.util.*
 
 @Entity(tableName = "FAVORITES")
@@ -45,7 +47,7 @@ data class Wallpaper(
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
-            parcel.readByte() != 0.toByte(),
+            parcel.readBoolean(),
             parcel.readString(),
             parcel.readString(),
             parcel.readLong())
@@ -67,7 +69,7 @@ data class Wallpaper(
         parcel.writeString(name)
         parcel.writeString(author)
         parcel.writeString(collections)
-        parcel.writeByte(if (downloadable) 1 else 0)
+        parcel.writeBoolean(downloadable)
         parcel.writeString(url)
         parcel.writeString(thumbUrl)
         parcel.writeLong(id)

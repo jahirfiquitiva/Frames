@@ -22,6 +22,7 @@ import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.ColorMatrixColorFilter
 import android.os.Build
+import android.support.annotation.StringRes
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
@@ -41,7 +42,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
 
 fun ImageView.loadFromUrls(url:String, thumbUrl:String, listener:RequestListener<Bitmap>,
-                                     sizeMultiplier:Float = 0.5F) {
+                           sizeMultiplier:Float = 0.5F) {
     if (thumbUrl.hasContent()) {
         Glide.with(context).asBitmap().load(url)
                 .thumbnail(Glide.with(context).asBitmap().load(thumbUrl)
@@ -98,6 +99,13 @@ fun View.setNavBarMargins() {
     }
     layoutParams = params
     requestLayout()
+}
+
+fun View.buildSnackbar(@StringRes text:Int, duration:Int = Snackbar.LENGTH_LONG,
+                       builder:Snackbar.() -> Unit = {}):Snackbar {
+    val snackbar = Snackbar.make(this, text, duration)
+    snackbar.builder()
+    return snackbar
 }
 
 fun View.buildSnackbar(text:String, duration:Int = Snackbar.LENGTH_LONG,

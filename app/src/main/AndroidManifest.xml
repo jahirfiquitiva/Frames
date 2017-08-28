@@ -34,10 +34,10 @@
         <receiver
                 android:name=".MyNotificationReceiver"
                 android:enabled="true"
-                android:process=":remote"
                 tools:ignore="ExportedReceiver">
             <intent-filter>
                 <action android:name="@string/frames_notifications_action"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
 

@@ -32,7 +32,7 @@
             android:visibility="visible"
             android:fitsSystemWindows="true"/>
 
-    <jahirfiquitiva.libs.kauextensions.ui.views.TouchImageView
+    <jahirfiquitiva.libs.ziv.ZoomableImageView
             android:id="@+id/wallpaper"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

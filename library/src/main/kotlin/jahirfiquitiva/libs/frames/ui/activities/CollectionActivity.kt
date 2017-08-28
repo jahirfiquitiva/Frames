@@ -49,7 +49,7 @@ open class CollectionActivity:BaseActivityWithFragments() {
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_with_fragments)
+        setContentView(R.layout.activity_collection)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         val toolbarTitle = findViewById<TextView>(R.id.toolbar_title)
         

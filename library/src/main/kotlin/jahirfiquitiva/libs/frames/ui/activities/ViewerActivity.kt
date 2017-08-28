@@ -79,6 +79,7 @@ import jahirfiquitiva.libs.frames.ui.widgets.SimpleAnimationListener
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
+import jahirfiquitiva.libs.kauextensions.extensions.enableTranslucentStatusBar
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getColorFromRes
@@ -87,8 +88,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.getUri
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isColorLight
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
-import jahirfiquitiva.libs.kauextensions.extensions.setupStatusBarStyle
-import jahirfiquitiva.libs.kauextensions.ui.views.TouchImageView
+import jahirfiquitiva.libs.ziv.ZoomableImageView
 import org.jetbrains.anko.contentView
 import java.io.File
 import java.text.SimpleDateFormat
@@ -126,7 +126,7 @@ open class ViewerActivity:ThemedActivity() {
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
-        setupStatusBarStyle(true, false)
+        enableTranslucentStatusBar()
         navigationBarColor = Color.parseColor("#33000000")
         
         setContentView(R.layout.activity_viewer)
@@ -156,9 +156,15 @@ open class ViewerActivity:ThemedActivity() {
         
         toolbarColor = accentColor
         
-        findViewById<ImageView>(R.id.download_button).setOnClickListener {
-            doItemClick(DOWNLOAD_ACTION_ID)
+        val downloadable = wallpaper?.downloadable ?: false
+        if (downloadable) {
+            findViewById<ImageView>(R.id.download_button).setOnClickListener {
+                doItemClick(DOWNLOAD_ACTION_ID)
+            }
+        } else {
+            findViewById<ImageView>(R.id.download_container).gone()
         }
+        
         findViewById<ImageView>(R.id.apply_button).setOnClickListener {
             doItemClick(APPLY_ACTION_ID)
         }
@@ -176,7 +182,7 @@ open class ViewerActivity:ThemedActivity() {
         
         bottomBar = findViewById(R.id.bottom_bar)
         
-        val image = findViewById<TouchImageView>(R.id.wallpaper)
+        val image = findViewById<ZoomableImageView>(R.id.wallpaper)
         ViewCompat.setTransitionName(image, intent?.getStringExtra("imgTransition") ?: "")
         
         setupWallpaper(image, wallpaper)
@@ -212,7 +218,7 @@ open class ViewerActivity:ThemedActivity() {
         overridePendingTransition(0, 0)
     }
     
-    private fun setupWallpaper(view:TouchImageView, wallpaper:Wallpaper?) {
+    private fun setupWallpaper(view:ZoomableImageView, wallpaper:Wallpaper?) {
         var bmp:Bitmap? = null
         val filename = intent?.getStringExtra("image") ?: ""
         if (filename.hasContent()) {
@@ -401,8 +407,7 @@ open class ViewerActivity:ThemedActivity() {
     @SuppressLint("SimpleDateFormat")
     private fun getCurrentTimeStamp():String {
         val sdfDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val now = Date()
-        return sdfDate.format(now)
+        return sdfDate.format(Date())
     }
     
     private fun getWallpaperExtension(currenExt:String):String {
