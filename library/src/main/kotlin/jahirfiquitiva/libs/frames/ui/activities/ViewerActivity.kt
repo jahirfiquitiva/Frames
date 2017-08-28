@@ -53,6 +53,7 @@ import ca.allanwang.kau.utils.isNetworkAvailable
 import ca.allanwang.kau.utils.navigationBarColor
 import ca.allanwang.kau.utils.setMarginTop
 import ca.allanwang.kau.utils.tint
+import ca.allanwang.kau.utils.toBitmap
 import ca.allanwang.kau.utils.visible
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
@@ -65,6 +66,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.helpers.configs.bestBitmapConfig
 import jahirfiquitiva.libs.frames.helpers.extensions.PermissionRequestListener
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.buildSnackbar
@@ -109,6 +111,7 @@ open class ViewerActivity:ThemedActivity() {
     private lateinit var appbar:AppBarLayout
     private lateinit var toolbar:Toolbar
     private lateinit var bottomBar:View
+    private lateinit var img:ZoomableImageView
     
     private var isInFavorites = false
     private var hasModifiedFavs = false
@@ -182,12 +185,12 @@ open class ViewerActivity:ThemedActivity() {
         
         bottomBar = findViewById(R.id.bottom_bar)
         
-        val image = findViewById<ZoomableImageView>(R.id.wallpaper)
-        ViewCompat.setTransitionName(image, intent?.getStringExtra("imgTransition") ?: "")
+        img = findViewById(R.id.wallpaper)
+        ViewCompat.setTransitionName(img, intent?.getStringExtra("imgTransition") ?: "")
         
-        setupWallpaper(image, wallpaper)
+        setupWallpaper(wallpaper)
         
-        image.setOnSingleTapListener {
+        img.setOnSingleTapListener {
             toggleSystemUI()
             true
         }
@@ -218,7 +221,7 @@ open class ViewerActivity:ThemedActivity() {
         overridePendingTransition(0, 0)
     }
     
-    private fun setupWallpaper(view:ZoomableImageView, wallpaper:Wallpaper?) {
+    private fun setupWallpaper(wallpaper:Wallpaper?) {
         var bmp:Bitmap? = null
         val filename = intent?.getStringExtra("image") ?: ""
         if (filename.hasContent()) {
@@ -261,7 +264,7 @@ open class ViewerActivity:ThemedActivity() {
                                        .priority(Priority.HIGH).placeholder(d))
                         .thumbnail(0.5F)
                         .listener(listener)
-                        .into(view)
+                        .into(img)
             } else {
                 val thumbnailRequest = Glide.with(this).asBitmap()
                         .load(it.thumbUrl)
@@ -292,7 +295,7 @@ open class ViewerActivity:ThemedActivity() {
                                        .priority(Priority.HIGH).placeholder(d))
                         .thumbnail(thumbnailRequest)
                         .listener(listener)
-                        .into(view)
+                        .into(img)
             }
         }
     }
@@ -335,7 +338,8 @@ open class ViewerActivity:ThemedActivity() {
                         override fun onPermissionGranted() = checkIfFileExists(toApply)
                     })
         } else {
-            showNotConnectedDialog()
+            if (toApply) showWallpaperApplyOptions(null)
+            else showNotConnectedDialog()
         }
     }
     
@@ -418,17 +422,30 @@ open class ViewerActivity:ThemedActivity() {
         return ".png"
     }
     
-    private fun showWallpaperApplyOptions(dest:File) {
+    private fun showWallpaperApplyOptions(dest:File?) {
         properlyCancelDialog()
         actionDialog = buildMaterialDialog {
             title(R.string.apply_to)
             items(getString(R.string.home_screen), getString(R.string.lock_screen),
                   getString(R.string.home_lock_screen))
             itemsCallback { _, _, position, _ ->
-                applyWallpaper(dest, position == 0, position == 1, position == 2)
+                if (dest != null) {
+                    dest.let { applyWallpaper(it, position == 0, position == 1, position == 2) }
+                } else {
+                    applyBitmapWallpaper(position == 0, position == 1, position == 2)
+                }
             }
         }
         actionDialog?.show()
+    }
+    
+    private fun applyBitmapWallpaper(toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean) {
+        wallpaper?.let {
+            properlyCancelDialog()
+            wallActions = WallpaperActionsFragment()
+            wallActions?.show(this, it, img.drawable.toBitmap(config = bestBitmapConfig),
+                              toHomeScreen, toLockScreen, toBoth)
+        }
     }
     
     private fun applyWallpaper(dest:File, toHomeScreen:Boolean, toLockScreen:Boolean,

@@ -26,9 +26,11 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
+import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 import org.json.JSONArray
+import org.json.JSONObject
 
 class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
     
@@ -49,8 +51,7 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
     
     private fun loadWallpapers(context:Context, response:String):ArrayList<Wallpaper> =
             if (response.hasContent()) {
-                context.framesKonfigs.backupJson = response
-                buildWallpapersListFromJson(JSONArray(response))
+                buildWallpapersListFromResponse(context, response, true)
             } else {
                 val prevResponse = context.framesKonfigs.backupJson
                 if (prevResponse.hasContent()) {
@@ -60,7 +61,31 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
                 }
             }
     
-    fun buildWallpapersListFromJson(json:JSONArray):ArrayList<Wallpaper> {
+    fun buildWallpapersListFromResponse(context:Context, response:String,
+                                        shouldSaveResult:Boolean = false):ArrayList<Wallpaper> {
+        val shouldUseOldFormat = context.getBoolean(R.bool.use_old_json_format)
+        val jsonArray = if (shouldUseOldFormat) {
+            if (response.hasContent()) {
+                try {
+                    JSONObject(response).getJSONArray("Wallpapers")
+                } catch (ignored:Exception) {
+                    try {
+                        JSONObject(response).getJSONArray("wallpapers")
+                    } catch (ignored:Exception) {
+                        JSONArray("[]")
+                    }
+                }
+            } else {
+                JSONArray("[]")
+            }
+        } else {
+            JSONArray(response)
+        }
+        if (shouldSaveResult) context.framesKonfigs.backupJson = jsonArray.toString()
+        return buildWallpapersListFromJson(jsonArray)
+    }
+    
+    private fun buildWallpapersListFromJson(json:JSONArray):ArrayList<Wallpaper> {
         val fWallpapers = ArrayList<Wallpaper>()
         for (index in 0..json.length()) {
             if (json.isNull(index)) continue
@@ -77,11 +102,15 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
             }
             var collections = ""
             try {
-                collections = obj.getString("categories")
+                collections = obj.getString("collections")
             } catch (ignored:Exception) {
                 try {
-                    collections = obj.getString("collections") ?: ""
+                    collections = obj.getString("categories")
                 } catch (ignored:Exception) {
+                    try {
+                        collections = obj.getString("category") ?: ""
+                    } catch (ignored:Exception) {
+                    }
                 }
             }
             var downloadable = true
@@ -100,8 +129,20 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
             }
             var thumbUrl = ""
             try {
-                thumbUrl = obj.getString("thumbUrl") ?: url ?: ""
+                thumbUrl = obj.getString("thumbUrl")
             } catch (ignored:Exception) {
+                try {
+                    thumbUrl = obj.getString("thumbnail")
+                } catch (ignored:Exception) {
+                    try {
+                        thumbUrl = obj.getString("thumb")
+                    } catch (ignored:Exception) {
+                        try {
+                            thumbUrl = obj.getString("url-thumb") ?: ""
+                        } catch (ignored:Exception) {
+                        }
+                    }
+                }
             }
             name = name.formatCorrectly().replace("_", " ").toTitleCase()
             author = author.formatCorrectly().replace("_", " ").toTitleCase()

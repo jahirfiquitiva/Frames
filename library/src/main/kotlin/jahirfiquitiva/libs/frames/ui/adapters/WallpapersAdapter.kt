@@ -36,10 +36,10 @@ class WallpapersAdapter(private val singleTap:(Wallpaper, WallpaperHolder) -> Un
             notifyDataSetChanged()
         }
     
-    override fun doBind(holder:WallpaperHolder, position:Int) {
+    override fun doBind(holder:WallpaperHolder, position:Int, shouldAnimate:Boolean) {
         val item = list[position]
         holder.setItem(item, singleTap, longPress, heartListener,
-                       fromFavorites || favorites.contains(item))
+                       fromFavorites || favorites.contains(item), shouldAnimate)
     }
     
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):WallpaperHolder? =

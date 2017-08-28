@@ -16,10 +16,12 @@
 package jahirfiquitiva.libs.frames.ui.widgets
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.ViewTreeObserver
 import android.widget.ImageView
+import jahirfiquitiva.libs.frames.helpers.utils.AsyncTaskManager
 import jahirfiquitiva.libs.kauextensions.ui.views.LandscapeImageView
 
 /**
@@ -38,6 +40,13 @@ class ParallaxImageView:LandscapeImageView, ViewTreeObserver.OnScrollChangedList
     override fun onMeasure(widthMeasureSpec:Int, heightMeasureSpec:Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         invalidate()
+    }
+    
+    override fun setImageBitmap(bm:Bitmap?) {
+        super.setImageBitmap(bm)
+        bm?.let {
+            AsyncTaskManager(it, {}, { true }, { invalidate() }).execute()
+        }
     }
     
     override fun onDraw(canvas:Canvas) {

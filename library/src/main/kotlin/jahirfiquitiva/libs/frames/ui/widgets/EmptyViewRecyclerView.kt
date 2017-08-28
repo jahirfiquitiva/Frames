@@ -75,7 +75,8 @@ open class EmptyViewRecyclerView:RecyclerView {
         emptyView?.let {
             if (it is ImageView) {
                 Glide.with(context).load(res)
-                        .apply(RequestOptions().priority(Priority.IMMEDIATE).dontAnimate())
+                        .apply(RequestOptions().priority(Priority.IMMEDIATE)
+                                       .dontTransform().dontAnimate())
                         .into(it)
             } else {
                 throw UnsupportedOperationException(
@@ -103,6 +104,12 @@ open class EmptyViewRecyclerView:RecyclerView {
     }
     
     private fun updateStateViews() {
+        val rightText = when (state) {
+            State.LOADING -> loadingText
+            State.EMPTY -> emptyText
+            else -> ""
+        }
+        textView?.text = rightText
         textView?.setTextColor(context.secondaryTextColor)
         textView?.visibleIf(state != State.NORMAL)
         loadingView?.visibleIf(state == State.LOADING)

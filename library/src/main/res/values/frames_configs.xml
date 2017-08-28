@@ -22,6 +22,13 @@
     -->
     <string name="notifications_class"></string>
 
+    <!--    Use old format?
+    -       If you're coming from the previous Frames, then you will find this useful
+    -       True means yes
+    -       False means no
+    -->
+    <bool name="use_old_json_format">false</bool>
+
     <!--    Configure your own Splash Screen style
     -       Only change the parent. Available Styles:
     -       LightTheme.SplashScreen

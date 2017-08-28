@@ -27,9 +27,11 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import ca.allanwang.kau.utils.dpToPx
+import ca.allanwang.kau.utils.isNetworkAvailable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -42,25 +44,23 @@ import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
 
 fun ImageView.loadFromUrls(url:String, thumbUrl:String, listener:RequestListener<Bitmap>,
-                           sizeMultiplier:Float = 0.5F) {
-    if (thumbUrl.hasContent()) {
+                           transform:Boolean = false, sizeMultiplier:Float = 0.5F) {
+    
+    val options = RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).dontAnimate()
+    if (!transform) options.dontTransform()
+    
+    if (thumbUrl.hasContent() && context.isNetworkAvailable) {
         Glide.with(context).asBitmap().load(url)
                 .thumbnail(Glide.with(context).asBitmap().load(thumbUrl)
                                    .thumbnail(sizeMultiplier)
-                                   .apply(RequestOptions()
-                                                  .dontTransform()
-                                                  .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                                                  .priority(Priority.IMMEDIATE)))
-                .apply(RequestOptions().dontTransform()
-                               .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                               .priority(Priority.HIGH))
+                                   .apply(options.priority(Priority.IMMEDIATE))
+                                   .listener(listener))
+                .apply(options.priority(Priority.HIGH))
                 .listener(listener)
                 .into(this)
     } else if (url.hasContent()) {
         Glide.with(context).asBitmap().load(url).thumbnail(sizeMultiplier)
-                .apply(RequestOptions().dontTransform()
-                               .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                               .priority(Priority.HIGH))
+                .apply(options.priority(Priority.HIGH))
                 .listener(listener)
                 .into(this)
     }
@@ -119,7 +119,7 @@ fun View.buildSnackbar(text:String, duration:Int = Snackbar.LENGTH_LONG,
  * Credits to Mysplash
  * https://goo.gl/M2sqE2
  */
-fun ImageView.animateColorTransition() {
+fun ImageView.animateColorTransition(onAnimationFinished:() -> Unit = {}) {
     setHasTransientState(true)
     val matrix = ObservableColorMatrix()
     val saturation = ObjectAnimator.ofFloat(matrix, ObservableColorMatrix.SATURATION, 0F, 1F)
@@ -136,7 +136,30 @@ fun ImageView.animateColorTransition() {
             super.onAnimationEnd(animation)
             clearColorFilter()
             setHasTransientState(false)
+            onAnimationFinished()
         }
     })
     saturation.start()
+}
+
+fun View.clearChildrenAnimations() {
+    clearAnimation()
+    getAllChildren(this).forEach { it.clearAnimation() }
+}
+
+private fun getAllChildren(v:View):ArrayList<View> {
+    if (v !is ViewGroup) {
+        val viewArrayList = ArrayList<View>()
+        viewArrayList.add(v)
+        return viewArrayList
+    }
+    val result = ArrayList<View>()
+    for (i in 0 until v.childCount) {
+        val child = v.getChildAt(i)
+        val viewArrayList = ArrayList<View>()
+        viewArrayList.add(v)
+        viewArrayList.addAll(getAllChildren(child))
+        result.addAll(viewArrayList)
+    }
+    return result
 }

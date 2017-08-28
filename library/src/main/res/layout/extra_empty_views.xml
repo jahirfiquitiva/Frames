@@ -46,9 +46,6 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:visibility="gone"
-                android:scaleType="centerInside"
-                android:scaleX="0.75"
-                android:scaleY="0.75"
                 tools:ignore="ContentDescription"/>
 
     </RelativeLayout>

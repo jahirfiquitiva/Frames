@@ -28,7 +28,6 @@ import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import org.json.JSONArray
 
 abstract class FramesNotificationReceiver:BroadcastReceiver() {
     companion object {
@@ -40,7 +39,7 @@ abstract class FramesNotificationReceiver:BroadcastReceiver() {
             val wallsVM = WallpapersViewModel()
             val prevResponse = it.framesKonfigs.backupJson
             val prevWallsList = if (prevResponse.hasContent()) {
-                wallsVM.buildWallpapersListFromJson(JSONArray(prevResponse))
+                wallsVM.buildWallpapersListFromResponse(it, prevResponse)
             } else {
                 ArrayList()
             }

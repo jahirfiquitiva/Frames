@@ -24,8 +24,9 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
 
 class CollectionsAdapter(
         val listener:(Collection, CollectionHolder) -> Unit):BaseListAdapter<Collection, CollectionHolder>() {
-    override fun doBind(holder:CollectionHolder, position:Int) = holder.setItem(list[position],
-                                                                                listener)
+    
+    override fun doBind(holder:CollectionHolder, position:Int, shouldAnimate:Boolean) =
+            holder.setItem(list[position], listener, shouldAnimate)
     
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):CollectionHolder? =
             parent?.inflate(R.layout.item_collection)?.let { CollectionHolder(it) }

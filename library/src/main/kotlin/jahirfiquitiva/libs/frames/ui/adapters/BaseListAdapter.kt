@@ -17,20 +17,32 @@
 package jahirfiquitiva.libs.frames.ui.adapters
 
 import android.support.v7.widget.RecyclerView
+import jahirfiquitiva.libs.frames.helpers.extensions.clearChildrenAnimations
 import jahirfiquitiva.libs.frames.ui.adapters.presenters.ItemsAdapterPresenter
 
 abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>:
         RecyclerView.Adapter<VH>(), ItemsAdapterPresenter<T> {
     
+    private var lastAnimatedPosition = -1
     val list = ArrayList<T>()
     
     override fun onBindViewHolder(holder:VH, position:Int) {
         if (position in 0..itemCount) {
-            doBind(holder, position)
+            if (position > lastAnimatedPosition) {
+                lastAnimatedPosition = position
+                doBind(holder, position, true)
+            } else {
+                doBind(holder, position, false)
+            }
         }
     }
     
-    abstract fun doBind(holder:VH, position:Int)
+    abstract fun doBind(holder:VH, position:Int, shouldAnimate:Boolean)
+    
+    override fun onViewDetachedFromWindow(holder:VH) {
+        super.onViewDetachedFromWindow(holder)
+        holder.itemView?.clearChildrenAnimations()
+    }
     
     override fun getItemCount():Int = list.size
     
@@ -72,5 +84,4 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>:
         list.add(item)
         notifyItemRangeInserted(prevSize, itemCount)
     }
-    
 }

@@ -54,6 +54,8 @@ class WallpaperActionsFragment:DialogFragment() {
     private val shouldApply
         get() = toHomeScreen || toLockScreen || toBoth
     
+    var destBitmap:Bitmap? = null
+        private set
     var destFile:File? = null
         private set
     var downloadManager:DownloadManager? = null
@@ -63,35 +65,44 @@ class WallpaperActionsFragment:DialogFragment() {
     
     override fun onCreateDialog(savedInstanceState:Bundle?):Dialog {
         wallpaper?.let {
-            val request = DownloadManager.Request(Uri.parse(it.url))
-                    .setTitle(it.name)
-                    .setDescription(context.getString(R.string.downloading_wallpaper, it.name))
-                    .setDestinationUri(Uri.fromFile(destFile))
-            
-            if (shouldApply)
-                request.setVisibleInDownloadsUi(false)
-            else
-                request.allowScanningByMediaScanner()
-            
-            downloadId = downloadManager?.enqueue(request) ?: 0L
-            
-            thread = DownloadThread(this, object:DownloadThread.DownloadListener {
-                override fun onFailure() {
-                    doOnFailure()
-                }
+            if (destFile != null) {
+                val request = DownloadManager.Request(Uri.parse(it.url))
+                        .setTitle(it.name)
+                        .setDescription(context.getString(R.string.downloading_wallpaper, it.name))
+                        .setDestinationUri(Uri.fromFile(destFile))
                 
-                override fun onProgress(progress:Int) {
-                    dialog?.let {
-                        (it as? MaterialDialog)?.setProgress(progress)
+                if (shouldApply)
+                    request.setVisibleInDownloadsUi(false)
+                else
+                    request.allowScanningByMediaScanner()
+                
+                downloadId = downloadManager?.enqueue(request) ?: 0L
+                
+                thread = DownloadThread(this, object:DownloadThread.DownloadListener {
+                    override fun onFailure() {
+                        doOnFailure()
                     }
-                }
+                    
+                    override fun onProgress(progress:Int) {
+                        dialog?.let {
+                            (it as? MaterialDialog)?.setProgress(progress)
+                        }
+                    }
+                    
+                    override fun onSuccess() {
+                        doOnSuccess()
+                    }
+                })
                 
-                override fun onSuccess() {
-                    doOnSuccess()
+                return actuallyBuildDialog()
+            } else if (destBitmap != null) {
+                destBitmap?.let {
+                    applyWallpaper(it)
                 }
-            })
-            
-            return actuallyBuildDialog()
+                return buildApplyDialog()
+            } else {
+                return activity.buildMaterialDialog { }
+            }
         }
         return activity.buildMaterialDialog { }
     }
@@ -107,6 +118,15 @@ class WallpaperActionsFragment:DialogFragment() {
                 stopActions()
                 dismiss(activity)
             }
+        }
+        thread?.start()
+        return dialog
+    }
+    
+    private fun buildApplyDialog():MaterialDialog {
+        val dialog = activity.buildMaterialDialog {
+            content(activity.getString(R.string.applying_wallpaper, wallpaper?.name))
+            progress(true, 0)
         }
         thread?.start()
         return dialog
@@ -221,6 +241,7 @@ class WallpaperActionsFragment:DialogFragment() {
     }
     
     private fun showAppliedResult() {
+        dismiss(activity)
         try {
             if (activity is ViewerActivity) {
                 (activity as ViewerActivity).showWallpaperAppliedSnackbar(toHomeScreen,
@@ -247,14 +268,15 @@ class WallpaperActionsFragment:DialogFragment() {
         private val TO_LOCK_SCREEN = "to_lock_screen"
         private val TO_BOTH = "to_both"
         
-        fun invoke(context:FragmentActivity, wallpaper:Wallpaper, destFile:File,
-                   toHomeScreen:Boolean, toLockScreen:Boolean,
+        fun invoke(context:FragmentActivity, wallpaper:Wallpaper, destFile:File?,
+                   destBitmap:Bitmap?, toHomeScreen:Boolean, toLockScreen:Boolean,
                    toBoth:Boolean):WallpaperActionsFragment {
             return WallpaperActionsFragment().apply {
                 this.downloadManager =
                         context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
                 this.wallpaper = wallpaper
                 this.destFile = destFile
+                this.destBitmap = destBitmap
                 this.toHomeScreen = toHomeScreen
                 this.toLockScreen = toLockScreen
                 this.toBoth = toBoth
@@ -263,30 +285,28 @@ class WallpaperActionsFragment:DialogFragment() {
     }
     
     fun show(context:FragmentActivity, wallpaper:Wallpaper, destFile:File) {
-        val frag = context.supportFragmentManager.findFragmentByTag(
-                TAG)
-        if (frag != null) (frag as WallpaperActionsFragment).dismiss()
-        invoke(
-                context, wallpaper, destFile, false, false, false)
-                .show(context.supportFragmentManager,
-                      TAG)
+        dismiss(context)
+        invoke(context, wallpaper, destFile, null, false, false, false)
+                .show(context.supportFragmentManager, TAG)
     }
     
     fun show(context:FragmentActivity, wallpaper:Wallpaper, destFile:File,
              toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean) {
-        val frag = context.supportFragmentManager.findFragmentByTag(
-                TAG)
-        if (frag != null) (frag as WallpaperActionsFragment).dismiss()
-        invoke(
-                context, wallpaper, destFile, toHomeScreen, toLockScreen,
-                toBoth).show(context.supportFragmentManager,
-                             TAG)
+        dismiss(context)
+        invoke(context, wallpaper, destFile, null, toHomeScreen, toLockScreen, toBoth)
+                .show(context.supportFragmentManager, TAG)
+    }
+    
+    fun show(context:FragmentActivity, wallpaper:Wallpaper, destBitmap:Bitmap,
+             toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean) {
+        dismiss(context)
+        invoke(context, wallpaper, null, destBitmap, toHomeScreen, toLockScreen, toBoth)
+                .show(context.supportFragmentManager, TAG)
     }
     
     fun dismiss(context:FragmentActivity) {
         try {
-            val frag = context.supportFragmentManager.findFragmentByTag(
-                    TAG)
+            val frag = context.supportFragmentManager.findFragmentByTag(TAG)
             if (frag != null) (frag as WallpaperActionsFragment).dismiss()
         } catch (ignored:Exception) {
         }
@@ -299,27 +319,19 @@ class WallpaperActionsFragment:DialogFragment() {
     override fun onActivityCreated(savedInstanceState:Bundle?) {
         super.onActivityCreated(savedInstanceState)
         savedInstanceState?.let {
-            wallpaper = it.getParcelable(
-                    WALLPAPER)
-            toHomeScreen = it.getBoolean(
-                    TO_HOME_SCREEN)
-            toLockScreen = it.getBoolean(
-                    TO_LOCK_SCREEN)
-            toBoth = it.getBoolean(
-                    TO_BOTH)
+            wallpaper = it.getParcelable(WALLPAPER)
+            toHomeScreen = it.getBoolean(TO_HOME_SCREEN)
+            toLockScreen = it.getBoolean(TO_LOCK_SCREEN)
+            toBoth = it.getBoolean(TO_BOTH)
         }
     }
     
     override fun onSaveInstanceState(outState:Bundle?) {
         outState?.let {
-            it.putParcelable(
-                    WALLPAPER, wallpaper)
-            it.putBoolean(
-                    TO_HOME_SCREEN, toHomeScreen)
-            it.putBoolean(
-                    TO_LOCK_SCREEN, toLockScreen)
-            it.putBoolean(
-                    TO_BOTH, toBoth)
+            it.putParcelable(WALLPAPER, wallpaper)
+            it.putBoolean(TO_HOME_SCREEN, toHomeScreen)
+            it.putBoolean(TO_LOCK_SCREEN, toLockScreen)
+            it.putBoolean(TO_BOTH, toBoth)
         }
         super.onSaveInstanceState(outState)
     }

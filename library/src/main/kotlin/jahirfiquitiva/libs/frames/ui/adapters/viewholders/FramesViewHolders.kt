@@ -35,6 +35,7 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.animateColorTransition
+import jahirfiquitiva.libs.frames.helpers.extensions.clearChildrenAnimations
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartSelector
 import jahirfiquitiva.libs.frames.helpers.extensions.loadFromUrls
 import jahirfiquitiva.libs.frames.helpers.extensions.thumbnailColor
@@ -51,14 +52,18 @@ import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.ui.views.VerticalImageView
 
 class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
-    private var lastPosition = -1
+    
+    private var shouldAnimate = true
+    
     val img:ParallaxImageView = itemView.findViewById(R.id.collection_picture)
     val detailsBg:LinearLayout = itemView.findViewById(R.id.collection_details)
     val title:TextView = itemView.findViewById(R.id.collection_title)
     val amount:TextView = itemView.findViewById(R.id.collection_walls_number)
     var bitmap:Bitmap? = null
     
-    fun setItem(collection:Collection, listener:(Collection, CollectionHolder) -> Unit) {
+    fun setItem(collection:Collection, listener:(Collection, CollectionHolder) -> Unit,
+                animate:Boolean) {
+        
         with(itemView) {
             setBackgroundColor(context.thumbnailColor)
             detailsBg.setBackgroundColor(context.thumbnailColor)
@@ -66,25 +71,26 @@ class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
             ViewCompat.setTransitionName(title, "title_transition_$adapterPosition")
             val url = collection.wallpapers.first().url
             val thumb = collection.wallpapers.first().thumbUrl
-            loadImage(url, if (thumb.equals(url, true)) "" else thumb)
+            loadImage(url, if (thumb.equals(url, true)) "" else thumb, animate)
             title.text = collection.name
             amount.text = (collection.wallpapers.size).toString()
         }
+        
         itemView.setOnClickListener { listener(collection, this) }
     }
     
-    private fun loadImage(url:String, thumbUrl:String) {
+    private fun loadImage(url:String, thumbUrl:String, animate:Boolean) {
+        
         val listener = object:RequestListener<Bitmap> {
+            
             override fun onResourceReady(resource:Bitmap?, model:Any?, target:Target<Bitmap>?,
                                          dataSource:DataSource?, isFirstResource:Boolean):Boolean {
                 resource?.let {
-                    img.invalidate()
-                    if (adapterPosition > lastPosition) {
-                        img.animateColorTransition()
-                        lastPosition = adapterPosition
+                    img.setImageBitmap(it)
+                    if (animate || shouldAnimate) {
+                        img.animateColorTransition({ shouldAnimate = false })
                     } else {
-                        img.clearAnimation()
-                        itemView.clearAnimation()
+                        itemView.clearChildrenAnimations()
                     }
                     bitmap = it
                     if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
@@ -101,30 +107,33 @@ class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
                         TextViewCompat.setTextAppearance(amount, R.style.DetailsText_Small)
                     }
                 }
-                return false
+                return true
             }
             
             override fun onLoadFailed(e:GlideException?, model:Any?, target:Target<Bitmap>?,
                                       isFirstResource:Boolean):Boolean = false
         }
-        img.loadFromUrls(url, thumbUrl, listener)
+        
+        img.loadFromUrls(url, thumbUrl, listener, false)
     }
 }
 
 class WallpaperHolder(itemView:View, val showFavIcon:Boolean = true):
         RecyclerView.ViewHolder(itemView) {
-    private var lastPosition = -1
+    
+    private var shouldAnimate = true
+    
     val img:VerticalImageView = itemView.findViewById(R.id.wallpaper_image)
     val detailsBg:LinearLayout = itemView.findViewById(R.id.wallpaper_details)
     val name:TextView = itemView.findViewById(R.id.wallpaper_name)
     val author:TextView = itemView.findViewById(R.id.wallpaper_author)
     val heartIcon:CheckableImageView = itemView.findViewById(R.id.heart_icon)
-    var bitmap:Bitmap? = null
     
     fun setItem(wallpaper:Wallpaper, singleTap:(Wallpaper, WallpaperHolder) -> Unit,
                 longPress:(Wallpaper, WallpaperHolder) -> Unit,
                 heartListener:(CheckableImageView, Wallpaper) -> Unit,
-                check:Boolean = false) {
+                animate:Boolean, check:Boolean = false) {
+        
         with(itemView) {
             ViewCompat.setTransitionName(img, "img_transition_$adapterPosition")
             ViewCompat.setTransitionName(name, "name_transition_$adapterPosition")
@@ -133,7 +142,7 @@ class WallpaperHolder(itemView:View, val showFavIcon:Boolean = true):
             setBackgroundColor(context.thumbnailColor)
             val url = wallpaper.url
             val thumb = wallpaper.thumbUrl
-            loadImage(url, if (thumb.equals(url, true)) "" else thumb, check)
+            loadImage(url, if (thumb.equals(url, true)) "" else thumb, check, animate)
             name.text = wallpaper.name
             author.goneIf(!wallpaper.author.hasContent())
             author.text = wallpaper.author
@@ -153,19 +162,17 @@ class WallpaperHolder(itemView:View, val showFavIcon:Boolean = true):
         }
     }
     
-    private fun loadImage(url:String, thumbUrl:String, check:Boolean) {
+    private fun loadImage(url:String, thumbUrl:String, check:Boolean, animate:Boolean) {
         val listener = object:RequestListener<Bitmap> {
             override fun onResourceReady(resource:Bitmap?, model:Any?, target:Target<Bitmap>?,
                                          dataSource:DataSource?, isFirstResource:Boolean):Boolean {
                 resource?.let {
-                    if (adapterPosition > lastPosition) {
-                        img.animateColorTransition()
-                        lastPosition = adapterPosition
+                    img.setImageBitmap(it)
+                    if (animate || shouldAnimate) {
+                        img.animateColorTransition({ shouldAnimate = false })
                     } else {
-                        img.clearAnimation()
-                        itemView.clearAnimation()
+                        itemView.clearChildrenAnimations()
                     }
-                    bitmap = it
                     if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
                         val color = it.generatePalette().bestSwatch?.rgb ?: itemView.context.cardBackgroundColor
                         detailsBg.background = null
@@ -182,13 +189,13 @@ class WallpaperHolder(itemView:View, val showFavIcon:Boolean = true):
                     }
                     heartIcon.isChecked = check
                 }
-                return false
+                return true
             }
             
             override fun onLoadFailed(e:GlideException?, model:Any?, target:Target<Bitmap>?,
                                       isFirstResource:Boolean):Boolean = false
         }
         
-        img.loadFromUrls(url, thumbUrl, listener)
+        img.loadFromUrls(url, thumbUrl, listener, true)
     }
 }
