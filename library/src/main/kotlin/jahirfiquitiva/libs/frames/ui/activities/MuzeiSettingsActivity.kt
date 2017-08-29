@@ -34,6 +34,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
+import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.isNetworkAvailable
 import com.afollestad.materialdialogs.MaterialDialog
 import jahirfiquitiva.libs.frames.R
@@ -46,6 +47,7 @@ import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
@@ -110,8 +112,14 @@ class MuzeiSettingsActivity:ThemedActivity(), LifecycleRegistryOwner, LifecycleO
         seekBar.incrementProgressBy(SEEKBAR_STEPS)
         seekBar.max = (SEEKBAR_MAX_VALUE - SEEKBAR_MIN_VALUE) / SEEKBAR_STEPS
         
+        val isFramesApp = getBoolean(R.bool.isFrames)
+        
         findViewById<View>(R.id.divider).background = ColorDrawable(dividerColor)
-        findViewById<View>(R.id.other_divider).background = ColorDrawable(dividerColor)
+        if (isFramesApp) {
+            findViewById<View>(R.id.other_divider).background = ColorDrawable(dividerColor)
+        } else {
+            findViewById<View>(R.id.other_divider).gone()
+        }
         
         findViewById<TextView>(R.id.wifi_only_title).setTextColor(primaryTextColor)
         findViewById<TextView>(R.id.wifi_only_summary).setTextColor(secondaryTextColor)
@@ -130,12 +138,16 @@ class MuzeiSettingsActivity:ThemedActivity(), LifecycleRegistryOwner, LifecycleO
         collsSummaryText.setTextColor(secondaryTextColor)
         collsSummaryText.text = getString(R.string.choose_collections_summary, selectedCollections)
         
-        findViewById<LinearLayout>(R.id.choose_collections).setOnClickListener {
-            if (!isNetworkAvailable) {
-                showNotConnectedDialog()
-            } else {
-                showChooseCollectionsDialog()
+        if (isFramesApp) {
+            findViewById<LinearLayout>(R.id.choose_collections).setOnClickListener {
+                if (isNetworkAvailable) {
+                    showChooseCollectionsDialog()
+                } else {
+                    showNotConnectedDialog()
+                }
             }
+        } else {
+            findViewById<LinearLayout>(R.id.choose_collections).gone()
         }
         
         seekBar.setOnSeekBarChangeListener(object:SeekBar.OnSeekBarChangeListener {

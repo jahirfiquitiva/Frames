@@ -62,7 +62,6 @@ import org.jetbrains.anko.contentView
 import org.jetbrains.anko.doAsync
 import java.util.*
 
-
 open class SettingsFragment:PreferenceFragment() {
     
     internal lateinit var database:FavoritesDatabase
