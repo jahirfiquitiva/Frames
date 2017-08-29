@@ -202,6 +202,7 @@ abstract class FramesActivity:BaseFramesActivity() {
         return super.onOptionsItemSelected(item)
     }
     
+    @Suppress("UNCHECKED_CAST")
     override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 22) {

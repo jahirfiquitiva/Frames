@@ -22,11 +22,15 @@ android {
     buildToolsVersion project.ext.buildTools
 
     lintOptions {
-        abortOnError false
-        checkReleaseBuilds false
-        disable 'MissingTranslation'
-        disable 'GoogleAppIndexingWarning'
-        disable 'unchecked'
+        warningsAsErrors true
+        disable 'MissingTranslation',
+                'GoogleAppIndexingWarning',
+                'UnusedResources',
+                'ContentDescription',
+                'RtlSymmetry',
+                'RtlHardcoded',
+                'RtlEnabled',
+                'Overdraw'
     }
 
     defaultConfig {
@@ -47,17 +51,18 @@ android {
     }
 
     sourceSets {
-        main {
-            java.srcDirs += 'src/main/kotlin'
-        }
+        main.java.srcDirs += 'src/main/kotlin'
     }
 
     packagingOptions {
         pickFirst 'META-INF/core_release.kotlin_module'
+        pickFirst 'META-INF/library_release.kotlin_module'
     }
 }
 
 dependencies {
+    // Kotlin
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:' + project.ext.kotlin
     // Architecture Components
     compile 'android.arch.lifecycle:runtime:' + project.ext.archComponents
     compile 'android.arch.lifecycle:extensions:' + project.ext.archComponents

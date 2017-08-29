@@ -31,8 +31,7 @@ android {
     lintOptions {
         abortOnError false
         checkReleaseBuilds false
-        disable 'MissingTranslation'
-        disable 'GoogleAppIndexingWarning'
+        disable 'MissingTranslation', 'GoogleAppIndexingWarning'
     }
 
     defaultConfig {
@@ -54,13 +53,12 @@ android {
     }
 
     sourceSets {
-        main {
-            java.srcDirs += 'src/main/kotlin'
-        }
+        main.java.srcDirs += 'src/main/kotlin'
     }
 
     packagingOptions {
         pickFirst 'META-INF/core_release.kotlin_module'
+        pickFirst 'META-INF/library_release.kotlin_module'
     }
 }
 
