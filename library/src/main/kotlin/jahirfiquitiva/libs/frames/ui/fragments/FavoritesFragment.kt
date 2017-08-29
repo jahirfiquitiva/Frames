@@ -20,9 +20,15 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
 
 class FavoritesFragment:BaseWallpapersFragment() {
+    private var firstTime = true
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
-        adapter.setItems(data)
+        if (firstTime) {
+            firstTime = false
+            adapter.setItems(data)
+        } else {
+            adapter.updateItems(data, true)
+        }
     }
     
     override fun autoStartLoad():Boolean = true

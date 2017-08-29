@@ -108,11 +108,12 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
             if (filter.hasContent()) {
                 rv.setEmptyImage(R.drawable.no_results)
                 rv.setEmptyText(R.string.search_no_results)
-                adapter.setItems(ArrayList(it.filter { it.name.contains(filter, true) }))
+                adapter.updateItems(ArrayList(it.filter { it.name.contains(filter, true) }), true)
             } else {
                 rv.setEmptyImage(R.drawable.empty_section)
                 rv.setEmptyText(R.string.empty_section)
-                adapter.setItems(it)
+                adapter.updateItems(it, true)
+                scrollToTop()
             }
         }
     }
@@ -127,9 +128,15 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         swipeToRefresh.isRefreshing = false
     }
     
+    private var firstTime = true
     override fun doOnCollectionsChange(data:ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
-        adapter.setItems(data)
+        if (firstTime) {
+            firstTime = false
+            adapter.setItems(data)
+        } else {
+            adapter.updateItems(data, true)
+        }
         swipeToRefresh.isRefreshing = false
     }
     

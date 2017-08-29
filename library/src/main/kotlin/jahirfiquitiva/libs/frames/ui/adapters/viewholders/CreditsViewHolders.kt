@@ -74,7 +74,7 @@ open class DashboardCreditViewHolder(itemView:View?):BaseCreditViewHolder(itemVi
     
     open fun setItem(manager:RequestManager, credit:Credit, fillAvailableSpace:Boolean = true,
                      shouldHideButtons:Boolean = false) {
-        photo?.loadAvatar(manager, credit.photo, false, true)
+        photo?.loadAvatar(manager, credit.photo, false)
         name?.setTextColor(itemView.context.primaryTextColor)
         name?.text = credit.name
         if (credit.description.hasContent()) {

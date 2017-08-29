@@ -65,8 +65,7 @@ fun ImageView.loadWallpaper(requester:RequestManager?, url:String, thumbUrl:Stri
                target)
 }
 
-fun ImageView.loadAvatar(requester:RequestManager?, url:String, shouldAnimate:Boolean,
-                         immediately:Boolean) {
+fun ImageView.loadAvatar(requester:RequestManager?, url:String, shouldAnimate:Boolean) {
     loadBitmap(requester, url, false, shouldAnimate, null, FadeAnimator(), null,
                object:GlideTarget(this) {
                    override fun onLoadSucceed(resource:Bitmap) {

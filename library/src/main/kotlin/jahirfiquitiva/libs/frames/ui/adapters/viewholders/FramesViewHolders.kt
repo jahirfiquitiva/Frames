@@ -131,6 +131,8 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
                 heartListener:(ImageView, Wallpaper) -> Unit, check:Boolean) {
         
         with(itemView) {
+            heartIcon.gone()
+            
             if (checkedDrawable == null && showFavIcon) {
                 checkedDrawable = itemView.context.createHeartIcon(true)
             }
@@ -151,8 +153,6 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
             author.text = wallpaper.author
             if (showFavIcon) {
                 heartIcon.setOnClickListener { heartListener(heartIcon, wallpaper) }
-            } else {
-                heartIcon.gone()
             }
         }
         itemView.setOnClickListener { singleTap(wallpaper, this) }

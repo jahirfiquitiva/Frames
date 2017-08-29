@@ -21,6 +21,7 @@ import ca.allanwang.kau.utils.inflate
 import com.bumptech.glide.RequestManager
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
+import jahirfiquitiva.libs.frames.helpers.utils.diff.CollectionsDiffCallback
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
 
 class CollectionsAdapter(private val manager:RequestManager,
@@ -32,4 +33,8 @@ class CollectionsAdapter(private val manager:RequestManager,
     
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):CollectionHolder? =
             parent?.inflate(R.layout.item_collection)?.let { CollectionHolder(it) }
+    
+    override fun updateItems(newItems:ArrayList<Collection>, detectMoves:Boolean) {
+        updateItems(newItems, CollectionsDiffCallback(list, newItems), detectMoves)
+    }
 }

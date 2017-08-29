@@ -49,8 +49,7 @@
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:visibility="visible"
-                android:src="@drawable/no_favorites"
+                android:visibility="gone"
                 tools:ignore="ContentDescription"/>
 
     </RelativeLayout>
@@ -66,7 +65,7 @@
             android:padding="24dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="italic"
-            android:visibility="visible"
+            android:visibility="gone"
             tools:text="This is an empty section."/>
 
 </RelativeLayout>

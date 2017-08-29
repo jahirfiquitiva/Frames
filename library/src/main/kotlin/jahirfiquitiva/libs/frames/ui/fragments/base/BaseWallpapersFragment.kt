@@ -144,20 +144,22 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
             rv.setEmptyImage(R.drawable.no_results)
             rv.setEmptyText(R.string.search_no_results)
             list?.let {
-                adapter.setItems(ArrayList<Wallpaper>(it.filter { it.name.contains(filter, true) }))
+                adapter.updateItems(
+                        ArrayList<Wallpaper>(it.filter { it.name.contains(filter, true) }), true)
             }
         } else {
             rv.setEmptyImage(
                     if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
             rv.setEmptyText(if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
-            list?.let { adapter.setItems(it) }
+            list?.let { adapter.updateItems(it, true) }
+            scrollToTop()
         }
     }
     
     private fun onWallpaperClicked(wallpaper:Wallpaper, holder:WallpaperHolder) {
         val intent = Intent(activity, ViewerActivity::class.java)
         intent.putExtra("wallpaper", wallpaper)
-        intent.putExtra("inFavorites", favoritesModel.isInFavorites(wallpaper))
+        intent.putExtra("inFavorites", favoritesModel.isInFavorites(wallpaper, false))
         intent.putExtra("showFavoritesButton", showFavoritesIcon())
         val imgTransition = ViewCompat.getTransitionName(holder.img)
         val nameTransition = ViewCompat.getTransitionName(holder.name)

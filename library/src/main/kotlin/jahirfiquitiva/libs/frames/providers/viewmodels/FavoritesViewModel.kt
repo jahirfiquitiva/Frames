@@ -57,18 +57,18 @@ class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
         }
     }
     
-    fun isInFavorites(wallpaper:Wallpaper):Boolean {
+    fun isInFavorites(wallpaper:Wallpaper, fallback:Boolean):Boolean {
         return try {
             items.value?.contains(wallpaper) == true
         } catch (e:Exception) {
             e.printStackTrace()
-            false
+            fallback
         }
     }
     
     fun addToFavorites(wallpaper:Wallpaper) {
         try {
-            if (isInFavorites(wallpaper)) return
+            if (isInFavorites(wallpaper, true)) return
             AsyncTaskManager(
                     wallpaper, {},
                     { it ->
@@ -89,7 +89,7 @@ class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
     
     fun removeFromFavorites(wallpaper:Wallpaper) {
         try {
-            if (!isInFavorites(wallpaper)) return
+            if (!isInFavorites(wallpaper, false)) return
             AsyncTaskManager(
                     wallpaper, {},
                     { it ->

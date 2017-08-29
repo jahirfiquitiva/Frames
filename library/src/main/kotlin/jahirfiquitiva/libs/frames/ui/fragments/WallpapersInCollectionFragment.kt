@@ -45,9 +45,9 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
         super.doOnWallpapersChange(data, fromCollectionActivity)
         collection?.let {
             val collectionName = it.name
-            adapter.setItems(ArrayList<Wallpaper>(data.filter {
+            adapter.updateItems(ArrayList<Wallpaper>(data.filter {
                 it.collections.formatCorrectly().replace("_", " ").contains(collectionName, true)
-            }))
+            }), true)
         }
     }
     

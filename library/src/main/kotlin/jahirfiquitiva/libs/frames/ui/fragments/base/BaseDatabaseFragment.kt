@@ -83,15 +83,17 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     }
     
     internal fun onHeartClicked(heart:ImageView, item:Wallpaper) =
-            animateHeartClick(heart, item, !isInFavorites(item))
+            animateHeartClick(heart, item, !isInFavorites(item, false))
     
     open fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {}
-    open fun doOnWallpapersChange(data:ArrayList<Wallpaper>,
-                                  fromCollectionActivity:Boolean = false) {
+    open fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
     }
     
     internal fun getDatabase():FavoritesDao = database.favoritesDao()
-    internal fun isInFavorites(item:Wallpaper) = favoritesModel.isInFavorites(item)
+    
+    internal fun isInFavorites(item:Wallpaper, fallback:Boolean) =
+            favoritesModel.isInFavorites(item, fallback)
+    
     internal fun addToFavorites(item:Wallpaper) = favoritesModel.addToFavorites(item)
     internal fun removeFromFavorites(item:Wallpaper) = favoritesModel.removeFromFavorites(item)
     

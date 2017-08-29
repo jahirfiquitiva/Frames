@@ -22,6 +22,7 @@ import ca.allanwang.kau.utils.inflate
 import com.bumptech.glide.RequestManager
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.helpers.utils.diff.WallpapersDiffCallback
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 
 class WallpapersAdapter(private val manager:RequestManager,
@@ -46,4 +47,8 @@ class WallpapersAdapter(private val manager:RequestManager,
     
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):WallpaperHolder? =
             parent?.inflate(R.layout.item_wallpaper)?.let { WallpaperHolder(it, showFavIcon) }
+    
+    override fun updateItems(newItems:ArrayList<Wallpaper>, detectMoves:Boolean) {
+        updateItems(newItems, WallpapersDiffCallback(list, newItems), detectMoves)
+    }
 }
