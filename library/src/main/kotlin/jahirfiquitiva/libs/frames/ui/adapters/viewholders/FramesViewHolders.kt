@@ -64,7 +64,6 @@ class CollectionHolder(itemView:View):GlideViewHolder(itemView) {
     
     fun setItem(manager:RequestManager, collection:Collection,
                 listener:(Collection, CollectionHolder) -> Unit) {
-        
         with(itemView) {
             setBackgroundColor(context.thumbnailColor)
             detailsBg.setBackgroundColor(context.thumbnailColor)
@@ -76,7 +75,6 @@ class CollectionHolder(itemView:View):GlideViewHolder(itemView) {
             title.text = collection.name
             amount.text = (collection.wallpapers.size).toString()
         }
-        
         itemView.setOnClickListener { listener(collection, this) }
     }
     
@@ -114,7 +112,6 @@ class CollectionHolder(itemView:View):GlideViewHolder(itemView) {
 
 class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
         GlideViewHolder(itemView) {
-    
     private var hasFaded = false
     
     val img:VerticalImageView = itemView.findViewById(R.id.wallpaper_image)
@@ -129,7 +126,6 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
                 singleTap:(Wallpaper, WallpaperHolder) -> Unit,
                 longPress:(Wallpaper, WallpaperHolder) -> Unit,
                 heartListener:(ImageView, Wallpaper) -> Unit, check:Boolean) {
-        
         with(itemView) {
             heartIcon.gone()
             
