@@ -55,7 +55,7 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
             } else {
                 val prevResponse = context.framesKonfigs.backupJson
                 if (prevResponse.hasContent()) {
-                    buildWallpapersListFromJson(JSONArray(prevResponse))
+                    buildWallpapersListFromResponse(context, prevResponse, true)
                 } else {
                     ArrayList()
                 }
