@@ -23,6 +23,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
+import com.bumptech.glide.Glide
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
@@ -64,9 +65,9 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         val spanCount = if (context.isInHorizontalMode) 2 else 1
         rv.layoutManager = GridLayoutManager(context, spanCount, GridLayoutManager.VERTICAL, false)
         rv.addItemDecoration(GridSpacingItemDecoration(spanCount, 0, true))
-        adapter = CollectionsAdapter { collection, holder ->
+        adapter = CollectionsAdapter(Glide.with(this), { collection, holder ->
             onItemClicked(collection, holder)
-        }
+        })
         rv.adapter = adapter
         fastScroll = content.findViewById(R.id.fast_scroller)
         fastScroll.attachRecyclerView(rv)
@@ -74,6 +75,10 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     }
     
     override fun getContentLayout():Int = R.layout.section_lists
+    
+    override fun scrollToTop() {
+        rv.layoutManager.scrollToPosition(0)
+    }
     
     override fun onItemClicked(item:Collection, holder:CollectionHolder) {
         val intent = Intent(activity, CollectionActivity::class.java)

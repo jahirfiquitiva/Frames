@@ -58,11 +58,8 @@ import ca.allanwang.kau.utils.visible
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
-import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
@@ -242,57 +239,58 @@ open class ViewerActivity:ThemedActivity() {
         }
         
         wallpaper?.let {
-            val listener = object:RequestListener<Bitmap> {
-                override fun onResourceReady(resource:Bitmap?, model:Any?, target:Target<Bitmap>?,
-                                             dataSource:DataSource?,
+            val listener = object:RequestListener<String, Bitmap> {
+                override fun onResourceReady(resource:Bitmap?, model:String?,
+                                             target:Target<Bitmap>?, isFromMemoryCache:Boolean,
                                              isFirstResource:Boolean):Boolean {
-                    resource?.let {
-                        findViewById<ProgressBar>(R.id.loading).gone()
-                    }
+                    findViewById<ProgressBar>(R.id.loading).gone()
                     return false
                 }
                 
-                override fun onLoadFailed(e:GlideException?, model:Any?, target:Target<Bitmap>?,
-                                          isFirstResource:Boolean):Boolean = false
+                override fun onException(e:java.lang.Exception?, model:String?,
+                                         target:Target<Bitmap>?,
+                                         isFirstResource:Boolean):Boolean = false
             }
             
             if (it.thumbUrl.equals(it.url, true)) {
-                Glide.with(this).asBitmap()
-                        .load(it.url)
-                        .apply(RequestOptions().dontTransform()
-                                       .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                                       .priority(Priority.HIGH).placeholder(d))
+                Glide.with(this)
+                        .load(it.url).asBitmap()
+                        .placeholder(d)
+                        .error(d)
+                        .dontTransform()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .priority(Priority.HIGH)
                         .thumbnail(0.5F)
                         .listener(listener)
                         .into(img)
             } else {
-                val thumbnailRequest = Glide.with(this).asBitmap()
-                        .load(it.thumbUrl)
-                        .apply(RequestOptions().dontTransform()
-                                       .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                                       .priority(Priority.IMMEDIATE).placeholder(d))
+                val thumbnailRequest = Glide.with(this).load(it.thumbUrl).asBitmap()
+                        .placeholder(d)
+                        .error(d)
+                        .dontTransform()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .priority(Priority.IMMEDIATE)
                         .thumbnail(0.5F)
-                        .listener(object:RequestListener<Bitmap> {
-                            override fun onResourceReady(resource:Bitmap?, model:Any?,
+                        .listener(object:RequestListener<String, Bitmap> {
+                            override fun onResourceReady(resource:Bitmap?, model:String?,
                                                          target:Target<Bitmap>?,
-                                                         dataSource:DataSource?,
+                                                         isFromMemoryCache:Boolean,
                                                          isFirstResource:Boolean):Boolean {
-                                resource?.let {
-                                    findViewById<ProgressBar>(R.id.loading).visible()
-                                }
+                                findViewById<ProgressBar>(R.id.loading).visible()
                                 return false
                             }
                             
-                            override fun onLoadFailed(e:GlideException?, model:Any?,
-                                                      target:Target<Bitmap>?,
-                                                      isFirstResource:Boolean):Boolean = false
+                            override fun onException(e:java.lang.Exception?, model:String?,
+                                                     target:Target<Bitmap>?,
+                                                     isFirstResource:Boolean):Boolean = false
                         })
                 
-                Glide.with(this).asBitmap()
-                        .load(it.url)
-                        .apply(RequestOptions().dontTransform()
-                                       .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                                       .priority(Priority.HIGH).placeholder(d))
+                Glide.with(this).load(it.url).asBitmap()
+                        .placeholder(d)
+                        .error(d)
+                        .dontTransform()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .priority(Priority.HIGH)
                         .thumbnail(thumbnailRequest)
                         .listener(listener)
                         .into(img)

@@ -109,7 +109,10 @@ abstract class FramesActivity:BaseFramesActivity() {
         }
         
         tabs.addOnTabSelectedListener(object:TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab:TabLayout.Tab?) {}
+            override fun onTabReselected(tab:TabLayout.Tab?) {
+                scrollToTop()
+            }
+            
             override fun onTabUnselected(tab:TabLayout.Tab?) {}
             override fun onTabSelected(tab:TabLayout.Tab?) {
                 tab?.let {
@@ -233,6 +236,21 @@ abstract class FramesActivity:BaseFramesActivity() {
         super.onRestoreInstanceState(savedInstanceState)
         lastSection = savedInstanceState?.getInt("current", 1) ?: 1
         pager.setCurrentItem(lastSection, true)
+    }
+    
+    private fun scrollToTop() {
+        val adapter = pager.adapter
+        if (adapter is FragmentsAdapter) {
+            val frag = adapter.getItem(lastSection)
+            frag?.let {
+                if (it is BaseFramesFragment<*, *>) {
+                    try {
+                        it.scrollToTop()
+                    } catch (ignored:Exception) {
+                    }
+                }
+            }
+        }
     }
     
     private fun doSearch(filter:String = "") {

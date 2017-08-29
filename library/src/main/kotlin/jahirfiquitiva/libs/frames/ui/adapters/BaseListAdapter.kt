@@ -19,6 +19,7 @@ package jahirfiquitiva.libs.frames.ui.adapters
 import android.support.v7.widget.RecyclerView
 import jahirfiquitiva.libs.frames.helpers.extensions.clearChildrenAnimations
 import jahirfiquitiva.libs.frames.ui.adapters.presenters.ItemsAdapterPresenter
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideViewHolder
 
 abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>:
         RecyclerView.Adapter<VH>(), ItemsAdapterPresenter<T> {
@@ -42,6 +43,11 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>:
     override fun onViewDetachedFromWindow(holder:VH) {
         super.onViewDetachedFromWindow(holder)
         holder.itemView?.clearChildrenAnimations()
+    }
+    
+    override fun onViewRecycled(holder:VH) {
+        super.onViewRecycled(holder)
+        if (holder is GlideViewHolder) holder.onRecycled()
     }
     
     override fun getItemCount():Int = list.size

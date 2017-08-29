@@ -18,15 +18,17 @@ package jahirfiquitiva.libs.frames.ui.adapters
 
 import android.view.ViewGroup
 import ca.allanwang.kau.utils.inflate
+import com.bumptech.glide.RequestManager
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
 
-class CollectionsAdapter(
-        val listener:(Collection, CollectionHolder) -> Unit):BaseListAdapter<Collection, CollectionHolder>() {
+class CollectionsAdapter(private val manager:RequestManager,
+                         val listener:(Collection, CollectionHolder) -> Unit):
+        BaseListAdapter<Collection, CollectionHolder>() {
     
     override fun doBind(holder:CollectionHolder, position:Int, shouldAnimate:Boolean) =
-            holder.setItem(list[position], listener, shouldAnimate)
+            holder.setItem(manager, list[position], listener)
     
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):CollectionHolder? =
             parent?.inflate(R.layout.item_collection)?.let { CollectionHolder(it) }

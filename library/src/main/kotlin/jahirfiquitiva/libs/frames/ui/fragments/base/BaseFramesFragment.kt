@@ -79,4 +79,5 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
     
     open fun doOnCollectionsChange(data:ArrayList<Collection>) {}
     abstract fun applyFilter(filter:String)
+    abstract fun scrollToTop()
 }

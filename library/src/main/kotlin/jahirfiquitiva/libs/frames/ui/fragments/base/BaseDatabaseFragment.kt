@@ -25,6 +25,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.ScaleAnimation
+import android.widget.ImageView
 import android.widget.TextView
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
@@ -32,9 +33,9 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDao
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.helpers.extensions.buildSnackbar
+import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
-import jahirfiquitiva.libs.frames.ui.widgets.CheckableImageView
 import jahirfiquitiva.libs.frames.ui.widgets.SimpleAnimationListener
 import org.jetbrains.anko.runOnUiThread
 
@@ -81,8 +82,8 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
         favoritesModel.stopTask()
     }
     
-    internal fun onHeartClicked(heart:CheckableImageView, item:Wallpaper) =
-            animateHeartClick(heart, item, !heart.isChecked)
+    internal fun onHeartClicked(heart:ImageView, item:Wallpaper) =
+            animateHeartClick(heart, item, !isInFavorites(item))
     
     open fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {}
     open fun doOnWallpapersChange(data:ArrayList<Wallpaper>,
@@ -99,7 +100,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     abstract fun onItemClicked(item:T, holder:VH)
     
     private val ANIMATION_DURATION:Long = 250
-    private fun animateHeartClick(heart:CheckableImageView, item:Wallpaper,
+    private fun animateHeartClick(heart:ImageView, item:Wallpaper,
                                   check:Boolean) = context.runOnUiThread {
         val scale = ScaleAnimation(1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5f,
                                    Animation.RELATIVE_TO_SELF, 0.5f)
@@ -108,7 +109,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
         scale.setAnimationListener(object:SimpleAnimationListener() {
             override fun onEnd(animation:Animation) {
                 super.onEnd(animation)
-                heart.isChecked = check
+                heart.setImageDrawable(context.createHeartIcon(check))
                 val nScale = ScaleAnimation(0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5f,
                                             Animation.RELATIVE_TO_SELF, 0.5f)
                 nScale.duration = ANIMATION_DURATION

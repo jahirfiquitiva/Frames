@@ -17,17 +17,19 @@
 package jahirfiquitiva.libs.frames.ui.adapters
 
 import android.view.ViewGroup
+import android.widget.ImageView
 import ca.allanwang.kau.utils.inflate
+import com.bumptech.glide.RequestManager
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
-import jahirfiquitiva.libs.frames.ui.widgets.CheckableImageView
 
-class WallpapersAdapter(private val singleTap:(Wallpaper, WallpaperHolder) -> Unit,
+class WallpapersAdapter(private val manager:RequestManager,
+                        private val singleTap:(Wallpaper, WallpaperHolder) -> Unit,
                         private val longPress:(Wallpaper, WallpaperHolder) -> Unit,
-                        private val heartListener:(CheckableImageView, Wallpaper) -> Unit,
-                        private val fromFavorites:Boolean = false,
-                        private val showFavIcon:Boolean = true):BaseListAdapter<Wallpaper, WallpaperHolder>() {
+                        private val heartListener:(ImageView, Wallpaper) -> Unit,
+                        private val fromFavorites:Boolean,
+                        private val showFavIcon:Boolean):BaseListAdapter<Wallpaper, WallpaperHolder>() {
     
     var favorites = ArrayList<Wallpaper>()
         set(value) {
@@ -38,8 +40,8 @@ class WallpapersAdapter(private val singleTap:(Wallpaper, WallpaperHolder) -> Un
     
     override fun doBind(holder:WallpaperHolder, position:Int, shouldAnimate:Boolean) {
         val item = list[position]
-        holder.setItem(item, singleTap, longPress, heartListener,
-                       fromFavorites || favorites.contains(item), shouldAnimate)
+        holder.setItem(manager, item, singleTap, longPress, heartListener,
+                       fromFavorites || favorites.contains(item))
     }
     
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):WallpaperHolder? =

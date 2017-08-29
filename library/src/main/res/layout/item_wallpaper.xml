@@ -80,7 +80,7 @@
 
         </LinearLayout>
 
-        <jahirfiquitiva.libs.frames.ui.widgets.CheckableImageView
+        <ImageView
                 android:id="@+id/heart_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

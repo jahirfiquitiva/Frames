@@ -19,7 +19,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.app.Activity
-import android.graphics.Bitmap
 import android.graphics.ColorMatrixColorFilter
 import android.os.Build
 import android.support.annotation.StringRes
@@ -31,40 +30,10 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import ca.allanwang.kau.utils.dpToPx
-import ca.allanwang.kau.utils.isNetworkAvailable
-import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.ui.graphics.ObservableColorMatrix
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
-import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
-
-fun ImageView.loadFromUrls(url:String, thumbUrl:String, listener:RequestListener<Bitmap>,
-                           transform:Boolean = false, sizeMultiplier:Float = 0.5F) {
-    
-    val options = RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).dontAnimate()
-    if (!transform) options.dontTransform()
-    
-    if (thumbUrl.hasContent() && context.isNetworkAvailable) {
-        Glide.with(context).asBitmap().load(url)
-                .thumbnail(Glide.with(context).asBitmap().load(thumbUrl)
-                                   .thumbnail(sizeMultiplier)
-                                   .apply(options.priority(Priority.IMMEDIATE))
-                                   .listener(listener))
-                .apply(options.priority(Priority.HIGH))
-                .listener(listener)
-                .into(this)
-    } else if (url.hasContent()) {
-        Glide.with(context).asBitmap().load(url).thumbnail(sizeMultiplier)
-                .apply(options.priority(Priority.HIGH))
-                .listener(listener)
-                .into(this)
-    }
-}
 
 fun View.setNavBarMargins() {
     val params = (layoutParams as? CoordinatorLayout.LayoutParams) ?: return

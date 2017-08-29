@@ -18,6 +18,7 @@ package jahirfiquitiva.libs.frames.helpers.extensions
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
 import android.net.Uri
 import android.os.Environment
@@ -62,24 +63,8 @@ fun Context.openWallpaper(uri:Uri) {
 val Context.thumbnailColor
     get() = dividerColor
 
-fun Context.createHeartSelector():StateListDrawable {
-    val res = StateListDrawable()
-    res.addState(intArrayOf(android.R.attr.state_checked),
-                 "ic_heart".getDrawable(this).tint(getColorFromRes(android.R.color.white)))
-    res.addState(intArrayOf(-android.R.attr.state_checked),
-                 "ic_heart_outline".getDrawable(this).tint(Color.parseColor("#80ffffff")))
-    return res
-}
-
-fun Context.createHeartSelector(@ColorInt backgroundColor:Int):StateListDrawable {
-    val res = StateListDrawable()
-    res.addState(intArrayOf(android.R.attr.state_checked),
-                 "ic_heart".getDrawable(this).tint(getActiveIconsColorFor(backgroundColor)))
-    res.addState(intArrayOf(-android.R.attr.state_checked),
-                 "ic_heart_outline".getDrawable(this).tint(
-                         getInactiveIconsColorFor(backgroundColor)))
-    return res
-}
+fun Context.createHeartIcon(checked:Boolean):Drawable =
+        (if (checked) "ic_heart" else "ic_heart_outline").getDrawable(this)
 
 val Context.framesKonfigs:FramesKonfigs
     get() = FramesKonfigs.newInstance(PREFERENCES_NAME, this)

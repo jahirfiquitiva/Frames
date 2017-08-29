@@ -27,8 +27,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.utils.visibleIf
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
-import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.RequestManager
+import jahirfiquitiva.libs.frames.helpers.extensions.loadResource
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 
 open class EmptyViewRecyclerView:RecyclerView {
@@ -38,6 +38,8 @@ open class EmptyViewRecyclerView:RecyclerView {
     
     var loadingText:String = ""
     var emptyText:String = ""
+    
+    val manager:RequestManager = Glide.with(context)
     
     var state:State = State.LOADING
         set(value) {
@@ -74,10 +76,7 @@ open class EmptyViewRecyclerView:RecyclerView {
     fun setEmptyImage(@DrawableRes res:Int) {
         emptyView?.let {
             if (it is ImageView) {
-                Glide.with(context).load(res)
-                        .apply(RequestOptions().priority(Priority.IMMEDIATE)
-                                       .dontTransform().dontAnimate())
-                        .into(it)
+                it.loadResource(manager, res, true, false, false, null)
             } else {
                 throw UnsupportedOperationException(
                         "Cannot set a Drawable in a View that is not ImageView")

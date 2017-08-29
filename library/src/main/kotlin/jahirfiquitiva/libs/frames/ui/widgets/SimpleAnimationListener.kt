@@ -16,41 +16,7 @@
 
 package jahirfiquitiva.libs.frames.ui.widgets
 
-import android.content.Context
-import android.support.v7.widget.AppCompatImageView
-import android.util.AttributeSet
 import android.view.animation.Animation
-import android.widget.Checkable
-
-class CheckableImageView:AppCompatImageView, Checkable {
-    
-    private val CHECKED_STATE_SET = intArrayOf(android.R.attr.state_checked)
-    private var internalIsChecked = false
-    
-    override fun isChecked():Boolean = internalIsChecked
-    
-    override fun toggle() {
-        isChecked = !isChecked
-    }
-    
-    override fun setChecked(check:Boolean) {
-        if (isChecked != check) {
-            internalIsChecked = check
-            refreshDrawableState()
-        }
-    }
-    
-    constructor(context:Context):super(context)
-    constructor(context:Context, attributeSet:AttributeSet):super(context, attributeSet)
-    constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int)
-            :super(context, attributeSet, defStyleAttr)
-    
-    override fun onCreateDrawableState(extraSpace:Int):IntArray {
-        val state = super.onCreateDrawableState(extraSpace + 1)
-        if (isChecked) mergeDrawableStates(state, CHECKED_STATE_SET)
-        return state
-    }
-}
 
 abstract class SimpleAnimationListener:Animation.AnimationListener {
     open fun onStart(animation:Animation) = Unit

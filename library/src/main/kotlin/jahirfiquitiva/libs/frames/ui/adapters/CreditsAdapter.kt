@@ -20,13 +20,14 @@ import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.inflate
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
+import com.bumptech.glide.RequestManager
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CreditHeaderViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.DashboardCreditViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SimpleCreditViewHolder
 
-class CreditsAdapter(private val credits:ArrayList<Credit>):
+class CreditsAdapter(private val manager:RequestManager, private val credits:ArrayList<Credit>):
         SectionedRecyclerViewAdapter<SectionedViewHolder>() {
     
     init {
@@ -44,14 +45,14 @@ class CreditsAdapter(private val credits:ArrayList<Credit>):
         holder?.let {
             if (it is DashboardCreditViewHolder) {
                 when (section) {
-                    0 -> it.setItem(
-                            credits.filter { it.type == Credit.Type.CREATOR }[relativePosition])
-                    1 -> it.setItem(
-                            credits.filter { it.type == Credit.Type.DASHBOARD }[relativePosition])
-                    2 -> it.setItem(
-                            credits.filter { it.type == Credit.Type.DEV_CONTRIBUTION }[relativePosition])
-                    3 -> it.setItem(
-                            credits.filter { it.type == Credit.Type.UI_CONTRIBUTION }[relativePosition])
+                    0 -> it.setItem(manager,
+                                    credits.filter { it.type == Credit.Type.CREATOR }[relativePosition])
+                    1 -> it.setItem(manager,
+                                    credits.filter { it.type == Credit.Type.DASHBOARD }[relativePosition])
+                    2 -> it.setItem(manager,
+                                    credits.filter { it.type == Credit.Type.DEV_CONTRIBUTION }[relativePosition])
+                    3 -> it.setItem(manager,
+                                    credits.filter { it.type == Credit.Type.UI_CONTRIBUTION }[relativePosition])
                 }
             }
         }

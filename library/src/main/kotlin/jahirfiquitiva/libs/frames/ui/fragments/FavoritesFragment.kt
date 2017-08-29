@@ -26,6 +26,7 @@ class FavoritesFragment:BaseWallpapersFragment() {
     }
     
     override fun autoStartLoad():Boolean = true
+    override fun fromCollectionActivity():Boolean = false
     override fun fromFavorites():Boolean = true
     override fun showFavoritesIcon():Boolean = true
 }

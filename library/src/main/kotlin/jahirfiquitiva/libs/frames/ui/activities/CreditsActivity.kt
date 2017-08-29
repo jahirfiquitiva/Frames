@@ -22,6 +22,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import com.bumptech.glide.Glide
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import de.psdev.licensesdialog.LicenseResolver
 import de.psdev.licensesdialog.LicensesDialog
@@ -74,7 +75,7 @@ open class CreditsActivity:ThemedActivity() {
                                               GridLayoutManager.VERTICAL, false)
         rv.layoutManager = layoutManager
         
-        val adapter = CreditsAdapter(buildCreditsList())
+        val adapter = CreditsAdapter(Glide.with(this), buildCreditsList())
         adapter.setLayoutManager(layoutManager)
         rv.setAdapter(adapter, true)
         
@@ -86,6 +87,8 @@ open class CreditsActivity:ThemedActivity() {
             adapter.collapseSection(3)
         } catch (ignored:Exception) {
         }
+        
+        rv.state = EmptyViewRecyclerView.State.NORMAL
     }
     
     override fun onCreateOptionsMenu(menu:Menu?):Boolean {

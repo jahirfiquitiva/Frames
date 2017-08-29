@@ -27,6 +27,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import ca.allanwang.kau.utils.dimenPixelSize
 import ca.allanwang.kau.utils.toBitmap
+import com.bumptech.glide.Glide
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
@@ -72,16 +73,20 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         rv.loadingView = content.findViewById(R.id.loading_view)
         rv.setLoadingText(R.string.loading_section)
         configureRVColumns()
-        adapter = WallpapersAdapter(
-                { wall, holder -> onItemClicked(wall, holder) },
+        adapter = WallpapersAdapter(Glide.with(context),
+                                    { wall, holder -> onItemClicked(wall, holder) },
                 // TODO: Implement long-click listener
-                { wall, _ -> context.printInfo("Long pressed $wall") },
-                { heart, wall -> onHeartClicked(heart, wall) },
-                fromFavorites(), showFavoritesIcon())
-        rv.adapter = adapter
+                                    { wall, _ -> context.printInfo("Long pressed $wall") },
+                                    { heart, wall -> onHeartClicked(heart, wall) },
+                                    fromFavorites(), showFavoritesIcon())
+        rv.setAdapter(adapter, !fromCollectionActivity())
         fastScroll = content.findViewById(R.id.fast_scroller)
         fastScroll.attachRecyclerView(rv)
         rv.state = EmptyViewRecyclerView.State.LOADING
+    }
+    
+    override fun scrollToTop() {
+        rv.layoutManager.scrollToPosition(0)
     }
     
     override fun onResume() {
@@ -173,7 +178,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
             intent.putExtra("image", filename)
         } catch (ignored:Exception) {
         }
-    
+        
         val imgPair = Pair<View, String>(holder.img, imgTransition)
         val namePair = Pair<View, String>(holder.name, nameTransition)
         val authorPair = Pair<View, String>(holder.author, authorTransition)
@@ -205,6 +210,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         }
     }
     
+    abstract fun fromCollectionActivity():Boolean
     abstract fun fromFavorites():Boolean
     abstract fun showFavoritesIcon():Boolean
 }
