@@ -35,6 +35,8 @@ abstract class FramesNotificationReceiver:BroadcastReceiver() {
     }
     
     override fun onReceive(context:Context?, intent:Intent?) {
+        val notificationsEnabled = context?.framesKonfigs?.notificationsEnabled ?: false
+        if (!notificationsEnabled) return
         context?.let {
             val wallsVM = WallpapersViewModel()
             val prevResponse = it.framesKonfigs.backupJson
