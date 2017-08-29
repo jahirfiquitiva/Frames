@@ -87,7 +87,7 @@ dependencies {
     // Sectioned RecyclerView
     compile 'com.afollestad:sectioned-recyclerview:' + project.ext.sectionedRecyclerView
     // RecyclerView Fast Scroller
-    compile('com.github.pluscubed:recycler-fast-scroll:' + project.ext.recyclerViewFastScroll + '@aar')
+    compile 'com.github.pluscubed:recycler-fast-scroll:' + project.ext.recyclerViewFastScroll
     // Material Number Picker
     compile 'biz.kasual:materialnumberpicker:' + project.ext.mnp
     // In-App Purchases
