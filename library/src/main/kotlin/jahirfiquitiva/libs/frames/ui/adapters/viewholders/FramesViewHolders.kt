@@ -51,7 +51,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.withAlpha
 import jahirfiquitiva.libs.kauextensions.ui.views.VerticalImageView
 
 class CollectionHolder(itemView:View):GlideViewHolder(itemView) {
