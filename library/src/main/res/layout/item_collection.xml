@@ -57,6 +57,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textSize="16sp"
                 android:clipToPadding="false"
+                android:clipChildren="false"
                 tools:text="Material Design"/>
 
         <TextView
@@ -69,9 +70,10 @@
                 android:ellipsize="end"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
-                android:clipToPadding="false"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
+                android:clipToPadding="false"
+                android:clipChildren="false"
                 tools:text="10"/>
 
     </LinearLayout>
