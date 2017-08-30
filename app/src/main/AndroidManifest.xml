@@ -99,7 +99,7 @@
                     android:value="@color/muzei_color"/>
             <meta-data
                     android:name="settingsActivity"
-                    android:value="jahirfiquitiva.libs.frames.activities.MuzeiSettingsActivity"/>
+                    android:value="jahirfiquitiva.libs.frames.ui.activities.MuzeiSettingsActivity"/>
         </service>
 
         <!-- Required for files access !!! DO NOT REMOVE !!! -->

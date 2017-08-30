@@ -35,7 +35,6 @@ import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
-import android.transition.Fade
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewTreeObserver
@@ -73,7 +72,6 @@ import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.requestPermissions
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestListener
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsFragment
-import jahirfiquitiva.libs.frames.ui.graphics.FramesTransition
 import jahirfiquitiva.libs.frames.ui.widgets.SimpleAnimationListener
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
@@ -126,6 +124,7 @@ open class ViewerActivity:ThemedActivity() {
         navigationBarColor = Color.parseColor("#80000000")
         
         setContentView(R.layout.activity_viewer)
+        supportPostponeEnterTransition()
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val decor = window.decorView
@@ -136,20 +135,11 @@ open class ViewerActivity:ThemedActivity() {
             val viewsToExclude = arrayOf(statusBar, navBar, actionBar)
             val extraViewsToExclude = arrayOf(R.id.appbar, R.id.toolbar, R.id.tabs)
             
-            val sharedTransition = FramesTransition(*viewsToExclude)
-            extraViewsToExclude.forEach { sharedTransition.excludeTarget(it, true) }
-            
-            val enterExitTransition = Fade()
-            viewsToExclude.forEach { enterExitTransition.excludeTarget(it, true) }
-            extraViewsToExclude.forEach { enterExitTransition.excludeTarget(it, true) }
-            
-            window.sharedElementEnterTransition = sharedTransition
-            window.enterTransition = enterExitTransition
-            window.exitTransition = enterExitTransition
-            window.sharedElementReturnTransition = sharedTransition
+            viewsToExclude.forEach { window.sharedElementEnterTransition?.excludeTarget(it, true) }
+            extraViewsToExclude.forEach {
+                window.sharedElementEnterTransition?.excludeTarget(it, true)
+            }
         }
-        
-        supportPostponeEnterTransition()
         
         wallpaper = intent?.getParcelableExtra("wallpaper")
         isInFavorites = intent?.getBooleanExtra("inFavorites", false) == true
@@ -573,17 +563,6 @@ open class ViewerActivity:ThemedActivity() {
                                   snack.view.paddingBottom + bottomNavBar)
             
             snack.view.findViewById<TextView>(R.id.snackbar_text).setTextColor(Color.WHITE)
-            
-            /*
-            val backColor = snack.view.solidColor
-            if (backColor.isColorDark) {
-                snack.setActionTextColor(
-                        if (toolbarColor.isColorLight) toolbarColor else accentColor)
-            } else {
-                snack.setActionTextColor(
-                        if (toolbarColor.isColorDark) toolbarColor else accentColor)
-            }
-            */
             
             if (visibleBottomBar) changeBottomBarVisibility(false)
             snack.show()
