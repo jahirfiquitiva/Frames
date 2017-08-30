@@ -254,6 +254,7 @@ abstract class FramesActivity:BaseFramesActivity() {
         }
     }
     
+    private val LOCK = Any()
     private fun doSearch(filter:String = "") {
         val adapter = pager.adapter
         if (adapter is FragmentsAdapter) {
@@ -261,7 +262,9 @@ abstract class FramesActivity:BaseFramesActivity() {
             frag?.let {
                 if (it is BaseFramesFragment<*, *>) {
                     try {
-                        it.applyFilter(filter)
+                        synchronized(LOCK, {
+                            it.applyFilter(filter)
+                        })
                     } catch (ignored:Exception) {
                     }
                 }

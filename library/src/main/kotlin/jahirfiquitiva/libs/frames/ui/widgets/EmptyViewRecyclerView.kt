@@ -89,6 +89,10 @@ open class EmptyViewRecyclerView:RecyclerView {
     constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int)
             :super(context, attributeSet, defStyleAttr)
     
+    fun forceUpdateState(){
+        setStateInternal()
+    }
+    
     private fun setStateInternal() {
         state = if (adapter != null) {
             val items = adapter.itemCount
@@ -154,20 +158,11 @@ open class EmptyViewRecyclerView:RecyclerView {
     }
     
     override fun setAdapter(adapter:Adapter<*>?) {
-        setAdapterInternal(adapter, false)
-    }
-    
-    private fun setAdapterInternal(adapter:Adapter<*>?, autoUpdateState:Boolean) {
         val oldAdapter = getAdapter()
         oldAdapter?.unregisterAdapterDataObserver(observer)
         super.setAdapter(adapter)
         adapter?.registerAdapterDataObserver(observer)
-        if (autoUpdateState) setStateInternal()
-        else updateStateViews()
-    }
-    
-    fun setAdapter(adapter:Adapter<*>?, autoUpdateState:Boolean) {
-        setAdapterInternal(adapter, autoUpdateState)
+        setStateInternal()
     }
     
     enum class State {

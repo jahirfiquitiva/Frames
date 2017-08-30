@@ -60,13 +60,14 @@ class CollectionsViewModel:ListViewModel<ArrayList<Wallpaper>, Collection>() {
         collections.sortBy { it.name }
         collections.distinct()
         
-        val importantCollectionsNames = arrayOf("all", "featured", "new")
+        val importantCollectionsNames = arrayOf("all", "featured", "new", "wallpaper of the day",
+                                                "wallpaper of the week")
         val importantCollections = ArrayList<Collection>()
         
         importantCollectionsNames.forEach {
             val position = getCollectionPosition(it, collections)
             if (position >= 0) {
-                importantCollections.add(collections[position])
+                if (it != "all") importantCollections.add(collections[position])
                 collections.removeAt(position)
             }
         }

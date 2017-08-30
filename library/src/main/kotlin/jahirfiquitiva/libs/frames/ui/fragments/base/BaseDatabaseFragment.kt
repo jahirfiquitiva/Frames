@@ -28,7 +28,6 @@ import android.view.animation.ScaleAnimation
 import android.widget.ImageView
 import android.widget.TextView
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDao
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
@@ -45,7 +44,6 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     internal lateinit var database:FavoritesDatabase
     internal lateinit var favoritesModel:FavoritesViewModel
     
-    internal var collection:Collection? = null
     internal var snack:Snackbar? = null
     
     override fun onCreate(savedInstanceState:Bundle?) {
@@ -68,12 +66,6 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     })
     
     override fun loadDataFromViewModel() {
-        arguments?.let {
-            val argCollection = it.getParcelable<Collection>("collection")
-            argCollection?.let {
-                collection = it
-            }
-        }
         favoritesModel.loadData(getDatabase())
     }
     
@@ -82,17 +74,26 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
         favoritesModel.stopTask()
     }
     
-    internal fun onHeartClicked(heart:ImageView, item:Wallpaper) =
-            animateHeartClick(heart, item, !isInFavorites(item, false))
+    internal fun onHeartClicked(heart:ImageView, item:Wallpaper) {
+        val inFavs = isInFavorites(item)
+        if (inFavs >= 0) animateHeartClick(heart, item, inFavs == 0)
+        else {
+            snack?.dismiss()
+            snack = null
+            snack = content.buildSnackbar(getString(R.string.action_error_content),
+                                          Snackbar.LENGTH_SHORT)
+            snack?.view?.findViewById<TextView>(
+                    R.id.snackbar_text)?.setTextColor(Color.WHITE)
+            snack?.show()
+        }
+    }
     
     open fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {}
-    open fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
-    }
+    open fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {}
     
     internal fun getDatabase():FavoritesDao = database.favoritesDao()
     
-    internal fun isInFavorites(item:Wallpaper, fallback:Boolean) =
-            favoritesModel.isInFavorites(item, fallback)
+    internal fun isInFavorites(item:Wallpaper) = favoritesModel.isInFavorites(item)
     
     internal fun addToFavorites(item:Wallpaper) = favoritesModel.addToFavorites(item)
     internal fun removeFromFavorites(item:Wallpaper) = favoritesModel.removeFromFavorites(item)

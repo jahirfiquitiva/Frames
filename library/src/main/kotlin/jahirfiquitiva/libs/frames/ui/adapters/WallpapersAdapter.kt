@@ -34,9 +34,15 @@ class WallpapersAdapter(private val manager:RequestManager,
     
     var favorites = ArrayList<Wallpaper>()
         set(value) {
+            list.forEachIndexed { index, it ->
+                val wasFavorited = field.contains(it)
+                val isFavorited = value.contains(it)
+                if (wasFavorited != isFavorited) {
+                    notifyItemChanged(index)
+                }
+            }
             field.clear()
             field.addAll(value)
-            notifyDataSetChanged()
         }
     
     override fun doBind(holder:WallpaperHolder, position:Int, shouldAnimate:Boolean) {

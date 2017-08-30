@@ -24,8 +24,7 @@ class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
     override fun loadItems(param:FavoritesDao):ArrayList<Wallpaper> {
         val list = ArrayList<Wallpaper>()
         try {
-            val favs = param.getFavorites().distinct()
-            list.addAll(favs.distinct())
+            list.addAll(param.getFavorites().distinct())
         } catch (e:Exception) {
             e.printStackTrace()
         }
@@ -57,18 +56,20 @@ class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
         }
     }
     
-    fun isInFavorites(wallpaper:Wallpaper, fallback:Boolean):Boolean {
+    fun isInFavorites(wallpaper:Wallpaper):Int {
         return try {
-            items.value?.contains(wallpaper) == true
+            val contains = items.value?.contains(wallpaper) ?: false
+            if (contains) 1
+            else 0
         } catch (e:Exception) {
             e.printStackTrace()
-            fallback
+            -1
         }
     }
     
     fun addToFavorites(wallpaper:Wallpaper) {
         try {
-            if (isInFavorites(wallpaper, true)) return
+            if (isInFavorites(wallpaper) != 0) return
             AsyncTaskManager(
                     wallpaper, {},
                     { it ->
@@ -89,7 +90,7 @@ class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
     
     fun removeFromFavorites(wallpaper:Wallpaper) {
         try {
-            if (!isInFavorites(wallpaper, false)) return
+            if (isInFavorites(wallpaper) <= 0) return
             AsyncTaskManager(
                     wallpaper, {},
                     { it ->

@@ -128,16 +128,10 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         swipeToRefresh.isRefreshing = false
     }
     
-    private var firstTime = true
     override fun doOnCollectionsChange(data:ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
-        if (firstTime) {
-            firstTime = false
-            adapter.setItems(data)
-        } else {
-            adapter.updateItems(data, true)
-        }
         swipeToRefresh.isRefreshing = false
+        adapter.setItems(data)
     }
     
     override fun autoStartLoad():Boolean = true

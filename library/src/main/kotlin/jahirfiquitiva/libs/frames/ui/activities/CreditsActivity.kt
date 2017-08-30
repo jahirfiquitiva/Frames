@@ -77,7 +77,7 @@ open class CreditsActivity:ThemedActivity() {
         
         val adapter = CreditsAdapter(Glide.with(this), buildCreditsList())
         adapter.setLayoutManager(layoutManager)
-        rv.setAdapter(adapter, true)
+        rv.adapter = adapter
         
         fastScroll = findViewById(R.id.fast_scroller)
         fastScroll.attachRecyclerView(rv)

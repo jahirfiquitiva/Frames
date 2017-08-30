@@ -57,6 +57,8 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
         wallpapersModel.stopTask()
     }
     
+    open fun doOnCollectionsChange(data:ArrayList<Collection>) {}
+    
     override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
         if (!fromCollectionActivity) {
@@ -77,7 +79,6 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
         }
     }
     
-    open fun doOnCollectionsChange(data:ArrayList<Collection>) {}
     abstract fun applyFilter(filter:String)
     abstract fun scrollToTop()
 }

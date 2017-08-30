@@ -33,6 +33,7 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.configs.bestBitmapConfig
+import jahirfiquitiva.libs.frames.helpers.configs.isLowRamDevice
 import jahirfiquitiva.libs.frames.helpers.configs.maxPictureRes
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.ui.activities.ViewerActivity
@@ -65,7 +66,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         }
         
         rv = content.findViewById(R.id.list_rv)
-        rv.itemAnimator = DefaultItemAnimator()
+        rv.itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
         rv.textView = content.findViewById(R.id.empty_text)
         rv.emptyView = content.findViewById(R.id.empty_view)
         rv.setEmptyImage(if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
@@ -79,7 +80,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
                                     { wall, _ -> context.printInfo("Long pressed $wall") },
                                     { heart, wall -> onHeartClicked(heart, wall) },
                                     fromFavorites(), showFavoritesIcon())
-        rv.setAdapter(adapter, !fromCollectionActivity())
+        rv.adapter = adapter
         fastScroll = content.findViewById(R.id.fast_scroller)
         fastScroll.attachRecyclerView(rv)
         rv.state = EmptyViewRecyclerView.State.LOADING
@@ -119,6 +120,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     }
     
     override fun reloadData(section:Int) {
+        swipeToRefresh.isRefreshing = true
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
     }
@@ -159,7 +161,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     private fun onWallpaperClicked(wallpaper:Wallpaper, holder:WallpaperHolder) {
         val intent = Intent(activity, ViewerActivity::class.java)
         intent.putExtra("wallpaper", wallpaper)
-        intent.putExtra("inFavorites", favoritesModel.isInFavorites(wallpaper, false))
+        intent.putExtra("inFavorites", favoritesModel.isInFavorites(wallpaper) == 1)
         intent.putExtra("showFavoritesButton", showFavoritesIcon())
         val imgTransition = ViewCompat.getTransitionName(holder.img)
         val nameTransition = ViewCompat.getTransitionName(holder.name)

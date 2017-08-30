@@ -428,7 +428,7 @@ open class ViewerActivity:ThemedActivity() {
                   getString(R.string.home_lock_screen))
             itemsCallback { _, _, position, _ ->
                 if (dest != null) {
-                    dest.let { applyWallpaper(it, position == 0, position == 1, position == 2) }
+                    applyWallpaper(dest, position == 0, position == 1, position == 2)
                 } else {
                     applyBitmapWallpaper(position == 0, position == 1, position == 2)
                 }
