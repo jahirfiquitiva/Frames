@@ -102,7 +102,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     
     abstract fun onItemClicked(item:T, holder:VH)
     
-    private val ANIMATION_DURATION:Long = 250
+    private val ANIMATION_DURATION:Long = 150
     private fun animateHeartClick(heart:ImageView, item:Wallpaper,
                                   check:Boolean) = context.runOnUiThread {
         val scale = ScaleAnimation(1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5f,

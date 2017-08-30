@@ -29,16 +29,16 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.support.annotation.ColorInt
 import android.support.annotation.StringRes
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
+import android.transition.Fade
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
@@ -48,7 +48,6 @@ import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import ca.allanwang.kau.utils.gone
-import ca.allanwang.kau.utils.isColorDark
 import ca.allanwang.kau.utils.isNetworkAvailable
 import ca.allanwang.kau.utils.navigationBarColor
 import ca.allanwang.kau.utils.setMarginTop
@@ -59,8 +58,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.load.resource.drawable.GlideDrawable
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.configs.bestBitmapConfig
@@ -73,10 +71,11 @@ import jahirfiquitiva.libs.frames.helpers.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.navigationBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.requestPermissions
+import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestListener
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsFragment
+import jahirfiquitiva.libs.frames.ui.graphics.FramesTransition
 import jahirfiquitiva.libs.frames.ui.widgets.SimpleAnimationListener
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
-import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
 import jahirfiquitiva.libs.kauextensions.extensions.enableTranslucentStatusBar
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
@@ -85,7 +84,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.getColorFromRes
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.getUri
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.isColorLight
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
 import jahirfiquitiva.libs.ziv.ZoomableImageView
 import org.jetbrains.anko.contentView
@@ -113,6 +111,7 @@ open class ViewerActivity:ThemedActivity() {
     private var isInFavorites = false
     private var hasModifiedFavs = false
     private var showFavoritesButton = false
+    private var transitioned = false
     
     private var visibleSystemUI = true
     private var visibleBottomBar = true
@@ -121,15 +120,36 @@ open class ViewerActivity:ThemedActivity() {
     private val APPLY_ACTION_ID = 2
     private val FAVORITE_ACTION_ID = 3
     
-    @ColorInt
-    private var toolbarColor:Int = 0
-    
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         enableTranslucentStatusBar()
-        navigationBarColor = Color.parseColor("#33000000")
+        navigationBarColor = Color.parseColor("#80000000")
         
         setContentView(R.layout.activity_viewer)
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val decor = window.decorView
+            val statusBar = decor.findViewById<View>(android.R.id.statusBarBackground)
+            val navBar = decor.findViewById<View>(android.R.id.navigationBarBackground)
+            val actionBar = decor.findViewById<View>(R.id.action_bar_container)
+            
+            val viewsToExclude = arrayOf(statusBar, navBar, actionBar)
+            val extraViewsToExclude = arrayOf(R.id.appbar, R.id.toolbar, R.id.tabs)
+            
+            val sharedTransition = FramesTransition(*viewsToExclude)
+            extraViewsToExclude.forEach { sharedTransition.excludeTarget(it, true) }
+            
+            val enterExitTransition = Fade()
+            viewsToExclude.forEach { enterExitTransition.excludeTarget(it, true) }
+            extraViewsToExclude.forEach { enterExitTransition.excludeTarget(it, true) }
+            
+            window.sharedElementEnterTransition = sharedTransition
+            window.enterTransition = enterExitTransition
+            window.exitTransition = enterExitTransition
+            window.sharedElementReturnTransition = sharedTransition
+        }
+        
+        supportPostponeEnterTransition()
         
         wallpaper = intent?.getParcelableExtra("wallpaper")
         isInFavorites = intent?.getBooleanExtra("inFavorites", false) == true
@@ -154,7 +174,7 @@ open class ViewerActivity:ThemedActivity() {
         toolbarTitle.text = wallpaper?.name ?: ""
         toolbarSubtitle.text = wallpaper?.author ?: ""
         
-        toolbarColor = accentColor
+        bottomBar = findViewById(R.id.bottom_bar)
         
         val downloadable = wallpaper?.downloadable ?: false
         if (downloadable) {
@@ -180,8 +200,6 @@ open class ViewerActivity:ThemedActivity() {
             findViewById<RelativeLayout>(R.id.fav_container).gone()
         }
         
-        bottomBar = findViewById(R.id.bottom_bar)
-        
         img = findViewById(R.id.wallpaper)
         ViewCompat.setTransitionName(img, intent?.getStringExtra("imgTransition") ?: "")
         
@@ -206,6 +224,7 @@ open class ViewerActivity:ThemedActivity() {
     }
     
     private fun doFinish() {
+        properlyCancelDialog()
         val intent = Intent()
         intent.putExtra("modified", hasModifiedFavs)
         if (hasModifiedFavs) {
@@ -213,8 +232,7 @@ open class ViewerActivity:ThemedActivity() {
             intent.putExtra("inFavorites", isInFavorites)
         }
         setResult(10, intent)
-        properlyCancelDialog()
-        ActivityCompat.finishAfterTransition(this)
+        supportFinishAfterTransition()
         overridePendingTransition(0, 0)
     }
     
@@ -239,22 +257,22 @@ open class ViewerActivity:ThemedActivity() {
         }
         
         wallpaper?.let {
-            val listener = object:RequestListener<String, Bitmap> {
-                override fun onResourceReady(resource:Bitmap?, model:String?,
-                                             target:Target<Bitmap>?, isFromMemoryCache:Boolean,
-                                             isFirstResource:Boolean):Boolean {
+            val listener = object:GlideRequestListener<GlideDrawable>() {
+                override fun onLoadSucceed(resource:GlideDrawable):Boolean {
                     findViewById<ProgressBar>(R.id.loading).gone()
+                    doEnterTransition()
                     return false
                 }
                 
-                override fun onException(e:java.lang.Exception?, model:String?,
-                                         target:Target<Bitmap>?,
-                                         isFirstResource:Boolean):Boolean = false
+                override fun onLoadFailed():Boolean {
+                    findViewById<ProgressBar>(R.id.loading).gone()
+                    doEnterTransition()
+                    return super.onLoadFailed()
+                }
             }
             
             if (it.thumbUrl.equals(it.url, true)) {
-                Glide.with(this)
-                        .load(it.url).asBitmap()
+                Glide.with(this).load(it.url)
                         .placeholder(d)
                         .error(d)
                         .dontTransform()
@@ -264,28 +282,28 @@ open class ViewerActivity:ThemedActivity() {
                         .listener(listener)
                         .into(img)
             } else {
-                val thumbnailRequest = Glide.with(this).load(it.thumbUrl).asBitmap()
+                val thumbnailRequest = Glide.with(this).load(it.thumbUrl)
                         .placeholder(d)
                         .error(d)
                         .dontTransform()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .priority(Priority.IMMEDIATE)
                         .thumbnail(0.5F)
-                        .listener(object:RequestListener<String, Bitmap> {
-                            override fun onResourceReady(resource:Bitmap?, model:String?,
-                                                         target:Target<Bitmap>?,
-                                                         isFromMemoryCache:Boolean,
-                                                         isFirstResource:Boolean):Boolean {
+                        .listener(object:GlideRequestListener<GlideDrawable>() {
+                            override fun onLoadSucceed(resource:GlideDrawable):Boolean {
                                 findViewById<ProgressBar>(R.id.loading).visible()
+                                doEnterTransition()
                                 return false
                             }
                             
-                            override fun onException(e:java.lang.Exception?, model:String?,
-                                                     target:Target<Bitmap>?,
-                                                     isFirstResource:Boolean):Boolean = false
+                            override fun onLoadFailed():Boolean {
+                                findViewById<ProgressBar>(R.id.loading).gone()
+                                doEnterTransition()
+                                return super.onLoadFailed()
+                            }
                         })
                 
-                Glide.with(this).load(it.url).asBitmap()
+                Glide.with(this).load(it.url)
                         .placeholder(d)
                         .error(d)
                         .dontTransform()
@@ -296,6 +314,19 @@ open class ViewerActivity:ThemedActivity() {
                         .into(img)
             }
         }
+    }
+    
+    private fun doEnterTransition() {
+        img.viewTreeObserver.addOnPreDrawListener(object:ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw():Boolean {
+                img.viewTreeObserver.removeOnPreDrawListener(this)
+                if (!transitioned) {
+                    supportStartPostponedEnterTransition()
+                    transitioned = true
+                }
+                return true
+            }
+        })
     }
     
     override fun onRequestPermissionsResult(requestCode:Int, permissions:Array<out String>,
@@ -466,7 +497,7 @@ open class ViewerActivity:ThemedActivity() {
                                          }).toLowerCase()))
     }
     
-    private val ANIMATION_DURATION:Long = 250
+    private val ANIMATION_DURATION:Long = 150
     private fun toggleFavorite() = runOnUiThread {
         val favImageView = findViewById<ImageView>(R.id.fav_button)
         val scale = ScaleAnimation(1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5f,
@@ -543,6 +574,7 @@ open class ViewerActivity:ThemedActivity() {
             
             snack.view.findViewById<TextView>(R.id.snackbar_text).setTextColor(Color.WHITE)
             
+            /*
             val backColor = snack.view.solidColor
             if (backColor.isColorDark) {
                 snack.setActionTextColor(
@@ -551,6 +583,8 @@ open class ViewerActivity:ThemedActivity() {
                 snack.setActionTextColor(
                         if (toolbarColor.isColorDark) toolbarColor else accentColor)
             }
+            */
+            
             if (visibleBottomBar) changeBottomBarVisibility(false)
             snack.show()
         }

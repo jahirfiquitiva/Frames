@@ -81,12 +81,10 @@
         <item name="md_background_color">#30000000</item>
     </style>
 
-    <color name="amoled_bg">#0f0f0f</color>
-
     <style name="AppTheme.Base.Amoled" parent="AppTheme.Base.Dark">
-        <item name="colorPrimary">#050505</item>
+        <item name="colorPrimary">@android:color/black</item>
         <item name="colorPrimaryDark">@android:color/black</item>
-        <item name="android:windowBackground">@color/amoled_bg</item>
+        <item name="android:windowBackground">@android:color/black</item>
         <item name="cardBackgroundColor">#101010</item>
         <item name="md_background_color">#101010</item>
     </style>

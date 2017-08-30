@@ -50,6 +50,7 @@
                     android:contentDescription="@string/download"
                     android:padding="@dimen/cards_margin"
                     app:srcCompat="@drawable/ic_download"/>
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -68,13 +69,16 @@
                     android:contentDescription="@string/apply"
                     android:padding="@dimen/cards_margin"
                     app:srcCompat="@drawable/ic_apply_wallpaper"/>
+
         </RelativeLayout>
 
         <RelativeLayout
                 android:id="@+id/fav_container"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:clipChildren="false"
+                android:clipToPadding="false">
 
             <ImageView
                     android:id="@+id/fav_button"
@@ -85,7 +89,10 @@
                     android:layout_marginBottom="@dimen/cards_margin"
                     android:layout_marginTop="@dimen/cards_margin"
                     android:contentDescription="@string/favorite"
-                    android:padding="@dimen/cards_margin"/>
+                    android:padding="@dimen/cards_margin"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"/>
+
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

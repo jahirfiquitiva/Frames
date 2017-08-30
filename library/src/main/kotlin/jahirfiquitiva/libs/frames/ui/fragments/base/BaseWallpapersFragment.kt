@@ -141,6 +141,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     }
     
     override fun applyFilter(filter:String) {
+        // TODO: Models are not properly initialized :/
         val list = if (fromFavorites()) favoritesModel.items.value else wallpapersModel.items.value
         if (filter.hasContent()) {
             rv.setEmptyImage(R.drawable.no_results)

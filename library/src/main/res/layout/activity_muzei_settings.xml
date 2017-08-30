@@ -23,7 +23,7 @@
         android:layout_height="match_parent">
 
     <jahirfiquitiva.libs.kauextensions.ui.layouts.FixedElevationAppBarLayout
-            android:id="@+id/appBar"
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:clipChildren="false"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"

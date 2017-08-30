@@ -67,7 +67,7 @@ class CollectionHolder(itemView:View):GlideViewHolder(itemView) {
         with(itemView) {
             setBackgroundColor(context.thumbnailColor)
             detailsBg.setBackgroundColor(context.thumbnailColor)
-            ViewCompat.setTransitionName(img, "img_transition_$adapterPosition")
+            ViewCompat.setTransitionName(img, "coll_transition_$adapterPosition")
             ViewCompat.setTransitionName(title, "title_transition_$adapterPosition")
             val rightCover = collection.bestCover ?: collection.wallpapers.first()
             val url = rightCover.url
@@ -98,8 +98,6 @@ class CollectionHolder(itemView:View):GlideViewHolder(itemView) {
                     detailsBg.setBackgroundColor(Color.TRANSPARENT)
                     detailsBg.background =
                             itemView.context.getDrawable(R.drawable.gradient, null)
-                    TextViewCompat.setTextAppearance(title, R.style.DetailsText)
-                    TextViewCompat.setTextAppearance(amount, R.style.DetailsText_Small)
                 }
             }
         }
@@ -181,8 +179,6 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
                 } else {
                     detailsBg.background =
                             itemView.context.getDrawable(R.drawable.gradient, null)
-                    TextViewCompat.setTextAppearance(name, R.style.DetailsText)
-                    TextViewCompat.setTextAppearance(author, R.style.DetailsText_Small)
                     if (showFavIcon) heartIcon.setImageDrawable(rightDrawable)
                 }
                 if (showFavIcon) heartIcon.visible()

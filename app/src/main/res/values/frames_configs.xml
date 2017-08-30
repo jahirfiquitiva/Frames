@@ -69,6 +69,12 @@
     -->
     <bool name="show_texts_in_tabs">true</bool>
 
+    <!--    Allow parallax effect in collections view
+    -       True means yes
+    -       False means no
+    -->
+    <bool name="parallax_effect_enabled">true</bool>
+
     <!--    These are your donation items. Only put their ids here -->
     <string-array name="donation_items">
         <item>coffee</item>

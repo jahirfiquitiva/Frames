@@ -28,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
+            app:parallaxEnabled="@bool/parallax_effect_enabled"
             app:heightDivider="@dimen/heightDivider"/>
 
     <LinearLayout

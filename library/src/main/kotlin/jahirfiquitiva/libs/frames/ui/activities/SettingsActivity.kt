@@ -23,7 +23,6 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.FrameLayout
-import android.widget.TextView
 import ca.allanwang.kau.utils.snackbar
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog
 import jahirfiquitiva.libs.frames.R
@@ -45,7 +44,7 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
     override fun transparentTheme():Int = R.style.TransparentTheme
     
     var hasClearedFavs = false
-    var locationChooserDialog:FolderChooserDialog? = null
+    private var locationChooserDialog:FolderChooserDialog? = null
     private lateinit var fragment:Fragment
     
     override fun onCreate(savedInstanceState:Bundle?) {
@@ -53,18 +52,16 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
         setContentView(R.layout.activity_collection_settings)
         
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        val toolbarTitle = findViewById<TextView>(R.id.toolbar_title)
         
         setSupportActionBar(toolbar)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         
+        toolbar.setTitle(R.string.settings)
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
                      getSecondaryTextColorFor(primaryColor, 0.6F),
                      getActiveIconsColorFor(primaryColor, 0.6F))
-        toolbarTitle.setTextColor(getPrimaryTextColorFor(primaryColor, 0.6F))
-        toolbarTitle.text = getString(R.string.settings)
         
         val container = findViewById<FrameLayout>(fragmentsContainer())
         container?.let {
