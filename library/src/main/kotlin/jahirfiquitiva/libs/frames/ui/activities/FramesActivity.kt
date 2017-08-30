@@ -24,6 +24,7 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
+import ca.allanwang.kau.utils.postDelayed
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
@@ -263,7 +264,7 @@ abstract class FramesActivity:BaseFramesActivity() {
                 if (it is BaseFramesFragment<*, *>) {
                     try {
                         synchronized(LOCK, {
-                            it.applyFilter(filter)
+                            postDelayed(250, { it.applyFilter(filter) })
                         })
                     } catch (ignored:Exception) {
                     }

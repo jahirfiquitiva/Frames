@@ -42,7 +42,6 @@ open class CollectionActivity:BaseActivityWithFragments() {
     override fun hasBottomBar():Boolean = true
     override fun fragmentsContainer():Int = R.id.fragments_container
     
-    private var dataLoaded = false
     private var collection:Collection? = null
     private lateinit var frag:WallpapersInCollectionFragment
     
@@ -75,31 +74,6 @@ open class CollectionActivity:BaseActivityWithFragments() {
         collection?.let {
             frag = WallpapersInCollectionFragment.invoke(it, it.wallpapers)
             changeFragment(frag)
-        }
-        
-        /*
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val transition = window.sharedElementEnterTransition
-            transition?.addListener(object:Transition.TransitionListener {
-                override fun onTransitionEnd(p0:Transition?) = loadData()
-                override fun onTransitionPause(p0:Transition?) = loadData()
-                override fun onTransitionCancel(p0:Transition?) = loadData()
-                override fun onTransitionStart(p0:Transition?) {
-                    printInfo("Transition started")
-                }
-                
-                override fun onTransitionResume(p0:Transition?) {
-                    printInfo("Transition resumed")
-                }
-            })
-        }
-        */
-    }
-    
-    private fun loadData() {
-        if (!dataLoaded) {
-            dataLoaded = true
-            frag.loadDataFromViewModel()
         }
     }
     

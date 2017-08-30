@@ -16,7 +16,6 @@
 
 package jahirfiquitiva.libs.frames.ui.fragments
 
-import android.util.Log
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
 
@@ -24,9 +23,6 @@ class FavoritesFragment:BaseWallpapersFragment() {
     
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
-        data.forEach {
-            Log.d("Favs", "New favorite: ${it.name}")
-        }
         adapter.setItems(data)
         adapter.favorites = data
         rv.forceUpdateState()
