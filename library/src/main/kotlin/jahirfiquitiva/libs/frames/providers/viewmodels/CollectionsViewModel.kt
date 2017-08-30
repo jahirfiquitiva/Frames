@@ -35,7 +35,7 @@ class CollectionsViewModel:ListViewModel<ArrayList<Wallpaper>, Collection>() {
                         val wallsList = ArrayList<Wallpaper>()
                         if (collectionsMap.containsKey(it)) {
                             collectionsMap[it]?.let { wallsInCollection ->
-                                wallsList.addAll(wallsInCollection)
+                                wallsList.addAll(wallsInCollection.distinct())
                             }
                         }
                         wallsList.add(param[index])
@@ -45,13 +45,53 @@ class CollectionsViewModel:ListViewModel<ArrayList<Wallpaper>, Collection>() {
             }
         }
         collections.clear()
+        val usedNames = ArrayList<String>()
         for (key in collectionsMap.keys) {
             collectionsMap[key]?.let {
-                collections.add(
-                        Collection(key.formatCorrectly().replace("_", " ").toTitleCase(), it))
+                if (it.isNotEmpty()) {
+                    val coll = Collection(key.formatCorrectly().replace("_", " ").toTitleCase(), it)
+                    coll.bestCover = getBestCoverPicture(usedNames, it)
+                    collections.add(coll)
+                }
             }
         }
+        usedNames.clear()
+        
+        collections.sortBy { it.name }
         collections.distinct()
-        return collections
+        
+        val importantCollectionsNames = arrayOf("all", "featured", "new")
+        val importantCollections = ArrayList<Collection>()
+        
+        importantCollectionsNames.forEach {
+            val position = getCollectionPosition(it, collections)
+            if (position >= 0) {
+                importantCollections.add(collections[position])
+                collections.removeAt(position)
+            }
+        }
+        
+        val newCollections = ArrayList<Collection>()
+        importantCollections.forEach {
+            newCollections.add(0, it)
+        }
+        newCollections.addAll(collections)
+        
+        return newCollections
+    }
+    
+    private fun getCollectionPosition(otherName:String, inList:ArrayList<Collection>):Int {
+        inList.forEachIndexed { index, (name) -> if (name.equals(otherName, true)) return index }
+        return -1
+    }
+    
+    private fun getBestCoverPicture(usedNames:ArrayList<String>,
+                                    possibleWallpapers:ArrayList<Wallpaper>):Wallpaper? {
+        possibleWallpapers.forEach {
+            val wasInTheList = usedNames.contains(it.name)
+            usedNames.add(it.name)
+            if (!wasInTheList) return it
+        }
+        return null
     }
 }

@@ -69,8 +69,9 @@ class CollectionHolder(itemView:View):GlideViewHolder(itemView) {
             detailsBg.setBackgroundColor(context.thumbnailColor)
             ViewCompat.setTransitionName(img, "img_transition_$adapterPosition")
             ViewCompat.setTransitionName(title, "title_transition_$adapterPosition")
-            val url = collection.wallpapers.first().url
-            val thumb = collection.wallpapers.first().thumbUrl
+            val rightCover = collection.bestCover ?: collection.wallpapers.first()
+            val url = rightCover.url
+            val thumb = rightCover.thumbUrl
             loadImage(manager, url, if (thumb.equals(url, true)) "" else thumb)
             title.text = collection.name
             amount.text = (collection.wallpapers.size).toString()

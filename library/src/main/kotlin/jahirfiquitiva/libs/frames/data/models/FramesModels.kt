@@ -54,7 +54,8 @@ data class Wallpaper(
     
     override fun equals(other:Any?):Boolean {
         if (other !is Wallpaper) return false
-        return url.equals(other.url, true) || thumbUrl.equals(other.thumbUrl, true)
+        return name.equals(other.name, true) ||
+                url.equals(other.url, true) || thumbUrl.equals(other.thumbUrl, true)
     }
     
     override fun hashCode():Int {
@@ -85,6 +86,8 @@ data class Wallpaper(
 
 data class Collection(val name:String,
                       var wallpapers:ArrayList<Wallpaper> = ArrayList()):Parcelable {
+    
+    var bestCover:Wallpaper? = null
     
     override fun equals(other:Any?):Boolean {
         if (other !is Collection) return false
