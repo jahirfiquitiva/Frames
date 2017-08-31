@@ -83,7 +83,7 @@ class CreditsAdapter(private val manager:RequestManager, private val credits:Arr
                     holder.icon?.gone()
                 }
                 1 -> {
-                    holder.setTitle(R.string.dashboard, expanded)
+                    holder.setTitle(R.string.frames_dashboard, expanded)
                     holder.icon?.gone()
                 }
                 2 -> holder.setTitle(R.string.dev_contributions, expanded,
