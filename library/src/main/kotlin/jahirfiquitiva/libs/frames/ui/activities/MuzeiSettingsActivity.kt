@@ -25,7 +25,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
 import android.support.v7.widget.AppCompatCheckBox
 import android.support.v7.widget.AppCompatSeekBar
 import android.support.v7.widget.Toolbar
@@ -269,16 +268,18 @@ class MuzeiSettingsActivity:ThemedActivity(), LifecycleRegistryOwner, LifecycleO
         saveChanges()
         try {
             wallsVM.items.removeObservers(this)
+            wallsVM.stopTask(true)
         } catch (ignored:Exception) {
         }
         try {
             collsVM.items.removeObservers(this)
+            collsVM.stopTask(true)
         } catch (ignored:Exception) {
         }
         val intent = Intent(this, FramesArtSource::class.java)
         intent.putExtra("restart", true)
         startService(intent)
-        ActivityCompat.finishAfterTransition(this)
+        supportFinishAfterTransition()
     }
     
     private fun destroyDialog() {

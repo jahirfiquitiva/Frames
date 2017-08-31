@@ -90,7 +90,6 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         } catch (ignored:Exception) {
             activity.startActivityForResult(intent, 11)
         }
-        activity.overridePendingTransition(0, 0)
     }
     
     override fun loadDataFromViewModel() {

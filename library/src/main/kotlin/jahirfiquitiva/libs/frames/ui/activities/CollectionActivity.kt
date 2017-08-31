@@ -48,6 +48,7 @@ open class CollectionActivity:BaseActivityWithFragments() {
     override fun fragmentsContainer():Int = R.id.fragments_container
     
     private var fragmentLoaded = false
+    private var closing = false
     private var collection:Collection? = null
     private lateinit var frag:WallpapersInCollectionFragment
     
@@ -141,14 +142,16 @@ open class CollectionActivity:BaseActivityWithFragments() {
     override fun onBackPressed() = doFinish()
     
     private fun doFinish() {
-        val intent = Intent()
-        try {
-            intent.putExtra("nFavs", frag.newFavs)
-        } catch (ignored:Exception) {
+        if (!closing) {
+            closing = true
+            val intent = Intent()
+            try {
+                intent.putExtra("nFavs", frag.newFavs)
+            } catch (ignored:Exception) {
+            }
+            setResult(11, intent)
+            supportFinishAfterTransition()
         }
-        setResult(11, intent)
-        supportFinishAfterTransition()
-        overridePendingTransition(0, 0)
     }
     
 }

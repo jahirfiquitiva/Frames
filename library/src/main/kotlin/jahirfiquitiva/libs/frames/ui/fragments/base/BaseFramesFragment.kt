@@ -53,8 +53,8 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
         super.unregisterObserver()
         collectionsModel.items.removeObservers(this)
         wallpapersModel.items.removeObservers(this)
-        collectionsModel.stopTask()
-        wallpapersModel.stopTask()
+        collectionsModel.stopTask(true)
+        wallpapersModel.stopTask(true)
     }
     
     open fun doOnCollectionsChange(data:ArrayList<Collection>) {}

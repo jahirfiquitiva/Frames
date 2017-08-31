@@ -49,6 +49,7 @@ import android.widget.TextView
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.isNetworkAvailable
 import ca.allanwang.kau.utils.navigationBarColor
+import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.setMarginTop
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.toBitmap
@@ -110,6 +111,7 @@ open class ViewerActivity:ThemedActivity() {
     private var hasModifiedFavs = false
     private var showFavoritesButton = false
     private var transitioned = false
+    private var closing = false
     
     private var visibleSystemUI = true
     private var visibleBottomBar = true
@@ -213,17 +215,31 @@ open class ViewerActivity:ThemedActivity() {
         doFinish()
     }
     
-    private fun doFinish() {
+    override fun onDestroy() {
+        super.onDestroy()
         properlyCancelDialog()
-        val intent = Intent()
-        intent.putExtra("modified", hasModifiedFavs)
-        if (hasModifiedFavs) {
-            intent.putExtra("item", wallpaper)
-            intent.putExtra("inFavorites", isInFavorites)
+    }
+    
+    private fun doFinish() {
+        if (!closing) {
+            closing = true
+            properlyCancelDialog()
+            try {
+                img.setZoom(1F)
+            } catch (ignored:Exception) {
+            }
+            postDelayed(100, {
+                val intent = Intent()
+                intent.putExtra("modified", hasModifiedFavs)
+                if (hasModifiedFavs) {
+                    intent.putExtra("item", wallpaper)
+                    intent.putExtra("inFavorites", isInFavorites)
+                }
+                setResult(10, intent)
+                supportFinishAfterTransition()
+                overridePendingTransition(0, 0)
+            })
         }
-        setResult(10, intent)
-        supportFinishAfterTransition()
-        overridePendingTransition(0, 0)
     }
     
     private fun setupWallpaper(wallpaper:Wallpaper?) {

@@ -71,7 +71,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     
     override fun unregisterObserver() {
         favoritesModel.items.removeObservers(this)
-        favoritesModel.stopTask()
+        favoritesModel.stopTask(true)
     }
     
     internal fun onHeartClicked(heart:ImageView, item:Wallpaper) {
