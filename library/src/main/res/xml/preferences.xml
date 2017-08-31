@@ -75,12 +75,6 @@
                 android:persistent="true"
                 android:title="@string/enable_notifications"/>
 
-        <Preference
-                android:key="notification_time"
-                android:persistent="true"
-                android:summary="@string/set_notification_time_summary"
-                android:title="@string/set_notification_time"/>
-
     </PreferenceCategory>
 
 </PreferenceScreen>

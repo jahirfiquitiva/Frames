@@ -66,6 +66,9 @@ dependencies {
     compile project(path: ':library')
 }
 
+// TODO: Remove comment marks if you plan on implementing Firebase Notifications
+// apply from: './firebase.gradle'
+
 tasks.whenTaskAdded { task ->
     if (task.name.contains("lint") || task.name.contains("test")) {
         task.enabled = false

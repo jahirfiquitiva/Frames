@@ -13,11 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jahirfiquitiva.apps.frames.sample
-
-import jahirfiquitiva.libs.frames.data.services.FramesNotificationReceiver
-
-class MyNotificationReceiver:FramesNotificationReceiver() {
-    override fun mainActivity():Class<*> = MainActivity::class.java
-    override fun notificationChannel():String = "MyNotificationChannel"
+dependencies {
+    compile 'com.google.firebase:firebase-messaging:10.2.6'
 }
+
+apply plugin: 'com.google.gms.google-services'

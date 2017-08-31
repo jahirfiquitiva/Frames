@@ -16,6 +16,8 @@
 
 package jahirfiquitiva.libs.frames.providers.viewmodels
 
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 import android.content.Context
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
@@ -25,6 +27,7 @@ import com.android.volley.toolbox.Volley
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
+import jahirfiquitiva.libs.frames.helpers.utils.AsyncTaskManager
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
@@ -32,9 +35,24 @@ import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 import org.json.JSONArray
 import org.json.JSONObject
 
-class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
+class WallpapersViewModel:ViewModel() {
     
-    override fun loadItems(param:Context):ArrayList<Wallpaper> {
+    val items = MutableLiveData<ArrayList<Wallpaper>>()
+    private var task:AsyncTaskManager<Unit, Context>? = null
+    private var observer:ListViewModel.CustomObserver<ArrayList<Wallpaper>>? = null
+    
+    fun setCustomObserver(observer:ListViewModel.CustomObserver<ArrayList<Wallpaper>>) {
+        this.observer = observer
+    }
+    
+    fun loadData(parameter:Context, forceLoad:Boolean = false) {
+        stopTask(true)
+        task = AsyncTaskManager(parameter, {},
+                                { internalLoad(parameter, forceLoad) }, {})
+        task?.execute()
+    }
+    
+    private fun loadItems(param:Context) {
         val volley = Volley.newRequestQueue(param)
         val request = StringRequest(Request.Method.GET, param.getString(R.string.json_url),
                                     Response.Listener<String> {
@@ -43,10 +61,34 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
                                     Response.ErrorListener {
                                         postResult(loadWallpapers(param, ""))
                                     })
-        request.retryPolicy = DefaultRetryPolicy(5000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        request.retryPolicy = DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                                                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         volley.add(request)
         volley.start()
-        return ArrayList()
+    }
+    
+    fun stopTask(interrupt:Boolean = false) {
+        task?.cancelTask(interrupt)
+    }
+    
+    private fun internalLoad(param:Context, forceLoad:Boolean = false) {
+        if (forceLoad) {
+            loadItems(param)
+        } else {
+            if (items.value != null && (items.value?.size ?: 0) > 0) {
+                val list = ArrayList<Wallpaper>()
+                items.value?.let { list.addAll(it.distinct()) }
+                postResult(list)
+            } else {
+                loadItems(param)
+            }
+        }
+    }
+    
+    internal fun postResult(data:ArrayList<Wallpaper>) {
+        items.postValue(ArrayList(data.distinct()))
+        observer?.onValuePosted(ArrayList(data.distinct()))
     }
     
     private fun loadWallpapers(context:Context, response:String):ArrayList<Wallpaper> =

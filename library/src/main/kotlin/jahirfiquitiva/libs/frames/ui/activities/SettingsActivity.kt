@@ -117,6 +117,10 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
         val intent = Intent()
         intent.putExtra("clearedFavs", hasClearedFavs)
         setResult(22, intent)
+        try {
+            if (fragment is SettingsFragment) (fragment as SettingsFragment).clearDialog()
+        } catch (ignored:Exception) {
+        }
         clearDialog()
         ActivityCompat.finishAfterTransition(this)
     }

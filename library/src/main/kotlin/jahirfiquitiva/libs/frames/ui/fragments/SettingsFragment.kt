@@ -17,12 +17,7 @@ package jahirfiquitiva.libs.frames.ui.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.TimePickerDialog
 import android.arch.persistence.room.Room
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -31,18 +26,14 @@ import android.preference.Preference
 import android.preference.PreferenceCategory
 import android.preference.SwitchPreference
 import android.support.design.widget.Snackbar
-import android.text.format.DateFormat
-import android.widget.TextView
 import biz.kasual.materialnumberpicker.MaterialNumberPicker
 import ca.allanwang.kau.utils.buildIsLollipopAndUp
 import ca.allanwang.kau.utils.snackbar
 import com.afollestad.materialdialogs.MaterialDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
-import jahirfiquitiva.libs.frames.data.services.FramesNotificationReceiver
 import jahirfiquitiva.libs.frames.helpers.extensions.PermissionRequestListener
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
-import jahirfiquitiva.libs.frames.helpers.extensions.buildSnackbar
 import jahirfiquitiva.libs.frames.helpers.extensions.checkPermission
 import jahirfiquitiva.libs.frames.helpers.extensions.clearDataAndCache
 import jahirfiquitiva.libs.frames.helpers.extensions.dataCacheSize
@@ -58,9 +49,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.konfigs
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
-import org.jetbrains.anko.contentView
 import org.jetbrains.anko.doAsync
-import java.util.*
 
 open class SettingsFragment:PreferenceFragment() {
     
@@ -211,8 +200,6 @@ open class SettingsFragment:PreferenceFragment() {
         }
         
         val notifPref = findPreference("enable_notifications") as SwitchPreference
-        val notifTimePref = findPreference("notification_time")
-        notifTimePref?.isEnabled = activity.framesKonfigs.notificationsEnabled
         
         val serviceAvailable = isNotificationsServiceAvailable()
         
@@ -222,54 +209,9 @@ open class SettingsFragment:PreferenceFragment() {
             val enable = any.toString().equals("true", true)
             if (enable != activity.framesKonfigs.notificationsEnabled) {
                 activity.framesKonfigs.notificationsEnabled = enable
-                notifTimePref?.isEnabled = enable
-                if (enable) {
-                    showTimeSnackbar()
-                } else {
-                    cancelNotifications()
-                }
             }
             true
         }
-        
-        notifTimePref?.setOnPreferenceClickListener {
-            showTimePickerDialog()
-            true
-        }
-    }
-    
-    private fun showTimeSnackbar() {
-        val snack = activity.contentView?.buildSnackbar(R.string.pick_notifications_time)
-        snack?.view?.findViewById<TextView>(R.id.snackbar_text)?.setTextColor(Color.WHITE)
-        snack?.show()
-    }
-    
-    private fun showTimePickerDialog() {
-        val time = Calendar.getInstance()
-        val listener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
-            time.set(Calendar.HOUR_OF_DAY, hour)
-            time.set(Calendar.MINUTE, minute)
-            scheduleNotifications(time)
-        }
-        TimePickerDialog(context, listener, time.get(Calendar.HOUR_OF_DAY),
-                         time.get(Calendar.MINUTE), DateFormat.is24HourFormat(context)).show()
-    }
-    
-    private fun buildNotificationsIntent():PendingIntent {
-        val intent = Intent(activity, getNotificationsClass())
-        return PendingIntent.getBroadcast(activity, FramesNotificationReceiver.REQUEST_CODE,
-                                          intent, PendingIntent.FLAG_UPDATE_CURRENT)
-    }
-    
-    private fun scheduleNotifications(cal:Calendar) {
-        cancelNotifications()
-        val calMillis = cal.timeInMillis
-        if (calMillis <= System.currentTimeMillis()) cal.add(Calendar.DATE, 1)
-        context.framesKonfigs.notificationsMillis = cal.timeInMillis
-        val millis = context.framesKonfigs.notificationsMillis - System.currentTimeMillis()
-        val alarmManager = activity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, millis, AlarmManager.INTERVAL_DAY,
-                                         buildNotificationsIntent())
     }
     
     private fun getNotificationsClass():Class<*>? {
@@ -290,8 +232,8 @@ open class SettingsFragment:PreferenceFragment() {
             val notNull = klass?.let { true } ?: false
             if (notNull) {
                 val intent = Intent(context, klass)
-                val resolveInfo = packageManager.queryBroadcastReceivers(intent,
-                                                                         PackageManager.MATCH_DEFAULT_ONLY)
+                val resolveInfo = packageManager.queryIntentServices(intent,
+                                                                     PackageManager.MATCH_DEFAULT_ONLY)
                 resolveInfo.size > 0
             } else {
                 false
@@ -300,14 +242,6 @@ open class SettingsFragment:PreferenceFragment() {
             ex.printStackTrace()
             false
         }
-    }
-    
-    private fun cancelNotifications() {
-        val notificationManager = activity.getSystemService(
-                Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.cancel(FramesNotificationReceiver.REQUEST_CODE)
-        val alarmManager = activity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.cancel(buildNotificationsIntent())
     }
     
     fun requestPermission() = activity.checkPermission(

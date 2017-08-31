@@ -162,8 +162,5 @@
 
     <string name="notifications_title">Notifications</string>
     <string name="enable_notifications">Enable notifications</string>
-    <string name="set_notification_time">Set notification time</string>
-    <string name="set_notification_time_summary">Set the hour to receive notifications every day</string>
-    <string name="pick_notifications_time">Please set notification time to start receiving notifications.</string>
 
 </resources>

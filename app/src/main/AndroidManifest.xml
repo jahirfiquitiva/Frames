@@ -30,16 +30,22 @@
             android:supportsRtl="true"
             android:theme="@style/MySplashScreen">
 
-        <!--    Notification receiver -->
-        <receiver
-                android:name=".MyNotificationReceiver"
-                android:enabled="true"
-                tools:ignore="ExportedReceiver">
+        <!-- FirebaseService -->
+        <!-- TODO: Remove comment marks to enable
+        <service
+                android:name=".FirebaseService"
+                tools:ignore="ExportedService">
             <intent-filter>
-                <action android:name="@string/frames_notifications_action"/>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
-        </receiver>
+        </service>
+        <meta-data
+                android:name="com.google.firebase.messaging.default_notification_icon"
+                android:resource="@drawable/ic_notifications"/>
+        <meta-data
+                android:name="com.google.firebase.messaging.default_notification_color"
+                android:resource="@color/notification_color"/>
+        -->
 
         <activity
                 android:name=".MainActivity"

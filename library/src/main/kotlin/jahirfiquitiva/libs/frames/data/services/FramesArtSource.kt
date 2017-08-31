@@ -121,6 +121,7 @@ class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleReg
                                     object:ListViewModel.CustomObserver<ArrayList<Wallpaper>> {
                                         override fun onValuePosted(data:ArrayList<Wallpaper>) {
                                             realData.addAll(getValidWallpapersList(data))
+                                            realData.distinct()
                                             if (realData.isEmpty()) return
                                             chooseRandomWallpaperAndPost(realData)
                                         }

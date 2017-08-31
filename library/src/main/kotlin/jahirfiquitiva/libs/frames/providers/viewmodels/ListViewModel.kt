@@ -32,6 +32,7 @@ abstract class ListViewModel<Parameter, Result>:ViewModel() {
     }
     
     fun loadData(parameter:Parameter, forceLoad:Boolean = false) {
+        stopTask(true)
         param = parameter
         task = AsyncTaskManager(parameter, {},
                                 { internalLoad(it, forceLoad) },

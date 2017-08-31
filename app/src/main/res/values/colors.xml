@@ -15,6 +15,9 @@
   ~ limitations under the License.
   -->
 <resources>
+    <!-- Color for Notifications -->
+    <color name="notification_color">@color/light_theme_accent</color>
+
     <!-- Color for Muzei -->
     <color name="muzei_color">@color/light_theme_accent</color>
 
