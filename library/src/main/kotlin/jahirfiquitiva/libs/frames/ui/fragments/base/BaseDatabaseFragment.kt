@@ -98,8 +98,6 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     internal fun addToFavorites(item:Wallpaper) = favoritesModel.addToFavorites(item)
     internal fun removeFromFavorites(item:Wallpaper) = favoritesModel.removeFromFavorites(item)
     
-    override fun onItemClicked(item:T) {}
-    
     abstract fun onItemClicked(item:T, holder:VH)
     
     private val ANIMATION_DURATION:Long = 150

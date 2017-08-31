@@ -19,6 +19,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -48,12 +49,12 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.isNetworkAvailable
-import ca.allanwang.kau.utils.navigationBarColor
 import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.setMarginTop
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.toBitmap
 import ca.allanwang.kau.utils.visible
+import ca.allanwang.kau.utils.visibleIf
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
@@ -71,13 +72,18 @@ import jahirfiquitiva.libs.frames.helpers.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.navigationBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.requestPermissions
+import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestListener
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsFragment
 import jahirfiquitiva.libs.frames.ui.widgets.SimpleAnimationListener
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
+import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
+import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
+import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
 import jahirfiquitiva.libs.kauextensions.extensions.enableTranslucentStatusBar
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
+import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getColorFromRes
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
@@ -113,6 +119,9 @@ open class ViewerActivity:ThemedActivity() {
     private var transitioned = false
     private var closing = false
     
+    private val VISIBLE_PROGRESS_BAR_KEY = "visible_progress_bar"
+    private var visibleProgressBar = true
+    private val VISIBLE_SYSTEM_UI_KEY = "visible_system_ui"
     private var visibleSystemUI = true
     private var visibleBottomBar = true
     
@@ -123,7 +132,6 @@ open class ViewerActivity:ThemedActivity() {
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         enableTranslucentStatusBar()
-        navigationBarColor = Color.parseColor("#80000000")
         
         setContentView(R.layout.activity_viewer)
         supportPostponeEnterTransition()
@@ -167,6 +175,7 @@ open class ViewerActivity:ThemedActivity() {
         toolbarSubtitle.text = wallpaper?.author ?: ""
         
         bottomBar = findViewById(R.id.bottom_bar)
+        findViewById<View>(R.id.bottom_bar_container).setNavBarMargins()
         
         val downloadable = wallpaper?.downloadable ?: false
         if (downloadable) {
@@ -200,6 +209,39 @@ open class ViewerActivity:ThemedActivity() {
         img.setOnSingleTapListener {
             toggleSystemUI()
             true
+        }
+    }
+    
+    override fun onResume() {
+        super.onResume()
+        findViewById<View>(R.id.bottom_bar_container).setNavBarMargins()
+        val dummy:Bitmap? = null
+        setupProgressBarColors(dummy)
+    }
+    
+    override fun onMultiWindowModeChanged(isInMultiWindowMode:Boolean, newConfig:Configuration?) {
+        super.onMultiWindowModeChanged(isInMultiWindowMode, newConfig)
+        findViewById<View>(R.id.bottom_bar_container).setNavBarMargins()
+    }
+    
+    override fun onSaveInstanceState(outState:Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putBoolean(VISIBLE_PROGRESS_BAR_KEY, visibleProgressBar)
+        outState?.putBoolean(VISIBLE_SYSTEM_UI_KEY, visibleSystemUI)
+    }
+    
+    override fun onRestoreInstanceState(savedInstanceState:Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        try {
+            val visibleProgress = savedInstanceState?.getBoolean(VISIBLE_PROGRESS_BAR_KEY,
+                                                                 true) ?: true
+            findViewById<ProgressBar>(R.id.loading).visibleIf(visibleProgress)
+        } catch (ignored:Exception) {
+        }
+        try {
+            val visibleUI = savedInstanceState?.getBoolean(VISIBLE_SYSTEM_UI_KEY, true) ?: true
+            setSystemUIVisibility(visibleUI)
+        } catch (ignored:Exception) {
         }
     }
     
@@ -254,6 +296,8 @@ open class ViewerActivity:ThemedActivity() {
             }
         }
         
+        setupProgressBarColors(bmp)
+        
         val d:Drawable
         d = if (bmp != null) {
             findViewById<ProgressBar>(R.id.loading).visible()
@@ -266,12 +310,14 @@ open class ViewerActivity:ThemedActivity() {
             val listener = object:GlideRequestListener<GlideDrawable>() {
                 override fun onLoadSucceed(resource:GlideDrawable):Boolean {
                     findViewById<ProgressBar>(R.id.loading).gone()
+                    visibleProgressBar = false
                     doEnterTransition()
                     return false
                 }
                 
                 override fun onLoadFailed():Boolean {
                     findViewById<ProgressBar>(R.id.loading).gone()
+                    visibleProgressBar = false
                     doEnterTransition()
                     return super.onLoadFailed()
                 }
@@ -282,6 +328,8 @@ open class ViewerActivity:ThemedActivity() {
                         .placeholder(d)
                         .error(d)
                         .dontTransform()
+                        .dontAnimate()
+                        .fitCenter()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .priority(Priority.HIGH)
                         .thumbnail(0.5F)
@@ -292,18 +340,23 @@ open class ViewerActivity:ThemedActivity() {
                         .placeholder(d)
                         .error(d)
                         .dontTransform()
+                        .dontAnimate()
+                        .fitCenter()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .priority(Priority.IMMEDIATE)
                         .thumbnail(0.5F)
                         .listener(object:GlideRequestListener<GlideDrawable>() {
                             override fun onLoadSucceed(resource:GlideDrawable):Boolean {
+                                setupProgressBarColors(resource)
                                 findViewById<ProgressBar>(R.id.loading).visible()
+                                visibleProgressBar = true
                                 doEnterTransition()
                                 return false
                             }
                             
                             override fun onLoadFailed():Boolean {
                                 findViewById<ProgressBar>(R.id.loading).gone()
+                                visibleProgressBar = false
                                 doEnterTransition()
                                 return super.onLoadFailed()
                             }
@@ -313,6 +366,8 @@ open class ViewerActivity:ThemedActivity() {
                         .placeholder(d)
                         .error(d)
                         .dontTransform()
+                        .dontAnimate()
+                        .fitCenter()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .priority(Priority.HIGH)
                         .thumbnail(thumbnailRequest)
@@ -333,6 +388,15 @@ open class ViewerActivity:ThemedActivity() {
                 return true
             }
         })
+    }
+    
+    private fun setupProgressBarColors(drw:Drawable?) {
+        setupProgressBarColors(drw?.toBitmap())
+    }
+    
+    private fun setupProgressBarColors(bmp:Bitmap?) {
+        val color = getActiveIconsColorFor(bmp?.bestSwatch?.rgb ?: cardBackgroundColor)
+        findViewById<ProgressBar>(R.id.loading).indeterminateDrawable.applyColorFilter(color)
     }
     
     override fun onRequestPermissionsResult(requestCode:Int, permissions:Array<out String>,
@@ -586,7 +650,11 @@ open class ViewerActivity:ThemedActivity() {
     }
     
     private fun toggleSystemUI() {
-        visibleSystemUI = !visibleSystemUI
+        setSystemUIVisibility(!visibleSystemUI)
+    }
+    
+    private fun setSystemUIVisibility(visible:Boolean) {
+        visibleSystemUI = visible
         Handler().post({
                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                                window.decorView.systemUiVisibility = if (visibleSystemUI)

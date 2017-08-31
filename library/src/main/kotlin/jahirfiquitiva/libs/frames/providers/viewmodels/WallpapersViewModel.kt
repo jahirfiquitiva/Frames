@@ -57,7 +57,7 @@ class WallpapersViewModel:ViewModel() {
     }
     
     private fun loadItems(param:Context) {
-        queue = Volley.newRequestQueue(param)
+        if (queue == null) queue = Volley.newRequestQueue(param)
         val request = WallsRequest(param, Request.Method.GET, param.getString(R.string.json_url),
                                    Response.Listener {
                                        postResult(loadWallpapers(param, it))
@@ -66,9 +66,7 @@ class WallpapersViewModel:ViewModel() {
                                        postResult(loadWallpapers(param, ""))
                                    })
         request.tag = REQUEST_TAG
-        request.retryPolicy = DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
-                                                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                                                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        request.retryPolicy = DefaultRetryPolicy(0, 3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         queue?.add(request)
         queue?.start()
     }

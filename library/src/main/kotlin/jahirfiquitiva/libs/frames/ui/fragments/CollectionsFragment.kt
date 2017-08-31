@@ -18,7 +18,6 @@ package jahirfiquitiva.libs.frames.ui.fragments
 
 import android.content.Intent
 import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.util.Pair
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
@@ -65,8 +64,8 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         val spanCount = if (context.isInHorizontalMode) 2 else 1
         rv.layoutManager = GridLayoutManager(context, spanCount, GridLayoutManager.VERTICAL, false)
         rv.addItemDecoration(GridSpacingItemDecoration(spanCount, 0, true))
-        adapter = CollectionsAdapter(Glide.with(this), { collection, holder ->
-            onItemClicked(collection, holder)
+        adapter = CollectionsAdapter(Glide.with(this), { collection ->
+            onItemClicked(collection)
         })
         rv.adapter = adapter
         fastScroll = content.findViewById(R.id.fast_scroller)
@@ -80,17 +79,18 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         rv.layoutManager.scrollToPosition(0)
     }
     
-    override fun onItemClicked(item:Collection, holder:CollectionHolder) {
+    override fun onItemClicked(item:Collection) {
         val intent = Intent(activity, CollectionActivity::class.java)
         intent.putExtra("item", item)
-        val titlePair = Pair<View, String>(holder.title, "title")
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, titlePair)
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity)
         try {
             activity.startActivityForResult(intent, 11, options.toBundle())
         } catch (ignored:Exception) {
             activity.startActivityForResult(intent, 11)
         }
     }
+    
+    override fun onItemClicked(item:Collection, holder:CollectionHolder) {}
     
     override fun loadDataFromViewModel() {
         rv.state = EmptyViewRecyclerView.State.LOADING

@@ -25,7 +25,7 @@ import jahirfiquitiva.libs.frames.helpers.utils.diff.CollectionsDiffCallback
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
 
 class CollectionsAdapter(private val manager:RequestManager,
-                         val listener:(Collection, CollectionHolder) -> Unit):
+                         val listener:(Collection) -> Unit):
         BaseListAdapter<Collection, CollectionHolder>() {
     
     override fun doBind(holder:CollectionHolder, position:Int, shouldAnimate:Boolean) =

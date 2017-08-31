@@ -14,13 +14,18 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<jahirfiquitiva.libs.kauextensions.ui.layouts.CustomCoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/viewerLayout"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <jahirfiquitiva.libs.ziv.ZoomableImageView
+            android:id="@+id/wallpaper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
 
     <ProgressBar
             android:id="@+id/loading"
@@ -29,15 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:visibility="visible"
-            android:fitsSystemWindows="true"/>
-
-    <jahirfiquitiva.libs.ziv.ZoomableImageView
-            android:id="@+id/wallpaper"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:fitsSystemWindows="true"/>
+            android:clickable="false"
+            android:focusable="false"/>
 
     <include layout="@layout/viewer_bottom_bar"/>
 
@@ -48,7 +46,6 @@
             android:fitsSystemWindows="true"
             android:background="@drawable/gradient_inverse"
             android:clipChildren="false"
-            android:clipToPadding="false"
             app:elevation="0dp">
 
         <android.support.v7.widget.Toolbar
@@ -56,8 +53,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:minHeight="?actionBarSize"
-                android:clipChildren="false"
-                android:clipToPadding="false"
                 app:elevation="0dp">
 
             <LinearLayout
@@ -65,8 +60,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center_vertical"
-                    android:clipChildren="false"
-                    android:clipToPadding="false">
+                    android:clipChildren="false">
 
                 <TextView
                         android:id="@+id/toolbar_title"
@@ -74,8 +68,6 @@
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
                         android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                        android:clipChildren="false"
-                        android:clipToPadding="false"
                         tools:text="Title"/>
 
                 <TextView
@@ -85,8 +77,6 @@
                         android:layout_marginTop="4dp"
                         android:textColor="@android:color/white"
                         android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
-                        android:clipChildren="false"
-                        android:clipToPadding="false"
                         tools:text="Subtitle"/>
 
             </LinearLayout>
@@ -95,4 +85,4 @@
 
     </android.support.design.widget.AppBarLayout>
 
-</jahirfiquitiva.libs.kauextensions.ui.layouts.CustomCoordinatorLayout>
+</FrameLayout>

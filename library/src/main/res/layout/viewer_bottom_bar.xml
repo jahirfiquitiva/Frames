@@ -16,6 +16,7 @@
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/bottom_bar_container"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_gravity="bottom"
@@ -77,8 +78,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:clipChildren="false"
-                android:clipToPadding="false">
+                android:clipChildren="false">
 
             <ImageView
                     android:id="@+id/fav_button"
@@ -90,8 +90,7 @@
                     android:layout_marginTop="@dimen/cards_margin"
                     android:contentDescription="@string/favorite"
                     android:padding="@dimen/cards_margin"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"/>
+                    android:clipChildren="false"/>
 
         </RelativeLayout>
     </LinearLayout>

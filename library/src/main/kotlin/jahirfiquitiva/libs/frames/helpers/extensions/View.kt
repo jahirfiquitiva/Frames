@@ -28,15 +28,17 @@ import android.support.design.widget.Snackbar
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.FrameLayout
 import android.widget.ImageView
 import ca.allanwang.kau.utils.dpToPx
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.ui.graphics.ObservableColorMatrix
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
+import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 
 fun View.setNavBarMargins() {
-    val params = (layoutParams as? CoordinatorLayout.LayoutParams) ?: return
+    val params = (layoutParams as? FrameLayout.LayoutParams) ?: return
     val left = if (this is FloatingActionButton) 16.dpToPx else 0
     var right = if (this is FloatingActionButton) 16.dpToPx else 0
     var bottom = if (this is FloatingActionButton) 16.dpToPx else 0

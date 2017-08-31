@@ -20,7 +20,6 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.support.v4.view.ViewCompat
-import android.support.v4.widget.TextViewCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
@@ -63,12 +62,10 @@ class CollectionHolder(itemView:View):GlideViewHolder(itemView) {
     val amount:TextView = itemView.findViewById(R.id.collection_walls_number)
     
     fun setItem(manager:RequestManager, collection:Collection,
-                listener:(Collection, CollectionHolder) -> Unit) {
+                listener:(Collection) -> Unit) {
         with(itemView) {
             setBackgroundColor(context.thumbnailColor)
             detailsBg.setBackgroundColor(context.thumbnailColor)
-            ViewCompat.setTransitionName(img, "coll_transition_$adapterPosition")
-            ViewCompat.setTransitionName(title, "title_transition_$adapterPosition")
             val rightCover = collection.bestCover ?: collection.wallpapers.first()
             val url = rightCover.url
             val thumb = rightCover.thumbUrl
@@ -76,7 +73,7 @@ class CollectionHolder(itemView:View):GlideViewHolder(itemView) {
             title.text = collection.name
             amount.text = (collection.wallpapers.size).toString()
         }
-        itemView.setOnClickListener { listener(collection, this) }
+        itemView.setOnClickListener { listener(collection) }
     }
     
     private fun loadImage(manager:RequestManager, url:String, thumbUrl:String) {

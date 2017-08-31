@@ -49,6 +49,8 @@ abstract class BaseViewModelFragment<in T>:BasicFragment<T>(), LifecycleObserver
         unregisterObserver()
     }
     
+    override fun onItemClicked(item:T) {}
+    
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     abstract override fun unregisterObserver()
     

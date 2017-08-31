@@ -29,22 +29,19 @@ class GlideConfiguration:GlideModule {
     override fun applyOptions(context:Context?, builder:GlideBuilder?) {
         context?.let {
             builder?.setDecodeFormat(
-                    if (it.runsMinSDK) if (it.isLowRamDevice) DecodeFormat.PREFER_RGB_565
-                    else DecodeFormat.PREFER_ARGB_8888 else DecodeFormat.PREFER_RGB_565)
+                    if (it.isLowRamDevice) DecodeFormat.PREFER_RGB_565
+                    else DecodeFormat.PREFER_ARGB_8888)
         }
     }
     
-    override fun registerComponents(context:Context?, glide:Glide?) {
-        // Do nothing
-    }
+    override fun registerComponents(context:Context?, glide:Glide?) {}
 }
 
 val Context.maxPictureRes
-    get() = if (runsMinSDK) if (isLowRamDevice) 30 else 55 else 50
+    get() = if (isLowRamDevice) if (runsMinSDK) 30 else 20 else 40
 
 val Context.bestBitmapConfig:Bitmap.Config
-    get() = if (runsMinSDK) if (isLowRamDevice) Bitmap.Config.RGB_565
-    else Bitmap.Config.ARGB_8888 else Bitmap.Config.RGB_565
+    get() = if (isLowRamDevice) Bitmap.Config.RGB_565 else Bitmap.Config.ARGB_8888
 
 val Context.runsMinSDK
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN

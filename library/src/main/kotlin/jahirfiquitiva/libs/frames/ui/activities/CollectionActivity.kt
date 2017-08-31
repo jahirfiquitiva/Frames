@@ -20,7 +20,6 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
-import android.transition.Fade
 import android.transition.Transition
 import android.view.MenuItem
 import android.view.View
@@ -30,7 +29,6 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseActivityWithFragments
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersInCollectionFragment
-import jahirfiquitiva.libs.frames.ui.graphics.FramesTransition
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
@@ -54,7 +52,6 @@ open class CollectionActivity:BaseActivityWithFragments() {
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_collection_settings)
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val decor = window.decorView
@@ -65,27 +62,21 @@ open class CollectionActivity:BaseActivityWithFragments() {
             val viewsToExclude = arrayOf(statusBar, navBar, actionBar)
             val extraViewsToExclude = arrayOf(R.id.appbar, R.id.toolbar, R.id.tabs)
             
-            val sharedTransition = FramesTransition(*viewsToExclude)
-            extraViewsToExclude.forEach { sharedTransition.excludeTarget(it, true) }
-            sharedTransition.addListener(object:Transition.TransitionListener {
+            viewsToExclude.forEach { window.sharedElementEnterTransition?.excludeTarget(it, true) }
+            extraViewsToExclude.forEach {
+                window.sharedElementEnterTransition?.excludeTarget(it, true)
+            }
+            
+            window.enterTransition?.addListener(object:Transition.TransitionListener {
                 override fun onTransitionPause(p0:Transition?) = loadFragment()
                 override fun onTransitionCancel(p0:Transition?) = loadFragment()
                 override fun onTransitionEnd(p0:Transition?) = loadFragment()
                 override fun onTransitionStart(p0:Transition?) {}
                 override fun onTransitionResume(p0:Transition?) {}
             })
-            
-            val enterExitTransition = Fade()
-            viewsToExclude.forEach { enterExitTransition.excludeTarget(it, true) }
-            extraViewsToExclude.forEach { enterExitTransition.excludeTarget(it, true) }
-            
-            window.sharedElementEnterTransition = sharedTransition
-            window.enterTransition = enterExitTransition
-            window.exitTransition = enterExitTransition
-            window.sharedElementReturnTransition = sharedTransition
         }
         
-        supportPostponeEnterTransition()
+        setContentView(R.layout.activity_collection_settings)
         
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         
@@ -104,8 +95,6 @@ open class CollectionActivity:BaseActivityWithFragments() {
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
                      getSecondaryTextColorFor(primaryColor, 0.6F),
                      getActiveIconsColorFor(primaryColor, 0.6F))
-        
-        supportStartPostponedEnterTransition()
     }
     
     private fun loadFragment() {
@@ -153,5 +142,4 @@ open class CollectionActivity:BaseActivityWithFragments() {
             supportFinishAfterTransition()
         }
     }
-    
 }
