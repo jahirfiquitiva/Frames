@@ -19,13 +19,16 @@ package jahirfiquitiva.libs.frames.providers.viewmodels
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
+import ca.allanwang.kau.utils.isWifiConnected
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
+import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.helpers.configs.isLowRamDevice
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.AsyncTaskManager
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
@@ -38,6 +41,8 @@ import org.json.JSONObject
 class WallpapersViewModel:ViewModel() {
     
     val items = MutableLiveData<ArrayList<Wallpaper>>()
+    private val REQUEST_TAG = "WVM"
+    private var queue:RequestQueue? = null
     private var task:AsyncTaskManager<Unit, Context>? = null
     private var observer:ListViewModel.CustomObserver<ArrayList<Wallpaper>>? = null
     
@@ -53,22 +58,24 @@ class WallpapersViewModel:ViewModel() {
     }
     
     private fun loadItems(param:Context) {
-        val volley = Volley.newRequestQueue(param)
-        val request = StringRequest(Request.Method.GET, param.getString(R.string.json_url),
-                                    Response.Listener<String> {
-                                        postResult(loadWallpapers(param, it))
-                                    },
-                                    Response.ErrorListener {
-                                        postResult(loadWallpapers(param, ""))
-                                    })
+        queue = Volley.newRequestQueue(param)
+        val request = WallsRequest(param, Request.Method.GET, param.getString(R.string.json_url),
+                                   Response.Listener {
+                                       postResult(loadWallpapers(param, it))
+                                   },
+                                   Response.ErrorListener {
+                                       postResult(loadWallpapers(param, ""))
+                                   })
+        request.tag = REQUEST_TAG
         request.retryPolicy = DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
                                                  DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                                                  DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-        volley.add(request)
-        volley.start()
+        queue?.add(request)
+        queue?.start()
     }
     
     fun stopTask(interrupt:Boolean = false) {
+        queue?.cancelAll(REQUEST_TAG)
         task?.cancelTask(interrupt)
     }
     
@@ -198,5 +205,24 @@ class WallpapersViewModel:ViewModel() {
         }
         fWallpapers.distinct()
         return fWallpapers
+    }
+    
+    private inner class WallsRequest(private val context:Context,
+                                     method:Int,
+                                     url:String,
+                                     listener:Response.Listener<String>,
+                                     errorListener:Response.ErrorListener):
+            StringRequest(method, url, listener, errorListener) {
+        override fun getPriority():Priority {
+            return if (context.isLowRamDevice) {
+                Priority.NORMAL
+            } else {
+                if (context.isWifiConnected) {
+                    Priority.IMMEDIATE
+                } else {
+                    Priority.HIGH
+                }
+            }
+        }
     }
 }
