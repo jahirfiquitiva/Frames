@@ -19,7 +19,6 @@ package jahirfiquitiva.libs.frames.providers.viewmodels
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
-import ca.allanwang.kau.utils.isWifiConnected
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -215,13 +214,9 @@ class WallpapersViewModel:ViewModel() {
             StringRequest(method, url, listener, errorListener) {
         override fun getPriority():Priority {
             return if (context.isLowRamDevice) {
-                Priority.NORMAL
+                Priority.HIGH
             } else {
-                if (context.isWifiConnected) {
-                    Priority.IMMEDIATE
-                } else {
-                    Priority.HIGH
-                }
+                Priority.IMMEDIATE
             }
         }
     }
