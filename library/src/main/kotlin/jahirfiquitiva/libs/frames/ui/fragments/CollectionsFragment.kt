@@ -139,4 +139,5 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     
     override fun autoStartLoad():Boolean = true
     override fun fromCollectionActivity():Boolean = false
+    override fun fromFavorites():Boolean = false
 }

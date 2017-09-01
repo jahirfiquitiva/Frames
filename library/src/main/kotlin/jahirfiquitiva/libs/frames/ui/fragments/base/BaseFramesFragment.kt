@@ -79,7 +79,6 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
         }
     }
     
-    abstract fun fromCollectionActivity():Boolean
     abstract fun applyFilter(filter:String)
     abstract fun scrollToTop()
 }

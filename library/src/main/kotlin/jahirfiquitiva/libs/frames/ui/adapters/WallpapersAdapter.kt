@@ -45,17 +45,10 @@ class WallpapersAdapter(private val manager:RequestManager,
             field.addAll(value)
         }
     
-    override fun getItemCount():Int = if (fromFavorites) favorites.size else list.size
-    
     override fun doBind(holder:WallpaperHolder, position:Int, shouldAnimate:Boolean) {
-        if (fromFavorites) {
-            val item = favorites[position]
-            holder.setItem(manager, item, singleTap, longPress, heartListener, true)
-        } else {
-            val item = list[position]
-            holder.setItem(manager, item, singleTap, longPress, heartListener,
-                           favorites.contains(item))
-        }
+        val item = list[position]
+        holder.setItem(manager, item, singleTap, longPress, heartListener,
+                       fromFavorites || favorites.contains(item))
     }
     
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):WallpaperHolder? =

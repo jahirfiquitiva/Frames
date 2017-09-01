@@ -23,19 +23,10 @@ class FavoritesFragment:BaseWallpapersFragment() {
     
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
-        // adapter.setItems(data)
+        adapter.setItems(data)
         adapter.favorites = data
         rv.forceUpdateState()
     }
-    
-    /*
-    override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
-        super.doOnWallpapersChange(data, fromCollectionActivity)
-        favoritesModel.items.value?.let {
-            adapter.favorites = it
-        }
-    }
-    */
     
     override fun autoStartLoad():Boolean = true
     override fun fromCollectionActivity():Boolean = false

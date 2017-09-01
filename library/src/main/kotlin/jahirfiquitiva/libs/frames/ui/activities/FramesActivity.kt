@@ -318,4 +318,19 @@ abstract class FramesActivity:BaseFramesActivity() {
             }
         }
     }
+    
+    fun postToFavorites(item:Wallpaper, check:Boolean) {
+        val adapter = pager.adapter
+        if (adapter is FragmentsAdapter) {
+            val frag = adapter.getItem(2)
+            frag?.let {
+                if (it is BaseFramesFragment<*, *>) {
+                    try {
+                        it.reallyPostToFavorites(item, check)
+                    } catch (ignored:Exception) {
+                    }
+                }
+            }
+        }
+    }
 }

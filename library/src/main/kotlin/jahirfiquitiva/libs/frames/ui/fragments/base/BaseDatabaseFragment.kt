@@ -35,6 +35,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.buildSnackbar
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
+import jahirfiquitiva.libs.frames.ui.activities.FramesActivity
 import jahirfiquitiva.libs.frames.ui.widgets.SimpleAnimationListener
 import org.jetbrains.anko.runOnUiThread
 
@@ -98,6 +99,8 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     internal fun removeFromFavorites(item:Wallpaper) = favoritesModel.removeFromFavorites(item)
     
     abstract fun onItemClicked(item:T, holder:VH)
+    abstract fun fromCollectionActivity():Boolean
+    abstract fun fromFavorites():Boolean
     
     private val ANIMATION_DURATION:Long = 150
     private fun animateHeartClick(heart:ImageView, item:Wallpaper,
@@ -117,32 +120,28 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
                 nScale.setAnimationListener(object:SimpleAnimationListener() {
                     override fun onEnd(animation:Animation) {
                         super.onEnd(animation)
-                        if (check) {
-                            addToFavorites(item)
-                            snack?.dismiss()
-                            snack = null
-                            snack = content.buildSnackbar(
-                                    getString(R.string.added_to_favorites, item.name),
-                                    Snackbar.LENGTH_SHORT)
-                            snack?.view?.findViewById<TextView>(
-                                    R.id.snackbar_text)?.setTextColor(Color.WHITE)
-                            snack?.show()
-                        } else {
-                            removeFromFavorites(item)
-                            snack?.dismiss()
-                            snack = null
-                            snack = content.buildSnackbar(
-                                    getString(R.string.removed_from_favorites, item.name),
-                                    Snackbar.LENGTH_SHORT)
-                            snack?.view?.findViewById<TextView>(
-                                    R.id.snackbar_text)?.setTextColor(Color.WHITE)
-                            snack?.show()
-                        }
+                        if (fromFavorites() || fromCollectionActivity())
+                            reallyPostToFavorites(item, check)
+                        else if (activity is FramesActivity)
+                            (activity as FramesActivity).postToFavorites(item, check)
                     }
                 })
                 heart.startAnimation(nScale)
             }
         })
         heart.startAnimation(scale)
+    }
+    
+    internal fun reallyPostToFavorites(item:Wallpaper, check:Boolean) {
+        if (check) addToFavorites(item) else removeFromFavorites(item)
+        snack?.dismiss()
+        snack = null
+        snack = content.buildSnackbar(
+                getString(
+                        if (check) R.string.added_to_favorites else R.string.removed_from_favorites,
+                        item.name),
+                Snackbar.LENGTH_SHORT)
+        snack?.view?.findViewById<TextView>(R.id.snackbar_text)?.setTextColor(Color.WHITE)
+        snack?.show()
     }
 }
