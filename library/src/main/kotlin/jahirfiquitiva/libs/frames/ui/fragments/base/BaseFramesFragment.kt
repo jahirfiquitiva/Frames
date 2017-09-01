@@ -46,7 +46,7 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
     
     override fun loadDataFromViewModel() {
         super.loadDataFromViewModel()
-        wallpapersModel.loadData(context)
+        if (!fromCollectionActivity()) wallpapersModel.loadData(context)
     }
     
     override fun unregisterObserver() {
@@ -73,8 +73,8 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
                 wallpapersModel.loadData(context, true)
             }
             2 -> {
-                favoritesModel.stopTask(true)
-                favoritesModel.loadData(getDatabase(), true)
+                favoritesModel?.stopTask(true)
+                getDatabase()?.let { favoritesModel?.loadData(it, true) }
             }
         }
     }

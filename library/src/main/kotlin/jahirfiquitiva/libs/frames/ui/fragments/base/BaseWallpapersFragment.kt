@@ -141,7 +141,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     }
     
     override fun applyFilter(filter:String) {
-        val list = if (fromFavorites()) favoritesModel.items.value else wallpapersModel.items.value
+        val list = if (fromFavorites()) favoritesModel?.items?.value else wallpapersModel.items.value
         if (filter.hasContent()) {
             rv.setEmptyImage(R.drawable.no_results)
             rv.setEmptyText(R.string.search_no_results)
@@ -161,7 +161,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     private fun onWallpaperClicked(wallpaper:Wallpaper, holder:WallpaperHolder) {
         val intent = Intent(activity, ViewerActivity::class.java)
         intent.putExtra("wallpaper", wallpaper)
-        intent.putExtra("inFavorites", favoritesModel.isInFavorites(wallpaper) == 1)
+        intent.putExtra("inFavorites", favoritesModel?.isInFavorites(wallpaper) ?: false)
         intent.putExtra("showFavoritesButton", showFavoritesIcon())
         val imgTransition = ViewCompat.getTransitionName(holder.img)
         val nameTransition = ViewCompat.getTransitionName(holder.name)

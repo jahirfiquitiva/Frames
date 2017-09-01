@@ -29,9 +29,6 @@ interface FavoritesDao {
     fun getFavorites():List<Wallpaper>
     
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(wallpaper:List<Wallpaper>)
-    
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addToFavorites(wallpaper:Wallpaper)
     
     @Delete

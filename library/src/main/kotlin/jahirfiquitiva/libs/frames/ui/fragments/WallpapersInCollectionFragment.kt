@@ -17,8 +17,6 @@ package jahirfiquitiva.libs.frames.ui.fragments
 
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
-import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
@@ -58,8 +56,20 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
     }
     
     override fun loadDataFromViewModel() {
+        super.loadDataFromViewModel()
         rv.state = EmptyViewRecyclerView.State.LOADING
         wallpapersModel.postResult(wallpapers)
+    }
+    
+    private fun areListsTheSame(old:ArrayList<Wallpaper>, new:ArrayList<Wallpaper>):Boolean {
+        return if (old.size != new.size) false
+        else {
+            var same = true
+            old.forEachIndexed { index, wallpaper ->
+                if (wallpaper != new[index] && same) same = false
+            }
+            same
+        }
     }
     
     companion object {

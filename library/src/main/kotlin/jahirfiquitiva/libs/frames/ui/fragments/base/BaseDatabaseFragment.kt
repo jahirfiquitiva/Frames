@@ -35,68 +35,74 @@ import jahirfiquitiva.libs.frames.helpers.extensions.buildSnackbar
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
-import jahirfiquitiva.libs.frames.ui.activities.FramesActivity
 import jahirfiquitiva.libs.frames.ui.widgets.SimpleAnimationListener
 import org.jetbrains.anko.runOnUiThread
 
 @Suppress("NAME_SHADOWING")
 abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseViewModelFragment<T>() {
     
-    internal lateinit var database:FavoritesDatabase
-    internal lateinit var favoritesModel:FavoritesViewModel
+    internal var database:FavoritesDatabase? = null
+    internal var favoritesModel:FavoritesViewModel? = null
     
     internal var snack:Snackbar? = null
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         initDatabase()
-    }
-    
-    open fun initDatabase() {
-        database = Room.databaseBuilder(context, FavoritesDatabase::class.java,
-                                        DATABASE_NAME).fallbackToDestructiveMigration().build()
         initViewModel()
     }
     
-    override fun initViewModel() {
-        favoritesModel = ViewModelProviders.of(activity).get(FavoritesViewModel::class.java)
+    private fun initDatabase() {
+        if (database == null) {
+            database = Room.databaseBuilder(context, FavoritesDatabase::class.java,
+                                            DATABASE_NAME).fallbackToDestructiveMigration().build()
+        }
     }
     
-    override fun registerObserver() = favoritesModel.items.observe(this, Observer { data ->
-        data?.let { doOnFavoritesChange(it) }
-    })
+    override fun initViewModel() {
+        initFavoritesViewModel()
+    }
+    
+    private fun initFavoritesViewModel() {
+        if (database == null) initDatabase()
+        if (favoritesModel == null) {
+            favoritesModel = ViewModelProviders.of(activity).get(FavoritesViewModel::class.java)
+        }
+    }
+    
+    override fun registerObserver() {
+        initFavoritesViewModel()
+        favoritesModel?.items?.observe(this, Observer { data ->
+            data?.let { doOnFavoritesChange(it) }
+        })
+    }
     
     override fun loadDataFromViewModel() {
-        favoritesModel.loadData(getDatabase())
+        initFavoritesViewModel()
+        getDatabase()?.let { favoritesModel?.loadData(it, true) }
     }
     
     override fun unregisterObserver() {
-        favoritesModel.items.removeObservers(this)
-        favoritesModel.stopTask(true)
+        favoritesModel?.items?.removeObservers(this)
+        favoritesModel?.stopTask(true)
     }
     
-    internal fun onHeartClicked(heart:ImageView, item:Wallpaper) {
-        val inFavs = isInFavorites(item)
-        if (inFavs >= 0) animateHeartClick(heart, item, inFavs == 0)
-        else {
-            snack?.dismiss()
-            snack = null
-            snack = content.buildSnackbar(getString(R.string.action_error_content),
-                                          Snackbar.LENGTH_SHORT)
-            snack?.view?.findViewById<TextView>(R.id.snackbar_text)?.setTextColor(Color.WHITE)
-            snack?.show()
-        }
-    }
+    internal fun onHeartClicked(heart:ImageView, item:Wallpaper) =
+            animateHeartClick(heart, item, !isInFavorites(item))
     
     open fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {}
     open fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {}
     
-    internal fun getDatabase():FavoritesDao = database.favoritesDao()
+    internal fun getDatabase():FavoritesDao? = database?.favoritesDao()
     
-    internal fun isInFavorites(item:Wallpaper) = favoritesModel.isInFavorites(item)
+    internal fun isInFavorites(item:Wallpaper):Boolean = favoritesModel?.isInFavorites(
+            item) ?: false
     
-    internal fun addToFavorites(item:Wallpaper) = favoritesModel.addToFavorites(item)
-    internal fun removeFromFavorites(item:Wallpaper) = favoritesModel.removeFromFavorites(item)
+    internal fun addToFavorites(item:Wallpaper) =
+            favoritesModel?.addToFavorites(item, { showErrorSnackbar() })
+    
+    internal fun removeFromFavorites(item:Wallpaper) =
+            favoritesModel?.removeFromFavorites(item, { showErrorSnackbar() })
     
     abstract fun onItemClicked(item:T, holder:VH)
     abstract fun fromCollectionActivity():Boolean
@@ -120,10 +126,13 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
                 nScale.setAnimationListener(object:SimpleAnimationListener() {
                     override fun onEnd(animation:Animation) {
                         super.onEnd(animation)
+                        reallyPostToFavorites(item, check)
+                        /*
                         if (fromFavorites() || fromCollectionActivity())
                             reallyPostToFavorites(item, check)
                         else if (activity is FramesActivity)
                             (activity as FramesActivity).postToFavorites(item, check)
+                            */
                     }
                 })
                 heart.startAnimation(nScale)
@@ -133,14 +142,28 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     }
     
     internal fun reallyPostToFavorites(item:Wallpaper, check:Boolean) {
-        if (check) addToFavorites(item) else removeFromFavorites(item)
         snack?.dismiss()
         snack = null
-        snack = content.buildSnackbar(
-                getString(
-                        if (check) R.string.added_to_favorites else R.string.removed_from_favorites,
-                        item.name),
-                Snackbar.LENGTH_SHORT)
+        try {
+            if (check) addToFavorites(item) else removeFromFavorites(item)
+            snack = content.buildSnackbar(
+                    getString(
+                            if (check) R.string.added_to_favorites else R.string.removed_from_favorites,
+                            item.name),
+                    Snackbar.LENGTH_SHORT)
+            snack?.view?.findViewById<TextView>(R.id.snackbar_text)?.setTextColor(Color.WHITE)
+            snack?.show()
+        } catch (e:Exception) {
+            e.printStackTrace()
+            showErrorSnackbar()
+        }
+    }
+    
+    internal fun showErrorSnackbar() {
+        snack?.dismiss()
+        snack = null
+        snack = content.buildSnackbar(getString(R.string.action_error_content),
+                                      Snackbar.LENGTH_SHORT)
         snack?.view?.findViewById<TextView>(R.id.snackbar_text)?.setTextColor(Color.WHITE)
         snack?.show()
     }

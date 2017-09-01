@@ -310,8 +310,8 @@ abstract class FramesActivity:BaseFramesActivity() {
             frag?.let {
                 if (it is BaseFramesFragment<*, *>) {
                     try {
-                        it.favoritesModel.stopTask(true)
-                        it.favoritesModel.forceUpdateFavorites(list)
+                        it.favoritesModel?.stopTask(true)
+                        it.favoritesModel?.forceUpdateFavorites(list)
                     } catch (ignored:Exception) {
                     }
                 }

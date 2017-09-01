@@ -58,6 +58,7 @@ abstract class ListViewModel<Parameter, Result>:ViewModel() {
             }
     
     internal fun postResult(data:ArrayList<Result>) {
+        items.value?.clear()
         items.postValue(ArrayList(data.distinct()))
         observer?.onValuePosted(ArrayList(data.distinct()))
     }
