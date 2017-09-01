@@ -66,7 +66,7 @@ class WallpapersViewModel:ViewModel() {
                                        postResult(loadWallpapers(param, ""))
                                    })
         request.tag = REQUEST_TAG
-        request.retryPolicy = DefaultRetryPolicy(0, 3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        request.retryPolicy = DefaultRetryPolicy(4000, 2, 1.5F)
         queue?.add(request)
         queue?.start()
     }

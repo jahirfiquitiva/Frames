@@ -218,7 +218,7 @@ abstract class FramesActivity:BaseFramesActivity() {
                 data?.let {
                     try {
                         val nFavs = data.getSerializableExtra("nFavs") as ArrayList<Wallpaper>
-                        setNewFavorites(nFavs)
+                        if (nFavs.isNotEmpty()) setNewFavorites(nFavs)
                     } catch (e:Exception) {
                         e.printStackTrace()
                     }
