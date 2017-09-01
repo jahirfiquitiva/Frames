@@ -28,7 +28,8 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CreditHeaderViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.DashboardCreditViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SimpleCreditViewHolder
 
-class CreditsAdapter(private val manager:RequestManager, private val credits:ArrayList<Credit>):
+class CreditsAdapter(private val manager:RequestManager, private val hasOwnCredits:Boolean,
+                     private val credits:ArrayList<Credit>):
         SectionedRecyclerViewAdapter<SectionedViewHolder>() {
     
     init {
@@ -43,7 +44,7 @@ class CreditsAdapter(private val manager:RequestManager, private val credits:Arr
         }
     }
     
-    override fun getSectionCount():Int = 4
+    override fun getSectionCount():Int = if (hasOwnCredits) 4 else 3
     
     override fun getItemViewType(section:Int, relativePosition:Int,
                                  absolutePosition:Int):Int = section
@@ -52,7 +53,7 @@ class CreditsAdapter(private val manager:RequestManager, private val credits:Arr
                                   absolutePosition:Int) {
         holder?.let {
             if (it is DashboardCreditViewHolder) {
-                when (section) {
+                when (if (hasOwnCredits) section else (section + 1)) {
                     0 -> it.setItem(manager,
                                     credits.filter { it.type == Credit.Type.CREATOR }[relativePosition])
                     1 -> it.setItem(manager,
@@ -66,18 +67,19 @@ class CreditsAdapter(private val manager:RequestManager, private val credits:Arr
         }
     }
     
-    override fun getItemCount(section:Int):Int = when (section) {
-        0 -> credits.filter { it.type == Credit.Type.CREATOR }.size
-        1 -> credits.filter { it.type == Credit.Type.DASHBOARD }.size
-        2 -> credits.filter { it.type == Credit.Type.DEV_CONTRIBUTION }.size
-        3 -> credits.filter { it.type == Credit.Type.UI_CONTRIBUTION }.size
-        else -> 0
-    }
+    override fun getItemCount(section:Int):Int =
+            when (if (hasOwnCredits) section else (section + 1)) {
+                0 -> credits.filter { it.type == Credit.Type.CREATOR }.size
+                1 -> credits.filter { it.type == Credit.Type.DASHBOARD }.size
+                2 -> credits.filter { it.type == Credit.Type.DEV_CONTRIBUTION }.size
+                3 -> credits.filter { it.type == Credit.Type.UI_CONTRIBUTION }.size
+                else -> 0
+            }
     
     override fun onBindHeaderViewHolder(holder:SectionedViewHolder?, section:Int,
                                         expanded:Boolean) {
         if (holder is CreditHeaderViewHolder) {
-            when (section) {
+            when (if (hasOwnCredits) section else (section + 1)) {
                 0 -> {
                     holder.setTitle(R.string.app_name, expanded)
                     holder.icon?.gone()
@@ -95,7 +97,7 @@ class CreditsAdapter(private val manager:RequestManager, private val credits:Arr
     }
     
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):SectionedViewHolder =
-            when (viewType) {
+            when (if (hasOwnCredits) viewType else (viewType + 1)) {
                 0, 1 -> DashboardCreditViewHolder(parent?.inflate(R.layout.item_credits))
                 2, 3 -> SimpleCreditViewHolder(parent?.inflate(R.layout.item_credits))
                 else -> CreditHeaderViewHolder(parent?.inflate(R.layout.item_section_header))

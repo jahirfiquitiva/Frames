@@ -318,5 +318,4 @@ abstract class FramesActivity:BaseFramesActivity() {
             }
         }
     }
-    
 }

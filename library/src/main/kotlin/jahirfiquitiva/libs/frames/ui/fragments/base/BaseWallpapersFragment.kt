@@ -213,7 +213,6 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         }
     }
     
-    abstract fun fromCollectionActivity():Boolean
     abstract fun fromFavorites():Boolean
     abstract fun showFavoritesIcon():Boolean
 }

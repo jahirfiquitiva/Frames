@@ -66,7 +66,7 @@ open class SettingsFragment:PreferenceFragment() {
     
     open fun initPreferences() {
         database = Room.databaseBuilder(activity, FavoritesDatabase::class.java,
-                                        DATABASE_NAME).build()
+                                        DATABASE_NAME).fallbackToDestructiveMigration().build()
         
         addPreferencesFromResource(R.xml.preferences)
         

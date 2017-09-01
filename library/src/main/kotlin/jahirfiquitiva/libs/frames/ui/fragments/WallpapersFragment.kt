@@ -16,6 +16,8 @@
 package jahirfiquitiva.libs.frames.ui.fragments
 
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
+import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
 
 class WallpapersFragment:BaseWallpapersFragment() {

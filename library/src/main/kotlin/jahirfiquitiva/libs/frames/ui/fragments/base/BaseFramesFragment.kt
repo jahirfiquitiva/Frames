@@ -40,7 +40,7 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
             data?.let { doOnCollectionsChange(it) }
         })
         wallpapersModel.items.observe(this, Observer { data ->
-            data?.let { doOnWallpapersChange(it, false) }
+            data?.let { doOnWallpapersChange(it, fromCollectionActivity()) }
         })
     }
     
@@ -79,6 +79,7 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
         }
     }
     
+    abstract fun fromCollectionActivity():Boolean
     abstract fun applyFilter(filter:String)
     abstract fun scrollToTop()
 }

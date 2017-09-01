@@ -35,7 +35,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 
-
 open class CollectionActivity:BaseActivityWithFragments() {
     
     override fun lightTheme():Int = R.style.LightTheme
@@ -48,6 +47,7 @@ open class CollectionActivity:BaseActivityWithFragments() {
     private var fragmentLoaded = false
     private var closing = false
     private var collection:Collection? = null
+    
     private lateinit var frag:WallpapersInCollectionFragment
     
     override fun onCreate(savedInstanceState:Bundle?) {
@@ -101,7 +101,7 @@ open class CollectionActivity:BaseActivityWithFragments() {
         collection?.let {
             if (!fragmentLoaded) {
                 fragmentLoaded = true
-                frag = WallpapersInCollectionFragment.invoke(it, it.wallpapers)
+                frag = WallpapersInCollectionFragment.create(it, it.wallpapers)
                 changeFragment(frag)
             }
         }

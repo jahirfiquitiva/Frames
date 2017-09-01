@@ -30,8 +30,8 @@ class FadeAnimator:ViewPropertyAnimation.Animator {
         view?.let {
             if (!it.isEnabled) {
                 it.isEnabled = true
-                val animator = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f)
-                animator.duration = 250
+                val animator = ObjectAnimator.ofFloat(view, "alpha", 0F, 1F)
+                animator.duration = 350
                 animator.interpolator = AccelerateDecelerateInterpolator()
                 animator.start()
             }

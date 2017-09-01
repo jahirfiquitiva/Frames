@@ -17,6 +17,8 @@ package jahirfiquitiva.libs.frames.ui.fragments
 
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
+import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
@@ -61,7 +63,7 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
     }
     
     companion object {
-        fun invoke(collection:Collection, wallpapers:ArrayList<Wallpaper>):
+        fun create(collection:Collection, wallpapers:ArrayList<Wallpaper>):
                 WallpapersInCollectionFragment {
             return WallpapersInCollectionFragment().apply {
                 this.collection = collection

@@ -53,7 +53,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     
     open fun initDatabase() {
         database = Room.databaseBuilder(context, FavoritesDatabase::class.java,
-                                        DATABASE_NAME).build()
+                                        DATABASE_NAME).fallbackToDestructiveMigration().build()
         initViewModel()
     }
     
@@ -82,8 +82,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
             snack = null
             snack = content.buildSnackbar(getString(R.string.action_error_content),
                                           Snackbar.LENGTH_SHORT)
-            snack?.view?.findViewById<TextView>(
-                    R.id.snackbar_text)?.setTextColor(Color.WHITE)
+            snack?.view?.findViewById<TextView>(R.id.snackbar_text)?.setTextColor(Color.WHITE)
             snack?.show()
         }
     }

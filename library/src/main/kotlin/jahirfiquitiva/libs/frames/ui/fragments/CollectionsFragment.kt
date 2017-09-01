@@ -27,6 +27,9 @@ import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
+import jahirfiquitiva.libs.frames.helpers.configs.isLowRamDevice
+import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
 import jahirfiquitiva.libs.frames.ui.adapters.CollectionsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
@@ -54,7 +57,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         }
         
         rv = content.findViewById(R.id.list_rv)
-        rv.itemAnimator = DefaultItemAnimator()
+        rv.itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
         rv.textView = content.findViewById(R.id.empty_text)
         rv.emptyView = content.findViewById(R.id.empty_view)
         rv.setEmptyImage(R.drawable.empty_section)
@@ -98,6 +101,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     }
     
     override fun reloadData(section:Int) {
+        swipeToRefresh.isRefreshing = true
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
     }
@@ -134,4 +138,5 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     }
     
     override fun autoStartLoad():Boolean = true
+    override fun fromCollectionActivity():Boolean = false
 }

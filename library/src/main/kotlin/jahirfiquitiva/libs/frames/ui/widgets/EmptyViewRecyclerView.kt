@@ -29,6 +29,7 @@ import ca.allanwang.kau.utils.visibleIf
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import jahirfiquitiva.libs.frames.helpers.extensions.loadResource
+import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 
 open class EmptyViewRecyclerView:RecyclerView {
@@ -89,7 +90,7 @@ open class EmptyViewRecyclerView:RecyclerView {
     constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int)
             :super(context, attributeSet, defStyleAttr)
     
-    fun forceUpdateState(){
+    fun forceUpdateState() {
         setStateInternal()
     }
     
@@ -112,9 +113,9 @@ open class EmptyViewRecyclerView:RecyclerView {
             State.EMPTY -> emptyText
             else -> ""
         }
-        textView?.text = rightText
+        if (rightText.hasContent()) textView?.text = rightText
         textView?.setTextColor(context.secondaryTextColor)
-        textView?.visibleIf(state != State.NORMAL)
+        textView?.visibleIf(state != State.NORMAL && rightText.hasContent())
         loadingView?.visibleIf(state == State.LOADING)
         emptyView?.visibleIf(state == State.EMPTY)
         visibleIf(state == State.NORMAL)
