@@ -33,7 +33,6 @@ import jahirfiquitiva.libs.frames.helpers.utils.AsyncTaskManager
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 import org.json.JSONArray
 import org.json.JSONObject
