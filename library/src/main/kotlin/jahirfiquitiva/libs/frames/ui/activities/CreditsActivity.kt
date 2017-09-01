@@ -22,6 +22,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import com.bumptech.glide.Glide
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import de.psdev.licensesdialog.LicenseResolver
 import de.psdev.licensesdialog.LicensesDialog
@@ -74,18 +75,22 @@ open class CreditsActivity:ThemedActivity() {
                                               GridLayoutManager.VERTICAL, false)
         rv.layoutManager = layoutManager
         
-        val adapter = CreditsAdapter(buildCreditsList())
+        val hasOwnCredits = hasOwnCredits()
+        
+        val adapter = CreditsAdapter(Glide.with(this), hasOwnCredits, buildCreditsList())
         adapter.setLayoutManager(layoutManager)
-        rv.setAdapter(adapter, true)
+        rv.adapter = adapter
         
         fastScroll = findViewById(R.id.fast_scroller)
         fastScroll.attachRecyclerView(rv)
         
         try {
-            adapter.collapseSection(2)
-            adapter.collapseSection(3)
+            adapter.collapseSection(if (hasOwnCredits) 2 else 1)
+            adapter.collapseSection(if (hasOwnCredits) 3 else 2)
         } catch (ignored:Exception) {
         }
+        
+        rv.state = EmptyViewRecyclerView.State.NORMAL
     }
     
     override fun onCreateOptionsMenu(menu:Menu?):Boolean {
@@ -162,20 +167,33 @@ open class CreditsActivity:ThemedActivity() {
         LicenseResolver.registerLicense(eclLicense)
     }
     
+    private fun hasOwnCredits():Boolean {
+        return try {
+            val titles = getStringArray(R.array.credits_titles)
+            val descriptions = getStringArray(R.array.credits_descriptions)
+            val photos = getStringArray(R.array.credits_photos)
+            !(titles.isEmpty() || descriptions.isEmpty() || photos.isEmpty())
+        } catch (ignored:Exception) {
+            false
+        }
+    }
+    
     private fun buildCreditsList():ArrayList<Credit> {
         val list = ArrayList<Credit>()
         
         try {
-            val titles = getStringArray(R.array.credits_titles)
-            val descriptions = getStringArray(R.array.credits_descriptions)
-            val photos = getStringArray(R.array.credits_photos)
-            val buttons = getStringArray(R.array.credits_buttons)
-            val links = getStringArray(R.array.credits_links)
-            
-            if (descriptions.size == titles.size && photos.size == titles.size) {
-                (0 until titles.size).mapTo(list) {
-                    Credit(Credit.Type.CREATOR, photos[it], titles[it], descriptions[it],
-                           buttons[it].split("|"), links[it].split("|"))
+            if (hasOwnCredits()) {
+                val titles = getStringArray(R.array.credits_titles)
+                val descriptions = getStringArray(R.array.credits_descriptions)
+                val photos = getStringArray(R.array.credits_photos)
+                val buttons = getStringArray(R.array.credits_buttons)
+                val links = getStringArray(R.array.credits_links)
+                
+                if (descriptions.size == titles.size && photos.size == titles.size) {
+                    (0 until titles.size).mapTo(list) {
+                        Credit(Credit.Type.CREATOR, photos[it], titles[it], descriptions[it],
+                               buttons[it].split("|"), links[it].split("|"))
+                    }
                 }
             }
             

@@ -18,11 +18,11 @@ package jahirfiquitiva.libs.frames.ui.activities
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
 import android.transition.Transition
 import android.view.MenuItem
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import jahirfiquitiva.libs.frames.R
@@ -44,52 +44,80 @@ open class CollectionActivity:BaseActivityWithFragments() {
     override fun hasBottomBar():Boolean = true
     override fun fragmentsContainer():Int = R.id.fragments_container
     
+    private var fragmentLoaded = false
+    private var closing = false
     private var collection:Collection? = null
+    
     private lateinit var frag:WallpapersInCollectionFragment
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_with_fragments)
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val decor = window.decorView
+            val statusBar = decor.findViewById<View>(android.R.id.statusBarBackground)
+            val navBar = decor.findViewById<View>(android.R.id.navigationBarBackground)
+            val actionBar = decor.findViewById<View>(R.id.action_bar_container)
+            
+            val viewsToExclude = arrayOf(statusBar, navBar, actionBar)
+            val extraViewsToExclude = arrayOf(R.id.appbar, R.id.toolbar, R.id.tabs)
+            
+            viewsToExclude.forEach { window.sharedElementEnterTransition?.excludeTarget(it, true) }
+            extraViewsToExclude.forEach {
+                window.sharedElementEnterTransition?.excludeTarget(it, true)
+            }
+            
+            window.enterTransition?.addListener(object:Transition.TransitionListener {
+                override fun onTransitionPause(p0:Transition?) = loadFragment()
+                override fun onTransitionCancel(p0:Transition?) = loadFragment()
+                override fun onTransitionEnd(p0:Transition?) = loadFragment()
+                override fun onTransitionStart(p0:Transition?) {}
+                override fun onTransitionResume(p0:Transition?) {}
+            })
+        }
+        
+        setContentView(R.layout.activity_collection_settings)
+        
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        val toolbarTitle = findViewById<TextView>(R.id.toolbar_title)
         
         setSupportActionBar(toolbar)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         
-        toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
-                     getSecondaryTextColorFor(primaryColor, 0.6F),
-                     getActiveIconsColorFor(primaryColor, 0.6F))
-        toolbarTitle.setTextColor(getPrimaryTextColorFor(primaryColor, 0.6F))
-        
         val container = findViewById<FrameLayout>(fragmentsContainer())
         container?.let {
             it.setPadding(it.paddingLeft, it.paddingTop, it.paddingRight, 0)
         }
         
-        ViewCompat.setTransitionName(toolbarTitle, "title")
-        
         collection = intent?.getParcelableExtra("item")
-        toolbarTitle.text = collection?.name ?: ""
-        
-        val bundle = Bundle()
-        bundle.putParcelable("collection", collection)
-        frag = WallpapersInCollectionFragment.newInstance(bundle)
-        changeFragment(frag)
-        
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val transition = window.sharedElementEnterTransition
-            transition?.addListener(object:Transition.TransitionListener {
-                override fun onTransitionEnd(p0:Transition?) {
-                    frag.loadDataFromViewModel()
-                }
-                
-                override fun onTransitionResume(p0:Transition?) {}
-                override fun onTransitionPause(p0:Transition?) {}
-                override fun onTransitionCancel(p0:Transition?) {}
-                override fun onTransitionStart(p0:Transition?) {}
-            })
+        setupToolbarTitle(toolbar)
+        toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
+                     getSecondaryTextColorFor(primaryColor, 0.6F),
+                     getActiveIconsColorFor(primaryColor, 0.6F))
+    }
+    
+    private fun loadFragment() {
+        collection?.let {
+            if (!fragmentLoaded) {
+                fragmentLoaded = true
+                frag = WallpapersInCollectionFragment.create(it, it.wallpapers)
+                changeFragment(frag)
+            }
+        }
+    }
+    
+    private fun setupToolbarTitle(toolbar:Toolbar) {
+        val title:TextView
+        try {
+            val f = toolbar.javaClass.getDeclaredField("mTitleTextView")
+            f.isAccessible = true
+            title = f.get(toolbar) as TextView
+            title.text = collection?.name ?: ""
+            toolbar.title = collection?.name ?: ""
+            supportActionBar?.title = collection?.name ?: ""
+            ViewCompat.setTransitionName(title, "title")
+        } catch (ignored:Exception) {
         }
     }
     
@@ -103,11 +131,15 @@ open class CollectionActivity:BaseActivityWithFragments() {
     override fun onBackPressed() = doFinish()
     
     private fun doFinish() {
-        val intent = Intent()
-        intent.putExtra("nFavs", frag.newFavs)
-        setResult(11, intent)
-        ActivityCompat.finishAfterTransition(this)
-        overridePendingTransition(0, 0)
+        if (!closing) {
+            closing = true
+            val intent = Intent()
+            try {
+                intent.putExtra("nFavs", frag.newFavs)
+            } catch (ignored:Exception) {
+            }
+            setResult(11, intent)
+            supportFinishAfterTransition()
+        }
     }
-    
 }

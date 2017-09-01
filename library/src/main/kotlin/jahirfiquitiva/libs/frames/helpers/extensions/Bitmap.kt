@@ -16,8 +16,17 @@
 package jahirfiquitiva.libs.frames.helpers.extensions
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.util.DisplayMetrics
+
+fun Bitmap.createRoundedDrawable(context:Context):Drawable {
+    val roundedPic = RoundedBitmapDrawableFactory.create(context.resources, this)
+    roundedPic.isCircular = true
+    return roundedPic
+}
 
 fun Bitmap.adjustToDeviceScreen(activity:Activity):Bitmap {
     var flag = true

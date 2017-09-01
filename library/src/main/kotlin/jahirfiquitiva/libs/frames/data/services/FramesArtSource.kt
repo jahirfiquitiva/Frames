@@ -110,8 +110,7 @@ class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleReg
             wallsVM?.setCustomObserver(object:ListViewModel.CustomObserver<ArrayList<Wallpaper>> {
                 override fun onValuePosted(data:ArrayList<Wallpaper>) {
                     if (data.isNotEmpty()) {
-                        val realData = ArrayList<Wallpaper>()
-                        realData.addAll(data.filter { validWallpaper(it) }.distinct())
+                        val realData = getValidWallpapersList(data)
                         
                         if (framesKonfigs.muzeiCollections.contains("favorites", true)) {
                             favsDB = Room.databaseBuilder(this@FramesArtSource,
@@ -121,7 +120,9 @@ class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleReg
                             favsVM?.setCustomObserver(
                                     object:ListViewModel.CustomObserver<ArrayList<Wallpaper>> {
                                         override fun onValuePosted(data:ArrayList<Wallpaper>) {
-                                            realData.addAll(data.distinct())
+                                            realData.addAll(getValidWallpapersList(data))
+                                            realData.distinct()
+                                            if (realData.isEmpty()) return
                                             chooseRandomWallpaperAndPost(realData)
                                         }
                                     })
@@ -129,9 +130,11 @@ class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleReg
                             if (dao != null) {
                                 favsVM?.loadData(dao, true)
                             } else {
+                                if (realData.isEmpty()) return
                                 chooseRandomWallpaperAndPost(realData)
                             }
                         } else {
+                            if (realData.isEmpty()) return
                             chooseRandomWallpaperAndPost(realData)
                         }
                     }
@@ -145,22 +148,31 @@ class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleReg
     
     private fun chooseRandomWallpaperAndPost(list:ArrayList<Wallpaper>) {
         list.distinct()
-        val wallpaper = list[getRandomIndex(list.size)]
+        val randomIndex = getRandomIndex(list.size)
+        if (randomIndex < 0 || randomIndex >= list.size) return
+        val wallpaper = list[randomIndex]
         publishToMuzei(wallpaper.name, wallpaper.author, wallpaper.url)
+    }
+    
+    private fun getValidWallpapersList(original:ArrayList<Wallpaper>):ArrayList<Wallpaper> {
+        val newList = ArrayList<Wallpaper>()
+        original.forEach { if (validWallpaper(it)) newList.add(it) }
+        newList.distinct()
+        return newList
     }
     
     private fun validWallpaper(item:Wallpaper):Boolean {
         val collections = item.collections.split("[,|]".toRegex())
-        if (collections.isEmpty()) return true
-        var valid = false
-        collections.forEach {
-            val correct = it.formatCorrectly().replace("_", " ")
-            val selected = framesKonfigs.muzeiCollections.split(",")
+        val selected = framesKonfigs.muzeiCollections.split("[,|]".toRegex())
+        if (collections.isEmpty() || selected.isEmpty()) return true
+        for (collection in collections) {
+            val correct = collection.formatCorrectly().replace("_", " ")
             selected.forEach {
-                if (correct.equals(it, true) && !valid) valid = true
+                if (!(it.hasContent()) || it.equals(collection, true) || it.equals(correct, true))
+                    return true
             }
         }
-        return valid
+        return false
     }
     
     override fun onLowMemory() {

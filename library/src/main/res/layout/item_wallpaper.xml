@@ -41,6 +41,7 @@
             android:paddingRight="@dimen/fabs_margin"
             android:layout_gravity="start|bottom"
             android:gravity="start|bottom"
+            android:clipChildren="false"
             tools:ignore="UseCompoundDrawables">
 
         <LinearLayout
@@ -49,7 +50,8 @@
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:layout_gravity="center_vertical"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:clipChildren="false">
 
             <TextView
                     android:id="@+id/wallpaper_name"
@@ -80,7 +82,7 @@
 
         </LinearLayout>
 
-        <jahirfiquitiva.libs.frames.ui.widgets.CheckableImageView
+        <ImageView
                 android:id="@+id/heart_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

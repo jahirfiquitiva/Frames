@@ -16,6 +16,8 @@
 package jahirfiquitiva.libs.frames.ui.fragments
 
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
+import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
 
 class WallpapersFragment:BaseWallpapersFragment() {
@@ -30,6 +32,7 @@ class WallpapersFragment:BaseWallpapersFragment() {
     }
     
     override fun autoStartLoad():Boolean = true
+    override fun fromCollectionActivity():Boolean = false
     override fun fromFavorites():Boolean = false
     override fun showFavoritesIcon():Boolean = true
 }

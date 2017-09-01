@@ -15,19 +15,19 @@
  */
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-apply from: './dependencies.gradle'
 
 buildscript {
-    apply from: './dependencies.gradle'
-
     repositories {
         jcenter()
         maven { url 'https://maven.google.com' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:' + versions.gradlePlugin
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:' + versions.kotlin
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:' + versions.libPubPlugin
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.4-3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+
+        // TODO: Remove comment marks if you plan on implementing Firebase Notifications
+        // classpath 'com.google.gms:google-services:3.1.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -35,6 +35,39 @@ buildscript {
 }
 
 allprojects {
+
+    project.ext {
+        // Core app details
+        appId = 'Frames'
+        appGroup = 'jahirfiquitiva.apps'
+        libGroup = 'jahirfiquitiva.libs'
+        libPublishGroup = 'me.jahirfiquitiva'
+        minSdk = 16
+        targetSdk = 26
+        compileSdk = 26
+        buildTools = '26.0.1'
+        versionCode = 105
+        versionName = '1.0.5'
+        gradlePlugin = '2.3.3'
+        libPubPlugin = '1.5'
+        kotlin = '1.1.4-3'
+        // Libraries versions
+        supportLibs = '26.0.2'
+        archComponents = '1.0.0-alpha9'
+        materialDialogs = '0.9.4.7'
+        glide = '3.7.0' // 4.0.0
+        volley = '1.0.0'
+        kauExt = '219e8a4'
+        sectionedRecyclerView = '0.5.0'
+        recyclerViewFastScroll = 'f08746f'
+        mnp = '1.2.1'
+        subsImageView = '3.6.0'
+        iaps = '1.0.44'
+        muzeiApi = '2.0'
+        licensesDialog = '1.8.3'
+        checker = '1.1'
+    }
+
     repositories {
         jcenter()
         mavenCentral()

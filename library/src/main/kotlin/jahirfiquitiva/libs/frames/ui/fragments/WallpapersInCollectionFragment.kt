@@ -15,14 +15,18 @@
  */
 package jahirfiquitiva.libs.frames.ui.fragments
 
-import android.os.Bundle
+import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
+import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 
 class WallpapersInCollectionFragment:BaseWallpapersFragment() {
     
+    private var collection:Collection? = null
+    private var wallpapers = ArrayList<Wallpaper>()
     private var firstFavsModification = true
+    
     var newFavs = ArrayList<Wallpaper>()
     
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
@@ -51,16 +55,25 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
         }
     }
     
+    override fun loadDataFromViewModel() {
+        super.loadDataFromViewModel()
+        rv.state = EmptyViewRecyclerView.State.LOADING
+        wallpapersModel.postResult(wallpapers)
+    }
+    
     companion object {
-        @JvmStatic
-        fun newInstance(args:Bundle):WallpapersInCollectionFragment {
-            val newsFragment = WallpapersInCollectionFragment()
-            newsFragment.arguments = args
-            return newsFragment
+        fun create(collection:Collection, wallpapers:ArrayList<Wallpaper>):
+                WallpapersInCollectionFragment {
+            return WallpapersInCollectionFragment().apply {
+                this.collection = collection
+                this.wallpapers.clear()
+                this.wallpapers.addAll(wallpapers)
+            }
         }
     }
     
-    override fun autoStartLoad():Boolean = false
+    override fun autoStartLoad():Boolean = true
+    override fun fromCollectionActivity():Boolean = true
     override fun fromFavorites():Boolean = false
     override fun showFavoritesIcon():Boolean = true
 }

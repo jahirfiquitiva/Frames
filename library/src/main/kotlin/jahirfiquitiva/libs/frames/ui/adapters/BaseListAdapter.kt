@@ -16,21 +16,53 @@
 
 package jahirfiquitiva.libs.frames.ui.adapters
 
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
+import jahirfiquitiva.libs.frames.helpers.extensions.clearChildrenAnimations
+import jahirfiquitiva.libs.frames.helpers.utils.diff.BaseDiffCallback
 import jahirfiquitiva.libs.frames.ui.adapters.presenters.ItemsAdapterPresenter
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideViewHolder
 
 abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>:
         RecyclerView.Adapter<VH>(), ItemsAdapterPresenter<T> {
     
+    private var lastAnimatedPosition = -1
     val list = ArrayList<T>()
     
     override fun onBindViewHolder(holder:VH, position:Int) {
         if (position in 0..itemCount) {
-            doBind(holder, position)
+            if (position > lastAnimatedPosition) {
+                lastAnimatedPosition = position
+                doBind(holder, position, true)
+            } else {
+                doBind(holder, position, false)
+            }
         }
     }
     
-    abstract fun doBind(holder:VH, position:Int)
+    override fun onBindViewHolder(holder:VH, position:Int, payloads:MutableList<Any>?) {
+        if (payloads != null) {
+            if (payloads.isNotEmpty()) {
+                doBind(holder, position, true)
+            } else {
+                onBindViewHolder(holder, position)
+            }
+        } else {
+            onBindViewHolder(holder, position)
+        }
+    }
+    
+    abstract fun doBind(holder:VH, position:Int, shouldAnimate:Boolean)
+    
+    override fun onViewDetachedFromWindow(holder:VH) {
+        super.onViewDetachedFromWindow(holder)
+        holder.itemView?.clearChildrenAnimations()
+    }
+    
+    override fun onViewRecycled(holder:VH) {
+        super.onViewRecycled(holder)
+        if (holder is GlideViewHolder) holder.onRecycled()
+    }
     
     override fun getItemCount():Int = list.size
     
@@ -40,16 +72,28 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>:
         notifyItemRangeRemoved(0, size)
     }
     
-    override fun addAll(items:ArrayList<T>) {
+    override fun addAll(newItems:ArrayList<T>) {
         val prevSize = itemCount
-        list.addAll(items)
-        notifyItemRangeInserted(prevSize, items.size)
+        list.addAll(newItems)
+        notifyItemRangeInserted(prevSize, newItems.size)
     }
     
-    override fun setItems(items:ArrayList<T>) {
+    override fun setItems(newItems:ArrayList<T>) {
         list.clear()
-        list.addAll(items)
+        list.addAll(newItems)
         notifyDataSetChanged()
+    }
+    
+    override fun updateItems(newItems:ArrayList<T>, detectMoves:Boolean) {
+        updateItems(newItems, object:BaseDiffCallback<T>(list, newItems) {}, detectMoves)
+    }
+    
+    override fun updateItems(newItems:ArrayList<T>, callback:BaseDiffCallback<T>,
+                             detectMoves:Boolean) {
+        val result = DiffUtil.calculateDiff(callback, detectMoves)
+        list.clear()
+        list.addAll(newItems)
+        result.dispatchUpdatesTo(this)
     }
     
     override fun removeItem(item:T) {
@@ -67,10 +111,9 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>:
         notifyItemRangeChanged(index, prevSize)
     }
     
-    override fun addItem(item:T) {
+    override fun addItem(newItem:T) {
         val prevSize = itemCount
-        list.add(item)
+        list.add(newItem)
         notifyItemRangeInserted(prevSize, itemCount)
     }
-    
 }

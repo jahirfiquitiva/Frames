@@ -18,6 +18,8 @@ package jahirfiquitiva.libs.frames.ui.fragments
 import android.Manifest
 import android.annotation.SuppressLint
 import android.arch.persistence.room.Room
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.preference.Preference
@@ -44,6 +46,7 @@ import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
+import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.konfigs
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import org.jetbrains.anko.doAsync
@@ -63,7 +66,7 @@ open class SettingsFragment:PreferenceFragment() {
     
     open fun initPreferences() {
         database = Room.databaseBuilder(activity, FavoritesDatabase::class.java,
-                                        DATABASE_NAME).build()
+                                        DATABASE_NAME).fallbackToDestructiveMigration().build()
         
         addPreferencesFromResource(R.xml.preferences)
         
@@ -195,6 +198,50 @@ open class SettingsFragment:PreferenceFragment() {
         } else {
             storagePrefs.removePreference(clearDatabase)
         }
+        
+        val notifPref = findPreference("enable_notifications") as SwitchPreference
+        
+        val serviceAvailable = isNotificationsServiceAvailable()
+        
+        notifPref.isEnabled = serviceAvailable
+        notifPref.isChecked = activity.framesKonfigs.notificationsEnabled && serviceAvailable
+        notifPref.setOnPreferenceChangeListener { _, any ->
+            val enable = any.toString().equals("true", true)
+            if (enable != activity.framesKonfigs.notificationsEnabled) {
+                activity.framesKonfigs.notificationsEnabled = enable
+            }
+            true
+        }
+    }
+    
+    private fun getNotificationsClass():Class<*>? {
+        return try {
+            val className = context.getString(R.string.notifications_class)
+            if (className.hasContent()) Class.forName(className)
+            else null
+        } catch (e:Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+    
+    private fun isNotificationsServiceAvailable():Boolean {
+        return try {
+            val packageManager = context.packageManager
+            val klass = getNotificationsClass()
+            val notNull = klass?.let { true } ?: false
+            if (notNull) {
+                val intent = Intent(context, klass)
+                val resolveInfo = packageManager.queryIntentServices(intent,
+                                                                     PackageManager.MATCH_DEFAULT_ONLY)
+                resolveInfo.size > 0
+            } else {
+                false
+            }
+        } catch (ex:Exception) {
+            ex.printStackTrace()
+            false
+        }
     }
     
     fun requestPermission() = activity.checkPermission(
@@ -245,5 +292,4 @@ open class SettingsFragment:PreferenceFragment() {
         super.onDestroy()
         clearDialog()
     }
-    
 }

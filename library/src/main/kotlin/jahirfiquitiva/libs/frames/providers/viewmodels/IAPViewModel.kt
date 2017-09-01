@@ -28,8 +28,8 @@ class IAPViewModel:ListViewModel<Array<String>, IAPItem>() {
                 val id = it
                 val item = iapBillingProcessor?.getPurchaseListingDetails(id)
                 item?.let {
-                    val name = it.title.substring(0, it.title.lastIndexOf("("))
-                    iaps.add(IAPItem(id, name, it.priceText))
+                    val name = it.title.substring(0, it.title.lastIndexOf("(")).trim()
+                    iaps.add(IAPItem(id, name, it.priceText.trim()))
                 }
             }
         } catch (ignored:Exception) {

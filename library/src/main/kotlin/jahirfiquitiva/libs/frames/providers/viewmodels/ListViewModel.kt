@@ -23,8 +23,8 @@ import jahirfiquitiva.libs.frames.helpers.utils.AsyncTaskManager
 abstract class ListViewModel<Parameter, Result>:ViewModel() {
     
     val items = MutableLiveData<ArrayList<Result>>()
-    var param:Parameter? = null
-    var task:AsyncTaskManager<ArrayList<Result>, Parameter>? = null
+    internal var param:Parameter? = null
+    private var task:AsyncTaskManager<ArrayList<Result>, Parameter>? = null
     private var observer:CustomObserver<ArrayList<Result>>? = null
     
     fun setCustomObserver(observer:CustomObserver<ArrayList<Result>>) {
@@ -32,6 +32,7 @@ abstract class ListViewModel<Parameter, Result>:ViewModel() {
     }
     
     fun loadData(parameter:Parameter, forceLoad:Boolean = false) {
+        stopTask(true)
         param = parameter
         task = AsyncTaskManager(parameter, {},
                                 { internalLoad(it, forceLoad) },
@@ -57,6 +58,7 @@ abstract class ListViewModel<Parameter, Result>:ViewModel() {
             }
     
     internal fun postResult(data:ArrayList<Result>) {
+        items.value?.clear()
         items.postValue(ArrayList(data.distinct()))
         observer?.onValuePosted(ArrayList(data.distinct()))
     }

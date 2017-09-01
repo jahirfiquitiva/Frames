@@ -28,4 +28,6 @@
     </string-array>
 
     <bool name="isFrames">true</bool>
+
+    <string name="frames_notifications_action">"jahirfiquitiva.libs.frames.NOTIFICATIONS_ACTION"</string>
 </resources>

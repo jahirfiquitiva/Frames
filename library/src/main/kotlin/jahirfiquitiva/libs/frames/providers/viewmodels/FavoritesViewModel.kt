@@ -24,8 +24,7 @@ class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
     override fun loadItems(param:FavoritesDao):ArrayList<Wallpaper> {
         val list = ArrayList<Wallpaper>()
         try {
-            val favs = param.getFavorites().distinct()
-            list.addAll(favs.distinct())
+            list.addAll(param.getFavorites().distinct())
         } catch (e:Exception) {
             e.printStackTrace()
         }
@@ -36,18 +35,11 @@ class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
         param?.let {
             AsyncTaskManager(it, {}, {
                 try {
-                    val currentItems = it.getFavorites()
-                    for (item in currentItems) {
-                        it.removeFromFavorites(item)
-                    }
-                    it.insertAll(items)
+                    it.nukeFavorites()
                     for (item in items) {
                         it.addToFavorites(item)
                     }
-                    val list = ArrayList<Wallpaper>()
-                    list.addAll(it.getFavorites())
-                    list.distinct()
-                    postResult(list)
+                    loadData(it, true)
                     return@AsyncTaskManager true
                 } catch (e:Exception) {
                     e.printStackTrace()
@@ -59,23 +51,29 @@ class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
     
     fun isInFavorites(wallpaper:Wallpaper):Boolean {
         return try {
-            items.value?.contains(wallpaper) == true
+            val contains = items.value?.contains(wallpaper) ?: false
+            contains
         } catch (e:Exception) {
             e.printStackTrace()
             false
         }
     }
     
-    fun addToFavorites(wallpaper:Wallpaper) {
+    fun addToFavorites(wallpaper:Wallpaper, onError:() -> Unit) {
         try {
             if (isInFavorites(wallpaper)) return
             AsyncTaskManager(
                     wallpaper, {},
                     { it ->
                         try {
-                            param?.addToFavorites(it)
-                            items.value?.add(it)
-                            items.value?.let { postResult(it) }
+                            val old = ArrayList(param?.getFavorites())
+                            param?.nukeFavorites()
+                            items.value?.clear()
+                            if (!(old.contains(it))) old.add(it)
+                            old.forEach {
+                                param?.addToFavorites(it)
+                            }
+                            param?.let { loadData(it, true) }
                             return@AsyncTaskManager true
                         } catch (e:Exception) {
                             e.printStackTrace()
@@ -84,19 +82,25 @@ class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
                     }, {}).execute()
         } catch (e:Exception) {
             e.printStackTrace()
+            onError()
         }
     }
     
-    fun removeFromFavorites(wallpaper:Wallpaper) {
+    fun removeFromFavorites(wallpaper:Wallpaper, onError:() -> Unit) {
         try {
-            if (!isInFavorites(wallpaper)) return
+            if (!(isInFavorites(wallpaper))) return
             AsyncTaskManager(
                     wallpaper, {},
                     { it ->
                         try {
-                            param?.removeFromFavorites(it)
-                            items.value?.remove(it)
-                            items.value?.let { postResult(it) }
+                            val old = ArrayList(param?.getFavorites())
+                            param?.nukeFavorites()
+                            items.value?.clear()
+                            if (old.contains(it)) old.remove(it)
+                            old.forEach {
+                                param?.addToFavorites(it)
+                            }
+                            param?.let { loadData(it, true) }
                             return@AsyncTaskManager true
                         } catch (e:Exception) {
                             e.printStackTrace()
@@ -105,6 +109,7 @@ class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
                     }, {}).execute()
         } catch (e:Exception) {
             e.printStackTrace()
+            onError()
         }
     }
 }

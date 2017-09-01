@@ -17,34 +17,25 @@
 <jahirfiquitiva.libs.kauextensions.ui.layouts.CustomCoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/mainCoordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     <jahirfiquitiva.libs.kauextensions.ui.layouts.FixedElevationAppBarLayout
-            android:id="@+id/appBar"
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipChildren="false">
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
         <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                android:theme="?attr/actionBarTheme"
-                app:popupTheme="?attr/actionBarPopupTheme"
-                app:layout_collapseMode="pin"
-                android:background="?colorPrimary">
-
-            <TextView
-                    android:id="@+id/toolbar_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                    tools:text="Title"/>
-
-        </android.support.v7.widget.Toolbar>
+                android:background="?colorPrimary"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                app:layout_collapseMode="pin"/>
 
     </jahirfiquitiva.libs.kauextensions.ui.layouts.FixedElevationAppBarLayout>
 

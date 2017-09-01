@@ -13,14 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jahirfiquitiva.libs.frames.data.models.db
-
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
-import jahirfiquitiva.libs.frames.data.models.Wallpaper
-
-// TODO: Be sure to increment update if one changes Wallpaper class structure
-@Database(entities = arrayOf(Wallpaper::class), version = 5, exportSchema = false)
-abstract class FavoritesDatabase:RoomDatabase() {
-    abstract fun favoritesDao():FavoritesDao
+dependencies {
+    compile 'com.google.firebase:firebase-messaging:10.2.6'
 }
+
+apply plugin: 'com.google.gms.google-services'

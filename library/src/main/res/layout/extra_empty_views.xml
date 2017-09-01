@@ -20,13 +20,17 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:gravity="center">
 
     <RelativeLayout
             android:id="@+id/all_empty_views"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:gravity="center">
 
         <ProgressBar
                 android:id="@+id/loading_view"
@@ -46,9 +50,6 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:visibility="gone"
-                android:scaleType="centerInside"
-                android:scaleX="0.75"
-                android:scaleY="0.75"
                 tools:ignore="ContentDescription"/>
 
     </RelativeLayout>
@@ -58,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/all_empty_views"
+            android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="24dp"

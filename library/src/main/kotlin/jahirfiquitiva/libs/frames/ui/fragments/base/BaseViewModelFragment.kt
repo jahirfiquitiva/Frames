@@ -24,6 +24,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import jahirfiquitiva.libs.frames.ui.fragments.presenters.ViewModelFragmentPresenter
+import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 
 abstract class BaseViewModelFragment<in T>:BasicFragment<T>(), LifecycleObserver, ViewModelFragmentPresenter<T> {
     override fun onCreate(savedInstanceState:Bundle?) {
@@ -43,6 +44,13 @@ abstract class BaseViewModelFragment<in T>:BasicFragment<T>(), LifecycleObserver
         if (autoStartLoad()) loadDataFromViewModel()
         return view
     }
+    
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterObserver()
+    }
+    
+    override fun onItemClicked(item:T) {}
     
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     abstract override fun unregisterObserver()

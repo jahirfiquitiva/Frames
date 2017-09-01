@@ -66,7 +66,8 @@
     <string name="refresh">Refresh</string>
 
     <string name="licenses">Licenses</string>
-    <string name="dashboard">Dashboard</string>
+	<!-- Consider Frames an untranslatable word. It's the dashboard name -->
+    <string name="frames_dashboard">Frames Dashboard</string>
     <string name="dev_contributions">Development Help</string>
     <string name="ui_contributions">UI Help</string>
 
@@ -157,5 +158,10 @@
     <string name="no">No</string>
 
     <string name="not_connected_content">Unfortunately this action requires Internet connection. Please try again later.</string>
+
+    <string name="new_wallpapers_available">%1$s new wallpapers available. Tap to check them out!</string>
+
+    <string name="notifications_title">Notifications</string>
+    <string name="enable_notifications">Enable notifications</string>
 
 </resources>

@@ -18,15 +18,18 @@ package jahirfiquitiva.libs.frames.ui.fragments
 
 import android.content.Intent
 import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.util.Pair
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
+import com.bumptech.glide.Glide
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
+import jahirfiquitiva.libs.frames.helpers.configs.isLowRamDevice
+import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
 import jahirfiquitiva.libs.frames.ui.adapters.CollectionsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
@@ -54,7 +57,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         }
         
         rv = content.findViewById(R.id.list_rv)
-        rv.itemAnimator = DefaultItemAnimator()
+        rv.itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
         rv.textView = content.findViewById(R.id.empty_text)
         rv.emptyView = content.findViewById(R.id.empty_view)
         rv.setEmptyImage(R.drawable.empty_section)
@@ -64,9 +67,9 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         val spanCount = if (context.isInHorizontalMode) 2 else 1
         rv.layoutManager = GridLayoutManager(context, spanCount, GridLayoutManager.VERTICAL, false)
         rv.addItemDecoration(GridSpacingItemDecoration(spanCount, 0, true))
-        adapter = CollectionsAdapter { collection, holder ->
-            onItemClicked(collection, holder)
-        }
+        adapter = CollectionsAdapter(Glide.with(this), { collection ->
+            onItemClicked(collection)
+        })
         rv.adapter = adapter
         fastScroll = content.findViewById(R.id.fast_scroller)
         fastScroll.attachRecyclerView(rv)
@@ -75,18 +78,22 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     
     override fun getContentLayout():Int = R.layout.section_lists
     
-    override fun onItemClicked(item:Collection, holder:CollectionHolder) {
+    override fun scrollToTop() {
+        rv.layoutManager.scrollToPosition(0)
+    }
+    
+    override fun onItemClicked(item:Collection) {
         val intent = Intent(activity, CollectionActivity::class.java)
         intent.putExtra("item", item)
-        val titlePair = Pair<View, String>(holder.title, "title")
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, titlePair)
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity)
         try {
             activity.startActivityForResult(intent, 11, options.toBundle())
         } catch (ignored:Exception) {
             activity.startActivityForResult(intent, 11)
         }
-        activity.overridePendingTransition(0, 0)
     }
+    
+    override fun onItemClicked(item:Collection, holder:CollectionHolder) {}
     
     override fun loadDataFromViewModel() {
         rv.state = EmptyViewRecyclerView.State.LOADING
@@ -94,6 +101,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     }
     
     override fun reloadData(section:Int) {
+        swipeToRefresh.isRefreshing = true
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
     }
@@ -103,11 +111,12 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
             if (filter.hasContent()) {
                 rv.setEmptyImage(R.drawable.no_results)
                 rv.setEmptyText(R.string.search_no_results)
-                adapter.setItems(ArrayList(it.filter { it.name.contains(filter, true) }))
+                adapter.updateItems(ArrayList(it.filter { it.name.contains(filter, true) }), true)
             } else {
                 rv.setEmptyImage(R.drawable.empty_section)
                 rv.setEmptyText(R.string.empty_section)
-                adapter.setItems(it)
+                adapter.updateItems(it, true)
+                scrollToTop()
             }
         }
     }
@@ -124,9 +133,11 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     
     override fun doOnCollectionsChange(data:ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
-        adapter.setItems(data)
         swipeToRefresh.isRefreshing = false
+        adapter.setItems(data)
     }
     
     override fun autoStartLoad():Boolean = true
+    override fun fromCollectionActivity():Boolean = false
+    override fun fromFavorites():Boolean = false
 }

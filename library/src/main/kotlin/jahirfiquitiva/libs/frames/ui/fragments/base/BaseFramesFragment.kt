@@ -40,28 +40,28 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
             data?.let { doOnCollectionsChange(it) }
         })
         wallpapersModel.items.observe(this, Observer { data ->
-            data?.let { doOnWallpapersChange(it) }
+            data?.let { doOnWallpapersChange(it, fromCollectionActivity()) }
         })
     }
     
     override fun loadDataFromViewModel() {
         super.loadDataFromViewModel()
-        wallpapersModel.loadData(context)
+        if (!fromCollectionActivity()) wallpapersModel.loadData(context)
     }
     
     override fun unregisterObserver() {
         super.unregisterObserver()
         collectionsModel.items.removeObservers(this)
         wallpapersModel.items.removeObservers(this)
-        collectionsModel.stopTask()
-        wallpapersModel.stopTask()
+        collectionsModel.stopTask(true)
+        wallpapersModel.stopTask(true)
     }
+    
+    open fun doOnCollectionsChange(data:ArrayList<Collection>) {}
     
     override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
-        if (!fromCollectionActivity) {
-            collectionsModel.loadData(data)
-        }
+        if (!fromCollectionActivity) collectionsModel.loadData(data)
     }
     
     open fun reloadData(section:Int) {
@@ -71,12 +71,12 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
                 wallpapersModel.loadData(context, true)
             }
             2 -> {
-                favoritesModel.stopTask(true)
-                favoritesModel.loadData(getDatabase(), true)
+                favoritesModel?.stopTask(true)
+                getDatabase()?.let { favoritesModel?.loadData(it, true) }
             }
         }
     }
     
-    open fun doOnCollectionsChange(data:ArrayList<Collection>) {}
     abstract fun applyFilter(filter:String)
+    abstract fun scrollToTop()
 }

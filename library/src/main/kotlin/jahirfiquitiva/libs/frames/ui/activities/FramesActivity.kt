@@ -24,6 +24,7 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
+import ca.allanwang.kau.utils.postDelayed
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
@@ -109,7 +110,10 @@ abstract class FramesActivity:BaseFramesActivity() {
         }
         
         tabs.addOnTabSelectedListener(object:TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab:TabLayout.Tab?) {}
+            override fun onTabReselected(tab:TabLayout.Tab?) {
+                scrollToTop()
+            }
+            
             override fun onTabUnselected(tab:TabLayout.Tab?) {}
             override fun onTabSelected(tab:TabLayout.Tab?) {
                 tab?.let {
@@ -199,6 +203,7 @@ abstract class FramesActivity:BaseFramesActivity() {
         return super.onOptionsItemSelected(item)
     }
     
+    @Suppress("UNCHECKED_CAST")
     override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 22) {
@@ -213,7 +218,7 @@ abstract class FramesActivity:BaseFramesActivity() {
                 data?.let {
                     try {
                         val nFavs = data.getSerializableExtra("nFavs") as ArrayList<Wallpaper>
-                        setNewFavorites(nFavs)
+                        if (nFavs.isNotEmpty()) setNewFavorites(nFavs)
                     } catch (e:Exception) {
                         e.printStackTrace()
                     }
@@ -235,6 +240,22 @@ abstract class FramesActivity:BaseFramesActivity() {
         pager.setCurrentItem(lastSection, true)
     }
     
+    private fun scrollToTop() {
+        val adapter = pager.adapter
+        if (adapter is FragmentsAdapter) {
+            val frag = adapter.getItem(lastSection)
+            frag?.let {
+                if (it is BaseFramesFragment<*, *>) {
+                    try {
+                        it.scrollToTop()
+                    } catch (ignored:Exception) {
+                    }
+                }
+            }
+        }
+    }
+    
+    private val LOCK = Any()
     private fun doSearch(filter:String = "") {
         val adapter = pager.adapter
         if (adapter is FragmentsAdapter) {
@@ -242,7 +263,9 @@ abstract class FramesActivity:BaseFramesActivity() {
             frag?.let {
                 if (it is BaseFramesFragment<*, *>) {
                     try {
-                        it.applyFilter(filter)
+                        synchronized(LOCK, {
+                            postDelayed(250, { it.applyFilter(filter) })
+                        })
                     } catch (ignored:Exception) {
                     }
                 }
@@ -287,13 +310,12 @@ abstract class FramesActivity:BaseFramesActivity() {
             frag?.let {
                 if (it is BaseFramesFragment<*, *>) {
                     try {
-                        it.favoritesModel.stopTask(true)
-                        it.favoritesModel.forceUpdateFavorites(list)
+                        it.favoritesModel?.stopTask(true)
+                        it.favoritesModel?.forceUpdateFavorites(list)
                     } catch (ignored:Exception) {
                     }
                 }
             }
         }
     }
-    
 }

@@ -27,8 +27,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.utils.visibleIf
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
-import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.RequestManager
+import jahirfiquitiva.libs.frames.helpers.extensions.loadResource
+import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 
 open class EmptyViewRecyclerView:RecyclerView {
@@ -38,6 +39,8 @@ open class EmptyViewRecyclerView:RecyclerView {
     
     var loadingText:String = ""
     var emptyText:String = ""
+    
+    val manager:RequestManager = Glide.with(context)
     
     var state:State = State.LOADING
         set(value) {
@@ -74,9 +77,7 @@ open class EmptyViewRecyclerView:RecyclerView {
     fun setEmptyImage(@DrawableRes res:Int) {
         emptyView?.let {
             if (it is ImageView) {
-                Glide.with(context).load(res)
-                        .apply(RequestOptions().priority(Priority.IMMEDIATE).dontAnimate())
-                        .into(it)
+                it.loadResource(manager, res, true, false, false, null)
             } else {
                 throw UnsupportedOperationException(
                         "Cannot set a Drawable in a View that is not ImageView")
@@ -88,6 +89,10 @@ open class EmptyViewRecyclerView:RecyclerView {
     constructor(context:Context, attributeSet:AttributeSet):super(context, attributeSet)
     constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int)
             :super(context, attributeSet, defStyleAttr)
+    
+    fun forceUpdateState() {
+        setStateInternal()
+    }
     
     private fun setStateInternal() {
         state = if (adapter != null) {
@@ -103,8 +108,14 @@ open class EmptyViewRecyclerView:RecyclerView {
     }
     
     private fun updateStateViews() {
+        val rightText = when (state) {
+            State.LOADING -> loadingText
+            State.EMPTY -> emptyText
+            else -> ""
+        }
+        if (rightText.hasContent()) textView?.text = rightText
         textView?.setTextColor(context.secondaryTextColor)
-        textView?.visibleIf(state != State.NORMAL)
+        textView?.visibleIf(state != State.NORMAL && rightText.hasContent())
         loadingView?.visibleIf(state == State.LOADING)
         emptyView?.visibleIf(state == State.EMPTY)
         visibleIf(state == State.NORMAL)
@@ -113,50 +124,46 @@ open class EmptyViewRecyclerView:RecyclerView {
     private val observer:RecyclerView.AdapterDataObserver = object:RecyclerView.AdapterDataObserver() {
         override fun onChanged() {
             super.onChanged()
-            setStateInternal()
+            updateRecyclerViewState(adapter.itemCount)
         }
         
         override fun onItemRangeChanged(positionStart:Int, itemCount:Int) {
             super.onItemRangeChanged(positionStart, itemCount)
-            setStateInternal()
+            updateRecyclerViewState(itemCount)
         }
         
         override fun onItemRangeChanged(positionStart:Int, itemCount:Int, payload:Any?) {
             super.onItemRangeChanged(positionStart, itemCount, payload)
-            setStateInternal()
+            updateRecyclerViewState(itemCount)
         }
         
         override fun onItemRangeInserted(positionStart:Int, itemCount:Int) {
             super.onItemRangeInserted(positionStart, itemCount)
-            setStateInternal()
+            updateRecyclerViewState(itemCount)
         }
         
         override fun onItemRangeRemoved(positionStart:Int, itemCount:Int) {
             super.onItemRangeRemoved(positionStart, itemCount)
-            setStateInternal()
+            updateRecyclerViewState(itemCount)
         }
         
         override fun onItemRangeMoved(fromPosition:Int, toPosition:Int, itemCount:Int) {
             super.onItemRangeMoved(fromPosition, toPosition, itemCount)
-            setStateInternal()
+            updateRecyclerViewState(itemCount)
+        }
+        
+        private fun updateRecyclerViewState(itemsCount:Int) {
+            if (itemsCount <= 0) updateStateViews()
+            else setStateInternal()
         }
     }
     
     override fun setAdapter(adapter:Adapter<*>?) {
-        setAdapterInternal(adapter, false)
-    }
-    
-    private fun setAdapterInternal(adapter:Adapter<*>?, autoUpdateState:Boolean) {
         val oldAdapter = getAdapter()
         oldAdapter?.unregisterAdapterDataObserver(observer)
         super.setAdapter(adapter)
         adapter?.registerAdapterDataObserver(observer)
-        if (autoUpdateState) setStateInternal()
-        else updateStateViews()
-    }
-    
-    fun setAdapter(adapter:Adapter<*>?, autoUpdateState:Boolean) {
-        setAdapterInternal(adapter, autoUpdateState)
+        setStateInternal()
     }
     
     enum class State {

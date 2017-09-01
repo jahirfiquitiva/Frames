@@ -21,6 +21,7 @@ import android.util.Property
 
 /**
  * Credits to Mysplash
+ * @author WangDaYeeeeee
  * https://goo.gl/heH8Qv
  */
 class ObservableColorMatrix:ColorMatrix() {

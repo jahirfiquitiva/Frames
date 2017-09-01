@@ -24,6 +24,7 @@ import android.view.WindowManager
 
 val Activity.navigationBarHeight:Int
     get() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && isInMultiWindowMode) return 0
         var height = 0
         val appUsableSize = getAppUsableScreenSize()
         val realScreenSize = getRealScreenSize()

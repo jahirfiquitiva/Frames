@@ -16,10 +16,14 @@
 package jahirfiquitiva.libs.frames.ui.widgets
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.ViewTreeObserver
 import android.widget.ImageView
+import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.helpers.configs.isLowRamDevice
+import jahirfiquitiva.libs.frames.helpers.utils.AsyncTaskManager
 import jahirfiquitiva.libs.kauextensions.ui.views.LandscapeImageView
 
 /**
@@ -28,20 +32,43 @@ import jahirfiquitiva.libs.kauextensions.ui.views.LandscapeImageView
  */
 class ParallaxImageView:LandscapeImageView, ViewTreeObserver.OnScrollChangedListener {
     
+    private var parallaxEnabled = true
     private var viewLocation = IntArray(2)
     
     constructor(context:Context):super(context)
-    constructor(context:Context, attributeSet:AttributeSet):super(context, attributeSet)
+    constructor(context:Context, attributeSet:AttributeSet):super(context, attributeSet) {
+        init(context, attributeSet)
+    }
+    
     constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int)
-            :super(context, attributeSet, defStyleAttr)
+            :super(context, attributeSet, defStyleAttr) {
+        init(context, attributeSet)
+    }
+    
+    private fun init(context:Context, attributeSet:AttributeSet) {
+        val a = context.obtainStyledAttributes(attributeSet, R.styleable.ParallaxImageView, 0, 0)
+        try {
+            val enabledInRes = a.getBoolean(R.styleable.ParallaxImageView_parallaxEnabled, true)
+            parallaxEnabled = enabledInRes && !context.isLowRamDevice
+        } finally {
+            a.recycle()
+        }
+    }
     
     override fun onMeasure(widthMeasureSpec:Int, heightMeasureSpec:Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         invalidate()
     }
     
+    override fun setImageBitmap(bm:Bitmap?) {
+        super.setImageBitmap(bm)
+        bm?.let {
+            AsyncTaskManager(it, {}, { true }, { invalidate() }).execute()
+        }
+    }
+    
     override fun onDraw(canvas:Canvas) {
-        if (drawable == null) {
+        if (drawable == null || !parallaxEnabled) {
             super.onDraw(canvas)
             return
         }

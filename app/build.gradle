@@ -16,32 +16,30 @@
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply from: '../dependencies.gradle'
 
 android {
-    compileSdkVersion versions.compileSdk
-    buildToolsVersion versions.buildTools
+    compileSdkVersion project.ext.compileSdk
+    buildToolsVersion project.ext.buildTools
 
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             output.outputFile = new File(output.outputFile.parent,
-                    versions.appId + "-v${variant.versionName}-${variant.name}.apk")
+                    project.ext.appId + "-v${variant.versionName}-${variant.name}.apk")
         }
     }
 
     lintOptions {
         abortOnError false
         checkReleaseBuilds false
-        disable 'MissingTranslation'
-        disable 'GoogleAppIndexingWarning'
+        disable 'MissingTranslation', 'GoogleAppIndexingWarning'
     }
 
     defaultConfig {
-        applicationId versions.appGroup + "." + versions.appId.toLowerCase() + ".sample"
-        minSdkVersion versions.minSdk
-        targetSdkVersion versions.targetSdk
-        versionCode versions.versionCode
-        versionName versions.versionName
+        applicationId project.ext.appGroup + "." + project.ext.appId.toLowerCase() + ".sample"
+        minSdkVersion project.ext.minSdk
+        targetSdkVersion project.ext.targetSdk
+        versionCode project.ext.versionCode
+        versionName project.ext.versionName
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -55,12 +53,11 @@ android {
     }
 
     sourceSets {
-        main {
-            java.srcDirs += 'src/main/kotlin'
-        }
+        main.java.srcDirs += 'src/main/kotlin'
     }
 
     packagingOptions {
+        pickFirst 'META-INF/core_release.kotlin_module'
         pickFirst 'META-INF/library_release.kotlin_module'
     }
 }
@@ -68,6 +65,9 @@ android {
 dependencies {
     compile project(path: ':library')
 }
+
+// TODO: Remove comment marks if you plan on implementing Firebase Notifications
+// apply from: './firebase.gradle'
 
 tasks.whenTaskAdded { task ->
     if (task.name.contains("lint") || task.name.contains("test")) {

@@ -24,11 +24,10 @@ import android.widget.TextView
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.tint
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
-import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.RequestManager
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.helpers.extensions.loadAvatar
+import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
@@ -48,6 +47,10 @@ data class Credit(val type:Type, val photo:String, val name:String, val descript
 
 const val SECTION_ICON_ANIMATION_DURATION:Long = 250
 
+abstract class BaseCreditViewHolder(itemView:View?):SectionedViewHolder(itemView) {
+    abstract fun onRecycled()
+}
+
 class CreditHeaderViewHolder(itemView:View?):SectionedViewHolder(itemView) {
     val divider:View? = itemView?.findViewById(R.id.section_divider)
     val title:TextView? = itemView?.findViewById(R.id.section_title)
@@ -63,20 +66,15 @@ class CreditHeaderViewHolder(itemView:View?):SectionedViewHolder(itemView) {
     }
 }
 
-open class DashboardCreditViewHolder(itemView:View?):SectionedViewHolder(itemView) {
+open class DashboardCreditViewHolder(itemView:View?):BaseCreditViewHolder(itemView) {
     val photo:ImageView? = itemView?.findViewById(R.id.photo)
     val name:TextView? = itemView?.findViewById(R.id.name)
     private val description:TextView? = itemView?.findViewById(R.id.description)
     private val buttons:SplitButtonsLayout? = itemView?.findViewById(R.id.buttons)
     
-    open fun setItem(credit:Credit, fillAvailableSpace:Boolean = true,
+    open fun setItem(manager:RequestManager, credit:Credit, fillAvailableSpace:Boolean = true,
                      shouldHideButtons:Boolean = false) {
-        photo?.let {
-            Glide.with(itemView.context).asBitmap().load(credit.photo)
-                    .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                                   .priority(Priority.HIGH).centerCrop().circleCrop())
-                    .into(it)
-        }
+        photo?.loadAvatar(manager, credit.photo, false)
         name?.setTextColor(itemView.context.primaryTextColor)
         name?.text = credit.name
         if (credit.description.hasContent()) {
@@ -121,9 +119,15 @@ open class DashboardCreditViewHolder(itemView:View?):SectionedViewHolder(itemVie
             }
         }
     }
+    
+    override fun onRecycled() {
+        photo?.releaseFromGlide()
+    }
 }
 
 class SimpleCreditViewHolder(itemView:View?):DashboardCreditViewHolder(itemView) {
-    override fun setItem(credit:Credit, fillAvailableSpace:Boolean, shouldHideButtons:Boolean) =
-            super.setItem(credit, false, true)
+    override fun setItem(manager:RequestManager, credit:Credit, fillAvailableSpace:Boolean,
+                         shouldHideButtons:Boolean) {
+        super.setItem(manager, credit, false, true)
+    }
 }

@@ -66,4 +66,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+            android:key="notifications_settings"
+            android:title="@string/notifications_title">
+
+        <SwitchPreference
+                android:key="enable_notifications"
+                android:persistent="true"
+                android:title="@string/enable_notifications"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>
