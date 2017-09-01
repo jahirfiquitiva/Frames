@@ -95,8 +95,8 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     
     internal fun getDatabase():FavoritesDao? = database?.favoritesDao()
     
-    internal fun isInFavorites(item:Wallpaper):Boolean = favoritesModel?.isInFavorites(
-            item) ?: false
+    internal fun isInFavorites(item:Wallpaper):Boolean =
+            favoritesModel?.isInFavorites(item) ?: false
     
     internal fun addToFavorites(item:Wallpaper) =
             favoritesModel?.addToFavorites(item, { showErrorSnackbar() })
@@ -126,13 +126,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
                 nScale.setAnimationListener(object:SimpleAnimationListener() {
                     override fun onEnd(animation:Animation) {
                         super.onEnd(animation)
-                        reallyPostToFavorites(item, check)
-                        /*
-                        if (fromFavorites() || fromCollectionActivity())
-                            reallyPostToFavorites(item, check)
-                        else if (activity is FramesActivity)
-                            (activity as FramesActivity).postToFavorites(item, check)
-                            */
+                        postToFavorites(item, check)
                     }
                 })
                 heart.startAnimation(nScale)
@@ -141,7 +135,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
         heart.startAnimation(scale)
     }
     
-    internal fun reallyPostToFavorites(item:Wallpaper, check:Boolean) {
+    internal fun postToFavorites(item:Wallpaper, check:Boolean) {
         snack?.dismiss()
         snack = null
         try {

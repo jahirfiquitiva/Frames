@@ -61,9 +61,7 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
     
     override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
-        if (!fromCollectionActivity) {
-            collectionsModel.loadData(data)
-        }
+        if (!fromCollectionActivity) collectionsModel.loadData(data)
     }
     
     open fun reloadData(section:Int) {

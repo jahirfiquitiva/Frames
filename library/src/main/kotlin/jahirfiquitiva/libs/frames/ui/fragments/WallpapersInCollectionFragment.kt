@@ -61,17 +61,6 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
         wallpapersModel.postResult(wallpapers)
     }
     
-    private fun areListsTheSame(old:ArrayList<Wallpaper>, new:ArrayList<Wallpaper>):Boolean {
-        return if (old.size != new.size) false
-        else {
-            var same = true
-            old.forEachIndexed { index, wallpaper ->
-                if (wallpaper != new[index] && same) same = false
-            }
-            same
-        }
-    }
-    
     companion object {
         fun create(collection:Collection, wallpapers:ArrayList<Wallpaper>):
                 WallpapersInCollectionFragment {
