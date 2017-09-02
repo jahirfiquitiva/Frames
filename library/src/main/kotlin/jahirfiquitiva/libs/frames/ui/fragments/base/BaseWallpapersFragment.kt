@@ -44,7 +44,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
-import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 
 abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHolder>() {
@@ -76,8 +75,6 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         configureRVColumns()
         adapter = WallpapersAdapter(Glide.with(context),
                                     { wall, holder -> onItemClicked(wall, holder) },
-                // TODO: Implement long-click listener
-                                    { wall, _ -> context.printInfo("Long pressed $wall") },
                                     { heart, wall -> onHeartClicked(heart, wall) },
                                     fromFavorites(), showFavoritesIcon())
         rv.adapter = adapter

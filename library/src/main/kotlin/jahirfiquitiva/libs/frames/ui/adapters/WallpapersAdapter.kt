@@ -27,7 +27,6 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 
 class WallpapersAdapter(private val manager:RequestManager,
                         private val singleTap:(Wallpaper, WallpaperHolder) -> Unit,
-                        private val longPress:(Wallpaper, WallpaperHolder) -> Unit,
                         private val heartListener:(ImageView, Wallpaper) -> Unit,
                         private val fromFavorites:Boolean,
                         private val showFavIcon:Boolean):BaseListAdapter<Wallpaper, WallpaperHolder>() {
@@ -47,7 +46,7 @@ class WallpapersAdapter(private val manager:RequestManager,
     
     override fun doBind(holder:WallpaperHolder, position:Int, shouldAnimate:Boolean) {
         val item = list[position]
-        holder.setItem(manager, item, singleTap, longPress, heartListener,
+        holder.setItem(manager, item, singleTap, heartListener,
                        fromFavorites || favorites.contains(item))
     }
     

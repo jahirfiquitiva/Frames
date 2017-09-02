@@ -120,7 +120,6 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
     
     fun setItem(manager:RequestManager, wallpaper:Wallpaper,
                 singleTap:(Wallpaper, WallpaperHolder) -> Unit,
-                longPress:(Wallpaper, WallpaperHolder) -> Unit,
                 heartListener:(ImageView, Wallpaper) -> Unit, check:Boolean) {
         with(itemView) {
             heartIcon.gone()
@@ -148,10 +147,6 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
             }
         }
         itemView.setOnClickListener { singleTap(wallpaper, this) }
-        itemView.setOnLongClickListener {
-            longPress(wallpaper, this)
-            true
-        }
     }
     
     private fun loadImage(manager:RequestManager, url:String, thumbUrl:String, check:Boolean) {
