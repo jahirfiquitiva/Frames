@@ -24,3 +24,6 @@ Frames is available via JitPack, so getting it as simple as adding it as a depen
 compile 'me.jahirfiquitiva:Frames:{latest version}'
 ```
 where `{latest version}` corresponds to published version in [![JitPack](https://jitpack.io/v/jahirfiquitiva/Frames.svg)](https://jitpack.io/#jahirfiquitiva/Frames)
+
+# How to implement
+:page_with_curl: Everything you need to know can be found in the **[Wiki Docs](https://github.com/jahirfiquitiva/Frames/wiki/)**
