@@ -1,4 +1,4 @@
-<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/app_logo.png" align="right" hspace="20" />
+<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/app_logo.png" width="192" align="right" hspace="20" />
 
 Frames
 ======
