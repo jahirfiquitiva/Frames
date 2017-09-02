@@ -19,7 +19,7 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 
 
 # Including in your project
-Sensey is available in the Jcenter, so getting it as simple as adding it as a dependency
+Frames is available via JitPack, so getting it as simple as adding it as a dependency
 ```gradle
 compile 'me.jahirfiquitiva:Frames:{latest version}'
 ```
