@@ -1,4 +1,4 @@
-<img src="raw/images/app_logo.png" align="right" hspace="20" />
+<img src="images/app_logo.png" align="right" hspace="20" />
 
 Frames
 ======
