@@ -13,6 +13,14 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 
 ---
 
-### Show some  :heart:
+## Show some  :heart:
 [![GitHub stars](https://img.shields.io/github/stars/jahirfiquitiva/Frames.svg?style=social&label=Star)](https://github.com/jahirfiquitiva/Frames) [![GitHub forks](https://img.shields.io/github/forks/jahirfiquitiva/Frames.svg?style=social&label=Fork)](https://github.com/jahirfiquitiva/Frames/fork) [![GitHub watchers](https://img.shields.io/github/watchers/jahirfiquitiva/Frames.svg?style=social&label=Watch)](https://github.com/jahirfiquitiva/Frames) [![GitHub followers](https://img.shields.io/github/followers/jahirfiquitiva.svg?style=social&label=Follow)](https://github.com/jahirfiquitiva/Frames)  
 [![Twitter Follow](https://img.shields.io/twitter/follow/jahirfiquitiva.svg?style=social)](https://twitter.com/jahirfiquitiva) 
+
+
+# Including in your project
+Sensey is available in the Jcenter, so getting it as simple as adding it as a dependency
+```gradle
+compile 'me.jahirfiquitiva:Frames:{latest version}'
+```
+where `{latest version}` corresponds to published version in [![JitPack](https://jitpack.io/v/jahirfiquitiva/Frames.svg)](https://jitpack.io/#jahirfiquitiva/Frames)
