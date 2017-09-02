@@ -25,50 +25,52 @@ import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
 
 abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatabaseFragment<T, VH>() {
     
-    internal lateinit var wallpapersModel:WallpapersViewModel
-    internal lateinit var collectionsModel:CollectionsViewModel
+    internal var wallpapersModel:WallpapersViewModel? = null
+    internal var collectionsModel:CollectionsViewModel? = null
     
     override fun initViewModel() {
         super.initViewModel()
-        collectionsModel = ViewModelProviders.of(activity).get(CollectionsViewModel::class.java)
-        wallpapersModel = ViewModelProviders.of(activity).get(WallpapersViewModel::class.java)
+        if (wallpapersModel == null)
+            wallpapersModel = ViewModelProviders.of(activity).get(WallpapersViewModel::class.java)
+        if (collectionsModel == null)
+            collectionsModel = ViewModelProviders.of(activity).get(CollectionsViewModel::class.java)
     }
     
     override fun registerObserver() {
         super.registerObserver()
-        collectionsModel.items.observe(this, Observer { data ->
-            data?.let { doOnCollectionsChange(it) }
-        })
-        wallpapersModel.items.observe(this, Observer { data ->
+        wallpapersModel?.items?.observe(this, Observer { data ->
             data?.let { doOnWallpapersChange(it, fromCollectionActivity()) }
+        })
+        collectionsModel?.items?.observe(this, Observer { data ->
+            data?.let { doOnCollectionsChange(it) }
         })
     }
     
     override fun loadDataFromViewModel() {
         super.loadDataFromViewModel()
-        if (!fromCollectionActivity()) wallpapersModel.loadData(context)
+        if (!fromCollectionActivity()) wallpapersModel?.loadData(context)
     }
     
     override fun unregisterObserver() {
         super.unregisterObserver()
-        collectionsModel.items.removeObservers(this)
-        wallpapersModel.items.removeObservers(this)
-        collectionsModel.stopTask(true)
-        wallpapersModel.stopTask(true)
+        wallpapersModel?.items?.removeObservers(this)
+        collectionsModel?.items?.removeObservers(this)
+        collectionsModel?.stopTask(true)
+        wallpapersModel?.stopTask(true)
     }
     
     open fun doOnCollectionsChange(data:ArrayList<Collection>) {}
     
     override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
-        if (!fromCollectionActivity) collectionsModel.loadData(data)
+        if (!fromCollectionActivity) collectionsModel?.loadData(data)
     }
     
     open fun reloadData(section:Int) {
         when (section) {
             0, 1 -> {
-                wallpapersModel.stopTask(true)
-                wallpapersModel.loadData(context, true)
+                wallpapersModel?.stopTask(true)
+                wallpapersModel?.loadData(context, true)
             }
             2 -> {
                 favoritesModel?.stopTask(true)

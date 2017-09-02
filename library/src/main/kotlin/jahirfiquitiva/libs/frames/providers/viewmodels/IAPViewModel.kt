@@ -38,6 +38,6 @@ class IAPViewModel:ListViewModel<Array<String>, IAPItem>() {
     }
 }
 
-data class IAPItem(val id:String, val name:String, val price:String) {
+data class IAPItem(val id:String, val name:String, private val price:String) {
     override fun toString():String = "$name - $price"
 }

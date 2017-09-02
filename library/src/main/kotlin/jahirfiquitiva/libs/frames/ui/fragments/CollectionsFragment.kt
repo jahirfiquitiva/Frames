@@ -27,9 +27,7 @@ import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.helpers.configs.isLowRamDevice
-import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
 import jahirfiquitiva.libs.frames.ui.adapters.CollectionsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
@@ -101,13 +99,14 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     }
     
     override fun reloadData(section:Int) {
-        swipeToRefresh.isRefreshing = true
+        swipeToRefresh.isRefreshing = false
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
+        swipeToRefresh.isRefreshing = true
     }
     
     override fun applyFilter(filter:String) {
-        collectionsModel.items.value?.let {
+        collectionsModel?.items?.value?.let {
             if (filter.hasContent()) {
                 rv.setEmptyImage(R.drawable.no_results)
                 rv.setEmptyText(R.string.search_no_results)

@@ -43,15 +43,18 @@ fun ImageView.setSaturation(saturation:Float) {
 
 fun ImageView.loadWallpaper(requester:RequestManager?, url:String, thumbUrl:String,
                             transform:Boolean, hasFaded:Boolean,
-                            listener:GlideRequestListener<Bitmap>?, target:GlideTarget?) {
+                            listener:GlideRequestListener<Bitmap>?, target:GlideTarget?,
+                            onTransitionFinished:() -> Unit) {
     val manager = requester ?: Glide.with(context)
     val thumbnailRequest = manager.load(thumbUrl).asBitmap()
             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
             .priority(Priority.IMMEDIATE)
             .listener(object:GlideRequestListener<Bitmap>() {
                 override fun onLoadSucceed(resource:Bitmap):Boolean {
+                    setImageBitmap(resource)
                     isEnabled = true
-                    return false
+                    if (!hasFaded) animateColorTransition({ onTransitionFinished() })
+                    return true
                 }
             })
     if (!transform) thumbnailRequest.dontTransform()
@@ -61,8 +64,7 @@ fun ImageView.loadWallpaper(requester:RequestManager?, url:String, thumbUrl:Stri
     }
     loadBitmap(requester, url, !transform, !hasFaded,
                if (listener != null || target != null) thumbnailRequest else null,
-               if (listener != null || target != null) FadeAnimator() else null, null,
-               target)
+               if (listener != null || target != null) FadeAnimator() else null, listener, target)
 }
 
 fun ImageView.loadAvatar(requester:RequestManager?, url:String, shouldAnimate:Boolean) {

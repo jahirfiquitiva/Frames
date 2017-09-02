@@ -58,7 +58,7 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
     override fun loadDataFromViewModel() {
         super.loadDataFromViewModel()
         rv.state = EmptyViewRecyclerView.State.LOADING
-        wallpapersModel.postResult(wallpapers)
+        wallpapersModel?.postResult(wallpapers)
     }
     
     companion object {

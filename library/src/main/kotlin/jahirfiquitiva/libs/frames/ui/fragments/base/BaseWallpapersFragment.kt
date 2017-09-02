@@ -117,9 +117,10 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     }
     
     override fun reloadData(section:Int) {
-        swipeToRefresh.isRefreshing = true
+        swipeToRefresh.isRefreshing = false
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
+        swipeToRefresh.isRefreshing = true
     }
     
     override fun doOnCollectionsChange(data:ArrayList<Collection>) {
@@ -138,19 +139,17 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     }
     
     override fun applyFilter(filter:String) {
-        val list = if (fromFavorites()) favoritesModel?.items?.value else wallpapersModel.items.value
+        val list = (if (fromFavorites()) favoritesModel?.items?.value else wallpapersModel?.items?.value) ?: return
         if (filter.hasContent()) {
             rv.setEmptyImage(R.drawable.no_results)
             rv.setEmptyText(R.string.search_no_results)
-            list?.let {
-                adapter.updateItems(
-                        ArrayList<Wallpaper>(it.filter { it.name.contains(filter, true) }), true)
-            }
+            adapter.updateItems(
+                    ArrayList<Wallpaper>(list.filter { it.name.contains(filter, true) }), true)
         } else {
             rv.setEmptyImage(
                     if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
             rv.setEmptyText(if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
-            list?.let { adapter.updateItems(it, true) }
+            adapter.updateItems(list, true)
             scrollToTop()
         }
     }

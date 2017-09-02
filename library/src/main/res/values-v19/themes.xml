@@ -31,4 +31,5 @@
     <style name="ViewerTransparentTheme" parent="TransparentTheme">
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
+
 </resources>

@@ -23,15 +23,18 @@ import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import ca.allanwang.kau.utils.postDelayed
+import ca.allanwang.kau.utils.setPaddingTop
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.helpers.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
-import jahirfiquitiva.libs.frames.ui.adapters.FragmentsAdapter
 import jahirfiquitiva.libs.frames.ui.fragments.CollectionsFragment
 import jahirfiquitiva.libs.frames.ui.fragments.FavoritesFragment
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersFragment
+import jahirfiquitiva.libs.frames.ui.fragments.adapters.FragmentsAdapter
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomTabLayout
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
@@ -61,10 +64,10 @@ abstract class FramesActivity:BaseFramesActivity() {
         setSupportActionBar(toolbar)
         
         pager = findViewById(R.id.pager)
+        tabs = findViewById(R.id.tabs)
         
         pager.adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
                                          WallpapersFragment(), FavoritesFragment())
-        tabs = findViewById(R.id.tabs)
         
         val useAccentColor = getBoolean(R.bool.enable_accent_color_in_tabs)
         tabs.setTabTextColors(getDisabledTextColorFor(primaryColor, 0.6F),
@@ -109,21 +112,16 @@ abstract class FramesActivity:BaseFramesActivity() {
             tabs.addTab(tab)
         }
         
-        tabs.addOnTabSelectedListener(object:TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab:TabLayout.Tab?) {
-                scrollToTop()
-            }
-            
-            override fun onTabUnselected(tab:TabLayout.Tab?) {}
+        tabs.addOnTabSelectedListener(object:TabLayout.ViewPagerOnTabSelectedListener(pager) {
             override fun onTabSelected(tab:TabLayout.Tab?) {
                 tab?.let {
+                    if (lastSection == it.position) return
                     lastSection = it.position
                     if (showIcons) {
                         tabs.setTabsIconsColors(getInactiveIconsColorFor(primaryColor, 0.6F),
                                                 if (useAccentColor) accentColor else
                                                     getActiveIconsColorFor(primaryColor, 0.6F))
                     }
-                    pager.setCurrentItem(it.position, true)
                     searchView?.let {
                         val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
                         it.queryHint = getString(R.string.search_x, hint.toLowerCase())
@@ -131,12 +129,17 @@ abstract class FramesActivity:BaseFramesActivity() {
                     val isClosed = searchView?.isIconified != false
                     if (!isClosed) {
                         doSearch()
-                        invalidateOptionsMenu()
                     }
+                    invalidateOptionsMenu()
+                    pager.setCurrentItem(lastSection, true)
                 }
             }
+            
+            override fun onTabReselected(tab:TabLayout.Tab?) = scrollToTop()
+            override fun onTabUnselected(tab:TabLayout.Tab?) {}
         })
         pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+        
         pager.offscreenPageLimit = tabs.tabCount
         pager.setCurrentItem(1, true)
     }
@@ -152,6 +155,7 @@ abstract class FramesActivity:BaseFramesActivity() {
             searchView = searchItem.actionView as SearchView
             searchView?.let {
                 with(it) {
+                    imeOptions = EditorInfo.IME_ACTION_SEARCH
                     val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
                     queryHint = getString(R.string.search_x, hint.toLowerCase())
                     setOnQueryTextListener(object:SearchView.OnQueryTextListener {
@@ -159,17 +163,16 @@ abstract class FramesActivity:BaseFramesActivity() {
                             query?.let {
                                 doSearch(it.trim())
                             }
-                            return false
+                            return true
                         }
                         
                         override fun onQueryTextChange(newText:String?):Boolean {
                             newText?.let {
                                 doSearch(it.trim())
                             }
-                            return false
+                            return true
                         }
                     })
-                    imeOptions = EditorInfo.IME_ACTION_DONE
                 }
             }
             searchItem.setOnActionExpandListener(object:MenuItem.OnActionExpandListener {

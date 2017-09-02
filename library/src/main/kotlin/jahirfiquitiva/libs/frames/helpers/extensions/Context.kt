@@ -17,23 +17,16 @@ package jahirfiquitiva.libs.frames.helpers.extensions
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.StateListDrawable
 import android.net.Uri
 import android.os.Environment
-import android.support.annotation.ColorInt
 import ca.allanwang.kau.utils.dimenPixelSize
-import ca.allanwang.kau.utils.tint
 import com.afollestad.materialdialogs.MaterialDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.PREFERENCES_NAME
 import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
-import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getColorFromRes
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
-import jahirfiquitiva.libs.kauextensions.extensions.getInactiveIconsColorFor
 import java.io.File
 
 fun Context.getStatusBarHeight(force:Boolean = false):Int {
@@ -47,7 +40,7 @@ fun Context.getStatusBarHeight(force:Boolean = false):Int {
     return if (dimenResult == 0 && !force) {
         0
     } else {
-        //if our dimens is > 0 && the result == 0 use the dimenResult else the result;
+        //if our dimens is > 0 && the result == 0 use the dimenResult else the result
         if (result == 0) dimenResult else result
     }
 }
