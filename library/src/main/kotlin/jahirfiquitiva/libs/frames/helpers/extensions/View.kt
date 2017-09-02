@@ -22,7 +22,6 @@ import android.app.Activity
 import android.graphics.ColorMatrixColorFilter
 import android.os.Build
 import android.support.annotation.StringRes
-import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.view.View
@@ -35,7 +34,6 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.ui.graphics.ObservableColorMatrix
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
-import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 
 fun View.setNavBarMargins() {
     val params = (layoutParams as? FrameLayout.LayoutParams) ?: return

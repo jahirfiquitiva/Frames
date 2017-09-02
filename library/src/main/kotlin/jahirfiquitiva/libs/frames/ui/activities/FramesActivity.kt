@@ -51,7 +51,7 @@ abstract class FramesActivity:BaseFramesActivity() {
     private lateinit var tabs:CustomTabLayout
     
     private var searchView:SearchView? = null
-    private var lastSection = 1
+    private var lastSection = 0
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,34 +109,36 @@ abstract class FramesActivity:BaseFramesActivity() {
             tabs.addTab(tab)
         }
         
-        tabs.addOnTabSelectedListener(object:TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab:TabLayout.Tab?) {
-                scrollToTop()
-            }
-            
-            override fun onTabUnselected(tab:TabLayout.Tab?) {}
+        tabs.addOnTabSelectedListener(object:TabLayout.ViewPagerOnTabSelectedListener(pager) {
             override fun onTabSelected(tab:TabLayout.Tab?) {
                 tab?.let {
-                    lastSection = it.position
-                    if (showIcons) {
-                        tabs.setTabsIconsColors(getInactiveIconsColorFor(primaryColor, 0.6F),
-                                                if (useAccentColor) accentColor else
-                                                    getActiveIconsColorFor(primaryColor, 0.6F))
-                    }
                     pager.setCurrentItem(it.position, true)
-                    searchView?.let {
-                        val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
-                        it.queryHint = getString(R.string.search_x, hint.toLowerCase())
-                    }
-                    val isClosed = searchView?.isIconified != false
-                    if (!isClosed) {
-                        doSearch()
-                        invalidateOptionsMenu()
-                    }
                 }
             }
+            
+            override fun onTabReselected(tab:TabLayout.Tab?) = scrollToTop()
         })
-        pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+        pager.addOnPageChangeListener(object:TabLayout.TabLayoutOnPageChangeListener(tabs) {
+            override fun onPageSelected(position:Int) {
+                if (lastSection == position) return
+                lastSection = position
+                if (showIcons) {
+                    tabs.setTabsIconsColors(getInactiveIconsColorFor(primaryColor, 0.6F),
+                                            if (useAccentColor) accentColor else
+                                                getActiveIconsColorFor(primaryColor, 0.6F))
+                }
+                searchView?.let {
+                    val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
+                    it.queryHint = getString(R.string.search_x, hint.toLowerCase())
+                }
+                val isClosed = searchView?.isIconified != false
+                if (!isClosed) {
+                    doSearch()
+                }
+                invalidateOptionsMenu()
+                super.onPageSelected(position)
+            }
+        })
         pager.offscreenPageLimit = tabs.tabCount
         pager.setCurrentItem(1, true)
     }
@@ -152,6 +154,7 @@ abstract class FramesActivity:BaseFramesActivity() {
             searchView = searchItem.actionView as SearchView
             searchView?.let {
                 with(it) {
+                    imeOptions = EditorInfo.IME_ACTION_SEARCH
                     val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
                     queryHint = getString(R.string.search_x, hint.toLowerCase())
                     setOnQueryTextListener(object:SearchView.OnQueryTextListener {
@@ -159,17 +162,16 @@ abstract class FramesActivity:BaseFramesActivity() {
                             query?.let {
                                 doSearch(it.trim())
                             }
-                            return false
+                            return true
                         }
                         
                         override fun onQueryTextChange(newText:String?):Boolean {
                             newText?.let {
                                 doSearch(it.trim())
                             }
-                            return false
+                            return true
                         }
                     })
-                    imeOptions = EditorInfo.IME_ACTION_DONE
                 }
             }
             searchItem.setOnActionExpandListener(object:MenuItem.OnActionExpandListener {
