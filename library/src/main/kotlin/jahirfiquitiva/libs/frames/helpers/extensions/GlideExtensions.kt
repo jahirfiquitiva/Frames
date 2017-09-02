@@ -51,10 +51,10 @@ fun ImageView.loadWallpaper(requester:RequestManager?, url:String, thumbUrl:Stri
             .priority(Priority.IMMEDIATE)
             .listener(object:GlideRequestListener<Bitmap>() {
                 override fun onLoadSucceed(resource:Bitmap):Boolean {
-                    setImageBitmap(null)
+                    setImageBitmap(resource)
                     isEnabled = true
                     if (!hasFaded) animateColorTransition({ onTransitionFinished() })
-                    return false
+                    return true
                 }
             })
     if (!transform) thumbnailRequest.dontTransform()

@@ -40,7 +40,7 @@ fun Context.getStatusBarHeight(force:Boolean = false):Int {
     return if (dimenResult == 0 && !force) {
         0
     } else {
-        //if our dimens is > 0 && the result == 0 use the dimenResult else the result;
+        //if our dimens is > 0 && the result == 0 use the dimenResult else the result
         if (result == 0) dimenResult else result
     }
 }

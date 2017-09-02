@@ -132,4 +132,5 @@
     <style name="ViewerAmoledTheme" parent="AmoledTheme"/>
 
     <style name="ViewerTransparentTheme" parent="TransparentTheme"/>
+
 </resources>

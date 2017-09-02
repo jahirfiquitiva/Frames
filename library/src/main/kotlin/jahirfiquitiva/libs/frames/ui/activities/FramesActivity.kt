@@ -23,10 +23,13 @@ import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import ca.allanwang.kau.utils.postDelayed
+import ca.allanwang.kau.utils.setPaddingTop
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.helpers.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.ui.fragments.CollectionsFragment
 import jahirfiquitiva.libs.frames.ui.fragments.FavoritesFragment
@@ -51,7 +54,7 @@ abstract class FramesActivity:BaseFramesActivity() {
     private lateinit var tabs:CustomTabLayout
     
     private var searchView:SearchView? = null
-    private var lastSection = 0
+    private var lastSection = 1
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,8 +64,10 @@ abstract class FramesActivity:BaseFramesActivity() {
         setSupportActionBar(toolbar)
         
         pager = findViewById(R.id.pager)
-        
         tabs = findViewById(R.id.tabs)
+        
+        pager.adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
+                                         WallpapersFragment(), FavoritesFragment())
         
         val useAccentColor = getBoolean(R.bool.enable_accent_color_in_tabs)
         tabs.setTabTextColors(getDisabledTextColorFor(primaryColor, 0.6F),
@@ -110,36 +115,31 @@ abstract class FramesActivity:BaseFramesActivity() {
         tabs.addOnTabSelectedListener(object:TabLayout.ViewPagerOnTabSelectedListener(pager) {
             override fun onTabSelected(tab:TabLayout.Tab?) {
                 tab?.let {
-                    pager.setCurrentItem(it.position, true)
+                    if (lastSection == it.position) return
+                    lastSection = it.position
+                    if (showIcons) {
+                        tabs.setTabsIconsColors(getInactiveIconsColorFor(primaryColor, 0.6F),
+                                                if (useAccentColor) accentColor else
+                                                    getActiveIconsColorFor(primaryColor, 0.6F))
+                    }
+                    searchView?.let {
+                        val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
+                        it.queryHint = getString(R.string.search_x, hint.toLowerCase())
+                    }
+                    val isClosed = searchView?.isIconified != false
+                    if (!isClosed) {
+                        doSearch()
+                    }
+                    invalidateOptionsMenu()
+                    pager.setCurrentItem(lastSection, true)
                 }
             }
             
             override fun onTabReselected(tab:TabLayout.Tab?) = scrollToTop()
+            override fun onTabUnselected(tab:TabLayout.Tab?) {}
         })
-        pager.addOnPageChangeListener(object:TabLayout.TabLayoutOnPageChangeListener(tabs) {
-            override fun onPageSelected(position:Int) {
-                if (lastSection == position) return
-                lastSection = position
-                if (showIcons) {
-                    tabs.setTabsIconsColors(getInactiveIconsColorFor(primaryColor, 0.6F),
-                                            if (useAccentColor) accentColor else
-                                                getActiveIconsColorFor(primaryColor, 0.6F))
-                }
-                searchView?.let {
-                    val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
-                    it.queryHint = getString(R.string.search_x, hint.toLowerCase())
-                }
-                val isClosed = searchView?.isIconified != false
-                if (!isClosed) {
-                    doSearch()
-                }
-                invalidateOptionsMenu()
-                super.onPageSelected(position)
-            }
-        })
+        pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
         
-        pager.adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
-                                         WallpapersFragment(), FavoritesFragment())
         pager.offscreenPageLimit = tabs.tabCount
         pager.setCurrentItem(1, true)
     }

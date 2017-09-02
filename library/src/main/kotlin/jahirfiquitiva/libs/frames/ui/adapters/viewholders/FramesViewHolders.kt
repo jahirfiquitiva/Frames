@@ -140,7 +140,7 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
             setBackgroundColor(context.thumbnailColor)
             val url = wallpaper.url
             val thumb = wallpaper.thumbUrl
-            loadImage(manager, url, if (thumb.equals(url, true)) "" else thumb)//, check)
+            loadImage(manager, url, if (thumb.equals(url, true)) "" else thumb)
             name.text = wallpaper.name
             author.goneIf(!wallpaper.author.hasContent())
             author.text = wallpaper.author
