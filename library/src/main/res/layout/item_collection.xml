@@ -23,12 +23,11 @@
              android:orientation="vertical"
              android:foreground="?selectableItemBackground">
 
-    <jahirfiquitiva.libs.frames.ui.widgets.ParallaxImageView
+    <jahirfiquitiva.libs.kauextensions.ui.views.LandscapeImageView
             android:id="@+id/collection_picture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            app:parallaxEnabled="@bool/parallax_effect_enabled"
             app:heightDivider="@dimen/heightDivider"/>
 
     <LinearLayout

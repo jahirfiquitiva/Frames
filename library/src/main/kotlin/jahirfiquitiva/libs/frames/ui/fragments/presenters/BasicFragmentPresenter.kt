@@ -15,10 +15,13 @@
  */
 package jahirfiquitiva.libs.frames.ui.fragments.presenters
 
+import android.support.annotation.LayoutRes
 import android.view.View
 
 interface BasicFragmentPresenter<in T> {
+    @LayoutRes
     fun getContentLayout():Int
+    
     fun initUI(content:View)
     fun onItemClicked(item:T)
 }

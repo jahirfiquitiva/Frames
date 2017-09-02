@@ -38,8 +38,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.extensions.loadWallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
 import jahirfiquitiva.libs.frames.helpers.extensions.thumbnailColor
-import jahirfiquitiva.libs.frames.helpers.utils.GlideTarget
-import jahirfiquitiva.libs.frames.ui.widgets.ParallaxImageView
+import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestListener
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
 import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
@@ -50,16 +49,17 @@ import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
+import jahirfiquitiva.libs.kauextensions.ui.views.LandscapeImageView
 import jahirfiquitiva.libs.kauextensions.ui.views.VerticalImageView
 
 class CollectionHolder(itemView:View):GlideViewHolder(itemView) {
     
     private var hasFaded = false
     
-    val img:ParallaxImageView = itemView.findViewById(R.id.collection_picture)
-    val detailsBg:LinearLayout = itemView.findViewById(R.id.collection_details)
-    val title:TextView = itemView.findViewById(R.id.collection_title)
-    val amount:TextView = itemView.findViewById(R.id.collection_walls_number)
+    private val img:LandscapeImageView = itemView.findViewById(R.id.collection_picture)
+    private val detailsBg:LinearLayout = itemView.findViewById(R.id.collection_details)
+    private val title:TextView = itemView.findViewById(R.id.collection_title)
+    private val amount:TextView = itemView.findViewById(R.id.collection_walls_number)
     
     fun setItem(manager:RequestManager, collection:Collection,
                 listener:(Collection) -> Unit) {
@@ -76,29 +76,31 @@ class CollectionHolder(itemView:View):GlideViewHolder(itemView) {
         itemView.setOnClickListener { listener(collection) }
     }
     
-    private fun loadImage(manager:RequestManager, url:String, thumbUrl:String) {
-        val target = object:GlideTarget(img) {
-            override fun onLoadSucceed(resource:Bitmap) {
-                img.setImageBitmap(resource)
-                if (!hasFaded) {
-                    img.animateColorTransition({ hasFaded = true })
-                } else {
-                    itemView.clearChildrenAnimations()
-                }
-                if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
-                    val color = resource.generatePalette().bestSwatch?.rgb ?: itemView.context.cardBackgroundColor
-                    detailsBg.background = null
-                    detailsBg.setBackgroundColor(color)
-                    title.setTextColor(itemView.context.getPrimaryTextColorFor(color))
-                    amount.setTextColor(itemView.context.getSecondaryTextColorFor(color))
-                } else {
-                    detailsBg.setBackgroundColor(Color.TRANSPARENT)
-                    detailsBg.background =
-                            itemView.context.getDrawable(R.drawable.gradient, null)
-                }
+    private val listener = object:GlideRequestListener<Bitmap>() {
+        override fun onLoadSucceed(resource:Bitmap):Boolean {
+            img.setImageBitmap(resource)
+            if (!hasFaded) {
+                img.animateColorTransition({ hasFaded = true })
+            } else {
+                itemView.clearChildrenAnimations()
             }
+            if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
+                val color = resource.generatePalette().bestSwatch?.rgb ?: itemView.context.cardBackgroundColor
+                detailsBg.background = null
+                detailsBg.setBackgroundColor(color)
+                title.setTextColor(itemView.context.getPrimaryTextColorFor(color))
+                amount.setTextColor(itemView.context.getSecondaryTextColorFor(color))
+            } else {
+                detailsBg.setBackgroundColor(Color.TRANSPARENT)
+                detailsBg.background =
+                        itemView.context.getDrawable(R.drawable.gradient, null)
+            }
+            return true
         }
-        img.loadWallpaper(manager, url, thumbUrl, false, hasFaded, null, target)
+    }
+    
+    private fun loadImage(manager:RequestManager, url:String, thumbUrl:String) {
+        img.loadWallpaper(manager, url, thumbUrl, true, true, listener, null, { hasFaded = true })
     }
     
     override fun onRecycled() {
@@ -108,15 +110,16 @@ class CollectionHolder(itemView:View):GlideViewHolder(itemView) {
 
 class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
         GlideViewHolder(itemView) {
+    
     private var hasFaded = false
+    private var shouldCheck = false
     
     val img:VerticalImageView = itemView.findViewById(R.id.wallpaper_image)
-    val detailsBg:LinearLayout = itemView.findViewById(R.id.wallpaper_details)
     val name:TextView = itemView.findViewById(R.id.wallpaper_name)
     val author:TextView = itemView.findViewById(R.id.wallpaper_author)
     val heartIcon:ImageView = itemView.findViewById(R.id.heart_icon)
-    var checkedDrawable:Drawable? = null
-    var uncheckedDrawable:Drawable? = null
+    private val detailsBg:LinearLayout = itemView.findViewById(R.id.wallpaper_details)
+    private var rightDrawable:Drawable? = null
     
     fun setItem(manager:RequestManager, wallpaper:Wallpaper,
                 singleTap:(Wallpaper, WallpaperHolder) -> Unit,
@@ -124,12 +127,11 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
         with(itemView) {
             heartIcon.gone()
             
-            if (checkedDrawable == null && showFavIcon) {
-                checkedDrawable = itemView.context.createHeartIcon(true)
+            if (shouldCheck != check) {
+                shouldCheck = check
+                rightDrawable = null
             }
-            if (uncheckedDrawable == null && showFavIcon) {
-                uncheckedDrawable = itemView.context.createHeartIcon(false)
-            }
+            if (rightDrawable == null) rightDrawable = context.createHeartIcon(check)
             
             ViewCompat.setTransitionName(img, "img_transition_$adapterPosition")
             ViewCompat.setTransitionName(name, "name_transition_$adapterPosition")
@@ -138,45 +140,48 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
             setBackgroundColor(context.thumbnailColor)
             val url = wallpaper.url
             val thumb = wallpaper.thumbUrl
-            loadImage(manager, url, if (thumb.equals(url, true)) "" else thumb, check)
+            loadImage(manager, url, if (thumb.equals(url, true)) "" else thumb)//, check)
             name.text = wallpaper.name
             author.goneIf(!wallpaper.author.hasContent())
             author.text = wallpaper.author
             if (showFavIcon) {
+                heartIcon.setImageDrawable(rightDrawable)
                 heartIcon.setOnClickListener { heartListener(heartIcon, wallpaper) }
+                heartIcon.visible()
             }
         }
         itemView.setOnClickListener { singleTap(wallpaper, this) }
     }
     
-    private fun loadImage(manager:RequestManager, url:String, thumbUrl:String, check:Boolean) {
-        val target = object:GlideTarget(img) {
-            override fun onLoadSucceed(resource:Bitmap) {
-                img.setImageBitmap(resource)
-                if (!hasFaded) {
-                    img.animateColorTransition({ hasFaded = true })
-                } else {
-                    itemView.clearChildrenAnimations()
-                }
-                val rightDrawable = if (check) checkedDrawable else uncheckedDrawable
-                if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
-                    val color = resource.generatePalette().bestSwatch?.rgb ?: itemView.context.cardBackgroundColor
-                    detailsBg.background = null
-                    detailsBg.setBackgroundColor(color)
-                    name.setTextColor(itemView.context.getPrimaryTextColorFor(color))
-                    author.setTextColor(itemView.context.getSecondaryTextColorFor(color))
-                    if (showFavIcon)
-                        heartIcon.setImageDrawable(rightDrawable?.applyColorFilter(
-                                itemView.context.getActiveIconsColorFor(color)))
-                } else {
-                    detailsBg.background =
-                            itemView.context.getDrawable(R.drawable.gradient, null)
-                    if (showFavIcon) heartIcon.setImageDrawable(rightDrawable)
-                }
-                if (showFavIcon) heartIcon.visible()
+    private val listener = object:GlideRequestListener<Bitmap>() {
+        override fun onLoadSucceed(resource:Bitmap):Boolean {
+            img.setImageBitmap(resource)
+            if (!hasFaded) {
+                img.animateColorTransition({ hasFaded = true })
+            } else {
+                itemView.clearChildrenAnimations()
             }
+            if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
+                val color = resource.generatePalette().bestSwatch?.rgb ?: itemView.context.cardBackgroundColor
+                detailsBg.background = null
+                detailsBg.setBackgroundColor(color)
+                name.setTextColor(itemView.context.getPrimaryTextColorFor(color))
+                author.setTextColor(itemView.context.getSecondaryTextColorFor(color))
+                if (showFavIcon)
+                    heartIcon.setImageDrawable(rightDrawable?.applyColorFilter(
+                            itemView.context.getActiveIconsColorFor(color)))
+            } else {
+                detailsBg.background =
+                        itemView.context.getDrawable(R.drawable.gradient, null)
+            }
+            return true
         }
-        img.loadWallpaper(manager, url, thumbUrl, true, hasFaded, null, target)
+    }
+    
+    
+    private fun loadImage(manager:RequestManager, url:String, thumbUrl:String) {
+        img.loadWallpaper(manager, url, thumbUrl, true, hasFaded, listener, null,
+                          { hasFaded = true })
     }
     
     override fun onRecycled() {

@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package jahirfiquitiva.libs.frames.ui.adapters
+package jahirfiquitiva.libs.frames.ui.fragments.adapters
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -22,7 +21,8 @@ import android.support.v4.app.FragmentStatePagerAdapter
 
 class FragmentsAdapter(manager:FragmentManager, vararg fragments:Fragment):
         FragmentStatePagerAdapter(manager) {
-    val fragments = ArrayList<Fragment>()
+    
+    val fragments = ArrayList<Fragment?>()
     
     init {
         this.fragments.clear()
@@ -30,8 +30,12 @@ class FragmentsAdapter(manager:FragmentManager, vararg fragments:Fragment):
     }
     
     override fun getItem(position:Int):Fragment? {
-        if (position in 0..fragments.size) return fragments[position]
-        return null
+        return try {
+            fragments[position]
+        } catch (e:Exception) {
+            e.printStackTrace()
+            null
+        }
     }
     
     override fun getCount():Int = fragments.size

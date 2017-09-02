@@ -28,10 +28,10 @@ import ca.allanwang.kau.utils.postDelayed
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
-import jahirfiquitiva.libs.frames.ui.adapters.FragmentsAdapter
 import jahirfiquitiva.libs.frames.ui.fragments.CollectionsFragment
 import jahirfiquitiva.libs.frames.ui.fragments.FavoritesFragment
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersFragment
+import jahirfiquitiva.libs.frames.ui.fragments.adapters.FragmentsAdapter
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomTabLayout
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
@@ -62,8 +62,6 @@ abstract class FramesActivity:BaseFramesActivity() {
         
         pager = findViewById(R.id.pager)
         
-        pager.adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
-                                         WallpapersFragment(), FavoritesFragment())
         tabs = findViewById(R.id.tabs)
         
         val useAccentColor = getBoolean(R.bool.enable_accent_color_in_tabs)
@@ -139,6 +137,9 @@ abstract class FramesActivity:BaseFramesActivity() {
                 super.onPageSelected(position)
             }
         })
+        
+        pager.adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
+                                         WallpapersFragment(), FavoritesFragment())
         pager.offscreenPageLimit = tabs.tabCount
         pager.setCurrentItem(1, true)
     }
