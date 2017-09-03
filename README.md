@@ -112,7 +112,7 @@ Just join our community and make a post. We'll help you as soon as possible. [![
 
 ---
 
-# Developed and Maintained by
+# Developed by
 
 ### [Jahir Fiquitiva](https://www.jahirfiquitiva.me/)
 
