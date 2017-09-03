@@ -96,7 +96,8 @@ Just join our community and make a post. We'll help you as soon as possible. [![
 [![Google+](https://img.shields.io/badge/Follow-Google%2B-ea4335.svg)](https://plus.google.com/+JahirFiquitivaR)
 [![Donate](https://img.shields.io/badge/PayPal-Donate-009cde.svg)](https://www.paypal.me/jahirfiquitiva)
 
-> If you found this app/library helpful and want to thank me, consider [buying me a cup of :coffee: or a slice of :pizza:](https://www.paypal.me/jahirfiquitiva). Thanks in advance :blush:
+> If you found this app/library helpful and want to thank me, consider [buying me a cup of :coffee: or a slice of :pizza:](https://www.paypal.me/jahirfiquitiva).
+> Thanks in advance :blush:
 
 ## Special Thanks:
 
