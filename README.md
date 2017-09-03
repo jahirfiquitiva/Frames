@@ -22,10 +22,17 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 
 ---
 
-## Features:
+# Previews
+
+*Coming soon...*
+
+---
+
+# Features:
 - Material Design dashboard.
 - License Checker.
 - Donations.
+- Firebase notifications ready.
 - Cloud based (only) wallpapers.
 - Categories section.
 - Favorites section.
@@ -52,7 +59,7 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 
 ---
 
-## Including in your project
+# Including in your project
 Frames is available via JitPack, so getting it as simple as adding it as a dependency, like this:
 
 1. Add JitPack repository to your root `build.gradle` file
@@ -79,7 +86,7 @@ Just join our community and make a post. We'll help you as soon as possible. [![
 
 ---
 
-## Developed and Maintained by
+# Developed and Maintained by
 
 [![Jahir Fiquitiva](https://img.shields.io/badge/Jahir-Fiquitiva-4285f4.svg)](https://www.jahirfiquitiva.me/)
 [![Follow on GitHub](https://img.shields.io/github/followers/jahirfiquitiva.svg?style=social&label=Follow)](https://github.com/jahirfiquitiva)
@@ -87,4 +94,34 @@ Just join our community and make a post. We'll help you as soon as possible. [![
 [![Google+](https://img.shields.io/badge/Follow-Google%2B-ea4335.svg)](https://plus.google.com/+JahirFiquitivaR)
 [![Donate](https://img.shields.io/badge/PayPal-Donate-009cde.svg)](https://www.paypal.me/jahirfiquitiva)
 
-> If you found this library helpful or you learned something from the source code and want to thank me, consider [buying me a cup of :coffee: or a slice of :pizza:](https://www.paypal.me/jahirfiquitiva). Thanks in advance :blush:
+> If you found this app/library helpful and want to thank me, consider [buying me a cup of :coffee: or a slice of :pizza:](https://www.paypal.me/jahirfiquitiva). Thanks in advance :blush:
+
+## Special Thanks:
+
+- [Sherry Sabatine](https://plus.google.com/+SherrySabatine). Thanks to her, Frames is completely free and open-source.
+- [Allan Wang](https://www.allanwang.ca/)
+- [Maximilian Keppeler](https://plus.google.com/+MaxKeppeler)
+- [James Fenn](https://theandroidmaster.github.io/)
+- [Patryk Goworowski](https://plus.google.com/+PatrykGoworowski)
+- [Lumiq Creative](https://plus.google.com/+LumiqCreative)
+- [Eduardo Pratti](https://plus.google.com/+EduardoPratti/posts)
+
+---
+
+# License
+
+This app is shared under the CreativeCommons Attribution-ShareAlike license.
+
+	Copyright 2017 Jahir Fiquitiva
+
+	Licensed under the CreativeCommons Attribution-ShareAlike 
+	4.0 International License. You may not use this file except in compliance 
+	with the License. You may obtain a copy of the License at
+
+	   http://creativecommons.org/licenses/by-sa/4.0/legalcode
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
