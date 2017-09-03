@@ -97,7 +97,6 @@ Just join our community and make a post. We'll help you as soon as possible. [![
 [![Donate](https://img.shields.io/badge/PayPal-Donate-009cde.svg)](https://www.paypal.me/jahirfiquitiva)
 
 > If you found this app/library helpful and want to thank me, consider [buying me a cup of :coffee: or a slice of :pizza:](https://www.paypal.me/jahirfiquitiva).
->
 > Thanks in advance :blush:
 
 ## Special Thanks:
