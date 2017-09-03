@@ -17,6 +17,7 @@ package jahirfiquitiva.libs.frames.ui.activities
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.Toolbar
@@ -66,6 +67,9 @@ open class CreditsActivity:ThemedActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+        
+        val refreshLayout = findViewById<SwipeRefreshLayout>(R.id.swipe_to_refresh)
+        refreshLayout.isEnabled = false
         
         rv = findViewById(R.id.list_rv)
         rv.itemAnimator = DefaultItemAnimator()
@@ -242,5 +246,5 @@ const val SHERRY_LINKS = "http://photography-by-sherry.com/home|https://plus.goo
 
 const val JAMES_PHOTO_URL = "https://lh3.googleusercontent.com/H1lDr6FlSvHQe4oIogYUGNWIDLb69LcIVCYciPUzql7Q_Nrq4wp-3yKh1uSfTPV3iM0DnC1icD-80YQ=w1107-h623-rw-no"
 const val MAX_PHOTO_URL = "https://lh3.googleusercontent.com/yvcLR6mThBOpHYo6iIG9SlyEHmmVgO1LaPIv_Eu9unSGqt99fnaBVLtR1rom16c_t98tz_sxGeo8Ba5MPCI=w1107-h623-rw-no"
-const val LUMIQ_PHOTO_URL = "https://lh3.googleusercontent.com/AEM9NXPSVn77YGo4SIQIeMyyTb7BWkwp96XcJlnYfHZU1fFxDZ2cvXlJSzu-3Nb-rj7Sl4x-0QMG8m_3Rg=w1107-h623-rw-no"
+const val LUMIQ_PHOTO_URL = "https://raw.githubusercontent.com/lumiqcreative/lumiq-repo/master/profilepic.png"
 const val PATRYK_PHOTO_URL = "https://lh3.googleusercontent.com/EpfG2M4si7jn_lk01ure5CGDPF07Aw3YPA88NMvoG1txfGIPc-feN2LdrBby_5W8VPJNCBNGjzCtOYclHck=w1107-h623-rw-no"
