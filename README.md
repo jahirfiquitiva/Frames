@@ -26,6 +26,18 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 # Previews
 
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/1.png" height="400"/>
+<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/2.png" height="400"/>
+<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/3.png" height="400"/>
+<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/4.png" height="400"/>
+<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/5.png" height="400"/>
+<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/6.png" height="400"/>
+<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/7.png" height="400"/>
+<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/8.png" height="400"/>
+<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/9.png" height="400"/>
+<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/10.png" height="400"/>
+<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/11.png" height="400"/>
+<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/12.png" height="400"/>
+<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/13.png" height="400"/>
 
 ---
 
