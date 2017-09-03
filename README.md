@@ -11,8 +11,6 @@ Frames
 
 A full-of-features, easy-to-customize, free and open source, light-weight, Android dashboard library to create wallpapers apps with almost-null effort.
 
----
-
 ## Show some  :blue_heart:
 [![GitHub stars](https://img.shields.io/github/stars/jahirfiquitiva/Frames.svg?style=social&label=Star)](https://github.com/jahirfiquitiva/Frames)
 [![GitHub forks](https://img.shields.io/github/forks/jahirfiquitiva/Frames.svg?style=social&label=Fork)](https://github.com/jahirfiquitiva/Frames/fork)
@@ -45,13 +43,9 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 - Lots of customizations.
 - Works with Android 4.1 and newer.
 
----
-
 # Help translating
 
 :page_facing_up: Help making Frames available in more languages. [Click here to go to the translation site](http://bit.ly/TranslateFrames)
-
---- 
 
 # Changelog
 
@@ -83,9 +77,10 @@ where `{latest version}` corresponds to published version in   [![JitPack](https
 
 ---
 
-# Developed and Maintained by
+### Developed and Maintained by
 
 [Jahir Fiquitiva](https://www.jahirfiquitiva.me/)
+
 [![Google+](https://img.shields.io/badge/Follow-Google%2B-ea4335.svg)](https://plus.google.com/+JahirFiquitivaR)
 [![Donate](https://img.shields.io/badge/PayPal-Donate-009cde.svg)](https://www.paypal.me/jahirfiquitiva)
 
