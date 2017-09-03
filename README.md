@@ -17,8 +17,8 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 [![GitHub watchers](https://img.shields.io/github/watchers/jahirfiquitiva/Frames.svg?style=social&label=Watch)](https://github.com/jahirfiquitiva/Frames)
 
 [![Follow on GitHub](https://img.shields.io/github/followers/jahirfiquitiva.svg?style=social&label=Follow)](https://github.com/jahirfiquitiva)
-[![Google+](https://img.shields.io/badge/Follow-Google%2B-ea4335.svg)](https://plus.google.com/+JahirFiquitivaR)
 [![Twitter Follow](https://img.shields.io/twitter/follow/jahirfiquitiva.svg?style=social)](https://twitter.com/jahirfiquitiva)
+[![Google+](https://img.shields.io/badge/Follow-Google%2B-ea4335.svg)](https://plus.google.com/+JahirFiquitivaR)
 [![Donate](https://img.shields.io/badge/PayPal-Donate-009cde.svg)](https://www.paypal.me/jahirfiquitiva)
 
 ---
@@ -89,11 +89,11 @@ Just join our community and make a post. We'll help you as soon as possible. [![
 
 # Developed and Maintained by
 
-[**Jahir Fiquitiva**](https://www.jahirfiquitiva.me/)
+### [Jahir Fiquitiva](https://www.jahirfiquitiva.me/)
 
 [![Follow on GitHub](https://img.shields.io/github/followers/jahirfiquitiva.svg?style=social&label=Follow)](https://github.com/jahirfiquitiva)
-[![Google+](https://img.shields.io/badge/Follow-Google%2B-ea4335.svg)](https://plus.google.com/+JahirFiquitivaR)
 [![Twitter Follow](https://img.shields.io/twitter/follow/jahirfiquitiva.svg?style=social)](https://twitter.com/jahirfiquitiva)
+[![Google+](https://img.shields.io/badge/Follow-Google%2B-ea4335.svg)](https://plus.google.com/+JahirFiquitivaR)
 [![Donate](https://img.shields.io/badge/PayPal-Donate-009cde.svg)](https://www.paypal.me/jahirfiquitiva)
 
 > If you found this app/library helpful and want to thank me, consider [buying me a cup of :coffee: or a slice of :pizza:](https://www.paypal.me/jahirfiquitiva). Thanks in advance :blush:
