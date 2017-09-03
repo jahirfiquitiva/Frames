@@ -25,7 +25,7 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 
 # Previews
 
-*Coming soon...*
+<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/1.png" height="256"/>
 
 ---
 
