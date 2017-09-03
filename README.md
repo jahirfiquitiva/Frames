@@ -17,13 +17,50 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 [![GitHub stars](https://img.shields.io/github/stars/jahirfiquitiva/Frames.svg?style=social&label=Star)](https://github.com/jahirfiquitiva/Frames) [![GitHub forks](https://img.shields.io/github/forks/jahirfiquitiva/Frames.svg?style=social&label=Fork)](https://github.com/jahirfiquitiva/Frames/fork) [![GitHub watchers](https://img.shields.io/github/watchers/jahirfiquitiva/Frames.svg?style=social&label=Watch)](https://github.com/jahirfiquitiva/Frames) [![GitHub followers](https://img.shields.io/github/followers/jahirfiquitiva.svg?style=social&label=Follow)](https://github.com/jahirfiquitiva/Frames)  
 [![Twitter Follow](https://img.shields.io/twitter/follow/jahirfiquitiva.svg?style=social)](https://twitter.com/jahirfiquitiva) 
 
+---
+
+# Features:
+- Material Design dashboard.
+- License Checker.
+- Donations.
+- Cloud based (only) wallpapers.
+- Categories section.
+- Favorites section.
+- Wallpapers can be applied and downloaded.
+- Wallpapers include a full-screen viewer with zooming capabilities.
+- Option to change the columns amount in wallpapers section.
+- [Muzei Live Wallpaper](http://muzei.co/) support.
+- Credits section.
+- Settings section with these options:
+	- Option to change app theme (Light, Dark, Amoled, Transparent, Auto-Dark, Auto-Amoled).
+	- Option to color navigation bar (Lollipop+).
+	- Option to clear app cache.
+	- Option to change where to download wallpapers.
+	- Option to clear favorites database.
+- Tablet layouts.
+- Lots of customizations.
+- Works with Android 4.1 and newer.
+
+--- 
 
 # Including in your project
-Frames is available via JitPack, so getting it as simple as adding it as a dependency
+Frames is available via JitPack, so getting it as simple as adding it as a dependency, like this:
+
+1. Add JitPack repository to your root `build.gradle` file
 ```gradle
-compile 'me.jahirfiquitiva:Frames:{latest version}'
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
 ```
-where `{latest version}` corresponds to published version in [![JitPack](https://jitpack.io/v/jahirfiquitiva/Frames.svg)](https://jitpack.io/#jahirfiquitiva/Frames)
+2. Add the dependency in your project `build.gradle` file
+```gradle
+dependencies {
+    compile 'me.jahirfiquitiva:Frames:{latest version}'
+}
+```
+where `{latest version}` corresponds to published version in   [![JitPack](https://jitpack.io/v/jahirfiquitiva/Frames.svg)](https://jitpack.io/#jahirfiquitiva/Frames)
 
 # How to implement
 :page_with_curl: Everything you need to know can be found in the **[Wiki Docs](https://github.com/jahirfiquitiva/Frames/wiki/)**
