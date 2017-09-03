@@ -26,18 +26,12 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 # Previews
 
 ### Customizable styles
-
-Customizable Styles
-:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-![](https://github.com/jahirfiquitiva/Frames2/raw/images/2.png)  |  ![](https://github.com/jahirfiquitiva/Frames2/raw/images/3.png)  |  ![](https://github.com/jahirfiquitiva/Frames2/raw/images/9.png)  |  ![](https://github.com/jahirfiquitiva/Frames2/raw/images/10.png)
-
 <p align="center">
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/2.png" height="350"/>
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/3.png" height="350"/>
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/9.png" height="350"/>
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/10.png" height="350"/>
 </p>
-<br>
 <p align="center">
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/1.png" height="400"/>
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/11.png" height="400"/>
@@ -46,6 +40,7 @@ Customizable Styles
 
 ### Full-screen Viewer / Multiple themes
 <p align="center">
+<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/4.png" height="400"/>
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/7.png" height="400"/>
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/8.png" height="400"/>
 </p>
