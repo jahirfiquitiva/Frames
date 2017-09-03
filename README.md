@@ -21,7 +21,7 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 
 ---
 
-# Features:
+## Features:
 - Material Design dashboard.
 - License Checker.
 - Donations.
@@ -43,17 +43,17 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 - Lots of customizations.
 - Works with Android 4.1 and newer.
 
-# Help translating
+## Help translating
 
 :page_facing_up: Help making Frames available in more languages. [Click here to go to the translation site](http://bit.ly/TranslateFrames)
 
-# Changelog
+## Changelog
 
 :radio_button: You can find it in the [Releases page](https://github.com/jahirfiquitiva/Frames/releases)
 
 ---
 
-# Including in your project
+## Including in your project
 Frames is available via JitPack, so getting it as simple as adding it as a dependency, like this:
 
 1. Add JitPack repository to your root `build.gradle` file
@@ -72,12 +72,12 @@ dependencies {
 ```
 where `{latest version}` corresponds to published version in   [![JitPack](https://jitpack.io/v/jahirfiquitiva/Frames.svg)](https://jitpack.io/#jahirfiquitiva/Frames)
 
-# How to implement
+## How to implement
 :page_with_curl: Everything you need to know can be found in the **[Wiki Docs](https://github.com/jahirfiquitiva/Frames/wiki/)**
 
 ---
 
-### Developed and Maintained by
+## Developed and Maintained by
 
 [Jahir Fiquitiva](https://www.jahirfiquitiva.me/)
 
