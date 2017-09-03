@@ -49,6 +49,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.isNetworkAvailable
+import ca.allanwang.kau.utils.navigationBarColor
 import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.setMarginTop
 import ca.allanwang.kau.utils.tint
@@ -132,6 +133,7 @@ open class ViewerActivity:ThemedActivity() {
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         enableTranslucentStatusBar()
+        navigationBarColor = Color.parseColor("#66000000")
         
         setContentView(R.layout.activity_viewer)
         supportPostponeEnterTransition()

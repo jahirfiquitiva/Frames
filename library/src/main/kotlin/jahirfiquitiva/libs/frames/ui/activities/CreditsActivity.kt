@@ -17,6 +17,7 @@ package jahirfiquitiva.libs.frames.ui.activities
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.Toolbar
@@ -66,6 +67,9 @@ open class CreditsActivity:ThemedActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+        
+        val refreshLayout = findViewById<SwipeRefreshLayout>(R.id.swipe_to_refresh)
+        refreshLayout.isEnabled = false
         
         rv = findViewById(R.id.list_rv)
         rv.itemAnimator = DefaultItemAnimator()

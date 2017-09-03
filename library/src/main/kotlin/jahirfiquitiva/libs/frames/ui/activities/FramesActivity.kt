@@ -16,20 +16,20 @@
 package jahirfiquitiva.libs.frames.ui.activities
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.design.widget.TabLayout
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import ca.allanwang.kau.utils.postDelayed
-import ca.allanwang.kau.utils.setPaddingTop
+import ca.allanwang.kau.utils.tint
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.ui.fragments.CollectionsFragment
 import jahirfiquitiva.libs.frames.ui.fragments.FavoritesFragment
@@ -96,15 +96,22 @@ abstract class FramesActivity:BaseFramesActivity() {
                 else -> 0
             }
             
+            var iconDrawable:Drawable? = null
+            
+            if (showIcons && icon != 0)
+                iconDrawable = ContextCompat.getDrawable(this, icon)
+                        .tint(if (i != 1) getInactiveIconsColorFor(primaryColor, 0.6F)
+                              else getActiveIconsColorFor(primaryColor, 0.6F))
+            
             val tab = tabs.newTab()
             if (reallyShowTexts) {
                 if (text != 0) tab.setText(text)
-                if (showIcons && icon != 0) {
-                    tab.setIcon(icon)
+                if (showIcons && iconDrawable != null) {
+                    tab.icon = iconDrawable
                 }
             } else {
                 if (showIcons) {
-                    if (icon != 0) tab.setIcon(icon)
+                    if (iconDrawable != null) tab.icon = iconDrawable
                 } else {
                     if (text != 0) tab.setText(text)
                 }
