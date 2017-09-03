@@ -204,14 +204,15 @@ open class ViewerActivity:ThemedActivity() {
         }
         
         img = findViewById(R.id.wallpaper)
-        ViewCompat.setTransitionName(img, intent?.getStringExtra("imgTransition") ?: "")
-        
-        setupWallpaper(wallpaper)
-        
         img.setOnSingleTapListener {
             toggleSystemUI()
             true
         }
+        
+        ViewCompat.setTransitionName(img, intent?.getStringExtra("imgTransition") ?: "")
+        supportStartPostponedEnterTransition()
+        
+        setupWallpaper(wallpaper)
     }
     
     override fun onResume() {
@@ -313,14 +314,14 @@ open class ViewerActivity:ThemedActivity() {
                 override fun onLoadSucceed(resource:GlideDrawable):Boolean {
                     findViewById<ProgressBar>(R.id.loading).gone()
                     visibleProgressBar = false
-                    doEnterTransition()
+                    // doEnterTransition()
                     return false
                 }
                 
                 override fun onLoadFailed():Boolean {
                     findViewById<ProgressBar>(R.id.loading).gone()
                     visibleProgressBar = false
-                    doEnterTransition()
+                    // doEnterTransition()
                     return super.onLoadFailed()
                 }
             }
@@ -352,14 +353,14 @@ open class ViewerActivity:ThemedActivity() {
                                 setupProgressBarColors(resource)
                                 findViewById<ProgressBar>(R.id.loading).visible()
                                 visibleProgressBar = true
-                                doEnterTransition()
+                                // doEnterTransition()
                                 return false
                             }
                             
                             override fun onLoadFailed():Boolean {
                                 findViewById<ProgressBar>(R.id.loading).gone()
                                 visibleProgressBar = false
-                                doEnterTransition()
+                                // doEnterTransition()
                                 return super.onLoadFailed()
                             }
                         })
@@ -379,6 +380,7 @@ open class ViewerActivity:ThemedActivity() {
         }
     }
     
+    /*
     private fun doEnterTransition() {
         img.viewTreeObserver.addOnPreDrawListener(object:ViewTreeObserver.OnPreDrawListener {
             override fun onPreDraw():Boolean {
@@ -391,6 +393,7 @@ open class ViewerActivity:ThemedActivity() {
             }
         })
     }
+    */
     
     private fun setupProgressBarColors(drw:Drawable?) {
         setupProgressBarColors(drw?.toBitmap())
