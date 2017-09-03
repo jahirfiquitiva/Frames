@@ -25,6 +25,7 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 
 # Previews
 
+<p align="center">
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/1.png" height="400"/>
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/2.png" height="400"/>
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/3.png" height="400"/>
@@ -38,6 +39,7 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/11.png" height="400"/>
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/12.png" height="400"/>
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/13.png" height="400"/>
+</p>
 
 ---
 
