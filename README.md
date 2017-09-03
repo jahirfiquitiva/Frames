@@ -14,8 +14,12 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 ---
 
 ## Show some  :blue_heart:
-[![GitHub stars](https://img.shields.io/github/stars/jahirfiquitiva/Frames.svg?style=social&label=Star)](https://github.com/jahirfiquitiva/Frames) [![GitHub forks](https://img.shields.io/github/forks/jahirfiquitiva/Frames.svg?style=social&label=Fork)](https://github.com/jahirfiquitiva/Frames/fork) [![GitHub watchers](https://img.shields.io/github/watchers/jahirfiquitiva/Frames.svg?style=social&label=Watch)](https://github.com/jahirfiquitiva/Frames) [![GitHub followers](https://img.shields.io/github/followers/jahirfiquitiva.svg?style=social&label=Follow)](https://github.com/jahirfiquitiva/Frames)  
-[![Twitter Follow](https://img.shields.io/twitter/follow/jahirfiquitiva.svg?style=social)](https://twitter.com/jahirfiquitiva) 
+[![GitHub stars](https://img.shields.io/github/stars/jahirfiquitiva/Frames.svg?style=social&label=Star)](https://github.com/jahirfiquitiva/Frames)
+[![GitHub forks](https://img.shields.io/github/forks/jahirfiquitiva/Frames.svg?style=social&label=Fork)](https://github.com/jahirfiquitiva/Frames/fork)
+[![GitHub watchers](https://img.shields.io/github/watchers/jahirfiquitiva/Frames.svg?style=social&label=Watch)](https://github.com/jahirfiquitiva/Frames)
+[![GitHub followers](https://img.shields.io/github/followers/jahirfiquitiva.svg?style=social&label=Follow)](https://github.com/jahirfiquitiva/Frames)  
+[![Twitter Follow](https://img.shields.io/twitter/follow/jahirfiquitiva.svg?style=social)](https://twitter.com/jahirfiquitiva)
+[![Donate](https://img.shields.io/badge/PayPal-Donate-009cde.svg)](https://www.paypal.me/jahirfiquitiva)
 
 ---
 
@@ -41,7 +45,19 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 - Lots of customizations.
 - Works with Android 4.1 and newer.
 
+---
+
+# Help translating
+
+:page_facing_up: Help making Frames available in more languages. [Click here to go to the translation site](http://bit.ly/TranslateFrames)
+
 --- 
+
+# Changelog
+
+:radio_button: You can find it in the [Releases page](https://github.com/jahirfiquitiva/Frames/releases)
+
+---
 
 # Including in your project
 Frames is available via JitPack, so getting it as simple as adding it as a dependency, like this:
@@ -64,3 +80,13 @@ where `{latest version}` corresponds to published version in   [![JitPack](https
 
 # How to implement
 :page_with_curl: Everything you need to know can be found in the **[Wiki Docs](https://github.com/jahirfiquitiva/Frames/wiki/)**
+
+---
+
+# Developed and Maintained by
+
+[Jahir Fiquitiva](https://www.jahirfiquitiva.me/)
+[![Google+](https://img.shields.io/badge/Follow-Google%2B-ea4335.svg)](https://plus.google.com/+JahirFiquitivaR)
+[![Donate](https://img.shields.io/badge/PayPal-Donate-009cde.svg)](https://www.paypal.me/jahirfiquitiva)
+
+> If you found this library helpful or you learned something from the source code and want to thank me, consider [buying me a cup of :coffee: or a slice of :pizza:](https://www.paypal.me/jahirfiquitiva). Thanks in advance :blush:
