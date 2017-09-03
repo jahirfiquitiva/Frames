@@ -12,7 +12,6 @@ Frames
 A full-of-features, easy-to-customize, free and open source, light-weight, Android dashboard library to create wallpapers apps with almost-null effort.
 
 ## Show some  :blue_heart:
-
 [![GitHub stars](https://img.shields.io/github/stars/jahirfiquitiva/Frames.svg?style=social&label=Star)](https://github.com/jahirfiquitiva/Frames)
 [![GitHub forks](https://img.shields.io/github/forks/jahirfiquitiva/Frames.svg?style=social&label=Fork)](https://github.com/jahirfiquitiva/Frames/fork)
 [![GitHub watchers](https://img.shields.io/github/watchers/jahirfiquitiva/Frames.svg?style=social&label=Watch)](https://github.com/jahirfiquitiva/Frames)
@@ -46,11 +45,9 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 - Works with Android 4.1 and newer.
 
 ## Help translating
-
 :page_facing_up: Help making Frames available in more languages. [Click here to go to the translation site](http://bit.ly/TranslateFrames)
 
 ## Changelog
-
 :radio_button: You can find it in the [Releases page](https://github.com/jahirfiquitiva/Frames/releases)
 
 ---
@@ -78,8 +75,7 @@ where `{latest version}` corresponds to published version in   [![JitPack](https
 :page_with_curl: Everything you need to know can be found in the **[Wiki Docs](https://github.com/jahirfiquitiva/Frames/wiki/)**
 
 ## Still need help :question:
-
-Just join our community and make a post. We'll help you as soon as possible. [![Google+ Community](https://img.shields.io/badge/Google%2B-Community%2B-ea4335.svg)](https://plus.google.com/communities/117748118619432374563)
+Just join our community and make a post. We'll help you as soon as possible. [![Google+ Community](https://img.shields.io/badge/Google%2B-Community-ea4335.svg)](https://plus.google.com/communities/117748118619432374563)
 
 ---
 
