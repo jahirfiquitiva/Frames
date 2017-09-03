@@ -77,6 +77,10 @@ where `{latest version}` corresponds to published version in   [![JitPack](https
 ## How to implement
 :page_with_curl: Everything you need to know can be found in the **[Wiki Docs](https://github.com/jahirfiquitiva/Frames/wiki/)**
 
+## Still need help :question:
+
+Just join our community and make a post. We'll help you as soon as possible. [![Google+ Community](https://img.shields.io/badge/Google%2B-Community%2B-ea4335.svg)](https://plus.google.com/communities/117748118619432374563)
+
 ---
 
 ## Developed and Maintained by
