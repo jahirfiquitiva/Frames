@@ -132,8 +132,8 @@ This app is shared under the CreativeCommons Attribution-ShareAlike license.
 
 ## Library source
 
-As you may know, the [library source](https://github.com/jahirfiquitiva/Frames) is open-source too. This means that you can fork it and do your own modifications, but it also means that you have enough knowledge to do it.
+As you may know, the [library source](https://github.com/jahirfiquitiva/Frames) is open-source. This means that you can fork it and do your own modifications, but it has some conditions:
 
 When using the [library source](https://github.com/jahirfiquitiva/Frames), anything from it: errors, crashes, issues, etc. including successful builds, must be done completely by yourself and under your own risk and responsibility. I **will not** provide any help/support when using the [library source](https://github.com/jahirfiquitiva/Frames).
 
-Finally, be sure your projects comply with the [license previously mentioned](https://github.com/jahirfiquitiva/Frames#license). Otherwise, I will be filing DMCA reports and taking legal actions. I hope you understand.
+Finally, be sure your projects comply with the [license previously mentioned](https://github.com/jahirfiquitiva/Frames#license). Otherwise I will be taking the required legal actions. I hope you understand.
