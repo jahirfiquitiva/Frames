@@ -19,7 +19,7 @@ import android.os.AsyncTask
 
 open class AsyncTaskManager<Result, Parameter>(val param:Parameter,
                                                val onPreEx:() -> Unit,
-                                               val loadStuff:(param:Parameter) -> Result,
+                                               val loadStuff:(param:Parameter) -> Result?,
                                                val onReady:(Result) -> Unit) {
     
     private var task:AsyncTask<Unit, Unit, Result>
@@ -31,7 +31,7 @@ open class AsyncTaskManager<Result, Parameter>(val param:Parameter,
                 onPreEx()
             }
             
-            override fun doInBackground(vararg params:Unit?):Result = loadStuff(param)
+            override fun doInBackground(vararg params:Unit?):Result? = loadStuff(param)
             
             override fun onPostExecute(result:Result?) {
                 super.onPostExecute(result)

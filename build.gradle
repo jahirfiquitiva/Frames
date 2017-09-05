@@ -57,7 +57,7 @@ allprojects {
         materialDialogs = '0.9.4.7'
         glide = '3.7.0' // 4.0.0
         volley = '1.0.0'
-        kauExt = '219e8a4'
+        kauExt = '6d74818'
         sectionedRecyclerView = '0.5.0'
         recyclerViewFastScroll = 'f08746f'
         mnp = '1.2.1'

@@ -16,35 +16,9 @@
 
 package jahirfiquitiva.libs.frames.providers.viewmodels
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import jahirfiquitiva.libs.frames.helpers.utils.AsyncTaskManager
-
-abstract class ListViewModel<Parameter, Result>:ViewModel() {
+abstract class ListViewModel<Parameter, Result>:BasicViewModel<Parameter, ArrayList<Result>>() {
     
-    val items = MutableLiveData<ArrayList<Result>>()
-    internal var param:Parameter? = null
-    private var task:AsyncTaskManager<ArrayList<Result>, Parameter>? = null
-    private var observer:CustomObserver<ArrayList<Result>>? = null
-    
-    fun setCustomObserver(observer:CustomObserver<ArrayList<Result>>) {
-        this.observer = observer
-    }
-    
-    fun loadData(parameter:Parameter, forceLoad:Boolean = false) {
-        if (param == null) param = parameter
-        stopTask(true)
-        task = AsyncTaskManager(parameter, {},
-                                { internalLoad(it, forceLoad) },
-                                { postResult(it) })
-        task?.execute()
-    }
-    
-    fun stopTask(interrupt:Boolean = false) {
-        task?.cancelTask(interrupt)
-    }
-    
-    private fun internalLoad(param:Parameter, forceLoad:Boolean = false):ArrayList<Result> =
+    override fun internalLoad(param:Parameter, forceLoad:Boolean):ArrayList<Result>? =
             if (forceLoad) {
                 ArrayList(loadItems(param).distinct())
             } else {
@@ -57,13 +31,17 @@ abstract class ListViewModel<Parameter, Result>:ViewModel() {
                 }
             }
     
-    internal fun postResult(data:ArrayList<Result>) {
+    override fun postResult(data:ArrayList<Result>) {
         items.value?.clear()
         items.postValue(ArrayList(data.distinct()))
         observer?.onValuePosted(ArrayList(data.distinct()))
     }
     
-    abstract protected fun loadItems(param:Parameter):ArrayList<Result>
+    private var observer:CustomObserver<ArrayList<Result>>? = null
+    
+    fun setCustomObserver(observer:CustomObserver<ArrayList<Result>>) {
+        this.observer = observer
+    }
     
     interface CustomObserver<in Result> {
         fun onValuePosted(data:Result)

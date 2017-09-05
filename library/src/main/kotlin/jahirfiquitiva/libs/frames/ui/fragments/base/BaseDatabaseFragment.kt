@@ -36,6 +36,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.frames.ui.widgets.SimpleAnimationListener
+import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import org.jetbrains.anko.runOnUiThread
 
 @Suppress("NAME_SHADOWING")
@@ -53,6 +54,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     }
     
     private fun initDatabase() {
+        if (!(context.getBoolean(R.bool.isFrames))) return
         if (database == null) {
             database = Room.databaseBuilder(context, FavoritesDatabase::class.java,
                                             DATABASE_NAME).fallbackToDestructiveMigration().build()
@@ -64,6 +66,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     }
     
     private fun initFavoritesViewModel() {
+        if (!(context.getBoolean(R.bool.isFrames))) return
         if (database == null) initDatabase()
         if (favoritesModel == null) {
             favoritesModel = ViewModelProviders.of(activity).get(FavoritesViewModel::class.java)

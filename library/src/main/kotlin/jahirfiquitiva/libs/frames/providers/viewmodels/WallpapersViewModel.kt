@@ -110,25 +110,43 @@ class WallpapersViewModel:ViewModel() {
     fun buildWallpapersListFromResponse(context:Context, response:String,
                                         shouldSaveResult:Boolean = false):ArrayList<Wallpaper> {
         val shouldUseOldFormat = context.getBoolean(R.bool.use_old_json_format)
-        val jsonArray = if (shouldUseOldFormat) {
-            if (response.hasContent()) {
-                try {
-                    JSONObject(response).getJSONArray("Wallpapers")
-                } catch (ignored:Exception) {
-                    try {
-                        JSONObject(response).getJSONArray("wallpapers")
-                    } catch (ignored:Exception) {
-                        JSONArray("[]")
-                    }
-                }
-            } else {
+        val jsonArray = try {
+            buildJSONArrayFromResponse(response, shouldUseOldFormat)
+        } catch (e:Exception) {
+            e.printStackTrace()
+            try {
+                buildJSONArrayFromResponse(response, true)
+            } catch (e2:Exception) {
+                e2.printStackTrace()
                 JSONArray("[]")
             }
-        } else {
-            JSONArray(response)
         }
         if (shouldSaveResult) context.framesKonfigs.backupJson = jsonArray.toString()
         return buildWallpapersListFromJson(jsonArray)
+    }
+    
+    private fun buildJSONArrayFromResponse(response:String, useOldFormat:Boolean):JSONArray {
+        return if (response.hasContent()) {
+            if (useOldFormat) {
+                buildJSONArrayFromOldFormat(response)
+            } else {
+                JSONArray(response)
+            }
+        } else {
+            JSONArray("[]")
+        }
+    }
+    
+    private fun buildJSONArrayFromOldFormat(response:String):JSONArray {
+        return try {
+            JSONObject(response).getJSONArray("Wallpapers")
+        } catch (ignored:Exception) {
+            try {
+                JSONObject(response).getJSONArray("wallpapers")
+            } catch (ignored:Exception) {
+                JSONArray("[]")
+            }
+        }
     }
     
     private fun buildWallpapersListFromJson(json:JSONArray):ArrayList<Wallpaper> {

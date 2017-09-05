@@ -27,6 +27,12 @@
         <license>CreativeCommons Attribution-ShareAlike 4.0 International License</license>
     </notice>
     <notice>
+        <name>KAU</name>
+        <url>https://github.com/AllanWang/KAU</url>
+        <copyright>Copyright (c) 2017 Allan Wang</copyright>
+        <license>Educational Community License v2.0</license>
+    </notice>
+    <notice>
         <name>Material Dialogs</name>
         <url>https://github.com/afollestad/material-dialogs</url>
         <copyright>Copyright (c) 2014-2017 Aidan Michael Follestad</copyright>
@@ -45,12 +51,6 @@
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
-        <name>KAU</name>
-        <url>https://github.com/AllanWang/KAU</url>
-        <copyright>Copyright (c) 2017 Allan Wang</copyright>
-        <license>Educational Community License v2.0</license>
-    </notice>
-    <notice>
         <name>Sectioned RecyclerView</name>
         <url>https://github.com/afollestad/sectioned-recyclerview</url>
         <copyright>Copyright (c) 2017 Aidan Michael Follestad</copyright>
@@ -58,20 +58,14 @@
     </notice>
     <notice>
         <name>RecyclerFastScroll</name>
-        <url>https://github.com/plusCubed/recycler-fast-scroll</url>
+        <url>https://github.com/jahirfiquitiva/recycler-fast-scroll</url>
         <copyright>Copyright 2016 Daniel Ciao</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
-        <name>Floating Toolbar</name>
-        <url>https://github.com/rubensousa/FloatingToolbar/</url>
-        <copyright>Copyright (c) 2016-2017 Rúben Sousa</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
-    <notice>
-        <name>Subsampling Scale Image View</name>
-        <url>https://github.com/davemorrissey/subsampling-scale-image-view</url>
-        <copyright>Copyright 2017 Dave Morrisey</copyright>
+        <name>MaterialNumberPicker</name>
+        <url>https://github.com/KasualBusiness/MaterialNumberPicker</url>
+        <copyright>Copyright 2015 Kasual Business</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
