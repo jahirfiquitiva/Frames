@@ -34,6 +34,8 @@
   public *;
 }
 
+-keep class android.arch.** { *; }
+
 -keep class com.google.**
 -keep class autovalue.shaded.com.google.**
 -keep class com.android.vending.billing.**

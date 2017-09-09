@@ -27,6 +27,7 @@ import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.bumptech.glide.RequestManager
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.extensions.loadAvatar
+import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
@@ -46,40 +47,40 @@ data class Credit(val type:Type, val photo:String, val name:String, val descript
 
 const val SECTION_ICON_ANIMATION_DURATION:Long = 250
 
-class CreditHeaderViewHolder(itemView:View?):SectionedViewHolder(itemView) {
-    val divider:View? = itemView?.findViewById(R.id.section_divider)
-    val title:TextView? = itemView?.findViewById(R.id.section_title)
-    val icon:ImageView? = itemView?.findViewById(R.id.section_icon)
+class CreditHeaderViewHolder(itemView:View):SectionedViewHolder(itemView) {
+    val divider:View = itemView.findViewById(R.id.section_divider)
+    val title:TextView = itemView.findViewById(R.id.section_title)
+    val icon:ImageView = itemView.findViewById(R.id.section_icon)
     
     fun setTitle(@StringRes text:Int, expanded:Boolean = true, listener:() -> Unit = {}) {
-        title?.setTextColor(itemView.context.primaryTextColor)
-        title?.text = itemView.context.getString(text)
-        icon?.drawable?.tint(itemView.context.activeIconsColor)
-        icon?.animate()?.rotation(if (expanded) 180F else 0F)?.setDuration(
+        title.setTextColor(itemView.context.primaryTextColor)
+        title.text = itemView.context.getString(text)
+        icon.drawable?.tint(itemView.context.activeIconsColor)
+        icon.animate()?.rotation(if (expanded) 180F else 0F)?.setDuration(
                 SECTION_ICON_ANIMATION_DURATION)?.start()
         itemView?.setOnClickListener { listener() }
     }
 }
 
-open class DashboardCreditViewHolder(itemView:View?):SectionedViewHolder(itemView) {
-    val photo:ImageView? = itemView?.findViewById(R.id.photo)
-    val name:TextView? = itemView?.findViewById(R.id.name)
-    private val description:TextView? = itemView?.findViewById(R.id.description)
-    private val buttons:SplitButtonsLayout? = itemView?.findViewById(R.id.buttons)
+open class DashboardCreditViewHolder(itemView:View):GlideSectionedViewHolder(itemView) {
+    val photo:ImageView = itemView.findViewById(R.id.photo)
+    val name:TextView = itemView.findViewById(R.id.name)
+    private val description:TextView = itemView.findViewById(R.id.description)
+    private val buttons:SplitButtonsLayout = itemView.findViewById(R.id.buttons)
     
     open fun setItem(manager:RequestManager, credit:Credit, fillAvailableSpace:Boolean = true,
                      shouldHideButtons:Boolean = false) {
-        photo?.loadAvatar(manager, credit.photo, false)
-        name?.setTextColor(itemView.context.primaryTextColor)
-        name?.text = credit.name
+        photo.loadAvatar(manager, credit.photo, false)
+        name.setTextColor(itemView.context.primaryTextColor)
+        name.text = credit.name
         if (credit.description.hasContent()) {
-            description?.setTextColor(itemView.context.secondaryTextColor)
-            description?.text = credit.description
+            description.setTextColor(itemView.context.secondaryTextColor)
+            description.text = credit.description
         } else {
-            description?.gone()
+            description.gone()
         }
         if (shouldHideButtons || credit.buttonsTitles.isEmpty()) {
-            buttons?.gone()
+            buttons.gone()
             if (credit.link.hasContent()) {
                 itemView?.setOnClickListener { view -> view.context.openLink(credit.link) }
                 try {
@@ -92,13 +93,13 @@ open class DashboardCreditViewHolder(itemView:View?):SectionedViewHolder(itemVie
             }
         } else {
             if (credit.buttonsTitles.size == credit.buttonsLinks.size) {
-                buttons?.buttonCount = credit.buttonsTitles.size
+                buttons.buttonCount = credit.buttonsTitles.size
                 for (index in 0 until credit.buttonsTitles.size) {
-                    val hasThemAll = buttons?.hasAllButtons() != false
+                    val hasThemAll = buttons.hasAllButtons() != false
                     if (!hasThemAll) {
-                        buttons?.addButton(credit.buttonsTitles[index], credit.buttonsLinks[index],
-                                           fillAvailableSpace)
-                        val btn = buttons?.getChildAt(index)
+                        buttons.addButton(credit.buttonsTitles[index], credit.buttonsLinks[index],
+                                          fillAvailableSpace)
+                        val btn = buttons.getChildAt(index)
                         btn?.let {
                             it.setOnClickListener { view ->
                                 if (view.tag is String) {
@@ -110,13 +111,17 @@ open class DashboardCreditViewHolder(itemView:View?):SectionedViewHolder(itemVie
                     }
                 }
             } else {
-                buttons?.gone()
+                buttons.gone()
             }
         }
     }
+    
+    override fun doOnRecycle() {
+        photo.releaseFromGlide()
+    }
 }
 
-class SimpleCreditViewHolder(itemView:View?):DashboardCreditViewHolder(itemView) {
+class SimpleCreditViewHolder(itemView:View):DashboardCreditViewHolder(itemView) {
     override fun setItem(manager:RequestManager, credit:Credit, fillAvailableSpace:Boolean,
                          shouldHideButtons:Boolean) {
         super.setItem(manager, credit, false, true)

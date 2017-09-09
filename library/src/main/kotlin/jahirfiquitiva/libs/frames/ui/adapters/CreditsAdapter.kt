@@ -25,6 +25,8 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CreditHeaderViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.DashboardCreditViewHolder
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideSectionedViewHolder
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SimpleCreditViewHolder
 
 class CreditsAdapter(private val manager:RequestManager, private val hasOwnCredits:Boolean,
@@ -59,6 +61,12 @@ class CreditsAdapter(private val manager:RequestManager, private val hasOwnCredi
         }
     }
     
+    override fun onViewRecycled(holder:SectionedViewHolder) {
+        super.onViewRecycled(holder)
+        if (holder is GlideViewHolder) holder.doOnRecycle()
+        else (holder as? GlideSectionedViewHolder)?.doOnRecycle()
+    }
+    
     override fun getItemCount(section:Int):Int =
             when (if (hasOwnCredits) section else (section + 1)) {
                 0 -> credits.filter { it.type == Credit.Type.CREATOR }.size
@@ -74,11 +82,11 @@ class CreditsAdapter(private val manager:RequestManager, private val hasOwnCredi
             when (if (hasOwnCredits) section else (section + 1)) {
                 0 -> {
                     holder.setTitle(R.string.app_name, expanded)
-                    holder.icon?.gone()
+                    holder.icon.gone()
                 }
                 1 -> {
                     holder.setTitle(R.string.frames_dashboard, expanded)
-                    holder.icon?.gone()
+                    holder.icon.gone()
                 }
                 2 -> holder.setTitle(R.string.dev_contributions, expanded,
                                      { toggleSectionExpanded(section) })
@@ -88,11 +96,15 @@ class CreditsAdapter(private val manager:RequestManager, private val hasOwnCredi
         }
     }
     
-    override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):SectionedViewHolder =
+    override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):SectionedViewHolder? =
             when (if (hasOwnCredits) viewType else (viewType + 1)) {
-                0, 1 -> DashboardCreditViewHolder(parent?.inflate(R.layout.item_credits))
-                2, 3 -> SimpleCreditViewHolder(parent?.inflate(R.layout.item_credits))
-                else -> CreditHeaderViewHolder(parent?.inflate(R.layout.item_section_header))
+                0, 1 -> parent?.inflate(R.layout.item_credits)?.let {
+                    DashboardCreditViewHolder(it)
+                }
+                2, 3 -> parent?.inflate(R.layout.item_credits)?.let { SimpleCreditViewHolder(it) }
+                else -> parent?.inflate(R.layout.item_section_header)?.let {
+                    CreditHeaderViewHolder(it)
+                }
             }
     
     override fun onBindFooterViewHolder(holder:SectionedViewHolder?, section:Int) {

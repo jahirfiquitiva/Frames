@@ -16,7 +16,6 @@
 package jahirfiquitiva.libs.frames.ui.activities.base
 
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
@@ -26,43 +25,18 @@ abstract class BaseActivityWithFragments:ThemedActivity() {
     abstract fun fragmentsContainer():Int
     override fun autoStatusBarTint():Boolean = true
     
-    fun changeFragment(f:Fragment, tag:String? = null,
-                       withBottomNavigationTransition:Boolean = false) {
+    fun changeFragment(f:Fragment, tag:String? = null) {
         try {
             val manager = supportFragmentManager.beginTransaction()
-            clearBackStack()
             if (framesKonfigs.animationsEnabled) {
-                if (withBottomNavigationTransition) {
-                    manager.setCustomAnimations(R.anim.bottom_navigation_in,
-                                                R.anim.bottom_navigation_exit,
-                                                R.anim.bottom_navigation_in,
-                                                R.anim.bottom_navigation_exit)
-                } else {
-                    manager.setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out,
-                                                R.anim.abc_popup_enter, R.anim.abc_popup_exit)
-                }
+                manager.setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out,
+                                            R.anim.abc_popup_enter, R.anim.abc_popup_exit)
             }
             if (tag != null) manager.replace(fragmentsContainer(), f, tag)
             else manager.replace(fragmentsContainer(), f)
             manager.commit()
-        } catch (ignored:Exception) {
-        }
-    }
-    
-    fun clearBackStack() {
-        try {
-            val manager = supportFragmentManager
-            if (manager.backStackEntryCount > 0) {
-                val first = manager.getBackStackEntryAt(0)
-                manager.popBackStack(first.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            }
         } catch (e:Exception) {
             e.printStackTrace()
         }
-    }
-    
-    override fun onDestroy() {
-        super.onDestroy()
-        clearBackStack()
     }
 }

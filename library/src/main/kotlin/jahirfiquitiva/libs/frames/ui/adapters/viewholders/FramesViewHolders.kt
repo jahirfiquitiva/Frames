@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package jahirfiquitiva.libs.frames.ui.adapters.viewholders
 
 import android.graphics.Bitmap
@@ -27,6 +26,7 @@ import android.widget.TextView
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.visible
+import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.bumptech.glide.RequestManager
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
@@ -37,6 +37,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.clearChildrenAnimations
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.loadWallpaper
+import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
 import jahirfiquitiva.libs.frames.helpers.extensions.thumbnailColor
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestListener
 import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
@@ -53,7 +54,9 @@ import jahirfiquitiva.libs.kauextensions.extensions.withAlpha
 import jahirfiquitiva.libs.kauextensions.ui.views.LandscapeImageView
 import jahirfiquitiva.libs.kauextensions.ui.views.VerticalImageView
 
-class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
+const val DETAILS_OPACITY = 0.85F
+
+class CollectionHolder(itemView:View):GlideViewHolder(itemView) {
     
     private var hasFaded = false
     
@@ -95,7 +98,7 @@ class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
             if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
                 val color = resource.generatePalette().bestSwatch?.rgb ?: itemView.context.cardBackgroundColor
                 detailsBg.background = null
-                detailsBg.setBackgroundColor(color)
+                detailsBg.setBackgroundColor(color.withAlpha(DETAILS_OPACITY))
                 title.setTextColor(itemView.context.getPrimaryTextColorFor(color))
                 amount.setTextColor(itemView.context.getSecondaryTextColorFor(color))
             } else {
@@ -110,10 +113,14 @@ class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
     private fun loadImage(manager:RequestManager, url:String, thumbUrl:String) {
         img.loadWallpaper(manager, url, thumbUrl, true, true, listener, null)
     }
+    
+    override fun doOnRecycle() {
+        img.releaseFromGlide()
+    }
 }
 
 class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
-        RecyclerView.ViewHolder(itemView) {
+        GlideViewHolder(itemView) {
     
     private var hasFaded = false
     private var shouldCheck = false
@@ -177,7 +184,7 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
             if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
                 val color = resource.generatePalette().bestSwatch?.rgb ?: itemView.context.cardBackgroundColor
                 detailsBg.background = null
-                detailsBg.setBackgroundColor(color.withAlpha(0.85F))
+                detailsBg.setBackgroundColor(color.withAlpha(DETAILS_OPACITY))
                 name.setTextColor(itemView.context.getPrimaryTextColorFor(color))
                 author.setTextColor(itemView.context.getSecondaryTextColorFor(color))
                 if (showFavIcon) {
@@ -197,4 +204,16 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
     private fun loadImage(manager:RequestManager, url:String, thumbUrl:String) {
         img.loadWallpaper(manager, url, thumbUrl, true, hasFaded, listener, null)
     }
+    
+    override fun doOnRecycle() {
+        img.releaseFromGlide()
+    }
+}
+
+abstract class GlideViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
+    abstract fun doOnRecycle()
+}
+
+abstract class GlideSectionedViewHolder(itemView:View):SectionedViewHolder(itemView) {
+    abstract fun doOnRecycle()
 }

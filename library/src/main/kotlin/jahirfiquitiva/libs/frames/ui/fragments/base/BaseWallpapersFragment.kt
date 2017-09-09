@@ -79,6 +79,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
                                     fromFavorites(), showFavoritesIcon())
         rv.adapter = adapter
         fastScroll = content.findViewById(R.id.fast_scroller)
+        fastScroll.attachSwipeRefreshLayout(swipeToRefresh)
         fastScroll.attachRecyclerView(rv)
         rv.state = EmptyViewRecyclerView.State.LOADING
     }

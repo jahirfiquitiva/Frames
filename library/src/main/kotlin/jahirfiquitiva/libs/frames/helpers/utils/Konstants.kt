@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package jahirfiquitiva.libs.frames.helpers.utils
 
 const val DATABASE_NAME = "FAVORITES"

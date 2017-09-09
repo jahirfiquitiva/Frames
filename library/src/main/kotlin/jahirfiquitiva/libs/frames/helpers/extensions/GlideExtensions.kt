@@ -29,6 +29,10 @@ import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestListener
 import jahirfiquitiva.libs.frames.helpers.utils.GlideTarget
 import jahirfiquitiva.libs.frames.ui.graphics.ObservableColorMatrix
 
+fun ImageView.releaseFromGlide() {
+    Glide.with(context).clear(this)
+}
+
 fun ImageView.setSaturation(saturation:Float) {
     val matrix = ObservableColorMatrix()
     matrix.setSaturation(saturation)

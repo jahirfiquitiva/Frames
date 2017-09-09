@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package jahirfiquitiva.libs.frames.ui.fragments
 
 import android.content.Intent
@@ -70,6 +69,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         })
         rv.adapter = adapter
         fastScroll = content.findViewById(R.id.fast_scroller)
+        fastScroll.attachSwipeRefreshLayout(swipeToRefresh)
         fastScroll.attachRecyclerView(rv)
         rv.state = EmptyViewRecyclerView.State.LOADING
     }

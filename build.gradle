@@ -59,7 +59,7 @@ allprojects {
         volley = '1.0.0'
         kauExt = '6d74818'
         sectionedRecyclerView = '0.5.0'
-        recyclerViewFastScroll = 'f08746f'
+        recyclerViewFastScroll = '6a72f8c'
         mnp = '1.2.1'
         subsImageView = '3.6.0'
         iaps = '1.0.44'
