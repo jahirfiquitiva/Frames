@@ -15,18 +15,23 @@
  */
 package jahirfiquitiva.libs.frames.helpers.extensions
 
+import android.animation.ArgbEvaluator
+import android.animation.TypeEvaluator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Environment
+import android.support.annotation.ColorInt
 import ca.allanwang.kau.utils.dimenPixelSize
 import com.afollestad.materialdialogs.MaterialDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.PREFERENCES_NAME
-import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
+import jahirfiquitiva.libs.kauextensions.extensions.usesDarkTheme
 import java.io.File
 
 fun Context.getStatusBarHeight(force:Boolean = false):Int {
@@ -54,7 +59,7 @@ fun Context.openWallpaper(uri:Uri) {
 }
 
 val Context.thumbnailColor
-    get() = dividerColor
+    get() = if (usesDarkTheme) Color.parseColor("#3dffffff") else Color.parseColor("#3d000000")
 
 fun Context.createHeartIcon(checked:Boolean):Drawable =
         (if (checked) "ic_heart" else "ic_heart_outline").getDrawable(this)
@@ -129,3 +134,30 @@ fun Context.deleteFile(f:File) {
         f.delete()
     }
 }
+
+fun <T> createAnimator(
+        evaluator:TypeEvaluator<*>,
+        vararg values:T,
+        onConfig:ValueAnimator.() -> Unit = {},
+        onUpdate:(T) -> Unit
+                      ):ValueAnimator =
+        ValueAnimator.ofObject(evaluator, *values).apply {
+            addUpdateListener {
+                @Suppress("UNCHECKED_CAST")
+                onUpdate(it.animatedValue as T)
+            }
+            onConfig(this)
+        }
+
+
+fun animateSmoothly(@ColorInt startColorId:Int, @ColorInt endColorId:Int,
+                    doUpdate:(Int) -> Unit):ValueAnimator =
+        createAnimator(ArgbEvaluator(),
+                       startColorId, endColorId,
+                       onConfig = {
+                           duration = 1000
+                           repeatMode = ValueAnimator.REVERSE
+                           repeatCount = ValueAnimator.INFINITE
+                           start()
+                       },
+                       onUpdate = doUpdate)

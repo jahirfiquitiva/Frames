@@ -41,7 +41,6 @@ open class CollectionActivity:BaseActivityWithFragments() {
     override fun darkTheme():Int = R.style.DarkTheme
     override fun transparentTheme():Int = R.style.TransparentTheme
     override fun amoledTheme():Int = R.style.AmoledTheme
-    override fun hasBottomBar():Boolean = true
     override fun fragmentsContainer():Int = R.id.fragments_container
     
     private var fragmentLoaded = false

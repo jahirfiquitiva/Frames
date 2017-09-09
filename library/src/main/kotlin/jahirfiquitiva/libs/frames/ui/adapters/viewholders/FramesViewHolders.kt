@@ -33,6 +33,7 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.animateColorTransition
+import jahirfiquitiva.libs.frames.helpers.extensions.animateSmoothly
 import jahirfiquitiva.libs.frames.helpers.extensions.clearChildrenAnimations
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.extensions.loadWallpaper
@@ -42,6 +43,7 @@ import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestListener
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
 import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
+import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.generatePalette
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
@@ -64,8 +66,9 @@ class CollectionHolder(itemView:View):GlideViewHolder(itemView) {
     fun setItem(manager:RequestManager, collection:Collection,
                 listener:(Collection) -> Unit) {
         with(itemView) {
-            setBackgroundColor(context.thumbnailColor)
-            detailsBg.setBackgroundColor(context.thumbnailColor)
+            animateSmoothly(context.dividerColor, context.thumbnailColor,
+                            { setBackgroundColor(it) })
+            detailsBg.setBackgroundColor(context.dividerColor)
             val rightCover = collection.bestCover ?: collection.wallpapers.first()
             val url = rightCover.url
             val thumb = rightCover.thumbUrl
@@ -137,7 +140,10 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
             ViewCompat.setTransitionName(name, "name_transition_$adapterPosition")
             ViewCompat.setTransitionName(author, "author_transition_$adapterPosition")
             ViewCompat.setTransitionName(heartIcon, "fav_transition_$adapterPosition")
-            setBackgroundColor(context.thumbnailColor)
+            
+            animateSmoothly(context.dividerColor, context.thumbnailColor,
+                            { setBackgroundColor(it) })
+            
             val url = wallpaper.url
             val thumb = wallpaper.thumbUrl
             loadImage(manager, url, if (thumb.equals(url, true)) "" else thumb)

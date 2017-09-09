@@ -23,20 +23,27 @@ import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 
 abstract class BaseActivityWithFragments:ThemedActivity() {
     
-    abstract fun hasBottomBar():Boolean
     abstract fun fragmentsContainer():Int
     override fun autoStatusBarTint():Boolean = true
     
-    fun changeFragment(f:Fragment, tag:String? = null) {
+    fun changeFragment(f:Fragment, tag:String? = null,
+                       withBottomNavigationTransition:Boolean = false) {
         try {
             val manager = supportFragmentManager.beginTransaction()
-            if (hasBottomBar()) clearBackStack()
-            if (framesKonfigs.animationsEnabled)
-                manager.setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out,
-                                            R.anim.abc_popup_enter, R.anim.abc_popup_exit)
+            clearBackStack()
+            if (framesKonfigs.animationsEnabled) {
+                if (withBottomNavigationTransition) {
+                    manager.setCustomAnimations(R.anim.bottom_navigation_in,
+                                                R.anim.bottom_navigation_exit,
+                                                R.anim.bottom_navigation_in,
+                                                R.anim.bottom_navigation_exit)
+                } else {
+                    manager.setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out,
+                                                R.anim.abc_popup_enter, R.anim.abc_popup_exit)
+                }
+            }
             if (tag != null) manager.replace(fragmentsContainer(), f, tag)
             else manager.replace(fragmentsContainer(), f)
-            if (!hasBottomBar()) manager.addToBackStack(null)
             manager.commit()
         } catch (ignored:Exception) {
         }

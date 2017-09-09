@@ -136,5 +136,4 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
     
     open fun settingsFragment():Fragment = SettingsFragment()
     override fun fragmentsContainer():Int = R.id.fragments_container
-    override fun hasBottomBar():Boolean = true
 }
