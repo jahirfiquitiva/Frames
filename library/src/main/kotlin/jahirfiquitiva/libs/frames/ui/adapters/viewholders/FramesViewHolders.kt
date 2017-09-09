@@ -65,9 +65,12 @@ class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
     fun setItem(manager:RequestManager, collection:Collection,
                 listener:(Collection) -> Unit) {
         with(itemView) {
-            if (context.framesKonfigs.animationsEnabled)
+            if (context.framesKonfigs.animationsEnabled) {
                 animateSmoothly(context.dividerColor, context.thumbnailColor,
                                 { setBackgroundColor(it) })
+            } else {
+                setBackgroundColor(context.dividerColor)
+            }
             detailsBg.setBackgroundColor(context.dividerColor)
             val rightCover = collection.bestCover ?: collection.wallpapers.first()
             val url = rightCover.url
@@ -105,7 +108,7 @@ class CollectionHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
     }
     
     private fun loadImage(manager:RequestManager, url:String, thumbUrl:String) {
-        img.loadWallpaper(manager, url, thumbUrl, true, true, listener, null, { hasFaded = true })
+        img.loadWallpaper(manager, url, thumbUrl, true, true, listener, null)
     }
 }
 
@@ -135,9 +138,12 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
             ViewCompat.setTransitionName(author, "author_transition_$adapterPosition")
             ViewCompat.setTransitionName(heartIcon, "fav_transition_$adapterPosition")
             
-            if (context.framesKonfigs.animationsEnabled)
+            if (context.framesKonfigs.animationsEnabled) {
                 animateSmoothly(context.dividerColor, context.thumbnailColor,
                                 { setBackgroundColor(it) })
+            } else {
+                setBackgroundColor(context.dividerColor)
+            }
             
             val url = wallpaper.url
             val thumb = wallpaper.thumbUrl
@@ -189,7 +195,6 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
     }
     
     private fun loadImage(manager:RequestManager, url:String, thumbUrl:String) {
-        img.loadWallpaper(manager, url, thumbUrl, true, hasFaded, listener, null,
-                          { hasFaded = true })
+        img.loadWallpaper(manager, url, thumbUrl, true, hasFaded, listener, null)
     }
 }

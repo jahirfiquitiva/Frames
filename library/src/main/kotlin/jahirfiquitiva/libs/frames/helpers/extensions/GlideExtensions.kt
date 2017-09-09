@@ -37,27 +37,30 @@ fun ImageView.setSaturation(saturation:Float) {
 
 fun ImageView.loadWallpaper(requester:RequestManager?, url:String, thumbUrl:String,
                             transform:Boolean, hasFaded:Boolean,
-                            listener:GlideRequestListener<Bitmap>?, target:GlideTarget?,
-                            onTransitionFinished:() -> Unit) {
+                            listener:GlideRequestListener<Bitmap>?, target:GlideTarget?) {
+    
     val manager = requester ?: Glide.with(context)
     val options = RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
             .priority(Priority.IMMEDIATE)
     if (!transform) options.dontTransform()
-    val thumbnailRequest = manager.asBitmap().load(thumbUrl)
-            .apply(options)
-            .listener(object:GlideRequestListener<Bitmap>() {
-                override fun onLoadSucceed(resource:Bitmap):Boolean {
-                    // setImageBitmap(resource)
-                    isEnabled = true
-                    listener?.onLoadSucceed(resource)
-                    // if (!hasFaded) animateColorTransition({ onTransitionFinished() })
-                    return true
-                }
-            })
-    if ((listener != null || target != null) && !hasFaded) {
+    
+    val thumbnailRequest = if (!thumbUrl.equals(url, true)) {
+        manager.asBitmap().load(thumbUrl)
+                .apply(options)
+                .listener(object:GlideRequestListener<Bitmap>() {
+                    override fun onLoadSucceed(resource:Bitmap):Boolean {
+                        isEnabled = true
+                        listener?.onLoadSucceed(resource)
+                        return true
+                    }
+                })
+    } else null
+    
+    if ((listener != null || target != null) && !hasFaded && context.framesKonfigs.animationsEnabled) {
         setSaturation(0F)
         isEnabled = false
     }
+    
     loadBitmap(requester, url, !transform, !hasFaded,
                if (listener != null || target != null) thumbnailRequest else null,
                listener, target)
@@ -91,6 +94,8 @@ private fun ImageView.loadBitmap(requester:RequestManager?,
     
     if (thumbnail != null) {
         builder.thumbnail(thumbnail)
+    } else {
+        builder.thumbnail(0.5F)
     }
     if (target != null) {
         builder.into(target)
