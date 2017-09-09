@@ -18,55 +18,37 @@ package jahirfiquitiva.libs.frames.helpers.utils
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.bumptech.glide.request.target.Target
-import java.lang.Exception
+import com.bumptech.glide.request.transition.Transition
 
-abstract class GlideRequestListener<Type>:RequestListener<String, Type> {
+abstract class GlideRequestListener<Type>:RequestListener<Type> {
     abstract fun onLoadSucceed(resource:Type):Boolean
     open fun onLoadFailed():Boolean = false
     
-    override fun onResourceReady(resource:Type?, model:String?, target:Target<Type>?,
-                                 isFromMemoryCache:Boolean, isFirstResource:Boolean):Boolean {
-        if (resource != null) {
-            return onLoadSucceed(resource)
-        }
-        return false
-    }
-    
-    
-    override fun onException(e:Exception?, model:String?, target:Target<Type>?,
-                             isFirstResource:Boolean):Boolean = onLoadFailed()
-}
-
-abstract class GlideResourceRequestListener<Type>:RequestListener<Int, Type> {
-    abstract fun onLoadSucceed(resource:Type):Boolean
-    open fun onLoadFailed():Boolean = false
-    
-    override fun onResourceReady(resource:Type, model:Int?, target:Target<Type>?,
-                                 isFromMemoryCache:Boolean, isFirstResource:Boolean):Boolean =
+    override fun onResourceReady(resource:Type, model:Any?, target:Target<Type>?,
+                                 dataSource:DataSource?, isFirstResource:Boolean):Boolean =
             onLoadSucceed(resource)
     
-    override fun onException(e:Exception?, model:Int?, target:Target<Type>?,
-                             isFirstResource:Boolean):Boolean = onLoadFailed()
+    override fun onLoadFailed(e:GlideException?, model:Any?, target:Target<Type>?,
+                              isFirstResource:Boolean):Boolean = onLoadFailed()
 }
 
 abstract class GlideTarget(view:ImageView):BitmapImageViewTarget(view) {
     abstract fun onLoadSucceed(resource:Bitmap)
-    open fun onLoadFailed(errorDrawable:Drawable) {}
+    open fun onLoadFail(errorDrawable:Drawable) {}
     
-    override fun onResourceReady(resource:Bitmap?, glideAnimation:GlideAnimation<in Bitmap>?) {
+    override fun onResourceReady(resource:Bitmap?, transition:Transition<in Bitmap>?) {
         resource?.let {
             onLoadSucceed(it)
         }
     }
     
-    override fun onLoadFailed(e:Exception?, errorDrawable:Drawable?) {
-        super.onLoadFailed(e, errorDrawable)
-        errorDrawable?.let {
-            onLoadFailed(it)
-        }
+    override fun onLoadFailed(errorDrawable:Drawable?) {
+        super.onLoadFailed(errorDrawable)
+        errorDrawable?.let { onLoadFail(it) }
     }
 }

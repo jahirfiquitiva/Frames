@@ -49,7 +49,7 @@
     <integer name="default_theme">0</integer>
 
     <!--    Choose whether you want colored tiles by default -->
-    <bool name="enable_colored_tiles">false</bool>
+    <bool name="enable_colored_tiles">true</bool>
 
     <!--    Accent color in tabs
     -       If true, the accent color will be used in tabs

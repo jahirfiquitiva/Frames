@@ -27,7 +27,6 @@ import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.bumptech.glide.RequestManager
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.extensions.loadAvatar
-import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
@@ -47,10 +46,6 @@ data class Credit(val type:Type, val photo:String, val name:String, val descript
 
 const val SECTION_ICON_ANIMATION_DURATION:Long = 250
 
-abstract class BaseCreditViewHolder(itemView:View?):SectionedViewHolder(itemView) {
-    abstract fun onRecycled()
-}
-
 class CreditHeaderViewHolder(itemView:View?):SectionedViewHolder(itemView) {
     val divider:View? = itemView?.findViewById(R.id.section_divider)
     val title:TextView? = itemView?.findViewById(R.id.section_title)
@@ -66,7 +61,7 @@ class CreditHeaderViewHolder(itemView:View?):SectionedViewHolder(itemView) {
     }
 }
 
-open class DashboardCreditViewHolder(itemView:View?):BaseCreditViewHolder(itemView) {
+open class DashboardCreditViewHolder(itemView:View?):SectionedViewHolder(itemView) {
     val photo:ImageView? = itemView?.findViewById(R.id.photo)
     val name:TextView? = itemView?.findViewById(R.id.name)
     private val description:TextView? = itemView?.findViewById(R.id.description)
@@ -118,10 +113,6 @@ open class DashboardCreditViewHolder(itemView:View?):BaseCreditViewHolder(itemVi
                 buttons?.gone()
             }
         }
-    }
-    
-    override fun onRecycled() {
-        photo?.releaseFromGlide()
     }
 }
 

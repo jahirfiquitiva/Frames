@@ -22,7 +22,6 @@ import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.bumptech.glide.RequestManager
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.ui.adapters.viewholders.BaseCreditViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CreditHeaderViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.DashboardCreditViewHolder
@@ -35,13 +34,6 @@ class CreditsAdapter(private val manager:RequestManager, private val hasOwnCredi
     init {
         shouldShowHeadersForEmptySections(true)
         shouldShowFooters(false)
-    }
-    
-    override fun onViewRecycled(holder:SectionedViewHolder?) {
-        super.onViewRecycled(holder)
-        holder?.let {
-            (it as? BaseCreditViewHolder)?.onRecycled()
-        }
     }
     
     override fun getSectionCount():Int = if (hasOwnCredits) 4 else 3

@@ -117,7 +117,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     }
     
     override fun reloadData(section:Int) {
-        swipeToRefresh.isRefreshing = false
+        if (swipeToRefresh.isRefreshing) swipeToRefresh.isRefreshing = false
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
         swipeToRefresh.isRefreshing = true

@@ -40,6 +40,13 @@
                 android:summary="@string/wallpapers_columns_setting_content"
                 android:title="@string/wallpapers_columns_setting_title"/>
 
+        <SwitchPreference
+                android:defaultValue="true"
+                android:key="animations"
+                android:persistent="true"
+                android:summary="@string/animations_setting_content"
+                android:title="@string/animations_setting_title"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

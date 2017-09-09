@@ -101,6 +101,9 @@
     <string name="wallpapers_columns_setting_title">Wallpapers columns</string>
     <string name="wallpapers_columns_setting_content">Choose the amount of columns you want to see for wallpapers</string>
 
+    <string name="animations_setting_title">Enable animations</string>
+    <string name="animations_setting_content">This may cause lag in some devices.</string>
+
     <string name="storage_settings_title">Storage</string>
 
     <string name="wallpapers_download_location_setting_title">Wallpapers download location</string>

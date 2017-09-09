@@ -145,6 +145,14 @@ open class SettingsFragment:PreferenceFragment() {
             uiPrefs.removePreference(columns)
         }
         
+        val animationsPref = findPreference("animations") as SwitchPreference
+        animationsPref.setOnPreferenceChangeListener { _, any ->
+            val enable = any.toString().equals("true", true)
+            if (enable != context.framesKonfigs.animationsEnabled)
+                context.framesKonfigs.animationsEnabled = enable
+            true
+        }
+        
         
         val storagePrefs = findPreference("storage_settings") as PreferenceCategory
         

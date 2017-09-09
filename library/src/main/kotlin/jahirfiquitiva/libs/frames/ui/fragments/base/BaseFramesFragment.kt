@@ -67,6 +67,7 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
     }
     
     open fun reloadData(section:Int) {
+        scrollToTop()
         when (section) {
             0, 1 -> {
                 wallpapersModel?.stopTask(true)

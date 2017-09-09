@@ -38,7 +38,6 @@ import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
@@ -60,7 +59,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.GlideDrawable
+import com.bumptech.glide.request.RequestOptions
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.configs.bestBitmapConfig
@@ -117,7 +116,6 @@ open class ViewerActivity:ThemedActivity() {
     private var isInFavorites = false
     private var hasModifiedFavs = false
     private var showFavoritesButton = false
-    private var transitioned = false
     private var closing = false
     
     private val VISIBLE_PROGRESS_BAR_KEY = "visible_progress_bar"
@@ -310,90 +308,56 @@ open class ViewerActivity:ThemedActivity() {
         }
         
         wallpaper?.let {
-            val listener = object:GlideRequestListener<GlideDrawable>() {
-                override fun onLoadSucceed(resource:GlideDrawable):Boolean {
+            val listener = object:GlideRequestListener<Drawable>() {
+                override fun onLoadSucceed(resource:Drawable):Boolean {
                     findViewById<ProgressBar>(R.id.loading).gone()
                     visibleProgressBar = false
-                    // doEnterTransition()
                     return false
                 }
                 
                 override fun onLoadFailed():Boolean {
                     findViewById<ProgressBar>(R.id.loading).gone()
                     visibleProgressBar = false
-                    // doEnterTransition()
                     return super.onLoadFailed()
                 }
             }
             
+            val options = RequestOptions().placeholder(d).error(d).dontTransform().dontAnimate()
+                    .fitCenter().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+            
             if (it.thumbUrl.equals(it.url, true)) {
                 Glide.with(this).load(it.url)
-                        .placeholder(d)
-                        .error(d)
-                        .dontTransform()
-                        .dontAnimate()
-                        .fitCenter()
-                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .priority(Priority.HIGH)
+                        .apply(options.priority(Priority.HIGH))
                         .thumbnail(0.5F)
                         .listener(listener)
                         .into(img)
             } else {
                 val thumbnailRequest = Glide.with(this).load(it.thumbUrl)
-                        .placeholder(d)
-                        .error(d)
-                        .dontTransform()
-                        .dontAnimate()
-                        .fitCenter()
-                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .priority(Priority.IMMEDIATE)
+                        .apply(options.priority(Priority.IMMEDIATE))
                         .thumbnail(0.5F)
-                        .listener(object:GlideRequestListener<GlideDrawable>() {
-                            override fun onLoadSucceed(resource:GlideDrawable):Boolean {
+                        .listener(object:GlideRequestListener<Drawable>() {
+                            override fun onLoadSucceed(resource:Drawable):Boolean {
                                 setupProgressBarColors(resource)
                                 findViewById<ProgressBar>(R.id.loading).visible()
                                 visibleProgressBar = true
-                                // doEnterTransition()
                                 return false
                             }
                             
                             override fun onLoadFailed():Boolean {
                                 findViewById<ProgressBar>(R.id.loading).gone()
                                 visibleProgressBar = false
-                                // doEnterTransition()
                                 return super.onLoadFailed()
                             }
                         })
                 
                 Glide.with(this).load(it.url)
-                        .placeholder(d)
-                        .error(d)
-                        .dontTransform()
-                        .dontAnimate()
-                        .fitCenter()
-                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .priority(Priority.HIGH)
+                        .apply(options.priority(Priority.HIGH))
                         .thumbnail(thumbnailRequest)
                         .listener(listener)
                         .into(img)
             }
         }
     }
-    
-    /*
-    private fun doEnterTransition() {
-        img.viewTreeObserver.addOnPreDrawListener(object:ViewTreeObserver.OnPreDrawListener {
-            override fun onPreDraw():Boolean {
-                img.viewTreeObserver.removeOnPreDrawListener(this)
-                if (!transitioned) {
-                    supportStartPostponedEnterTransition()
-                    transitioned = true
-                }
-                return true
-            }
-        })
-    }
-    */
     
     private fun setupProgressBarColors(drw:Drawable?) {
         setupProgressBarColors(drw?.toBitmap())
