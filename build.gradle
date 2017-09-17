@@ -60,7 +60,7 @@ allprojects {
         flexbox = '0.3.0'
         glide = '4.1.1'
         volley = '1.0.0'
-        kauExt = '8be23fa'
+        kauExt = 'dca4912'
         sectionedRecyclerView = '0.5.0'
         recyclerViewFastScroll = '6a72f8c'
         mnp = '1.2.1'
