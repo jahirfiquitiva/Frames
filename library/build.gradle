@@ -76,6 +76,11 @@ dependencies {
     // Material Dialogs
     compile 'com.afollestad.material-dialogs:core:' + project.ext.materialDialogs
     compile 'com.afollestad.material-dialogs:commons:' + project.ext.materialDialogs
+    // Reveal
+    compile 'com.hendraanggrian:reveallayout:' + project.ext.reveal
+    // Search
+    compile 'com.lapism:searchview:' + project.ext.search
+    compile 'com.google.android:flexbox:' + project.ext.flexbox
     // Volley
     compile 'com.android.volley:volley:' + project.ext.volley
     // Glide Image Loading
