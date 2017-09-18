@@ -42,6 +42,7 @@
 -keep public class com.android.vending.licensing.ILicensingService
 -keep class jahirfiquitiva.libs.frames.**
 -keep class com.pluscubed.recyclerfastscroll.**
+-keep class com.hendraanggrian.reveallayout.**
 
 -dontwarn org.apache.**
 -dontwarn com.google.**

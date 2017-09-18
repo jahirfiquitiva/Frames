@@ -35,6 +35,7 @@ import jahirfiquitiva.libs.frames.ui.graphics.ObservableColorMatrix
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
 
+
 fun View.setNavBarMargins() {
     val params = (layoutParams as? FrameLayout.LayoutParams) ?: return
     val left = if (this is FloatingActionButton) 16.dpToPx else 0

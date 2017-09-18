@@ -17,42 +17,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools">
-
     <item
-            android:id="@+id/search"
+            android:id="@+id/search_card_icon"
             android:title="@string/search"
             android:icon="@drawable/ic_search"
             android:orderInCategory="100"
-            android:actionViewClass="android.widget.ImageButton"
-            app:showAsAction="ifRoom"
+            app:actionViewClass="android.support.v7.widget.SearchView"
+            app:showAsAction="ifRoom|collapseActionView"
             tools:ignore="AppCompatResource"/>
-
-    <item
-            android:id="@+id/refresh"
-            android:title="@string/refresh"
-            android:icon="@drawable/ic_refresh"
-            android:orderInCategory="200"
-            app:showAsAction="never"/>
-
-    <item
-            android:id="@+id/donate"
-            android:title="@string/donate"
-            android:icon="@drawable/ic_donate"
-            android:orderInCategory="300"
-            app:showAsAction="never"/>
-
-    <item
-            android:id="@+id/about"
-            android:title="@string/about"
-            android:icon="@drawable/ic_about"
-            android:orderInCategory="400"
-            app:showAsAction="never"/>
-
-    <item
-            android:id="@+id/settings"
-            android:title="@string/settings"
-            android:icon="@drawable/ic_settings"
-            android:orderInCategory="500"
-            app:showAsAction="never"/>
-
 </menu>

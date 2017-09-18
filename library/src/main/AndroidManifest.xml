@@ -43,7 +43,8 @@
             android:allowBackup="true"
             android:largeHeap="true"
             android:supportsRtl="true"
-            tools:ignore="AllowBackup,UnusedAttribute">
+            tools:ignore="AllowBackup,UnusedAttribute"
+            tools:overrideLibrary="ca.allanwang.kau.searchview">
 
         <uses-library
                 android:name="com.sec.android.app.multiwindow"

@@ -76,11 +76,8 @@ dependencies {
     // Material Dialogs
     compile 'com.afollestad.material-dialogs:core:' + project.ext.materialDialogs
     compile 'com.afollestad.material-dialogs:commons:' + project.ext.materialDialogs
-    // Reveal
-    compile 'com.hendraanggrian:reveallayout:' + project.ext.reveal
-    // Search
-    compile 'com.lapism:searchview:' + project.ext.search
-    compile 'com.google.android:flexbox:' + project.ext.flexbox
+    // Snap Helper
+    compile 'com.github.rubensousa:gravitysnaphelper:' + project.ext.snapHelper
     // Volley
     compile 'com.android.volley:volley:' + project.ext.volley
     // Glide Image Loading
@@ -97,8 +94,8 @@ dependencies {
     compile('me.jahirfiquitiva:recycler-fast-scroll:' + project.ext.recyclerViewFastScroll + '@aar')
     // Material Number Picker
     compile 'biz.kasual:materialnumberpicker:' + project.ext.numberPicker
-	// Chips
-	compile 'me.jahirfiquitiva:MaterialChipsInput:' + project.ext.chips
+    // Chips
+    compile 'me.jahirfiquitiva:MaterialChipsInput:' + project.ext.chips
     // In-App Purchases
     compile 'com.anjlab.android.iab.v3:library:' + project.ext.iaps
     // Muzei API

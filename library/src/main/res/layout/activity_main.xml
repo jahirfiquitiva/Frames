@@ -27,13 +27,24 @@
             android:layout_height="wrap_content"
             android:clipChildren="false">
 
-        <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+        <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:minHeight="?actionBarSize"
-                android:background="?colorPrimary"
-                app:layout_scrollFlags="scroll"/>
+                android:maxHeight="?actionBarSize"
+                app:layout_scrollFlags="scroll">
+
+            <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    android:minHeight="?actionBarSize"
+                    android:background="?colorPrimary"
+                    app:layout_scrollFlags="scroll"/>
+
+            <include layout="@layout/search_bar"/>
+
+        </FrameLayout>
 
         <jahirfiquitiva.libs.frames.ui.widgets.CustomTabLayout
                 android:id="@+id/tabs"
