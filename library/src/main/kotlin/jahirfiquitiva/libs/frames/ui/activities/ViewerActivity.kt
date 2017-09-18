@@ -79,6 +79,7 @@ import jahirfiquitiva.libs.frames.ui.widgets.SimpleAnimationListener
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
 import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
+import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
 import jahirfiquitiva.libs.kauextensions.extensions.enableTranslucentStatusBar
@@ -108,10 +109,10 @@ open class ViewerActivity:ThemedActivity() {
     private var actionDialog:MaterialDialog? = null
     private var wallActions:WallpaperActionsFragment? = null
     
-    private lateinit var appbar:AppBarLayout
-    private lateinit var toolbar:Toolbar
-    private lateinit var bottomBar:View
-    private lateinit var img:ZoomableImageView
+    private val appbar:AppBarLayout by bind(R.id.appbar)
+    private val toolbar:Toolbar by bind(R.id.toolbar)
+    private val bottomBar:View by bind(R.id.bottom_bar)
+    private val img:ZoomableImageView by bind(R.id.wallpaper)
     
     private var isInFavorites = false
     private var hasModifiedFavs = false
@@ -138,9 +139,9 @@ open class ViewerActivity:ThemedActivity() {
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val decor = window.decorView
-            val statusBar = decor.findViewById<View>(android.R.id.statusBarBackground)
-            val navBar = decor.findViewById<View>(android.R.id.navigationBarBackground)
-            val actionBar = decor.findViewById<View>(R.id.action_bar_container)
+            val statusBar:View by decor.bind(android.R.id.statusBarBackground)
+            val navBar:View by decor.bind(android.R.id.navigationBarBackground)
+            val actionBar:View by decor.bind(R.id.action_bar_container)
             
             val viewsToExclude = arrayOf(statusBar, navBar, actionBar)
             val extraViewsToExclude = arrayOf(R.id.appbar, R.id.toolbar, R.id.tabs)
@@ -155,26 +156,27 @@ open class ViewerActivity:ThemedActivity() {
         isInFavorites = intent?.getBooleanExtra("inFavorites", false) == true
         showFavoritesButton = intent?.getBooleanExtra("showFavoritesButton", false) == true
         
-        appbar = findViewById(R.id.appbar)
-        toolbar = findViewById(R.id.toolbar)
         toolbar.setMarginTop(getStatusBarHeight(true))
         
         setSupportActionBar(toolbar)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.let {
+            with(it) {
+                setHomeButtonEnabled(true)
+                setDisplayHomeAsUpEnabled(true)
+                setDisplayShowHomeEnabled(true)
+            }
+        }
         
         toolbar.tint(getColorFromRes(android.R.color.white), false)
         
-        val toolbarTitle = findViewById<TextView>(R.id.toolbar_title)
-        val toolbarSubtitle = findViewById<TextView>(R.id.toolbar_subtitle)
+        val toolbarTitle:TextView by bind(R.id.toolbar_title)
+        val toolbarSubtitle:TextView by bind(R.id.toolbar_subtitle)
         ViewCompat.setTransitionName(toolbarTitle, intent?.getStringExtra("nameTransition") ?: "")
         ViewCompat.setTransitionName(toolbarSubtitle,
                                      intent?.getStringExtra("authorTransition") ?: "")
         toolbarTitle.text = wallpaper?.name ?: ""
         toolbarSubtitle.text = wallpaper?.author ?: ""
         
-        bottomBar = findViewById(R.id.bottom_bar)
         findViewById<View>(R.id.bottom_bar_container).setNavBarMargins()
         
         val downloadable = wallpaper?.downloadable ?: false
@@ -192,7 +194,7 @@ open class ViewerActivity:ThemedActivity() {
         
         if (showFavoritesButton) {
             val favIcon = (if (isInFavorites) "ic_heart" else "ic_heart_outline").getDrawable(this)
-            val favImageView = findViewById<ImageView>(R.id.fav_button)
+            val favImageView:ImageView by bind(R.id.fav_button)
             ViewCompat.setTransitionName(favImageView,
                                          intent?.getStringExtra("favTransition") ?: "")
             favImageView.setImageDrawable(favIcon)
@@ -201,11 +203,7 @@ open class ViewerActivity:ThemedActivity() {
             findViewById<RelativeLayout>(R.id.fav_container).gone()
         }
         
-        img = findViewById(R.id.wallpaper)
-        img.setOnSingleTapListener {
-            toggleSystemUI()
-            true
-        }
+        img.setOnSingleTapListener { toggleSystemUI(); true }
         
         ViewCompat.setTransitionName(img, intent?.getStringExtra("imgTransition") ?: "")
         supportStartPostponedEnterTransition()
@@ -538,7 +536,7 @@ open class ViewerActivity:ThemedActivity() {
     
     private val ANIMATION_DURATION:Long = 150
     private fun toggleFavorite() = runOnUiThread {
-        val favImageView = findViewById<ImageView>(R.id.fav_button)
+        val favImageView:ImageView by bind(R.id.fav_button)
         val scale = ScaleAnimation(1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5f,
                                    Animation.RELATIVE_TO_SELF, 0.5f)
         scale.duration = ANIMATION_DURATION

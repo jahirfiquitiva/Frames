@@ -16,7 +16,6 @@
 package jahirfiquitiva.libs.frames.ui.fragments.base
 
 import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,7 +23,7 @@ import android.view.View
 import android.view.ViewGroup
 import jahirfiquitiva.libs.frames.ui.fragments.presenters.ViewModelFragmentPresenter
 
-abstract class BaseViewModelFragment<in T>:BasicFragment<T>(), LifecycleObserver, ViewModelFragmentPresenter<T> {
+abstract class BaseViewModelFragment<in T>:BasicFragment<T>(), ViewModelFragmentPresenter<T> {
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         initVM()

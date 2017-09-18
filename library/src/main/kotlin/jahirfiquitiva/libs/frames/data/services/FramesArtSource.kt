@@ -15,8 +15,8 @@
  */
 package jahirfiquitiva.libs.frames.data.services
 
+import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LifecycleRegistry
-import android.arch.lifecycle.LifecycleRegistryOwner
 import android.arch.persistence.room.Room
 import android.content.Intent
 import android.net.Uri
@@ -45,7 +45,7 @@ import kotlin.collections.ArrayList
 
 
 @Suppress("NAME_SHADOWING")
-class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleRegistryOwner {
+class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleOwner {
     
     private val SHARE_COMMAND_ID = 1337
     

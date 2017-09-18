@@ -29,6 +29,7 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseActivityWithFragments
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersInCollectionFragment
+import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
@@ -54,9 +55,9 @@ open class CollectionActivity:BaseActivityWithFragments() {
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val decor = window.decorView
-            val statusBar = decor.findViewById<View>(android.R.id.statusBarBackground)
-            val navBar = decor.findViewById<View>(android.R.id.navigationBarBackground)
-            val actionBar = decor.findViewById<View>(R.id.action_bar_container)
+            val statusBar:View by decor.bind(android.R.id.statusBarBackground)
+            val navBar:View by decor.bind(android.R.id.navigationBarBackground)
+            val actionBar:View by decor.bind(R.id.action_bar_container)
             
             val viewsToExclude = arrayOf(statusBar, navBar, actionBar)
             val extraViewsToExclude = arrayOf(R.id.appbar, R.id.toolbar, R.id.tabs)
@@ -77,20 +78,22 @@ open class CollectionActivity:BaseActivityWithFragments() {
         
         setContentView(R.layout.activity_collection_settings)
         
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        val toolbar:Toolbar by bind(R.id.toolbar)
         
         setSupportActionBar(toolbar)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         
-        val container = findViewById<FrameLayout>(fragmentsContainer())
-        container?.let {
-            it.setPadding(it.paddingLeft, it.paddingTop, it.paddingRight, 0)
+        val container:FrameLayout by bind(fragmentsContainer())
+        with(container) {
+            setPadding(paddingLeft, paddingTop, paddingRight, 0)
         }
         
         collection = intent?.getParcelableExtra("item")
         setupToolbarTitle(toolbar)
+        toolbar.subtitle = getString(R.string.x_wallpapers,
+                                     (collection?.wallpapers?.size ?: 0).toString())
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
                      getSecondaryTextColorFor(primaryColor, 0.6F),
                      getActiveIconsColorFor(primaryColor, 0.6F))

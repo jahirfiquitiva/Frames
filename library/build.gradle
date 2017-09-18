@@ -96,7 +96,9 @@ dependencies {
     // RecyclerView Fast Scroller
     compile('me.jahirfiquitiva:recycler-fast-scroll:' + project.ext.recyclerViewFastScroll + '@aar')
     // Material Number Picker
-    compile 'biz.kasual:materialnumberpicker:' + project.ext.mnp
+    compile 'biz.kasual:materialnumberpicker:' + project.ext.numberPicker
+	// Chips
+	compile 'me.jahirfiquitiva:MaterialChipsInput:' + project.ext.chips
     // In-App Purchases
     compile 'com.anjlab.android.iab.v3:library:' + project.ext.iaps
     // Muzei API

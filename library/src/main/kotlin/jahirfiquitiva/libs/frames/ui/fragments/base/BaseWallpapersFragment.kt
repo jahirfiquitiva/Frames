@@ -44,43 +44,54 @@ import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
+import jahirfiquitiva.libs.kauextensions.extensions.lazyAndroid
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 
 abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHolder>() {
     
     lateinit var swipeToRefresh:SwipeRefreshLayout
     lateinit var rv:EmptyViewRecyclerView
-    lateinit var adapter:WallpapersAdapter
     lateinit var fastScroll:RecyclerFastScroller
+    
+    val wallsAdapter:WallpapersAdapter by lazyAndroid {
+        WallpapersAdapter(Glide.with(context),
+                          { wall, holder -> onItemClicked(wall, holder) },
+                          { heart, wall -> onHeartClicked(heart, wall) },
+                          fromFavorites(), showFavoritesIcon())
+    }
     
     private var spanCount = 0
     private var spacingDecoration:GridSpacingItemDecoration? = null
     
     override fun initUI(content:View) {
         swipeToRefresh = content.findViewById(R.id.swipe_to_refresh)
-        swipeToRefresh.setProgressBackgroundColorSchemeColor(context.cardBackgroundColor)
-        swipeToRefresh.setColorSchemeColors(context.accentColor)
-        swipeToRefresh.setOnRefreshListener {
-            reloadData(if (fromFavorites()) 2 else 1)
+        rv = content.findViewById(R.id.list_rv)
+        fastScroll = content.findViewById(R.id.fast_scroller)
+        
+        with(swipeToRefresh) {
+            setProgressBackgroundColorSchemeColor(context.cardBackgroundColor)
+            setColorSchemeColors(context.accentColor)
+            setOnRefreshListener { reloadData(if (fromFavorites()) 2 else 1) }
         }
         
-        rv = content.findViewById(R.id.list_rv)
-        rv.itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
-        rv.textView = content.findViewById(R.id.empty_text)
-        rv.emptyView = content.findViewById(R.id.empty_view)
-        rv.setEmptyImage(if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
-        rv.setEmptyText(if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
-        rv.loadingView = content.findViewById(R.id.loading_view)
-        rv.setLoadingText(R.string.loading_section)
-        configureRVColumns()
-        adapter = WallpapersAdapter(Glide.with(context),
-                                    { wall, holder -> onItemClicked(wall, holder) },
-                                    { heart, wall -> onHeartClicked(heart, wall) },
-                                    fromFavorites(), showFavoritesIcon())
-        rv.adapter = adapter
-        fastScroll = content.findViewById(R.id.fast_scroller)
-        fastScroll.attachSwipeRefreshLayout(swipeToRefresh)
-        fastScroll.attachRecyclerView(rv)
+        with(rv) {
+            itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
+            textView = content.findViewById(R.id.empty_text)
+            emptyView = content.findViewById(R.id.empty_view)
+            setEmptyImage(
+                    if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
+            setEmptyText(if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
+            loadingView = content.findViewById(R.id.loading_view)
+            setLoadingText(R.string.loading_section)
+            configureRVColumns()
+            adapter = wallsAdapter
+        }
+        
+        with(fastScroll) {
+            attachSwipeRefreshLayout(swipeToRefresh)
+            attachRecyclerView(rv)
+        }
+        
         rv.state = EmptyViewRecyclerView.State.LOADING
     }
     
@@ -144,30 +155,33 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         if (filter.hasContent()) {
             rv.setEmptyImage(R.drawable.no_results)
             rv.setEmptyText(R.string.search_no_results)
-            adapter.updateItems(
-                    ArrayList<Wallpaper>(list.filter { it.name.contains(filter, true) }), true)
+            wallsAdapter.updateItems(
+                    ArrayList(list.filter { it.name.contains(filter, true) }), true)
         } else {
             rv.setEmptyImage(
                     if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
             rv.setEmptyText(if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
-            adapter.updateItems(list, true)
+            wallsAdapter.updateItems(list, true)
             scrollToTop()
         }
     }
     
     private fun onWallpaperClicked(wallpaper:Wallpaper, holder:WallpaperHolder) {
         val intent = Intent(activity, ViewerActivity::class.java)
-        intent.putExtra("wallpaper", wallpaper)
-        intent.putExtra("inFavorites", favoritesModel?.isInFavorites(wallpaper) ?: false)
-        intent.putExtra("showFavoritesButton", showFavoritesIcon())
         val imgTransition = ViewCompat.getTransitionName(holder.img)
         val nameTransition = ViewCompat.getTransitionName(holder.name)
         val authorTransition = ViewCompat.getTransitionName(holder.author)
         val heartTransition = ViewCompat.getTransitionName(holder.heartIcon)
-        intent.putExtra("imgTransition", imgTransition)
-        intent.putExtra("nameTransition", nameTransition)
-        intent.putExtra("authorTransition", authorTransition)
-        intent.putExtra("favTransition", heartTransition)
+        
+        with(intent) {
+            putExtra("wallpaper", wallpaper)
+            putExtra("inFavorites", favoritesModel?.isInFavorites(wallpaper) ?: false)
+            putExtra("showFavoritesButton", showFavoritesIcon())
+            putExtra("imgTransition", imgTransition)
+            putExtra("nameTransition", nameTransition)
+            putExtra("authorTransition", authorTransition)
+            putExtra("favTransition", heartTransition)
+        }
         
         try {
             val filename = "thumb.png"

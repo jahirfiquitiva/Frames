@@ -29,9 +29,11 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseActivityWithFragments
 import jahirfiquitiva.libs.frames.ui.fragments.SettingsFragment
+import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.lazyAndroid
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import java.io.File
@@ -45,30 +47,33 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
     
     var hasClearedFavs = false
     private var locationChooserDialog:FolderChooserDialog? = null
-    private lateinit var fragment:Fragment
+    private val fragment:Fragment by lazyAndroid { settingsFragment() }
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_collection_settings)
         
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        val toolbar:Toolbar by bind(R.id.toolbar)
         
         setSupportActionBar(toolbar)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.let {
+            with(it) {
+                setHomeButtonEnabled(true)
+                setDisplayHomeAsUpEnabled(true)
+                setDisplayShowHomeEnabled(true)
+            }
+        }
         
         toolbar.setTitle(R.string.settings)
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
                      getSecondaryTextColorFor(primaryColor, 0.6F),
                      getActiveIconsColorFor(primaryColor, 0.6F))
         
-        val container = findViewById<FrameLayout>(fragmentsContainer())
-        container?.let {
-            it.setPadding(it.paddingLeft, it.paddingTop, it.paddingRight, 0)
+        val container:FrameLayout by bind(fragmentsContainer())
+        with(container) {
+            setPadding(paddingLeft, paddingTop, paddingRight, 0)
         }
         
-        fragment = settingsFragment()
         changeFragment(fragment, "Settings")
     }
     
@@ -122,7 +127,7 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
         } catch (ignored:Exception) {
         }
         clearDialog()
-        ActivityCompat.finishAfterTransition(this)
+        supportFinishAfterTransition()
     }
     
     override fun onFolderChooserDismissed(dialog:FolderChooserDialog) {}

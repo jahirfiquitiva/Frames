@@ -16,9 +16,6 @@
 package jahirfiquitiva.libs.frames.ui.activities
 
 import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.LifecycleRegistry
-import android.arch.lifecycle.LifecycleRegistryOwner
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.OnLifecycleEvent
 import android.arch.lifecycle.ViewModelProviders
@@ -44,11 +41,13 @@ import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.providers.viewmodels.CollectionsViewModel
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
+import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.lazyAndroid
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryTextColor
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
@@ -57,7 +56,7 @@ import org.jetbrains.anko.collections.forEachWithIndex
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MuzeiSettingsActivity:ThemedActivity(), LifecycleRegistryOwner, LifecycleObserver {
+class MuzeiSettingsActivity:ThemedActivity() {
     override fun lightTheme():Int = R.style.LightTheme
     override fun darkTheme():Int = R.style.DarkTheme
     override fun amoledTheme():Int = R.style.AmoledTheme
@@ -71,15 +70,16 @@ class MuzeiSettingsActivity:ThemedActivity(), LifecycleRegistryOwner, LifecycleO
     private var selectedCollections = ""
     private var dialog:MaterialDialog? = null
     
-    private lateinit var collsSummaryText:TextView
-    private lateinit var seekBar:AppCompatSeekBar
-    private lateinit var checkBox:AppCompatCheckBox
+    private val collsSummaryText:TextView by bind(R.id.choose_collections_summary)
+    private val seekBar:AppCompatSeekBar by bind(R.id.every_seekbar)
+    private val checkBox:AppCompatCheckBox by bind(R.id.wifi_checkbox)
     
-    private lateinit var wallsVM:WallpapersViewModel
-    private lateinit var collsVM:CollectionsViewModel
-    
-    val lcOwner = LifecycleRegistry(this)
-    override fun getLifecycle():LifecycleRegistry = lcOwner
+    private val wallsVM:WallpapersViewModel by lazyAndroid {
+        ViewModelProviders.of(this).get(WallpapersViewModel::class.java)
+    }
+    private val collsVM:CollectionsViewModel by lazyAndroid {
+        ViewModelProviders.of(this).get(CollectionsViewModel::class.java)
+    }
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,7 +87,7 @@ class MuzeiSettingsActivity:ThemedActivity(), LifecycleRegistryOwner, LifecycleO
         
         selectedCollections = framesKonfigs.muzeiCollections
         
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        val toolbar by bind<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -98,18 +98,19 @@ class MuzeiSettingsActivity:ThemedActivity(), LifecycleRegistryOwner, LifecycleO
                      getSecondaryTextColorFor(primaryColor, 0.6F),
                      getActiveIconsColorFor(primaryColor, 0.6F))
         
-        val everyTitle = findViewById<TextView>(R.id.every_title)
+        val everyTitle:TextView by bind(R.id.every_title)
         everyTitle.setTextColor(primaryTextColor)
         
-        val everySummary = findViewById<TextView>(R.id.every_summary)
+        val everySummary:TextView by bind(R.id.every_summary)
         everySummary.setTextColor(secondaryTextColor)
         everySummary.text = getString(R.string.every_x, textFromProgress(
                 framesKonfigs.muzeiRefreshInterval).toLowerCase(Locale.getDefault()))
         
-        seekBar = findViewById(R.id.every_seekbar)
-        seekBar.progress = framesKonfigs.muzeiRefreshInterval
-        seekBar.incrementProgressBy(SEEKBAR_STEPS)
-        seekBar.max = (SEEKBAR_MAX_VALUE - SEEKBAR_MIN_VALUE) / SEEKBAR_STEPS
+        with(seekBar) {
+            progress = framesKonfigs.muzeiRefreshInterval
+            incrementProgressBy(SEEKBAR_STEPS)
+            max = (SEEKBAR_MAX_VALUE - SEEKBAR_MIN_VALUE) / SEEKBAR_STEPS
+        }
         
         val isFramesApp = getBoolean(R.bool.isFrames)
         
@@ -123,7 +124,6 @@ class MuzeiSettingsActivity:ThemedActivity(), LifecycleRegistryOwner, LifecycleO
         findViewById<TextView>(R.id.wifi_only_title).setTextColor(primaryTextColor)
         findViewById<TextView>(R.id.wifi_only_summary).setTextColor(secondaryTextColor)
         
-        checkBox = findViewById(R.id.wifi_checkbox)
         checkBox.isChecked = framesKonfigs.refreshMuzeiOnWiFiOnly
         
         findViewById<LinearLayout>(R.id.wifi_only).setOnClickListener {
@@ -133,7 +133,6 @@ class MuzeiSettingsActivity:ThemedActivity(), LifecycleRegistryOwner, LifecycleO
         
         findViewById<TextView>(R.id.choose_collections_title).setTextColor(primaryTextColor)
         
-        collsSummaryText = findViewById(R.id.choose_collections_summary)
         collsSummaryText.setTextColor(secondaryTextColor)
         collsSummaryText.text = getString(R.string.choose_collections_summary, selectedCollections)
         
@@ -209,11 +208,9 @@ class MuzeiSettingsActivity:ThemedActivity(), LifecycleRegistryOwner, LifecycleO
         } catch (ignored:Exception) {
         }
         
-        wallsVM = ViewModelProviders.of(this).get(WallpapersViewModel::class.java)
         wallsVM.items.observe(this, Observer { list ->
             destroyDialog()
             list?.let {
-                collsVM = ViewModelProviders.of(this).get(CollectionsViewModel::class.java)
                 collsVM.items.observe(this, Observer { colls ->
                     colls?.let {
                         destroyDialog()

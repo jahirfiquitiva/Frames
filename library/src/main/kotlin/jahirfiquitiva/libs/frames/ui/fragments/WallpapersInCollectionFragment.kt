@@ -33,7 +33,7 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
         super.doOnFavoritesChange(data)
         collection?.let {
             val collectionName = it.name
-            adapter.favorites = ArrayList<Wallpaper>(data.filter {
+            wallsAdapter.favorites = ArrayList<Wallpaper>(data.filter {
                 it.collections.formatCorrectly().replace("_", " ").contains(collectionName, true)
             })
         }
@@ -49,7 +49,7 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
         super.doOnWallpapersChange(data, fromCollectionActivity)
         collection?.let {
             val collectionName = it.name
-            adapter.setItems(ArrayList<Wallpaper>(data.filter {
+            wallsAdapter.setItems(ArrayList<Wallpaper>(data.filter {
                 it.collections.formatCorrectly().replace("_", " ").contains(collectionName, true)
             }))
         }

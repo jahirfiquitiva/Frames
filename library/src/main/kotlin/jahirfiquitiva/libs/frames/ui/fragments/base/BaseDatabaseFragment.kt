@@ -143,7 +143,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
         snack = null
         try {
             if (check) addToFavorites(item) else removeFromFavorites(item)
-            snack = content.buildSnackbar(
+            snack = view?.buildSnackbar(
                     getString(
                             if (check) R.string.added_to_favorites else R.string.removed_from_favorites,
                             item.name),
@@ -159,8 +159,8 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     internal fun showErrorSnackbar() {
         snack?.dismiss()
         snack = null
-        snack = content.buildSnackbar(getString(R.string.action_error_content),
-                                      Snackbar.LENGTH_SHORT)
+        snack = view?.buildSnackbar(getString(R.string.action_error_content),
+                                    Snackbar.LENGTH_SHORT)
         snack?.view?.findViewById<TextView>(R.id.snackbar_text)?.setTextColor(Color.WHITE)
         snack?.show()
     }

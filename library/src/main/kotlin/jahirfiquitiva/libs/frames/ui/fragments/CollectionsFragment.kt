@@ -36,41 +36,51 @@ import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
+import jahirfiquitiva.libs.kauextensions.extensions.lazyAndroid
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 
 class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     
     private lateinit var swipeToRefresh:SwipeRefreshLayout
     private lateinit var rv:EmptyViewRecyclerView
-    private lateinit var adapter:CollectionsAdapter
     private lateinit var fastScroll:RecyclerFastScroller
+    
+    private val collsAdapter:CollectionsAdapter by lazyAndroid {
+        CollectionsAdapter(Glide.with(this), { collection ->
+            onItemClicked(collection)
+        })
+    }
     
     override fun initUI(content:View) {
         swipeToRefresh = content.findViewById(R.id.swipe_to_refresh)
-        swipeToRefresh.setProgressBackgroundColorSchemeColor(context.cardBackgroundColor)
-        swipeToRefresh.setColorSchemeColors(context.accentColor)
-        swipeToRefresh.setOnRefreshListener {
-            reloadData(0)
+        rv = content.findViewById(R.id.list_rv)
+        fastScroll = content.findViewById(R.id.fast_scroller)
+        
+        with(swipeToRefresh) {
+            setProgressBackgroundColorSchemeColor(context.cardBackgroundColor)
+            setColorSchemeColors(context.accentColor)
+            setOnRefreshListener { reloadData(0) }
         }
         
-        rv = content.findViewById(R.id.list_rv)
-        rv.itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
-        rv.textView = content.findViewById(R.id.empty_text)
-        rv.emptyView = content.findViewById(R.id.empty_view)
-        rv.setEmptyImage(R.drawable.empty_section)
-        rv.setEmptyText(R.string.empty_section)
-        rv.loadingView = content.findViewById(R.id.loading_view)
-        rv.setLoadingText(R.string.loading_section)
-        val spanCount = if (context.isInHorizontalMode) 2 else 1
-        rv.layoutManager = GridLayoutManager(context, spanCount, GridLayoutManager.VERTICAL, false)
-        rv.addItemDecoration(GridSpacingItemDecoration(spanCount, 0, true))
-        adapter = CollectionsAdapter(Glide.with(this), { collection ->
-            onItemClicked(collection)
-        })
-        rv.adapter = adapter
-        fastScroll = content.findViewById(R.id.fast_scroller)
-        fastScroll.attachSwipeRefreshLayout(swipeToRefresh)
-        fastScroll.attachRecyclerView(rv)
+        with(rv) {
+            itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
+            textView = content.findViewById(R.id.empty_text)
+            emptyView = content.findViewById(R.id.empty_view)
+            setEmptyImage(R.drawable.empty_section)
+            setEmptyText(R.string.empty_section)
+            loadingView = content.findViewById(R.id.loading_view)
+            setLoadingText(R.string.loading_section)
+            val spanCount = if (context.isInHorizontalMode) 2 else 1
+            layoutManager = GridLayoutManager(context, spanCount, GridLayoutManager.VERTICAL, false)
+            addItemDecoration(GridSpacingItemDecoration(spanCount, 0, true))
+            adapter = collsAdapter
+        }
+        
+        with(fastScroll) {
+            attachSwipeRefreshLayout(swipeToRefresh)
+            attachRecyclerView(rv)
+        }
+        
         rv.state = EmptyViewRecyclerView.State.LOADING
     }
     
@@ -110,11 +120,12 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
             if (filter.hasContent()) {
                 rv.setEmptyImage(R.drawable.no_results)
                 rv.setEmptyText(R.string.search_no_results)
-                adapter.updateItems(ArrayList(it.filter { it.name.contains(filter, true) }), true)
+                collsAdapter.updateItems(ArrayList(it.filter { it.name.contains(filter, true) }),
+                                         true)
             } else {
                 rv.setEmptyImage(R.drawable.empty_section)
                 rv.setEmptyText(R.string.empty_section)
-                adapter.updateItems(it, true)
+                collsAdapter.updateItems(it, true)
                 scrollToTop()
             }
         }
@@ -133,7 +144,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     override fun doOnCollectionsChange(data:ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
         swipeToRefresh.isRefreshing = false
-        adapter.setItems(data)
+        collsAdapter.setItems(data)
     }
     
     override fun autoStartLoad():Boolean = true

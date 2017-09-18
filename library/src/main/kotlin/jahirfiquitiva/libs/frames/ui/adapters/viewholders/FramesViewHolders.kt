@@ -41,6 +41,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
 import jahirfiquitiva.libs.frames.helpers.extensions.thumbnailColor
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestListener
 import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
+import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.generatePalette
@@ -60,10 +61,10 @@ class CollectionHolder(itemView:View):GlideViewHolder(itemView) {
     
     private var hasFaded = false
     
-    private val img:LandscapeImageView = itemView.findViewById(R.id.collection_picture)
-    private val detailsBg:LinearLayout = itemView.findViewById(R.id.collection_details)
-    private val title:TextView = itemView.findViewById(R.id.collection_title)
-    private val amount:TextView = itemView.findViewById(R.id.collection_walls_number)
+    private val img:LandscapeImageView by itemView.bind(R.id.collection_picture)
+    private val detailsBg:LinearLayout by itemView.bind(R.id.collection_details)
+    private val title:TextView by itemView.bind(R.id.collection_title)
+    private val amount:TextView by itemView.bind(R.id.collection_walls_number)
     
     fun setItem(manager:RequestManager, collection:Collection,
                 listener:(Collection) -> Unit) {
@@ -125,11 +126,11 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
     private var hasFaded = false
     private var shouldCheck = false
     
-    val img:VerticalImageView = itemView.findViewById(R.id.wallpaper_image)
-    val name:TextView = itemView.findViewById(R.id.wallpaper_name)
-    val author:TextView = itemView.findViewById(R.id.wallpaper_author)
-    val heartIcon:ImageView = itemView.findViewById(R.id.heart_icon)
-    private val detailsBg:LinearLayout = itemView.findViewById(R.id.wallpaper_details)
+    val img:VerticalImageView by itemView.bind(R.id.wallpaper_image)
+    val name:TextView by itemView.bind(R.id.wallpaper_name)
+    val author:TextView by itemView.bind(R.id.wallpaper_author)
+    val heartIcon:ImageView by itemView.bind(R.id.heart_icon)
+    private val detailsBg:LinearLayout by itemView.bind(R.id.wallpaper_details)
     
     fun setItem(manager:RequestManager, wallpaper:Wallpaper,
                 singleTap:(Wallpaper, WallpaperHolder) -> Unit,

@@ -21,12 +21,12 @@ import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
 class WallpapersFragment:BaseWallpapersFragment() {
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
-        adapter.favorites = data
+        wallsAdapter.favorites = data
     }
     
     override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
-        adapter.setItems(data)
+        wallsAdapter.setItems(data)
     }
     
     override fun autoStartLoad():Boolean = true

@@ -31,6 +31,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import jahirfiquitiva.libs.kauextensions.extensions.bind
 
 /**
  * A PreferenceFragment for the support library. Based on the platform's code with some removed
@@ -237,8 +238,7 @@ abstract class PreferenceFragment:Fragment() {
             return
         }
         val layout = view ?: throw IllegalStateException("Content view not yet created")
-        val list:View? = layout.findViewById(android.R.id.list) ?: throw RuntimeException(
-                "Your content must have a ListView whose id attribute is 'android.R.id.list'")
+        val list:View by layout.bind(android.R.id.list)
         val listV = list as? ListView ?: throw RuntimeException(
                 "Content has view with id attribute 'android.R.id.list' that is not a ListView class")
         mList = listV

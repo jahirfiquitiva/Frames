@@ -16,9 +16,6 @@
 package jahirfiquitiva.libs.frames.ui.activities.base
 
 import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.LifecycleRegistry
-import android.arch.lifecycle.LifecycleRegistryOwner
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.OnLifecycleEvent
 import android.arch.lifecycle.ViewModelProviders
@@ -55,8 +52,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.justUpdated
 import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 
 @Suppress("LeakingThis")
-abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
-                                  LifecycleObserver, BillingProcessor.IBillingHandler {
+abstract class BaseFramesActivity:ThemedActivity(), BillingProcessor.IBillingHandler {
     
     private var picker:Int = 0
     private var donationsReady = false
@@ -70,9 +66,6 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
     private var checker:PiracyChecker? = null
     private var dialog:MaterialDialog? = null
     internal var billingProcessor:BillingProcessor? = null
-    
-    val lcOwner = LifecycleRegistry(this)
-    override fun getLifecycle():LifecycleRegistry = lcOwner
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,8 +133,8 @@ abstract class BaseFramesActivity:ThemedActivity(), LifecycleRegistryOwner,
     }
     
     internal fun getShortcut():String {
-        if (intent != null && intent.dataString != null && intent.dataString.contains(
-                "_shortcut")) {
+        if (intent != null && intent.dataString != null &&
+                intent.dataString.contains("_shortcut")) {
             return intent.dataString
         }
         return ""

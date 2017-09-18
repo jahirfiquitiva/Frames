@@ -15,14 +15,14 @@
  */
 package jahirfiquitiva.libs.frames.ui.fragments.base
 
-import android.arch.lifecycle.LifecycleFragment
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import jahirfiquitiva.libs.frames.ui.fragments.presenters.BasicFragmentPresenter
 
-abstract class BasicFragment<in T>:LifecycleFragment(), BasicFragmentPresenter<T> {
+abstract class BasicFragment<in T>:Fragment(), BasicFragmentPresenter<T> {
     lateinit var content:View
     override fun onCreateView(inflater:LayoutInflater?, container:ViewGroup?,
                               savedInstanceState:Bundle?):View? {

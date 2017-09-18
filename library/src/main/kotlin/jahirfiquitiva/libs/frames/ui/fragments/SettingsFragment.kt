@@ -48,12 +48,16 @@ import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.konfigs
+import jahirfiquitiva.libs.kauextensions.extensions.lazyAndroid
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import org.jetbrains.anko.doAsync
 
 open class SettingsFragment:PreferenceFragment() {
     
-    internal lateinit var database:FavoritesDatabase
+    internal val database:FavoritesDatabase by lazyAndroid {
+        Room.databaseBuilder(activity, FavoritesDatabase::class.java,
+                             DATABASE_NAME).fallbackToDestructiveMigration().build()
+    }
     internal var downloadLocation:Preference? = null
     
     var dialog:MaterialDialog? = null
@@ -65,9 +69,6 @@ open class SettingsFragment:PreferenceFragment() {
     }
     
     open fun initPreferences() {
-        database = Room.databaseBuilder(activity, FavoritesDatabase::class.java,
-                                        DATABASE_NAME).fallbackToDestructiveMigration().build()
-        
         addPreferencesFromResource(R.xml.preferences)
         
         val uiPrefs = findPreference("ui_settings") as PreferenceCategory

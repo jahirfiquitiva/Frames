@@ -33,6 +33,7 @@ import jahirfiquitiva.libs.frames.ui.adapters.CreditsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
+import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
@@ -50,9 +51,9 @@ open class CreditsActivity:ThemedActivity() {
     override fun amoledTheme():Int = R.style.AmoledTheme
     override fun autoStatusBarTint():Boolean = true
     
-    private lateinit var toolbar:Toolbar
-    private lateinit var rv:EmptyViewRecyclerView
-    private lateinit var fastScroll:RecyclerFastScroller
+    private val toolbar:Toolbar by bind(R.id.toolbar)
+    private val rv:EmptyViewRecyclerView by bind(R.id.list_rv)
+    private val fastScroll:RecyclerFastScroller by bind(R.id.fast_scroller)
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,18 +61,15 @@ open class CreditsActivity:ThemedActivity() {
         
         registerCCLicense()
         
-        toolbar = findViewById(R.id.toolbar)
-        
         setSupportActionBar(toolbar)
         supportActionBar?.title = getString(R.string.about)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         
-        val refreshLayout = findViewById<SwipeRefreshLayout>(R.id.swipe_to_refresh)
+        val refreshLayout:SwipeRefreshLayout by bind(R.id.swipe_to_refresh)
         refreshLayout.isEnabled = false
         
-        rv = findViewById(R.id.list_rv)
         rv.itemAnimator = DefaultItemAnimator()
         rv.state = EmptyViewRecyclerView.State.LOADING
         
@@ -85,7 +83,6 @@ open class CreditsActivity:ThemedActivity() {
         adapter.setLayoutManager(layoutManager)
         rv.adapter = adapter
         
-        fastScroll = findViewById(R.id.fast_scroller)
         fastScroll.attachRecyclerView(rv)
         
         try {
@@ -213,38 +210,61 @@ open class CreditsActivity:ThemedActivity() {
                             getString(R.string.sherry_description), SHERRY_BUTTONS.split("|"),
                             SHERRY_LINKS.split("|")))
             
-            list.add(Credit(Credit.Type.DEV_CONTRIBUTION, JAMES_PHOTO_URL, "James Fenn", "",
+            list.add(Credit(Credit.Type.DEV_CONTRIBUTION, JAMES_PHOTO_URL, "James Fenn",
                             link = "https://plus.google.com/+JamesFennJAFFA2157"))
             
-            list.add(Credit(Credit.Type.DEV_CONTRIBUTION, MAX_PHOTO_URL, "Maximilian Keppeler", "",
+            list.add(Credit(Credit.Type.DEV_CONTRIBUTION, MAX_PHOTO_URL, "Maximilian Keppeler",
                             link = "https://plus.google.com/+MaxKeppeler"))
+            
+            list.add(Credit(Credit.Type.DEV_CONTRIBUTION, ALEX_PHOTO_URL, "Alexandre Piveteau",
+                            link = "https://github.com/alexandrepiveteau"))
+            
+            list.add(Credit(Credit.Type.DEV_CONTRIBUTION, LUKAS_PHOTO_URL, "Lukas Koller",
+                            link = "https://github.com/kollerlukas"))
             
             list.add(Credit(Credit.Type.UI_CONTRIBUTION, PATRYK_PHOTO_URL, "Patryk Goworowski",
                             link = "https://plus.google.com/+PatrykGoworowski"))
             
             list.add(Credit(Credit.Type.UI_CONTRIBUTION, LUMIQ_PHOTO_URL, "Lumiq Creative",
                             link = "https://plus.google.com/+LumiqCreative"))
+            
+            list.add(Credit(Credit.Type.UI_CONTRIBUTION, KEVIN_PHOTO_URL, "Kevin Aguilar",
+                            link = "http://kevaguilar.com/"))
+            
+            list.add(Credit(Credit.Type.UI_CONTRIBUTION, EDUARDO_PHOTO_URL, "Eduardo Pratti",
+                            link = "https://plus.google.com/+EduardoPratti"))
+            
+            list.add(Credit(Credit.Type.UI_CONTRIBUTION, ANTHONY_PHOTO_URL, "Anthony Nguyen",
+                            link = "https://plus.google.com/+AHNguyen"))
         } catch (e:Exception) {
             e.printStackTrace()
         }
         
         return list
     }
+    
+    private companion object {
+        const val JAHIR_PHOTO_URL = "https://github.com/jahirfiquitiva/Website-Resources/raw/master/myself/me-square-white.png"
+        const val JAHIR_BUTTONS = "Website|Google+|Play Store"
+        const val JAHIR_LINKS = "https://www.jahirfiquitiva.me/|https://www.google.com/+JahirFiquitivaR|https://play.google.com/store/apps/dev?id=7438639276314720952"
+        
+        const val ALLAN_PHOTO_URL = "https://avatars0.githubusercontent.com/u/6251823?v=4&s=400"
+        const val ALLAN_BUTTONS = "GitHub|Google+|Play Store"
+        const val ALLAN_LINKS = "https://github.com/AllanWang|https://plus.google.com/+AllanWPitchedApps|https://play.google.com/store/apps/dev?id=9057916668129524571"
+        
+        const val SHERRY_PHOTO_URL = "https://pbs.twimg.com/profile_images/853258651326459904/yogDkP9p.jpg"
+        const val SHERRY_BUTTONS = "Website|Google+"
+        const val SHERRY_LINKS = "http://photography-by-sherry.com/home|https://plus.google.com/+SherrySabatine"
+        
+        const val JAMES_PHOTO_URL = "https://lh3.googleusercontent.com/H1lDr6FlSvHQe4oIogYUGNWIDLb69LcIVCYciPUzql7Q_Nrq4wp-3yKh1uSfTPV3iM0DnC1icD-80YQ=w1107-h623-rw-no"
+        const val MAX_PHOTO_URL = "https://lh3.googleusercontent.com/yvcLR6mThBOpHYo6iIG9SlyEHmmVgO1LaPIv_Eu9unSGqt99fnaBVLtR1rom16c_t98tz_sxGeo8Ba5MPCI=w1107-h623-rw-no"
+        const val LUKAS_PHOTO_URL = "https://avatars3.githubusercontent.com/u/16599370?v=4&s=400"
+        const val ALEX_PHOTO_URL = "https://avatars2.githubusercontent.com/u/6318990?v=4&s=460"
+        
+        const val LUMIQ_PHOTO_URL = "https://raw.githubusercontent.com/lumiqcreative/lumiq-repo/master/profilepic.png"
+        const val PATRYK_PHOTO_URL = "https://lh3.googleusercontent.com/EpfG2M4si7jn_lk01ure5CGDPF07Aw3YPA88NMvoG1txfGIPc-feN2LdrBby_5W8VPJNCBNGjzCtOYclHck=w1107-h623-rw-no"
+        const val KEVIN_PHOTO_URL = "https://lh3.googleusercontent.com/iGbKA1n-YKF1bFG14LHqGZ0Z4PRkTjzwriUNPKbiLR67FV06Ubnh7QjsouAgndRlJ0dHTlcwFx2Dhrw=w1107-h623-rw-no"
+        const val EDUARDO_PHOTO_URL = "https://lh3.googleusercontent.com/JBUU8dTBxuqSp3mwG87DmNWzYW1zsOlUXiJRRXgCdbajedZx8R8_TjgOdM6-3imZGt5JXL1dBdH6wL0=w1107-h623-rw-no"
+        const val ANTHONY_PHOTO_URL = "https://lh3.googleusercontent.com/MULcsGqrwp5YfurEZljOPYWn-jnkvQfe5PXokbgsFK-aamnFtkg2qugLKrSolmWi7W408MZCwmyb9A=w1107-h623-rw-no"
+    }
 }
-
-const val JAHIR_PHOTO_URL = "https://github.com/jahirfiquitiva/Website-Resources/raw/master/myself/me-square-white.png"
-const val JAHIR_BUTTONS = "Website|Google+|Play Store"
-const val JAHIR_LINKS = "https://www.jahirfiquitiva.me/|https://www.google.com/+JahirFiquitivaR|https://play.google.com/store/apps/dev?id=7438639276314720952"
-
-const val ALLAN_PHOTO_URL = "https://avatars0.githubusercontent.com/u/6251823?v=4&s=400"
-const val ALLAN_BUTTONS = "GitHub|Google+|Play Store"
-const val ALLAN_LINKS = "https://github.com/AllanWang|https://plus.google.com/+AllanWPitchedApps|https://play.google.com/store/apps/dev?id=9057916668129524571"
-
-const val SHERRY_PHOTO_URL = "https://pbs.twimg.com/profile_images/853258651326459904/yogDkP9p.jpg"
-const val SHERRY_BUTTONS = "Website|Google+"
-const val SHERRY_LINKS = "http://photography-by-sherry.com/home|https://plus.google.com/+SherrySabatine"
-
-const val JAMES_PHOTO_URL = "https://lh3.googleusercontent.com/H1lDr6FlSvHQe4oIogYUGNWIDLb69LcIVCYciPUzql7Q_Nrq4wp-3yKh1uSfTPV3iM0DnC1icD-80YQ=w1107-h623-rw-no"
-const val MAX_PHOTO_URL = "https://lh3.googleusercontent.com/yvcLR6mThBOpHYo6iIG9SlyEHmmVgO1LaPIv_Eu9unSGqt99fnaBVLtR1rom16c_t98tz_sxGeo8Ba5MPCI=w1107-h623-rw-no"
-const val LUMIQ_PHOTO_URL = "https://raw.githubusercontent.com/lumiqcreative/lumiq-repo/master/profilepic.png"
-const val PATRYK_PHOTO_URL = "https://lh3.googleusercontent.com/EpfG2M4si7jn_lk01ure5CGDPF07Aw3YPA88NMvoG1txfGIPc-feN2LdrBby_5W8VPJNCBNGjzCtOYclHck=w1107-h623-rw-no"

@@ -38,6 +38,7 @@ import jahirfiquitiva.libs.frames.ui.fragments.adapters.FragmentsAdapter
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomTabLayout
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
+import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.getDisabledTextColorFor
@@ -49,9 +50,9 @@ import jahirfiquitiva.libs.kauextensions.extensions.tint
 
 abstract class FramesActivity:BaseFramesActivity() {
     
-    private lateinit var toolbar:Toolbar
-    private lateinit var pager:ViewPager
-    private lateinit var tabs:CustomTabLayout
+    private val toolbar:Toolbar by bind(R.id.toolbar)
+    private val pager:ViewPager by bind(R.id.pager)
+    private val tabs:CustomTabLayout by bind(R.id.tabs)
     
     private var searchView:SearchView? = null
     private var lastSection = 1
@@ -60,11 +61,7 @@ abstract class FramesActivity:BaseFramesActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         
-        toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        
-        pager = findViewById(R.id.pager)
-        tabs = findViewById(R.id.tabs)
         
         pager.adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
                                          WallpapersFragment(), FavoritesFragment())

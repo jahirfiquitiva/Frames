@@ -30,6 +30,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.loadAvatar
 import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
+import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.openLink
 import jahirfiquitiva.libs.kauextensions.extensions.primaryTextColor
@@ -48,9 +49,9 @@ data class Credit(val type:Type, val photo:String, val name:String, val descript
 const val SECTION_ICON_ANIMATION_DURATION:Long = 250
 
 class CreditHeaderViewHolder(itemView:View):SectionedViewHolder(itemView) {
-    val divider:View = itemView.findViewById(R.id.section_divider)
-    val title:TextView = itemView.findViewById(R.id.section_title)
-    val icon:ImageView = itemView.findViewById(R.id.section_icon)
+    val divider:View by itemView.bind(R.id.section_divider)
+    val title:TextView by itemView.bind(R.id.section_title)
+    val icon:ImageView by itemView.bind(R.id.section_icon)
     
     fun setTitle(@StringRes text:Int, expanded:Boolean = true, listener:() -> Unit = {}) {
         title.setTextColor(itemView.context.primaryTextColor)
@@ -63,10 +64,10 @@ class CreditHeaderViewHolder(itemView:View):SectionedViewHolder(itemView) {
 }
 
 open class DashboardCreditViewHolder(itemView:View):GlideSectionedViewHolder(itemView) {
-    val photo:ImageView = itemView.findViewById(R.id.photo)
-    val name:TextView = itemView.findViewById(R.id.name)
-    private val description:TextView = itemView.findViewById(R.id.description)
-    private val buttons:SplitButtonsLayout = itemView.findViewById(R.id.buttons)
+    val photo:ImageView by itemView.bind(R.id.photo)
+    val name:TextView by itemView.bind(R.id.name)
+    private val description:TextView by itemView.bind(R.id.description)
+    private val buttons:SplitButtonsLayout by itemView.bind(R.id.buttons)
     
     open fun setItem(manager:RequestManager, credit:Credit, fillAvailableSpace:Boolean = true,
                      shouldHideButtons:Boolean = false) {
