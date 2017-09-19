@@ -51,7 +51,7 @@
                 android:layout_gravity="start|center_vertical"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:ellipsize="end"
+                android:ellipsize="start"
                 android:ems="10"
                 android:gravity="start|center_vertical"
                 android:imeOptions="actionSearch|flagNoExtractUi"
@@ -63,7 +63,7 @@
                 android:paddingLeft="@dimen/kau_search_key_line_8"
                 android:privateImeOptions="nm"
                 android:textSize="@dimen/kau_search_text_medium"
-                android:windowSoftInputMode="stateAlwaysHidden"/>
+                android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
 
     </LinearLayout>
 

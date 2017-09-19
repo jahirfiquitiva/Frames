@@ -93,7 +93,7 @@
                 android:name=".ui.activities.MuzeiSettingsActivity"
                 android:exported="true"/>
 
-        <!-- Picture Quality Configuration
+        <!--
         <meta-data
                 android:name="jahirfiquitiva.libs.frames.helpers.configs.GlideConfiguration"
                 android:value="GlideModule"/> -->

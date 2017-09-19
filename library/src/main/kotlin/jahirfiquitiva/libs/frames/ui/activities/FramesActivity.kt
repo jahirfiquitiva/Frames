@@ -39,7 +39,6 @@ import jahirfiquitiva.libs.frames.ui.widgets.SearchView
 import jahirfiquitiva.libs.frames.ui.widgets.bindSearchView
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.bind
-import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.getDisabledTextColorFor
@@ -129,13 +128,9 @@ abstract class FramesActivity:BaseFramesActivity() {
                                                     getActiveIconsColorFor(primaryColor, 0.6F))
                     }
                     searchView?.let {
+                        it.revealClose()
                         val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
                         it.hintText = getString(R.string.search_x, hint.toLowerCase())
-                        val isOpen = it.isOpen
-                        if (isOpen) {
-                            doSearch()
-                            it.revealClose()
-                        }
                     }
                     invalidateOptionsMenu()
                     pager.setCurrentItem(lastSection, true)
@@ -158,24 +153,26 @@ abstract class FramesActivity:BaseFramesActivity() {
             val donationItem = it.findItem(R.id.donate)
             donationItem?.isVisible = donationsEnabled
             
-            searchView = bindSearchView(it, R.id.search) {
-                foregroundColor = getPrimaryTextColorFor(cardBackgroundColor)
-                iconsColor = getActiveIconsColorFor(cardBackgroundColor)
-                backgroundColor = cardBackgroundColor
-                textCallback = { query, _ ->
-                    // TODO: Fix this
+            searchView = bindSearchView(it, R.id.search)
+            searchView?.listener = object:SearchView.SearchListener {
+                override fun onQueryChanged(query:String) {
                     doSearch(query)
                 }
-                searchCallback = { query, _ ->
+                
+                override fun onQuerySubmit(query:String) {
                     doSearch(query)
-                    true
                 }
-                closedCallback = { doSearch() }
-                textDebounceInterval = 10
-                shouldClearOnClose = true
-                val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
-                hintText = getString(R.string.search_x, hint.toLowerCase())
+                
+                override fun onSearchOpened(searchView:SearchView) {
+                    // Do nothing
+                }
+                
+                override fun onSearchClosed(searchView:SearchView) {
+                    doSearch()
+                }
             }
+            val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
+            searchView?.hintText = getString(R.string.search_x, hint.toLowerCase())
         }
         
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
@@ -183,36 +180,11 @@ abstract class FramesActivity:BaseFramesActivity() {
                      getActiveIconsColorFor(primaryColor, 0.6F))
         return super.onCreateOptionsMenu(menu)
     }
-
-/*
-private fun openSearchBar() {
-    searchToolbar.menu?.findItem(R.id.search_card_icon)?.expandActionView()
-    searchView?.requestFocus()
-    Revealator.reveal(searchCard)
-            .from(findViewById(R.id.search))
-            .withCurvedTranslation()
-            .withChildsAnimation()
-            .withEndAction { isSearchActive = true }
-            .start()
-}
-
-private fun closeSearchBar() {
-    Revealator.unreveal(searchCard)
-            .to(findViewById(R.id.search))
-            .withCurvedTranslation()
-            .withEndAction {
-                searchToolbar.menu?.findItem(R.id.search_card_icon)?.collapseActionView()
-                isSearchActive = false
-            }
-            .start()
-}
-*/
     
     override fun onOptionsItemSelected(item:MenuItem?):Boolean {
         item?.let {
             val id = it.itemId
             when (id) {
-            // R.id.search -> openSearchBar()
                 R.id.refresh -> refreshContent()
                 R.id.about -> startActivity(Intent(this, CreditsActivity::class.java))
                 R.id.settings -> startActivityForResult(Intent(this, SettingsActivity::class.java),
@@ -224,8 +196,8 @@ private fun closeSearchBar() {
     }
     
     override fun onBackPressed() {
-        if (isSearchActive) searchView?.revealClose()
-        else super.onBackPressed()
+        val open = searchView?.onBackPressed() ?: false
+        if (!open) super.onBackPressed()
     }
     
     @Suppress("UNCHECKED_CAST")
@@ -289,7 +261,7 @@ private fun closeSearchBar() {
                 if (it is BaseFramesFragment<*, *>) {
                     try {
                         synchronized(LOCK, {
-                            postDelayed(250, { it.applyFilter(filter) })
+                            postDelayed(200, { it.applyFilter(filter) })
                         })
                     } catch (ignored:Exception) {
                     }

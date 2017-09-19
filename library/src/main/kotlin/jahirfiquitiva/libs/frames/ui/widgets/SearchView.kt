@@ -18,13 +18,14 @@ package jahirfiquitiva.libs.frames.ui.widgets
 import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
-import android.os.Build
+import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
+import android.support.annotation.DrawableRes
 import android.support.annotation.IdRes
 import android.support.transition.ChangeBounds
 import android.support.transition.TransitionManager
 import android.support.transition.TransitionSet
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatEditText
 import android.text.Editable
 import android.text.TextWatcher
@@ -37,9 +38,6 @@ import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
 import android.widget.ImageView
-import ca.allanwang.kau.kotlin.Debouncer2
-import ca.allanwang.kau.kotlin.debounce
-import ca.allanwang.kau.logging.KL
 import ca.allanwang.kau.utils.addEndListener
 import ca.allanwang.kau.utils.bindView
 import ca.allanwang.kau.utils.circularHide
@@ -48,18 +46,16 @@ import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.hideKeyboard
 import ca.allanwang.kau.utils.isVisible
 import ca.allanwang.kau.utils.parentViewGroup
-import ca.allanwang.kau.utils.setIcon
 import ca.allanwang.kau.utils.setMarginTop
 import ca.allanwang.kau.utils.showKeyboard
-import ca.allanwang.kau.utils.string
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.tintCursor
-import ca.allanwang.kau.utils.toDrawable
-import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import com.mikepenz.iconics.typeface.IIcon
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.ui.widgets.SearchView.Configs
+import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
+import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
+import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
+import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.withAlpha
 import jahirfiquitiva.libs.kauextensions.ui.views.CustomCardView
 import org.jetbrains.anko.runOnUiThread
@@ -82,117 +78,11 @@ class SearchView:FrameLayout {
     constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int)
             :super(context, attributeSet, defStyleAttr)
     
-    /**
-     * Collection of all possible arguments when building the SearchView
-     * Everything is made as opened as possible, so additional components may be found in the [SearchView]
-     * However, these are the main config options
-     */
-    class Configs {
-        /**
-         * The foreground color accounts for all text colors and icon colors
-         * Various alpha levels may be used for sub texts/dividers etc
-         */
-        var foregroundColor:Int = Color.parseColor("#de000000")
-        /**
-         * Namely the background for the card and recycler view
-         */
-        var backgroundColor:Int = Color.parseColor("#ffffff")
-        /**
-         * A color for icons
-         */
-        var iconsColor:Int = Color.parseColor("#8a000000")
-        /**
-         * Icon for the leftmost ImageView, which typically contains the hamburger menu/back arror
-         */
-        var navIcon:IIcon? = GoogleMaterial.Icon.gmd_arrow_back
-        /**
-         * Optional icon just to the left of the clear icon
-         * This is not implemented by default, but can be used for anything, such as mic or redirects
-         * Returns the extra imageview
-         * Set the iicon as null to hide the extra icon
-         */
-        var extraIcon:Pair<IIcon, OnClickListener>? = null
-        /**
-         * Icon for the rightmost ImageView, which typically contains a close icon
-         */
-        var clearIcon:IIcon? = GoogleMaterial.Icon.gmd_clear
-        /**
-         * Duration for the circular reveal animation
-         */
-        var revealDuration:Long = 300L
-        /**
-         * Duration for the auto transition, which is namely used to resize the recycler view
-         */
-        var transitionDuration:Long = 100L
-        /**
-         * Defines whether the edit text and mainAdapter should clear themselves when the searchView is closed
-         */
-        var shouldClearOnClose:Boolean = false
-        /**
-         * Callback that will be called every time the searchView opens
-         */
-        var openListener:((searchView:SearchView) -> Unit)? = null
-        /**
-         * Callback that will be called every time the searchView closes
-         */
-        var closeListener:((searchView:SearchView) -> Unit)? = null
-        /**
-         * Draw a divider between the search bar and the suggestion items
-         * The divider is colored based on the [foregroundColor]
-         */
-        var withDivider:Boolean = true
-        /**
-         * Hint string to be set in the searchView
-         */
-        var hintText:String? = null
-        /**
-         * Hint string res to be set in the searchView
-         */
-        var hintTextRes:Int = -1
-        /**
-         * StringRes for a "no results found" item
-         * If [results] is ever set to an empty list, it will default to
-         * a list with one item with this string
-         *
-         * For simplicity, kau contains [R.string.kau_no_results_found]
-         * which you may use
-         */
-        var noResultsFound:Int = -1
-        /**
-         * Callback for when the query changes
-         */
-        var textCallback:(query:String, searchView:SearchView) -> Unit = { _, _ -> }
-        /**
-         * Callback for when the search action key is detected from the keyboard
-         * Returns true if the searchbar should close afterwards, and false otherwise
-         */
-        var searchCallback:(query:String, searchView:SearchView) -> Boolean = { _, _ -> false }
-        /**
-         * Callback for when the search is closed
-         */
-        var closedCallback:(searchView:SearchView) -> Unit = {}
-        /**
-         * Debouncing interval between callbacks
-         */
-        var textDebounceInterval:Long = 0
-        /**
-         * If a [SearchItem]'s title contains the submitted query, make that portion bold
-         * See [SearchItem.withHighlights]
-         */
-        var highlightQueryText:Boolean = true
-        
-        /**
-         * Sets config attributes to the given searchView
-         */
-        internal fun apply(searchView:SearchView) {
-            with(searchView) {
-                tintForeground(foregroundColor, iconsColor)
-                tintBackground(backgroundColor)
-                editText.hint = context.string(hintTextRes, hintText)
-                textCallback.terminate()
-                textCallback = debounce(textDebounceInterval, this@Configs.textCallback)
-            }
-        }
+    interface SearchListener {
+        fun onQueryChanged(query:String)
+        fun onQuerySubmit(query:String)
+        fun onSearchOpened(searchView:SearchView)
+        fun onSearchClosed(searchView:SearchView)
     }
     
     /**
@@ -200,23 +90,23 @@ class SearchView:FrameLayout {
      * The noResults item will not be added
      */
     internal fun clearResults() {
-        textCallback.cancel()
         context.runOnUiThread { cardTransition() }
     }
     
-    val configs = Configs()
-    //views
     private val card:CustomCardView by bindView(R.id.kau_search_cardview)
     private val editText:AppCompatEditText by bindView(R.id.kau_search_edit_text)
     private val iconClear:ImageView by bindView(R.id.kau_search_clear)
-    private var textCallback:Debouncer2<String, SearchView> =
-            debounce(0) { query, _ ->
-                KL.d("Search query $query found; set your own textCallback")
-            }
+    
     var menuItem:MenuItem? = null
     val isOpen:Boolean
         get() = parent != null && card.isVisible
     var hintText = ""
+        set(value) {
+            field = value
+            editText.hint = value
+        }
+    var listener:SearchListener? = null
+    var shouldClearOnClose = true
     
     /*
      * Ripple start points and search view offset
@@ -229,16 +119,18 @@ class SearchView:FrameLayout {
     
     init {
         View.inflate(context, R.layout.search_bar, this)
-        iconClear.setSearchIcon(configs.clearIcon).setOnClickListener {
-            editText.text.clear()
-            revealClose()
-        }
-        tintForeground(configs.foregroundColor, configs.iconsColor)
-        tintBackground(configs.backgroundColor)
-        textCallback = debounce(0) { query, _ ->
-            configs.textCallback(query, this@SearchView)
-        }
-        editText.setHintTextColor(configs.foregroundColor.withAlpha(0.5F))
+        iconClear.setSearchIcon("ic_close".getDrawable(context)
+                                        .applyColorFilter(context.activeIconsColor))
+                .setOnClickListener {
+                    editText.text.clear()
+                    revealClose()
+                }
+        tintForeground(context.getPrimaryTextColorFor(context.cardBackgroundColor),
+                       context.activeIconsColor)
+        tintBackground(context.cardBackgroundColor)
+        
+        editText.setHintTextColor(
+                context.getPrimaryTextColorFor(context.cardBackgroundColor).withAlpha(0.5F))
         editText.hint = hintText
         editText.addTextChangedListener(object:TextWatcher {
             override fun afterTextChanged(s:Editable?) {}
@@ -246,21 +138,25 @@ class SearchView:FrameLayout {
             override fun beforeTextChanged(s:CharSequence, start:Int, count:Int, after:Int) {}
             
             override fun onTextChanged(s:CharSequence, start:Int, before:Int, count:Int) {
-                textCallback(s.toString().trim(), this@SearchView)
+                listener?.onQueryChanged(s.toString().trim())
             }
         })
         editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                if (!(configs.searchCallback(editText.text.toString(), this)))
-                    editText.hideKeyboard()
+                listener?.onQuerySubmit(editText.text.toString().trim())
                 return@setOnEditorActionListener true
             }
             false
         }
     }
     
-    internal fun ImageView.setSearchIcon(iicon:IIcon?):ImageView {
-        setIcon(iicon, sizeDp = 18, color = configs.iconsColor)
+    internal fun ImageView.setSearchIcon(@DrawableRes icon:Int):ImageView {
+        setImageDrawable(ContextCompat.getDrawable(context, icon))
+        return this
+    }
+    
+    internal fun ImageView.setSearchIcon(icon:Drawable):ImageView {
+        setImageDrawable(icon)
         return this
     }
     
@@ -270,17 +166,9 @@ class SearchView:FrameLayout {
                 //which causes a measure IllegalStateException
                                                  TransitionSet().addTransition(
                                                          ChangeBounds()).apply {
-                                                     duration = configs.transitionDuration
+                                                     duration = 100L
                                                      builder()
                                                  })
-    }
-    
-    /**
-     * Update the base configurations and apply them to the searchView
-     */
-    fun applyConfigs(config:Configs.() -> Unit) {
-        configs.config()
-        configs.apply(this)
     }
     
     /**
@@ -288,13 +176,9 @@ class SearchView:FrameLayout {
      * This is assuming that SearchView has already been added to a ViewGroup
      * If not, see the extension function [bindSearchView]
      */
-    fun bind(menu:Menu, @IdRes id:Int, @ColorInt menuIconColor:Int = Color.WHITE,
-             config:Configs.() -> Unit = {}):SearchView {
-        applyConfigs(config)
+    fun bind(menu:Menu, @IdRes id:Int):SearchView {
         val menuItem = menu.findItem(id) ?: throw IllegalArgumentException(
                 "Menu item with given id doesn't exist")
-        if (menuItem.icon == null) menuItem.icon = GoogleMaterial.Icon.gmd_search.toDrawable(
-                context, 18, menuIconColor)
         card.gone()
         menuItem.setOnMenuItemClickListener { revealOpen(); true }
         this.menuItem = menuItem
@@ -350,6 +234,7 @@ class SearchView:FrameLayout {
         editText.tint(textColor)
         editText.tintCursor(textColor.withAlpha(0.5F))
         editText.setTextColor(ColorStateList.valueOf(textColor))
+        editText.setHintTextColor(textColor.withAlpha(0.5F))
     }
     
     /**
@@ -369,9 +254,9 @@ class SearchView:FrameLayout {
              * The cardView matches the parent's width, so menuX is correct
              */
             configureCoords(menuItem)
-            configs.openListener?.invoke(this@SearchView)
+            listener?.onSearchOpened(this@SearchView)
             editText.showKeyboard()
-            card.circularReveal(menuX, menuHalfHeight, duration = configs.revealDuration) {
+            card.circularReveal(menuX, menuHalfHeight, duration = 350L) {
                 cardTransition()
             }
         }
@@ -382,12 +267,12 @@ class SearchView:FrameLayout {
         context.runOnUiThread {
             cardTransition {
                 addEndListener {
-                    card.circularHide(menuX, menuHalfHeight, duration = configs.revealDuration,
+                    card.circularHide(menuX, menuHalfHeight, duration = 350L,
                                       onFinish = {
-                                          configs.closeListener?.invoke(this@SearchView)
-                                          if (configs.shouldClearOnClose) editText.text.clear()
+                                          listener?.onSearchClosed(this@SearchView)
+                                          if (shouldClearOnClose)
+                                              editText.text.clear()
                                       })
-                    configs.closedCallback(this@SearchView)
                 }
             }
             editText.hideKeyboard()
@@ -396,30 +281,22 @@ class SearchView:FrameLayout {
     
 }
 
-@DslMarker
-annotation class KauSearch
-
 /**
  * Helper function that binds to an activity's main view
  */
-@KauSearch
-fun Activity.bindSearchView(menu:Menu, @IdRes id:Int, @ColorInt menuIconColor:Int = Color.WHITE,
-                            config:SearchView.Configs.() -> Unit = {}):SearchView
-        = findViewById<ViewGroup>(android.R.id.content).bindSearchView(menu, id, menuIconColor,
-                                                                       config)
+fun Activity.bindSearchView(menu:Menu, @IdRes id:Int):SearchView
+        = findViewById<ViewGroup>(android.R.id.content).bindSearchView(menu, id)
 
 /**
  * Bind searchView to a menu item; call this in [Activity.onCreateOptionsMenu]
  * Be wary that if you may reinflate the menu many times (eg through [Activity.invalidateOptionsMenu]),
  * it may be worthwhile to hold a reference to the searchview and only bind it if it hasn't been bound before
  */
-@KauSearch
-fun ViewGroup.bindSearchView(menu:Menu, @IdRes id:Int, @ColorInt menuIconColor:Int = Color.WHITE,
-                             config:SearchView.Configs.() -> Unit = {}):SearchView {
+fun ViewGroup.bindSearchView(menu:Menu, @IdRes id:Int):SearchView {
     val searchView = SearchView(context)
     searchView.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                                                        FrameLayout.LayoutParams.MATCH_PARENT)
     addView(searchView)
-    searchView.bind(menu, id, menuIconColor, config)
+    searchView.bind(menu, id)
     return searchView
 }

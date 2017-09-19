@@ -126,7 +126,6 @@ abstract class BaseFramesActivity:ThemedActivity(), BillingProcessor.IBillingHan
                     }
                 }
             } else {
-                printInfo("License checker was null. Enabling dashboard features.")
                 framesKonfigs.functionalDashboard = true
             }
         }
