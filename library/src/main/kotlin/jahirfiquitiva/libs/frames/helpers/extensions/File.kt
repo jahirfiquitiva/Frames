@@ -17,6 +17,18 @@ package jahirfiquitiva.libs.frames.helpers.extensions
 
 import java.io.File
 
+fun Long.toReadableByteCount(si:Boolean = false):String {
+    try {
+        val unit = if (si) 1000 else 1024
+        if (this < unit) return "$this B"
+        val exp = (Math.log(this.toDouble()) / Math.log(unit.toDouble())).toInt()
+        val pre = (if (si) "kMGTPE" else "KMGTPE")[exp - 1] + if (si) "" else "i"
+        return String.format("%.1f %sB", this / Math.pow(unit.toDouble(), exp.toDouble()), pre)
+    } catch (ignored:Exception) {
+        return "-0"
+    }
+}
+
 val File.dirSize:Long
     get() {
         if (exists()) {

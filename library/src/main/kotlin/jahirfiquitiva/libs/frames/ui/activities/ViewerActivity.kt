@@ -17,6 +17,8 @@ package jahirfiquitiva.libs.frames.ui.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -33,8 +35,10 @@ import android.os.Handler
 import android.support.annotation.StringRes
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.Snackbar
+import android.support.v4.app.DialogFragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
+import android.support.v7.graphics.Palette
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
@@ -73,7 +77,13 @@ import jahirfiquitiva.libs.frames.helpers.extensions.navigationBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.requestPermissions
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
+import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestListener
+import jahirfiquitiva.libs.frames.providers.viewmodels.WallpaperInfo
+import jahirfiquitiva.libs.frames.providers.viewmodels.WallpaperInfoViewModel
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
+import jahirfiquitiva.libs.frames.ui.fragments.dialogs.InfoBottomSheet
+import jahirfiquitiva.libs.frames.ui.fragments.dialogs.InfoDialog
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsFragment
 import jahirfiquitiva.libs.frames.ui.widgets.SimpleAnimationListener
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
@@ -84,6 +94,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
 import jahirfiquitiva.libs.kauextensions.extensions.enableTranslucentStatusBar
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
+import jahirfiquitiva.libs.kauextensions.extensions.generatePalette
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getColorFromRes
@@ -129,6 +140,12 @@ open class ViewerActivity:ThemedActivity() {
     private val APPLY_ACTION_ID = 2
     private val FAVORITE_ACTION_ID = 3
     
+    private var infoDialog:DialogFragment? = null
+    private val details = ArrayList<WallpaperDetail>()
+    private var detailsVM:WallpaperInfoViewModel? = null
+    private var palette:Palette? = null
+    private var wall:Drawable? = null
+    
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         enableTranslucentStatusBar()
@@ -153,6 +170,8 @@ open class ViewerActivity:ThemedActivity() {
         }
         
         wallpaper = intent?.getParcelableExtra("wallpaper")
+        loadWallpaperDetails()
+        
         isInFavorites = intent?.getBooleanExtra("inFavorites", false) == true
         showFavoritesButton = intent?.getBooleanExtra("showFavoritesButton", false) == true
         
@@ -179,16 +198,29 @@ open class ViewerActivity:ThemedActivity() {
         
         findViewById<View>(R.id.bottom_bar_container).setNavBarMargins()
         
+        val info:View by bind(R.id.info_container)
+        info.setOnClickListener {
+            dismissInfoDialog()
+            infoDialog = InfoBottomSheet.build(details, palette)
+            (infoDialog as? InfoBottomSheet)?.show(this)
+        }
+        info.setOnLongClickListener {
+            dismissInfoDialog()
+            infoDialog = InfoDialog.build(details, palette)
+            (infoDialog as? InfoDialog)?.show(this)
+            true
+        }
+        
         val downloadable = wallpaper?.downloadable ?: false
         if (downloadable) {
-            findViewById<ImageView>(R.id.download_button).setOnClickListener {
+            findViewById<RelativeLayout>(R.id.download_container).setOnClickListener {
                 doItemClick(DOWNLOAD_ACTION_ID)
             }
         } else {
-            findViewById<ImageView>(R.id.download_container).gone()
+            findViewById<RelativeLayout>(R.id.download_container).gone()
         }
         
-        findViewById<ImageView>(R.id.apply_button).setOnClickListener {
+        findViewById<RelativeLayout>(R.id.apply_container).setOnClickListener {
             doItemClick(APPLY_ACTION_ID)
         }
         
@@ -198,7 +230,9 @@ open class ViewerActivity:ThemedActivity() {
             ViewCompat.setTransitionName(favImageView,
                                          intent?.getStringExtra("favTransition") ?: "")
             favImageView.setImageDrawable(favIcon)
-            favImageView.setOnClickListener { doItemClick(FAVORITE_ACTION_ID) }
+            findViewById<RelativeLayout>(R.id.fav_container).setOnClickListener {
+                doItemClick(FAVORITE_ACTION_ID)
+            }
         } else {
             findViewById<RelativeLayout>(R.id.fav_container).gone()
         }
@@ -209,13 +243,29 @@ open class ViewerActivity:ThemedActivity() {
         supportStartPostponedEnterTransition()
         
         setupWallpaper(wallpaper)
+        loadExpensiveWallpaperDetails()
     }
     
     override fun onResume() {
         super.onResume()
+        dismissInfoDialog()
         findViewById<View>(R.id.bottom_bar_container).setNavBarMargins()
-        val dummy:Bitmap? = null
-        setupProgressBarColors(dummy)
+        
+        loadWallpaperDetails()
+        if (visibleProgressBar) {
+            setupProgressBarColors(wall ?: img.drawable)
+            findViewById<ProgressBar>(R.id.loading).visible()
+        } else {
+            findViewById<ProgressBar>(R.id.loading).gone()
+        }
+        loadExpensiveWallpaperDetails()
+    }
+    
+    private fun dismissInfoDialog() {
+        infoDialog?.let {
+            if (it is InfoBottomSheet) it.animateHide()
+            else it.dismiss()
+        }
     }
     
     override fun onMultiWindowModeChanged(isInMultiWindowMode:Boolean, newConfig:Configuration?) {
@@ -233,8 +283,9 @@ open class ViewerActivity:ThemedActivity() {
         super.onRestoreInstanceState(savedInstanceState)
         try {
             val visibleProgress = savedInstanceState?.getBoolean(VISIBLE_PROGRESS_BAR_KEY,
-                                                                 true) ?: true
-            findViewById<ProgressBar>(R.id.loading).visibleIf(visibleProgress)
+                                                                 false) ?: false
+            visibleProgressBar = visibleProgress
+            findViewById<ProgressBar>(R.id.loading).visibleIf(visibleProgressBar)
         } catch (ignored:Exception) {
         }
         try {
@@ -252,8 +303,12 @@ open class ViewerActivity:ThemedActivity() {
     }
     
     override fun onBackPressed() {
-        super.onBackPressed()
-        doFinish()
+        val infoVisible = infoDialog?.isVisible ?: false
+        if (infoVisible) dismissInfoDialog()
+        else {
+            super.onBackPressed()
+            doFinish()
+        }
     }
     
     override fun onDestroy() {
@@ -269,6 +324,9 @@ open class ViewerActivity:ThemedActivity() {
                 img.setZoom(1F)
             } catch (ignored:Exception) {
             }
+            detailsVM?.stopTask(true)
+            detailsVM?.info?.removeObservers(this)
+            detailsVM = null
             postDelayed(100, {
                 val intent = Intent()
                 intent.putExtra("modified", hasModifiedFavs)
@@ -305,9 +363,13 @@ open class ViewerActivity:ThemedActivity() {
             ColorDrawable(ContextCompat.getColor(this, android.R.color.transparent))
         }
         
+        wall = d
+        
         wallpaper?.let {
             val listener = object:GlideRequestListener<Drawable>() {
                 override fun onLoadSucceed(resource:Drawable):Boolean {
+                    wall = d
+                    setupProgressBarColors(resource)
                     findViewById<ProgressBar>(R.id.loading).gone()
                     visibleProgressBar = false
                     return false
@@ -335,6 +397,7 @@ open class ViewerActivity:ThemedActivity() {
                         .thumbnail(0.5F)
                         .listener(object:GlideRequestListener<Drawable>() {
                             override fun onLoadSucceed(resource:Drawable):Boolean {
+                                wall = d
                                 setupProgressBarColors(resource)
                                 findViewById<ProgressBar>(R.id.loading).visible()
                                 visibleProgressBar = true
@@ -362,8 +425,69 @@ open class ViewerActivity:ThemedActivity() {
     }
     
     private fun setupProgressBarColors(bmp:Bitmap?) {
-        val color = getActiveIconsColorFor(bmp?.bestSwatch?.rgb ?: cardBackgroundColor)
+        palette = bmp?.generatePalette()
+        updateInfo()
+        val color = getActiveIconsColorFor(palette?.bestSwatch?.rgb ?: cardBackgroundColor)
         findViewById<ProgressBar>(R.id.loading).indeterminateDrawable.applyColorFilter(color)
+    }
+    
+    private fun updateInfo() {
+        infoDialog?.let {
+            if (it.isVisible) {
+                when (it) {
+                    is InfoBottomSheet -> it.setDetailsAndPalette(details, palette)
+                    is InfoDialog -> it.setDetailsAndPalette(details, palette)
+                }
+            }
+        }
+    }
+    
+    private fun addToDetails(detail:WallpaperDetail) {
+        val pos = details.indexOf(detail)
+        if (pos != -1) {
+            details.removeAt(pos)
+            details.add(pos, detail)
+        } else details.add(detail)
+    }
+    
+    private fun loadWallpaperDetails() {
+        wallpaper?.let {
+            with(it) {
+                addToDetails(WallpaperDetail("ic_all_wallpapers", name))
+                if (author.hasContent()) addToDetails(WallpaperDetail("ic_person", author))
+                if (size != 0L) addToDetails(WallpaperDetail("ic_size", size.toReadableByteCount()))
+                if (dimensions.hasContent())
+                    addToDetails(WallpaperDetail("ic_dimensions", dimensions))
+                if (copyright.hasContent()) addToDetails(WallpaperDetail("ic_copyright", copyright))
+                updateInfo()
+            }
+        }
+    }
+    
+    private fun loadExpensiveWallpaperDetails() {
+        wallpaper?.let {
+            with(it) {
+                if (size != 0L || dimensions.hasContent()) return
+                setupDetailsViewModel()
+                detailsVM?.loadData(this@ViewerActivity, this)
+            }
+        }
+    }
+    
+    private fun setupDetailsViewModel() {
+        if (detailsVM == null) {
+            detailsVM = ViewModelProviders.of(
+                    this@ViewerActivity).get(WallpaperInfoViewModel::class.java)
+            detailsVM?.info?.observe(this, Observer<WallpaperInfo> { data ->
+                data?.let {
+                    if (it.size > 0L)
+                        addToDetails(WallpaperDetail("ic_size", it.size.toReadableByteCount()))
+                    if (it.dimension.isValid)
+                        addToDetails(WallpaperDetail("ic_dimensions", it.dimension.toString()))
+                    updateInfo()
+                }
+            })
+        }
     }
     
     override fun onRequestPermissionsResult(requestCode:Int, permissions:Array<out String>,
@@ -424,8 +548,8 @@ open class ViewerActivity:ThemedActivity() {
             val folder = File(framesKonfigs.downloadsFolder)
             folder.mkdirs()
             val extension = it.url.substring(it.url.lastIndexOf("."))
-            val fileName = it.name.formatCorrectly()
             var correctExtension = getWallpaperExtension(extension)
+            val fileName = it.name.formatCorrectly()
             if (toApply) correctExtension = ".temp" + correctExtension
             val dest = File(folder, fileName + correctExtension)
             if (dest.exists()) {

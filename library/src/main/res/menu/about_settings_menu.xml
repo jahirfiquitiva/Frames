@@ -14,20 +14,20 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources>
-    <!-- Splash screen dimens -->
-    <dimen name="splash_logo_bottom">16dp</dimen>
-    <dimen name="splash_brand_bottom">48dp</dimen>
-    <!-- Cards -->
-    <dimen name="cards_big_margin">12dp</dimen>
-    <dimen name="cards_margin">8dp</dimen>
-    <dimen name="cards_small_margin">4dp</dimen>
-    <!-- FABs -->
-    <dimen name="fabs_margin">16dp</dimen>
-    <!-- Status Bar -->
-    <dimen name="status_bar_height">0dp</dimen>
-    <!-- Wallpapers spacing -->
-    <dimen name="wallpapers_grid_spacing">@dimen/cards_small_margin</dimen>
-    <!-- Credits photo size -->
-    <dimen name="photo_size">72dp</dimen>
-</resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+            android:id="@+id/translate"
+            android:title="@string/translate"
+            android:icon="@drawable/ic_translate"
+            android:orderInCategory="100"
+            app:showAsAction="ifRoom"/>
+
+    <item
+            android:id="@+id/licenses"
+            android:title="@string/licenses"
+            android:icon="@drawable/ic_licenses"
+            android:orderInCategory="200"
+            app:showAsAction="ifRoom"/>
+</menu>

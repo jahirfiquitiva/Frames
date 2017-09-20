@@ -43,3 +43,5 @@ const val ICONS_PICKER = 1
 const val IMAGE_PICKER = 2
 const val WALLS_PICKER = 3
 const val ICONS_APPLIER = 4
+
+const val TRANSLATION_SITE = "http://jahirfiquitiva.oneskyapp.com/collaboration/project?id=99033"

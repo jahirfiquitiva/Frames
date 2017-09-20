@@ -59,6 +59,10 @@
     <string name="apply_successful">Wallpaper applied successfully to %1$s</string>
     <string name="apply_successful_short">Wallpaper applied successfully</string>
 
+    <string name="wallpaper_details">Details</string>
+    <string name="wallpaper_palette">Palette</string>
+    <string name="copied_to_clipboard">Copied color to clipboard</string>
+
     <string name="search">Search</string>
     <string name="search_x">Search %1$s…</string>
     <string name="search_no_results">No results found</string>
@@ -66,8 +70,9 @@
     <string name="about">About</string>
     <string name="refresh">Refresh</string>
 
+    <string name="translate">Translate</string>
     <string name="licenses">Licenses</string>
-	<!-- Consider Frames an untranslatable word. It's the dashboard name -->
+    <!-- Consider Frames an untranslatable word. It's the dashboard name -->
     <string name="frames_dashboard">Frames Dashboard</string>
     <string name="dev_contributions">Development Help</string>
     <string name="ui_contributions">UI Help</string>

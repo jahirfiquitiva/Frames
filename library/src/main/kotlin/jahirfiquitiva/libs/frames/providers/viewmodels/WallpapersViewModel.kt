@@ -18,17 +18,13 @@ package jahirfiquitiva.libs.frames.providers.viewmodels
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
-import com.android.volley.DefaultRetryPolicy
-import com.android.volley.Request
 import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.configs.isLowRamDevice
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.AsyncTaskManager
+import jahirfiquitiva.libs.frames.helpers.utils.volley.FramesJsonRequest
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
@@ -57,18 +53,9 @@ class WallpapersViewModel:ViewModel() {
     
     private fun loadItems(param:Context) {
         if (queue == null) queue = Volley.newRequestQueue(param)
-        val request = WallsRequest(param, Request.Method.GET, param.getString(R.string.json_url),
-                                   Response.Listener {
-                                       postResult(loadWallpapers(param, it))
-                                   },
-                                   Response.ErrorListener {
-                                       postResult(loadWallpapers(param, ""))
-                                   })
-        request.tag = REQUEST_TAG
-        request.retryPolicy = DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
-                                                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES * 2,
-                                                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-        queue?.add(request)
+        queue?.add(FramesJsonRequest(param, param.getString(R.string.json_url), REQUEST_TAG,
+                                     { postResult(loadWallpapers(param, it)) },
+                                     { postResult(loadWallpapers(param)) }).createRequest())
         queue?.start()
     }
     
@@ -96,7 +83,7 @@ class WallpapersViewModel:ViewModel() {
         observer?.onValuePosted(ArrayList(data.distinct()))
     }
     
-    private fun loadWallpapers(context:Context, response:String):ArrayList<Wallpaper> =
+    private fun loadWallpapers(context:Context, response:String = ""):ArrayList<Wallpaper> =
             if (response.hasContent()) {
                 buildWallpapersListFromResponse(context, response, true)
             } else {
@@ -108,8 +95,8 @@ class WallpapersViewModel:ViewModel() {
                 }
             }
     
-    fun buildWallpapersListFromResponse(context:Context, response:String,
-                                        shouldSaveResult:Boolean = false):ArrayList<Wallpaper> {
+    private fun buildWallpapersListFromResponse(context:Context, response:String,
+                                                shouldSaveResult:Boolean = false):ArrayList<Wallpaper> {
         val shouldUseOldFormat = context.getBoolean(R.bool.use_old_json_format)
         val jsonArray = try {
             buildJSONArrayFromResponse(response, shouldUseOldFormat)
@@ -209,32 +196,35 @@ class WallpapersViewModel:ViewModel() {
                     }
                 }
             }
+            var size = 0L
+            try {
+                size = obj.getLong("size")
+            } catch (ignored:Exception) {
+            }
+            var dimensions = ""
+            try {
+                dimensions = obj.getString("dimensions")
+            } catch (ignored:Exception) {
+                try {
+                    dimensions = obj.getString("dimension") ?: ""
+                } catch (ignored:Exception) {
+                }
+            }
+            var copyright = ""
+            try {
+                copyright = obj.getString("copyright") ?: ""
+            } catch (ignored:Exception) {
+            }
             name = name.formatCorrectly().replace("_", " ").toTitleCase()
             author = author.formatCorrectly().replace("_", " ").toTitleCase()
-            if (name.hasContent()) {
-                if (thumbUrl.hasContent())
-                    fWallpapers.add(
-                            Wallpaper(name, author, collections, downloadable, url, thumbUrl))
-                else fWallpapers.add(
-                        Wallpaper(name, author, collections, downloadable, url))
+            if (name.hasContent() && url.hasContent()) {
+                fWallpapers.add(
+                        Wallpaper(name, author, collections, downloadable, url,
+                                  if (thumbUrl.hasContent()) thumbUrl else url, size,
+                                  dimensions, copyright))
             }
         }
         fWallpapers.distinct()
         return fWallpapers
-    }
-    
-    private inner class WallsRequest(private val context:Context,
-                                     method:Int,
-                                     url:String,
-                                     listener:Response.Listener<String>,
-                                     errorListener:Response.ErrorListener):
-            StringRequest(method, url, listener, errorListener) {
-        override fun getPriority():Priority {
-            return if (context.isLowRamDevice) {
-                Priority.HIGH
-            } else {
-                Priority.IMMEDIATE
-            }
-        }
     }
 }

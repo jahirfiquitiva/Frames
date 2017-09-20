@@ -18,22 +18,25 @@ package jahirfiquitiva.libs.frames.ui.activities
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.FrameLayout
 import ca.allanwang.kau.utils.snackbar
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
+import jahirfiquitiva.libs.frames.helpers.utils.TRANSLATION_SITE
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseActivityWithFragments
 import jahirfiquitiva.libs.frames.ui.fragments.SettingsFragment
 import jahirfiquitiva.libs.kauextensions.extensions.bind
+import jahirfiquitiva.libs.kauextensions.extensions.changeOptionVisibility
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.lazyAndroid
+import jahirfiquitiva.libs.kauextensions.extensions.openLink
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import java.io.File
@@ -46,14 +49,13 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
     override fun transparentTheme():Int = R.style.TransparentTheme
     
     var hasClearedFavs = false
+    private val toolbar:Toolbar by bind(R.id.toolbar)
     private var locationChooserDialog:FolderChooserDialog? = null
     private val fragment:Fragment by lazyAndroid { settingsFragment() }
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_collection_settings)
-        
-        val toolbar:Toolbar by bind(R.id.toolbar)
         
         setSupportActionBar(toolbar)
         supportActionBar?.let {
@@ -89,10 +91,27 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
         }
     }
     
+    override fun onCreateOptionsMenu(menu:Menu?):Boolean {
+        menuInflater.inflate(R.menu.about_settings_menu, menu)
+        menu?.changeOptionVisibility(R.id.licenses, false)
+        toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
+                     getSecondaryTextColorFor(primaryColor, 0.6F),
+                     getActiveIconsColorFor(primaryColor, 0.6F))
+        return super.onCreateOptionsMenu(menu)
+    }
+    
     override fun onOptionsItemSelected(item:MenuItem?):Boolean {
         item?.let {
-            if (it.itemId == android.R.id.home) {
-                doFinish()
+            when (it.itemId) {
+                android.R.id.home -> doFinish()
+                R.id.translate -> {
+                    try {
+                        openLink(TRANSLATION_SITE)
+                    } catch (ignored:Exception) {
+                    }
+                }
+                else -> {
+                }
             }
         }
         return super.onOptionsItemSelected(item)

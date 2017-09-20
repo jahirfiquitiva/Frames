@@ -31,6 +31,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
 import jahirfiquitiva.libs.kauextensions.extensions.bind
+import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.openLink
 import jahirfiquitiva.libs.kauextensions.extensions.primaryTextColor
@@ -48,13 +49,16 @@ data class Credit(val type:Type, val photo:String, val name:String, val descript
 
 const val SECTION_ICON_ANIMATION_DURATION:Long = 250
 
-class CreditHeaderViewHolder(itemView:View):SectionedViewHolder(itemView) {
+class EmptyHeaderViewHolder(itemView:View):SectionedViewHolder(itemView)
+
+class SectionedHeaderViewHolder(itemView:View):SectionedViewHolder(itemView) {
     val divider:View by itemView.bind(R.id.section_divider)
     val title:TextView by itemView.bind(R.id.section_title)
     val icon:ImageView by itemView.bind(R.id.section_icon)
     
     fun setTitle(@StringRes text:Int, expanded:Boolean = true, listener:() -> Unit = {}) {
-        title.setTextColor(itemView.context.primaryTextColor)
+        divider.setBackgroundColor(itemView.context.dividerColor)
+        title.setTextColor(itemView.context.secondaryTextColor)
         title.text = itemView.context.getString(text)
         icon.drawable?.tint(itemView.context.activeIconsColor)
         icon.animate()?.rotation(if (expanded) 180F else 0F)?.setDuration(

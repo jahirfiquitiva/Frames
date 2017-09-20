@@ -29,6 +29,7 @@ import de.psdev.licensesdialog.LicenseResolver
 import de.psdev.licensesdialog.LicensesDialog
 import de.psdev.licensesdialog.licenses.License
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.helpers.utils.TRANSLATION_SITE
 import jahirfiquitiva.libs.frames.ui.adapters.CreditsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
@@ -40,6 +41,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getStringArray
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
+import jahirfiquitiva.libs.kauextensions.extensions.openLink
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 
@@ -95,7 +97,7 @@ open class CreditsActivity:ThemedActivity() {
     }
     
     override fun onCreateOptionsMenu(menu:Menu?):Boolean {
-        menuInflater.inflate(R.menu.about_menu, menu)
+        menuInflater.inflate(R.menu.about_settings_menu, menu)
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
                      getSecondaryTextColorFor(primaryColor, 0.6F),
                      getActiveIconsColorFor(primaryColor, 0.6F))
@@ -104,15 +106,23 @@ open class CreditsActivity:ThemedActivity() {
     
     override fun onOptionsItemSelected(item:MenuItem?):Boolean {
         item?.let {
-            if (it.itemId == android.R.id.home) finish()
-            else if (it.itemId == R.id.licenses) {
-                LicensesDialog.Builder(this)
+            when (it.itemId) {
+                android.R.id.home -> finish()
+                R.id.translate -> {
+                    try {
+                        openLink(TRANSLATION_SITE)
+                    } catch (ignored:Exception) {
+                    }
+                }
+                R.id.licenses -> LicensesDialog.Builder(this)
                         .setTitle(R.string.licenses)
                         .setNotices(R.raw.notices)
                         .setShowFullLicenseText(false)
                         .setIncludeOwnLicense(false)
                         .setDividerColor(dividerColor)
                         .build().show()
+                else -> {
+                }
             }
         }
         return super.onOptionsItemSelected(item)

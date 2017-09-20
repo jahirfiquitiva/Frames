@@ -38,6 +38,12 @@ data class Wallpaper(
         var url:String = "",
         @ColumnInfo(name = "THUMB_URL")
         var thumbUrl:String = url,
+        @ColumnInfo(name = "SIZE")
+        var size:Long = 0,
+        @ColumnInfo(name = "DIMENSIONS")
+        var dimensions:String = "",
+        @ColumnInfo(name = "COPYRIGHT")
+        var copyright:String = "",
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "ID")
         var id:Long = 0):Parcelable {
@@ -47,6 +53,9 @@ data class Wallpaper(
             parcel.readString(),
             parcel.readString(),
             parcel.readBoolean(),
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readLong(),
             parcel.readString(),
             parcel.readString(),
             parcel.readLong())
@@ -72,6 +81,9 @@ data class Wallpaper(
         parcel.writeBoolean(downloadable)
         parcel.writeString(url)
         parcel.writeString(thumbUrl)
+        parcel.writeLong(size)
+        parcel.writeString(dimensions)
+        parcel.writeString(copyright)
         parcel.writeLong(id)
     }
     

@@ -65,43 +65,46 @@ class WallpaperActionsFragment:DialogFragment() {
     
     override fun onCreateDialog(savedInstanceState:Bundle?):Dialog {
         wallpaper?.let {
-            if (destFile != null) {
-                val request = DownloadManager.Request(Uri.parse(it.url))
-                        .setTitle(it.name)
-                        .setDescription(context.getString(R.string.downloading_wallpaper, it.name))
-                        .setDestinationUri(Uri.fromFile(destFile))
-                
-                if (shouldApply)
-                    request.setVisibleInDownloadsUi(false)
-                else
-                    request.allowScanningByMediaScanner()
-                
-                downloadId = downloadManager?.enqueue(request) ?: 0L
-                
-                thread = DownloadThread(this, object:DownloadThread.DownloadListener {
-                    override fun onFailure() {
-                        doOnFailure()
-                    }
+            when {
+                destFile != null -> {
+                    val request = DownloadManager.Request(Uri.parse(it.url))
+                            .setTitle(it.name)
+                            .setDescription(
+                                    context.getString(R.string.downloading_wallpaper, it.name))
+                            .setDestinationUri(Uri.fromFile(destFile))
                     
-                    override fun onProgress(progress:Int) {
-                        dialog?.let {
-                            (it as? MaterialDialog)?.setProgress(progress)
+                    if (shouldApply)
+                        request.setVisibleInDownloadsUi(false)
+                    else
+                        request.allowScanningByMediaScanner()
+                    
+                    downloadId = downloadManager?.enqueue(request) ?: 0L
+                    
+                    thread = DownloadThread(this, object:DownloadThread.DownloadListener {
+                        override fun onFailure() {
+                            doOnFailure()
                         }
-                    }
+                        
+                        override fun onProgress(progress:Int) {
+                            dialog?.let {
+                                (it as? MaterialDialog)?.setProgress(progress)
+                            }
+                        }
+                        
+                        override fun onSuccess() {
+                            doOnSuccess()
+                        }
+                    })
                     
-                    override fun onSuccess() {
-                        doOnSuccess()
-                    }
-                })
-                
-                return actuallyBuildDialog()
-            } else if (destBitmap != null) {
-                destBitmap?.let {
-                    applyWallpaper(it)
+                    return actuallyBuildDialog()
                 }
-                return buildApplyDialog()
-            } else {
-                return activity.buildMaterialDialog { }
+                destBitmap != null -> {
+                    destBitmap?.let {
+                        applyWallpaper(it)
+                    }
+                    return buildApplyDialog()
+                }
+                else -> return activity.buildMaterialDialog { }
             }
         }
         return activity.buildMaterialDialog { }
@@ -270,18 +273,17 @@ class WallpaperActionsFragment:DialogFragment() {
         
         fun invoke(context:FragmentActivity, wallpaper:Wallpaper, destFile:File?,
                    destBitmap:Bitmap?, toHomeScreen:Boolean, toLockScreen:Boolean,
-                   toBoth:Boolean):WallpaperActionsFragment {
-            return WallpaperActionsFragment().apply {
-                this.downloadManager =
-                        context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
-                this.wallpaper = wallpaper
-                this.destFile = destFile
-                this.destBitmap = destBitmap
-                this.toHomeScreen = toHomeScreen
-                this.toLockScreen = toLockScreen
-                this.toBoth = toBoth
-            }
-        }
+                   toBoth:Boolean):WallpaperActionsFragment =
+                WallpaperActionsFragment().apply {
+                    this.downloadManager =
+                            context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
+                    this.wallpaper = wallpaper
+                    this.destFile = destFile
+                    this.destBitmap = destBitmap
+                    this.toHomeScreen = toHomeScreen
+                    this.toLockScreen = toLockScreen
+                    this.toBoth = toBoth
+                }
     }
     
     fun show(context:FragmentActivity, wallpaper:Wallpaper, destFile:File) {
