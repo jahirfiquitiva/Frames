@@ -72,14 +72,14 @@
         <!--suppress AndroidDomInspection -->
         <activity
                 android:name=".ui.activities.FramesActivity"
-                android:windowSoftInputMode="stateHidden|adjustResize"
+                android:windowSoftInputMode="stateHidden|adjustPan|adjustResize"
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.ViewerActivity"
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.CollectionActivity"
-                android:windowSoftInputMode="stateHidden|adjustResize"
+                android:windowSoftInputMode="stateHidden|adjustPan|adjustResize"
                 android:exported="false"/>
         <activity
                 android:name=".ui.activities.CreditsActivity"
