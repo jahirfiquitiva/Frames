@@ -48,7 +48,7 @@ class WallpaperPaletteHolder(itemView:View):SectionedViewHolder(itemView) {
         chip.setBackgroundColor(color)
         chip.setLabelColor(context.getPrimaryTextColorFor(color, 0.6F))
         chip.label = color.toHexString()
-        chip.setAvatarIcon("ic_color_check".getDrawable(context).applyColorFilter(
+        chip.setAvatarIcon("ic_color_palette".getDrawable(context).applyColorFilter(
                 context.getActiveIconsColorFor(color)))
         chip.setOnChipClicked { colorListener(color) }
     }

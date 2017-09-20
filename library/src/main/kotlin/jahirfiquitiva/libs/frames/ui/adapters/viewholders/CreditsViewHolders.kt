@@ -49,8 +49,6 @@ data class Credit(val type:Type, val photo:String, val name:String, val descript
 
 const val SECTION_ICON_ANIMATION_DURATION:Long = 250
 
-class EmptyHeaderViewHolder(itemView:View):SectionedViewHolder(itemView)
-
 class SectionedHeaderViewHolder(itemView:View):SectionedViewHolder(itemView) {
     val divider:View by itemView.bind(R.id.section_divider)
     val title:TextView by itemView.bind(R.id.section_title)

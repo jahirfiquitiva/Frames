@@ -28,6 +28,8 @@ import android.view.View
 import ca.allanwang.kau.utils.dimenPixelSize
 import ca.allanwang.kau.utils.toBitmap
 import com.bumptech.glide.Glide
+import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
+import com.bumptech.glide.util.ViewPreloadSizeProvider
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
@@ -44,7 +46,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
-import jahirfiquitiva.libs.kauextensions.extensions.lazyAndroid
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 
 abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHolder>() {
@@ -53,13 +54,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     lateinit var rv:EmptyViewRecyclerView
     lateinit var fastScroll:RecyclerFastScroller
     
-    val wallsAdapter:WallpapersAdapter by lazyAndroid {
-        WallpapersAdapter(Glide.with(context),
-                          { wall, holder -> onItemClicked(wall, holder) },
-                          { heart, wall -> onHeartClicked(heart, wall) },
-                          fromFavorites(), showFavoritesIcon())
-    }
-    
+    internal var wallsAdapter:WallpapersAdapter? = null
     private var spanCount = 0
     private var spacingDecoration:GridSpacingItemDecoration? = null
     
@@ -84,6 +79,15 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
             loadingView = content.findViewById(R.id.loading_view)
             setLoadingText(R.string.loading_section)
             configureRVColumns()
+            
+            val provider = ViewPreloadSizeProvider<Wallpaper>()
+            wallsAdapter = WallpapersAdapter(Glide.with(context), provider,
+                                             { wall, holder -> onItemClicked(wall, holder) },
+                                             { heart, wall -> onHeartClicked(heart, wall) },
+                                             fromFavorites(), showFavoritesIcon())
+            val preloader:RecyclerViewPreloader<Wallpaper> =
+                    RecyclerViewPreloader(activity, wallsAdapter, provider, 4)
+            addOnScrollListener(preloader)
             adapter = wallsAdapter
         }
         
@@ -151,19 +155,27 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     }
     
     override fun applyFilter(filter:String) {
-        val list = (if (fromFavorites()) favoritesModel?.items?.value else wallpapersModel?.items?.value) ?: return
-        if (filter.hasContent()) {
-            rv.setEmptyImage(R.drawable.no_results)
-            rv.setEmptyText(R.string.search_no_results)
-            wallsAdapter.updateItems(
-                    ArrayList(list.filter { it.name.contains(filter, true) }), true)
-        } else {
-            rv.setEmptyImage(
-                    if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
-            rv.setEmptyText(if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
-            wallsAdapter.updateItems(list, true)
-            scrollToTop()
+        wallsAdapter?.let {
+            val list = (if (fromFavorites()) favoritesModel?.items?.value else wallpapersModel?.items?.value) ?: return
+            if (filter.hasContent()) {
+                rv.setEmptyImage(R.drawable.no_results)
+                rv.setEmptyText(R.string.search_no_results)
+                it.updateItems(
+                        ArrayList(list.filter { filteredWallpaper(it, filter) }), true)
+            } else {
+                rv.setEmptyImage(
+                        if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
+                rv.setEmptyText(
+                        if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
+                it.updateItems(list, true)
+                scrollToTop()
+            }
         }
+    }
+    
+    private fun filteredWallpaper(it:Wallpaper, filter:String):Boolean {
+        return it.name.contains(filter, true) || it.author.contains(filter, true) ||
+                it.collections.contains(filter, true)
     }
     
     private fun onWallpaperClicked(wallpaper:Wallpaper, holder:WallpaperHolder) {

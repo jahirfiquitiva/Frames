@@ -35,7 +35,6 @@ import jahirfiquitiva.libs.frames.ui.graphics.ObservableColorMatrix
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
 
-
 fun View.setNavBarMargins() {
     val params = (layoutParams as? FrameLayout.LayoutParams) ?: return
     val left = if (this is FloatingActionButton) 16.dpToPx else 0
@@ -89,14 +88,14 @@ fun View.buildSnackbar(text:String, duration:Int = Snackbar.LENGTH_LONG,
  * Credits to Mysplash
  * https://goo.gl/M2sqE2
  */
-fun ImageView.animateColorTransition(onAnimationFinished:() -> Unit = {}) {
+fun ImageView.animateColorTransition(onFaded:() -> Unit = {}) {
     setHasTransientState(true)
     val matrix = ObservableColorMatrix()
     val saturation = ObjectAnimator.ofFloat(matrix, ObservableColorMatrix.SATURATION, 0F, 1F)
     saturation.addUpdateListener {
         colorFilter = ColorMatrixColorFilter(matrix)
     }
-    saturation.duration = 1500
+    saturation.duration = 1500L
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         saturation.interpolator = AnimationUtils.loadInterpolator(context,
                                                                   android.R.interpolator.fast_out_slow_in)
@@ -106,10 +105,10 @@ fun ImageView.animateColorTransition(onAnimationFinished:() -> Unit = {}) {
             super.onAnimationEnd(animation)
             clearColorFilter()
             setHasTransientState(false)
-            onAnimationFinished()
         }
     })
     saturation.start()
+    onFaded()
 }
 
 fun View.clearChildrenAnimations() {

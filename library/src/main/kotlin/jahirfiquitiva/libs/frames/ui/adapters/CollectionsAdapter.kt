@@ -17,18 +17,25 @@ package jahirfiquitiva.libs.frames.ui.adapters
 
 import android.view.ViewGroup
 import ca.allanwang.kau.utils.inflate
+import com.bumptech.glide.ListPreloader
+import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
+import com.bumptech.glide.util.ViewPreloadSizeProvider
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
+import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.diff.CollectionsDiffCallback
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
+import java.util.*
 
 class CollectionsAdapter(private val manager:RequestManager,
+                         private val provider:ViewPreloadSizeProvider<Wallpaper>,
                          private val listener:(Collection) -> Unit):
-        BaseListAdapter<Collection, CollectionHolder>() {
+        BaseListAdapter<Collection, CollectionHolder>(),
+        ListPreloader.PreloadModelProvider<Wallpaper> {
     
     override fun doBind(holder:CollectionHolder, position:Int, shouldAnimate:Boolean) =
-            holder.setItem(manager, list[position], listener)
+            holder.setItem(manager, provider, list[position], listener)
     
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):CollectionHolder? =
             parent?.inflate(R.layout.item_collection)?.let { CollectionHolder(it) }
@@ -36,4 +43,10 @@ class CollectionsAdapter(private val manager:RequestManager,
     override fun updateItems(newItems:ArrayList<Collection>, detectMoves:Boolean) {
         updateItems(newItems, CollectionsDiffCallback(list, newItems), detectMoves)
     }
+    
+    override fun getPreloadItems(position:Int):MutableList<Wallpaper> =
+            Collections.singletonList(list[position].bestCover)
+    
+    override fun getPreloadRequestBuilder(item:Wallpaper?):RequestBuilder<*> =
+            manager.load(item?.thumbUrl)
 }

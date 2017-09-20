@@ -19,6 +19,7 @@
     <string name="loading_section">Loading content…</string>
     <string name="no_favorites">Add some wallpapers to favorites first</string>
 
+    <string name="wallpapers">Wallpapers</string>
     <string name="collections">Collections</string>
     <string name="x_wallpapers">%1$s wallpapers</string>
     <string name="all">All</string>

@@ -26,19 +26,18 @@ import android.support.v7.graphics.Palette
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.widget.ProgressBar
 import android.widget.Toast
 import ca.allanwang.kau.utils.dpToPx
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.setPadding
+import ca.allanwang.kau.utils.setPaddingBottom
 import ca.allanwang.kau.utils.toHexString
 import ca.allanwang.kau.utils.visible
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.ui.adapters.WallpaperInfoAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
-import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 
 class InfoDialog:DialogFragment() {
@@ -52,13 +51,10 @@ class InfoDialog:DialogFragment() {
     
     override fun onCreateDialog(savedInstanceState:Bundle?):Dialog {
         val dialog = activity.buildMaterialDialog {
-            title(context.getString(R.string.wallpaper_details))
             customView(R.layout.info_dialog, false)
         }
         
         val detailView = dialog.customView
-        val toolbar:Toolbar by detailView?.bind(R.id.info_toolbar)
-        toolbar.gone()
         
         progress = detailView?.findViewById(R.id.loading_view)
         progress?.visible()
@@ -66,6 +62,7 @@ class InfoDialog:DialogFragment() {
         rv = detailView?.findViewById(R.id.info_rv)
         rv?.gone()
         rv?.setPadding(8.dpToPx)
+        rv?.setPaddingBottom(16.dpToPx)
         rv?.itemAnimator = DefaultItemAnimator()
         
         val layoutManager = GridLayoutManager(context, if (context.isInHorizontalMode) 3 else 2,

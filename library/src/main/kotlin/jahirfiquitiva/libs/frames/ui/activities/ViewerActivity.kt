@@ -75,6 +75,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.navigationBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
+import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
 import jahirfiquitiva.libs.frames.helpers.extensions.requestPermissions
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
@@ -144,7 +145,6 @@ open class ViewerActivity:ThemedActivity() {
     private val details = ArrayList<WallpaperDetail>()
     private var detailsVM:WallpaperInfoViewModel? = null
     private var palette:Palette? = null
-    private var wall:Drawable? = null
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
@@ -253,7 +253,7 @@ open class ViewerActivity:ThemedActivity() {
         
         loadWallpaperDetails()
         if (visibleProgressBar) {
-            setupProgressBarColors(wall ?: img.drawable)
+            setupProgressBarColors(img.drawable)
             findViewById<ProgressBar>(R.id.loading).visible()
         } else {
             findViewById<ProgressBar>(R.id.loading).gone()
@@ -335,6 +335,7 @@ open class ViewerActivity:ThemedActivity() {
                     intent.putExtra("inFavorites", isInFavorites)
                 }
                 setResult(10, intent)
+                img.releaseFromGlide()
                 supportFinishAfterTransition()
                 overridePendingTransition(0, 0)
             })
@@ -363,16 +364,14 @@ open class ViewerActivity:ThemedActivity() {
             ColorDrawable(ContextCompat.getColor(this, android.R.color.transparent))
         }
         
-        wall = d
-        
         wallpaper?.let {
             val listener = object:GlideRequestListener<Drawable>() {
                 override fun onLoadSucceed(resource:Drawable):Boolean {
-                    wall = d
+                    img.setImageDrawable(resource)
                     setupProgressBarColors(resource)
                     findViewById<ProgressBar>(R.id.loading).gone()
                     visibleProgressBar = false
-                    return false
+                    return true
                 }
                 
                 override fun onLoadFailed():Boolean {
@@ -397,11 +396,11 @@ open class ViewerActivity:ThemedActivity() {
                         .thumbnail(0.5F)
                         .listener(object:GlideRequestListener<Drawable>() {
                             override fun onLoadSucceed(resource:Drawable):Boolean {
-                                wall = d
+                                img.setImageDrawable(resource)
                                 setupProgressBarColors(resource)
                                 findViewById<ProgressBar>(R.id.loading).visible()
                                 visibleProgressBar = true
-                                return false
+                                return true
                             }
                             
                             override fun onLoadFailed():Boolean {

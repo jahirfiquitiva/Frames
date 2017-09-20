@@ -22,9 +22,11 @@ class FavoritesFragment:BaseWallpapersFragment() {
     
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
-        wallsAdapter.setItems(data)
-        wallsAdapter.favorites = data
-        rv.forceUpdateState()
+        wallsAdapter?.let {
+            it.setItems(data)
+            it.favorites = data
+            rv.forceUpdateState()
+        }
     }
     
     override fun autoStartLoad():Boolean = true

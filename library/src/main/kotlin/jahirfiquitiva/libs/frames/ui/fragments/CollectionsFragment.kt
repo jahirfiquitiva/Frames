@@ -22,6 +22,8 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import com.bumptech.glide.Glide
+import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
+import com.bumptech.glide.util.ViewPreloadSizeProvider
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
@@ -36,7 +38,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
-import jahirfiquitiva.libs.kauextensions.extensions.lazyAndroid
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 
 class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
@@ -45,11 +46,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     private lateinit var rv:EmptyViewRecyclerView
     private lateinit var fastScroll:RecyclerFastScroller
     
-    private val collsAdapter:CollectionsAdapter by lazyAndroid {
-        CollectionsAdapter(Glide.with(this), { collection ->
-            onItemClicked(collection)
-        })
-    }
+    private var collsAdapter:CollectionsAdapter? = null
     
     override fun initUI(content:View) {
         swipeToRefresh = content.findViewById(R.id.swipe_to_refresh)
@@ -73,7 +70,17 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
             val spanCount = if (context.isInHorizontalMode) 2 else 1
             layoutManager = GridLayoutManager(context, spanCount, GridLayoutManager.VERTICAL, false)
             addItemDecoration(GridSpacingItemDecoration(spanCount, 0, true))
+            
+            val provider = ViewPreloadSizeProvider<Wallpaper>()
+            collsAdapter = CollectionsAdapter(Glide.with(this), provider,
+                                              { collection ->
+                                                  onItemClicked(collection)
+                                              })
+            val preloader:RecyclerViewPreloader<Wallpaper> =
+                    RecyclerViewPreloader(activity, collsAdapter, provider, 4)
+            addOnScrollListener(preloader)
             adapter = collsAdapter
+            
         }
         
         with(fastScroll) {
@@ -116,17 +123,20 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     }
     
     override fun applyFilter(filter:String) {
-        collectionsModel?.items?.value?.let {
-            if (filter.hasContent()) {
-                rv.setEmptyImage(R.drawable.no_results)
-                rv.setEmptyText(R.string.search_no_results)
-                collsAdapter.updateItems(ArrayList(it.filter { it.name.contains(filter, true) }),
-                                         true)
-            } else {
-                rv.setEmptyImage(R.drawable.empty_section)
-                rv.setEmptyText(R.string.empty_section)
-                collsAdapter.updateItems(it, true)
-                scrollToTop()
+        if (collsAdapter != null) {
+            collectionsModel?.items?.value?.let {
+                if (filter.hasContent()) {
+                    rv.setEmptyImage(R.drawable.no_results)
+                    rv.setEmptyText(R.string.search_no_results)
+                    collsAdapter?.updateItems(
+                            ArrayList(it.filter { it.name.contains(filter, true) }),
+                            true)
+                } else {
+                    rv.setEmptyImage(R.drawable.empty_section)
+                    rv.setEmptyText(R.string.empty_section)
+                    collsAdapter?.updateItems(it, true)
+                    scrollToTop()
+                }
             }
         }
     }
@@ -144,7 +154,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     override fun doOnCollectionsChange(data:ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
         swipeToRefresh.isRefreshing = false
-        collsAdapter.setItems(data)
+        collsAdapter?.setItems(data)
     }
     
     override fun autoStartLoad():Boolean = true

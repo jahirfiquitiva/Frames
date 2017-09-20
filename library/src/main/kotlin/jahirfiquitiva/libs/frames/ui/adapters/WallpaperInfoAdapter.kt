@@ -17,14 +17,12 @@ package jahirfiquitiva.libs.frames.ui.adapters
 
 import android.content.Context
 import android.support.v7.graphics.Palette
-import android.view.View
 import android.view.ViewGroup
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.inflate
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.ui.adapters.viewholders.EmptyHeaderViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SectionedHeaderViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperInfoHolder
@@ -70,8 +68,6 @@ class WallpaperInfoAdapter(private val context:Context,
         else -> 0
     }
     
-    override fun getHeaderViewType(section:Int):Int = (section + 1) * -2
-    
     override fun getItemViewType(section:Int, relativePosition:Int,
                                  absolutePosition:Int):Int = section
     
@@ -88,7 +84,8 @@ class WallpaperInfoAdapter(private val context:Context,
                                         expanded:Boolean) {
         if (holder is SectionedHeaderViewHolder) {
             holder.icon.gone()
-            holder.setTitle(R.string.wallpaper_palette)
+            holder.setTitle(
+                    if (section == 0) R.string.wallpaper_details else R.string.wallpaper_palette)
         }
     }
     
@@ -96,11 +93,8 @@ class WallpaperInfoAdapter(private val context:Context,
             when (viewType) {
                 0 -> parent?.inflate(R.layout.info_item)?.let { WallpaperInfoHolder(it) }
                 1 -> parent?.inflate(R.layout.info_color)?.let { WallpaperPaletteHolder(it) }
-                -4 -> parent?.inflate(R.layout.item_section_header)?.let {
+                else -> parent?.inflate(R.layout.item_section_header)?.let {
                     SectionedHeaderViewHolder(it)
-                }
-                else -> {
-                    EmptyHeaderViewHolder(View(context))
                 }
             }
     

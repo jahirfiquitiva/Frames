@@ -28,24 +28,16 @@ import android.support.v7.graphics.Palette
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
-import ca.allanwang.kau.utils.darken
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.toHexString
 import ca.allanwang.kau.utils.visible
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.ui.adapters.WallpaperInfoAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
-import jahirfiquitiva.libs.kauextensions.extensions.bind
-import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
-import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
-import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
-import jahirfiquitiva.libs.kauextensions.extensions.tint
 
 class InfoBottomSheet:BottomSheetDialogFragment() {
     
@@ -73,14 +65,6 @@ class InfoBottomSheet:BottomSheetDialogFragment() {
         super.setupDialog(dialog, style)
         
         val detailView = View.inflate(context, R.layout.info_dialog, null)
-        
-        val toolbar:Toolbar by detailView?.bind(R.id.info_toolbar)
-        toolbar.navigationIcon = "ic_back".getDrawable(context)
-        toolbar.title = context.getString(R.string.wallpaper_details)
-        toolbar.tint(context.getSecondaryTextColorFor(context.cardBackgroundColor),
-                     iconsColor = context.getActiveIconsColorFor(context.cardBackgroundColor))
-        toolbar.setNavigationOnClickListener { animateHide() }
-        toolbar.setBackgroundColor(context.cardBackgroundColor.darken(0.025F))
         
         progress = detailView?.findViewById(R.id.loading_view)
         progress?.visible()

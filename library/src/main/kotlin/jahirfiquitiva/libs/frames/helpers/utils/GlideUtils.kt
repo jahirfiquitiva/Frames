@@ -15,13 +15,12 @@
  */
 package jahirfiquitiva.libs.frames.helpers.utils
 
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.BitmapImageViewTarget
+import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 
@@ -37,11 +36,11 @@ abstract class GlideRequestListener<Type>:RequestListener<Type> {
                               isFirstResource:Boolean):Boolean = onLoadFailed()
 }
 
-abstract class GlideTarget(view:ImageView):BitmapImageViewTarget(view) {
-    abstract fun onLoadSucceed(resource:Bitmap)
+abstract class GlideTarget(view:ImageView):DrawableImageViewTarget(view) {
+    abstract fun onLoadSucceed(resource:Drawable)
     open fun onLoadFail(errorDrawable:Drawable) {}
     
-    override fun onResourceReady(resource:Bitmap?, transition:Transition<in Bitmap>?) {
+    override fun onResourceReady(resource:Drawable?, transition:Transition<in Drawable>?) {
         resource?.let {
             onLoadSucceed(it)
         }

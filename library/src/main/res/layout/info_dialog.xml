@@ -14,58 +14,33 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="?cardBackgroundColor">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:background="?cardBackgroundColor"
+             android:layout_gravity="center">
 
-    <jahirfiquitiva.libs.kauextensions.ui.layouts.FixedElevationAppBarLayout
+    <ProgressBar
+            android:id="@+id/loading_view"
+            style="?android:progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:visibility="visible"/>
+
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/info_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            app:fixedElevation="2dp">
-
-        <android.support.v7.widget.Toolbar
-                android:id="@+id/info_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:minHeight="?actionBarSize"
-                android:background="@android:color/transparent"/>
-
-    </jahirfiquitiva.libs.kauextensions.ui.layouts.FixedElevationAppBarLayout>
-
-    <FrameLayout
-            android:id="@+id/list_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingRight="@dimen/fabs_margin"
+            android:paddingEnd="@dimen/fabs_margin"
+            android:paddingBottom="@dimen/fabs_margin"
             android:clipToPadding="false"
-            android:layout_gravity="center">
+            android:clipChildren="false"
+            android:overScrollMode="ifContentScrolls"
+            tools:ignore="RtlSymmetry"/>
 
-        <ProgressBar
-                android:id="@+id/loading_view"
-                style="?android:progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:visibility="visible"/>
-
-        <android.support.v7.widget.RecyclerView
-                android:id="@+id/info_rv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingRight="@dimen/fabs_margin"
-                android:paddingEnd="@dimen/fabs_margin"
-                android:paddingBottom="@dimen/fabs_margin"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                android:overScrollMode="ifContentScrolls"
-                tools:ignore="RtlSymmetry"/>
-
-    </FrameLayout>
-
-</LinearLayout>
+</FrameLayout>

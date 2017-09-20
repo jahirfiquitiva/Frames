@@ -29,14 +29,15 @@ import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
 
 @GlideModule
-class GlideConfiguration:AppGlideModule() {
+open class FramesGlideConfiguration:AppGlideModule() {
     override fun applyOptions(context:Context?, builder:GlideBuilder?) {
         context?.let {
-            builder?.setDefaultRequestOptions(RequestOptions()
-                                                      .format(if (it.isLowRamDevice) DecodeFormat.PREFER_RGB_565
-                                                              else DecodeFormat.PREFER_ARGB_8888)
-                                                      .diskCacheStrategy(
-                                                              DiskCacheStrategy.RESOURCE))
+            val options = RequestOptions()
+                    .format(if (it.isLowRamDevice) DecodeFormat.PREFER_RGB_565
+                            else DecodeFormat.PREFER_ARGB_8888)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .disallowHardwareConfig()
+            builder?.setDefaultRequestOptions(options)
         }
     }
     
