@@ -18,7 +18,7 @@ package jahirfiquitiva.libs.frames.helpers.utils.volley
 import android.content.Context
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
-import jahirfiquitiva.libs.frames.helpers.configs.isLowRamDevice
+import jahirfiquitiva.libs.frames.helpers.extensions.isLowRamDevice
 
 class SimpleBytesRequest(private val context:Context?, method:Int, url:String,
                          listener:Response.Listener<ByteArray>,

@@ -15,10 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.helpers.configs
 
-import android.app.ActivityManager
 import android.content.Context
-import android.graphics.Bitmap
-import android.os.Build
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
@@ -27,6 +24,7 @@ import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
+import jahirfiquitiva.libs.frames.helpers.extensions.isLowRamDevice
 
 @GlideModule
 open class FramesGlideConfiguration:AppGlideModule() {
@@ -46,26 +44,3 @@ open class FramesGlideConfiguration:AppGlideModule() {
         super.registerComponents(context, glide, registry)
     }
 }
-
-val Context.maxPictureRes
-    get() = if (isLowRamDevice) if (runsMinSDK) 30 else 20 else 40
-
-val Context.bestBitmapConfig:Bitmap.Config
-    get() = if (isLowRamDevice) Bitmap.Config.RGB_565 else Bitmap.Config.ARGB_8888
-
-val Context.runsMinSDK
-    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
-
-val Context.isLowRamDevice:Boolean
-    get() {
-        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        val lowRAMDevice:Boolean
-        lowRAMDevice = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            activityManager.isLowRamDevice
-        } else {
-            val memInfo = ActivityManager.MemoryInfo()
-            activityManager.getMemoryInfo(memInfo)
-            memInfo.lowMemory
-        }
-        return lowRAMDevice
-    }

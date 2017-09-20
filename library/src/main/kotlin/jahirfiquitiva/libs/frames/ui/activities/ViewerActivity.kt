@@ -66,8 +66,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.configs.bestBitmapConfig
 import jahirfiquitiva.libs.frames.helpers.extensions.PermissionRequestListener
+import jahirfiquitiva.libs.frames.helpers.extensions.bestBitmapConfig
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.buildSnackbar
 import jahirfiquitiva.libs.frames.helpers.extensions.checkPermission

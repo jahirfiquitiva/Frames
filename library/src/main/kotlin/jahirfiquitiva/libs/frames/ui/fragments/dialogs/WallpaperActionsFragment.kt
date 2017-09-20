@@ -31,8 +31,8 @@ import ca.allanwang.kau.utils.snackbar
 import com.afollestad.materialdialogs.MaterialDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.configs.bestBitmapConfig
 import jahirfiquitiva.libs.frames.helpers.extensions.adjustToDeviceScreen
+import jahirfiquitiva.libs.frames.helpers.extensions.bestBitmapConfig
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.DownloadThread
