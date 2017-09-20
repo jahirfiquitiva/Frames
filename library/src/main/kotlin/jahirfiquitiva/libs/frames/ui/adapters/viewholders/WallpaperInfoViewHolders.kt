@@ -18,7 +18,6 @@ package jahirfiquitiva.libs.frames.ui.adapters.viewholders
 import android.support.annotation.ColorInt
 import android.view.View
 import android.widget.TextView
-import ca.allanwang.kau.utils.dpToPx
 import ca.allanwang.kau.utils.toHexString
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.pchmn.materialchips.ChipView
@@ -44,7 +43,6 @@ class WallpaperInfoHolder(itemView:View):SectionedViewHolder(itemView) {
 class WallpaperPaletteHolder(itemView:View):SectionedViewHolder(itemView) {
     private val chip:ChipView by itemView.bind(R.id.info_palette_color)
     fun bind(@ColorInt color:Int, colorListener:(Int) -> Unit = {}) = with(itemView) {
-        chip.elevation = 2F.dpToPx
         chip.setBackgroundColor(color)
         chip.setLabelColor(context.getPrimaryTextColorFor(color, 0.6F))
         chip.label = color.toHexString()

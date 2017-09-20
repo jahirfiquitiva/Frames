@@ -35,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:foreground="?selectableItemBackground"
-            app:elevation="2dp"
             app:deletable="false"/>
 
 </LinearLayout>

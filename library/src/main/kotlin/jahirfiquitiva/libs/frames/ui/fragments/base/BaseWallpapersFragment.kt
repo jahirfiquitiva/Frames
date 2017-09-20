@@ -44,6 +44,7 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
+import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
@@ -175,7 +176,8 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     
     private fun filteredWallpaper(it:Wallpaper, filter:String):Boolean {
         return it.name.contains(filter, true) || it.author.contains(filter, true) ||
-                it.collections.contains(filter, true)
+                (!fromCollectionActivity() &&
+                        it.collections.formatCorrectly().replace("_", " ").contains(filter, true))
     }
     
     private fun onWallpaperClicked(wallpaper:Wallpaper, holder:WallpaperHolder) {

@@ -75,7 +75,6 @@ import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.navigationBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
 import jahirfiquitiva.libs.frames.helpers.extensions.requestPermissions
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
@@ -335,7 +334,6 @@ open class ViewerActivity:ThemedActivity() {
                     intent.putExtra("inFavorites", isInFavorites)
                 }
                 setResult(10, intent)
-                img.releaseFromGlide()
                 supportFinishAfterTransition()
                 overridePendingTransition(0, 0)
             })
