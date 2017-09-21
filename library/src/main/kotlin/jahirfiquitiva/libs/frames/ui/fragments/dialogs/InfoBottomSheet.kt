@@ -31,7 +31,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
+import ca.allanwang.kau.utils.dpToPx
 import ca.allanwang.kau.utils.gone
+import ca.allanwang.kau.utils.setPaddingTop
 import ca.allanwang.kau.utils.toHexString
 import ca.allanwang.kau.utils.visible
 import jahirfiquitiva.libs.frames.R
@@ -71,6 +73,7 @@ class InfoBottomSheet:BottomSheetDialogFragment() {
         
         rv = detailView?.findViewById(R.id.info_rv)
         rv?.gone()
+        rv?.setPaddingTop(8.dpToPx)
         rv?.itemAnimator = DefaultItemAnimator()
         
         val layoutManager = GridLayoutManager(context, if (context.isInHorizontalMode) 4 else 3,

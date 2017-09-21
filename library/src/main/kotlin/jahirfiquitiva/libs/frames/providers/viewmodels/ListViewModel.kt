@@ -15,9 +15,9 @@
  */
 package jahirfiquitiva.libs.frames.providers.viewmodels
 
-abstract class ListViewModel<Parameter, Result>:BasicViewModel<Parameter, ArrayList<Result>>() {
+abstract class ListViewModel<Parameter, Result>:BasicViewModel<Parameter, MutableList<Result>>() {
     
-    override fun internalLoad(param:Parameter, forceLoad:Boolean):ArrayList<Result>? =
+    override fun internalLoad(param:Parameter, forceLoad:Boolean):MutableList<Result>? =
             if (forceLoad) {
                 ArrayList(loadItems(param).distinct())
             } else {
@@ -30,19 +30,20 @@ abstract class ListViewModel<Parameter, Result>:BasicViewModel<Parameter, ArrayL
                 }
             }
     
-    override fun postResult(data:ArrayList<Result>) {
+    override fun postResult(data:MutableList<Result>) {
         items.value?.clear()
-        items.postValue(ArrayList(data.distinct()))
-        observer?.onValuePosted(ArrayList(data.distinct()))
+        val list = data.distinct().toMutableList()
+        items.postValue(list)
+        observer?.onValuePosted(list)
     }
     
-    private var observer:CustomObserver<ArrayList<Result>>? = null
+    private var observer:CustomObserver<Result>? = null
     
-    fun setCustomObserver(observer:CustomObserver<ArrayList<Result>>) {
+    fun setCustomObserver(observer:CustomObserver<Result>) {
         this.observer = observer
     }
     
-    interface CustomObserver<in Result> {
-        fun onValuePosted(data:Result)
+    interface CustomObserver<Result> {
+        fun onValuePosted(data:MutableList<Result>)
     }
 }

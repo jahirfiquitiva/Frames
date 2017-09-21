@@ -60,7 +60,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
 import jahirfiquitiva.libs.frames.helpers.extensions.urlOptions
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestListener
-import jahirfiquitiva.libs.frames.providers.viewmodels.WallpaperInfo
+import jahirfiquitiva.libs.frames.helpers.utils.WallpaperInfo
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpaperInfoViewModel
 import jahirfiquitiva.libs.frames.ui.activities.base.WallpaperActionsActivity
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
@@ -107,7 +107,11 @@ open class ViewerActivity:WallpaperActionsActivity() {
     private var isInFavorites = false
     private var hasModifiedFavs = false
     private var showFavoritesButton = false
+    
+    private val CLOSING_KEY = "closing"
     private var closing = false
+    private val TRANSITIONED_KEY = "transitioned"
+    private var transitioned = false
     
     private val VISIBLE_SYSTEM_UI_KEY = "visible_system_ui"
     private var visibleSystemUI = true
@@ -144,7 +148,6 @@ open class ViewerActivity:WallpaperActionsActivity() {
         }
         
         wallpaper = intent?.getParcelableExtra("wallpaper")
-        loadWallpaperDetails()
         
         isInFavorites = intent?.getBooleanExtra("inFavorites", false) == true
         showFavoritesButton = intent?.getBooleanExtra("showFavoritesButton", false) == true
@@ -166,11 +169,8 @@ open class ViewerActivity:WallpaperActionsActivity() {
         findViewById<View>(R.id.bottom_bar_container).setNavBarMargins()
         
         setupProgressBarColors()
-        ViewCompat.setTransitionName(img, intent?.getStringExtra("imgTransition") ?: "")
-        supportStartPostponedEnterTransition()
         
-        val info:View by bind(R.id.info_container)
-        info.setOnClickListener {
+        findViewById<RelativeLayout>(R.id.info_container).setOnClickListener {
             showInfoDialog()
         }
         
@@ -203,9 +203,18 @@ open class ViewerActivity:WallpaperActionsActivity() {
         img.maxZoom = 2F
         img.setOnSingleTapListener { toggleSystemUI(); true }
         
+        ViewCompat.setTransitionName(img, intent?.getStringExtra("imgTransition") ?: "")
+        startEnterTransition()
+        
         setupWallpaper(wallpaper)
         loadWallpaperDetails()
-        loadExpensiveWallpaperDetails()
+    }
+    
+    private fun startEnterTransition() {
+        if (!transitioned) {
+            supportStartPostponedEnterTransition()
+            transitioned = true
+        }
     }
     
     override fun onResume() {
@@ -214,7 +223,6 @@ open class ViewerActivity:WallpaperActionsActivity() {
         findViewById<View>(R.id.bottom_bar_container).setNavBarMargins()
         setupProgressBarColors()
         loadWallpaperDetails()
-        loadExpensiveWallpaperDetails()
     }
     
     override fun doItemClick(actionId:Int) {
@@ -250,16 +258,16 @@ open class ViewerActivity:WallpaperActionsActivity() {
     
     override fun onSaveInstanceState(outState:Bundle?) {
         super.onSaveInstanceState(outState)
+        outState?.putBoolean(CLOSING_KEY, closing)
+        outState?.putBoolean(TRANSITIONED_KEY, transitioned)
         outState?.putBoolean(VISIBLE_SYSTEM_UI_KEY, visibleSystemUI)
     }
     
     override fun onRestoreInstanceState(savedInstanceState:Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
-        try {
-            val visibleUI = savedInstanceState?.getBoolean(VISIBLE_SYSTEM_UI_KEY, false) ?: false
-            setSystemUIVisibility(visibleUI)
-        } catch (ignored:Exception) {
-        }
+        setSystemUIVisibility(savedInstanceState?.getBoolean(VISIBLE_SYSTEM_UI_KEY, true) ?: true)
+        this.closing = savedInstanceState?.getBoolean(CLOSING_KEY, false) ?: false
+        this.transitioned = savedInstanceState?.getBoolean(TRANSITIONED_KEY, false) ?: false
     }
     
     override fun onOptionsItemSelected(item:MenuItem?):Boolean {
@@ -281,6 +289,7 @@ open class ViewerActivity:WallpaperActionsActivity() {
     override fun onDestroy() {
         super.onDestroy()
         properlyCancelDialog()
+        transitioned = false
     }
     
     private fun doFinish() {
@@ -292,13 +301,13 @@ open class ViewerActivity:WallpaperActionsActivity() {
             } catch (ignored:Exception) {
             }
             detailsVM?.stopTask(true)
-            detailsVM?.info?.removeObservers(this)
+            detailsVM?.items?.removeObservers(this)
             detailsVM = null
             postDelayed(100, {
                 val intent = Intent()
                 intent.putExtra("modified", hasModifiedFavs)
+                intent.putExtra("item", wallpaper)
                 if (hasModifiedFavs) {
-                    intent.putExtra("item", wallpaper)
                     intent.putExtra("inFavorites", isInFavorites)
                 }
                 setResult(10, intent)
@@ -324,8 +333,6 @@ open class ViewerActivity:WallpaperActionsActivity() {
                 bmp = BitmapFactory.decodeStream(stream)
             } catch (ignored:Exception) {
             } finally {
-                img.setImageBitmap(bmp)
-                supportStartPostponedEnterTransition()
                 stream?.close()
             }
         }
@@ -342,12 +349,15 @@ open class ViewerActivity:WallpaperActionsActivity() {
             val listener = object:GlideRequestListener<Bitmap>() {
                 override fun onLoadSucceed(resource:Bitmap):Boolean {
                     img.setImageBitmap(resource)
+                    startEnterTransition()
                     postPalette(resource)
-                    loadExpensiveWallpaperDetails()
                     return true
                 }
                 
-                override fun onLoadFailed():Boolean = super.onLoadFailed()
+                override fun onLoadFailed():Boolean {
+                    startEnterTransition()
+                    return super.onLoadFailed()
+                }
             }
             
             val options = urlOptions
@@ -371,11 +381,15 @@ open class ViewerActivity:WallpaperActionsActivity() {
                         .listener(object:GlideRequestListener<Bitmap>() {
                             override fun onLoadSucceed(resource:Bitmap):Boolean {
                                 img.setImageBitmap(resource)
+                                startEnterTransition()
                                 postPalette(resource)
                                 return true
                             }
                             
-                            override fun onLoadFailed():Boolean = super.onLoadFailed()
+                            override fun onLoadFailed():Boolean {
+                                startEnterTransition()
+                                return super.onLoadFailed()
+                            }
                         })
                 
                 Glide.with(this).asBitmap()
@@ -407,7 +421,7 @@ open class ViewerActivity:WallpaperActionsActivity() {
     }
     
     private fun addToDetails(detail:WallpaperDetail) {
-        print("Attempting to load $detail")
+        if (!detail.value.hasContent()) return
         val pos = details.indexOf(detail)
         if (pos != -1) {
             details.removeAt(pos)
@@ -430,18 +444,22 @@ open class ViewerActivity:WallpaperActionsActivity() {
     private fun loadExpensiveWallpaperDetails() {
         wallpaper?.let {
             with(it) {
-                if (size != 0L && dimensions.hasContent()) {
-                    addToDetails(WallpaperDetail("ic_size", size.toReadableByteCount()))
+                if (size != 0L) {
+                    val sizeText = size.toReadableByteCount()
+                    if (sizeText != "-0") addToDetails(WallpaperDetail("ic_size", sizeText))
+                    updateInfo()
+                }
+                if (dimensions.hasContent()) {
                     addToDetails(WallpaperDetail("ic_dimensions", dimensions))
                     updateInfo()
-                    return
                 }
-                if (isValidInfo(info)) {
+                val isValidInfo = info?.isValid ?: false
+                if (isValidInfo) {
                     postWallpaperInfo(info)
                     return
                 }
                 setupDetailsViewModel()
-                detailsVM?.loadData(this@ViewerActivity, this@with)
+                detailsVM?.loadData(this)
             }
         }
     }
@@ -450,20 +468,40 @@ open class ViewerActivity:WallpaperActionsActivity() {
         if (detailsVM == null) {
             detailsVM = ViewModelProviders.of(
                     this@ViewerActivity).get(WallpaperInfoViewModel::class.java)
-            detailsVM?.info?.observe(this, Observer<WallpaperInfo> { data ->
-                data?.let { postWallpaperInfo(it) }
-            })
         }
+        detailsVM?.items?.observe(this, Observer<WallpaperInfo> { data ->
+            data?.let {
+                postWallpaperInfo(it)
+            }
+        })
     }
     
-    private fun isValidInfo(info:WallpaperInfo?):Boolean =
-            info != null && info.size > 0L && info.dimension.isValid
-    
     private fun postWallpaperInfo(it:WallpaperInfo?) {
-        if (isValidInfo(it) && (info != it)) {
+        val isValid = it?.isValid ?: false
+        
+        if (isValid && (info != it)) {
+            val prevSize = wallpaper?.size ?: 0L
+            val size = it?.size ?: 0L
+            val bytes = size.toReadableByteCount()
+            
+            if (prevSize <= 0L && bytes != "-0") {
+                addToDetails(WallpaperDetail("ic_size", bytes))
+                wallpaper?.size = size
+            } else {
+                addToDetails(WallpaperDetail("ic_size", prevSize.toReadableByteCount()))
+            }
+            
+            val prevDimension = wallpaper?.dimensions ?: ""
+            val dimension = it?.dimension?.toString() ?: ""
+            
+            if ((!prevDimension.hasContent()) && dimension.hasContent()) {
+                addToDetails(WallpaperDetail("ic_dimensions", dimension))
+                wallpaper?.dimensions = dimension
+            } else {
+                addToDetails(WallpaperDetail("ic_dimensions", prevDimension))
+            }
+            
             this.info = it
-            addToDetails(WallpaperDetail("ic_size", it?.size?.toReadableByteCount() ?: ""))
-            addToDetails(WallpaperDetail("ic_dimensions", it?.dimension?.toString() ?: ""))
             updateInfo()
         }
     }

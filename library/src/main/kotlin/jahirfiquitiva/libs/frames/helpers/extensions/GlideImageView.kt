@@ -41,9 +41,10 @@ fun ImageView.loadWallpaper(requester:RequestManager?, url:String, thumbUrl:Stri
                             hasFaded:Boolean, listener:GlideRequestListener<Drawable>?) {
     val manager = requester ?: Glide.with(context)
     val loadFullRes = context.framesKonfigs.fullResGridPictures
+    val validThumb = !thumbUrl.equals(url, true)
     
     val thumbnailRequest = manager.load(thumbUrl)
-            .apply(context.thumbnailOptions.override(512, 683))
+            .apply(if (validThumb) context.thumbnailOptions else context.wallpaperOptions)
             .transition(withCrossFade())
             .listener(object:GlideRequestListener<Drawable>() {
                 override fun onLoadSucceed(resource:Drawable):Boolean =

@@ -19,7 +19,6 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
-import android.view.HapticFeedbackConstants
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -147,7 +146,8 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
         FramesWallpaperHolder(itemView) {
     
     private var shouldCheck = false
-    private var heartColor = 0
+    
+    private var heartColor = Color.WHITE
     
     override val img:ImageView
         get() = itemView.findViewById(R.id.wallpaper_image)
@@ -187,7 +187,6 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
             
             name.text = wallpaper.name
             name.setTextColor(Color.WHITE)
-            heartColor = Color.WHITE
             if (wallpaper.author.hasContent()) {
                 author.text = wallpaper.author
                 author.setTextColor(Color.WHITE)
@@ -196,7 +195,9 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
             }
             
             if (showFavIcon) {
+                heartIcon.setImageDrawable(context.createHeartIcon(shouldCheck).tint(heartColor))
                 heartIcon.setOnClickListener { heartListener(heartIcon, wallpaper, heartColor) }
+                heartIcon.visible()
             }
             
             loadImage(manager, url, if (thumb.equals(url, true)) "" else thumb)
@@ -237,8 +238,6 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
                     detailsBg.background =
                             itemView.context.getDrawable(R.drawable.gradient, null)
                 }
-                
-                if (showFavIcon) heartIcon.visible()
                 return true
             }
         }

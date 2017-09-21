@@ -70,6 +70,9 @@ data class Wallpaper(
                 url.equals(other.url, true) || thumbUrl.equals(other.thumbUrl, true)
     }
     
+    fun hasChangedFrom(other:Wallpaper?) =
+            other != null && (size != other.size || (!(dimensions.equals(other.dimensions, true))))
+    
     override fun hashCode():Int {
         var result = name.hashCode()
         result = 31 * result + author.hashCode()

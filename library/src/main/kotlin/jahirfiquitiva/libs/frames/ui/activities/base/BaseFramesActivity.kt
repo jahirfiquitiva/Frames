@@ -26,7 +26,6 @@ import android.support.design.widget.Snackbar
 import android.widget.TextView
 import ca.allanwang.kau.utils.startLink
 import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.StackingBehavior
 import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.TransactionDetails
 import com.github.javiersantos.piracychecker.PiracyChecker
@@ -268,10 +267,10 @@ abstract class BaseFramesActivity:WallpaperActionsActivity(), BillingProcessor.I
             if (it.isInitialized) {
                 val donationViewModel = ViewModelProviders.of(this).get(IAPViewModel::class.java)
                 donationViewModel.iapBillingProcessor = it
-                donationViewModel.items.observe(this, Observer<ArrayList<IAPItem>> { list ->
+                donationViewModel.items.observe(this, Observer<MutableList<IAPItem>> { list ->
                     if (list != null) {
                         if (list.size > 0) {
-                            showDonationDialog(list)
+                            showDonationDialog(ArrayList(list))
                         } else {
                             showDonationErrorDialog(0, null)
                         }

@@ -65,7 +65,7 @@ class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleOwn
         return super.onStartCommand(intent, flags, startId)
     }
     
-    fun tryToUpdate() {
+    private fun tryToUpdate() {
         try {
             onTryUpdate(MuzeiArtSource.UPDATE_REASON_USER_NEXT)
         } catch (e:Exception) {
@@ -107,20 +107,21 @@ class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleOwn
     private fun executeMuzeiUpdate() {
         try {
             wallsVM = WallpapersViewModel()
-            wallsVM?.setCustomObserver(object:ListViewModel.CustomObserver<ArrayList<Wallpaper>> {
-                override fun onValuePosted(data:ArrayList<Wallpaper>) {
+            wallsVM?.setCustomObserver(object:ListViewModel.CustomObserver<Wallpaper> {
+                override fun onValuePosted(data:MutableList<Wallpaper>) {
                     if (data.isNotEmpty()) {
-                        val realData = getValidWallpapersList(data)
+                        val realData = getValidWallpapersList(ArrayList(data))
                         
                         if (framesKonfigs.muzeiCollections.contains("favorites", true)) {
                             favsDB = Room.databaseBuilder(this@FramesArtSource,
                                                           FavoritesDatabase::class.java,
-                                                          DATABASE_NAME).build()
+                                                          DATABASE_NAME)
+                                    .fallbackToDestructiveMigration().build()
                             favsVM = FavoritesViewModel()
                             favsVM?.setCustomObserver(
-                                    object:ListViewModel.CustomObserver<ArrayList<Wallpaper>> {
-                                        override fun onValuePosted(data:ArrayList<Wallpaper>) {
-                                            realData.addAll(getValidWallpapersList(data))
+                                    object:ListViewModel.CustomObserver<Wallpaper> {
+                                        override fun onValuePosted(data:MutableList<Wallpaper>) {
+                                            realData.addAll(getValidWallpapersList(ArrayList(data)))
                                             realData.distinct()
                                             if (realData.isEmpty()) return
                                             chooseRandomWallpaperAndPost(realData)

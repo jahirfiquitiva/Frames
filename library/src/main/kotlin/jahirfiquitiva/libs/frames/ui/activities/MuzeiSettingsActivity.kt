@@ -250,7 +250,7 @@ class MuzeiSettingsActivity:ThemedActivity() {
                         dialog?.show()
                     }
                 })
-                collsVM.loadData(it)
+                collsVM.loadData(ArrayList(it))
             }
         })
         wallsVM.loadData(this)

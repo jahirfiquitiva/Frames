@@ -48,7 +48,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
-import java.io.BufferedOutputStream
+import java.io.FileOutputStream
 
 abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHolder>() {
     
@@ -177,7 +177,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
                         if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
                 rv.setEmptyText(
                         if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
-                it.updateItems(list, true)
+                it.updateItems(ArrayList(list), true)
                 scrollToTop()
             }
         }
@@ -215,20 +215,17 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
                 putExtra("favTransition", heartTransition)
             }
             
-            if (context.framesKonfigs.animationsEnabled) {
-                var bos:BufferedOutputStream? = null
-                try {
-                    val filename = "thumb.png"
-                    bos = BufferedOutputStream(
-                            activity.openFileOutput(filename, Context.MODE_PRIVATE))
-                    holder.img.drawable.toBitmap()
-                            .compress(Bitmap.CompressFormat.JPEG, context.maxPictureRes, bos)
-                    intent.putExtra("image", filename)
-                } catch (ignored:Exception) {
-                } finally {
-                    bos?.flush()
-                    bos?.close()
-                }
+            var fos:FileOutputStream? = null
+            try {
+                val filename = "thumb.png"
+                fos = activity.openFileOutput(filename, Context.MODE_PRIVATE)
+                holder.img.drawable.toBitmap().compress(Bitmap.CompressFormat.JPEG,
+                                                        context.maxPictureRes, fos)
+                intent.putExtra("image", filename)
+            } catch (ignored:Exception) {
+            } finally {
+                fos?.flush()
+                fos?.close()
             }
             
             val imgPair = Pair<View, String>(holder.img, imgTransition)
@@ -253,12 +250,14 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == 10) {
             data?.let {
-                if (it.getBooleanExtra("modified", false)) {
-                    val item = it.getParcelableExtra<Wallpaper>("item")
-                    if (it.getBooleanExtra("inFavorites", false)) {
-                        item?.let { addToFavorites(it) }
-                    } else {
-                        item?.let { removeFromFavorites(it) }
+                val item = it.getParcelableExtra<Wallpaper>("item")
+                val hasModifiedFavs = it.getBooleanExtra("modified", false)
+                val inFavs = it.getBooleanExtra("inFavorites", false)
+                item?.let {
+                    wallpapersModel?.updateWallpaper(it)
+                    if (hasModifiedFavs) {
+                        if (inFavs) addToFavorites(it)
+                        else removeFromFavorites(it)
                     }
                 }
             }

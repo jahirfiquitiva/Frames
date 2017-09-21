@@ -157,8 +157,12 @@ open class SettingsFragment:PreferenceFragment() {
         val hiResPref = findPreference("hi_res_pics") as SwitchPreference
         hiResPref.setOnPreferenceChangeListener { _, any ->
             val enable = any.toString().equals("true", true)
-            if (enable != context.framesKonfigs.fullResGridPictures)
+            if (enable != context.framesKonfigs.fullResGridPictures) {
                 context.framesKonfigs.fullResGridPictures = enable
+                if (activity is SettingsActivity) {
+                    (activity as SettingsActivity).hasClearedFavs = true
+                }
+            }
             true
         }
         

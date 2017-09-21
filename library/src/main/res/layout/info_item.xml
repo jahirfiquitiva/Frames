@@ -44,7 +44,7 @@
             android:paddingLeft="@dimen/fabs_margin"
             android:paddingStart="@dimen/fabs_margin"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:maxLines="2"
+            android:maxLines="3"
             android:ellipsize="end"
             tools:text="Jahir Fiquitiva"
             tools:ignore="RtlSymmetry"/>

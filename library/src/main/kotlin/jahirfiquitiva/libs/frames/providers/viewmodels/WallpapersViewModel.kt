@@ -15,16 +15,11 @@
  */
 package jahirfiquitiva.libs.frames.providers.viewmodels
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import android.content.Context
-import com.android.volley.RequestQueue
-import com.android.volley.toolbox.Volley
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
-import jahirfiquitiva.libs.frames.helpers.utils.AsyncTaskManager
-import jahirfiquitiva.libs.frames.helpers.utils.volley.FramesJsonRequest
+import jahirfiquitiva.libs.frames.helpers.utils.FramesUrlRequests
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
@@ -32,73 +27,64 @@ import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 import org.json.JSONArray
 import org.json.JSONObject
 
-class WallpapersViewModel:ViewModel() {
+class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
     
-    val items = MutableLiveData<ArrayList<Wallpaper>>()
-    private val REQUEST_TAG = "WVM"
-    private var queue:RequestQueue? = null
-    private var task:AsyncTaskManager<Unit, Context>? = null
-    private var observer:ListViewModel.CustomObserver<ArrayList<Wallpaper>>? = null
-    
-    fun setCustomObserver(observer:ListViewModel.CustomObserver<ArrayList<Wallpaper>>) {
-        this.observer = observer
-    }
-    
-    fun loadData(parameter:Context, forceLoad:Boolean = false) {
-        stopTask(true)
-        task = AsyncTaskManager(parameter, {},
-                                { internalLoad(parameter, forceLoad) }, {})
-        task?.execute()
-    }
-    
-    private fun loadItems(param:Context) {
-        if (queue == null) queue = Volley.newRequestQueue(param)
-        queue?.add(FramesJsonRequest(param, param.getString(R.string.json_url), REQUEST_TAG,
-                                     { postResult(loadWallpapers(param, it)) },
-                                     { postResult(loadWallpapers(param)) }).createRequest())
-        queue?.start()
-    }
-    
-    fun stopTask(interrupt:Boolean = false) {
-        queue?.cancelAll(REQUEST_TAG)
-        task?.cancelTask(interrupt)
-    }
-    
-    private fun internalLoad(param:Context, forceLoad:Boolean = false) {
-        if (forceLoad) {
-            loadItems(param)
-        } else {
-            if (items.value != null && (items.value?.size ?: 0) > 0) {
-                val list = ArrayList<Wallpaper>()
-                items.value?.let { list.addAll(it.distinct()) }
-                postResult(list)
-            } else {
-                loadItems(param)
+    fun updateWallpaper(newWallpaper:Wallpaper) {
+        val prevList = ArrayList(items.value)
+        if (prevList.size > 0) {
+            val pos = prevList.indexOf(newWallpaper)
+            if (pos >= 0) {
+                val old = prevList[pos]
+                if (newWallpaper.hasChangedFrom(old)) {
+                    prevList[pos] = newWallpaper
+                    postResult(prevList)
+                }
             }
         }
     }
     
-    internal fun postResult(data:ArrayList<Wallpaper>) {
-        items.postValue(ArrayList(data.distinct()))
-        observer?.onValuePosted(ArrayList(data.distinct()))
+    override fun loadItems(param:Context):MutableList<Wallpaper> {
+        val prevResponse = param.framesKonfigs.backupJson
+        val response = FramesUrlRequests().requestJson(param.getString(
+                R.string.json_url))
+        val oldValue = items.value
+        val formattedResponse = buildJSONArrayFromResponse(param, response).toString()
+        val areTheSame = formattedResponse.equals(prevResponse, true)
+        return if (areTheSame) {
+            if (oldValue != null) {
+                if (oldValue.size > 0) oldValue
+                else loadWallpapers(param, response)
+            } else {
+                loadWallpapers(param, response)
+            }
+        } else {
+            loadWallpapers(param, response)
+        }
     }
     
     private fun loadWallpapers(context:Context, response:String = ""):ArrayList<Wallpaper> =
             if (response.hasContent()) {
-                buildWallpapersListFromResponse(context, response, true)
+                buildWallpapersListFromResponse(context, response)
             } else {
                 val prevResponse = context.framesKonfigs.backupJson
                 if (prevResponse.hasContent()) {
-                    buildWallpapersListFromResponse(context, prevResponse, true)
+                    buildWallpapersListFromResponse(context, prevResponse)
                 } else {
                     ArrayList()
                 }
             }
     
-    private fun buildWallpapersListFromResponse(context:Context, response:String,
-                                                shouldSaveResult:Boolean = false):ArrayList<Wallpaper> {
+    private fun buildWallpapersListFromResponse(context:Context,
+                                                response:String):ArrayList<Wallpaper> {
+        if (!(response.hasContent())) return buildWallpapersListFromJson(JSONArray("[]"))
+        val jsonArray = buildJSONArrayFromResponse(context, response)
+        context.framesKonfigs.backupJson = jsonArray.toString()
+        return buildWallpapersListFromJson(jsonArray)
+    }
+    
+    private fun buildJSONArrayFromResponse(context:Context, response:String):JSONArray {
         val shouldUseOldFormat = context.getBoolean(R.bool.use_old_json_format)
-        val jsonArray = try {
+        return try {
             buildJSONArrayFromResponse(response, shouldUseOldFormat)
         } catch (e:Exception) {
             e.printStackTrace()
@@ -109,8 +95,6 @@ class WallpapersViewModel:ViewModel() {
                 JSONArray("[]")
             }
         }
-        if (shouldSaveResult) context.framesKonfigs.backupJson = jsonArray.toString()
-        return buildWallpapersListFromJson(jsonArray)
     }
     
     private fun buildJSONArrayFromResponse(response:String, useOldFormat:Boolean):JSONArray {
@@ -200,6 +184,10 @@ class WallpapersViewModel:ViewModel() {
             try {
                 size = obj.getLong("size")
             } catch (ignored:Exception) {
+                try {
+                    size = obj.getString("size").toLong()
+                } catch (ignored:Exception) {
+                }
             }
             var dimensions = ""
             try {

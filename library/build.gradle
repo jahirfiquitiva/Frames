@@ -77,8 +77,8 @@ dependencies {
     compile 'com.afollestad.material-dialogs:commons:' + project.ext.materialDialogs
     // Snap Helper
     compile 'com.github.rubensousa:gravitysnaphelper:' + project.ext.snapHelper
-    // Volley
-    compile 'com.android.volley:volley:' + project.ext.volley
+    // OkHttp
+    compile 'com.squareup.okhttp3:okhttp:' + project.ext.okhttp
     // Glide Image Loading
     compile 'com.github.bumptech.glide:glide:' + project.ext.glide
     compile 'com.github.bumptech.glide:recyclerview-integration:' + project.ext.glide

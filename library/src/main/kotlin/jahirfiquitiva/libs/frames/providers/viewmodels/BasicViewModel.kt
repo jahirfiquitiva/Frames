@@ -24,7 +24,7 @@ abstract class BasicViewModel<Parameter, Result>:ViewModel() {
     internal var param:Parameter? = null
     private var task:AsyncTaskManager<Result, Parameter>? = null
     
-    fun loadData(parameter:Parameter, forceLoad:Boolean = false) {
+    internal open fun loadData(parameter:Parameter, forceLoad:Boolean = false) {
         if (param == null) param = parameter
         stopTask(true)
         task = AsyncTaskManager(parameter, {},
@@ -38,14 +38,10 @@ abstract class BasicViewModel<Parameter, Result>:ViewModel() {
     }
     
     internal open fun internalLoad(param:Parameter, forceLoad:Boolean = false):Result? =
-            if (forceLoad) {
-                loadItems(param)
-            } else {
-                if (items.value != null) {
-                    items.value
-                } else {
-                    loadItems(param)
-                }
+            if (forceLoad) loadItems(param)
+            else {
+                if (items.value != null) items.value
+                else loadItems(param)
             }
     
     internal open fun postResult(data:Result) {
@@ -53,5 +49,4 @@ abstract class BasicViewModel<Parameter, Result>:ViewModel() {
     }
     
     abstract protected fun loadItems(param:Parameter):Result
-    
 }

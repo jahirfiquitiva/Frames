@@ -134,7 +134,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
                 } else {
                     rv.setEmptyImage(R.drawable.empty_section)
                     rv.setEmptyText(R.string.empty_section)
-                    collsAdapter?.updateItems(it, true)
+                    collsAdapter?.updateItems(ArrayList(it), true)
                     scrollToTop()
                 }
             }

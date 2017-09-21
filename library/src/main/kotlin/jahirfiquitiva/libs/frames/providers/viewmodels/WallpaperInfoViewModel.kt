@@ -15,107 +15,26 @@
  */
 package jahirfiquitiva.libs.frames.providers.viewmodels
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import com.android.volley.RequestQueue
-import com.android.volley.toolbox.Volley
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.utils.AsyncTaskManager
-import jahirfiquitiva.libs.frames.helpers.utils.volley.FramesFileRequest
-import java.io.ByteArrayOutputStream
+import jahirfiquitiva.libs.frames.helpers.utils.FramesUrlRequests
+import jahirfiquitiva.libs.frames.helpers.utils.WallpaperInfo
+import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 
-class WallpaperInfoViewModel:ViewModel() {
+class WallpaperInfoViewModel:BasicViewModel<Wallpaper, WallpaperInfo>() {
+    private var hasStartedLoad = false
     
-    val info = MutableLiveData<WallpaperInfo>()
-    private val REQUEST_TAG = "WIVM"
-    private var queue:RequestQueue? = null
-    private var task:AsyncTaskManager<Unit, Context>? = null
-    
-    fun loadData(parameter:Context, wallpaper:Wallpaper, forceLoad:Boolean = false) {
-        stopTask(true)
-        task = AsyncTaskManager(parameter, {},
-                                { internalLoad(parameter, wallpaper, forceLoad) }, {})
-        task?.execute()
-    }
-    
-    private fun loadItems(param:Context, wallpaper:Wallpaper) {
-        if (queue == null) queue = Volley.newRequestQueue(param)
-        queue?.add(FramesFileRequest(param, wallpaper.url, REQUEST_TAG,
-                                     onSuccess = {
-                                         try {
-                                             postResult(it.toWallpaperInfo())
-                                         } catch (ignored:Exception) {
-                                             postResult(WallpaperInfo(0L, Dimension(0L, 0L)))
-                                         }
-                                     },
-                                     onError = {
-                                         postResult(WallpaperInfo(0L, Dimension(0L, 0L)))
-                                     }).createRequest())
-        queue?.start()
-    }
-    
-    fun stopTask(interrupt:Boolean = false) {
-        queue?.cancelAll(REQUEST_TAG)
-        task?.cancelTask(interrupt)
-    }
-    
-    private fun internalLoad(param:Context, wallpaper:Wallpaper, forceLoad:Boolean = false) {
-        if (forceLoad) {
-            loadItems(param, wallpaper)
-        } else {
-            val value = info.value
-            if (value == null) loadItems(param, wallpaper)
-            else postResult(value)
+    override fun loadData(parameter:Wallpaper, forceLoad:Boolean) {
+        if (!hasStartedLoad || forceLoad) {
+            super.loadData(parameter, forceLoad)
+            hasStartedLoad = true
         }
     }
     
-    internal fun postResult(data:WallpaperInfo) {
-        info.postValue(data)
-    }
-}
-
-fun ByteArray.toWallpaperInfo():WallpaperInfo =
-        try {
-            val bmp = BitmapFactory.decodeByteArray(this, 0, this.size)
-            val width = bmp.width
-            val height = bmp.height
-            WallpaperInfo(size.toLong(), Dimension(width.toLong(), height.toLong()))
-        } catch (ignored:Exception) {
-            WallpaperInfo(0L, Dimension(0L, 0L))
-        }
-
-fun Bitmap.toByteArray(compressFormat:Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
-                       quality:Int = 25):ByteArray {
-    val stream = ByteArrayOutputStream()
-    return try {
-        compress(compressFormat, quality, stream)
-        val bytes = stream.toByteArray()
-        bytes
-    } catch (ignored:Exception) {
-        ByteArray(0)
-    } finally {
-        stream.flush()
-        stream.close()
-    }
-}
-
-fun Bitmap.toWallpaperInfo():WallpaperInfo =
-        try {
-            val size = toByteArray(Bitmap.CompressFormat.PNG, 100).size
-            if (size > 1) {
-                WallpaperInfo(size.toLong(), Dimension(width.toLong(), height.toLong()))
-            } else WallpaperInfo(0L, Dimension(0L, 0L))
-        } catch (ignored:Exception) {
-            WallpaperInfo(0L, Dimension(0L, 0L))
-        }
-
-data class WallpaperInfo(val size:Long, val dimension:Dimension)
-data class Dimension(val width:Long, val height:Long) {
-    val isValid:Boolean
-        get() = width > 0L && height > 0L
+    override fun loadItems(param:Wallpaper):WallpaperInfo =
+            FramesUrlRequests().requestFileInfo(param.url, param.dimensions.hasContent())
     
-    override fun toString():String = "$width x $height px"
+    override fun postResult(data:WallpaperInfo) {
+        super.postResult(data)
+        hasStartedLoad = false
+    }
 }

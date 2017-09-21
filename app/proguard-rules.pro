@@ -46,5 +46,9 @@
 -dontwarn autovalue.shaded.com.google.**
 -dontwarn com.android.vending.billing.**
 
+-dontwarn okhttp3.**
+-dontwarn okio.**
+-dontwarn javax.annotation.**
+
 -dontwarn
 -ignorewarnings

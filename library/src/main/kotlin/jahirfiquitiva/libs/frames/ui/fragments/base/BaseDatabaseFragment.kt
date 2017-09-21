@@ -77,7 +77,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     override fun registerObserver() {
         initFavoritesViewModel()
         favoritesModel?.items?.observe(this, Observer { data ->
-            data?.let { doOnFavoritesChange(it) }
+            data?.let { doOnFavoritesChange(ArrayList(it)) }
         })
     }
     
