@@ -28,6 +28,7 @@
     <string name="added_to_favorites">\'%1$s\' has been added to favorites.</string>
     <string name="removed_from_favorites">\'%1$s\' has been removed from favorites.</string>
 
+    <string name="actions_dialog_content">What would you like to do with this wallpaper?</string>
     <string name="apply">Apply</string>
     <string name="download">Download</string>
     <string name="info">Information</string>

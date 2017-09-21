@@ -55,7 +55,6 @@ abstract class FramesActivity:BaseFramesActivity() {
     private val tabs:CustomTabLayout by bind(R.id.tabs)
     
     private var searchView:SearchView? = null
-    private var isSearchActive = false
     private var lastSection = 1
     
     override fun onCreate(savedInstanceState:Bundle?) {

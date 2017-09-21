@@ -38,6 +38,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.isLowRamDevice
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPictureRes
 import jahirfiquitiva.libs.frames.ui.activities.ViewerActivity
+import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.ui.adapters.WallpapersAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
@@ -82,12 +83,18 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
             configureRVColumns()
             
             val provider = ViewPreloadSizeProvider<Wallpaper>()
-            wallsAdapter = WallpapersAdapter(Glide.with(context), provider,
-                                             { wall, holder -> onItemClicked(wall, holder) },
-                                             { heart, wall, color ->
-                                                 onHeartClicked(heart, wall, color)
-                                             },
-                                             fromFavorites(), showFavoritesIcon())
+            wallsAdapter = WallpapersAdapter(
+                    Glide.with(context), provider,
+                    { wall, holder -> onItemClicked(wall, holder) },
+                    { wall ->
+                        if (activity is BaseFramesActivity)
+                            (activity as BaseFramesActivity).showWallpaperOptionsDialog(wall)
+                    },
+                    { heart, wall, color ->
+                        onHeartClicked(heart, wall, color)
+                    },
+                    fromFavorites(), showFavoritesIcon())
+            
             val preloader:RecyclerViewPreloader<Wallpaper> =
                     RecyclerViewPreloader(activity, wallsAdapter, provider, 4)
             addOnScrollListener(preloader)

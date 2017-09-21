@@ -19,6 +19,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
+import android.view.HapticFeedbackConstants
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -52,6 +53,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.withAlpha
+
 
 const val DETAILS_OPACITY = 0.85F
 
@@ -157,6 +159,7 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
     
     fun setItem(manager:RequestManager, provider:ViewPreloadSizeProvider<Wallpaper>,
                 wallpaper:Wallpaper, singleTap:(Wallpaper, WallpaperHolder) -> Unit,
+                longClick:(Wallpaper) -> Unit,
                 heartListener:(ImageView, Wallpaper, Int) -> Unit, check:Boolean) {
         if (this.wallpaper != wallpaper) this.wallpaper = wallpaper
         with(itemView) {
@@ -200,6 +203,10 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
             provider.setView(img)
         }
         itemView.setOnClickListener { singleTap(wallpaper, this) }
+        itemView.setOnLongClickListener {
+            longClick(wallpaper)
+            true
+        }
     }
     
     override fun getListener():GlideRequestListener<Drawable> {

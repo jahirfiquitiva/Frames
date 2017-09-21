@@ -19,6 +19,7 @@ import android.app.Dialog
 import android.app.DownloadManager
 import android.app.WallpaperManager
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -36,7 +37,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.bestBitmapConfig
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.DownloadThread
-import jahirfiquitiva.libs.frames.ui.activities.ViewerActivity
+import jahirfiquitiva.libs.frames.ui.activities.base.WallpaperActionsActivity
 import jahirfiquitiva.libs.kauextensions.extensions.getUri
 import jahirfiquitiva.libs.kauextensions.extensions.printError
 import jahirfiquitiva.libs.kauextensions.extensions.showToast
@@ -53,6 +54,11 @@ class WallpaperActionsFragment:DialogFragment() {
     
     private val shouldApply
         get() = toHomeScreen || toLockScreen || toBoth
+    
+    private var isActive = false
+        set(value) {
+            if (value != field) field = value
+        }
     
     var destBitmap:Bitmap? = null
         private set
@@ -72,17 +78,21 @@ class WallpaperActionsFragment:DialogFragment() {
                             .setDescription(
                                     context.getString(R.string.downloading_wallpaper, it.name))
                             .setDestinationUri(Uri.fromFile(destFile))
+                            .setAllowedOverRoaming(false)
                     
-                    if (shouldApply)
+                    if (shouldApply) {
                         request.setVisibleInDownloadsUi(false)
-                    else
+                    } else {
+                        request.setNotificationVisibility(
+                                DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                         request.allowScanningByMediaScanner()
+                    }
                     
                     downloadId = downloadManager?.enqueue(request) ?: 0L
                     
                     thread = DownloadThread(this, object:DownloadThread.DownloadListener {
-                        override fun onFailure() {
-                            doOnFailure()
+                        override fun onFailure(exception:Exception) {
+                            doOnFailure(exception)
                         }
                         
                         override fun onProgress(progress:Int) {
@@ -162,20 +172,30 @@ class WallpaperActionsFragment:DialogFragment() {
         } else dismiss()
     }
     
-    private fun doOnFailure() {
+    private fun doOnFailure(exception:Exception) {
         stopActions()
+        exception.printStackTrace()
         try {
-            if (isVisible) {
-                activity.materialDialog {
-                    title(R.string.error_title)
-                    content(R.string.action_error_content)
-                    positiveText(android.R.string.ok)
-                    onPositive { dialog, _ ->
-                        dialog.dismiss()
-                        dismiss(activity)
+            if (isVisible || isActive) {
+                try {
+                    activity.materialDialog {
+                        title(R.string.error_title)
+                        content(R.string.action_error_content)
+                        positiveText(android.R.string.ok)
+                        onPositive { dialog, _ ->
+                            dialog.dismiss()
+                            dismiss(activity)
+                        }
                     }
+                } catch (e:Exception) {
+                    e.printStackTrace()
+                    if (activity is WallpaperActionsActivity)
+                        (activity as WallpaperActionsActivity).properlyCancelDialog()
+                    activity.showToast(R.string.action_error_content)
                 }
             } else {
+                if (activity is WallpaperActionsActivity)
+                    (activity as WallpaperActionsActivity).properlyCancelDialog()
                 activity.showToast(R.string.action_error_content)
             }
         } catch (e:Exception) {
@@ -194,8 +214,8 @@ class WallpaperActionsFragment:DialogFragment() {
     
     private fun showDownloadResult(dest:File) {
         try {
-            if (activity is ViewerActivity) {
-                (activity as ViewerActivity).showWallpaperDownloadedSnackbar(dest)
+            if (activity is WallpaperActionsActivity) {
+                (activity as WallpaperActionsActivity).showWallpaperDownloadedSnackbar(dest)
             } else {
                 activity.snackbar(getString(R.string.download_successful, dest.toString()),
                                   builder = {
@@ -246,9 +266,10 @@ class WallpaperActionsFragment:DialogFragment() {
     private fun showAppliedResult() {
         dismiss(activity)
         try {
-            if (activity is ViewerActivity) {
-                (activity as ViewerActivity).showWallpaperAppliedSnackbar(toHomeScreen,
-                                                                          toLockScreen, toBoth)
+            if (activity is WallpaperActionsActivity) {
+                (activity as WallpaperActionsActivity).showWallpaperAppliedSnackbar(toHomeScreen,
+                                                                                    toLockScreen,
+                                                                                    toBoth)
             } else {
                 activity.snackbar(getString(R.string.apply_successful,
                                             getString(when {
@@ -316,6 +337,21 @@ class WallpaperActionsFragment:DialogFragment() {
             dismiss()
         } catch (ignored:Exception) {
         }
+    }
+    
+    override fun onStart() {
+        super.onStart()
+        isActive = true
+    }
+    
+    override fun setUserVisibleHint(isVisibleToUser:Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        isActive = isVisibleToUser
+    }
+    
+    override fun onDismiss(dialog:DialogInterface?) {
+        super.onDismiss(dialog)
+        isActive = false
     }
     
     override fun onActivityCreated(savedInstanceState:Bundle?) {

@@ -31,6 +31,7 @@ import java.util.*
 class WallpapersAdapter(private val manager:RequestManager,
                         private val provider:ViewPreloadSizeProvider<Wallpaper>,
                         private val singleTap:(Wallpaper, WallpaperHolder) -> Unit,
+                        private val longClick:(Wallpaper) -> Unit,
                         private val heartListener:(ImageView, Wallpaper, Int) -> Unit,
                         private val fromFavorites:Boolean,
                         private val showFavIcon:Boolean):
@@ -45,7 +46,7 @@ class WallpapersAdapter(private val manager:RequestManager,
     
     override fun doBind(holder:WallpaperHolder, position:Int, shouldAnimate:Boolean) {
         val item = list[position]
-        holder.setItem(manager, provider, item, singleTap, heartListener,
+        holder.setItem(manager, provider, item, singleTap, longClick, heartListener,
                        fromFavorites || favorites.contains(item))
     }
     

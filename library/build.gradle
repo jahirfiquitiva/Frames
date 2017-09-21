@@ -81,10 +81,7 @@ dependencies {
     compile 'com.android.volley:volley:' + project.ext.volley
     // Glide Image Loading
     compile 'com.github.bumptech.glide:glide:' + project.ext.glide
-    compile 'com.github.bumptech.glide:annotations:' + project.ext.glide
     compile 'com.github.bumptech.glide:recyclerview-integration:' + project.ext.glide
-    annotationProcessor 'com.github.bumptech.glide:compiler:' + project.ext.glide
-    kapt 'com.github.bumptech.glide:compiler:' + project.ext.glide
     // KAU Extensions
     compile 'me.jahirfiquitiva.KAUExtensions:core:' + project.ext.kauExt
     compile 'me.jahirfiquitiva.KAUExtensions:ziv:' + project.ext.kauExt

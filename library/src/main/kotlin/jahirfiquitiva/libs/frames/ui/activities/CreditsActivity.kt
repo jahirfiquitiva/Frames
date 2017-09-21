@@ -20,7 +20,6 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import com.bumptech.glide.Glide
@@ -32,6 +31,7 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.TRANSLATION_SITE
 import jahirfiquitiva.libs.frames.ui.adapters.CreditsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
+import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.bind
@@ -53,7 +53,7 @@ open class CreditsActivity:ThemedActivity() {
     override fun amoledTheme():Int = R.style.AmoledTheme
     override fun autoStatusBarTint():Boolean = true
     
-    private val toolbar:Toolbar by bind(R.id.toolbar)
+    private val toolbar:CustomToolbar by bind(R.id.toolbar)
     private val rv:EmptyViewRecyclerView by bind(R.id.list_rv)
     private val fastScroll:RecyclerFastScroller by bind(R.id.fast_scroller)
     
@@ -63,11 +63,8 @@ open class CreditsActivity:ThemedActivity() {
         
         registerCCLicense()
         
-        setSupportActionBar(toolbar)
+        toolbar.bindToActivity(this)
         supportActionBar?.title = getString(R.string.about)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
         
         val refreshLayout:SwipeRefreshLayout by bind(R.id.swipe_to_refresh)
         refreshLayout.isEnabled = false

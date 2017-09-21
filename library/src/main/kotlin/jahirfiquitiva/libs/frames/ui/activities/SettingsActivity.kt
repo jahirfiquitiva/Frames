@@ -19,7 +19,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.FrameLayout
@@ -30,6 +29,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.TRANSLATION_SITE
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseActivityWithFragments
 import jahirfiquitiva.libs.frames.ui.fragments.SettingsFragment
+import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.changeOptionVisibility
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
@@ -49,7 +49,7 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
     override fun transparentTheme():Int = R.style.TransparentTheme
     
     var hasClearedFavs = false
-    private val toolbar:Toolbar by bind(R.id.toolbar)
+    private val toolbar:CustomToolbar by bind(R.id.toolbar)
     private var locationChooserDialog:FolderChooserDialog? = null
     private val fragment:Fragment by lazyAndroid { settingsFragment() }
     
@@ -57,14 +57,7 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_collection_settings)
         
-        setSupportActionBar(toolbar)
-        supportActionBar?.let {
-            with(it) {
-                setHomeButtonEnabled(true)
-                setDisplayHomeAsUpEnabled(true)
-                setDisplayShowHomeEnabled(true)
-            }
-        }
+        toolbar.bindToActivity(this)
         
         toolbar.setTitle(R.string.settings)
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),

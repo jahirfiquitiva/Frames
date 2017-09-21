@@ -20,9 +20,13 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.OnLifecycleEvent
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.widget.TextView
 import ca.allanwang.kau.utils.startLink
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.StackingBehavior
 import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.TransactionDetails
 import com.github.javiersantos.piracychecker.PiracyChecker
@@ -31,7 +35,9 @@ import com.github.javiersantos.piracychecker.enums.PiracyCheckerCallback
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerError
 import com.github.javiersantos.piracychecker.enums.PirateApp
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
+import jahirfiquitiva.libs.frames.helpers.extensions.buildSnackbar
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.ADW_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.APPLY_ACTION
@@ -43,15 +49,14 @@ import jahirfiquitiva.libs.frames.helpers.utils.TURBO_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.WALLS_PICKER
 import jahirfiquitiva.libs.frames.providers.viewmodels.IAPItem
 import jahirfiquitiva.libs.frames.providers.viewmodels.IAPViewModel
-import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getStringArray
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isFirstRunEver
 import jahirfiquitiva.libs.kauextensions.extensions.justUpdated
+import org.jetbrains.anko.contentView
 
-@Suppress("LeakingThis")
-abstract class BaseFramesActivity:ThemedActivity(), BillingProcessor.IBillingHandler {
+abstract class BaseFramesActivity:WallpaperActionsActivity(), BillingProcessor.IBillingHandler {
     
     private var picker:Int = 0
     private var donationsReady = false
@@ -65,6 +70,9 @@ abstract class BaseFramesActivity:ThemedActivity(), BillingProcessor.IBillingHan
     private var checker:PiracyChecker? = null
     private var dialog:MaterialDialog? = null
     internal var billingProcessor:BillingProcessor? = null
+    
+    override var wallpaper:Wallpaper? = null
+    override val allowBitmapApply:Boolean = false
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
@@ -367,4 +375,37 @@ abstract class BaseFramesActivity:ThemedActivity(), BillingProcessor.IBillingHan
     
     override fun onBillingInitialized() {}
     override fun onPurchaseHistoryRestored() {}
+    
+    override fun applyBitmapWallpaper(toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean) {}
+    
+    override fun showSnackbar(text:String, settings:Snackbar.() -> Unit) {
+        contentView?.let {
+            val snack = it.buildSnackbar(text, builder = settings)
+            
+            val snackText = snack.view.findViewById<TextView>(R.id.snackbar_text)
+            snackText.setTextColor(Color.WHITE)
+            snackText.maxLines = 3
+            
+            snack.show()
+        }
+    }
+    
+    internal fun showWallpaperOptionsDialog(wallpaper:Wallpaper) {
+        this.wallpaper = wallpaper
+        destroyDialog()
+        dialog = buildMaterialDialog {
+            content(R.string.actions_dialog_content)
+            positiveText(R.string.apply)
+            onPositive { dialog, _ ->
+                dialog.dismiss()
+                doItemClick(APPLY_ACTION_ID)
+            }
+            negativeText(R.string.download)
+            onNegative { dialog, _ ->
+                dialog.dismiss()
+                doItemClick(DOWNLOAD_ACTION_ID)
+            }
+        }
+        dialog?.show()
+    }
 }

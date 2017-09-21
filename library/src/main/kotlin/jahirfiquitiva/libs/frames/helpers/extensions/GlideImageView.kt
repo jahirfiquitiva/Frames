@@ -43,7 +43,7 @@ fun ImageView.loadWallpaper(requester:RequestManager?, url:String, thumbUrl:Stri
     val loadFullRes = context.framesKonfigs.fullResGridPictures
     
     val thumbnailRequest = manager.load(thumbUrl)
-            .apply(context.thumbnailOptions)
+            .apply(context.thumbnailOptions.override(512, 683))
             .transition(withCrossFade())
             .listener(object:GlideRequestListener<Drawable>() {
                 override fun onLoadSucceed(resource:Drawable):Boolean =

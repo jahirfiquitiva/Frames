@@ -48,7 +48,7 @@
             android:clipChildren="false"
             app:elevation="0dp">
 
-        <android.support.v7.widget.Toolbar
+        <jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
@@ -81,7 +81,7 @@
 
             </LinearLayout>
 
-        </android.support.v7.widget.Toolbar>
+        </jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar>
 
     </android.support.design.widget.AppBarLayout>
 
