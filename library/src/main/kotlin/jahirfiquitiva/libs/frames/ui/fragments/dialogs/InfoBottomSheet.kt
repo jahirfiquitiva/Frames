@@ -77,13 +77,13 @@ class InfoBottomSheet:BottomSheetDialogFragment() {
                                               GridLayoutManager.VERTICAL, false)
         rv?.layoutManager = layoutManager
         
-        if (adapter == null) adapter = WallpaperInfoAdapter(context, {
+        if (adapter == null) adapter = WallpaperInfoAdapter {
             if (it != 0) {
                 val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                 clipboard.primaryClip = ClipData.newPlainText("label", it.toHexString())
                 Toast.makeText(context, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
             }
-        })
+        }
         adapter?.setLayoutManager(layoutManager)
         adapter?.let { rv?.adapter = it }
         setupAdapter()

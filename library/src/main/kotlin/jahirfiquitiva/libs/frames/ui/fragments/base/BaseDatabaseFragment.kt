@@ -35,7 +35,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.buildSnackbar
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
-import jahirfiquitiva.libs.frames.ui.widgets.SimpleAnimationListener
+import jahirfiquitiva.libs.kauextensions.extensions.SimpleAnimationListener
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import org.jetbrains.anko.runOnUiThread
 
@@ -114,16 +114,16 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     private val ANIMATION_DURATION:Long = 150
     private fun animateHeartClick(heart:ImageView, item:Wallpaper,
                                   check:Boolean) = context.runOnUiThread {
-        val scale = ScaleAnimation(1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5f,
-                                   Animation.RELATIVE_TO_SELF, 0.5f)
+        val scale = ScaleAnimation(1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5F,
+                                   Animation.RELATIVE_TO_SELF, 0.5F)
         scale.duration = ANIMATION_DURATION
         scale.interpolator = LinearInterpolator()
         scale.setAnimationListener(object:SimpleAnimationListener() {
             override fun onEnd(animation:Animation) {
                 super.onEnd(animation)
                 heart.setImageDrawable(context.createHeartIcon(check))
-                val nScale = ScaleAnimation(0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5f,
-                                            Animation.RELATIVE_TO_SELF, 0.5f)
+                val nScale = ScaleAnimation(0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5F,
+                                            Animation.RELATIVE_TO_SELF, 0.5F)
                 nScale.duration = ANIMATION_DURATION
                 nScale.interpolator = LinearInterpolator()
                 nScale.setAnimationListener(object:SimpleAnimationListener() {

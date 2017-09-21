@@ -15,9 +15,8 @@
  */
 package jahirfiquitiva.libs.frames.ui.fragments.base
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
 import android.support.v4.view.ViewCompat
@@ -26,7 +25,6 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import ca.allanwang.kau.utils.dimenPixelSize
-import ca.allanwang.kau.utils.toBitmap
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
 import com.bumptech.glide.util.ViewPreloadSizeProvider
@@ -34,10 +32,10 @@ import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.bestBitmapConfig
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.isLowRamDevice
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPictureRes
+import jahirfiquitiva.libs.frames.providers.viewmodels.toByteArray
 import jahirfiquitiva.libs.frames.ui.activities.ViewerActivity
 import jahirfiquitiva.libs.frames.ui.adapters.WallpapersAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
@@ -180,45 +178,49 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
                         it.collections.formatCorrectly().replace("_", " ").contains(filter, true))
     }
     
+    private var canClick = true
+    
     private fun onWallpaperClicked(wallpaper:Wallpaper, holder:WallpaperHolder) {
-        val intent = Intent(activity, ViewerActivity::class.java)
-        val imgTransition = ViewCompat.getTransitionName(holder.img)
-        val nameTransition = ViewCompat.getTransitionName(holder.name)
-        val authorTransition = ViewCompat.getTransitionName(holder.author)
-        val heartTransition = ViewCompat.getTransitionName(holder.heartIcon)
-        
-        with(intent) {
-            putExtra("wallpaper", wallpaper)
-            putExtra("inFavorites", favoritesModel?.isInFavorites(wallpaper) ?: false)
-            putExtra("showFavoritesButton", showFavoritesIcon())
-            putExtra("imgTransition", imgTransition)
-            putExtra("nameTransition", nameTransition)
-            putExtra("authorTransition", authorTransition)
-            putExtra("favTransition", heartTransition)
-        }
-        
+        if (!canClick) return
         try {
-            val filename = "thumb.png"
-            val stream = activity.openFileOutput(filename, Context.MODE_PRIVATE)
-            holder.img.drawable.toBitmap(config = context.bestBitmapConfig)
-                    .compress(Bitmap.CompressFormat.JPEG, context.maxPictureRes, stream)
-            stream.flush()
-            stream.close()
-            intent.putExtra("image", filename)
+            val intent = Intent(activity, ViewerActivity::class.java)
+            val imgTransition = ViewCompat.getTransitionName(holder.img)
+            val nameTransition = ViewCompat.getTransitionName(holder.name)
+            val authorTransition = ViewCompat.getTransitionName(holder.author)
+            val heartTransition = ViewCompat.getTransitionName(holder.heartIcon)
+            
+            with(intent) {
+                putExtra("wallpaper", wallpaper)
+                putExtra("inFavorites", favoritesModel?.isInFavorites(wallpaper) ?: false)
+                putExtra("showFavoritesButton", showFavoritesIcon())
+                putExtra("imgTransition", imgTransition)
+                putExtra("nameTransition", nameTransition)
+                putExtra("authorTransition", authorTransition)
+                putExtra("favTransition", heartTransition)
+            }
+            
+            try {
+                intent.putExtra("image",
+                                (holder.img.drawable as BitmapDrawable).bitmap.toByteArray(
+                                        quality = context.maxPictureRes))
+            } catch (ignored:Exception) {
+            }
+            
+            val imgPair = Pair<View, String>(holder.img, imgTransition)
+            val namePair = Pair<View, String>(holder.name, nameTransition)
+            val authorPair = Pair<View, String>(holder.author, authorTransition)
+            val heartPair = Pair<View, String>(holder.heartIcon, heartTransition)
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imgPair,
+                                                                             namePair, authorPair,
+                                                                             heartPair)
+            
+            try {
+                startActivityForResult(intent, 10, options.toBundle())
+            } catch (ignored:Exception) {
+                startActivityForResult(intent, 10)
+            }
         } catch (ignored:Exception) {
-        }
-        
-        val imgPair = Pair<View, String>(holder.img, imgTransition)
-        val namePair = Pair<View, String>(holder.name, nameTransition)
-        val authorPair = Pair<View, String>(holder.author, authorTransition)
-        val heartPair = Pair<View, String>(holder.heartIcon, heartTransition)
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imgPair,
-                                                                         namePair, authorPair,
-                                                                         heartPair)
-        try {
-            startActivityForResult(intent, 10, options.toBundle())
-        } catch (ignored:Exception) {
-            startActivityForResult(intent, 10)
+            canClick = true
         }
     }
     

@@ -72,21 +72,19 @@
         <item name="isDark">true</item>
     </style>
 
-    <color name="clear_bg">#70000000</color>
-
-    <style name="AppTheme.Base.Clear" parent="AppTheme.Base.Dark">
-        <item name="android:windowShowWallpaper">true</item>
-        <item name="android:windowBackground">@color/clear_bg</item>
-        <item name="cardBackgroundColor">#30000000</item>
-        <item name="md_background_color">#30000000</item>
-    </style>
-
     <style name="AppTheme.Base.Amoled" parent="AppTheme.Base.Dark">
         <item name="colorPrimary">@android:color/black</item>
         <item name="colorPrimaryDark">@android:color/black</item>
         <item name="android:windowBackground">@android:color/black</item>
         <item name="cardBackgroundColor">#101010</item>
         <item name="md_background_color">#101010</item>
+    </style>
+
+    <color name="clear_bg">#70000000</color>
+
+    <style name="AppTheme.Base.Clear" parent="AppTheme.Base.Amoled">
+        <item name="android:windowShowWallpaper">true</item>
+        <item name="android:windowBackground">@color/clear_bg</item>
     </style>
 
     <style name="LightTheme.SplashScreen">
@@ -113,9 +111,11 @@
         <item name="colorAccent">@android:color/black</item>
     </style>
 
+    <color name="transparent">#00000000</color>
+
     <style name="EmptyActivity" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

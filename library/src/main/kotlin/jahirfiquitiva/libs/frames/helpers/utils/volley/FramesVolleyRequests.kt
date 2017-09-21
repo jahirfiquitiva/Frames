@@ -30,8 +30,8 @@ class FramesFileRequest(private val context:Context?, private val url:String,
                                          Response.Listener { onSuccess(it) },
                                          Response.ErrorListener { onError(it) })
         request.tag = tag
-        request.retryPolicy = DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
-                                                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES * 2,
+        request.retryPolicy = DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                                                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES * 3,
                                                  DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         return request
     }

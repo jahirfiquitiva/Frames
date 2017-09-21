@@ -49,28 +49,32 @@ fun ImageView.loadWallpaper(requester:RequestManager?, url:String, thumbUrl:Stri
             .priority(Priority.IMMEDIATE)
     if (!transform) options.dontTransform()
     
-    val thumbnailRequest = if (!thumbUrl.equals(url, true)) {
-        manager.load(thumbUrl)
-                .transition(withCrossFade())
-                .apply(options)
-                .listener(object:GlideRequestListener<Drawable>() {
-                    override fun onLoadSucceed(resource:Drawable):Boolean =
-                            listener?.onLoadSucceed(resource) ?: false
-                })
-    } else null
+    val thumbnailRequest =
+            if ((!thumbUrl.equals(url, true)) && (context.framesKonfigs.fullResGridPictures)) {
+                manager.load(thumbUrl)
+                        .transition(withCrossFade())
+                        .apply(options)
+                        .listener(object:GlideRequestListener<Drawable>() {
+                            override fun onLoadSucceed(resource:Drawable):Boolean =
+                                    listener?.onLoadSucceed(resource) ?: false
+                        })
+            } else null
     
-    loadDrawable(requester, url, !transform, !hasFaded, false,
+    loadDrawable(requester,
+                 if (context.framesKonfigs.fullResGridPictures) url else thumbUrl,
+                 !transform, !hasFaded, false,
+                 !context.framesKonfigs.fullResGridPictures,
                  if (listener != null || target != null) thumbnailRequest else null,
                  listener, target)
 }
 
 fun ImageView.loadAvatar(requester:RequestManager?, url:String, shouldAnimate:Boolean) {
-    loadDrawable(requester, url, false, shouldAnimate, true, null, null, null)
+    loadDrawable(requester, url, false, shouldAnimate, true, false, null, null, null)
 }
 
 private fun ImageView.loadDrawable(requester:RequestManager?,
                                    url:String, dontTransform:Boolean, shouldAnimate:Boolean,
-                                   isAvatar:Boolean,
+                                   isAvatar:Boolean, isThumbnail:Boolean,
                                    thumbnail:RequestBuilder<Drawable>?,
                                    listener:GlideRequestListener<Drawable>?,
                                    target:GlideTarget?) {
@@ -88,11 +92,16 @@ private fun ImageView.loadDrawable(requester:RequestManager?,
             .apply(options)
             .listener(listener)
     
-    if (thumbnail != null) {
-        builder.thumbnail(thumbnail)
+    if (!isThumbnail) {
+        if (thumbnail != null) {
+            builder.thumbnail(thumbnail)
+        } else {
+            builder.thumbnail(0.5F)
+        }
     } else {
         builder.thumbnail(0.5F)
     }
+    
     if (target != null) {
         builder.into(target)
     } else {

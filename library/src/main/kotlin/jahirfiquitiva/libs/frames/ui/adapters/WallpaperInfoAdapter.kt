@@ -15,7 +15,6 @@
  */
 package jahirfiquitiva.libs.frames.ui.adapters
 
-import android.content.Context
 import android.support.v7.graphics.Palette
 import android.view.ViewGroup
 import ca.allanwang.kau.utils.gone
@@ -27,9 +26,9 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SectionedHeaderViewHol
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperInfoHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperPaletteHolder
+import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 
-class WallpaperInfoAdapter(private val context:Context,
-                           private val colorListener:(Int) -> Unit):
+class WallpaperInfoAdapter(private val colorListener:(Int) -> Unit):
         SectionedRecyclerViewAdapter<SectionedViewHolder>() {
     
     private val details = ArrayList<WallpaperDetail>()
@@ -38,7 +37,7 @@ class WallpaperInfoAdapter(private val context:Context,
     fun setDetailsAndPalette(details:ArrayList<WallpaperDetail>, palette:Palette?) {
         if (details.size > 0) {
             this.details.clear()
-            this.details.addAll(details)
+            details.filter { it.value.hasContent() }.forEach { this.details.add(it) }
         }
         colors.clear()
         palette?.let {
