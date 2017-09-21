@@ -15,7 +15,9 @@
  */
 package jahirfiquitiva.libs.frames.ui.fragments.base
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
@@ -35,7 +37,6 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.isLowRamDevice
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPictureRes
-import jahirfiquitiva.libs.frames.providers.viewmodels.toByteArray
 import jahirfiquitiva.libs.frames.ui.activities.ViewerActivity
 import jahirfiquitiva.libs.frames.ui.adapters.WallpapersAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
@@ -46,6 +47,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
+import java.io.BufferedOutputStream
 
 abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHolder>() {
     
@@ -82,7 +84,9 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
             val provider = ViewPreloadSizeProvider<Wallpaper>()
             wallsAdapter = WallpapersAdapter(Glide.with(context), provider,
                                              { wall, holder -> onItemClicked(wall, holder) },
-                                             { heart, wall -> onHeartClicked(heart, wall) },
+                                             { heart, wall, color ->
+                                                 onHeartClicked(heart, wall, color)
+                                             },
                                              fromFavorites(), showFavoritesIcon())
             val preloader:RecyclerViewPreloader<Wallpaper> =
                     RecyclerViewPreloader(activity, wallsAdapter, provider, 4)
@@ -173,9 +177,14 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     }
     
     private fun filteredWallpaper(it:Wallpaper, filter:String):Boolean {
-        return it.name.contains(filter, true) || it.author.contains(filter, true) ||
-                (!fromCollectionActivity() &&
-                        it.collections.formatCorrectly().replace("_", " ").contains(filter, true))
+        return if (context.framesKonfigs.deepSearchEnabled) {
+            it.name.contains(filter, true) || it.author.contains(filter, true) ||
+                    (!fromCollectionActivity() &&
+                            it.collections.formatCorrectly().replace("_", " ").contains(filter,
+                                                                                        true))
+        } else {
+            it.name.contains(filter, true)
+        }
     }
     
     private var canClick = true
@@ -199,20 +208,26 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
                 putExtra("favTransition", heartTransition)
             }
             
+            var bos:BufferedOutputStream? = null
             try {
-                intent.putExtra("image",
-                                (holder.img.drawable as BitmapDrawable).bitmap.toByteArray(
-                                        quality = context.maxPictureRes))
+                val filename = "thumb.png"
+                bos = BufferedOutputStream(activity.openFileOutput(filename, Context.MODE_PRIVATE))
+                (holder.img.drawable as BitmapDrawable).bitmap
+                        .compress(Bitmap.CompressFormat.JPEG, context.maxPictureRes, bos)
+                intent.putExtra("image", filename)
             } catch (ignored:Exception) {
+            } finally {
+                bos?.flush()
+                bos?.close()
             }
             
             val imgPair = Pair<View, String>(holder.img, imgTransition)
             val namePair = Pair<View, String>(holder.name, nameTransition)
             val authorPair = Pair<View, String>(holder.author, authorTransition)
             val heartPair = Pair<View, String>(holder.heartIcon, heartTransition)
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imgPair,
-                                                                             namePair, authorPair,
-                                                                             heartPair)
+            val options =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imgPair, namePair,
+                                                                       authorPair, heartPair)
             
             try {
                 startActivityForResult(intent, 10, options.toBundle())

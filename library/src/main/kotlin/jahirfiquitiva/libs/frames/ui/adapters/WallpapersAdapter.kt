@@ -31,7 +31,7 @@ import java.util.*
 class WallpapersAdapter(private val manager:RequestManager,
                         private val provider:ViewPreloadSizeProvider<Wallpaper>,
                         private val singleTap:(Wallpaper, WallpaperHolder) -> Unit,
-                        private val heartListener:(ImageView, Wallpaper) -> Unit,
+                        private val heartListener:(ImageView, Wallpaper, Int) -> Unit,
                         private val fromFavorites:Boolean,
                         private val showFavIcon:Boolean):
         BaseListAdapter<Wallpaper, WallpaperHolder>(),

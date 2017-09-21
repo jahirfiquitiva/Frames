@@ -58,8 +58,6 @@ import ca.allanwang.kau.utils.toBitmap
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.PermissionRequestListener
@@ -74,6 +72,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.requestPermissions
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
+import jahirfiquitiva.libs.frames.helpers.extensions.urlOptions
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestListener
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpaperInfo
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpaperInfoViewModel
@@ -91,6 +90,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.enableTranslucentStatusBar
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.generatePalette
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
+import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.getColorFromRes
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.getUri
@@ -98,7 +98,9 @@ import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
 import jahirfiquitiva.libs.ziv.ZoomableImageView
 import org.jetbrains.anko.contentView
+import org.jetbrains.anko.doAsync
 import java.io.File
+import java.io.FileInputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -141,6 +143,7 @@ open class ViewerActivity:ThemedActivity() {
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
+        
         enableTranslucentStatusBar()
         navigationBarColor = Color.parseColor("#66000000")
         
@@ -191,17 +194,13 @@ open class ViewerActivity:ThemedActivity() {
         
         findViewById<View>(R.id.bottom_bar_container).setNavBarMargins()
         
+        setupProgressBarColors()
+        ViewCompat.setTransitionName(img, intent?.getStringExtra("imgTransition") ?: "")
+        supportStartPostponedEnterTransition()
+        
         val info:View by bind(R.id.info_container)
         info.setOnClickListener {
-            dismissInfoDialog()
-            infoDialog = InfoBottomSheet.build(details, palette)
-            (infoDialog as? InfoBottomSheet)?.show(this)
-        }
-        info.setOnLongClickListener {
-            dismissInfoDialog()
-            infoDialog = InfoDialog.build(details, palette)
-            (infoDialog as? InfoDialog)?.show(this)
-            true
+            showInfoDialog()
         }
         
         val downloadable = wallpaper?.downloadable ?: false
@@ -232,9 +231,6 @@ open class ViewerActivity:ThemedActivity() {
         
         img.setOnSingleTapListener { toggleSystemUI(); true }
         
-        ViewCompat.setTransitionName(img, intent?.getStringExtra("imgTransition") ?: "")
-        supportStartPostponedEnterTransition()
-        
         setupWallpaper(wallpaper)
         loadWallpaperDetails()
         loadExpensiveWallpaperDetails()
@@ -247,6 +243,18 @@ open class ViewerActivity:ThemedActivity() {
         setupProgressBarColors()
         loadWallpaperDetails()
         loadExpensiveWallpaperDetails()
+    }
+    
+    private fun showInfoDialog() {
+        dismissInfoDialog()
+        val showBottomSheet = getBoolean(R.bool.show_bottom_sheet)
+        infoDialog = if (showBottomSheet) InfoBottomSheet.build(details, palette)
+        else InfoDialog.build(details, palette)
+        
+        loadExpensiveWallpaperDetails()
+        
+        if (showBottomSheet) (infoDialog as? InfoBottomSheet)?.show(this)
+        else (infoDialog as? InfoDialog)?.show(this)
     }
     
     private fun dismissInfoDialog() {
@@ -329,12 +337,17 @@ open class ViewerActivity:ThemedActivity() {
         if (isBeingDestroyed) return
         
         var bmp:Bitmap? = null
-        val bytes = intent?.getByteArrayExtra("image")
-        val hasBytes = bytes?.isNotEmpty() ?: false
-        if (hasBytes) {
+        val filename = intent?.getStringExtra("image") ?: ""
+        if (filename.hasContent()) {
+            var stream:FileInputStream? = null
             try {
-                bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes?.size ?: 0)
+                stream = openFileInput(filename)
+                bmp = BitmapFactory.decodeStream(stream)
             } catch (ignored:Exception) {
+            } finally {
+                img.setImageBitmap(bmp)
+                supportStartPostponedEnterTransition()
+                stream?.close()
             }
         }
         
@@ -351,15 +364,17 @@ open class ViewerActivity:ThemedActivity() {
                 override fun onLoadSucceed(resource:Bitmap):Boolean {
                     img.setImageBitmap(resource)
                     postPalette(resource)
-                     loadExpensiveWallpaperDetails()
+                    loadExpensiveWallpaperDetails()
                     return true
                 }
                 
                 override fun onLoadFailed():Boolean = super.onLoadFailed()
             }
             
-            val options = RequestOptions().placeholder(d).error(d).dontTransform().dontAnimate()
-                    .fitCenter().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+            val options = urlOptions
+                    .placeholder(d).error(d)
+                    .dontTransform().dontAnimate()
+                    .fitCenter()
             
             if (it.thumbUrl.equals(it.url, true)) {
                 Glide.with(this)
@@ -443,7 +458,7 @@ open class ViewerActivity:ThemedActivity() {
                     return
                 }
                 setupDetailsViewModel()
-                detailsVM?.loadData(this@ViewerActivity, this)
+                doAsync { detailsVM?.loadData(this@ViewerActivity, this@with) }
             }
         }
     }

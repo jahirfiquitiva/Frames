@@ -20,21 +20,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
 import com.bumptech.glide.annotation.GlideModule
-import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.module.AppGlideModule
-import com.bumptech.glide.request.RequestOptions
-import jahirfiquitiva.libs.frames.helpers.extensions.isLowRamDevice
+import jahirfiquitiva.libs.frames.helpers.extensions.basicOptions
 
 @GlideModule
 open class FramesGlideConfiguration:AppGlideModule() {
     override fun applyOptions(context:Context?, builder:GlideBuilder?) {
         context?.let {
-            val options = RequestOptions()
-                    .format(if (it.isLowRamDevice) DecodeFormat.PREFER_RGB_565
-                            else DecodeFormat.PREFER_ARGB_8888)
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .disallowHardwareConfig()
+            val options = it.basicOptions
             builder?.setDefaultRequestOptions(options)
         }
     }

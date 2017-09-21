@@ -49,7 +49,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.getStringArray
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isFirstRunEver
 import jahirfiquitiva.libs.kauextensions.extensions.justUpdated
-import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 
 @Suppress("LeakingThis")
 abstract class BaseFramesActivity:ThemedActivity(), BillingProcessor.IBillingHandler {

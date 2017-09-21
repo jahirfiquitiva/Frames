@@ -13,7 +13,6 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
     <string name="empty_section">Nothing found</string>
     <string name="loading_section">Loading content…</string>
@@ -110,6 +109,12 @@
 
     <string name="animations_setting_title">Enable animations</string>
     <string name="animations_setting_content">This may cause lag in some devices.</string>
+
+    <string name="load_hi_res_pictures_title">Full resolution previews</string>
+    <string name="load_hi_res_pictures_content">Load full resolution pictures in grid</string>
+
+    <string name="deep_search_title">Enable deep search</string>
+    <string name="deep_search_content">Search by name and collection</string>
 
     <string name="storage_settings_title">Storage</string>
 

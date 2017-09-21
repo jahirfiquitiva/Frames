@@ -22,12 +22,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
-import com.bumptech.glide.request.RequestOptions
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestListener
-import jahirfiquitiva.libs.frames.helpers.utils.GlideTarget
 import jahirfiquitiva.libs.frames.ui.graphics.ObservableColorMatrix
 
 fun ImageView.releaseFromGlide() {
@@ -41,72 +38,53 @@ fun ImageView.setSaturation(saturation:Float) {
 }
 
 fun ImageView.loadWallpaper(requester:RequestManager?, url:String, thumbUrl:String,
-                            transform:Boolean, hasFaded:Boolean,
-                            listener:GlideRequestListener<Drawable>?, target:GlideTarget?) {
-    
+                            hasFaded:Boolean, listener:GlideRequestListener<Drawable>?) {
     val manager = requester ?: Glide.with(context)
-    val options = RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-            .priority(Priority.IMMEDIATE)
-    if (!transform) options.dontTransform()
+    val loadFullRes = context.framesKonfigs.fullResGridPictures
     
-    val thumbnailRequest =
-            if ((!thumbUrl.equals(url, true)) && (context.framesKonfigs.fullResGridPictures)) {
-                manager.load(thumbUrl)
-                        .transition(withCrossFade())
-                        .apply(options)
-                        .listener(object:GlideRequestListener<Drawable>() {
-                            override fun onLoadSucceed(resource:Drawable):Boolean =
-                                    listener?.onLoadSucceed(resource) ?: false
-                        })
-            } else null
+    val thumbnailRequest = manager.load(thumbUrl)
+            .apply(context.thumbnailOptions)
+            .transition(withCrossFade())
+            .listener(object:GlideRequestListener<Drawable>() {
+                override fun onLoadSucceed(resource:Drawable):Boolean =
+                        listener?.onLoadSucceed(resource) ?: false
+            })
     
-    loadDrawable(requester,
-                 if (context.framesKonfigs.fullResGridPictures) url else thumbUrl,
-                 !transform, !hasFaded, false,
-                 !context.framesKonfigs.fullResGridPictures,
-                 if (listener != null || target != null) thumbnailRequest else null,
-                 listener, target)
+    if (loadFullRes) {
+        loadDrawable(manager, url, !hasFaded, false, thumbnailRequest, listener)
+    } else {
+        thumbnailRequest.into(this)
+    }
 }
 
 fun ImageView.loadAvatar(requester:RequestManager?, url:String, shouldAnimate:Boolean) {
-    loadDrawable(requester, url, false, shouldAnimate, true, false, null, null, null)
+    loadDrawable(requester, url, shouldAnimate, true, null, null)
 }
 
 private fun ImageView.loadDrawable(requester:RequestManager?,
-                                   url:String, dontTransform:Boolean, shouldAnimate:Boolean,
-                                   isAvatar:Boolean, isThumbnail:Boolean,
+                                   url:String, shouldAnimate:Boolean, isAvatar:Boolean,
                                    thumbnail:RequestBuilder<Drawable>?,
-                                   listener:GlideRequestListener<Drawable>?,
-                                   target:GlideTarget?) {
+                                   listener:GlideRequestListener<Drawable>?) {
+    
     val manager = requester ?: Glide.with(context)
-    val options = RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-            .priority(Priority.HIGH)
+    val options = context.wallpaperOptions
+    
     if (isAvatar) options.transform(CircleCrop())
-    if (dontTransform) options.dontTransform()
-    if (!shouldAnimate) {
-        options.dontAnimate()
-    }
+    
+    if (!shouldAnimate) options.dontAnimate()
     
     val builder = manager.load(url)
-            .transition(withCrossFade())
             .apply(options)
+            .transition(withCrossFade())
             .listener(listener)
     
-    if (!isThumbnail) {
-        if (thumbnail != null) {
-            builder.thumbnail(thumbnail)
-        } else {
-            builder.thumbnail(0.5F)
-        }
+    if (thumbnail != null) {
+        builder.thumbnail(thumbnail)
     } else {
         builder.thumbnail(0.5F)
     }
     
-    if (target != null) {
-        builder.into(target)
-    } else {
-        builder.into(this)
-    }
+    builder.into(this)
 }
 
 fun ImageView.loadResource(requester:RequestManager?, resId:Int, dontTransform:Boolean,
@@ -114,13 +92,16 @@ fun ImageView.loadResource(requester:RequestManager?, resId:Int, dontTransform:B
                            listener:GlideRequestListener<Drawable>?) {
     val manager = requester ?: Glide.with(context)
     
-    val options = RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE)
+    val options = context.resourceOptions
+    
     if (dontTransform) {
         options.dontTransform()
     }
+    
     if (!shouldAnimate) {
         options.dontAnimate()
     }
+    
     if (immediately) {
         options.priority(Priority.IMMEDIATE)
     } else {

@@ -30,6 +30,10 @@ import android.os.Environment
 import android.support.annotation.ColorInt
 import ca.allanwang.kau.utils.dimenPixelSize
 import com.afollestad.materialdialogs.MaterialDialog
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.PREFERENCES_NAME
@@ -160,6 +164,26 @@ fun Context.deleteFile(f:File) {
         f.delete()
     }
 }
+
+val Context.basicOptions:RequestOptions
+    get() {
+        return RequestOptions()
+                .format(if (isLowRamDevice) DecodeFormat.PREFER_RGB_565
+                        else DecodeFormat.PREFER_ARGB_8888)
+                .disallowHardwareConfig()
+    }
+
+val Context.urlOptions:RequestOptions
+    get() = basicOptions.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+
+val Context.resourceOptions:RequestOptions
+    get() = basicOptions.diskCacheStrategy(DiskCacheStrategy.NONE)
+
+val Context.thumbnailOptions:RequestOptions
+    get() = urlOptions.priority(Priority.IMMEDIATE)
+
+val Context.wallpaperOptions:RequestOptions
+    get() = urlOptions.priority(Priority.HIGH)
 
 fun <T> createAnimator(
         evaluator:TypeEvaluator<*>,
