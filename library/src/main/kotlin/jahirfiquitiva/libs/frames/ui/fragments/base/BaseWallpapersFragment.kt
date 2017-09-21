@@ -18,7 +18,6 @@ package jahirfiquitiva.libs.frames.ui.fragments.base
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
 import android.support.v4.view.ViewCompat
@@ -27,6 +26,7 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import ca.allanwang.kau.utils.dimenPixelSize
+import ca.allanwang.kau.utils.toBitmap
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
 import com.bumptech.glide.util.ViewPreloadSizeProvider
@@ -215,17 +215,20 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
                 putExtra("favTransition", heartTransition)
             }
             
-            var bos:BufferedOutputStream? = null
-            try {
-                val filename = "thumb.png"
-                bos = BufferedOutputStream(activity.openFileOutput(filename, Context.MODE_PRIVATE))
-                (holder.img.drawable as BitmapDrawable).bitmap
-                        .compress(Bitmap.CompressFormat.JPEG, context.maxPictureRes, bos)
-                intent.putExtra("image", filename)
-            } catch (ignored:Exception) {
-            } finally {
-                bos?.flush()
-                bos?.close()
+            if (context.framesKonfigs.animationsEnabled) {
+                var bos:BufferedOutputStream? = null
+                try {
+                    val filename = "thumb.png"
+                    bos = BufferedOutputStream(
+                            activity.openFileOutput(filename, Context.MODE_PRIVATE))
+                    holder.img.drawable.toBitmap()
+                            .compress(Bitmap.CompressFormat.JPEG, context.maxPictureRes, bos)
+                    intent.putExtra("image", filename)
+                } catch (ignored:Exception) {
+                } finally {
+                    bos?.flush()
+                    bos?.close()
+                }
             }
             
             val imgPair = Pair<View, String>(holder.img, imgTransition)

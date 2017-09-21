@@ -48,6 +48,7 @@ import ca.allanwang.kau.utils.navigationBarColor
 import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.setMarginTop
 import ca.allanwang.kau.utils.tint
+import ca.allanwang.kau.utils.toBitmap
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import jahirfiquitiva.libs.frames.R
@@ -81,7 +82,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
 import jahirfiquitiva.libs.ziv.ZoomableImageView
 import org.jetbrains.anko.contentView
-import org.jetbrains.anko.doAsync
 import java.io.FileInputStream
 import java.util.*
 
@@ -200,6 +200,7 @@ open class ViewerActivity:WallpaperActionsActivity() {
             findViewById<RelativeLayout>(R.id.fav_container).gone()
         }
         
+        img.maxZoom = 2F
         img.setOnSingleTapListener { toggleSystemUI(); true }
         
         setupWallpaper(wallpaper)
@@ -406,6 +407,7 @@ open class ViewerActivity:WallpaperActionsActivity() {
     }
     
     private fun addToDetails(detail:WallpaperDetail) {
+        print("Attempting to load $detail")
         val pos = details.indexOf(detail)
         if (pos != -1) {
             details.removeAt(pos)
@@ -418,11 +420,9 @@ open class ViewerActivity:WallpaperActionsActivity() {
             with(it) {
                 addToDetails(WallpaperDetail("ic_all_wallpapers", name))
                 if (author.hasContent()) addToDetails(WallpaperDetail("ic_person", author))
-                if (size != 0L) addToDetails(WallpaperDetail("ic_size", size.toReadableByteCount()))
-                if (dimensions.hasContent())
-                    addToDetails(WallpaperDetail("ic_dimensions", dimensions))
                 if (copyright.hasContent()) addToDetails(WallpaperDetail("ic_copyright", copyright))
                 updateInfo()
+                loadExpensiveWallpaperDetails()
             }
         }
     }
@@ -430,13 +430,18 @@ open class ViewerActivity:WallpaperActionsActivity() {
     private fun loadExpensiveWallpaperDetails() {
         wallpaper?.let {
             with(it) {
-                if (size != 0L || dimensions.hasContent()) return
+                if (size != 0L && dimensions.hasContent()) {
+                    addToDetails(WallpaperDetail("ic_size", size.toReadableByteCount()))
+                    addToDetails(WallpaperDetail("ic_dimensions", dimensions))
+                    updateInfo()
+                    return
+                }
                 if (isValidInfo(info)) {
                     postWallpaperInfo(info)
                     return
                 }
                 setupDetailsViewModel()
-                doAsync { detailsVM?.loadData(this@ViewerActivity, this@with) }
+                detailsVM?.loadData(this@ViewerActivity, this@with)
             }
         }
     }
@@ -467,8 +472,7 @@ open class ViewerActivity:WallpaperActionsActivity() {
         wallpaper?.let {
             properlyCancelDialog()
             wallActions = WallpaperActionsFragment()
-            wallActions?.show(this, it, (img.drawable as BitmapDrawable).bitmap,
-                              toHomeScreen, toLockScreen, toBoth)
+            wallActions?.show(this, it, img.drawable.toBitmap(), toHomeScreen, toLockScreen, toBoth)
         }
     }
     

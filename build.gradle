@@ -62,7 +62,7 @@ allprojects {
         kauExt = '678d092'
         sectionedRecyclerView = '0.5.0'
         recyclerViewFastScroll = '6a72f8c'
-		chips = 'a472057'
+        chips = 'a472057'
         numberPicker = '1.2.1'
         iaps = '1.0.44'
         muzeiApi = '2.0'
