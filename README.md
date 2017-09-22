@@ -129,11 +129,15 @@ Just join our community and make a post. We'll help you as soon as possible. [![
 
 - [Sherry Sabatine](https://plus.google.com/+SherrySabatine). Thanks to her, Frames is completely free and open-source.
 - [Allan Wang](https://www.allanwang.ca/)
-- [Maximilian Keppeler](https://plus.google.com/+MaxKeppeler)
 - [James Fenn](https://theandroidmaster.github.io/)
+- [Maximilian Keppeler](https://plus.google.com/+MaxKeppeler)
+- [Alexandre Piveteau](https://github.com/alexandrepiveteau)
+- [Lukas Koller](https://github.com/kollerlukas)
 - [Patryk Goworowski](https://plus.google.com/+PatrykGoworowski)
 - [Lumiq Creative](https://plus.google.com/+LumiqCreative)
+- [Kevin Aguilar](http://kevaguilar.com/)
 - [Eduardo Pratti](https://plus.google.com/+EduardoPratti/posts)
+- [Anthony Nguyen](https://plus.google.com/+AHNguyen)
 
 ---
 
@@ -141,7 +145,7 @@ Just join our community and make a post. We'll help you as soon as possible. [![
 
 This app is shared under the CreativeCommons Attribution-ShareAlike license.
 
-	Copyright 2017 Jahir Fiquitiva
+	Copyright © 2017 Jahir Fiquitiva
 
 	Licensed under the CreativeCommons Attribution-ShareAlike 
 	4.0 International License. You may not use this file except in compliance 
@@ -157,8 +161,8 @@ This app is shared under the CreativeCommons Attribution-ShareAlike license.
 
 ## Library source
 
-As you may know, the [library source](https://github.com/jahirfiquitiva/Frames) is open-source. This means that you can fork it and do your own modifications, but it has some conditions:
+As you may know, the [library source](https://github.com/jahirfiquitiva/Frames/tree/master) is open-source. This means that you can fork it and do your own modifications, but it has some conditions:
 
-When using the [library source](https://github.com/jahirfiquitiva/Frames), anything from it: errors, crashes, issues, etc. including successful builds, must be done completely by yourself and under your own risk and responsibility. I **will not** provide any help/support when using the [library source](https://github.com/jahirfiquitiva/Frames).
+When using the [library source](https://github.com/jahirfiquitiva/Frames/tree/master), anything from it: errors, crashes, issues, etc. including successful builds, must be done completely by yourself and under your own risk and responsibility. I **will not** provide any help/support when using the [library source](https://github.com/jahirfiquitiva/Frames/tree/master).
 
 Finally, be sure your projects comply with the [license previously mentioned](https://github.com/jahirfiquitiva/Frames#license). Otherwise I will be taking the required legal actions. I hope you understand.
