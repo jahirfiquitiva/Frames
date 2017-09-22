@@ -21,7 +21,7 @@ class IAPViewModel:ListViewModel<Array<String>, IAPItem>() {
     
     var iapBillingProcessor:BillingProcessor? = null
     
-    override fun loadItems(param:Array<String>):ArrayList<IAPItem> {
+    override fun loadItems(param:Array<String>):MutableList<IAPItem> {
         val iaps = ArrayList<IAPItem>()
         try {
             param.forEach {

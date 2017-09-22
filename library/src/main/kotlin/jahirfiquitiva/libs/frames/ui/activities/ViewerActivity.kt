@@ -15,27 +15,23 @@
  */
 package jahirfiquitiva.libs.frames.ui.activities
 
-import android.Manifest
-import android.annotation.SuppressLint
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.support.annotation.StringRes
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.Snackbar
-import android.support.v4.content.ContextCompat
+import android.support.v4.app.DialogFragment
 import android.support.v4.view.ViewCompat
-import android.support.v7.widget.Toolbar
+import android.support.v7.graphics.Palette
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -53,51 +49,46 @@ import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.setMarginTop
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.toBitmap
-import ca.allanwang.kau.utils.visible
-import ca.allanwang.kau.utils.visibleIf
-import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.configs.bestBitmapConfig
-import jahirfiquitiva.libs.frames.helpers.extensions.PermissionRequestListener
-import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.buildSnackbar
-import jahirfiquitiva.libs.frames.helpers.extensions.checkPermission
-import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.navigationBarHeight
-import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.requestPermissions
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
+import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
+import jahirfiquitiva.libs.frames.helpers.extensions.urlOptions
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestListener
+import jahirfiquitiva.libs.frames.helpers.utils.WallpaperInfo
+import jahirfiquitiva.libs.frames.providers.viewmodels.WallpaperInfoViewModel
+import jahirfiquitiva.libs.frames.ui.activities.base.WallpaperActionsActivity
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
+import jahirfiquitiva.libs.frames.ui.fragments.dialogs.InfoBottomSheet
+import jahirfiquitiva.libs.frames.ui.fragments.dialogs.InfoDialog
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsFragment
-import jahirfiquitiva.libs.frames.ui.widgets.SimpleAnimationListener
-import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
+import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
+import jahirfiquitiva.libs.kauextensions.extensions.SimpleAnimationListener
+import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
-import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
 import jahirfiquitiva.libs.kauextensions.extensions.bind
-import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
 import jahirfiquitiva.libs.kauextensions.extensions.enableTranslucentStatusBar
-import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
-import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getAppName
+import jahirfiquitiva.libs.kauextensions.extensions.generatePalette
+import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.getColorFromRes
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
-import jahirfiquitiva.libs.kauextensions.extensions.getUri
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
 import jahirfiquitiva.libs.ziv.ZoomableImageView
 import org.jetbrains.anko.contentView
-import java.io.File
-import java.text.SimpleDateFormat
+import java.io.FileInputStream
 import java.util.*
 
-open class ViewerActivity:ThemedActivity() {
+open class ViewerActivity:WallpaperActionsActivity() {
+    
+    override var wallpaper:Wallpaper? = null
+    override val allowBitmapApply:Boolean = true
     
     override fun lightTheme():Int = R.style.ViewerLightTheme
     override fun darkTheme():Int = R.style.ViewerDarkTheme
@@ -105,32 +96,36 @@ open class ViewerActivity:ThemedActivity() {
     override fun transparentTheme():Int = R.style.ViewerTransparentTheme
     override fun autoStatusBarTint():Boolean = false
     
-    private var wallpaper:Wallpaper? = null
-    private var actionDialog:MaterialDialog? = null
-    private var wallActions:WallpaperActionsFragment? = null
+    private val FAVORITE_ACTION_ID = 3
     
     private val appbar:AppBarLayout by bind(R.id.appbar)
-    private val toolbar:Toolbar by bind(R.id.toolbar)
+    private val toolbar:CustomToolbar by bind(R.id.toolbar)
     private val bottomBar:View by bind(R.id.bottom_bar)
     private val img:ZoomableImageView by bind(R.id.wallpaper)
+    private val loading:ProgressBar by bind(R.id.loading)
     
     private var isInFavorites = false
     private var hasModifiedFavs = false
     private var showFavoritesButton = false
-    private var closing = false
     
-    private val VISIBLE_PROGRESS_BAR_KEY = "visible_progress_bar"
-    private var visibleProgressBar = true
+    private val CLOSING_KEY = "closing"
+    private var closing = false
+    private val TRANSITIONED_KEY = "transitioned"
+    private var transitioned = false
+    
     private val VISIBLE_SYSTEM_UI_KEY = "visible_system_ui"
     private var visibleSystemUI = true
     private var visibleBottomBar = true
     
-    private val DOWNLOAD_ACTION_ID = 1
-    private val APPLY_ACTION_ID = 2
-    private val FAVORITE_ACTION_ID = 3
+    private var infoDialog:DialogFragment? = null
+    private val details = ArrayList<WallpaperDetail>()
+    private var detailsVM:WallpaperInfoViewModel? = null
+    private var palette:Palette? = null
+    private var info:WallpaperInfo? = null
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
+        
         enableTranslucentStatusBar()
         navigationBarColor = Color.parseColor("#66000000")
         
@@ -153,19 +148,13 @@ open class ViewerActivity:ThemedActivity() {
         }
         
         wallpaper = intent?.getParcelableExtra("wallpaper")
+        
         isInFavorites = intent?.getBooleanExtra("inFavorites", false) == true
         showFavoritesButton = intent?.getBooleanExtra("showFavoritesButton", false) == true
         
         toolbar.setMarginTop(getStatusBarHeight(true))
         
-        setSupportActionBar(toolbar)
-        supportActionBar?.let {
-            with(it) {
-                setHomeButtonEnabled(true)
-                setDisplayHomeAsUpEnabled(true)
-                setDisplayShowHomeEnabled(true)
-            }
-        }
+        toolbar.bindToActivity(this)
         
         toolbar.tint(getColorFromRes(android.R.color.white), false)
         
@@ -179,16 +168,22 @@ open class ViewerActivity:ThemedActivity() {
         
         findViewById<View>(R.id.bottom_bar_container).setNavBarMargins()
         
+        setupProgressBarColors()
+        
+        findViewById<RelativeLayout>(R.id.info_container).setOnClickListener {
+            showInfoDialog()
+        }
+        
         val downloadable = wallpaper?.downloadable ?: false
-        if (downloadable) {
-            findViewById<ImageView>(R.id.download_button).setOnClickListener {
+        if (downloadable && isNetworkAvailable) {
+            findViewById<RelativeLayout>(R.id.download_container).setOnClickListener {
                 doItemClick(DOWNLOAD_ACTION_ID)
             }
         } else {
-            findViewById<ImageView>(R.id.download_container).gone()
+            findViewById<RelativeLayout>(R.id.download_container).gone()
         }
         
-        findViewById<ImageView>(R.id.apply_button).setOnClickListener {
+        findViewById<RelativeLayout>(R.id.apply_container).setOnClickListener {
             doItemClick(APPLY_ACTION_ID)
         }
         
@@ -198,24 +193,62 @@ open class ViewerActivity:ThemedActivity() {
             ViewCompat.setTransitionName(favImageView,
                                          intent?.getStringExtra("favTransition") ?: "")
             favImageView.setImageDrawable(favIcon)
-            favImageView.setOnClickListener { doItemClick(FAVORITE_ACTION_ID) }
+            findViewById<RelativeLayout>(R.id.fav_container).setOnClickListener {
+                doItemClick(FAVORITE_ACTION_ID)
+            }
         } else {
             findViewById<RelativeLayout>(R.id.fav_container).gone()
         }
         
+        img.maxZoom = 2F
         img.setOnSingleTapListener { toggleSystemUI(); true }
         
         ViewCompat.setTransitionName(img, intent?.getStringExtra("imgTransition") ?: "")
-        supportStartPostponedEnterTransition()
+        startEnterTransition()
         
         setupWallpaper(wallpaper)
+        loadWallpaperDetails()
+    }
+    
+    private fun startEnterTransition() {
+        if (!transitioned) {
+            supportStartPostponedEnterTransition()
+            transitioned = true
+        }
     }
     
     override fun onResume() {
         super.onResume()
+        dismissInfoDialog()
         findViewById<View>(R.id.bottom_bar_container).setNavBarMargins()
-        val dummy:Bitmap? = null
-        setupProgressBarColors(dummy)
+        setupProgressBarColors()
+        loadWallpaperDetails()
+    }
+    
+    override fun doItemClick(actionId:Int) {
+        when (actionId) {
+            FAVORITE_ACTION_ID -> toggleFavorite()
+            else -> super.doItemClick(actionId)
+        }
+    }
+    
+    private fun showInfoDialog() {
+        dismissInfoDialog()
+        val showBottomSheet = getBoolean(R.bool.show_bottom_sheet)
+        infoDialog = if (showBottomSheet) InfoBottomSheet.build(details, palette)
+        else InfoDialog.build(details, palette)
+        
+        loadExpensiveWallpaperDetails()
+        
+        if (showBottomSheet) (infoDialog as? InfoBottomSheet)?.show(this)
+        else (infoDialog as? InfoDialog)?.show(this)
+    }
+    
+    private fun dismissInfoDialog() {
+        infoDialog?.let {
+            if (it is InfoBottomSheet) it.animateHide()
+            else it.dismiss()
+        }
     }
     
     override fun onMultiWindowModeChanged(isInMultiWindowMode:Boolean, newConfig:Configuration?) {
@@ -225,23 +258,16 @@ open class ViewerActivity:ThemedActivity() {
     
     override fun onSaveInstanceState(outState:Bundle?) {
         super.onSaveInstanceState(outState)
-        outState?.putBoolean(VISIBLE_PROGRESS_BAR_KEY, visibleProgressBar)
+        outState?.putBoolean(CLOSING_KEY, closing)
+        outState?.putBoolean(TRANSITIONED_KEY, transitioned)
         outState?.putBoolean(VISIBLE_SYSTEM_UI_KEY, visibleSystemUI)
     }
     
     override fun onRestoreInstanceState(savedInstanceState:Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
-        try {
-            val visibleProgress = savedInstanceState?.getBoolean(VISIBLE_PROGRESS_BAR_KEY,
-                                                                 true) ?: true
-            findViewById<ProgressBar>(R.id.loading).visibleIf(visibleProgress)
-        } catch (ignored:Exception) {
-        }
-        try {
-            val visibleUI = savedInstanceState?.getBoolean(VISIBLE_SYSTEM_UI_KEY, true) ?: true
-            setSystemUIVisibility(visibleUI)
-        } catch (ignored:Exception) {
-        }
+        setSystemUIVisibility(savedInstanceState?.getBoolean(VISIBLE_SYSTEM_UI_KEY, true) ?: true)
+        this.closing = savedInstanceState?.getBoolean(CLOSING_KEY, false) ?: false
+        this.transitioned = savedInstanceState?.getBoolean(TRANSITIONED_KEY, false) ?: false
     }
     
     override fun onOptionsItemSelected(item:MenuItem?):Boolean {
@@ -252,13 +278,18 @@ open class ViewerActivity:ThemedActivity() {
     }
     
     override fun onBackPressed() {
-        super.onBackPressed()
-        doFinish()
+        val infoVisible = infoDialog?.isVisible ?: false
+        if (infoVisible) dismissInfoDialog()
+        else {
+            super.onBackPressed()
+            doFinish()
+        }
     }
     
     override fun onDestroy() {
         super.onDestroy()
         properlyCancelDialog()
+        transitioned = false
     }
     
     private fun doFinish() {
@@ -269,11 +300,14 @@ open class ViewerActivity:ThemedActivity() {
                 img.setZoom(1F)
             } catch (ignored:Exception) {
             }
+            detailsVM?.stopTask(true)
+            detailsVM?.items?.removeObservers(this)
+            detailsVM = null
             postDelayed(100, {
                 val intent = Intent()
                 intent.putExtra("modified", hasModifiedFavs)
+                intent.putExtra("item", wallpaper)
                 if (hasModifiedFavs) {
-                    intent.putExtra("item", wallpaper)
                     intent.putExtra("inFavorites", isInFavorites)
                 }
                 setResult(10, intent)
@@ -287,68 +321,61 @@ open class ViewerActivity:ThemedActivity() {
         var bmp:Bitmap? = null
         val filename = intent?.getStringExtra("image") ?: ""
         if (filename.hasContent()) {
+            var stream:FileInputStream? = null
             try {
-                val stream = openFileInput(filename)
+                stream = openFileInput(filename)
                 bmp = BitmapFactory.decodeStream(stream)
-                stream.close()
             } catch (ignored:Exception) {
+            } finally {
+                stream?.close()
             }
         }
         
-        setupProgressBarColors(bmp)
+        postPalette(bmp)
         
-        val d:Drawable
-        d = if (bmp != null) {
-            findViewById<ProgressBar>(R.id.loading).visible()
+        val d = if (bmp != null) {
             BitmapDrawable(resources, bmp)
         } else {
-            ColorDrawable(ContextCompat.getColor(this, android.R.color.transparent))
+            ColorDrawable(Color.TRANSPARENT)
         }
         
         wallpaper?.let {
-            val listener = object:GlideRequestListener<Drawable>() {
-                override fun onLoadSucceed(resource:Drawable):Boolean {
-                    findViewById<ProgressBar>(R.id.loading).gone()
-                    visibleProgressBar = false
-                    return false
+            val listener = object:GlideRequestListener<Bitmap>() {
+                override fun onLoadSucceed(resource:Bitmap):Boolean {
+                    img.setImageBitmap(resource)
+                    startEnterTransition()
+                    postPalette(resource)
+                    return true
                 }
                 
                 override fun onLoadFailed():Boolean {
-                    findViewById<ProgressBar>(R.id.loading).gone()
-                    visibleProgressBar = false
+                    startEnterTransition()
                     return super.onLoadFailed()
                 }
             }
             
-            val options = RequestOptions().placeholder(d).error(d).dontTransform().dontAnimate()
-                    .fitCenter().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+            val options = urlOptions
+                    .placeholder(d).error(d)
+                    .dontTransform().dontAnimate()
+                    .fitCenter()
             
             if (it.thumbUrl.equals(it.url, true)) {
-                Glide.with(this).load(it.url)
+                Glide.with(this)
+                        .asBitmap()
+                        .load(it.url)
                         .apply(options.priority(Priority.HIGH))
                         .thumbnail(0.5F)
                         .listener(listener)
                         .into(img)
             } else {
-                val thumbnailRequest = Glide.with(this).load(it.thumbUrl)
+                val thumbnailRequest = Glide.with(this).asBitmap()
+                        .load(it.thumbUrl)
                         .apply(options.priority(Priority.IMMEDIATE))
                         .thumbnail(0.5F)
-                        .listener(object:GlideRequestListener<Drawable>() {
-                            override fun onLoadSucceed(resource:Drawable):Boolean {
-                                setupProgressBarColors(resource)
-                                findViewById<ProgressBar>(R.id.loading).visible()
-                                visibleProgressBar = true
-                                return false
-                            }
-                            
-                            override fun onLoadFailed():Boolean {
-                                findViewById<ProgressBar>(R.id.loading).gone()
-                                visibleProgressBar = false
-                                return super.onLoadFailed()
-                            }
-                        })
+                        .listener(listener)
                 
-                Glide.with(this).load(it.url)
+                Glide.with(this).asBitmap()
+                        .load(it.url)
                         .apply(options.priority(Priority.HIGH))
                         .thumbnail(thumbnailRequest)
                         .listener(listener)
@@ -357,181 +384,116 @@ open class ViewerActivity:ThemedActivity() {
         }
     }
     
-    private fun setupProgressBarColors(drw:Drawable?) {
-        setupProgressBarColors(drw?.toBitmap())
+    private fun setupProgressBarColors() {
+        loading.indeterminateDrawable.applyColorFilter(activeIconsColor)
     }
     
-    private fun setupProgressBarColors(bmp:Bitmap?) {
-        val color = getActiveIconsColorFor(bmp?.bestSwatch?.rgb ?: cardBackgroundColor)
-        findViewById<ProgressBar>(R.id.loading).indeterminateDrawable.applyColorFilter(color)
+    private fun postPalette(bmp:Bitmap?) {
+        palette = bmp?.generatePalette()
+        updateInfo()
     }
     
-    override fun onRequestPermissionsResult(requestCode:Int, permissions:Array<out String>,
-                                            grantResults:IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 41 || requestCode == 42) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                checkIfFileExists(requestCode == 41)
-            } else {
-                showSnackbar(R.string.permission_denied)
+    private fun updateInfo() {
+        infoDialog?.let {
+            when (it) {
+                is InfoBottomSheet -> it.setDetailsAndPalette(details, palette)
+                is InfoDialog -> it.setDetailsAndPalette(details, palette)
             }
         }
     }
     
-    private fun doItemClick(actionId:Int) {
-        when (actionId) {
-            DOWNLOAD_ACTION_ID -> downloadWallpaper(false)
-            APPLY_ACTION_ID -> downloadWallpaper(true)
-            FAVORITE_ACTION_ID -> toggleFavorite()
+    private fun addToDetails(detail:WallpaperDetail) {
+        if (!detail.value.hasContent()) return
+        val pos = details.indexOf(detail)
+        if (pos != -1) {
+            details.removeAt(pos)
+            details.add(pos, detail)
+        } else details.add(detail)
+    }
+    
+    private fun loadWallpaperDetails() {
+        wallpaper?.let {
+            with(it) {
+                addToDetails(WallpaperDetail("ic_all_wallpapers", name))
+                if (author.hasContent()) addToDetails(WallpaperDetail("ic_person", author))
+                if (copyright.hasContent()) addToDetails(WallpaperDetail("ic_copyright", copyright))
+                updateInfo()
+                loadExpensiveWallpaperDetails()
+            }
         }
     }
     
-    @SuppressLint("NewApi")
-    private fun downloadWallpaper(toApply:Boolean) {
-        if (isNetworkAvailable) {
-            checkPermission(
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    object:PermissionRequestListener {
-                        override fun onPermissionRequest(permission:String) =
-                                requestPermissions(if (toApply) 41 else 42, permission)
-                        
-                        override fun showPermissionInformation(permission:String) =
-                                showPermissionInformation(toApply)
-                        
-                        override fun onPermissionCompletelyDenied() =
-                                showSnackbar(R.string.permission_denied_completely)
-                        
-                        override fun onPermissionGranted() = checkIfFileExists(toApply)
-                    })
-        } else {
-            if (toApply) showWallpaperApplyOptions(null)
-            else showNotConnectedDialog()
+    private fun loadExpensiveWallpaperDetails() {
+        wallpaper?.let {
+            with(it) {
+                if (size != 0L) {
+                    val sizeText = size.toReadableByteCount()
+                    if (sizeText != "-0") addToDetails(WallpaperDetail("ic_size", sizeText))
+                    updateInfo()
+                }
+                if (dimensions.hasContent()) {
+                    addToDetails(WallpaperDetail("ic_dimensions", dimensions))
+                    updateInfo()
+                }
+                val isValidInfo = info?.isValid ?: false
+                if (isValidInfo) {
+                    postWallpaperInfo(info)
+                    return
+                }
+                setupDetailsViewModel()
+                detailsVM?.loadData(this)
+            }
         }
     }
     
-    private fun showPermissionInformation(toApply:Boolean) {
-        showSnackbar(getString(R.string.permission_request, getAppName()), {
-            setAction(R.string.allow, {
-                dismiss()
-                downloadWallpaper(toApply)
-            })
+    private fun setupDetailsViewModel() {
+        if (detailsVM == null) {
+            detailsVM = ViewModelProviders.of(
+                    this@ViewerActivity).get(WallpaperInfoViewModel::class.java)
+        }
+        detailsVM?.items?.observe(this, Observer<WallpaperInfo> { data ->
+            data?.let {
+                postWallpaperInfo(it)
+            }
         })
     }
     
-    private fun checkIfFileExists(toApply:Boolean) {
-        wallpaper?.let {
-            properlyCancelDialog()
-            val folder = File(framesKonfigs.downloadsFolder)
-            folder.mkdirs()
-            val extension = it.url.substring(it.url.lastIndexOf("."))
-            val fileName = it.name.formatCorrectly()
-            var correctExtension = getWallpaperExtension(extension)
-            if (toApply) correctExtension = ".temp" + correctExtension
-            val dest = File(folder, fileName + correctExtension)
-            if (dest.exists()) {
-                actionDialog = buildMaterialDialog {
-                    content(R.string.file_exists)
-                    negativeText(R.string.file_replace)
-                    positiveText(R.string.file_create_new)
-                    onPositive { _, _ ->
-                        val time = getCurrentTimeStamp().formatCorrectly().replace(" ", "_")
-                        val newDest = File(folder, fileName + "_" + time + correctExtension)
-                        if (toApply) showWallpaperApplyOptions(newDest)
-                        else startDownload(newDest)
-                    }
-                    onNegative { _, _ ->
-                        if (toApply) showWallpaperApplyOptions(dest)
-                        else startDownload(dest)
-                    }
-                }
-                actionDialog?.show()
+    private fun postWallpaperInfo(it:WallpaperInfo?) {
+        val isValid = it?.isValid ?: false
+        
+        if (isValid && (info != it)) {
+            val prevSize = wallpaper?.size ?: 0L
+            val size = it?.size ?: 0L
+            val bytes = size.toReadableByteCount()
+            
+            if (prevSize <= 0L && bytes != "-0") {
+                addToDetails(WallpaperDetail("ic_size", bytes))
+                wallpaper?.size = size
             } else {
-                if (toApply) showWallpaperApplyOptions(dest)
-                else startDownload(dest)
+                addToDetails(WallpaperDetail("ic_size", prevSize.toReadableByteCount()))
             }
-        }
-    }
-    
-    private fun startDownload(dest:File) {
-        wallpaper?.let {
-            properlyCancelDialog()
-            wallActions = WallpaperActionsFragment()
-            wallActions?.show(this, it, dest)
-        }
-    }
-    
-    fun showWallpaperDownloadedSnackbar(dest:File) {
-        sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(dest)))
-        runOnUiThread {
-            properlyCancelDialog()
-            showSnackbar(getString(R.string.download_successful, dest.toString()), {
-                setAction(R.string.open, {
-                    dest.getUri(this@ViewerActivity)?.let {
-                        openWallpaper(it)
-                    }
-                })
-            })
-        }
-    }
-    
-    @SuppressLint("SimpleDateFormat")
-    private fun getCurrentTimeStamp():String {
-        val sdfDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        return sdfDate.format(Date())
-    }
-    
-    private fun getWallpaperExtension(currenExt:String):String {
-        val validExtensions = arrayOf(".jpg", ".jpeg", ".png")
-        validExtensions.forEach {
-            if (currenExt.contains(it, true)) return it
-        }
-        return ".png"
-    }
-    
-    private fun showWallpaperApplyOptions(dest:File?) {
-        properlyCancelDialog()
-        actionDialog = buildMaterialDialog {
-            title(R.string.apply_to)
-            items(getString(R.string.home_screen), getString(R.string.lock_screen),
-                  getString(R.string.home_lock_screen))
-            itemsCallback { _, _, position, _ ->
-                if (dest != null) {
-                    applyWallpaper(dest, position == 0, position == 1, position == 2)
-                } else {
-                    applyBitmapWallpaper(position == 0, position == 1, position == 2)
-                }
+            
+            val prevDimension = wallpaper?.dimensions ?: ""
+            val dimension = it?.dimension?.toString() ?: ""
+            
+            if ((!prevDimension.hasContent()) && dimension.hasContent()) {
+                addToDetails(WallpaperDetail("ic_dimensions", dimension))
+                wallpaper?.dimensions = dimension
+            } else {
+                addToDetails(WallpaperDetail("ic_dimensions", prevDimension))
             }
+            
+            this.info = it
+            updateInfo()
         }
-        actionDialog?.show()
     }
     
-    private fun applyBitmapWallpaper(toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean) {
+    override fun applyBitmapWallpaper(toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean) {
         wallpaper?.let {
             properlyCancelDialog()
             wallActions = WallpaperActionsFragment()
-            wallActions?.show(this, it, img.drawable.toBitmap(config = bestBitmapConfig),
-                              toHomeScreen, toLockScreen, toBoth)
+            wallActions?.show(this, it, img.drawable.toBitmap(), toHomeScreen, toLockScreen, toBoth)
         }
-    }
-    
-    private fun applyWallpaper(dest:File, toHomeScreen:Boolean, toLockScreen:Boolean,
-                               toBoth:Boolean) {
-        wallpaper?.let {
-            properlyCancelDialog()
-            wallActions = WallpaperActionsFragment()
-            wallActions?.show(this, it, dest, toHomeScreen, toLockScreen, toBoth)
-        }
-    }
-    
-    fun showWallpaperAppliedSnackbar(toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean) {
-        properlyCancelDialog()
-        showSnackbar(getString(R.string.apply_successful,
-                               getString(when {
-                                             toBoth -> R.string.home_lock_screen
-                                             toHomeScreen -> R.string.home_screen
-                                             toLockScreen -> R.string.lock_screen
-                                             else -> R.string.empty
-                                         }).toLowerCase()))
     }
     
     private val ANIMATION_DURATION:Long = 150
@@ -570,10 +532,7 @@ open class ViewerActivity:ThemedActivity() {
         favImageView.startAnimation(scale)
     }
     
-    private fun showSnackbar(@StringRes text:Int, settings:Snackbar.() -> Unit = {}) =
-            showSnackbar(resources.getString(text), settings)
-    
-    private fun showSnackbar(text:String, settings:Snackbar.() -> Unit = {}) {
+    override fun showSnackbar(text:String, settings:Snackbar.() -> Unit) {
         contentView?.let {
             val snack = it.buildSnackbar(text, builder = settings)
             val bottomBarWasVisible = visibleBottomBar
@@ -609,7 +568,9 @@ open class ViewerActivity:ThemedActivity() {
                                   snack.view.paddingRight + extraRight,
                                   snack.view.paddingBottom + bottomNavBar)
             
-            snack.view.findViewById<TextView>(R.id.snackbar_text).setTextColor(Color.WHITE)
+            val snackText = snack.view.findViewById<TextView>(R.id.snackbar_text)
+            snackText.setTextColor(Color.WHITE)
+            snackText.maxLines = 3
             
             if (visibleBottomBar) changeBottomBarVisibility(false)
             snack.show()
@@ -621,10 +582,9 @@ open class ViewerActivity:ThemedActivity() {
     }
     
     private fun setSystemUIVisibility(visible:Boolean) {
-        visibleSystemUI = visible
         Handler().post({
                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                               window.decorView.systemUiVisibility = if (visibleSystemUI)
+                               window.decorView.systemUiVisibility = if (visible)
                                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
                                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -637,7 +597,8 @@ open class ViewerActivity:ThemedActivity() {
                                            View.SYSTEM_UI_FLAG_IMMERSIVE or
                                            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                            }
-                           changeBarsVisibility(visibleSystemUI)
+                           changeBarsVisibility(visible)
+                           visibleSystemUI = visible
                        })
     }
     
@@ -659,23 +620,5 @@ open class ViewerActivity:ThemedActivity() {
         (bottomBar.parent as View).animate().translationY(transY)
                 .setInterpolator(AccelerateDecelerateInterpolator())
                 .start()
-    }
-    
-    private fun showNotConnectedDialog() {
-        properlyCancelDialog()
-        actionDialog = buildMaterialDialog {
-            title(R.string.muzei_not_connected_title)
-            content(R.string.not_connected_content)
-            positiveText(android.R.string.ok)
-        }
-        actionDialog?.show()
-    }
-    
-    private fun properlyCancelDialog() {
-        wallActions?.stopActions()
-        wallActions?.dismiss(this)
-        wallActions = null
-        actionDialog?.dismiss()
-        actionDialog = null
     }
 }

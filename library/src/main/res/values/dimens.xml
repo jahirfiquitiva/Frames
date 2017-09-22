@@ -19,13 +19,15 @@
     <dimen name="splash_logo_bottom">16dp</dimen>
     <dimen name="splash_brand_bottom">48dp</dimen>
     <!-- Cards -->
+    <dimen name="cards_big_margin">12dp</dimen>
     <dimen name="cards_margin">8dp</dimen>
+    <dimen name="cards_small_margin">4dp</dimen>
     <!-- FABs -->
     <dimen name="fabs_margin">16dp</dimen>
     <!-- Status Bar -->
     <dimen name="status_bar_height">0dp</dimen>
     <!-- Wallpapers spacing -->
-    <dimen name="wallpapers_grid_spacing">4dp</dimen>
+    <dimen name="wallpapers_grid_spacing">@dimen/cards_small_margin</dimen>
     <!-- Credits photo size -->
     <dimen name="photo_size">72dp</dimen>
 </resources>

@@ -22,6 +22,9 @@ import android.os.Looper
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsFragment
 import java.lang.ref.WeakReference
 
+/**
+ * Thanks to James Fenn
+ */
 class DownloadThread(frag:WallpaperActionsFragment,
                      val listener:DownloadListener? = null):Thread() {
     
@@ -38,7 +41,7 @@ class DownloadThread(frag:WallpaperActionsFragment,
         while (running) {
             val frag = weakRef?.get()
             if (frag == null) {
-                listener?.onFailure()
+                listener?.onFailure(NullPointerException("Fragment was null"))
                 running = false
             }
             frag?.let {
@@ -51,7 +54,9 @@ class DownloadThread(frag:WallpaperActionsFragment,
                     try {
                         when (it.getInt(it.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
                             DownloadManager.STATUS_FAILED -> {
-                                Handler(Looper.getMainLooper()).post { listener?.onFailure() }
+                                Handler(Looper.getMainLooper()).post {
+                                    listener?.onFailure(Exception("Download manager failed"))
+                                }
                                 return
                             }
                             DownloadManager.STATUS_SUCCESSFUL -> {
@@ -71,7 +76,9 @@ class DownloadThread(frag:WallpaperActionsFragment,
                         Handler(Looper.getMainLooper()).post {
                             val fileExists = frag.destFile?.exists() ?: false
                             if (fileExists) listener?.onSuccess()
-                            else listener?.onFailure()
+                            else
+                                listener?.onFailure(
+                                        Exception("File was not downloaded successfully"))
                         }
                         return
                     }
@@ -93,6 +100,6 @@ class DownloadThread(frag:WallpaperActionsFragment,
     interface DownloadListener {
         fun onSuccess()
         fun onProgress(progress:Int)
-        fun onFailure()
+        fun onFailure(exception:Exception)
     }
 }

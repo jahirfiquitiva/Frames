@@ -69,6 +69,12 @@
     -->
     <bool name="show_texts_in_tabs">true</bool>
 
+    <!--    Show wallpaper details bottom sheet or dialog
+    -       True to show a bottom sheet
+    -       False to show a dialog
+    -->
+    <bool name="show_bottom_sheet">true</bool>
+
     <!--    These are your donation items. Only put their ids here -->
     <string-array name="donation_items">
     </string-array>

@@ -48,6 +48,14 @@ open class FramesKonfigs(nm:String, cntxt:Context):Konfigurations(nm, cntxt) {
                                                   Environment.getExternalStorageDirectory().absolutePath))
         set(value) = prefsEditor.putString(DOWNLOADS_FOLDER, value).apply()
     
+    var fullResGridPictures:Boolean
+        get() = prefs.getBoolean(FULL_RES_GRID_PICTURES, false)
+        set(value) = prefsEditor.putBoolean(FULL_RES_GRID_PICTURES, value).apply()
+    
+    var deepSearchEnabled:Boolean
+        get() = prefs.getBoolean(DEEP_SEARCH_ENABLED, true)
+        set(value) = prefsEditor.putBoolean(DEEP_SEARCH_ENABLED, value).apply()
+    
     var functionalDashboard:Boolean
         get() = prefs.getBoolean(FUNCTIONAL_DASHBOARD, false)
         set(value) = prefsEditor.putBoolean(FUNCTIONAL_DASHBOARD, value).apply()

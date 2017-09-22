@@ -154,6 +154,25 @@ open class SettingsFragment:PreferenceFragment() {
             true
         }
         
+        val hiResPref = findPreference("hi_res_pics") as SwitchPreference
+        hiResPref.setOnPreferenceChangeListener { _, any ->
+            val enable = any.toString().equals("true", true)
+            if (enable != context.framesKonfigs.fullResGridPictures) {
+                context.framesKonfigs.fullResGridPictures = enable
+                if (activity is SettingsActivity) {
+                    (activity as SettingsActivity).hasClearedFavs = true
+                }
+            }
+            true
+        }
+        
+        val deepSearchPref = findPreference("deep_search") as SwitchPreference
+        deepSearchPref.setOnPreferenceChangeListener { _, any ->
+            val enable = any.toString().equals("true", true)
+            if (enable != context.framesKonfigs.deepSearchEnabled)
+                context.framesKonfigs.deepSearchEnabled = enable
+            true
+        }
         
         val storagePrefs = findPreference("storage_settings") as PreferenceCategory
         

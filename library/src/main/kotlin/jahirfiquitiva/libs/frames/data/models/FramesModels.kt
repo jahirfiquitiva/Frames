@@ -17,6 +17,7 @@ package jahirfiquitiva.libs.frames.data.models
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
@@ -38,6 +39,14 @@ data class Wallpaper(
         var url:String = "",
         @ColumnInfo(name = "THUMB_URL")
         var thumbUrl:String = url,
+        @ColumnInfo(name = "SIZE")
+        var size:Long = 0,
+        @ColumnInfo(name = "DIMENSIONS")
+        var dimensions:String = "",
+        @ColumnInfo(name = "COPYRIGHT")
+        var copyright:String = "",
+        @Ignore
+        var hasFaded:Boolean = false,
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "ID")
         var id:Long = 0):Parcelable {
@@ -49,6 +58,10 @@ data class Wallpaper(
             parcel.readBoolean(),
             parcel.readString(),
             parcel.readString(),
+            parcel.readLong(),
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readBoolean(),
             parcel.readLong())
     
     override fun equals(other:Any?):Boolean {
@@ -56,6 +69,9 @@ data class Wallpaper(
         return name.equals(other.name, true) ||
                 url.equals(other.url, true) || thumbUrl.equals(other.thumbUrl, true)
     }
+    
+    fun hasChangedFrom(other:Wallpaper?) =
+            other != null && (size != other.size || (!(dimensions.equals(other.dimensions, true))))
     
     override fun hashCode():Int {
         var result = name.hashCode()
@@ -72,6 +88,10 @@ data class Wallpaper(
         parcel.writeBoolean(downloadable)
         parcel.writeString(url)
         parcel.writeString(thumbUrl)
+        parcel.writeLong(size)
+        parcel.writeString(dimensions)
+        parcel.writeString(copyright)
+        parcel.writeBoolean(hasFaded)
         parcel.writeLong(id)
     }
     

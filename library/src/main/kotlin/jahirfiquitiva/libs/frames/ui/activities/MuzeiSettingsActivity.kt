@@ -24,7 +24,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v7.widget.AppCompatCheckBox
 import android.support.v7.widget.AppCompatSeekBar
-import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
@@ -40,6 +39,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.providers.viewmodels.CollectionsViewModel
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
+import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
@@ -87,11 +87,8 @@ class MuzeiSettingsActivity:ThemedActivity() {
         
         selectedCollections = framesKonfigs.muzeiCollections
         
-        val toolbar by bind<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        val toolbar by bind<CustomToolbar>(R.id.toolbar)
+        toolbar.bindToActivity(this)
         supportActionBar?.title = getString(R.string.muzei_settings)
         
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
@@ -253,7 +250,7 @@ class MuzeiSettingsActivity:ThemedActivity() {
                         dialog?.show()
                     }
                 })
-                collsVM.loadData(it)
+                collsVM.loadData(ArrayList(it))
             }
         })
         wallsVM.loadData(this)

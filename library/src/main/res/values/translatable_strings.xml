@@ -13,12 +13,12 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
     <string name="empty_section">Nothing found</string>
     <string name="loading_section">Loading content…</string>
     <string name="no_favorites">Add some wallpapers to favorites first</string>
 
+    <string name="wallpapers">Wallpapers</string>
     <string name="collections">Collections</string>
     <string name="x_wallpapers">%1$s wallpapers</string>
     <string name="all">All</string>
@@ -28,6 +28,7 @@
     <string name="added_to_favorites">\'%1$s\' has been added to favorites.</string>
     <string name="removed_from_favorites">\'%1$s\' has been removed from favorites.</string>
 
+    <string name="actions_dialog_content">What would you like to do with this wallpaper?</string>
     <string name="apply">Apply</string>
     <string name="download">Download</string>
     <string name="info">Information</string>
@@ -59,6 +60,10 @@
     <string name="apply_successful">Wallpaper applied successfully to %1$s</string>
     <string name="apply_successful_short">Wallpaper applied successfully</string>
 
+    <string name="wallpaper_details">Details</string>
+    <string name="wallpaper_palette">Palette</string>
+    <string name="copied_to_clipboard">Copied color to clipboard</string>
+
     <string name="search">Search</string>
     <string name="search_x">Search %1$s…</string>
     <string name="search_no_results">No results found</string>
@@ -66,8 +71,9 @@
     <string name="about">About</string>
     <string name="refresh">Refresh</string>
 
+    <string name="translate">Translate</string>
     <string name="licenses">Licenses</string>
-	<!-- Consider Frames an untranslatable word. It's the dashboard name -->
+    <!-- Consider Frames an untranslatable word. It's the dashboard name -->
     <string name="frames_dashboard">Frames Dashboard</string>
     <string name="dev_contributions">Development Help</string>
     <string name="ui_contributions">UI Help</string>
@@ -104,6 +110,12 @@
 
     <string name="animations_setting_title">Enable animations</string>
     <string name="animations_setting_content">This may cause lag in some devices.</string>
+
+    <string name="load_hi_res_pictures_title">Full resolution previews</string>
+    <string name="load_hi_res_pictures_content">Load full resolution pictures in grid</string>
+
+    <string name="deep_search_title">Enable deep search</string>
+    <string name="deep_search_content">Search by name and collection</string>
 
     <string name="storage_settings_title">Storage</string>
 

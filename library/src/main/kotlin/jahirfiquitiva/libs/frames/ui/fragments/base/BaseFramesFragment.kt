@@ -39,10 +39,10 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
     override fun registerObserver() {
         super.registerObserver()
         wallpapersModel?.items?.observe(this, Observer { data ->
-            data?.let { doOnWallpapersChange(it, fromCollectionActivity()) }
+            data?.let { doOnWallpapersChange(ArrayList(it), fromCollectionActivity()) }
         })
         collectionsModel?.items?.observe(this, Observer { data ->
-            data?.let { doOnCollectionsChange(it) }
+            data?.let { doOnCollectionsChange(ArrayList(it)) }
         })
     }
     

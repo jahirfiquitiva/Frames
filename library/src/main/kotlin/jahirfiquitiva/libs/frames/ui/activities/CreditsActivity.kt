@@ -20,7 +20,6 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import com.bumptech.glide.Glide
@@ -29,8 +28,10 @@ import de.psdev.licensesdialog.LicenseResolver
 import de.psdev.licensesdialog.LicensesDialog
 import de.psdev.licensesdialog.licenses.License
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.helpers.utils.TRANSLATION_SITE
 import jahirfiquitiva.libs.frames.ui.adapters.CreditsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
+import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.bind
@@ -40,6 +41,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getStringArray
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
+import jahirfiquitiva.libs.kauextensions.extensions.openLink
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 
@@ -51,7 +53,7 @@ open class CreditsActivity:ThemedActivity() {
     override fun amoledTheme():Int = R.style.AmoledTheme
     override fun autoStatusBarTint():Boolean = true
     
-    private val toolbar:Toolbar by bind(R.id.toolbar)
+    private val toolbar:CustomToolbar by bind(R.id.toolbar)
     private val rv:EmptyViewRecyclerView by bind(R.id.list_rv)
     private val fastScroll:RecyclerFastScroller by bind(R.id.fast_scroller)
     
@@ -61,11 +63,8 @@ open class CreditsActivity:ThemedActivity() {
         
         registerCCLicense()
         
-        setSupportActionBar(toolbar)
+        toolbar.bindToActivity(this)
         supportActionBar?.title = getString(R.string.about)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
         
         val refreshLayout:SwipeRefreshLayout by bind(R.id.swipe_to_refresh)
         refreshLayout.isEnabled = false
@@ -95,7 +94,7 @@ open class CreditsActivity:ThemedActivity() {
     }
     
     override fun onCreateOptionsMenu(menu:Menu?):Boolean {
-        menuInflater.inflate(R.menu.about_menu, menu)
+        menuInflater.inflate(R.menu.about_settings_menu, menu)
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
                      getSecondaryTextColorFor(primaryColor, 0.6F),
                      getActiveIconsColorFor(primaryColor, 0.6F))
@@ -104,15 +103,23 @@ open class CreditsActivity:ThemedActivity() {
     
     override fun onOptionsItemSelected(item:MenuItem?):Boolean {
         item?.let {
-            if (it.itemId == android.R.id.home) finish()
-            else if (it.itemId == R.id.licenses) {
-                LicensesDialog.Builder(this)
+            when (it.itemId) {
+                android.R.id.home -> finish()
+                R.id.translate -> {
+                    try {
+                        openLink(TRANSLATION_SITE)
+                    } catch (ignored:Exception) {
+                    }
+                }
+                R.id.licenses -> LicensesDialog.Builder(this)
                         .setTitle(R.string.licenses)
                         .setNotices(R.raw.notices)
                         .setShowFullLicenseText(false)
                         .setIncludeOwnLicense(false)
                         .setDividerColor(dividerColor)
                         .build().show()
+                else -> {
+                }
             }
         }
         return super.onOptionsItemSelected(item)

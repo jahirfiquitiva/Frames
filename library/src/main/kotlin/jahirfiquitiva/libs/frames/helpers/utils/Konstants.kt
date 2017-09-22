@@ -23,6 +23,8 @@ const val COLUMNS_NUMBER = "columns_number"
 const val ANIMATIONS_ENABLED = "animations_enabled"
 const val STORAGE_PERMISSION_REQUESTED = "storage_permission_requested"
 const val DOWNLOADS_FOLDER = "downloads_folder"
+const val FULL_RES_GRID_PICTURES = "full_res_grid_pictures"
+const val DEEP_SEARCH_ENABLED = "deep_search_enabled"
 const val FUNCTIONAL_DASHBOARD = "functional_dashboard"
 const val NOTIFICATIONS_ENABLED = "notifications_enabled"
 const val NOTIFICATIONS_MILLIS = "notifications_millis"
@@ -43,3 +45,5 @@ const val ICONS_PICKER = 1
 const val IMAGE_PICKER = 2
 const val WALLS_PICKER = 3
 const val ICONS_APPLIER = 4
+
+const val TRANSLATION_SITE = "http://jahirfiquitiva.oneskyapp.com/collaboration/project?id=99033"

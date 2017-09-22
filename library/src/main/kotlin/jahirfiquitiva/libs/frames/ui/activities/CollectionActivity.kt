@@ -21,15 +21,21 @@ import android.os.Bundle
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
 import android.transition.Transition
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
+import ca.allanwang.kau.utils.postDelayed
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseActivityWithFragments
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersInCollectionFragment
+import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
+import jahirfiquitiva.libs.frames.ui.widgets.SearchView
+import jahirfiquitiva.libs.frames.ui.widgets.bindSearchView
 import jahirfiquitiva.libs.kauextensions.extensions.bind
+import jahirfiquitiva.libs.kauextensions.extensions.changeOptionVisibility
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
@@ -49,6 +55,9 @@ open class CollectionActivity:BaseActivityWithFragments() {
     private var collection:Collection? = null
     
     private lateinit var frag:WallpapersInCollectionFragment
+    
+    private val toolbar:CustomToolbar by bind(R.id.toolbar)
+    private var searchView:SearchView? = null
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,12 +87,7 @@ open class CollectionActivity:BaseActivityWithFragments() {
         
         setContentView(R.layout.activity_collection_settings)
         
-        val toolbar:Toolbar by bind(R.id.toolbar)
-        
-        setSupportActionBar(toolbar)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        toolbar.bindToActivity(this)
         
         val container:FrameLayout by bind(fragmentsContainer())
         with(container) {
@@ -123,6 +127,41 @@ open class CollectionActivity:BaseActivityWithFragments() {
         }
     }
     
+    override fun onCreateOptionsMenu(menu:Menu?):Boolean {
+        menuInflater.inflate(R.menu.frames_menu, menu)
+        
+        menu?.let {
+            it.changeOptionVisibility(R.id.donate, false)
+            it.changeOptionVisibility(R.id.about, false)
+            it.changeOptionVisibility(R.id.settings, false)
+            
+            searchView = bindSearchView(it, R.id.search)
+            searchView?.listener = object:SearchView.SearchListener {
+                override fun onQueryChanged(query:String) {
+                    doSearch(query)
+                }
+                
+                override fun onQuerySubmit(query:String) {
+                    doSearch(query)
+                }
+                
+                override fun onSearchOpened(searchView:SearchView) {
+                    // Do nothing
+                }
+                
+                override fun onSearchClosed(searchView:SearchView) {
+                    doSearch()
+                }
+            }
+            searchView?.hintText = getString(R.string.search_x, getString(R.string.wallpapers))
+        }
+        
+        toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
+                     getSecondaryTextColorFor(primaryColor, 0.6F),
+                     getActiveIconsColorFor(primaryColor, 0.6F))
+        return super.onCreateOptionsMenu(menu)
+    }
+    
     override fun onOptionsItemSelected(item:MenuItem?):Boolean {
         if (item?.itemId == android.R.id.home) {
             doFinish()
@@ -131,6 +170,16 @@ open class CollectionActivity:BaseActivityWithFragments() {
     }
     
     override fun onBackPressed() = doFinish()
+    
+    private val LOCK = Any()
+    private fun doSearch(filter:String = "") {
+        try {
+            synchronized(LOCK, {
+                postDelayed(200, { frag.applyFilter(filter) })
+            })
+        } catch (ignored:Exception) {
+        }
+    }
     
     private fun doFinish() {
         if (!closing) {

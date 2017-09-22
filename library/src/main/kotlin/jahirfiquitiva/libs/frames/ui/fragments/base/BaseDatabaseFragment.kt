@@ -35,7 +35,8 @@ import jahirfiquitiva.libs.frames.helpers.extensions.buildSnackbar
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
-import jahirfiquitiva.libs.frames.ui.widgets.SimpleAnimationListener
+import jahirfiquitiva.libs.kauextensions.extensions.SimpleAnimationListener
+import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import org.jetbrains.anko.runOnUiThread
 
@@ -76,7 +77,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     override fun registerObserver() {
         initFavoritesViewModel()
         favoritesModel?.items?.observe(this, Observer { data ->
-            data?.let { doOnFavoritesChange(it) }
+            data?.let { doOnFavoritesChange(ArrayList(it)) }
         })
     }
     
@@ -90,8 +91,8 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
         favoritesModel?.stopTask(true)
     }
     
-    internal fun onHeartClicked(heart:ImageView, item:Wallpaper) =
-            animateHeartClick(heart, item, !isInFavorites(item))
+    internal fun onHeartClicked(heart:ImageView, item:Wallpaper, color:Int) =
+            animateHeartClick(heart, item, color, !isInFavorites(item))
     
     open fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {}
     open fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {}
@@ -112,18 +113,18 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     abstract fun fromFavorites():Boolean
     
     private val ANIMATION_DURATION:Long = 150
-    private fun animateHeartClick(heart:ImageView, item:Wallpaper,
+    private fun animateHeartClick(heart:ImageView, item:Wallpaper, color:Int,
                                   check:Boolean) = context.runOnUiThread {
-        val scale = ScaleAnimation(1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5f,
-                                   Animation.RELATIVE_TO_SELF, 0.5f)
+        val scale = ScaleAnimation(1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5F,
+                                   Animation.RELATIVE_TO_SELF, 0.5F)
         scale.duration = ANIMATION_DURATION
         scale.interpolator = LinearInterpolator()
         scale.setAnimationListener(object:SimpleAnimationListener() {
             override fun onEnd(animation:Animation) {
                 super.onEnd(animation)
-                heart.setImageDrawable(context.createHeartIcon(check))
-                val nScale = ScaleAnimation(0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5f,
-                                            Animation.RELATIVE_TO_SELF, 0.5f)
+                heart.setImageDrawable(context.createHeartIcon(check).applyColorFilter(color))
+                val nScale = ScaleAnimation(0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5F,
+                                            Animation.RELATIVE_TO_SELF, 0.5F)
                 nScale.duration = ANIMATION_DURATION
                 nScale.interpolator = LinearInterpolator()
                 nScale.setAnimationListener(object:SimpleAnimationListener() {

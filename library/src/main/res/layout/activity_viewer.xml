@@ -21,12 +21,6 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent">
 
-    <jahirfiquitiva.libs.ziv.ZoomableImageView
-            android:id="@+id/wallpaper"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
-
     <ProgressBar
             android:id="@+id/loading"
             style="?android:progressBarStyleLarge"
@@ -36,6 +30,12 @@
             android:gravity="center"
             android:clickable="false"
             android:focusable="false"/>
+
+    <jahirfiquitiva.libs.ziv.ZoomableImageView
+            android:id="@+id/wallpaper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
 
     <include layout="@layout/viewer_bottom_bar"/>
 
@@ -48,7 +48,7 @@
             android:clipChildren="false"
             app:elevation="0dp">
 
-        <android.support.v7.widget.Toolbar
+        <jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
@@ -81,7 +81,7 @@
 
             </LinearLayout>
 
-        </android.support.v7.widget.Toolbar>
+        </jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar>
 
     </android.support.design.widget.AppBarLayout>
 

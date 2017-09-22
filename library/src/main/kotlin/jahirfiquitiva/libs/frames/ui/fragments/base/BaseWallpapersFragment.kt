@@ -28,24 +28,28 @@ import android.view.View
 import ca.allanwang.kau.utils.dimenPixelSize
 import ca.allanwang.kau.utils.toBitmap
 import com.bumptech.glide.Glide
+import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
+import com.bumptech.glide.util.ViewPreloadSizeProvider
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.configs.bestBitmapConfig
-import jahirfiquitiva.libs.frames.helpers.configs.isLowRamDevice
-import jahirfiquitiva.libs.frames.helpers.configs.maxPictureRes
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
+import jahirfiquitiva.libs.frames.helpers.extensions.isLowRamDevice
+import jahirfiquitiva.libs.frames.helpers.extensions.maxPictureRes
+import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
 import jahirfiquitiva.libs.frames.ui.activities.ViewerActivity
+import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.ui.adapters.WallpapersAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
+import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
-import jahirfiquitiva.libs.kauextensions.extensions.lazyAndroid
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
+import java.io.FileOutputStream
 
 abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHolder>() {
     
@@ -53,13 +57,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     lateinit var rv:EmptyViewRecyclerView
     lateinit var fastScroll:RecyclerFastScroller
     
-    val wallsAdapter:WallpapersAdapter by lazyAndroid {
-        WallpapersAdapter(Glide.with(context),
-                          { wall, holder -> onItemClicked(wall, holder) },
-                          { heart, wall -> onHeartClicked(heart, wall) },
-                          fromFavorites(), showFavoritesIcon())
-    }
-    
+    internal var wallsAdapter:WallpapersAdapter? = null
     private var spanCount = 0
     private var spacingDecoration:GridSpacingItemDecoration? = null
     
@@ -84,6 +82,23 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
             loadingView = content.findViewById(R.id.loading_view)
             setLoadingText(R.string.loading_section)
             configureRVColumns()
+            
+            val provider = ViewPreloadSizeProvider<Wallpaper>()
+            wallsAdapter = WallpapersAdapter(
+                    Glide.with(context), provider,
+                    { wall, holder -> onItemClicked(wall, holder) },
+                    { wall ->
+                        if (activity is BaseFramesActivity)
+                            (activity as BaseFramesActivity).showWallpaperOptionsDialog(wall)
+                    },
+                    { heart, wall, color ->
+                        onHeartClicked(heart, wall, color)
+                    },
+                    fromFavorites(), showFavoritesIcon())
+            
+            val preloader:RecyclerViewPreloader<Wallpaper> =
+                    RecyclerViewPreloader(activity, wallsAdapter, provider, context.maxPreload)
+            addOnScrollListener(preloader)
             adapter = wallsAdapter
         }
         
@@ -102,6 +117,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     override fun onResume() {
         super.onResume()
         configureRVColumns()
+        canClick = true
     }
     
     fun configureRVColumns() {
@@ -151,60 +167,84 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     }
     
     override fun applyFilter(filter:String) {
-        val list = (if (fromFavorites()) favoritesModel?.items?.value else wallpapersModel?.items?.value) ?: return
-        if (filter.hasContent()) {
-            rv.setEmptyImage(R.drawable.no_results)
-            rv.setEmptyText(R.string.search_no_results)
-            wallsAdapter.updateItems(
-                    ArrayList(list.filter { it.name.contains(filter, true) }), true)
-        } else {
-            rv.setEmptyImage(
-                    if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
-            rv.setEmptyText(if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
-            wallsAdapter.updateItems(list, true)
-            scrollToTop()
+        wallsAdapter?.let {
+            val list = (if (fromFavorites()) favoritesModel?.items?.value else wallpapersModel?.items?.value) ?: return
+            if (filter.hasContent()) {
+                rv.setEmptyImage(R.drawable.no_results)
+                rv.setEmptyText(R.string.search_no_results)
+                it.updateItems(
+                        ArrayList(list.filter { filteredWallpaper(it, filter) }), true)
+            } else {
+                rv.setEmptyImage(
+                        if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
+                rv.setEmptyText(
+                        if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
+                it.updateItems(ArrayList(list), true)
+                scrollToTop()
+            }
         }
     }
     
+    private fun filteredWallpaper(it:Wallpaper, filter:String):Boolean {
+        return if (context.framesKonfigs.deepSearchEnabled) {
+            it.name.contains(filter, true) || it.author.contains(filter, true) ||
+                    (!fromCollectionActivity() &&
+                            it.collections.formatCorrectly().replace("_", " ").contains(filter,
+                                                                                        true))
+        } else {
+            it.name.contains(filter, true)
+        }
+    }
+    
+    private var canClick = true
+    
     private fun onWallpaperClicked(wallpaper:Wallpaper, holder:WallpaperHolder) {
-        val intent = Intent(activity, ViewerActivity::class.java)
-        val imgTransition = ViewCompat.getTransitionName(holder.img)
-        val nameTransition = ViewCompat.getTransitionName(holder.name)
-        val authorTransition = ViewCompat.getTransitionName(holder.author)
-        val heartTransition = ViewCompat.getTransitionName(holder.heartIcon)
-        
-        with(intent) {
-            putExtra("wallpaper", wallpaper)
-            putExtra("inFavorites", favoritesModel?.isInFavorites(wallpaper) ?: false)
-            putExtra("showFavoritesButton", showFavoritesIcon())
-            putExtra("imgTransition", imgTransition)
-            putExtra("nameTransition", nameTransition)
-            putExtra("authorTransition", authorTransition)
-            putExtra("favTransition", heartTransition)
-        }
-        
+        if (!canClick) return
         try {
-            val filename = "thumb.png"
-            val stream = activity.openFileOutput(filename, Context.MODE_PRIVATE)
-            holder.img.drawable.toBitmap(config = context.bestBitmapConfig)
-                    .compress(Bitmap.CompressFormat.JPEG, context.maxPictureRes, stream)
-            stream.flush()
-            stream.close()
-            intent.putExtra("image", filename)
+            val intent = Intent(activity, ViewerActivity::class.java)
+            val imgTransition = ViewCompat.getTransitionName(holder.img)
+            val nameTransition = ViewCompat.getTransitionName(holder.name)
+            val authorTransition = ViewCompat.getTransitionName(holder.author)
+            val heartTransition = ViewCompat.getTransitionName(holder.heartIcon)
+            
+            with(intent) {
+                putExtra("wallpaper", wallpaper)
+                putExtra("inFavorites", favoritesModel?.isInFavorites(wallpaper) ?: false)
+                putExtra("showFavoritesButton", showFavoritesIcon())
+                putExtra("imgTransition", imgTransition)
+                putExtra("nameTransition", nameTransition)
+                putExtra("authorTransition", authorTransition)
+                putExtra("favTransition", heartTransition)
+            }
+            
+            var fos:FileOutputStream? = null
+            try {
+                val filename = "thumb.png"
+                fos = activity.openFileOutput(filename, Context.MODE_PRIVATE)
+                holder.img.drawable.toBitmap().compress(Bitmap.CompressFormat.JPEG,
+                                                        context.maxPictureRes, fos)
+                intent.putExtra("image", filename)
+            } catch (ignored:Exception) {
+            } finally {
+                fos?.flush()
+                fos?.close()
+            }
+            
+            val imgPair = Pair<View, String>(holder.img, imgTransition)
+            val namePair = Pair<View, String>(holder.name, nameTransition)
+            val authorPair = Pair<View, String>(holder.author, authorTransition)
+            val heartPair = Pair<View, String>(holder.heartIcon, heartTransition)
+            val options =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imgPair, namePair,
+                                                                       authorPair, heartPair)
+            
+            try {
+                startActivityForResult(intent, 10, options.toBundle())
+            } catch (ignored:Exception) {
+                startActivityForResult(intent, 10)
+            }
         } catch (ignored:Exception) {
-        }
-        
-        val imgPair = Pair<View, String>(holder.img, imgTransition)
-        val namePair = Pair<View, String>(holder.name, nameTransition)
-        val authorPair = Pair<View, String>(holder.author, authorTransition)
-        val heartPair = Pair<View, String>(holder.heartIcon, heartTransition)
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, imgPair,
-                                                                         namePair, authorPair,
-                                                                         heartPair)
-        try {
-            startActivityForResult(intent, 10, options.toBundle())
-        } catch (ignored:Exception) {
-            startActivityForResult(intent, 10)
+            canClick = true
         }
     }
     
@@ -212,12 +252,14 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == 10) {
             data?.let {
-                if (it.getBooleanExtra("modified", false)) {
-                    val item = it.getParcelableExtra<Wallpaper>("item")
-                    if (it.getBooleanExtra("inFavorites", false)) {
-                        item?.let { addToFavorites(it) }
-                    } else {
-                        item?.let { removeFromFavorites(it) }
+                val item = it.getParcelableExtra<Wallpaper>("item")
+                val hasModifiedFavs = it.getBooleanExtra("modified", false)
+                val inFavs = it.getBooleanExtra("inFavorites", false)
+                item?.let {
+                    wallpapersModel?.updateWallpaper(it)
+                    if (hasModifiedFavs) {
+                        if (inFavs) addToFavorites(it)
+                        else removeFromFavorites(it)
                     }
                 }
             }

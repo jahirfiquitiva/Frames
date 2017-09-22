@@ -18,15 +18,16 @@ package jahirfiquitiva.libs.frames.ui.adapters
 import android.view.ViewGroup
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.inflate
+import ca.allanwang.kau.utils.visible
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.bumptech.glide.RequestManager
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
-import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CreditHeaderViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.DashboardCreditViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideSectionedViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideViewHolder
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SectionedHeaderViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SimpleCreditViewHolder
 
 class CreditsAdapter(private val manager:RequestManager, private val hasOwnCredits:Boolean,
@@ -78,7 +79,7 @@ class CreditsAdapter(private val manager:RequestManager, private val hasOwnCredi
     
     override fun onBindHeaderViewHolder(holder:SectionedViewHolder?, section:Int,
                                         expanded:Boolean) {
-        if (holder is CreditHeaderViewHolder) {
+        if (holder is SectionedHeaderViewHolder) {
             when (if (hasOwnCredits) section else (section + 1)) {
                 0 -> {
                     holder.setTitle(R.string.app_name, expanded)
@@ -87,11 +88,18 @@ class CreditsAdapter(private val manager:RequestManager, private val hasOwnCredi
                 1 -> {
                     holder.setTitle(R.string.frames_dashboard, expanded)
                     holder.icon.gone()
+                    holder.divider.visible()
                 }
-                2 -> holder.setTitle(R.string.dev_contributions, expanded,
-                                     { toggleSectionExpanded(section) })
-                3 -> holder.setTitle(R.string.ui_contributions, expanded,
-                                     { toggleSectionExpanded(section) })
+                2 -> {
+                    holder.setTitle(R.string.dev_contributions, expanded,
+                                    { toggleSectionExpanded(section) })
+                    holder.divider.visible()
+                }
+                3 -> {
+                    holder.setTitle(R.string.ui_contributions, expanded,
+                                    { toggleSectionExpanded(section) })
+                    holder.divider.visible()
+                }
             }
         }
     }
@@ -103,11 +111,9 @@ class CreditsAdapter(private val manager:RequestManager, private val hasOwnCredi
                 }
                 2, 3 -> parent?.inflate(R.layout.item_credits)?.let { SimpleCreditViewHolder(it) }
                 else -> parent?.inflate(R.layout.item_section_header)?.let {
-                    CreditHeaderViewHolder(it)
+                    SectionedHeaderViewHolder(it)
                 }
             }
     
-    override fun onBindFooterViewHolder(holder:SectionedViewHolder?, section:Int) {
-        return
-    }
+    override fun onBindFooterViewHolder(holder:SectionedViewHolder?, section:Int) {}
 }

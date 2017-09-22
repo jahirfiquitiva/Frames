@@ -20,7 +20,13 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
+import android.support.v7.graphics.Palette
 import android.util.DisplayMetrics
+import ca.allanwang.kau.utils.toBitmap
+import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
+
+val Drawable.bestSwatch:Palette.Swatch?
+    get() = this.toBitmap().bestSwatch
 
 fun Bitmap.createRoundedDrawable(context:Context):Drawable {
     val roundedPic = RoundedBitmapDrawableFactory.create(context.resources, this)
