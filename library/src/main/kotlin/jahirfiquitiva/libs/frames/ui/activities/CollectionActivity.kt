@@ -61,6 +61,7 @@ open class CollectionActivity:BaseActivityWithFragments() {
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
+        supportPostponeEnterTransition()
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val decor = window.decorView
@@ -86,6 +87,7 @@ open class CollectionActivity:BaseActivityWithFragments() {
         }
         
         setContentView(R.layout.activity_collection_settings)
+        supportStartPostponedEnterTransition()
         
         toolbar.bindToActivity(this)
         
@@ -96,8 +98,9 @@ open class CollectionActivity:BaseActivityWithFragments() {
         
         collection = intent?.getParcelableExtra("item")
         setupToolbarTitle(toolbar)
-        toolbar.subtitle = getString(R.string.x_wallpapers,
-                                     (collection?.wallpapers?.size ?: 0).toString())
+        // supportActionBar?.let { setupToolbarTitle(it) }
+        val number = collection?.wallpapers?.size ?: 0
+        if (number > 0) toolbar.subtitle = getString(R.string.x_wallpapers, number.toString())
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
                      getSecondaryTextColorFor(primaryColor, 0.6F),
                      getActiveIconsColorFor(primaryColor, 0.6F))
@@ -120,10 +123,11 @@ open class CollectionActivity:BaseActivityWithFragments() {
             f.isAccessible = true
             title = f.get(toolbar) as TextView
             title.text = collection?.name ?: ""
-            toolbar.title = collection?.name ?: ""
-            supportActionBar?.title = collection?.name ?: ""
             ViewCompat.setTransitionName(title, "title")
         } catch (ignored:Exception) {
+        } finally {
+            toolbar.title = collection?.name ?: ""
+            supportActionBar?.title = collection?.name ?: ""
         }
     }
     

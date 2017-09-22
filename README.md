@@ -41,6 +41,7 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 ### Full-screen Viewer / Multiple themes
 <p align="center">
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/4.png" height="400"/>
+<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/14.png" height="400"/>
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/7.png" height="400"/>
 <img src="https://github.com/jahirfiquitiva/Frames2/raw/images/8.png" height="400"/>
 </p>

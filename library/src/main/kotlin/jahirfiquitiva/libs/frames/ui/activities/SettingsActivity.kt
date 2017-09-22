@@ -59,7 +59,7 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
         
         toolbar.bindToActivity(this)
         
-        toolbar.setTitle(R.string.settings)
+        supportActionBar?.setTitle(R.string.settings)
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
                      getSecondaryTextColorFor(primaryColor, 0.6F),
                      getActiveIconsColorFor(primaryColor, 0.6F))
