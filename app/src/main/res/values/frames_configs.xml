@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2017. Jahir Fiquitiva
+  ~
+  ~ Licensed under the CreativeCommons Attribution-ShareAlike
+  ~ 4.0 International License. You may not use this file except in compliance
+  ~ with the License. You may obtain a copy of the License at
+  ~
+  ~    http://creativecommons.org/licenses/by-sa/4.0/legalcode
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+
+    <!--    Notifications class name
+    -       Must be something similar to:
+    -       com.mypackage.name.FirebaseService
+    -->
+    <string name="notifications_class">jahirfiquitiva.apps.frames.sample.FirebaseService</string>
+
+    <!--    Use old format?
+    -       If you're coming from the previous Frames, then you will find this useful
+    -       True means yes
+    -       False means no
+    -->
+    <bool name="use_old_json_format">true</bool>
+
+    <!--    Configure your own Splash Screen style
+    -       Only change the parent. Available Styles:
+    -       LightTheme.SplashScreen
+    -       DarkTheme.SplashScreen
+    -       TransparentTheme.SplashScreen
+    -       AmoledTheme.SplashScreen
+    -->
+    <style name="MySplashScreen" parent="LightTheme.SplashScreen"/>
+
+    <!--    Define the default app theme
+    -       0 -> Light
+    -       1 -> Dark
+    -       2 -> Transparent
+    -       3 -> Amoled
+    -       4 -> Auto Light-Dark
+    -       5 -> Auto Light-Amoled
+    -->
+    <integer name="default_theme">0</integer>
+
+    <!--    Choose whether you want colored tiles by default -->
+    <bool name="enable_colored_tiles">true</bool>
+
+    <!--    Accent color in tabs
+    -       If true, the accent color will be used in tabs
+    -       If false, the color will be set depending on your primary color
+    -->
+    <bool name="enable_accent_color_in_tabs">false</bool>
+
+    <!--    Show icons in tabs
+    -       True means yes
+    -       False means no
+    -->
+    <bool name="show_icons_in_tabs">false</bool>
+
+    <!--    Show texts in tabs
+    -       True means yes
+    -       False means no
+    -->
+    <bool name="show_texts_in_tabs">true</bool>
+
+    <!--    Show wallpaper details bottom sheet or dialog
+    -       True to show a bottom sheet
+    -       False to show a dialog
+    -->
+    <bool name="show_bottom_sheet">true</bool>
+
+    <!--    These are your donation items. Only put their ids here -->
+    <string-array name="donation_items">
+        <item>coffee</item>
+        <item>pizza</item>
+        <item>burger</item>
+    </string-array>
+</resources>
