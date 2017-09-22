@@ -15,8 +15,8 @@
  */
 package jahirfiquitiva.libs.frames.ui.adapters.viewholders
 
+import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -34,7 +34,6 @@ import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.animateColorTransition
 import jahirfiquitiva.libs.frames.helpers.extensions.animateSmoothly
-import jahirfiquitiva.libs.frames.helpers.extensions.bestSwatch
 import jahirfiquitiva.libs.frames.helpers.extensions.clearChildrenAnimations
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
@@ -42,6 +41,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.loadWallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
 import jahirfiquitiva.libs.frames.helpers.extensions.thumbnailColor
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestListener
+import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
 import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
@@ -53,13 +53,12 @@ import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.withAlpha
 
-
 const val DETAILS_OPACITY = 0.85F
 
 abstract class FramesWallpaperHolder(itemView:View):GlideViewHolder(itemView) {
     internal var wallpaper:Wallpaper? = null
     abstract internal val img:ImageView
-    abstract internal fun getListener():GlideRequestListener<Drawable>
+    abstract internal fun getListener():GlideRequestListener<Bitmap>
     
     internal fun loadImage(manager:RequestManager, url:String, thumbUrl:String) {
         val hasFaded = wallpaper?.hasFaded ?: true
@@ -112,10 +111,10 @@ class CollectionHolder(itemView:View):FramesWallpaperHolder(itemView) {
         }
     }
     
-    override fun getListener():GlideRequestListener<Drawable> {
-        return object:GlideRequestListener<Drawable>() {
-            override fun onLoadSucceed(resource:Drawable):Boolean {
-                img.setImageDrawable(resource)
+    override fun getListener():GlideRequestListener<Bitmap> {
+        return object:GlideRequestListener<Bitmap>() {
+            override fun onLoadSucceed(resource:Bitmap):Boolean {
+                img.setImageBitmap(resource)
                 
                 whenFaded({ itemView.clearChildrenAnimations() }, {
                     if (itemView.context.framesKonfigs.animationsEnabled) {
@@ -210,10 +209,10 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
         }
     }
     
-    override fun getListener():GlideRequestListener<Drawable> {
-        return object:GlideRequestListener<Drawable>() {
-            override fun onLoadSucceed(resource:Drawable):Boolean {
-                img.setImageDrawable(resource)
+    override fun getListener():GlideRequestListener<Bitmap> {
+        return object:GlideRequestListener<Bitmap>() {
+            override fun onLoadSucceed(resource:Bitmap):Boolean {
+                img.setImageBitmap(resource)
                 whenFaded({ itemView.clearChildrenAnimations() },
                           {
                               if (itemView.context.framesKonfigs.animationsEnabled) {

@@ -41,6 +41,9 @@ import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.usesDarkTheme
 import java.io.File
 
+val Context.maxPreload
+    get() = if (isLowRamDevice) 2 else 4
+
 val Context.maxPictureRes
     get() = if (isLowRamDevice) if (runsMinSDK) 30 else 20 else 40
 

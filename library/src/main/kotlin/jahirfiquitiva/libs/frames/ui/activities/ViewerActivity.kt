@@ -15,7 +15,6 @@
  */
 package jahirfiquitiva.libs.frames.ui.activities
 
-import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -44,6 +43,7 @@ import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import ca.allanwang.kau.utils.gone
+import ca.allanwang.kau.utils.isNetworkAvailable
 import ca.allanwang.kau.utils.navigationBarColor
 import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.setMarginTop
@@ -175,7 +175,7 @@ open class ViewerActivity:WallpaperActionsActivity() {
         }
         
         val downloadable = wallpaper?.downloadable ?: false
-        if (downloadable) {
+        if (downloadable && isNetworkAvailable) {
             findViewById<RelativeLayout>(R.id.download_container).setOnClickListener {
                 doItemClick(DOWNLOAD_ACTION_ID)
             }
@@ -317,13 +317,7 @@ open class ViewerActivity:WallpaperActionsActivity() {
         }
     }
     
-    @SuppressLint("NewApi")
-    private val isBeingDestroyed:Boolean =
-            closing || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && isDestroyed)
-    
     private fun setupWallpaper(wallpaper:Wallpaper?) {
-        if (isBeingDestroyed) return
-        
         var bmp:Bitmap? = null
         val filename = intent?.getStringExtra("image") ?: ""
         if (filename.hasContent()) {
@@ -378,19 +372,7 @@ open class ViewerActivity:WallpaperActionsActivity() {
                         .load(it.thumbUrl)
                         .apply(options.priority(Priority.IMMEDIATE))
                         .thumbnail(0.5F)
-                        .listener(object:GlideRequestListener<Bitmap>() {
-                            override fun onLoadSucceed(resource:Bitmap):Boolean {
-                                img.setImageBitmap(resource)
-                                startEnterTransition()
-                                postPalette(resource)
-                                return true
-                            }
-                            
-                            override fun onLoadFailed():Boolean {
-                                startEnterTransition()
-                                return super.onLoadFailed()
-                            }
-                        })
+                        .listener(listener)
                 
                 Glide.with(this).asBitmap()
                         .load(it.url)

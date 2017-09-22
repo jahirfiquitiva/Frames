@@ -37,6 +37,7 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.isLowRamDevice
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPictureRes
+import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
 import jahirfiquitiva.libs.frames.ui.activities.ViewerActivity
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.ui.adapters.WallpapersAdapter
@@ -96,7 +97,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
                     fromFavorites(), showFavoritesIcon())
             
             val preloader:RecyclerViewPreloader<Wallpaper> =
-                    RecyclerViewPreloader(activity, wallsAdapter, provider, 4)
+                    RecyclerViewPreloader(activity, wallsAdapter, provider, context.maxPreload)
             addOnScrollListener(preloader)
             adapter = wallsAdapter
         }
@@ -116,6 +117,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     override fun onResume() {
         super.onResume()
         configureRVColumns()
+        canClick = true
     }
     
     fun configureRVColumns() {

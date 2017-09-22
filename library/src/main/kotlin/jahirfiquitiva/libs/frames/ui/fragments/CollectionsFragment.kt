@@ -29,6 +29,7 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.isLowRamDevice
+import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
 import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
 import jahirfiquitiva.libs.frames.ui.adapters.CollectionsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
@@ -77,7 +78,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
                                                   onItemClicked(collection)
                                               })
             val preloader:RecyclerViewPreloader<Wallpaper> =
-                    RecyclerViewPreloader(activity, collsAdapter, provider, 4)
+                    RecyclerViewPreloader(activity, collsAdapter, provider, context.maxPreload)
             addOnScrollListener(preloader)
             adapter = collsAdapter
             
