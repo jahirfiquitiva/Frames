@@ -81,7 +81,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
 import jahirfiquitiva.libs.ziv.ZoomableImageView
 import org.jetbrains.anko.contentView
-import org.jetbrains.anko.doAsync
 import java.io.FileInputStream
 import java.util.*
 
@@ -344,7 +343,6 @@ open class ViewerActivity:WallpaperActionsActivity() {
                     img.setImageBitmap(resource)
                     startEnterTransition()
                     postPalette(resource)
-                    doAsync { loadExpensiveWallpaperDetails() }
                     return true
                 }
                 
@@ -409,6 +407,7 @@ open class ViewerActivity:WallpaperActionsActivity() {
             details.removeAt(pos)
             details.add(pos, detail)
         } else details.add(detail)
+        updateInfo()
     }
     
     private fun loadWallpaperDetails() {
@@ -417,7 +416,6 @@ open class ViewerActivity:WallpaperActionsActivity() {
                 addToDetails(WallpaperDetail("ic_all_wallpapers", name))
                 if (author.hasContent()) addToDetails(WallpaperDetail("ic_person", author))
                 if (copyright.hasContent()) addToDetails(WallpaperDetail("ic_copyright", copyright))
-                updateInfo()
                 loadExpensiveWallpaperDetails()
             }
         }
@@ -429,11 +427,9 @@ open class ViewerActivity:WallpaperActionsActivity() {
                 if (size != 0L) {
                     val sizeText = size.toReadableByteCount()
                     if (sizeText != "-0") addToDetails(WallpaperDetail("ic_size", sizeText))
-                    updateInfo()
                 }
                 if (dimensions.hasContent()) {
                     addToDetails(WallpaperDetail("ic_dimensions", dimensions))
-                    updateInfo()
                 }
                 val isValidInfo = info?.isValid ?: false
                 if (isValidInfo) {
@@ -478,9 +474,7 @@ open class ViewerActivity:WallpaperActionsActivity() {
             } else {
                 addToDetails(WallpaperDetail("ic_dimensions", prevDimension))
             }
-            
             this.info = it
-            updateInfo()
         }
     }
     
