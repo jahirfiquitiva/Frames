@@ -98,7 +98,7 @@ open class CollectionActivity:BaseActivityWithFragments() {
         
         collection = intent?.getParcelableExtra("item")
         setupToolbarTitle(toolbar)
-        // supportActionBar?.let { setupToolbarTitle(it) }
+        
         val number = collection?.wallpapers?.size ?: 0
         if (number > 0) toolbar.subtitle = getString(R.string.x_wallpapers, number.toString())
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),

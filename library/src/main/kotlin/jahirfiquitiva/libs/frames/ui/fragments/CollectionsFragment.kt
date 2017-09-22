@@ -101,8 +101,6 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     override fun onItemClicked(item:Collection) {
         val intent = Intent(activity, CollectionActivity::class.java)
         intent.putExtra("item", item)
-        // startActivityForResult(intent, 11)
-        
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity)
         try {
             activity.startActivityForResult(intent, 11, options.toBundle())
