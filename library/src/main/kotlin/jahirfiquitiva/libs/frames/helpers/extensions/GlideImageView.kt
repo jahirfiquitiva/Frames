@@ -47,7 +47,7 @@ fun ImageView.loadWallpaper(requester:RequestManager?, url:String, thumbUrl:Stri
     val correctThumbUrl = if (thumbUrl.hasContent()) thumbUrl else url
     
     if (loadFullRes) {
-        val validThumb = !thumbUrl.equals(url, true)
+        val validThumb = !correctThumbUrl.equals(url, true)
         val thumbnailRequest = manager.asBitmap()
                 .load(correctThumbUrl)
                 .apply((if (validThumb) context.thumbnailOptions else context.wallpaperOptions)
