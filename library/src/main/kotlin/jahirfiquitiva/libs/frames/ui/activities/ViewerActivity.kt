@@ -354,7 +354,7 @@ open class ViewerActivity:WallpaperActionsActivity() {
                 }
             }
             
-            val options = urlOptions
+            val options = urlOptions.timeout(10000)
                     .placeholder(d).error(d)
                     .dontTransform().dontAnimate()
                     .fitCenter()

@@ -105,7 +105,7 @@ class CollectionHolder(itemView:View):FramesWallpaperHolder(itemView) {
             title.setTextColor(Color.WHITE)
             amount.text = (collection.wallpapers.size).toString()
             amount.setTextColor(Color.WHITE)
-            loadImage(manager, url, if (thumb.equals(url, true)) "" else thumb)
+            loadImage(manager, url, thumb)
             setOnClickListener { listener(collection) }
             provider.setView(img)
         }
@@ -199,7 +199,7 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
                 heartIcon.visible()
             }
             
-            loadImage(manager, url, if (thumb.equals(url, true)) "" else thumb)
+            loadImage(manager, url, thumb)
             provider.setView(img)
         }
         itemView.setOnClickListener { singleTap(wallpaper, this) }
