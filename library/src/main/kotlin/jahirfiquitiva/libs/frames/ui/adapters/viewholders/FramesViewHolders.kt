@@ -40,7 +40,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.loadWallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
 import jahirfiquitiva.libs.frames.helpers.extensions.thumbnailColor
-import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestListener
+import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
 import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
 import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
@@ -58,7 +58,7 @@ const val DETAILS_OPACITY = 0.85F
 abstract class FramesWallpaperHolder(itemView:View):GlideViewHolder(itemView) {
     internal var wallpaper:Wallpaper? = null
     abstract internal val img:ImageView
-    abstract internal fun getListener():GlideRequestListener<Bitmap>
+    abstract internal fun getListener():GlideRequestCallback<Bitmap>
     
     internal fun loadImage(manager:RequestManager, url:String, thumbUrl:String) {
         val hasFaded = wallpaper?.hasFaded ?: true
@@ -111,8 +111,8 @@ class CollectionHolder(itemView:View):FramesWallpaperHolder(itemView) {
         }
     }
     
-    override fun getListener():GlideRequestListener<Bitmap> {
-        return object:GlideRequestListener<Bitmap>() {
+    override fun getListener():GlideRequestCallback<Bitmap> {
+        return object:GlideRequestCallback<Bitmap>() {
             override fun onLoadSucceed(resource:Bitmap):Boolean {
                 img.setImageBitmap(resource)
                 
@@ -209,8 +209,8 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
         }
     }
     
-    override fun getListener():GlideRequestListener<Bitmap> {
-        return object:GlideRequestListener<Bitmap>() {
+    override fun getListener():GlideRequestCallback<Bitmap> {
+        return object:GlideRequestCallback<Bitmap>() {
             override fun onLoadSucceed(resource:Bitmap):Boolean {
                 img.setImageBitmap(resource)
                 whenFaded({ itemView.clearChildrenAnimations() },

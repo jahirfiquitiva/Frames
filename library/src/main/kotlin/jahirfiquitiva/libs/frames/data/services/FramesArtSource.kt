@@ -33,7 +33,6 @@ import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.helpers.utils.PLAY_STORE_LINK_PREFIX
 import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
-import jahirfiquitiva.libs.frames.providers.viewmodels.ListViewModel
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
@@ -107,37 +106,28 @@ class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleOwn
     private fun executeMuzeiUpdate() {
         try {
             wallsVM = WallpapersViewModel()
-            wallsVM?.setCustomObserver(object:ListViewModel.CustomObserver<Wallpaper> {
-                override fun onValuePosted(data:MutableList<Wallpaper>) {
-                    if (data.isNotEmpty()) {
-                        val realData = getValidWallpapersList(ArrayList(data))
-                        
-                        if (framesKonfigs.muzeiCollections.contains("favorites", true)) {
-                            favsDB = Room.databaseBuilder(this@FramesArtSource,
-                                                          FavoritesDatabase::class.java,
-                                                          DATABASE_NAME)
-                                    .fallbackToDestructiveMigration().build()
-                            favsVM = FavoritesViewModel()
-                            favsVM?.setCustomObserver(
-                                    object:ListViewModel.CustomObserver<Wallpaper> {
-                                        override fun onValuePosted(data:MutableList<Wallpaper>) {
-                                            realData.addAll(getValidWallpapersList(ArrayList(data)))
-                                            realData.distinct()
-                                            if (realData.isEmpty()) return
-                                            chooseRandomWallpaperAndPost(realData)
-                                        }
-                                    })
-                            val dao = favsDB?.favoritesDao()
-                            if (dao != null) {
-                                favsVM?.loadData(dao, true)
-                            } else {
-                                if (realData.isEmpty()) return
-                                chooseRandomWallpaperAndPost(realData)
-                            }
+            wallsVM?.observe(this, {
+                if (it.isNotEmpty()) {
+                    val realData = getValidWallpapersList(ArrayList(it))
+                    if (framesKonfigs.muzeiCollections.contains("favorites", true)) {
+                        favsDB = Room.databaseBuilder(this@FramesArtSource,
+                                                      FavoritesDatabase::class.java,
+                                                      DATABASE_NAME)
+                                .fallbackToDestructiveMigration().build()
+                        favsVM = FavoritesViewModel()
+                        favsVM?.observe(this@FramesArtSource, {
+                            realData.addAll(getValidWallpapersList(ArrayList(it)))
+                            realData.distinct()
+                            if (realData.isNotEmpty()) chooseRandomWallpaperAndPost(realData)
+                        })
+                        val dao = favsDB?.favoritesDao()
+                        if (dao != null) {
+                            favsVM?.loadData(dao, true)
                         } else {
-                            if (realData.isEmpty()) return
-                            chooseRandomWallpaperAndPost(realData)
+                            if (realData.isNotEmpty()) chooseRandomWallpaperAndPost(realData)
                         }
+                    } else {
+                        if (realData.isNotEmpty()) chooseRandomWallpaperAndPost(realData)
                     }
                 }
             })
@@ -187,11 +177,9 @@ class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleOwn
     }
     
     private fun destroyViewModel() {
-        wallsVM?.stopTask(true)
-        wallsVM?.items?.removeObservers(this)
+        wallsVM?.destroy(this)
         wallsVM = null
-        favsVM?.stopTask(true)
-        favsVM?.items?.removeObservers(this)
+        favsVM?.destroy(this)
         favsVM = null
         favsDB?.close()
         favsDB = null

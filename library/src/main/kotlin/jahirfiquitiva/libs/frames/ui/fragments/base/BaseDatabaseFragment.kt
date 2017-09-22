@@ -15,11 +15,11 @@
  */
 package jahirfiquitiva.libs.frames.ui.fragments.base
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.arch.persistence.room.Room
 import android.graphics.Color
 import android.os.Bundle
+import android.support.annotation.CallSuper
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.view.animation.Animation
@@ -76,8 +76,8 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     
     override fun registerObserver() {
         initFavoritesViewModel()
-        favoritesModel?.items?.observe(this, Observer { data ->
-            data?.let { doOnFavoritesChange(ArrayList(it)) }
+        favoritesModel?.observe(this, {
+            doOnFavoritesChange(ArrayList(it))
         })
     }
     
@@ -86,9 +86,9 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
         getDatabase()?.let { favoritesModel?.loadData(it, true) }
     }
     
+    @CallSuper
     override fun unregisterObserver() {
-        favoritesModel?.items?.removeObservers(this)
-        favoritesModel?.stopTask(true)
+        favoritesModel?.destroy(this)
     }
     
     internal fun onHeartClicked(heart:ImageView, item:Wallpaper, color:Int) =
@@ -103,10 +103,14 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
             favoritesModel?.isInFavorites(item) ?: false
     
     internal fun addToFavorites(item:Wallpaper) =
-            favoritesModel?.addToFavorites(item, { showErrorSnackbar() })
+            getDatabase()?.let {
+                favoritesModel?.addToFavorites(it, item, { showErrorSnackbar() })
+            } ?: showErrorSnackbar()
     
     internal fun removeFromFavorites(item:Wallpaper) =
-            favoritesModel?.removeFromFavorites(item, { showErrorSnackbar() })
+            getDatabase()?.let {
+                favoritesModel?.removeFromFavorites(it, item, { showErrorSnackbar() })
+            } ?: showErrorSnackbar()
     
     abstract fun onItemClicked(item:T, holder:VH)
     abstract fun fromCollectionActivity():Boolean

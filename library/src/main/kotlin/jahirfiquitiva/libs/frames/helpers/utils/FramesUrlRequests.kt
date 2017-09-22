@@ -15,6 +15,9 @@
  */
 package jahirfiquitiva.libs.frames.helpers.utils
 
+import jahirfiquitiva.libs.frames.data.models.Dimension
+import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
+import jahirfiquitiva.libs.frames.helpers.extensions.toWallpaperInfo
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import okhttp3.OkHttpClient
 import okhttp3.Request

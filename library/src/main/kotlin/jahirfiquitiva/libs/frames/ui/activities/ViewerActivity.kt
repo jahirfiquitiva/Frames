@@ -15,7 +15,6 @@
  */
 package jahirfiquitiva.libs.frames.ui.activities
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.res.Configuration
@@ -53,14 +52,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
 import jahirfiquitiva.libs.frames.helpers.extensions.buildSnackbar
 import jahirfiquitiva.libs.frames.helpers.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.navigationBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
 import jahirfiquitiva.libs.frames.helpers.extensions.urlOptions
-import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestListener
-import jahirfiquitiva.libs.frames.helpers.utils.WallpaperInfo
+import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpaperInfoViewModel
 import jahirfiquitiva.libs.frames.ui.activities.base.WallpaperActionsActivity
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
@@ -82,6 +81,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
 import jahirfiquitiva.libs.ziv.ZoomableImageView
 import org.jetbrains.anko.contentView
+import org.jetbrains.anko.doAsync
 import java.io.FileInputStream
 import java.util.*
 
@@ -300,8 +300,7 @@ open class ViewerActivity:WallpaperActionsActivity() {
                 img.setZoom(1F)
             } catch (ignored:Exception) {
             }
-            detailsVM?.stopTask(true)
-            detailsVM?.items?.removeObservers(this)
+            detailsVM?.destroy(this)
             detailsVM = null
             postDelayed(100, {
                 val intent = Intent()
@@ -340,11 +339,12 @@ open class ViewerActivity:WallpaperActionsActivity() {
         }
         
         wallpaper?.let {
-            val listener = object:GlideRequestListener<Bitmap>() {
+            val listener = object:GlideRequestCallback<Bitmap>() {
                 override fun onLoadSucceed(resource:Bitmap):Boolean {
                     img.setImageBitmap(resource)
                     startEnterTransition()
                     postPalette(resource)
+                    doAsync { loadExpensiveWallpaperDetails() }
                     return true
                 }
                 
@@ -451,11 +451,7 @@ open class ViewerActivity:WallpaperActionsActivity() {
             detailsVM = ViewModelProviders.of(
                     this@ViewerActivity).get(WallpaperInfoViewModel::class.java)
         }
-        detailsVM?.items?.observe(this, Observer<WallpaperInfo> { data ->
-            data?.let {
-                postWallpaperInfo(it)
-            }
-        })
+        detailsVM?.observe(this, { postWallpaperInfo(it) })
     }
     
     private fun postWallpaperInfo(it:WallpaperInfo?) {

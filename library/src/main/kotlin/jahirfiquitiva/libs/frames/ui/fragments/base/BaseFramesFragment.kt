@@ -15,7 +15,6 @@
  */
 package jahirfiquitiva.libs.frames.ui.fragments.base
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.widget.RecyclerView
 import jahirfiquitiva.libs.frames.data.models.Collection
@@ -38,11 +37,11 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
     
     override fun registerObserver() {
         super.registerObserver()
-        wallpapersModel?.items?.observe(this, Observer { data ->
-            data?.let { doOnWallpapersChange(ArrayList(it), fromCollectionActivity()) }
+        wallpapersModel?.observe(this, {
+            doOnWallpapersChange(ArrayList(it), fromCollectionActivity())
         })
-        collectionsModel?.items?.observe(this, Observer { data ->
-            data?.let { doOnCollectionsChange(ArrayList(it)) }
+        collectionsModel?.observe(this, {
+            doOnCollectionsChange(ArrayList(it))
         })
     }
     
@@ -53,10 +52,8 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
     
     override fun unregisterObserver() {
         super.unregisterObserver()
-        wallpapersModel?.items?.removeObservers(this)
-        collectionsModel?.items?.removeObservers(this)
-        collectionsModel?.stopTask(true)
-        wallpapersModel?.stopTask(true)
+        wallpapersModel?.destroy(this)
+        collectionsModel?.destroy(this)
     }
     
     open fun doOnCollectionsChange(data:ArrayList<Collection>) {}
@@ -70,12 +67,10 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
         scrollToTop()
         when (section) {
             0, 1 -> {
-                wallpapersModel?.stopTask(true)
-                wallpapersModel?.loadData(context, true)
+                wallpapersModel?.loadData(context, true) ?: showErrorSnackbar()
             }
             2 -> {
-                favoritesModel?.stopTask(true)
-                getDatabase()?.let { favoritesModel?.loadData(it, true) }
+                getDatabase()?.let { favoritesModel?.loadData(it, true) } ?: showErrorSnackbar()
             }
         }
     }

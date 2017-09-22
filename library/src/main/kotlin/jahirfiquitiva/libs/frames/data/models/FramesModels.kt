@@ -21,6 +21,7 @@ import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
+import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
 import jahirfiquitiva.libs.kauextensions.extensions.readBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.writeBoolean
 import java.util.*
@@ -132,4 +133,15 @@ data class Collection(val name:String,
         override fun createFromParcel(parcel:Parcel):Collection = Collection(parcel)
         override fun newArray(size:Int):Array<Collection?> = arrayOfNulls(size)
     }
+}
+
+data class WallpaperInfo(val size:Long, val dimension:Dimension) {
+    val isValid:Boolean = size > 0L || dimension.isValid
+    override fun toString():String =
+            "WallpaperInfo:[size = '${size.toReadableByteCount()}', dimension = '$dimension']"
+}
+
+data class Dimension(val width:Long, val height:Long) {
+    val isValid:Boolean = width > 0L && height > 0L
+    override fun toString():String = "$width x $height px"
 }

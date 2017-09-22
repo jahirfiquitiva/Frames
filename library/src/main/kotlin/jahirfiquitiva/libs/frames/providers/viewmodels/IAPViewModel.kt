@@ -18,10 +18,8 @@ package jahirfiquitiva.libs.frames.providers.viewmodels
 import com.anjlab.android.iab.v3.BillingProcessor
 
 class IAPViewModel:ListViewModel<Array<String>, IAPItem>() {
-    
     var iapBillingProcessor:BillingProcessor? = null
-    
-    override fun loadItems(param:Array<String>):MutableList<IAPItem> {
+    override fun loadData(param:Array<String>):MutableList<IAPItem> {
         val iaps = ArrayList<IAPItem>()
         try {
             param.forEach {

@@ -16,7 +16,6 @@
 package jahirfiquitiva.libs.frames.ui.activities.base
 
 import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.OnLifecycleEvent
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -261,23 +260,17 @@ abstract class BaseFramesActivity:WallpaperActionsActivity(), BillingProcessor.I
             return
         }
         billingProcessor?.let {
-            if (!it.isInitialized) {
-                it.initialize()
-            }
+            if (!it.isInitialized) it.initialize()
             if (it.isInitialized) {
                 val donationViewModel = ViewModelProviders.of(this).get(IAPViewModel::class.java)
                 donationViewModel.iapBillingProcessor = it
-                donationViewModel.items.observe(this, Observer<MutableList<IAPItem>> { list ->
-                    if (list != null) {
-                        if (list.size > 0) {
-                            showDonationDialog(ArrayList(list))
-                        } else {
-                            showDonationErrorDialog(0, null)
-                        }
+                donationViewModel.observe(this, {
+                    if (it.size > 0) {
+                        showDonationDialog(ArrayList(it))
                     } else {
                         showDonationErrorDialog(0, null)
                     }
-                    donationViewModel.items.removeObservers(this@BaseFramesActivity)
+                    donationViewModel.destroy(this@BaseFramesActivity)
                 })
                 destroyDialog()
                 dialog = buildMaterialDialog {

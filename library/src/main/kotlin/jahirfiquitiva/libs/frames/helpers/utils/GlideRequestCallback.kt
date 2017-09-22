@@ -20,7 +20,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
-abstract class GlideRequestListener<Type>:RequestListener<Type> {
+abstract class GlideRequestCallback<Type>:RequestListener<Type> {
     abstract fun onLoadSucceed(resource:Type):Boolean
     open fun onLoadFailed():Boolean = false
     

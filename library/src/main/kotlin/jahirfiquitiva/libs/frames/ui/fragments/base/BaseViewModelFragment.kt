@@ -15,8 +15,6 @@
  */
 package jahirfiquitiva.libs.frames.ui.fragments.base
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.OnLifecycleEvent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,8 +27,7 @@ abstract class BaseViewModelFragment<in T>:BasicFragment<T>(), ViewModelFragment
         initVM()
     }
     
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun initVM() {
+    private fun initVM() {
         initViewModel()
         registerObserver()
     }
@@ -48,9 +45,5 @@ abstract class BaseViewModelFragment<in T>:BasicFragment<T>(), ViewModelFragment
     }
     
     override fun onItemClicked(item:T) {}
-    
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    abstract override fun unregisterObserver()
-    
     abstract fun autoStartLoad():Boolean
 }

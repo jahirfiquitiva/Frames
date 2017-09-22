@@ -125,7 +125,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     
     override fun applyFilter(filter:String) {
         if (collsAdapter != null) {
-            collectionsModel?.items?.value?.let {
+            collectionsModel?.getData()?.let {
                 if (filter.hasContent()) {
                     rv.setEmptyImage(R.drawable.no_results)
                     rv.setEmptyText(R.string.search_no_results)

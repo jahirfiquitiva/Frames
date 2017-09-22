@@ -16,7 +16,6 @@
 package jahirfiquitiva.libs.frames.ui.activities
 
 import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.OnLifecycleEvent
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -197,61 +196,57 @@ class MuzeiSettingsActivity:ThemedActivity() {
         }
         
         try {
-            wallsVM.items.removeObservers(this)
+            wallsVM.destroy(this)
         } catch (ignored:Exception) {
         }
         try {
-            collsVM.items.removeObservers(this)
+            collsVM.destroy(this)
         } catch (ignored:Exception) {
         }
         
-        wallsVM.items.observe(this, Observer { list ->
+        wallsVM.observe(this, {
             destroyDialog()
-            list?.let {
-                collsVM.items.observe(this, Observer { colls ->
-                    colls?.let {
-                        destroyDialog()
-                        val correct = ArrayList<Collection>()
-                        correct.addAll(it.distinct())
-                        correct.add(0, Collection("Favorites"))
-                        correct.distinct()
-                        
-                        val eachSelectedCollection = selectedCollections.split(",")
-                        var selectedIndexes:Array<Int> = arrayOf()
-                        correct.forEachIndexed { index, (name) ->
-                            eachSelectedCollection.forEach {
-                                if (name.equals(it, true))
-                                    selectedIndexes = selectedIndexes.plus(index)
-                            }
-                        }
-                        
-                        destroyDialog()
-                        dialog = buildMaterialDialog {
-                            title(R.string.choose_collections_title)
-                            items(correct)
-                            itemsCallbackMultiChoice(selectedIndexes,
-                                                     { _, _, text ->
-                                                         val sb = StringBuilder()
-                                                         text.forEachWithIndex { i, item ->
-                                                             if (i > 0 && i < text.size)
-                                                                 sb.append(",")
-                                                             sb.append(item)
-                                                         }
-                                                         selectedCollections = sb.toString()
-                                                         collsSummaryText.text = getString(
-                                                                 R.string.choose_collections_summary,
-                                                                 selectedCollections)
-                                                         saveChanges()
-                                                         true
-                                                     })
-                            positiveText(android.R.string.ok)
-                            negativeText(android.R.string.cancel)
-                        }
-                        dialog?.show()
+            collsVM.observe(this, {
+                destroyDialog()
+                val correct = ArrayList<Collection>()
+                correct.addAll(it.distinct())
+                correct.add(0, Collection("Favorites"))
+                correct.distinct()
+                
+                val eachSelectedCollection = selectedCollections.split(",")
+                var selectedIndexes:Array<Int> = arrayOf()
+                correct.forEachIndexed { index, (name) ->
+                    eachSelectedCollection.forEach {
+                        if (name.equals(it, true))
+                            selectedIndexes = selectedIndexes.plus(index)
                     }
-                })
-                collsVM.loadData(ArrayList(it))
-            }
+                }
+                
+                destroyDialog()
+                dialog = buildMaterialDialog {
+                    title(R.string.choose_collections_title)
+                    items(correct)
+                    itemsCallbackMultiChoice(selectedIndexes,
+                                             { _, _, text ->
+                                                 val sb = StringBuilder()
+                                                 text.forEachWithIndex { i, item ->
+                                                     if (i > 0 && i < text.size)
+                                                         sb.append(",")
+                                                     sb.append(item)
+                                                 }
+                                                 selectedCollections = sb.toString()
+                                                 collsSummaryText.text = getString(
+                                                         R.string.choose_collections_summary,
+                                                         selectedCollections)
+                                                 saveChanges()
+                                                 true
+                                             })
+                    positiveText(android.R.string.ok)
+                    negativeText(android.R.string.cancel)
+                }
+                dialog?.show()
+            })
+            collsVM.loadData(ArrayList(it))
         })
         wallsVM.loadData(this)
         dialog?.show()
@@ -261,13 +256,11 @@ class MuzeiSettingsActivity:ThemedActivity() {
         destroyDialog()
         saveChanges()
         try {
-            wallsVM.items.removeObservers(this)
-            wallsVM.stopTask(true)
+            wallsVM.destroy(this)
         } catch (ignored:Exception) {
         }
         try {
-            collsVM.items.removeObservers(this)
-            collsVM.stopTask(true)
+            collsVM.destroy(this)
         } catch (ignored:Exception) {
         }
         val intent = Intent(this, FramesArtSource::class.java)

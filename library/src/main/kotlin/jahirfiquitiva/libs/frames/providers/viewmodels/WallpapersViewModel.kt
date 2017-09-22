@@ -30,7 +30,7 @@ import org.json.JSONObject
 class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
     
     fun updateWallpaper(newWallpaper:Wallpaper) {
-        val prevList = ArrayList(items.value)
+        val prevList = ArrayList(getData())
         if (prevList.size > 0) {
             val pos = prevList.indexOf(newWallpaper)
             if (pos >= 0) {
@@ -43,53 +43,34 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
         }
     }
     
-    override fun loadItems(param:Context):MutableList<Wallpaper> {
-        val prevResponse = param.framesKonfigs.backupJson
-        val response = FramesUrlRequests().requestJson(param.getString(
-                R.string.json_url))
-        val oldValue = items.value
-        val formattedResponse = buildJSONArrayFromResponse(param, response).toString()
-        val areTheSame = formattedResponse.equals(prevResponse, true)
-        return if (areTheSame) {
-            if (oldValue != null) {
-                if (oldValue.size > 0) oldValue
-                else loadWallpapers(param, response)
-            } else {
-                loadWallpapers(param, response)
-            }
+    override fun loadData(param:Context):MutableList<Wallpaper> =
+            loadWallpapers(param,
+                           FramesUrlRequests().requestJson(param.getString(R.string.json_url)))
+    
+    private fun loadWallpapers(context:Context, serverResponse:String):MutableList<Wallpaper> {
+        val prevResponse = context.framesKonfigs.backupJson
+        val validPrevResponse = prevResponse.hasContent() && prevResponse != "[]"
+        return if (serverResponse.hasContent()) {
+            val nResponse = safeParseResponseToJSON(context, serverResponse)
+            val nResponseText = nResponse.toString()
+            if (validPrevResponse && nResponseText == prevResponse) {
+                if (isOldDataValid) ArrayList(getData())
+                else parseListFromJson(context, nResponse)
+            } else parseListFromJson(context, nResponse)
         } else {
-            loadWallpapers(param, response)
+            if (validPrevResponse) {
+                parseListFromJson(context, safeParseResponseToJSON(context, prevResponse))
+            } else ArrayList()
         }
     }
     
-    private fun loadWallpapers(context:Context, response:String = ""):ArrayList<Wallpaper> =
-            if (response.hasContent()) {
-                buildWallpapersListFromResponse(context, response)
-            } else {
-                val prevResponse = context.framesKonfigs.backupJson
-                if (prevResponse.hasContent()) {
-                    buildWallpapersListFromResponse(context, prevResponse)
-                } else {
-                    ArrayList()
-                }
-            }
-    
-    private fun buildWallpapersListFromResponse(context:Context,
-                                                response:String):ArrayList<Wallpaper> {
-        if (!(response.hasContent())) return buildWallpapersListFromJson(JSONArray("[]"))
-        val jsonArray = buildJSONArrayFromResponse(context, response)
-        context.framesKonfigs.backupJson = jsonArray.toString()
-        return buildWallpapersListFromJson(jsonArray)
-    }
-    
-    private fun buildJSONArrayFromResponse(context:Context, response:String):JSONArray {
-        val shouldUseOldFormat = context.getBoolean(R.bool.use_old_json_format)
+    private fun safeParseResponseToJSON(context:Context, response:String):JSONArray {
         return try {
-            buildJSONArrayFromResponse(response, shouldUseOldFormat)
+            parseResponseToJSON(response, context.getBoolean(R.bool.use_old_json_format))
         } catch (e:Exception) {
             e.printStackTrace()
             try {
-                buildJSONArrayFromResponse(response, true)
+                parseResponseToJSON(response, true)
             } catch (e2:Exception) {
                 e2.printStackTrace()
                 JSONArray("[]")
@@ -97,19 +78,14 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
         }
     }
     
-    private fun buildJSONArrayFromResponse(response:String, useOldFormat:Boolean):JSONArray {
+    private fun parseResponseToJSON(response:String, useOldFormat:Boolean):JSONArray {
         return if (response.hasContent()) {
-            if (useOldFormat) {
-                buildJSONArrayFromOldFormat(response)
-            } else {
-                JSONArray(response)
-            }
-        } else {
-            JSONArray("[]")
-        }
+            if (useOldFormat) parseResponseToOldJSON(response)
+            else JSONArray(response)
+        } else JSONArray("[]")
     }
     
-    private fun buildJSONArrayFromOldFormat(response:String):JSONArray {
+    private fun parseResponseToOldJSON(response:String):JSONArray {
         return try {
             JSONObject(response).getJSONArray("Wallpapers")
         } catch (ignored:Exception) {
@@ -121,7 +97,8 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
         }
     }
     
-    private fun buildWallpapersListFromJson(json:JSONArray):ArrayList<Wallpaper> {
+    private fun parseListFromJson(context:Context, json:JSONArray):MutableList<Wallpaper> {
+        context.framesKonfigs.backupJson = json.toString()
         val fWallpapers = ArrayList<Wallpaper>()
         for (index in 0..json.length()) {
             if (json.isNull(index)) continue

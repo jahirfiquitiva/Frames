@@ -168,7 +168,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     
     override fun applyFilter(filter:String) {
         wallsAdapter?.let {
-            val list = (if (fromFavorites()) favoritesModel?.items?.value else wallpapersModel?.items?.value) ?: return
+            val list = (if (fromFavorites()) favoritesModel?.getData() else wallpapersModel?.getData()) ?: return
             if (filter.hasContent()) {
                 rv.setEmptyImage(R.drawable.no_results)
                 rv.setEmptyText(R.string.search_no_results)

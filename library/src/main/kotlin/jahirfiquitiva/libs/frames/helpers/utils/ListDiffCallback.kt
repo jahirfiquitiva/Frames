@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jahirfiquitiva.libs.frames.helpers.utils.diff
+package jahirfiquitiva.libs.frames.helpers.utils
 
 import android.support.v7.util.DiffUtil
-import jahirfiquitiva.libs.frames.data.models.Collection
-import jahirfiquitiva.libs.frames.data.models.Wallpaper
 
-abstract class BaseDiffCallback<Type>(private val oldList:ArrayList<Type>,
-                                      private val newList:ArrayList<Type>):DiffUtil.Callback() {
+open class ListDiffCallback<Type>(private val oldList:ArrayList<Type>,
+                                  private val newList:ArrayList<Type>):DiffUtil.Callback() {
     override fun getOldListSize():Int = oldList.size
     
     override fun getNewListSize():Int = newList.size
@@ -31,9 +29,3 @@ abstract class BaseDiffCallback<Type>(private val oldList:ArrayList<Type>,
     override fun areContentsTheSame(oldItemPosition:Int, newItemPosition:Int):Boolean =
             newList[newItemPosition] == oldList[oldItemPosition]
 }
-
-class WallpapersDiffCallback(oldList:ArrayList<Wallpaper>, newList:ArrayList<Wallpaper>):
-        BaseDiffCallback<Wallpaper>(oldList, newList)
-
-class CollectionsDiffCallback(oldList:ArrayList<Collection>, newList:ArrayList<Collection>):
-        BaseDiffCallback<Collection>(oldList, newList)

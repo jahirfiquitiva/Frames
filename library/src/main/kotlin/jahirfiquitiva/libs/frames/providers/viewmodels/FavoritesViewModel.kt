@@ -17,98 +17,85 @@ package jahirfiquitiva.libs.frames.providers.viewmodels
 
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDao
-import jahirfiquitiva.libs.frames.helpers.utils.AsyncTaskManager
+import jahirfiquitiva.libs.frames.helpers.utils.SimpleAsyncTask
+import java.lang.ref.WeakReference
 
 class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
-    override fun loadItems(param:FavoritesDao):MutableList<Wallpaper> {
-        val list = ArrayList<Wallpaper>()
-        try {
-            list.addAll(param.getFavorites().distinct())
-        } catch (e:Exception) {
-            e.printStackTrace()
-        }
-        return list
+    
+    private var daoTask:SimpleAsyncTask<*, *>? = null
+    
+    override fun loadData(param:FavoritesDao):MutableList<Wallpaper> =
+            param.getFavorites().distinct().toMutableList()
+    
+    private fun cancelDaoTask() {
+        daoTask?.cancel(true)
+        daoTask = null
     }
     
-    fun forceUpdateFavorites(items:List<Wallpaper>) {
-        param?.let {
-            AsyncTaskManager(it, {}, {
-                try {
-                    it.nukeFavorites()
-                    for (item in items) {
-                        it.addToFavorites(item)
+    fun forceUpdateFavorites(dao:FavoritesDao, items:List<Wallpaper>) {
+        cancelDaoTask()
+        daoTask = SimpleAsyncTask<FavoritesDao, Unit>(
+                WeakReference(dao),
+                object:SimpleAsyncTask.AsyncTaskCallback<FavoritesDao, Unit>() {
+                    override fun doLoad(param:FavoritesDao):Unit? =
+                            internalForceUpdateFavorites(param, items)
+                    
+                    override fun onSuccess(result:Unit) {}
+                })
+        daoTask?.execute()
+    }
+    
+    private fun internalForceUpdateFavorites(dao:FavoritesDao, items:List<Wallpaper>) {
+        dao.nukeFavorites()
+        items.forEach { dao.addToFavorites(it) }
+        loadData(dao, true)
+    }
+    
+    fun isInFavorites(wallpaper:Wallpaper):Boolean = getData()?.contains(wallpaper) ?: false
+    
+    fun addToFavorites(dao:FavoritesDao, wallpaper:Wallpaper, onFail:() -> Unit) {
+        if (isInFavorites(wallpaper)) return
+        cancelDaoTask()
+        daoTask = SimpleAsyncTask<Wallpaper, Unit>(
+                WeakReference(wallpaper),
+                object:SimpleAsyncTask.AsyncTaskCallback<Wallpaper, Unit>() {
+                    override fun doLoad(param:Wallpaper) {
+                        val oldList = ArrayList(dao.getFavorites())
+                        if (!oldList.contains(param)) {
+                            oldList.add(param)
+                            forceUpdateFavorites(dao, oldList)
+                        }
                     }
-                    loadData(it, true)
-                    return@AsyncTaskManager true
-                } catch (e:Exception) {
-                    e.printStackTrace()
-                    return@AsyncTaskManager false
-                }
-            }, {}).execute()
-        }
+                    
+                    override fun onSuccess(result:Unit) {}
+                    override fun onError(e:Exception?):Unit? {
+                        onFail()
+                        return super.onError(e)
+                    }
+                })
+        daoTask?.execute()
     }
     
-    fun isInFavorites(wallpaper:Wallpaper):Boolean {
-        return try {
-            val contains = items.value?.contains(wallpaper) ?: false
-            contains
-        } catch (e:Exception) {
-            e.printStackTrace()
-            false
-        }
-    }
-    
-    fun addToFavorites(wallpaper:Wallpaper, onError:() -> Unit) {
-        try {
-            if (isInFavorites(wallpaper)) return
-            AsyncTaskManager(
-                    wallpaper, {},
-                    { it ->
-                        try {
-                            val old = ArrayList(param?.getFavorites())
-                            param?.nukeFavorites()
-                            items.value?.clear()
-                            if (!(old.contains(it))) old.add(it)
-                            old.forEach {
-                                param?.addToFavorites(it)
-                            }
-                            param?.let { loadData(it, true) }
-                            return@AsyncTaskManager true
-                        } catch (e:Exception) {
-                            e.printStackTrace()
-                            return@AsyncTaskManager false
+    fun removeFromFavorites(dao:FavoritesDao, wallpaper:Wallpaper, onFail:() -> Unit) {
+        if (!isInFavorites(wallpaper)) return
+        cancelDaoTask()
+        daoTask = SimpleAsyncTask<Wallpaper, Unit>(
+                WeakReference(wallpaper),
+                object:SimpleAsyncTask.AsyncTaskCallback<Wallpaper, Unit>() {
+                    override fun doLoad(param:Wallpaper) {
+                        val oldList = ArrayList(dao.getFavorites())
+                        if (oldList.contains(param)) {
+                            oldList.remove(param)
+                            forceUpdateFavorites(dao, oldList)
                         }
-                    }, {}).execute()
-        } catch (e:Exception) {
-            e.printStackTrace()
-            onError()
-        }
-    }
-    
-    fun removeFromFavorites(wallpaper:Wallpaper, onError:() -> Unit) {
-        try {
-            if (!(isInFavorites(wallpaper))) return
-            AsyncTaskManager(
-                    wallpaper, {},
-                    { it ->
-                        try {
-                            val old = ArrayList(param?.getFavorites())
-                            param?.nukeFavorites()
-                            items.value?.clear()
-                            if (old.contains(it)) old.remove(it)
-                            old.forEach {
-                                param?.addToFavorites(it)
-                            }
-                            param?.let { loadData(it, true) }
-                            return@AsyncTaskManager true
-                        } catch (e:Exception) {
-                            e.printStackTrace()
-                            return@AsyncTaskManager false
-                        }
-                    }, {}).execute()
-        } catch (e:Exception) {
-            e.printStackTrace()
-            onError()
-        }
+                    }
+                    
+                    override fun onSuccess(result:Unit) {}
+                    override fun onError(e:Exception?):Unit? {
+                        onFail()
+                        return super.onError(e)
+                    }
+                })
+        daoTask?.execute()
     }
 }

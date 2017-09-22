@@ -306,8 +306,9 @@ abstract class FramesActivity:BaseFramesActivity() {
             frag?.let {
                 if (it is BaseFramesFragment<*, *>) {
                     try {
-                        it.favoritesModel?.stopTask(true)
-                        it.favoritesModel?.forceUpdateFavorites(list)
+                        with(it) {
+                            getDatabase()?.let { favoritesModel?.forceUpdateFavorites(it, list) }
+                        }
                     } catch (ignored:Exception) {
                     }
                 }

@@ -24,7 +24,7 @@ import com.bumptech.glide.RequestManager
 import com.bumptech.glide.util.ViewPreloadSizeProvider
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.utils.diff.WallpapersDiffCallback
+import jahirfiquitiva.libs.frames.helpers.utils.ListDiffCallback
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import java.util.*
 
@@ -54,7 +54,7 @@ class WallpapersAdapter(private val manager:RequestManager,
             parent?.inflate(R.layout.item_wallpaper)?.let { WallpaperHolder(it, showFavIcon) }
     
     override fun updateItems(newItems:ArrayList<Wallpaper>, detectMoves:Boolean) {
-        updateItems(newItems, WallpapersDiffCallback(list, newItems), detectMoves)
+        updateItems(newItems, ListDiffCallback(list, newItems), detectMoves)
     }
     
     override fun getPreloadItems(position:Int):MutableList<Wallpaper> =

@@ -22,7 +22,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 
 class CollectionsViewModel:ListViewModel<ArrayList<Wallpaper>, Collection>() {
-    override fun loadItems(param:ArrayList<Wallpaper>):MutableList<Collection> {
+    override fun loadData(param:ArrayList<Wallpaper>):MutableList<Collection> {
         val collections = ArrayList<Collection>()
         val collectionsMap = HashMap<String, ArrayList<Wallpaper>>()
         for ((index, wallpaper) in param.withIndex()) {
