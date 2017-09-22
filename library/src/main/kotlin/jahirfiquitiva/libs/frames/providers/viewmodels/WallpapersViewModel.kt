@@ -165,10 +165,10 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
             }
             var thumbUrl = ""
             try {
-                thumbUrl = obj.getString("thumbUrl")
+                thumbUrl = obj.getString("thumbnail")
             } catch (ignored:Exception) {
                 try {
-                    thumbUrl = obj.getString("thumbnail")
+                    thumbUrl = obj.getString("thumbUrl")
                 } catch (ignored:Exception) {
                     try {
                         thumbUrl = obj.getString("thumb")
