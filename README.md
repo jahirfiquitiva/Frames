@@ -61,16 +61,18 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 - Donations.
 - Firebase notifications ready.
 - Cloud based (only) wallpapers.
+- App can work offline.
 - Categories section.
 - Favorites section.
+- Deep search (users can search wallpapers by name, author and/or collection at the same time).
 - Wallpapers can be applied and downloaded.
-- Wallpapers include a full-screen viewer with zooming capabilities.
-- Option to change the columns amount in wallpapers section.
+- Wallpapers include a full-screen viewer with zooming capabilities and detailed info viewer.
 - [Muzei Live Wallpaper](http://muzei.co/) support.
 - Credits section.
 - Settings section with these options:
 	- Option to change app theme (Light, Dark, Amoled, Transparent, Auto-Dark, Auto-Amoled).
 	- Option to color navigation bar (Lollipop+).
+	- Option to change the columns amount in wallpapers section.
 	- Option to clear app cache.
 	- Option to change where to download wallpapers.
 	- Option to clear favorites database.
