@@ -144,28 +144,29 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     }
     
     internal fun postToFavorites(item:Wallpaper, check:Boolean) {
-        snack?.dismiss()
-        snack = null
         try {
             if (check) addToFavorites(item) else removeFromFavorites(item)
-            snack = view?.buildSnackbar(
-                    getString(
-                            if (check) R.string.added_to_favorites else R.string.removed_from_favorites,
-                            item.name),
-                    Snackbar.LENGTH_SHORT)
-            snack?.view?.findViewById<TextView>(R.id.snackbar_text)?.setTextColor(Color.WHITE)
-            snack?.show()
+            showFavsSnackbar(check, item.name)
         } catch (e:Exception) {
             e.printStackTrace()
             showErrorSnackbar()
         }
     }
     
+    private fun showFavsSnackbar(added:Boolean, name:String) {
+        showSnackBar(getString(
+                if (added) R.string.added_to_favorites else R.string.removed_from_favorites,
+                name))
+    }
+    
     internal fun showErrorSnackbar() {
+        showSnackBar(getString(R.string.action_error_content))
+    }
+    
+    private fun showSnackBar(text:String) {
         snack?.dismiss()
         snack = null
-        snack = view?.buildSnackbar(getString(R.string.action_error_content),
-                                    Snackbar.LENGTH_SHORT)
+        snack = view?.buildSnackbar(text, Snackbar.LENGTH_SHORT)
         snack?.view?.findViewById<TextView>(R.id.snackbar_text)?.setTextColor(Color.WHITE)
         snack?.show()
     }

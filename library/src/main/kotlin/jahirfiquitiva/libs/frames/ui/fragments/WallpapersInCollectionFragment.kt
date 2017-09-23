@@ -29,14 +29,19 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
     
     var newFavs = ArrayList<Wallpaper>()
     
-    override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
-        super.doOnFavoritesChange(data)
+    private fun getWallpapersInCollection(all:ArrayList<Wallpaper>):ArrayList<Wallpaper> {
         collection?.let {
             val collectionName = it.name
-            wallsAdapter?.favorites = ArrayList(data.filter {
+            return ArrayList(all.filter {
                 it.collections.formatCorrectly().replace("_", " ").contains(collectionName, true)
             })
         }
+        return ArrayList()
+    }
+    
+    override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
+        super.doOnFavoritesChange(data)
+        wallsAdapter?.updateFavorites(getWallpapersInCollection(data))
         if (!firstFavsModification) {
             newFavs.clear()
             newFavs.addAll(data)
@@ -47,12 +52,7 @@ class WallpapersInCollectionFragment:BaseWallpapersFragment() {
     
     override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
-        collection?.let {
-            val collectionName = it.name
-            wallsAdapter?.setItems(ArrayList(data.filter {
-                it.collections.formatCorrectly().replace("_", " ").contains(collectionName, true)
-            }))
-        }
+        wallsAdapter?.setItems(getWallpapersInCollection(data))
     }
     
     override fun loadDataFromViewModel() {

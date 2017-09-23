@@ -23,8 +23,8 @@ class FavoritesFragment:BaseWallpapersFragment() {
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
         wallsAdapter?.let {
+            it.updateFavorites(data)
             it.setItems(data)
-            it.favorites = data
             rv.forceUpdateState()
         }
     }

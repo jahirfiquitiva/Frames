@@ -59,7 +59,7 @@ abstract class WallpaperActionsActivity:ThemedActivity() {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 checkIfFileExists(requestCode == 41)
             } else {
-                showSnackbar(R.string.permission_denied)
+                showSnackbar(R.string.permission_denied, Snackbar.LENGTH_LONG)
             }
         }
     }
@@ -84,7 +84,8 @@ abstract class WallpaperActionsActivity:ThemedActivity() {
                                 showPermissionInformation(toApply)
                         
                         override fun onPermissionCompletelyDenied() =
-                                showSnackbar(R.string.permission_denied_completely)
+                                showSnackbar(R.string.permission_denied_completely,
+                                             Snackbar.LENGTH_LONG)
                         
                         override fun onPermissionGranted() = checkIfFileExists(toApply)
                     })
@@ -95,12 +96,13 @@ abstract class WallpaperActionsActivity:ThemedActivity() {
     }
     
     private fun showPermissionInformation(toApply:Boolean) {
-        showSnackbar(getString(R.string.permission_request, getAppName()), {
-            setAction(R.string.allow, {
-                dismiss()
-                downloadWallpaper(toApply)
-            })
-        })
+        showSnackbar(getString(R.string.permission_request, getAppName()),
+                     Snackbar.LENGTH_LONG, {
+                         setAction(R.string.allow, {
+                             dismiss()
+                             downloadWallpaper(toApply)
+                         })
+                     })
     }
     
     private fun checkIfFileExists(toApply:Boolean) {
@@ -149,13 +151,14 @@ abstract class WallpaperActionsActivity:ThemedActivity() {
         sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(dest)))
         runOnUiThread {
             properlyCancelDialog()
-            showSnackbar(getString(R.string.download_successful, dest.toString()), {
-                setAction(R.string.open, {
-                    dest.getUri(this@WallpaperActionsActivity)?.let {
-                        openWallpaper(it)
-                    }
-                })
-            })
+            showSnackbar(getString(R.string.download_successful, dest.toString()),
+                         Snackbar.LENGTH_LONG, {
+                             setAction(R.string.open, {
+                                 dest.getUri(this@WallpaperActionsActivity)?.let {
+                                     openWallpaper(it)
+                                 }
+                             })
+                         })
         }
     }
     
@@ -210,7 +213,7 @@ abstract class WallpaperActionsActivity:ThemedActivity() {
                                              toHomeScreen -> R.string.home_screen
                                              toLockScreen -> R.string.lock_screen
                                              else -> R.string.empty
-                                         }).toLowerCase()))
+                                         }).toLowerCase()), Snackbar.LENGTH_LONG)
     }
     
     private fun showNotConnectedDialog() {
@@ -231,9 +234,9 @@ abstract class WallpaperActionsActivity:ThemedActivity() {
         actionDialog = null
     }
     
-    private fun showSnackbar(@StringRes text:Int, settings:Snackbar.() -> Unit = {}) {
-        showSnackbar(getString(text), settings)
+    private fun showSnackbar(@StringRes text:Int, duration:Int, settings:Snackbar.() -> Unit = {}) {
+        showSnackbar(getString(text), duration, settings)
     }
     
-    abstract fun showSnackbar(text:String, settings:Snackbar.() -> Unit = {})
+    abstract fun showSnackbar(text:String, duration:Int, settings:Snackbar.() -> Unit = {})
 }

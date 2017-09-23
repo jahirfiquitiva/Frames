@@ -19,25 +19,14 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
 
 class WallpapersFragment:BaseWallpapersFragment() {
-    private var hasResumed = false
-    
     override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
-        wallsAdapter?.favorites = data
-        if (hasResumed) {
-            wallsAdapter?.notifyDataSetChanged()
-            hasResumed = false
-        }
+        wallsAdapter?.updateFavorites(data)
     }
     
     override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
         wallsAdapter?.setItems(data)
-    }
-    
-    override fun onResume() {
-        super.onResume()
-        hasResumed = true
     }
     
     override fun autoStartLoad():Boolean = true

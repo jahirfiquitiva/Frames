@@ -27,6 +27,7 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.ListDiffCallback
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import java.util.*
+import kotlin.collections.ArrayList
 
 class WallpapersAdapter(private val manager:RequestManager,
                         private val provider:ViewPreloadSizeProvider<Wallpaper>,
@@ -38,11 +39,25 @@ class WallpapersAdapter(private val manager:RequestManager,
         BaseListAdapter<Wallpaper, WallpaperHolder>(),
         ListPreloader.PreloadModelProvider<Wallpaper> {
     
+    private var firstTime = true
+    
     var favorites = ArrayList<Wallpaper>()
-        set(value) {
+        private set(value) {
             field.clear()
             field.addAll(value)
         }
+    
+    fun updateFavorites(newFavs:ArrayList<Wallpaper>) {
+        if (firstTime) {
+            favorites = newFavs
+            notifyDataSetChanged()
+            firstTime = false
+        } else {
+            val modified = getModifiedItems(favorites, newFavs)
+            favorites = newFavs
+            modified.forEach { notifyItemChanged(list.indexOf(it)) }
+        }
+    }
     
     override fun doBind(holder:WallpaperHolder, position:Int, shouldAnimate:Boolean) {
         val item = list[position]
@@ -62,4 +77,14 @@ class WallpapersAdapter(private val manager:RequestManager,
     
     override fun getPreloadRequestBuilder(item:Wallpaper?):RequestBuilder<*> =
             manager.load(item?.thumbUrl)
+    
+    private fun getModifiedItems(oldList:ArrayList<Wallpaper>,
+                                 newList:ArrayList<Wallpaper>):ArrayList<Wallpaper> {
+        val modified = ArrayList<Wallpaper>()
+        oldList.filter { !newList.contains(it) && !modified.contains(it) }
+                .forEach { modified.add(it) }
+        newList.filter { !oldList.contains(it) && !modified.contains(it) }
+                .forEach { modified.add(it) }
+        return modified
+    }
 }

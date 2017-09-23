@@ -370,9 +370,9 @@ abstract class BaseFramesActivity:WallpaperActionsActivity(), BillingProcessor.I
     
     override fun applyBitmapWallpaper(toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean) {}
     
-    override fun showSnackbar(text:String, settings:Snackbar.() -> Unit) {
+    override fun showSnackbar(text:String, duration:Int, settings:Snackbar.() -> Unit) {
         contentView?.let {
-            val snack = it.buildSnackbar(text, builder = settings)
+            val snack = it.buildSnackbar(text, duration, builder = settings)
             
             val snackText = snack.view.findViewById<TextView>(R.id.snackbar_text)
             snackText.setTextColor(Color.WHITE)

@@ -510,7 +510,7 @@ open class ViewerActivity:WallpaperActionsActivity() {
                         wallpaper?.let {
                             showSnackbar(getString(
                                     (if (isInFavorites) R.string.removed_from_favorites else R.string.added_to_favorites),
-                                    it.name))
+                                    it.name), Snackbar.LENGTH_SHORT)
                         }
                         hasModifiedFavs = true
                         isInFavorites = !isInFavorites
@@ -522,9 +522,9 @@ open class ViewerActivity:WallpaperActionsActivity() {
         favImageView.startAnimation(scale)
     }
     
-    override fun showSnackbar(text:String, settings:Snackbar.() -> Unit) {
+    override fun showSnackbar(text:String, duration:Int, settings:Snackbar.() -> Unit) {
         contentView?.let {
-            val snack = it.buildSnackbar(text, builder = settings)
+            val snack = it.buildSnackbar(text, duration, settings)
             val bottomBarWasVisible = visibleBottomBar
             
             snack.addCallback(object:Snackbar.Callback() {
