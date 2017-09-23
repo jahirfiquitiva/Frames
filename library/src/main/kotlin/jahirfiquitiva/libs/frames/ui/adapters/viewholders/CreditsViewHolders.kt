@@ -39,11 +39,42 @@ import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kauextensions.ui.layouts.SplitButtonsLayout
 
 @Suppress("ArrayInDataClass")
-data class Credit(val type:Type, val photo:String, val name:String, val description:String = "",
+data class Credit(val name:String, val photo:String, val type:Type,
+                  val link:String = "", val description:String = "",
                   val buttonsTitles:List<String> = ArrayList(),
-                  val buttonsLinks:List<String> = ArrayList(), val link:String = "") {
+                  val buttonsLinks:List<String> = ArrayList()) {
     enum class Type {
         CREATOR, DASHBOARD, DEV_CONTRIBUTION, UI_CONTRIBUTION
+    }
+    
+    companion object {
+        private val JAMES = Credit("James Fenn", "https://goo.gl/6Wc5rK", Type.DEV_CONTRIBUTION,
+                                   "https://plus.google.com/+JamesFennJAFFA2157")
+        private val MAX = Credit("Maximilian Keppeler", "https://goo.gl/2qUEtS",
+                                 Type.DEV_CONTRIBUTION,
+                                 "https://plus.google.com/+MaxKeppeler")
+        private val SASI = Credit("Sasi Kanth", "https://goo.gl/wvxim8", Type.DEV_CONTRIBUTION,
+                                  "https://plus.google.com/+Sasikanth")
+        private val ALEX = Credit("Alexandre Piveteau", "https://goo.gl/ZkJNnV",
+                                  Type.DEV_CONTRIBUTION,
+                                  "https://github.com/alexandrepiveteau")
+        private val LUKAS = Credit("Lukas Koller", "https://goo.gl/aPtAKZ", Type.DEV_CONTRIBUTION,
+                                   "https://github.com/kollerlukas")
+        
+        private val PATRYK = Credit("Patryk Goworowski", "https://goo.gl/9ccZcA",
+                                    Type.UI_CONTRIBUTION,
+                                    "https://plus.google.com/+PatrykGoworowski")
+        private val LUMIQ = Credit("Lumiq Creative", "https://goo.gl/UVRC7G", Type.UI_CONTRIBUTION,
+                                   "https://plus.google.com/+LumiqCreative")
+        private val KEVIN = Credit("Kevin Aguilar", "https://goo.gl/mGuAM9", Type.UI_CONTRIBUTION,
+                                   "http://kevaguilar.com/")
+        private val EDUARDO = Credit("Eduardo Pratti", "https://goo.gl/TSKB7s",
+                                     Type.UI_CONTRIBUTION, "https://plus.google.com/+EduardoPratti")
+        private val ANTHONY = Credit("Anthony Nguyen", "https://goo.gl/zxiBQE",
+                                     Type.UI_CONTRIBUTION, "https://plus.google.com/+AHNguyen")
+        
+        val EXTRA_CREDITS = arrayListOf(JAMES, MAX, SASI, ALEX, LUKAS,
+                                        PATRYK, LUMIQ, KEVIN, EDUARDO, ANTHONY)
     }
 }
 

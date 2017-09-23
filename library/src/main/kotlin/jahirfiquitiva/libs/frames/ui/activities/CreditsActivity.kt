@@ -199,50 +199,31 @@ open class CreditsActivity:ThemedActivity() {
                 
                 if (descriptions.size == titles.size && photos.size == titles.size) {
                     (0 until titles.size).mapTo(list) {
-                        Credit(Credit.Type.CREATOR, photos[it], titles[it], descriptions[it],
-                               buttons[it].split("|"), links[it].split("|"))
+                        Credit(titles[it], photos[it], Credit.Type.CREATOR,
+                               description = descriptions[it],
+                               buttonsTitles = buttons[it].split("|"),
+                               buttonsLinks = links[it].split("|"))
                     }
                 }
             }
             
-            list.add(Credit(Credit.Type.DASHBOARD, JAHIR_PHOTO_URL, "Jahir Fiquitiva",
-                            getString(R.string.dashboard_copyright), JAHIR_BUTTONS.split("|"),
-                            JAHIR_LINKS.split("|")))
+            list.add(Credit("Jahir Fiquitiva", JAHIR_PHOTO_URL, Credit.Type.DASHBOARD,
+                            description = getString(R.string.dashboard_copyright),
+                            buttonsTitles = JAHIR_BUTTONS.split("|"),
+                            buttonsLinks = JAHIR_LINKS.split("|")))
             
-            list.add(Credit(Credit.Type.DASHBOARD, ALLAN_PHOTO_URL, "Allan Wang",
-                            getString(R.string.allan_description), ALLAN_BUTTONS.split("|"),
-                            ALLAN_LINKS.split("|")))
+            list.add(Credit("Allan Wang", ALLAN_PHOTO_URL, Credit.Type.DASHBOARD,
+                            description = getString(R.string.allan_description),
+                            buttonsTitles = ALLAN_BUTTONS.split("|"),
+                            buttonsLinks = ALLAN_LINKS.split("|")))
             
-            list.add(Credit(Credit.Type.DASHBOARD, SHERRY_PHOTO_URL, "Sherry Sabatine",
-                            getString(R.string.sherry_description), SHERRY_BUTTONS.split("|"),
-                            SHERRY_LINKS.split("|")))
+            list.add(Credit("Sherry Sabatine", SHERRY_PHOTO_URL, Credit.Type.DASHBOARD,
+                            description = getString(R.string.sherry_description),
+                            buttonsTitles = SHERRY_BUTTONS.split("|"),
+                            buttonsLinks = SHERRY_LINKS.split("|")))
             
-            list.add(Credit(Credit.Type.DEV_CONTRIBUTION, JAMES_PHOTO_URL, "James Fenn",
-                            link = "https://plus.google.com/+JamesFennJAFFA2157"))
+            list.addAll(Credit.EXTRA_CREDITS)
             
-            list.add(Credit(Credit.Type.DEV_CONTRIBUTION, MAX_PHOTO_URL, "Maximilian Keppeler",
-                            link = "https://plus.google.com/+MaxKeppeler"))
-            
-            list.add(Credit(Credit.Type.DEV_CONTRIBUTION, ALEX_PHOTO_URL, "Alexandre Piveteau",
-                            link = "https://github.com/alexandrepiveteau"))
-            
-            list.add(Credit(Credit.Type.DEV_CONTRIBUTION, LUKAS_PHOTO_URL, "Lukas Koller",
-                            link = "https://github.com/kollerlukas"))
-            
-            list.add(Credit(Credit.Type.UI_CONTRIBUTION, PATRYK_PHOTO_URL, "Patryk Goworowski",
-                            link = "https://plus.google.com/+PatrykGoworowski"))
-            
-            list.add(Credit(Credit.Type.UI_CONTRIBUTION, LUMIQ_PHOTO_URL, "Lumiq Creative",
-                            link = "https://plus.google.com/+LumiqCreative"))
-            
-            list.add(Credit(Credit.Type.UI_CONTRIBUTION, KEVIN_PHOTO_URL, "Kevin Aguilar",
-                            link = "http://kevaguilar.com/"))
-            
-            list.add(Credit(Credit.Type.UI_CONTRIBUTION, EDUARDO_PHOTO_URL, "Eduardo Pratti",
-                            link = "https://plus.google.com/+EduardoPratti"))
-            
-            list.add(Credit(Credit.Type.UI_CONTRIBUTION, ANTHONY_PHOTO_URL, "Anthony Nguyen",
-                            link = "https://plus.google.com/+AHNguyen"))
         } catch (e:Exception) {
             e.printStackTrace()
         }
@@ -262,16 +243,5 @@ open class CreditsActivity:ThemedActivity() {
         const val SHERRY_PHOTO_URL = "https://pbs.twimg.com/profile_images/853258651326459904/yogDkP9p.jpg"
         const val SHERRY_BUTTONS = "Website|Google+"
         const val SHERRY_LINKS = "http://photography-by-sherry.com/home|https://plus.google.com/+SherrySabatine"
-        
-        const val JAMES_PHOTO_URL = "https://lh3.googleusercontent.com/H1lDr6FlSvHQe4oIogYUGNWIDLb69LcIVCYciPUzql7Q_Nrq4wp-3yKh1uSfTPV3iM0DnC1icD-80YQ=w1107-h623-rw-no"
-        const val MAX_PHOTO_URL = "https://lh3.googleusercontent.com/yvcLR6mThBOpHYo6iIG9SlyEHmmVgO1LaPIv_Eu9unSGqt99fnaBVLtR1rom16c_t98tz_sxGeo8Ba5MPCI=w1107-h623-rw-no"
-        const val LUKAS_PHOTO_URL = "https://avatars3.githubusercontent.com/u/16599370?v=4&s=400"
-        const val ALEX_PHOTO_URL = "https://avatars2.githubusercontent.com/u/6318990?v=4&s=460"
-        
-        const val LUMIQ_PHOTO_URL = "https://raw.githubusercontent.com/lumiqcreative/lumiq-repo/master/profilepic.png"
-        const val PATRYK_PHOTO_URL = "https://lh3.googleusercontent.com/EpfG2M4si7jn_lk01ure5CGDPF07Aw3YPA88NMvoG1txfGIPc-feN2LdrBby_5W8VPJNCBNGjzCtOYclHck=w1107-h623-rw-no"
-        const val KEVIN_PHOTO_URL = "https://lh3.googleusercontent.com/iGbKA1n-YKF1bFG14LHqGZ0Z4PRkTjzwriUNPKbiLR67FV06Ubnh7QjsouAgndRlJ0dHTlcwFx2Dhrw=w1107-h623-rw-no"
-        const val EDUARDO_PHOTO_URL = "https://lh3.googleusercontent.com/JBUU8dTBxuqSp3mwG87DmNWzYW1zsOlUXiJRRXgCdbajedZx8R8_TjgOdM6-3imZGt5JXL1dBdH6wL0=w1107-h623-rw-no"
-        const val ANTHONY_PHOTO_URL = "https://lh3.googleusercontent.com/MULcsGqrwp5YfurEZljOPYWn-jnkvQfe5PXokbgsFK-aamnFtkg2qugLKrSolmWi7W408MZCwmyb9A=w1107-h623-rw-no"
     }
 }

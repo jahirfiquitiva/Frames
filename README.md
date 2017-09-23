@@ -4,7 +4,7 @@ Frames
 ======
 
 [![JitPack](https://jitpack.io/v/jahirfiquitiva/Frames.svg)](https://jitpack.io/#jahirfiquitiva/Frames)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/879f716f4db84287bf1d7f17ace1c794)](https://www.codacy.com/app/jahirfiquitiva/Frames?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jahirfiquitiva/Frames&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0daab9c8435f451eabd86c5218bc2950)](https://www.codacy.com/app/jahirfiquitiva/Frames?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jahirfiquitiva/Frames&amp;utm_campaign=Badge_Grade)
 [![codebeat badge](https://codebeat.co/badges/eee96484-e205-455d-b5c2-6e4cda77b5f3)](https://codebeat.co/projects/github-com-jahirfiquitiva-frames-master)
 [![Build Status](https://travis-ci.org/jahirfiquitiva/Frames.svg?branch=master)](https://travis-ci.org/jahirfiquitiva/Frames)
 ![API](https://img.shields.io/badge/API-16%2B-7ac143.svg)
@@ -137,6 +137,7 @@ Just join our community and make a post. We'll help you as soon as possible. [![
 - [Allan Wang](https://www.allanwang.ca/)
 - [James Fenn](https://theandroidmaster.github.io/)
 - [Maximilian Keppeler](https://plus.google.com/+MaxKeppeler)
+- [Sasi Kanth](https://plus.google.com/+Sasikanth)
 - [Alexandre Piveteau](https://github.com/alexandrepiveteau)
 - [Lukas Koller](https://github.com/kollerlukas)
 - [Patryk Goworowski](https://plus.google.com/+PatrykGoworowski)
@@ -144,6 +145,7 @@ Just join our community and make a post. We'll help you as soon as possible. [![
 - [Kevin Aguilar](http://kevaguilar.com/)
 - [Eduardo Pratti](https://plus.google.com/+EduardoPratti/posts)
 - [Anthony Nguyen](https://plus.google.com/+AHNguyen)
+- [Translators](http://jahirfiquitiva.oneskyapp.com/admin/collaborators)
 
 ---
 
