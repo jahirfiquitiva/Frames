@@ -42,7 +42,7 @@ allprojects {
         buildTools = '26.0.1'
         gradlePlugin = '2.3.3'
         kotlin = '1.1.4-3'
-		supportLibs = '26.1.0'
+        supportLibs = '26.1.0'
     }
 
     repositories {

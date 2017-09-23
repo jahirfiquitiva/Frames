@@ -103,7 +103,9 @@ allprojects {
 2. Add the dependency in your project `build.gradle` file
 ```gradle
 dependencies {
-    compile 'me.jahirfiquitiva:Frames:{latest version}'
+    compile('me.jahirfiquitiva:Frames:{latest version}@aar') {
+        transitive = true
+    }
 }
 ```
 where `{latest version}` corresponds to published version in   [![JitPack](https://jitpack.io/v/jahirfiquitiva/Frames.svg)](https://jitpack.io/#jahirfiquitiva/Frames)

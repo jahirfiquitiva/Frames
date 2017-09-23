@@ -64,11 +64,11 @@ android {
 }
 
 dependencies {
-	// Frames
-    compile ('me.jahirfiquitiva:Frames:2.0.1@aar') {
-		transitive = true
-	}
-	// Kotlin
+    // Frames
+    compile('me.jahirfiquitiva:Frames:2.0.1@aar') {
+        transitive = true
+    }
+    // Kotlin
     compile 'org.jetbrains.kotlin:kotlin-stdlib:' + project.ext.kotlin
 }
 
