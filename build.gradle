@@ -35,7 +35,6 @@ buildscript {
 }
 
 allprojects {
-
     project.ext {
         // Core app details
         appId = 'Frames'
@@ -53,7 +52,7 @@ allprojects {
         kotlin = '1.1.4-3'
         // Libraries versions
         supportLibs = '26.1.0'
-        archComponents = '1.0.0-alpha9-1'
+        archComponents = '1.0.0-beta1'
         materialDialogs = '0.9.4.7'
         reveal = '1.2.1'
         snapHelper = '1.3'

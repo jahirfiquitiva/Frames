@@ -65,7 +65,6 @@ dependencies {
     // Kotlin
     compile 'org.jetbrains.kotlin:kotlin-stdlib:' + project.ext.kotlin
     // Architecture Components
-    compile 'android.arch.lifecycle:runtime:' + project.ext.archComponents
     compile 'android.arch.lifecycle:extensions:' + project.ext.archComponents
     compile 'android.arch.persistence.room:runtime:' + project.ext.archComponents
     annotationProcessor 'android.arch.lifecycle:compiler:' + project.ext.archComponents

@@ -26,6 +26,7 @@ import com.google.android.apps.muzei.api.Artwork
 import com.google.android.apps.muzei.api.MuzeiArtSource
 import com.google.android.apps.muzei.api.RemoteMuzeiArtSource
 import com.google.android.apps.muzei.api.UserCommand
+import com.google.android.apps.muzei.api.internal.ProtocolConstants
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
@@ -42,10 +43,10 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
-
-@Suppress("NAME_SHADOWING")
-class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleOwner {
+@Suppress("LeakingThis")
+open class FramesArtSource(name:String):RemoteMuzeiArtSource(name), LifecycleOwner {
     
+    private val UPDATE_COMMAND_ID = 1001
     private val SHARE_COMMAND_ID = 1337
     
     private val lcRegistry = LifecycleRegistry(this)
@@ -59,7 +60,9 @@ class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleOwn
         intent?.let {
             val restart = it.getBooleanExtra("restart", false)
             val command = it.getStringExtra("service") ?: ""
-            if (restart || command.hasContent()) tryToUpdate()
+            val updateCommand = it.getIntExtra(ProtocolConstants.EXTRA_COMMAND_ID, 0)
+            if (restart || command.hasContent() || updateCommand == UPDATE_COMMAND_ID)
+                tryToUpdate()
         }
         return super.onStartCommand(intent, flags, startId)
     }
@@ -106,7 +109,7 @@ class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleOwn
     private fun executeMuzeiUpdate() {
         try {
             wallsVM = WallpapersViewModel()
-            wallsVM?.observe(this, {
+            wallsVM?.extraObserve {
                 if (it.isNotEmpty()) {
                     val realData = getValidWallpapersList(ArrayList(it))
                     if (framesKonfigs.muzeiCollections.contains("favorites", true)) {
@@ -115,11 +118,11 @@ class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleOwn
                                                       DATABASE_NAME)
                                 .fallbackToDestructiveMigration().build()
                         favsVM = FavoritesViewModel()
-                        favsVM?.observe(this@FramesArtSource, {
+                        favsVM?.extraObserve {
                             realData.addAll(getValidWallpapersList(ArrayList(it)))
                             realData.distinct()
                             if (realData.isNotEmpty()) chooseRandomWallpaperAndPost(realData)
-                        })
+                        }
                         val dao = favsDB?.favoritesDao()
                         if (dao != null) {
                             favsVM?.loadData(dao, true)
@@ -130,7 +133,7 @@ class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleOwn
                         if (realData.isNotEmpty()) chooseRandomWallpaperAndPost(realData)
                     }
                 }
-            })
+            }
             wallsVM?.loadData(this, true)
         } catch (e:Exception) {
             e.printStackTrace()
@@ -143,6 +146,7 @@ class FramesArtSource:RemoteMuzeiArtSource("FramesMuzeiArtSource"), LifecycleOwn
         if (randomIndex < 0 || randomIndex >= list.size) return
         val wallpaper = list[randomIndex]
         publishToMuzei(wallpaper.name, wallpaper.author, wallpaper.url)
+        destroyViewModel()
     }
     
     private fun getValidWallpapersList(original:ArrayList<Wallpaper>):ArrayList<Wallpaper> {

@@ -45,6 +45,8 @@ abstract class BasicViewModel<in Parameter, Result>:ViewModel() {
     private val data = MutableLiveData<Result>()
     private var task:SimpleAsyncTask<Parameter, Result>? = null
     
+    private var customObserver:Observer<Result>? = null
+    
     fun loadData(parameter:Parameter, forceLoad:Boolean = false) {
         if (!taskStarted || forceLoad) {
             cancelTask(true)
@@ -70,6 +72,7 @@ abstract class BasicViewModel<in Parameter, Result>:ViewModel() {
     fun destroy(owner:LifecycleOwner, interrupt:Boolean = true) {
         cancelTask(interrupt)
         data.removeObservers(owner)
+        customObserver = null
     }
     
     private fun internalLoad(param:Parameter, forceLoad:Boolean = false):Result? {
@@ -82,12 +85,17 @@ abstract class BasicViewModel<in Parameter, Result>:ViewModel() {
     
     fun postResult(result:Result) {
         data.postValue(result)
+        customObserver?.onChanged(result)
         taskStarted = false
     }
     
     fun observe(owner:LifecycleOwner, onUpdated:(Result) -> Unit) {
         destroy(owner, true)
         data.observe(owner, Observer<Result> { r -> r?.let { onUpdated(it) } })
+    }
+    
+    fun extraObserve(onUpdated:(Result) -> Unit) {
+        customObserver = Observer { r -> r?.let { onUpdated(it) } }
     }
     
     protected abstract fun loadData(param:Parameter):Result
