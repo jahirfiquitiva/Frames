@@ -48,8 +48,8 @@ android {
             zipAlignEnabled true
             minifyEnabled false
             shrinkResources false
-            proguardFiles 'proguard-android-optimize.pro', 'proguard-rules.pro'
-            consumerProguardFiles 'proguard-android-optimize.pro', 'proguard-rules.pro'
+            proguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
         }
     }
 
