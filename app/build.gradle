@@ -37,8 +37,8 @@ android {
         applicationId "jahirfiquitiva.apps.frames.sample"
         minSdkVersion project.ext.minSdk
         targetSdkVersion project.ext.targetSdk
-        versionCode 200
-        versionName '2.0.0'
+        versionCode 201
+        versionName '2.0.1'
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -64,7 +64,7 @@ android {
 }
 
 dependencies {
-    compile 'me.jahirfiquitiva:Frames:2.0.0'
+    compile 'me.jahirfiquitiva:Frames:2.0.1'
 }
 
 // TODO: Remove comment marks if you plan on implementing Firebase Notifications
