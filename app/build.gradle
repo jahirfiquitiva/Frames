@@ -65,7 +65,7 @@ android {
 
 dependencies {
     // Frames
-    compile('me.jahirfiquitiva:Frames:2.0.1@aar') {
+    compile('me.jahirfiquitiva:Frames:2.0.3@aar') {
         transitive = true
     }
     // Kotlin
