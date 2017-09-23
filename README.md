@@ -8,7 +8,7 @@ Frames
 [![codebeat badge](https://codebeat.co/badges/eee96484-e205-455d-b5c2-6e4cda77b5f3)](https://codebeat.co/projects/github-com-jahirfiquitiva-frames-master)
 [![Build Status](https://travis-ci.org/jahirfiquitiva/Frames.svg?branch=sample)](https://travis-ci.org/jahirfiquitiva/Frames)
 ![API](https://img.shields.io/badge/API-16%2B-7ac143.svg)
-[![Sample App](https://img.shields.io/badge/SAMPLE-APP-34bf49.svg)](https://github.com/jahirfiquitiva/Frames/blob/images/frames-sample-2.0.apk)
+[![Sample App](https://img.shields.io/badge/SAMPLE-APP-34bf49.svg)](https://github.com/jahirfiquitiva/Frames/raw/images/frames-sample.apk)
 
 A full-of-features, easy-to-customize, free and open source, light-weight, Android dashboard library to create wallpapers apps with almost-null effort.
 
@@ -145,7 +145,6 @@ Just join our community and make a post. We'll help you as soon as possible. [![
 - [Kevin Aguilar](http://kevaguilar.com/)
 - [Eduardo Pratti](https://plus.google.com/+EduardoPratti/posts)
 - [Anthony Nguyen](https://plus.google.com/+AHNguyen)
-- [Translators](http://jahirfiquitiva.oneskyapp.com/admin/collaborators)
 
 ---
 
