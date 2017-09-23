@@ -8,7 +8,7 @@ Frames
 [![codebeat badge](https://codebeat.co/badges/eee96484-e205-455d-b5c2-6e4cda77b5f3)](https://codebeat.co/projects/github-com-jahirfiquitiva-frames-master)
 [![Build Status](https://travis-ci.org/jahirfiquitiva/Frames.svg?branch=sample)](https://travis-ci.org/jahirfiquitiva/Frames)
 ![API](https://img.shields.io/badge/API-16%2B-7ac143.svg)
-[![Sample App](https://img.shields.io/badge/SAMPLE-APP-34bf49.svg)](href="https://github.com/jahirfiquitiva/Frames-Sample)
+[![Sample App](https://img.shields.io/badge/SAMPLE-APP-34bf49.svg)](https://github.com/jahirfiquitiva/Frames/blob/images/frames-sample-2.0.apk)
 
 A full-of-features, easy-to-customize, free and open source, light-weight, Android dashboard library to create wallpapers apps with almost-null effort.
 
@@ -103,7 +103,9 @@ allprojects {
 2. Add the dependency in your project `build.gradle` file
 ```gradle
 dependencies {
-    compile 'me.jahirfiquitiva:Frames:{latest version}'
+    compile('me.jahirfiquitiva:Frames:{latest version}@aar') {
+        transitive = true
+    }
 }
 ```
 where `{latest version}` corresponds to published version in   [![JitPack](https://jitpack.io/v/jahirfiquitiva/Frames.svg)](https://jitpack.io/#jahirfiquitiva/Frames)
