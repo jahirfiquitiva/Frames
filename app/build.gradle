@@ -23,7 +23,7 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             output.outputFile = new File(output.outputFile.parent,
-                    project.ext.appId + "-v${variant.versionName}-${variant.name}.apk")
+                    "MyFramesApp-v${variant.versionName}-${variant.name}.apk")
         }
     }
 
