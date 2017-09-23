@@ -17,10 +17,14 @@ package jahirfiquitiva.libs.frames.helpers.extensions
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
+import android.animation.TypeEvaluator
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.graphics.ColorMatrixColorFilter
 import android.os.Build
+import android.support.annotation.ColorInt
 import android.support.annotation.StringRes
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
@@ -132,3 +136,25 @@ private fun getAllChildren(v:View):ArrayList<View> {
     }
     return result
 }
+
+@Suppress("UNCHECKED_CAST")
+fun <T> createAnimator(evaluator:TypeEvaluator<*>, vararg values:T,
+                       onConfig:ValueAnimator.() -> Unit = {},
+                       onUpdate:(T) -> Unit):ValueAnimator =
+        ValueAnimator.ofObject(evaluator, *values).apply {
+            addUpdateListener { onUpdate(it.animatedValue as T) }
+            onConfig(this)
+        }
+
+
+fun animateSmoothly(@ColorInt startColor:Int, @ColorInt endColor:Int,
+                    doUpdate:(Int) -> Unit):ValueAnimator =
+        createAnimator(ArgbEvaluator(),
+                       startColor, endColor,
+                       onConfig = {
+                           duration = 1000
+                           repeatMode = ValueAnimator.REVERSE
+                           repeatCount = ValueAnimator.INFINITE
+                           start()
+                       },
+                       onUpdate = doUpdate)

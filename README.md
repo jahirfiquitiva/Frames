@@ -145,7 +145,6 @@ Just join our community and make a post. We'll help you as soon as possible. [![
 - [Kevin Aguilar](http://kevaguilar.com/)
 - [Eduardo Pratti](https://plus.google.com/+EduardoPratti/posts)
 - [Anthony Nguyen](https://plus.google.com/+AHNguyen)
-- [Translators](http://jahirfiquitiva.oneskyapp.com/admin/collaborators)
 
 ---
 

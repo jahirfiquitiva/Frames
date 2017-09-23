@@ -60,6 +60,19 @@ abstract class FramesWallpaperHolder(itemView:View):GlideViewHolder(itemView) {
     abstract internal val img:ImageView
     abstract internal fun getListener():GlideRequestCallback<Bitmap>
     
+    internal fun animateLoad(view:View) {
+        with(view) {
+            whenFaded(ifHasNotFaded = {
+                if (context.framesKonfigs.animationsEnabled) {
+                    animateSmoothly(context.dividerColor, context.thumbnailColor,
+                                    { setBackgroundColor(it) })
+                } else {
+                    setBackgroundColor(context.dividerColor)
+                }
+            })
+        }
+    }
+    
     internal fun loadImage(manager:RequestManager, url:String, thumbUrl:String) {
         val hasFaded = wallpaper?.hasFaded ?: true
         img.loadWallpaper(manager, url, thumbUrl, hasFaded, getListener())
@@ -88,15 +101,7 @@ class CollectionHolder(itemView:View):FramesWallpaperHolder(itemView) {
                 collection:Collection, listener:(Collection) -> Unit) {
         if (this.wallpaper != collection.bestCover) this.wallpaper = collection.bestCover
         with(itemView) {
-            whenFaded(ifHasNotFaded = {
-                if (context.framesKonfigs.animationsEnabled) {
-                    animateSmoothly(context.dividerColor, context.thumbnailColor,
-                                    { setBackgroundColor(it) })
-                } else {
-                    setBackgroundColor(context.dividerColor)
-                }
-            })
-            
+            animateLoad(this)
             detailsBg.setBackgroundColor(context.dividerColor)
             val rightCover = collection.bestCover ?: collection.wallpapers.first()
             val url = rightCover.url
@@ -172,14 +177,7 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
             ViewCompat.setTransitionName(author, "author_transition_$adapterPosition")
             ViewCompat.setTransitionName(heartIcon, "fav_transition_$adapterPosition")
             
-            whenFaded(ifHasNotFaded = {
-                if (context.framesKonfigs.animationsEnabled) {
-                    animateSmoothly(context.dividerColor, context.thumbnailColor,
-                                    { setBackgroundColor(it) })
-                } else {
-                    setBackgroundColor(context.dividerColor)
-                }
-            })
+            animateLoad(this)
             
             val url = wallpaper.url
             val thumb = wallpaper.thumbUrl

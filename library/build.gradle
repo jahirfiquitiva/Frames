@@ -74,8 +74,6 @@ dependencies {
     // Material Dialogs
     compile 'com.afollestad.material-dialogs:core:' + project.ext.materialDialogs
     compile 'com.afollestad.material-dialogs:commons:' + project.ext.materialDialogs
-    // Snap Helper
-    compile 'com.github.rubensousa:gravitysnaphelper:' + project.ext.snapHelper
     // OkHttp
     compile 'com.squareup.okhttp3:okhttp:' + project.ext.okhttp
     // Glide Image Loading

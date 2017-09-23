@@ -15,9 +15,6 @@
  */
 package jahirfiquitiva.libs.frames.helpers.utils
 
-import jahirfiquitiva.libs.frames.ui.activities.CreditsActivity
-import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
-
 const val DATABASE_NAME = "FAVORITES"
 
 const val PREFERENCES_NAME = "frames_preferences"

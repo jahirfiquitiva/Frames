@@ -27,6 +27,12 @@
         <license>CreativeCommons Attribution-ShareAlike 4.0 International License</license>
     </notice>
     <notice>
+        <name>Material Chips Input</name>
+        <url>https://github.com/jahirfiquitiva/MaterialChipsInput</url>
+        <copyright>Copyright (c) 2017 pchmn</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
         <name>KAU</name>
         <url>https://github.com/AllanWang/KAU</url>
         <copyright>Copyright (c) 2017 Allan Wang</copyright>
@@ -39,9 +45,9 @@
         <license>MIT License</license>
     </notice>
     <notice>
-        <name>Volley</name>
-        <url>https://github.com/google/volley</url>
-        <copyright>Copyright (c) 2017 Google Inc.</copyright>
+        <name>OkHttp</name>
+        <url>http://square.github.io/okhttp/</url>
+        <copyright>Copyright (c) 2016 Square, Inc.</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
