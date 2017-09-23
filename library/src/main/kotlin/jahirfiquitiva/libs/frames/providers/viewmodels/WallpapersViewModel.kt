@@ -103,93 +103,115 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
         for (index in 0..json.length()) {
             if (json.isNull(index)) continue
             val obj = json.getJSONObject(index)
-            var name = ""
-            try {
-                name = obj.getString("name") ?: ""
-            } catch (ignored:Exception) {
-            }
-            var author = ""
-            try {
-                author = obj.getString("author") ?: ""
-            } catch (ignored:Exception) {
-            }
-            var collections = ""
-            try {
-                collections = obj.getString("collections")
-            } catch (ignored:Exception) {
-                try {
-                    collections = obj.getString("categories")
-                } catch (ignored:Exception) {
-                    try {
-                        collections = obj.getString("category") ?: ""
-                    } catch (ignored:Exception) {
-                    }
-                }
-            }
-            var downloadable = true
-            try {
-                downloadable = obj.getBoolean("downloadable")
-            } catch (ignored:Exception) {
-                try {
-                    downloadable = (obj.getString("downloadable") ?: "true").equals("true", true)
-                } catch (ignored:Exception) {
-                }
-            }
-            var url = ""
-            try {
-                url = obj.getString("url") ?: ""
-            } catch (ignored:Exception) {
-            }
-            var thumbUrl = ""
-            try {
-                thumbUrl = obj.getString("thumbnail")
-            } catch (ignored:Exception) {
-                try {
-                    thumbUrl = obj.getString("thumbUrl")
-                } catch (ignored:Exception) {
-                    try {
-                        thumbUrl = obj.getString("thumb")
-                    } catch (ignored:Exception) {
-                        try {
-                            thumbUrl = obj.getString("url-thumb") ?: ""
-                        } catch (ignored:Exception) {
-                        }
-                    }
-                }
-            }
-            var size = 0L
-            try {
-                size = obj.getLong("size")
-            } catch (ignored:Exception) {
-                try {
-                    size = obj.getString("size").toLong()
-                } catch (ignored:Exception) {
-                }
-            }
-            var dimensions = ""
-            try {
-                dimensions = obj.getString("dimensions")
-            } catch (ignored:Exception) {
-                try {
-                    dimensions = obj.getString("dimension") ?: ""
-                } catch (ignored:Exception) {
-                }
-            }
-            var copyright = ""
-            try {
-                copyright = obj.getString("copyright") ?: ""
-            } catch (ignored:Exception) {
-            }
-            name = name.formatCorrectly().replace("_", " ").toTitleCase()
-            author = author.formatCorrectly().replace("_", " ").toTitleCase()
-            if (name.hasContent() && url.hasContent()) {
-                fWallpapers.add(
-                        Wallpaper(name, author, collections, downloadable, url,
-                                  if (thumbUrl.hasContent()) thumbUrl else url, size,
-                                  dimensions, copyright))
+            val name = getWallpaperName(obj)
+            val author = getAuthorName(obj)
+            val collections = getCollectionsForWallpaper(obj)
+            val downloadable = isWallpaperDownloadable(obj)
+            val url = getWallpaperUrl(obj)
+            val thumbUrl = getWallpaperThumbnailUrl(obj)
+            val size = getWallpaperBytes(obj)
+            val dimensions = getWallpaperDimensions(obj)
+            val copyright = getWallpaperCopyright(obj)
+            val correctName = name.formatCorrectly().replace("_", " ").toTitleCase()
+            val correctAuthor = author.formatCorrectly().replace("_", " ").toTitleCase()
+            if (correctName.hasContent() && url.hasContent()) {
+                fWallpapers.add(Wallpaper(correctName, correctAuthor, collections,
+                                          downloadable, url,
+                                          if (thumbUrl.hasContent()) thumbUrl else url,
+                                          size, dimensions, copyright))
             }
         }
         fWallpapers.distinct()
         return fWallpapers
+    }
+    
+    private fun getWallpaperName(obj:JSONObject):String = try {
+        obj.getString("name") ?: ""
+    } catch (ignored:Exception) {
+        ""
+    }
+    
+    private fun getAuthorName(obj:JSONObject):String = try {
+        obj.getString("author") ?: ""
+    } catch (ignored:Exception) {
+        ""
+    }
+    
+    private fun getCollectionsForWallpaper(obj:JSONObject):String = try {
+        obj.getString("collections")
+    } catch (ignored:Exception) {
+        try {
+            obj.getString("categories")
+        } catch (ignored:Exception) {
+            try {
+                obj.getString("category") ?: ""
+            } catch (ignored:Exception) {
+                ""
+            }
+        }
+    }
+    
+    private fun isWallpaperDownloadable(obj:JSONObject):Boolean = try {
+        obj.getBoolean("downloadable")
+    } catch (ignored:Exception) {
+        try {
+            (obj.getString("downloadable") ?: "true").equals("true", true)
+        } catch (ignored:Exception) {
+            true
+        }
+    }
+    
+    private fun getWallpaperUrl(obj:JSONObject):String = try {
+        obj.getString("url") ?: ""
+    } catch (ignored:Exception) {
+        ""
+    }
+    
+    private fun getWallpaperThumbnailUrl(obj:JSONObject):String = try {
+        obj.getString("thumbnail")
+    } catch (ignored:Exception) {
+        try {
+            obj.getString("thumbUrl")
+        } catch (ignored:Exception) {
+            try {
+                obj.getString("thumburl")
+            } catch (ignored:Exception) {
+                try {
+                    obj.getString("thumb")
+                } catch (ignored:Exception) {
+                    try {
+                        obj.getString("url-thumb") ?: ""
+                    } catch (ignored:Exception) {
+                        ""
+                    }
+                }
+            }
+        }
+    }
+    
+    private fun getWallpaperBytes(obj:JSONObject):Long = try {
+        obj.getLong("size")
+    } catch (ignored:Exception) {
+        try {
+            obj.getString("size").toLong()
+        } catch (ignored:Exception) {
+            0L
+        }
+    }
+    
+    private fun getWallpaperDimensions(obj:JSONObject):String = try {
+        obj.getString("dimensions")
+    } catch (ignored:Exception) {
+        try {
+            obj.getString("dimension") ?: ""
+        } catch (ignored:Exception) {
+            ""
+        }
+    }
+    
+    private fun getWallpaperCopyright(obj:JSONObject):String = try {
+        obj.getString("copyright") ?: ""
+    } catch (ignored:Exception) {
+        ""
     }
 }
