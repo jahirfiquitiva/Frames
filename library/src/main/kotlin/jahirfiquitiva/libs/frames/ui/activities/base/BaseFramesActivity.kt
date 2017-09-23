@@ -197,7 +197,7 @@ abstract class BaseFramesActivity:WallpaperActionsActivity(), BillingProcessor.I
             getString(R.string.license_invalid_content, getAppName(),
                       getString(R.string.license_invalid_content_extra, pirateAppName))
         } else {
-            getString(R.string.license_invalid_content, getAppName())
+            getString(R.string.license_invalid_content, getAppName(), "~")
         }
         dialog = buildMaterialDialog {
             title(R.string.license_invalid_title)
