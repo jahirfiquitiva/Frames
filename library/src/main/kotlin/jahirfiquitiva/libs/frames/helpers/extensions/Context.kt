@@ -188,25 +188,20 @@ val Context.thumbnailOptions:RequestOptions
 val Context.wallpaperOptions:RequestOptions
     get() = urlOptions.priority(Priority.HIGH)
 
-fun <T> createAnimator(
-        evaluator:TypeEvaluator<*>,
-        vararg values:T,
-        onConfig:ValueAnimator.() -> Unit = {},
-        onUpdate:(T) -> Unit
-                      ):ValueAnimator =
-        ValueAnimator.ofObject(evaluator, *values).apply {
-            addUpdateListener {
-                @Suppress("UNCHECKED_CAST")
-                onUpdate(it.animatedValue as T)
-            }
+@Suppress("UNCHECKED_CAST")
+fun <T> createAnimator(evaluator:TypeEvaluator<*>, vararg values:T,
+                       onConfig:ValueAnimator.() -> Unit = {},
+                       onUpdate:(T) -> Unit):ValueAnimator =
+        ValueAnimator.ofObject(evaluator, values).apply {
+            addUpdateListener { onUpdate(it.animatedValue as T) }
             onConfig(this)
         }
 
 
-fun animateSmoothly(@ColorInt startColorId:Int, @ColorInt endColorId:Int,
+fun animateSmoothly(@ColorInt startColor:Int, @ColorInt endColor:Int,
                     doUpdate:(Int) -> Unit):ValueAnimator =
         createAnimator(ArgbEvaluator(),
-                       startColorId, endColorId,
+                       startColor, endColor,
                        onConfig = {
                            duration = 1000
                            repeatMode = ValueAnimator.REVERSE
