@@ -26,11 +26,12 @@ import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.ListDiffCallback
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
 import java.util.*
 
 class CollectionsAdapter(private val manager:RequestManager,
                          private val provider:ViewPreloadSizeProvider<Wallpaper>,
-                         private val listener:(Collection) -> Unit):
+                         private val listener:FramesViewClickListener<Collection, CollectionHolder>):
         BaseListAdapter<Collection, CollectionHolder>(),
         ListPreloader.PreloadModelProvider<Wallpaper> {
     

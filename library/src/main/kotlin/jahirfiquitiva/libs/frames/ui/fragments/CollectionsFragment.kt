@@ -33,6 +33,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
 import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
 import jahirfiquitiva.libs.frames.ui.adapters.CollectionsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
@@ -73,15 +74,17 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
             addItemDecoration(GridSpacingItemDecoration(spanCount, 0, true))
             
             val provider = ViewPreloadSizeProvider<Wallpaper>()
-            collsAdapter = CollectionsAdapter(Glide.with(this), provider,
-                                              { collection ->
-                                                  onItemClicked(collection)
-                                              })
+            collsAdapter = CollectionsAdapter(
+                    Glide.with(this), provider,
+                    object:FramesViewClickListener<Collection, CollectionHolder>() {
+                        override fun onSingleClick(item:Collection, holder:CollectionHolder) {
+                            onItemClicked(item)
+                        }
+                    })
             val preloader:RecyclerViewPreloader<Wallpaper> =
                     RecyclerViewPreloader(activity, collsAdapter, provider, context.maxPreload)
             addOnScrollListener(preloader)
             adapter = collsAdapter
-            
         }
         
         with(fastScroll) {

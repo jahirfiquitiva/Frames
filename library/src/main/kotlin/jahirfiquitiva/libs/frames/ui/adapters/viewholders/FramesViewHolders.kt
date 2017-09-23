@@ -17,6 +17,7 @@ package jahirfiquitiva.libs.frames.ui.adapters.viewholders
 
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.support.annotation.ColorInt
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -54,6 +55,12 @@ import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.withAlpha
 
 const val DETAILS_OPACITY = 0.85F
+
+abstract class FramesViewClickListener<in T, in VH> {
+    abstract fun onSingleClick(item:T, holder:VH)
+    open fun onLongClick(item:T) {}
+    open fun onHeartClick(view:ImageView, item:T, @ColorInt color:Int) {}
+}
 
 abstract class FramesWallpaperHolder(itemView:View):GlideViewHolder(itemView) {
     internal var wallpaper:Wallpaper? = null
@@ -98,7 +105,8 @@ class CollectionHolder(itemView:View):FramesWallpaperHolder(itemView) {
     private val amount:TextView by itemView.bind(R.id.collection_walls_number)
     
     fun setItem(manager:RequestManager, provider:ViewPreloadSizeProvider<Wallpaper>,
-                collection:Collection, listener:(Collection) -> Unit) {
+                collection:Collection,
+                listener:FramesViewClickListener<Collection, CollectionHolder>) {
         if (this.wallpaper != collection.bestCover) this.wallpaper = collection.bestCover
         with(itemView) {
             animateLoad(this)
@@ -111,7 +119,7 @@ class CollectionHolder(itemView:View):FramesWallpaperHolder(itemView) {
             amount.text = (collection.wallpapers.size).toString()
             amount.setTextColor(Color.WHITE)
             loadImage(manager, url, thumb)
-            setOnClickListener { listener(collection) }
+            setOnClickListener { listener.onSingleClick(collection, this@CollectionHolder) }
             provider.setView(img)
         }
     }
@@ -162,9 +170,8 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
     private val detailsBg:LinearLayout by itemView.bind(R.id.wallpaper_details)
     
     fun setItem(manager:RequestManager, provider:ViewPreloadSizeProvider<Wallpaper>,
-                wallpaper:Wallpaper, singleTap:(Wallpaper, WallpaperHolder) -> Unit,
-                longClick:(Wallpaper) -> Unit,
-                heartListener:(ImageView, Wallpaper, Int) -> Unit, check:Boolean) {
+                wallpaper:Wallpaper, check:Boolean,
+                listener:FramesViewClickListener<Wallpaper, WallpaperHolder>) {
         if (this.wallpaper != wallpaper) this.wallpaper = wallpaper
         with(itemView) {
             detailsBg.setBackgroundColor(context.dividerColor)
@@ -193,18 +200,17 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
             
             if (showFavIcon) {
                 heartIcon.setImageDrawable(context.createHeartIcon(shouldCheck).tint(heartColor))
-                heartIcon.setOnClickListener { heartListener(heartIcon, wallpaper, heartColor) }
+                heartIcon.setOnClickListener {
+                    listener.onHeartClick(heartIcon, wallpaper, heartColor)
+                }
                 heartIcon.visible()
             }
             
             loadImage(manager, url, thumb)
             provider.setView(img)
         }
-        itemView.setOnClickListener { singleTap(wallpaper, this) }
-        itemView.setOnLongClickListener {
-            longClick(wallpaper)
-            true
-        }
+        itemView.setOnClickListener { listener.onSingleClick(wallpaper, this) }
+        itemView.setOnLongClickListener { listener.onLongClick(wallpaper);true }
     }
     
     override fun getListener():GlideRequestCallback<Bitmap> {

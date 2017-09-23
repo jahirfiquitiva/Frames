@@ -16,7 +16,6 @@
 package jahirfiquitiva.libs.frames.ui.adapters
 
 import android.view.ViewGroup
-import android.widget.ImageView
 import ca.allanwang.kau.utils.inflate
 import com.bumptech.glide.ListPreloader
 import com.bumptech.glide.RequestBuilder
@@ -25,17 +24,16 @@ import com.bumptech.glide.util.ViewPreloadSizeProvider
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.ListDiffCallback
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import java.util.*
 import kotlin.collections.ArrayList
 
 class WallpapersAdapter(private val manager:RequestManager,
                         private val provider:ViewPreloadSizeProvider<Wallpaper>,
-                        private val singleTap:(Wallpaper, WallpaperHolder) -> Unit,
-                        private val longClick:(Wallpaper) -> Unit,
-                        private val heartListener:(ImageView, Wallpaper, Int) -> Unit,
                         private val fromFavorites:Boolean,
-                        private val showFavIcon:Boolean):
+                        private val showFavIcon:Boolean,
+                        private val listener:FramesViewClickListener<Wallpaper, WallpaperHolder>):
         BaseListAdapter<Wallpaper, WallpaperHolder>(),
         ListPreloader.PreloadModelProvider<Wallpaper> {
     
@@ -61,8 +59,8 @@ class WallpapersAdapter(private val manager:RequestManager,
     
     override fun doBind(holder:WallpaperHolder, position:Int, shouldAnimate:Boolean) {
         val item = list[position]
-        holder.setItem(manager, provider, item, singleTap, longClick, heartListener,
-                       fromFavorites || favorites.contains(item))
+        holder.setItem(manager, provider, item, fromFavorites || favorites.contains(item),
+                       listener)
     }
     
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):WallpaperHolder? =

@@ -25,6 +25,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
+import android.widget.ImageView
 import ca.allanwang.kau.utils.dimenPixelSize
 import ca.allanwang.kau.utils.toBitmap
 import com.bumptech.glide.Glide
@@ -41,6 +42,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
 import jahirfiquitiva.libs.frames.ui.activities.ViewerActivity
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.ui.adapters.WallpapersAdapter
+import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
@@ -85,16 +87,23 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
             
             val provider = ViewPreloadSizeProvider<Wallpaper>()
             wallsAdapter = WallpapersAdapter(
-                    Glide.with(context), provider,
-                    { wall, holder -> onItemClicked(wall, holder) },
-                    { wall ->
-                        if (activity is BaseFramesActivity)
-                            (activity as BaseFramesActivity).showWallpaperOptionsDialog(wall)
-                    },
-                    { heart, wall, color ->
-                        onHeartClicked(heart, wall, color)
-                    },
-                    fromFavorites(), showFavoritesIcon())
+                    Glide.with(context), provider, fromFavorites(), showFavoritesIcon(),
+                    object:FramesViewClickListener<Wallpaper, WallpaperHolder>() {
+                        override fun onSingleClick(item:Wallpaper, holder:WallpaperHolder) {
+                            onItemClicked(item, holder)
+                        }
+                        
+                        override fun onLongClick(item:Wallpaper) {
+                            super.onLongClick(item)
+                            if (activity is BaseFramesActivity)
+                                (activity as BaseFramesActivity).showWallpaperOptionsDialog(item)
+                        }
+                        
+                        override fun onHeartClick(view:ImageView, item:Wallpaper, color:Int) {
+                            super.onHeartClick(view, item, color)
+                            onHeartClicked(view, item, color)
+                        }
+                    })
             
             val preloader:RecyclerViewPreloader<Wallpaper> =
                     RecyclerViewPreloader(activity, wallsAdapter, provider, context.maxPreload)

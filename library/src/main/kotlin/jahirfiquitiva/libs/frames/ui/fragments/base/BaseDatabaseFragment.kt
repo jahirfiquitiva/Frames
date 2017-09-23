@@ -20,6 +20,7 @@ import android.arch.persistence.room.Room
 import android.graphics.Color
 import android.os.Bundle
 import android.support.annotation.CallSuper
+import android.support.annotation.ColorInt
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.view.animation.Animation
@@ -91,7 +92,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
         favoritesModel?.destroy(this)
     }
     
-    internal fun onHeartClicked(heart:ImageView, item:Wallpaper, color:Int) =
+    internal fun onHeartClicked(heart:ImageView, item:Wallpaper, @ColorInt color:Int) =
             animateHeartClick(heart, item, color, !isInFavorites(item))
     
     open fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {}
@@ -117,7 +118,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
     abstract fun fromFavorites():Boolean
     
     private val ANIMATION_DURATION:Long = 150
-    private fun animateHeartClick(heart:ImageView, item:Wallpaper, color:Int,
+    private fun animateHeartClick(heart:ImageView, item:Wallpaper, @ColorInt color:Int,
                                   check:Boolean) = context.runOnUiThread {
         val scale = ScaleAnimation(1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5F,
                                    Animation.RELATIVE_TO_SELF, 0.5F)
