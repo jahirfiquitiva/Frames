@@ -1,11 +1,11 @@
-<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/app_logo.png" width="192" align="right" hspace="20" />
+<img src="https://github.com/jahirfiquitiva/Frames/raw/images/app_logo.png" width="192" align="right" hspace="20" />
 
 Frames
 ======
 
 [![JitPack](https://jitpack.io/v/jahirfiquitiva/Frames.svg)](https://jitpack.io/#jahirfiquitiva/Frames)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/45c20e0537e141368d265098e5bd2233)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jahirfiquitiva/Frames2&amp;utm_campaign=Badge_Grade)
-[![Build Status](https://travis-ci.com/jahirfiquitiva/Frames2.svg?token=8EeMxLxGgKMUJhQ5pCt3&branch=master)](https://travis-ci.com/jahirfiquitiva/Frames2)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/45c20e0537e141368d265098e5bd2233)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jahirfiquitiva/Frames&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.com/jahirfiquitiva/Frames.svg?token=8EeMxLxGgKMUJhQ5pCt3&branch=master)](https://travis-ci.com/jahirfiquitiva/Frames)
 ![API](https://img.shields.io/badge/API-16%2B-7ac143.svg)
 [![Sample App](https://img.shields.io/badge/SAMPLE-APP-34bf49.svg)](href="https://github.com/jahirfiquitiva/Frames-Sample)
 
@@ -27,30 +27,30 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 
 ### Customizable styles
 <p align="center">
-<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/3.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/9.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/2.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/10.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/images/3.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/images/9.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/images/2.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/images/10.png" height="350"/>
 </p>
 <p align="center">
-<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/1.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/11.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/12.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/images/1.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/images/11.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/images/12.png" height="350"/>
 </p>
 
 ### Full-screen Viewer / Multiple themes
 <p align="center">
-<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/4.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/14.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/7.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/8.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/images/4.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/images/14.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/images/7.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/images/8.png" height="350"/>
 </p>
 
 ### Credits / Settings / Muzei Settings
 <p align="center">
-<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/5.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/6.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames2/raw/images/13.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/images/5.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/images/6.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/images/13.png" height="350"/>
 </p>
 
 ---
