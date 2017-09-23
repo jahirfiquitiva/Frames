@@ -29,7 +29,7 @@ android {
 
     lintOptions {
         abortOnError false
-        checkReleaseBuilds false
+        checkReleaseBuilds true
         disable 'MissingTranslation', 'GoogleAppIndexingWarning'
     }
 
@@ -65,7 +65,7 @@ android {
 
 dependencies {
     // Frames
-    compile('me.jahirfiquitiva:Frames:2.0.4@aar') {
+    compile('me.jahirfiquitiva:Frames:2.0.5@aar') {
         transitive = true
     }
     // Kotlin
