@@ -63,7 +63,6 @@ abstract class BaseFramesActivity:WallpaperActionsActivity(), BillingProcessor.I
     override fun darkTheme():Int = R.style.DarkTheme
     override fun amoledTheme():Int = R.style.AmoledTheme
     override fun transparentTheme():Int = R.style.TransparentTheme
-    override fun autoStatusBarTint():Boolean = true
     
     private var checker:PiracyChecker? = null
     private var dialog:MaterialDialog? = null

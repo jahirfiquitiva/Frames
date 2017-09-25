@@ -532,10 +532,7 @@ open class ViewerActivity:WallpaperActionsActivity() {
                     super.onDismissed(transientBottomBar, event)
                     if (bottomBarWasVisible) changeBottomBarVisibility(true)
                 }
-                
-                override fun onShown(sb:Snackbar?) {
-                    super.onShown(sb)
-                }
+    
             })
             
             var bottomNavBar = 0

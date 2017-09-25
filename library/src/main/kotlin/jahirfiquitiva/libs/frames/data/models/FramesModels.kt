@@ -114,8 +114,6 @@ data class Collection(val name:String,
         return name.equals(other.name, true)
     }
     
-    override fun hashCode():Int = super.hashCode()
-    
     override fun toString():String = name
     
     constructor(parcel:Parcel):this(parcel.readString()) {

@@ -33,7 +33,6 @@ import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.requestPermissions
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsFragment
-import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getUri
@@ -41,7 +40,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-abstract class WallpaperActionsActivity:ThemedActivity() {
+abstract class WallpaperActionsActivity:BaseActivityWithFragments() {
     
     private var actionDialog:MaterialDialog? = null
     internal var wallActions:WallpaperActionsFragment? = null

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 apply plugin: 'com.github.dcendents.android-maven'
-group = project.ext.libPublishGroup
 
 // build a jar with source files
 task sourcesJar(type: Jar) {

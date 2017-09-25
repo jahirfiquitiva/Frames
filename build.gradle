@@ -23,7 +23,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.4-3'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.50'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
 
         // TODO: Remove comment marks if you plan on implementing Firebase Notifications
@@ -40,7 +40,6 @@ allprojects {
         appId = 'Frames'
         appGroup = 'jahirfiquitiva.apps'
         libGroup = 'jahirfiquitiva.libs'
-        libPublishGroup = 'me.jahirfiquitiva'
         minSdk = 16
         targetSdk = 26
         compileSdk = 26
@@ -49,16 +48,14 @@ allprojects {
         versionName = '1.0.5'
         gradlePlugin = '2.3.3'
         libPubPlugin = '1.5'
-        kotlin = '1.1.4-3'
+        kotlin = '1.1.50'
         // Libraries versions
         supportLibs = '26.1.0'
         archComponents = '1.0.0-beta1'
         materialDialogs = '0.9.4.7'
-        reveal = '1.2.1'
-        snapHelper = '1.3'
         glide = '4.1.1'
         okhttp = '3.9.0'
-        kauExt = '678d092'
+        kauExt = '86e32d3'
         sectionedRecyclerView = '0.5.0'
         recyclerViewFastScroll = '6a72f8c'
         chips = 'a472057'
