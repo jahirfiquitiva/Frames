@@ -21,7 +21,6 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import ca.allanwang.kau.utils.postDelayed
@@ -35,6 +34,7 @@ import jahirfiquitiva.libs.frames.ui.fragments.WallpapersFragment
 import jahirfiquitiva.libs.frames.ui.fragments.adapters.FragmentsAdapter
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomTabLayout
+import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.frames.ui.widgets.SearchView
 import jahirfiquitiva.libs.frames.ui.widgets.bindSearchView
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
@@ -45,12 +45,13 @@ import jahirfiquitiva.libs.kauextensions.extensions.getDisabledTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getInactiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 
 abstract class FramesActivity:BaseFramesActivity() {
     
-    private val toolbar:Toolbar by bind(R.id.toolbar)
+    private val toolbar:CustomToolbar by bind(R.id.toolbar)
     private val pager:ViewPager by bind(R.id.pager)
     private val tabs:CustomTabLayout by bind(R.id.tabs)
     
@@ -163,10 +164,11 @@ abstract class FramesActivity:BaseFramesActivity() {
                 }
                 
                 override fun onSearchOpened(searchView:SearchView) {
-                    // Do nothing
+                    toolbar.enableScroll(false)
                 }
                 
                 override fun onSearchClosed(searchView:SearchView) {
+                    toolbar.enableScroll(true)
                     doSearch()
                 }
             }
@@ -225,6 +227,11 @@ abstract class FramesActivity:BaseFramesActivity() {
         }
     }
     
+    override fun onPause() {
+        super.onPause()
+        searchView?.revealClose()
+    }
+    
     override fun onSaveInstanceState(outState:Bundle?) {
         outState?.putInt("current", lastSection)
         super.onSaveInstanceState(outState)
@@ -259,6 +266,7 @@ abstract class FramesActivity:BaseFramesActivity() {
             frag?.let {
                 if (it is BaseFramesFragment<*, *>) {
                     try {
+                        it.enableRefresh(!filter.hasContent())
                         synchronized(LOCK, {
                             postDelayed(200, { it.applyFilter(filter) })
                         })

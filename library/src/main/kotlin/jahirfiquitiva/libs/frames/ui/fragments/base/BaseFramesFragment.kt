@@ -63,6 +63,8 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
         if (!fromCollectionActivity) collectionsModel?.loadData(data)
     }
     
+    abstract fun enableRefresh(enable:Boolean)
+    
     open fun reloadData(section:Int) {
         scrollToTop()
         when (section) {

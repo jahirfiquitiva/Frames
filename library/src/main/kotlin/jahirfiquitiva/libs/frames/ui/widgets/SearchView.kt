@@ -64,7 +64,7 @@ import org.jetbrains.anko.runOnUiThread
  * Created by Allan Wang on 2017-06-23.
  *
  * A materialized SearchView with complete theming and customization
- * This view can be added programmatically and configured using the [Configs] DSL
+ * This view can be added programmatically
  * It is preferred to add the view through an activity, but it can be attached to any ViewGroup
  * Beware of where specifically this is added, as its view or the keyboard may affect positioning
  *
@@ -144,6 +144,7 @@ class SearchView:FrameLayout {
         editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 listener?.onQuerySubmit(editText.text.toString().trim())
+                editText.hideKeyboard()
                 return@setOnEditorActionListener true
             }
             false

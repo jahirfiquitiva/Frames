@@ -60,7 +60,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     lateinit var fastScroll:RecyclerFastScroller
     
     var wallsAdapter:WallpapersAdapter? = null
-		private set
+        private set
     private var spanCount = 0
     private var spacingDecoration:GridSpacingItemDecoration? = null
     
@@ -152,6 +152,10 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     override fun loadDataFromViewModel() {
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.loadDataFromViewModel()
+    }
+    
+    override fun enableRefresh(enable:Boolean) {
+        swipeToRefresh.isEnabled = enable
     }
     
     override fun reloadData(section:Int) {

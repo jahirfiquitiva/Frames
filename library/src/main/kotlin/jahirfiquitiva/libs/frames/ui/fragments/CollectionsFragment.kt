@@ -119,6 +119,10 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         super.loadDataFromViewModel()
     }
     
+    override fun enableRefresh(enable:Boolean) {
+        swipeToRefresh.isEnabled = enable
+    }
+    
     override fun reloadData(section:Int) {
         if (swipeToRefresh.isRefreshing) swipeToRefresh.isRefreshing = false
         rv.state = EmptyViewRecyclerView.State.LOADING
