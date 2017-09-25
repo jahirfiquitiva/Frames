@@ -56,16 +56,17 @@ import org.jetbrains.anko.contentView
 
 abstract class BaseFramesActivity:WallpaperActionsActivity(), BillingProcessor.IBillingHandler {
     
-    private var picker:Int = 0
-    private var donationsReady = false
-    
     override fun lightTheme():Int = R.style.LightTheme
     override fun darkTheme():Int = R.style.DarkTheme
     override fun amoledTheme():Int = R.style.AmoledTheme
     override fun transparentTheme():Int = R.style.TransparentTheme
     
+    var picker:Int = 0
+        private set
+    var dialog:MaterialDialog? = null
+    
     private var checker:PiracyChecker? = null
-    private var dialog:MaterialDialog? = null
+    private var donationsReady = false
     internal var billingProcessor:BillingProcessor? = null
     
     override var wallpaper:Wallpaper? = null
@@ -76,6 +77,16 @@ abstract class BaseFramesActivity:WallpaperActionsActivity(), BillingProcessor.I
         picker = getPickerKey()
         initDonations()
         startLicenseCheck()
+    }
+    
+    override fun onSaveInstanceState(outState:Bundle?) {
+        outState?.putInt("pickerKey", picker)
+        super.onSaveInstanceState(outState)
+    }
+    
+    override fun onRestoreInstanceState(savedInstanceState:Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        picker = savedInstanceState?.getInt("pickerKey") ?: 0
     }
     
     internal fun initDonations() {
@@ -135,7 +146,7 @@ abstract class BaseFramesActivity:WallpaperActionsActivity(), BillingProcessor.I
         }
     }
     
-    internal fun getShortcut():String {
+    fun getShortcut():String {
         if (intent != null && intent.dataString != null &&
                 intent.dataString.contains("_shortcut")) {
             return intent.dataString
@@ -251,7 +262,7 @@ abstract class BaseFramesActivity:WallpaperActionsActivity(), BillingProcessor.I
         dialog?.show()
     }
     
-    internal fun doDonation() {
+    fun doDonation() {
         initDonations()
         destroyDialog()
         if (!donationsReady) {
