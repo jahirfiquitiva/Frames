@@ -532,7 +532,7 @@ open class ViewerActivity:WallpaperActionsActivity() {
                     super.onDismissed(transientBottomBar, event)
                     if (bottomBarWasVisible) changeBottomBarVisibility(true)
                 }
-    
+                
             })
             
             var bottomNavBar = 0

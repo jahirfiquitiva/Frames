@@ -53,6 +53,9 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
     private var locationChooserDialog:FolderChooserDialog? = null
     private val fragment:Fragment by lazyAndroid { settingsFragment() }
     
+    open fun settingsFragment():Fragment = SettingsFragment()
+    override fun fragmentsContainer():Int = R.id.fragments_container
+    
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_collection_settings)
@@ -150,7 +153,4 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
             (fragment as SettingsFragment).updateDownloadLocation()
         }
     }
-    
-    open fun settingsFragment():Fragment = SettingsFragment()
-    override fun fragmentsContainer():Int = R.id.fragments_container
 }

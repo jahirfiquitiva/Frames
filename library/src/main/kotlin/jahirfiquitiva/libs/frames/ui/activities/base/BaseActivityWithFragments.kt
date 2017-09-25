@@ -22,10 +22,11 @@ import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 
 abstract class BaseActivityWithFragments:ThemedActivity() {
     
-    abstract fun fragmentsContainer():Int
+    internal open fun fragmentsContainer():Int = 0
     override fun autoStatusBarTint():Boolean = true
     
     fun changeFragment(f:Fragment, tag:String? = null) {
+        if (fragmentsContainer() == 0) return
         try {
             val manager = supportFragmentManager.beginTransaction()
             if (framesKonfigs.animationsEnabled) {
