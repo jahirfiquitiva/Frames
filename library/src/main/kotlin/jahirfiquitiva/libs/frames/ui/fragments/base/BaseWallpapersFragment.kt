@@ -59,7 +59,8 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     lateinit var rv:EmptyViewRecyclerView
     lateinit var fastScroll:RecyclerFastScroller
     
-    internal var wallsAdapter:WallpapersAdapter? = null
+    var wallsAdapter:WallpapersAdapter? = null
+		private set
     private var spanCount = 0
     private var spacingDecoration:GridSpacingItemDecoration? = null
     
