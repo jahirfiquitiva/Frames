@@ -43,7 +43,7 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
         }
     }
     
-    override fun loadData(param:Context):MutableList<Wallpaper> =
+    override fun internalLoad(param:Context):MutableList<Wallpaper> =
             loadWallpapers(param,
                            FramesUrlRequests().requestJson(param.getString(R.string.json_url)))
     

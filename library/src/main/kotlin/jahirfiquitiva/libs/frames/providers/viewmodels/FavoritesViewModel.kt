@@ -24,7 +24,7 @@ class FavoritesViewModel:ListViewModel<FavoritesDao, Wallpaper>() {
     
     private var daoTask:SimpleAsyncTask<*, *>? = null
     
-    override fun loadData(param:FavoritesDao):MutableList<Wallpaper> =
+    override fun internalLoad(param:FavoritesDao):MutableList<Wallpaper> =
             param.getFavorites().distinct().toMutableList()
     
     private fun cancelDaoTask() {

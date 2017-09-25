@@ -31,7 +31,7 @@ abstract class ListViewModel<in Parameter, Result>:BasicViewModel<Parameter, Mut
 }
 
 class WallpaperInfoViewModel:BasicViewModel<Wallpaper, WallpaperInfo>() {
-    override fun loadData(param:Wallpaper):WallpaperInfo =
+    override fun internalLoad(param:Wallpaper):WallpaperInfo =
             FramesUrlRequests().requestFileInfo(param.url, param.dimensions.hasContent())
     
     override val isOldDataValid:Boolean = getData()?.isValid ?: false
@@ -54,7 +54,7 @@ abstract class BasicViewModel<in Parameter, Result>:ViewModel() {
                     WeakReference(parameter),
                     object:SimpleAsyncTask.AsyncTaskCallback<Parameter, Result>() {
                         override fun doLoad(param:Parameter):Result? =
-                                internalLoad(param, forceLoad)
+                                safeInternalLoad(param, forceLoad)
                         
                         override fun onSuccess(result:Result) = postResult(result)
                     })
@@ -75,11 +75,11 @@ abstract class BasicViewModel<in Parameter, Result>:ViewModel() {
         customObserver = null
     }
     
-    private fun internalLoad(param:Parameter, forceLoad:Boolean = false):Result? {
-        return if (forceLoad) loadData(param)
+    private fun safeInternalLoad(param:Parameter, forceLoad:Boolean = false):Result? {
+        return if (forceLoad) internalLoad(param)
         else {
             if (isOldDataValid) data.value
-            else loadData(param)
+            else internalLoad(param)
         }
     }
     
@@ -98,6 +98,6 @@ abstract class BasicViewModel<in Parameter, Result>:ViewModel() {
         customObserver = Observer { r -> r?.let { onUpdated(it) } }
     }
     
-    protected abstract fun loadData(param:Parameter):Result
+    protected abstract fun internalLoad(param:Parameter):Result
     protected abstract val isOldDataValid:Boolean
 }
