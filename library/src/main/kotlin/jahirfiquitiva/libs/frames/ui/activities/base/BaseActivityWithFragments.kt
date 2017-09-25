@@ -22,7 +22,7 @@ import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 
 abstract class BaseActivityWithFragments:ThemedActivity() {
     
-    internal open fun fragmentsContainer():Int = 0
+    open fun fragmentsContainer():Int = 0
     override fun autoStatusBarTint():Boolean = true
     
     fun changeFragment(f:Fragment, tag:String? = null) {
