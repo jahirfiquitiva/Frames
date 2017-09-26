@@ -255,12 +255,15 @@ class SearchView:FrameLayout {
              * We therefore use half the menuItem height, which is a close approximation to our intended value
              * The cardView matches the parent's width, so menuX is correct
              */
-            // configureCoords(menuItem, withExtra)
+            if (menuX == -1 || menuY == -1 || menuHalfHeight == -1)
+                configureCoords(menuItem, withExtra)
             listener?.onSearchOpened(this@SearchView)
             editText.showKeyboard()
-            card.circularReveal(menuX, menuHalfHeight, duration = 350L) {
-                cardTransition()
-            }
+            postDelayed({
+                            card.circularReveal(menuX, menuHalfHeight, duration = 350L) {
+                                cardTransition()
+                            }
+                        }, 50)
         }
     }
     
