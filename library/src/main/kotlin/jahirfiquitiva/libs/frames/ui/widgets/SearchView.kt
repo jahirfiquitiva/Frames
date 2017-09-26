@@ -42,6 +42,7 @@ import ca.allanwang.kau.utils.addEndListener
 import ca.allanwang.kau.utils.bindView
 import ca.allanwang.kau.utils.circularHide
 import ca.allanwang.kau.utils.circularReveal
+import ca.allanwang.kau.utils.dpToPx
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.hideKeyboard
 import ca.allanwang.kau.utils.isVisible
@@ -99,7 +100,7 @@ class SearchView:FrameLayout {
     
     var menuItem:MenuItem? = null
     val isOpen:Boolean
-        get() = parent != null && card.isVisible
+        get() = parent != null && (card?.isVisible ?: false)
     var hintText = ""
         set(value) {
             field = value
@@ -113,9 +114,10 @@ class SearchView:FrameLayout {
      * These are calculated every time the search view is opened,
      * and can be overridden with the open listener if necessary
      */
-    var menuX:Int = -1             //starting x for circular reveal
-    var menuY:Int = -1             //reference for cardview's marginTop
-    var menuHalfHeight:Int = -1    //starting y for circular reveal (relative to the cardview)
+    var menuX = -1             //starting x for circular reveal
+    var menuY = -1             //reference for cardview's marginTop
+    var menuHalfHeight = -1    //starting y for circular reveal (relative to the cardview)
+    var cardHeight = 0
     
     init {
         View.inflate(context, R.layout.search_bar, this)
@@ -198,18 +200,22 @@ class SearchView:FrameLayout {
     }
     
     private fun configureCoords(item:MenuItem?, withExtra:Boolean) {
-        item ?: return
+        if (menuX != -1 && menuHalfHeight != -1 && menuY != -1) return
         if (parent !is ViewGroup) return
-        val view = parentViewGroup.findViewById<View>(item.itemId) ?: return
+        val id = item?.itemId ?: return
+        val view = parentViewGroup.findViewById<View>(id) ?: return
         val locations = IntArray(2)
         view.getLocationOnScreen(locations)
         menuX = (locations[0] + view.width / 2)
-        menuHalfHeight = view.height / 2
-        menuY = locations[1] + (if (withExtra) menuHalfHeight else 0)
-        card.viewTreeObserver.addOnPreDrawListener(object:ViewTreeObserver.OnPreDrawListener {
+        menuHalfHeight = (view.height / 2)
+        menuY = (locations[1] + (if (withExtra) menuHalfHeight else 0))
+        card.viewTreeObserver?.addOnPreDrawListener(object:ViewTreeObserver.OnPreDrawListener {
             override fun onPreDraw():Boolean {
+                var rightHeight = (if (cardHeight > 0) cardHeight else card.height)
+                if (rightHeight <= 0) rightHeight = (view.height - 2.dpToPx)
+                val margin = menuY - (rightHeight / 2)
                 view.viewTreeObserver.removeOnPreDrawListener(this)
-                card.setMarginTop(menuY - card.height / 2)
+                card.setMarginTop(margin)
                 return true
             }
         })
@@ -255,8 +261,7 @@ class SearchView:FrameLayout {
              * We therefore use half the menuItem height, which is a close approximation to our intended value
              * The cardView matches the parent's width, so menuX is correct
              */
-            if (menuX == -1 || menuY == -1 || menuHalfHeight == -1)
-                configureCoords(menuItem, withExtra)
+            configureCoords(menuItem, withExtra)
             listener?.onSearchOpened(this@SearchView)
             editText.showKeyboard()
             postDelayed({

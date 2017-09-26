@@ -22,7 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/kau_search_base_margin"
         android:layout_marginStart="@dimen/kau_search_base_margin"
-        android:visibility="gone"
         app:cardCornerRadius="@dimen/kau_search_base_corners"
         app:cardElevation="4dp">
 
