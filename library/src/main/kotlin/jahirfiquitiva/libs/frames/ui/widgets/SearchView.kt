@@ -179,12 +179,12 @@ class SearchView:FrameLayout {
      * This is assuming that SearchView has already been added to a ViewGroup
      * If not, see the extension function [bindSearchView]
      */
-    fun bind(menu:Menu, @IdRes id:Int, withExtra:Boolean):SearchView {
+    fun bind(menu:Menu, @IdRes id:Int, withExtra:Boolean, inCollapsingToolbar:Boolean):SearchView {
         val menuItem = menu.findItem(id) ?: throw IllegalArgumentException(
                 "Menu item with given id doesn't exist")
         card.gone()
-        configureCoords(menuItem, withExtra)
-        menuItem.setOnMenuItemClickListener { revealOpen(withExtra); true }
+        configureCoords(menuItem, withExtra, inCollapsingToolbar)
+        menuItem.setOnMenuItemClickListener { revealOpen(withExtra, inCollapsingToolbar); true }
         this.menuItem = menuItem
         return this
     }
@@ -199,7 +199,7 @@ class SearchView:FrameLayout {
         menuItem = null
     }
     
-    private fun configureCoords(item:MenuItem?, withExtra:Boolean) {
+    private fun configureCoords(item:MenuItem?, withExtra:Boolean, inCollapsingToolbar:Boolean) {
         if (menuX != -1 && menuHalfHeight != -1 && menuY != -1) return
         if (parent !is ViewGroup) return
         val id = item?.itemId ?: return
@@ -211,8 +211,9 @@ class SearchView:FrameLayout {
         menuY = (locations[1] + (if (withExtra) menuHalfHeight else 0))
         card.viewTreeObserver?.addOnPreDrawListener(object:ViewTreeObserver.OnPreDrawListener {
             override fun onPreDraw():Boolean {
-                var rightHeight = (if (cardHeight > 0) cardHeight else card.height)
-                if (rightHeight <= 0) rightHeight = (view.height - 2.dpToPx)
+                var rightHeight = if (inCollapsingToolbar) card.height
+                else (if (cardHeight > 0) cardHeight else card.height)
+                if (rightHeight <= 0 && !inCollapsingToolbar) rightHeight = (view.height - 2.dpToPx)
                 val margin = menuY - (rightHeight / 2)
                 view.viewTreeObserver.removeOnPreDrawListener(this)
                 card.setMarginTop(margin)
@@ -253,7 +254,7 @@ class SearchView:FrameLayout {
         card.setCardBackgroundColor(color)
     }
     
-    fun revealOpen(withExtra:Boolean = false) {
+    fun revealOpen(withExtra:Boolean = false, inCollapsingToolbar:Boolean = false) {
         if (parent == null || isOpen) return
         context.runOnUiThread {
             /**
@@ -261,7 +262,7 @@ class SearchView:FrameLayout {
              * We therefore use half the menuItem height, which is a close approximation to our intended value
              * The cardView matches the parent's width, so menuX is correct
              */
-            configureCoords(menuItem, withExtra)
+            configureCoords(menuItem, withExtra, inCollapsingToolbar)
             listener?.onSearchOpened(this@SearchView)
             editText.showKeyboard()
             postDelayed({
@@ -294,19 +295,22 @@ class SearchView:FrameLayout {
 /**
  * Helper function that binds to an activity's main view
  */
-fun Activity.bindSearchView(menu:Menu, @IdRes id:Int, withExtra:Boolean = false):SearchView
-        = findViewById<ViewGroup>(android.R.id.content).bindSearchView(menu, id, withExtra)
+fun Activity.bindSearchView(menu:Menu, @IdRes id:Int, withExtra:Boolean = false,
+                            inCollapsingToolbar:Boolean = false):SearchView =
+        findViewById<ViewGroup>(android.R.id.content).bindSearchView(menu, id, withExtra,
+                                                                     inCollapsingToolbar)
 
 /**
  * Bind searchView to a menu item; call this in [Activity.onCreateOptionsMenu]
  * Be wary that if you may reinflate the menu many times (eg through [Activity.invalidateOptionsMenu]),
  * it may be worthwhile to hold a reference to the searchview and only bind it if it hasn't been bound before
  */
-fun ViewGroup.bindSearchView(menu:Menu, @IdRes id:Int, withExtra:Boolean = false):SearchView {
+fun ViewGroup.bindSearchView(menu:Menu, @IdRes id:Int, withExtra:Boolean = false,
+                             inCollapsingToolbar:Boolean = false):SearchView {
     val searchView = SearchView(context)
     searchView.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                                                        FrameLayout.LayoutParams.MATCH_PARENT)
     addView(searchView)
-    searchView.bind(menu, id, withExtra)
+    searchView.bind(menu, id, withExtra, inCollapsingToolbar)
     return searchView
 }
