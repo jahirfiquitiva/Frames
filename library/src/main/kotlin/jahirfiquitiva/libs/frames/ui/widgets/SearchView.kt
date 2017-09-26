@@ -177,11 +177,11 @@ class SearchView:FrameLayout {
      * This is assuming that SearchView has already been added to a ViewGroup
      * If not, see the extension function [bindSearchView]
      */
-    fun bind(menu:Menu, @IdRes id:Int):SearchView {
+    fun bind(menu:Menu, @IdRes id:Int, withExtra:Boolean):SearchView {
         val menuItem = menu.findItem(id) ?: throw IllegalArgumentException(
                 "Menu item with given id doesn't exist")
         card.gone()
-        menuItem.setOnMenuItemClickListener { revealOpen(); true }
+        menuItem.setOnMenuItemClickListener { revealOpen(withExtra); true }
         this.menuItem = menuItem
         return this
     }
@@ -196,7 +196,7 @@ class SearchView:FrameLayout {
         menuItem = null
     }
     
-    private fun configureCoords(item:MenuItem?) {
+    private fun configureCoords(item:MenuItem?, withExtra:Boolean) {
         item ?: return
         if (parent !is ViewGroup) return
         val view = parentViewGroup.findViewById<View>(item.itemId) ?: return
@@ -204,7 +204,7 @@ class SearchView:FrameLayout {
         view.getLocationOnScreen(locations)
         menuX = (locations[0] + view.width / 2)
         menuHalfHeight = view.height / 2
-        menuY = locations[1]
+        menuY = locations[1] + (if (withExtra) menuHalfHeight else 0)
         card.viewTreeObserver.addOnPreDrawListener(object:ViewTreeObserver.OnPreDrawListener {
             override fun onPreDraw():Boolean {
                 view.viewTreeObserver.removeOnPreDrawListener(this)
@@ -246,7 +246,7 @@ class SearchView:FrameLayout {
         card.setCardBackgroundColor(color)
     }
     
-    fun revealOpen() {
+    fun revealOpen(withExtra:Boolean) {
         if (parent == null || isOpen) return
         context.runOnUiThread {
             /**
@@ -254,7 +254,7 @@ class SearchView:FrameLayout {
              * We therefore use half the menuItem height, which is a close approximation to our intended value
              * The cardView matches the parent's width, so menuX is correct
              */
-            configureCoords(menuItem)
+            configureCoords(menuItem, withExtra)
             listener?.onSearchOpened(this@SearchView)
             editText.showKeyboard()
             card.circularReveal(menuX, menuHalfHeight, duration = 350L) {
@@ -285,19 +285,19 @@ class SearchView:FrameLayout {
 /**
  * Helper function that binds to an activity's main view
  */
-fun Activity.bindSearchView(menu:Menu, @IdRes id:Int):SearchView
-        = findViewById<ViewGroup>(android.R.id.content).bindSearchView(menu, id)
+fun Activity.bindSearchView(menu:Menu, @IdRes id:Int, withExtra:Boolean = false):SearchView
+        = findViewById<ViewGroup>(android.R.id.content).bindSearchView(menu, id, withExtra)
 
 /**
  * Bind searchView to a menu item; call this in [Activity.onCreateOptionsMenu]
  * Be wary that if you may reinflate the menu many times (eg through [Activity.invalidateOptionsMenu]),
  * it may be worthwhile to hold a reference to the searchview and only bind it if it hasn't been bound before
  */
-fun ViewGroup.bindSearchView(menu:Menu, @IdRes id:Int):SearchView {
+fun ViewGroup.bindSearchView(menu:Menu, @IdRes id:Int, withExtra:Boolean):SearchView {
     val searchView = SearchView(context)
     searchView.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                                                        FrameLayout.LayoutParams.MATCH_PARENT)
     addView(searchView)
-    searchView.bind(menu, id)
+    searchView.bind(menu, id, withExtra)
     return searchView
 }
