@@ -246,7 +246,7 @@ class SearchView:FrameLayout {
         card.setCardBackgroundColor(color)
     }
     
-    fun revealOpen(withExtra:Boolean) {
+    fun revealOpen(withExtra:Boolean = false) {
         if (parent == null || isOpen) return
         context.runOnUiThread {
             /**
@@ -293,7 +293,7 @@ fun Activity.bindSearchView(menu:Menu, @IdRes id:Int, withExtra:Boolean = false)
  * Be wary that if you may reinflate the menu many times (eg through [Activity.invalidateOptionsMenu]),
  * it may be worthwhile to hold a reference to the searchview and only bind it if it hasn't been bound before
  */
-fun ViewGroup.bindSearchView(menu:Menu, @IdRes id:Int, withExtra:Boolean):SearchView {
+fun ViewGroup.bindSearchView(menu:Menu, @IdRes id:Int, withExtra:Boolean = false):SearchView {
     val searchView = SearchView(context)
     searchView.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                                                        FrameLayout.LayoutParams.MATCH_PARENT)
