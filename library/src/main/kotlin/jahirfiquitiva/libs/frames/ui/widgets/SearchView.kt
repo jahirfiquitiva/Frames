@@ -181,6 +181,7 @@ class SearchView:FrameLayout {
         val menuItem = menu.findItem(id) ?: throw IllegalArgumentException(
                 "Menu item with given id doesn't exist")
         card.gone()
+        configureCoords(menuItem, withExtra)
         menuItem.setOnMenuItemClickListener { revealOpen(withExtra); true }
         this.menuItem = menuItem
         return this
@@ -254,7 +255,7 @@ class SearchView:FrameLayout {
              * We therefore use half the menuItem height, which is a close approximation to our intended value
              * The cardView matches the parent's width, so menuX is correct
              */
-            configureCoords(menuItem, withExtra)
+            // configureCoords(menuItem, withExtra)
             listener?.onSearchOpened(this@SearchView)
             editText.showKeyboard()
             card.circularReveal(menuX, menuHalfHeight, duration = 350L) {
