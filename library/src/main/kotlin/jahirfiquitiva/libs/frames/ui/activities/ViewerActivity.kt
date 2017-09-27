@@ -61,7 +61,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
 import jahirfiquitiva.libs.frames.helpers.extensions.urlOptions
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpaperInfoViewModel
-import jahirfiquitiva.libs.frames.ui.activities.base.WallpaperActionsActivity
+import jahirfiquitiva.libs.frames.ui.activities.base.BaseWallpaperActionsActivity
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.InfoBottomSheet
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.InfoDialog
@@ -84,7 +84,7 @@ import org.jetbrains.anko.contentView
 import java.io.FileInputStream
 import java.util.*
 
-open class ViewerActivity:WallpaperActionsActivity() {
+open class ViewerActivity:BaseWallpaperActionsActivity() {
     
     override var wallpaper:Wallpaper? = null
     override val allowBitmapApply:Boolean = true
@@ -478,11 +478,13 @@ open class ViewerActivity:WallpaperActionsActivity() {
         }
     }
     
-    override fun applyBitmapWallpaper(toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean) {
+    override fun applyBitmapWallpaper(toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean,
+                                      toOtherApp:Boolean) {
         wallpaper?.let {
             properlyCancelDialog()
             wallActions = WallpaperActionsFragment()
-            wallActions?.show(this, it, img.drawable.toBitmap(), toHomeScreen, toLockScreen, toBoth)
+            wallActions?.show(this, it, img.drawable.toBitmap(), toHomeScreen, toLockScreen, toBoth,
+                              toOtherApp)
         }
     }
     

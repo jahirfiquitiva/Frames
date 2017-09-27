@@ -54,7 +54,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.isFirstRunEver
 import jahirfiquitiva.libs.kauextensions.extensions.justUpdated
 import org.jetbrains.anko.contentView
 
-abstract class BaseFramesActivity:WallpaperActionsActivity(), BillingProcessor.IBillingHandler {
+abstract class BaseFramesActivity:BaseWallpaperActionsActivity(), BillingProcessor.IBillingHandler {
     
     override fun lightTheme():Int = R.style.LightTheme
     override fun darkTheme():Int = R.style.DarkTheme
@@ -378,7 +378,9 @@ abstract class BaseFramesActivity:WallpaperActionsActivity(), BillingProcessor.I
     override fun onBillingInitialized() {}
     override fun onPurchaseHistoryRestored() {}
     
-    override fun applyBitmapWallpaper(toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean) {}
+    override fun applyBitmapWallpaper(toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean,
+                                      toOtherApp:Boolean) {
+    }
     
     override fun showSnackbar(text:String, duration:Int, settings:Snackbar.() -> Unit) {
         contentView?.let {

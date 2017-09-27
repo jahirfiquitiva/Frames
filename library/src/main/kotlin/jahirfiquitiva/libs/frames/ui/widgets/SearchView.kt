@@ -100,7 +100,7 @@ class SearchView:FrameLayout {
     
     var menuItem:MenuItem? = null
     val isOpen:Boolean
-        get() = parent != null && (card?.isVisible ?: false)
+        get() = parent != null && card.isVisible
     var hintText = ""
         set(value) {
             field = value

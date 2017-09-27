@@ -47,7 +47,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
-import jahirfiquitiva.libs.kauextensions.extensions.printInfo
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 
 abstract class FramesActivity:BaseFramesActivity() {
@@ -55,9 +54,18 @@ abstract class FramesActivity:BaseFramesActivity() {
     private val toolbar:CustomToolbar by bind(R.id.toolbar)
     private val pager:ViewPager by bind(R.id.pager)
     private val tabs:CustomTabLayout by bind(R.id.tabs)
+    private lateinit var adapter:FragmentsAdapter
     
     private var searchView:SearchView? = null
-    private var lastSection = 1
+    
+    var hasCollections = true
+        set(value) {
+            field = value
+            updateTabs()
+        }
+    
+    private val defaultSection = if (hasCollections) 0 else 1
+    private var lastSection = defaultSection
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,8 +73,9 @@ abstract class FramesActivity:BaseFramesActivity() {
         
         setSupportActionBar(toolbar)
         
-        pager.adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
-                                         WallpapersFragment(), FavoritesFragment())
+        adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
+                                   WallpapersFragment(), FavoritesFragment())
+        pager.adapter = adapter
         
         val useAccentColor = getBoolean(R.bool.enable_accent_color_in_tabs)
         tabs.setTabTextColors(getDisabledTextColorFor(primaryColor, 0.6F),
@@ -75,6 +84,38 @@ abstract class FramesActivity:BaseFramesActivity() {
         tabs.setSelectedTabIndicatorColor(
                 if (useAccentColor) accentColor else getPrimaryTextColorFor(primaryColor, 0.6F))
         
+        buildTabs()
+        
+        tabs.addOnTabSelectedListener(object:TabLayout.ViewPagerOnTabSelectedListener(pager) {
+            override fun onTabSelected(tab:TabLayout.Tab?) {
+                tab?.let {
+                    if (lastSection == it.position) return
+                    lastSection = it.position
+                    if (getBoolean(R.bool.show_icons_in_tabs)) {
+                        tabs.setTabsIconsColors(getInactiveIconsColorFor(primaryColor, 0.6F),
+                                                if (useAccentColor) accentColor else
+                                                    getActiveIconsColorFor(primaryColor, 0.6F))
+                    }
+                    searchView?.let {
+                        it.revealClose()
+                        val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
+                        it.hintText = getString(R.string.search_x, hint.toLowerCase())
+                    }
+                    invalidateOptionsMenu()
+                    pager.setCurrentItem(lastSection, true)
+                }
+            }
+            
+            override fun onTabReselected(tab:TabLayout.Tab?) = scrollToTop()
+            override fun onTabUnselected(tab:TabLayout.Tab?) {}
+        })
+        pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+        
+        pager.offscreenPageLimit = tabs.tabCount
+        pager.setCurrentItem(1, true)
+    }
+    
+    private fun buildTabs() {
         val showTexts = getBoolean(R.bool.show_texts_in_tabs)
         val showIcons = getBoolean(R.bool.show_icons_in_tabs)
         val reallyShowTexts = showTexts || (!showTexts && !showIcons)
@@ -117,34 +158,22 @@ abstract class FramesActivity:BaseFramesActivity() {
             }
             tabs.addTab(tab)
         }
-        
-        tabs.addOnTabSelectedListener(object:TabLayout.ViewPagerOnTabSelectedListener(pager) {
-            override fun onTabSelected(tab:TabLayout.Tab?) {
-                tab?.let {
-                    if (lastSection == it.position) return
-                    lastSection = it.position
-                    if (showIcons) {
-                        tabs.setTabsIconsColors(getInactiveIconsColorFor(primaryColor, 0.6F),
-                                                if (useAccentColor) accentColor else
-                                                    getActiveIconsColorFor(primaryColor, 0.6F))
-                    }
-                    searchView?.let {
-                        it.revealClose()
-                        val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
-                        it.hintText = getString(R.string.search_x, hint.toLowerCase())
-                    }
-                    invalidateOptionsMenu()
-                    pager.setCurrentItem(lastSection, true)
-                }
-            }
-            
-            override fun onTabReselected(tab:TabLayout.Tab?) = scrollToTop()
-            override fun onTabUnselected(tab:TabLayout.Tab?) {}
-        })
-        pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
-        
-        pager.offscreenPageLimit = tabs.tabCount
-        pager.setCurrentItem(1, true)
+    }
+    
+    private fun updateTabs() {
+        if (hasCollections) {
+            if (adapter.count == 3) return
+            val newCollectionsFragment = CollectionsFragment()
+            newCollectionsFragment.forceCollectionsLoad()
+            adapter.addFragmentAt(newCollectionsFragment, 0)
+            buildTabs()
+            pager.setCurrentItem(defaultSection, true)
+        } else {
+            if (adapter.count == 2) return
+            adapter.removeItemAt(0)
+            tabs.removeTabAt(0)
+            pager.setCurrentItem(defaultSection, true)
+        }
     }
     
     override fun onCreateOptionsMenu(menu:Menu?):Boolean {
@@ -235,12 +264,14 @@ abstract class FramesActivity:BaseFramesActivity() {
     
     override fun onSaveInstanceState(outState:Bundle?) {
         outState?.putInt("current", lastSection)
+        outState?.putBoolean("hasCollections", hasCollections)
         super.onSaveInstanceState(outState)
     }
     
     override fun onRestoreInstanceState(savedInstanceState:Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
-        lastSection = savedInstanceState?.getInt("current", 1) ?: 1
+        hasCollections = savedInstanceState?.getBoolean("hasCollections", true) ?: true
+        lastSection = savedInstanceState?.getInt("current", defaultSection) ?: defaultSection
         pager.setCurrentItem(lastSection, true)
     }
     
@@ -285,7 +316,7 @@ abstract class FramesActivity:BaseFramesActivity() {
             frag?.let {
                 if (it is BaseFramesFragment<*, *>) {
                     try {
-                        it.reloadData(lastSection)
+                        it.reloadData(lastSection + (if (hasCollections) 0 else 1))
                     } catch (ignored:Exception) {
                     }
                 }
@@ -311,7 +342,7 @@ abstract class FramesActivity:BaseFramesActivity() {
     private fun setNewFavorites(list:ArrayList<Wallpaper>) {
         val adapter = pager.adapter
         if (adapter is FragmentsAdapter) {
-            val frag = adapter.getItem(2)
+            val frag = adapter.getItem(if (hasCollections) 2 else 1)
             frag?.let {
                 if (it is BaseFramesFragment<*, *>) {
                     try {

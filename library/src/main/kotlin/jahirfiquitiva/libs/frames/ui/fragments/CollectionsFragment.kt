@@ -31,6 +31,7 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.isLowRamDevice
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
 import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
+import jahirfiquitiva.libs.frames.ui.activities.FramesActivity
 import jahirfiquitiva.libs.frames.ui.adapters.CollectionsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
@@ -162,7 +163,15 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     override fun doOnCollectionsChange(data:ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
         swipeToRefresh.isRefreshing = false
-        collsAdapter?.setItems(data)
+        if (activity is FramesActivity)
+            (activity as FramesActivity).hasCollections = data.size > 0
+        if (data.size > 0) collsAdapter?.setItems(data)
+    }
+    
+    fun forceCollectionsLoad() {
+        wallpapersModel?.getData()?.let {
+            collectionsModel?.loadData(ArrayList(it), true)
+        }
     }
     
     override fun autoStartLoad():Boolean = true

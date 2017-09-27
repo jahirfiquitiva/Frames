@@ -40,7 +40,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-abstract class WallpaperActionsActivity:BaseActivityWithFragments() {
+abstract class BaseWallpaperActionsActivity:BaseActivityWithFragments() {
     
     private var actionDialog:MaterialDialog? = null
     internal var wallActions:WallpaperActionsFragment? = null
@@ -153,7 +153,7 @@ abstract class WallpaperActionsActivity:BaseActivityWithFragments() {
             showSnackbar(getString(R.string.download_successful, dest.toString()),
                          Snackbar.LENGTH_LONG, {
                              setAction(R.string.open, {
-                                 dest.getUri(this@WallpaperActionsActivity)?.let {
+                                 dest.getUri(this@BaseWallpaperActionsActivity)?.let {
                                      openWallpaper(it)
                                  }
                              })
@@ -177,30 +177,36 @@ abstract class WallpaperActionsActivity:BaseActivityWithFragments() {
     
     private fun showWallpaperApplyOptions(dest:File?) {
         properlyCancelDialog()
+        val options = arrayListOf(getString(R.string.home_screen),
+                                  getString(R.string.lock_screen),
+                                  getString(R.string.home_lock_screen))
+        if (isNetworkAvailable) options.add(getString(R.string.apply_with_other_app))
         actionDialog = buildMaterialDialog {
             title(R.string.apply_to)
-            items(getString(R.string.home_screen), getString(R.string.lock_screen),
-                  getString(R.string.home_lock_screen))
+            items(options)
             itemsCallback { _, _, position, _ ->
                 if (dest != null) {
-                    applyWallpaper(dest, position == 0, position == 1, position == 2)
+                    applyWallpaper(dest, position == 0, position == 1, position == 2, position == 3)
                 } else {
                     if (allowBitmapApply)
-                        applyBitmapWallpaper(position == 0, position == 1, position == 2)
+                        applyBitmapWallpaper(position == 0, position == 1, position == 2,
+                                             position == 3)
                 }
             }
         }
         actionDialog?.show()
     }
     
-    abstract fun applyBitmapWallpaper(toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean)
+    abstract fun applyBitmapWallpaper(toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean,
+                                      toOtherApp:Boolean)
     
     private fun applyWallpaper(dest:File,
-                               toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean) {
+                               toHomeScreen:Boolean, toLockScreen:Boolean, toBoth:Boolean,
+                               toOtherApp:Boolean) {
         wallpaper?.let {
             properlyCancelDialog()
             wallActions = WallpaperActionsFragment()
-            wallActions?.show(this, it, dest, toHomeScreen, toLockScreen, toBoth)
+            wallActions?.show(this, it, dest, toHomeScreen, toLockScreen, toBoth, toOtherApp)
         }
     }
     
@@ -213,6 +219,37 @@ abstract class WallpaperActionsActivity:BaseActivityWithFragments() {
                                              toLockScreen -> R.string.lock_screen
                                              else -> R.string.empty
                                          }).toLowerCase()), Snackbar.LENGTH_LONG)
+    }
+    
+    private var file:File? = null
+    
+    fun applyWallpaperWithOtherApp(dest:File) {
+        try {
+            dest.getUri(this)?.let {
+                file = dest
+                val setWall = Intent(Intent.ACTION_ATTACH_DATA)
+                setWall.setDataAndType(it, "image/*")
+                setWall.putExtra("mimeType", "image/*")
+                setWall.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                startActivityForResult(
+                        Intent.createChooser(setWall, getString(R.string.apply_with_other_app)),
+                        WallpaperActionsFragment.TO_OTHER_APP_CODE)
+            } ?: dest.delete()
+        } catch (e:Exception) {
+            e.printStackTrace()
+        }
+    }
+    
+    override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == WallpaperActionsFragment.TO_OTHER_APP_CODE) {
+            try {
+                file?.delete()
+                file = null
+            } catch (e:Exception) {
+                e.printStackTrace()
+            }
+        }
     }
     
     private fun showNotConnectedDialog() {

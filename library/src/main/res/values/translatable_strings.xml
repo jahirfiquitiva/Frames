@@ -57,6 +57,8 @@
     <string name="home_screen">Home screen</string>
     <string name="lock_screen">Lock screen</string>
     <string name="home_lock_screen">Home and lock screens</string>
+    <string name="apply_with_other_app">Apply with other app</string>
+
     <string name="apply_successful">Wallpaper applied successfully to %1$s</string>
     <string name="apply_successful_short">Wallpaper applied successfully</string>
 
