@@ -35,7 +35,7 @@ class WallpapersAdapter(private val manager:RequestManager,
                         private val fromFavorites:Boolean,
                         private val showFavIcon:Boolean,
                         private val listener:FramesViewClickListener<Wallpaper, WallpaperHolder>):
-        BaseListAdapter<Wallpaper, WallpaperHolder>(if (fromFavorites) -1 else MAX_WALLPAPERS_LOAD),
+        BaseListAdapter<Wallpaper, WallpaperHolder>(MAX_WALLPAPERS_LOAD),
         ListPreloader.PreloadModelProvider<Wallpaper> {
     
     private var firstTime = true
