@@ -47,3 +47,6 @@ const val WALLS_PICKER = 3
 const val ICONS_APPLIER = 4
 
 const val TRANSLATION_SITE = "http://jahirfiquitiva.oneskyapp.com/collaboration/project?id=99033"
+
+const val MAX_WALLPAPERS_LOAD = 20
+const val MAX_COLLECTIONS_LOAD = 10

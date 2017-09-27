@@ -24,6 +24,7 @@ import android.support.v4.view.ViewCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import ca.allanwang.kau.utils.dimenPixelSize
@@ -109,6 +110,18 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
             val preloader:RecyclerViewPreloader<Wallpaper> =
                     RecyclerViewPreloader(activity, wallsAdapter, provider, context.maxPreload)
             addOnScrollListener(preloader)
+            
+            addOnScrollListener(object:RecyclerView.OnScrollListener() {
+                override fun onScrolled(rv:RecyclerView?, dx:Int, dy:Int) {
+                    super.onScrolled(rv, dx, dy)
+                    rv?.let {
+                        if (!it.canScrollVertically(1)) {
+                            it.post({ wallsAdapter?.allowMoreItemsLoad() })
+                        }
+                    }
+                }
+            })
+            
             adapter = wallsAdapter
         }
         
@@ -121,7 +134,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     }
     
     override fun scrollToTop() {
-        rv.layoutManager.scrollToPosition(0)
+        rv.post { rv.scrollToPosition(0) }
     }
     
     override fun onResume() {

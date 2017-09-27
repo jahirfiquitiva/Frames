@@ -23,11 +23,29 @@ import jahirfiquitiva.libs.frames.ui.adapters.presenters.ItemsAdapterPresenter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideSectionedViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideViewHolder
 
-abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>:
+abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>(private val maxLoad:Int):
         RecyclerView.Adapter<VH>(), ItemsAdapterPresenter<T> {
     
     private var lastAnimatedPosition = -1
     val list = ArrayList<T>()
+    
+    private var actualItemCount = maxLoad
+    
+    fun allowMoreItemsLoad() {
+        val prevSize = itemCount
+        val newCount = actualItemCount + maxLoad
+        actualItemCount = if (newCount >= list.size) list.size else newCount
+        notifyItemRangeInserted(prevSize, itemCount)
+    }
+    
+    override fun getItemCount():Int {
+        return if (actualItemCount <= 0) {
+            list.size
+        } else {
+            if (actualItemCount <= list.size) actualItemCount
+            else list.size
+        }
+    }
     
     override fun onBindViewHolder(holder:VH, position:Int) {
         if (position in 0..itemCount) {
@@ -64,8 +82,6 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>:
         super.onViewDetachedFromWindow(holder)
         holder.itemView?.clearChildrenAnimations()
     }
-    
-    override fun getItemCount():Int = list.size
     
     override fun clearList() {
         val size = itemCount

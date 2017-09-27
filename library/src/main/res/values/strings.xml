@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 <resources>
-    <!--    This one applies for Muzei too. Try not to exceed a tweet length (140 characters) -->
+    <!--    This one applies for Muzei too. Try not to exceed 140 characters -->
     <string name="app_description">A great wallpapers app with hundreds of cool pictures.</string>
 
     <!--    This is the link for the JSON file where you have listed your wallpapers -->

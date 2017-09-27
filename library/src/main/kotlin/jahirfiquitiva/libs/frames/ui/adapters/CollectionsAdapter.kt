@@ -25,6 +25,7 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.ListDiffCallback
+import jahirfiquitiva.libs.frames.helpers.utils.MAX_COLLECTIONS_LOAD
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
 import java.util.*
@@ -32,7 +33,7 @@ import java.util.*
 class CollectionsAdapter(private val manager:RequestManager,
                          private val provider:ViewPreloadSizeProvider<Wallpaper>,
                          private val listener:FramesViewClickListener<Collection, CollectionHolder>):
-        BaseListAdapter<Collection, CollectionHolder>(),
+        BaseListAdapter<Collection, CollectionHolder>(MAX_COLLECTIONS_LOAD),
         ListPreloader.PreloadModelProvider<Wallpaper> {
     
     override fun doBind(holder:CollectionHolder, position:Int, shouldAnimate:Boolean) =

@@ -20,6 +20,7 @@ import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
@@ -85,6 +86,18 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
             val preloader:RecyclerViewPreloader<Wallpaper> =
                     RecyclerViewPreloader(activity, collsAdapter, provider, context.maxPreload)
             addOnScrollListener(preloader)
+            
+            addOnScrollListener(object:RecyclerView.OnScrollListener() {
+                override fun onScrolled(rv:RecyclerView?, dx:Int, dy:Int) {
+                    super.onScrolled(rv, dx, dy)
+                    rv?.let {
+                        if (!it.canScrollVertically(1)) {
+                            it.post({ collsAdapter?.allowMoreItemsLoad() })
+                        }
+                    }
+                }
+            })
+            
             adapter = collsAdapter
         }
         
@@ -99,7 +112,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     override fun getContentLayout():Int = R.layout.section_lists
     
     override fun scrollToTop() {
-        rv.layoutManager.scrollToPosition(0)
+        rv.post { rv.scrollToPosition(0) }
     }
     
     override fun onItemClicked(item:Collection) {
