@@ -86,9 +86,13 @@ class SectionedHeaderViewHolder(itemView:View):SectionedViewHolder(itemView) {
     val icon:ImageView by itemView.bind(R.id.section_icon)
     
     fun setTitle(@StringRes text:Int, expanded:Boolean = true, listener:() -> Unit = {}) {
+        setTitle(itemView.context.getString(text), expanded, listener)
+    }
+    
+    fun setTitle(text:String, expanded:Boolean = true, listener:() -> Unit = {}) {
         divider.setBackgroundColor(itemView.context.dividerColor)
         title.setTextColor(itemView.context.secondaryTextColor)
-        title.text = itemView.context.getString(text)
+        title.text = text
         icon.drawable?.tint(itemView.context.activeIconsColor)
         icon.animate()?.rotation(if (expanded) 180F else 0F)?.setDuration(
                 SECTION_ICON_ANIMATION_DURATION)?.start()
