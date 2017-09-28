@@ -146,9 +146,9 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     fun configureRVColumns() {
         if (context.framesKonfigs.columns != spanCount) {
             rv.removeItemDecoration(spacingDecoration)
-            spanCount = context.framesKonfigs.columns
-            rv.layoutManager = GridLayoutManager(context,
-                                                 if (context.isInHorizontalMode) ((spanCount * 1.5).toInt()) else spanCount,
+            val columns = context.framesKonfigs.columns
+            spanCount = if (context.isInHorizontalMode) ((columns * 1.5).toInt()) else columns
+            rv.layoutManager = GridLayoutManager(context, spanCount,
                                                  GridLayoutManager.VERTICAL, false)
             spacingDecoration = GridSpacingItemDecoration(spanCount,
                                                           context.dimenPixelSize(

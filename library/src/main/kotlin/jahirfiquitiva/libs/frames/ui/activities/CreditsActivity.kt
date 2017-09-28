@@ -76,17 +76,15 @@ open class CreditsActivity:ThemedActivity() {
                                               GridLayoutManager.VERTICAL, false)
         rv.layoutManager = layoutManager
         
-        val hasOwnCredits = hasOwnCredits()
-        
-        val adapter = CreditsAdapter(Glide.with(this), hasOwnCredits, buildCreditsList())
+        val adapter = CreditsAdapter(Glide.with(this), buildCreditsList())
         adapter.setLayoutManager(layoutManager)
         rv.adapter = adapter
         
         fastScroll.attachRecyclerView(rv)
         
         try {
-            adapter.collapseSection(if (hasOwnCredits) 2 else 1)
-            adapter.collapseSection(if (hasOwnCredits) 3 else 2)
+            adapter.collapseSection(2)
+            adapter.collapseSection(3)
         } catch (ignored:Exception) {
         }
         
@@ -175,35 +173,22 @@ open class CreditsActivity:ThemedActivity() {
         LicenseResolver.registerLicense(eclLicense)
     }
     
-    private fun hasOwnCredits():Boolean {
-        return try {
-            val titles = getStringArray(R.array.credits_titles)
-            val descriptions = getStringArray(R.array.credits_descriptions)
-            val photos = getStringArray(R.array.credits_photos)
-            !(titles.isEmpty() || descriptions.isEmpty() || photos.isEmpty())
-        } catch (ignored:Exception) {
-            false
-        }
-    }
-    
     private fun buildCreditsList():ArrayList<Credit> {
         val list = ArrayList<Credit>()
         
         try {
-            if (hasOwnCredits()) {
-                val titles = getStringArray(R.array.credits_titles)
-                val descriptions = getStringArray(R.array.credits_descriptions)
-                val photos = getStringArray(R.array.credits_photos)
-                val buttons = getStringArray(R.array.credits_buttons)
-                val links = getStringArray(R.array.credits_links)
-                
-                if (descriptions.size == titles.size && photos.size == titles.size) {
-                    (0 until titles.size).mapTo(list) {
-                        Credit(titles[it], photos[it], Credit.Type.CREATOR,
-                               description = descriptions[it],
-                               buttonsTitles = buttons[it].split("|"),
-                               buttonsLinks = links[it].split("|"))
-                    }
+            val titles = getStringArray(R.array.credits_titles)
+            val descriptions = getStringArray(R.array.credits_descriptions)
+            val photos = getStringArray(R.array.credits_photos)
+            val buttons = getStringArray(R.array.credits_buttons)
+            val links = getStringArray(R.array.credits_links)
+            
+            if (descriptions.size == titles.size && photos.size == titles.size) {
+                (0 until titles.size).mapTo(list) {
+                    Credit(titles[it], photos[it], Credit.Type.CREATOR,
+                           description = descriptions[it],
+                           buttonsTitles = buttons[it].split("|"),
+                           buttonsLinks = links[it].split("|"))
                 }
             }
             

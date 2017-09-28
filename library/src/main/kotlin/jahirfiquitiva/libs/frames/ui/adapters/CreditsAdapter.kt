@@ -30,16 +30,16 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SectionedHeaderViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SimpleCreditViewHolder
 
-class CreditsAdapter(private val manager:RequestManager, private val hasOwnCredits:Boolean,
+class CreditsAdapter(private val manager:RequestManager,
                      private val credits:ArrayList<Credit>):
         SectionedRecyclerViewAdapter<SectionedViewHolder>() {
     
     init {
-        shouldShowHeadersForEmptySections(true)
+        shouldShowHeadersForEmptySections(false)
         shouldShowFooters(false)
     }
     
-    override fun getSectionCount():Int = if (hasOwnCredits) 4 else 3
+    override fun getSectionCount():Int = 4
     
     override fun getItemViewType(section:Int, relativePosition:Int,
                                  absolutePosition:Int):Int = section
@@ -48,7 +48,7 @@ class CreditsAdapter(private val manager:RequestManager, private val hasOwnCredi
                                   absolutePosition:Int) {
         holder?.let {
             if (it is DashboardCreditViewHolder) {
-                when (if (hasOwnCredits) section else (section + 1)) {
+                when (section) {
                     0 -> it.setItem(manager,
                                     credits.filter { it.type == Credit.Type.CREATOR }[relativePosition])
                     1 -> it.setItem(manager,
@@ -69,7 +69,7 @@ class CreditsAdapter(private val manager:RequestManager, private val hasOwnCredi
     }
     
     override fun getItemCount(section:Int):Int =
-            when (if (hasOwnCredits) section else (section + 1)) {
+            when (section) {
                 0 -> credits.filter { it.type == Credit.Type.CREATOR }.size
                 1 -> credits.filter { it.type == Credit.Type.DASHBOARD }.size
                 2 -> credits.filter { it.type == Credit.Type.DEV_CONTRIBUTION }.size
@@ -80,7 +80,7 @@ class CreditsAdapter(private val manager:RequestManager, private val hasOwnCredi
     override fun onBindHeaderViewHolder(holder:SectionedViewHolder?, section:Int,
                                         expanded:Boolean) {
         if (holder is SectionedHeaderViewHolder) {
-            when (if (hasOwnCredits) section else (section + 1)) {
+            when (section) {
                 0 -> {
                     holder.setTitle(R.string.app_name, expanded)
                     holder.icon.gone()
@@ -105,7 +105,7 @@ class CreditsAdapter(private val manager:RequestManager, private val hasOwnCredi
     }
     
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):SectionedViewHolder? =
-            when (if (hasOwnCredits) viewType else (viewType + 1)) {
+            when (viewType) {
                 0, 1 -> parent?.inflate(R.layout.item_credits)?.let {
                     DashboardCreditViewHolder(it)
                 }
