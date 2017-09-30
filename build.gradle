@@ -23,7 +23,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.4-3'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.50'
 
         // TODO: Remove comment marks if you plan on implementing Firebase Notifications
         // classpath 'com.google.gms:google-services:3.1.0'
@@ -41,7 +41,7 @@ allprojects {
         compileSdk = 26
         buildTools = '26.0.1'
         gradlePlugin = '2.3.3'
-        kotlin = '1.1.4-3'
+        kotlin = '1.1.50'
         supportLibs = '26.1.0'
     }
 
