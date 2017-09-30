@@ -35,10 +35,8 @@ class WallpapersAdapter(private val manager:RequestManager,
                         private val fromFavorites:Boolean,
                         private val showFavIcon:Boolean,
                         private val listener:FramesViewClickListener<Wallpaper, WallpaperHolder>):
-        BaseListAdapter<Wallpaper, WallpaperHolder>(MAX_WALLPAPERS_LOAD),
+        BaseListAdapter<Wallpaper, WallpaperHolder>(if (fromFavorites) -1 else MAX_WALLPAPERS_LOAD),
         ListPreloader.PreloadModelProvider<Wallpaper> {
-    
-    private var firstTime = true
     
     var favorites = ArrayList<Wallpaper>()
         private set(value) {
@@ -47,10 +45,9 @@ class WallpapersAdapter(private val manager:RequestManager,
         }
     
     fun updateFavorites(newFavs:ArrayList<Wallpaper>) {
-        if (firstTime) {
+        if (fromFavorites) {
             favorites = newFavs
             notifyDataSetChanged()
-            firstTime = false
         } else {
             val modified = getModifiedItems(favorites, newFavs)
             favorites = newFavs
@@ -67,9 +64,8 @@ class WallpapersAdapter(private val manager:RequestManager,
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):WallpaperHolder? =
             parent?.inflate(R.layout.item_wallpaper)?.let { WallpaperHolder(it, showFavIcon) }
     
-    override fun updateItems(newItems:ArrayList<Wallpaper>, detectMoves:Boolean) {
-        updateItems(newItems, ListDiffCallback(list, newItems), detectMoves)
-    }
+    override fun updateItems(newItems:ArrayList<Wallpaper>, detectMoves:Boolean) =
+            updateItems(newItems, ListDiffCallback(list, newItems), detectMoves)
     
     override fun getPreloadItems(position:Int):MutableList<Wallpaper> =
             Collections.singletonList(list[position])

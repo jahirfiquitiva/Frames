@@ -29,7 +29,8 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>(private val maxLoa
     private var lastAnimatedPosition = -1
     val list = ArrayList<T>()
     
-    private var actualItemCount = maxLoad
+    var actualItemCount = maxLoad
+        private set
     
     fun allowMoreItemsLoad() {
         val prevSize = itemCount
@@ -133,4 +134,6 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>(private val maxLoa
         list.add(newItem)
         notifyItemRangeInserted(prevSize, itemCount)
     }
+    
+    
 }
