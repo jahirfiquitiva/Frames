@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+    <!--
+  ~ Copyright (c) 2017. Jahir Fiquitiva
+  ~
+  ~ Licensed under the CreativeCommons Attribution-ShareAlike
+  ~ 4.0 International License. You may not use this file except in compliance
+  ~ with the License. You may obtain a copy of the License at
+  ~
+  ~    http://creativecommons.org/licenses/by-sa/4.0/legalcode
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string name="empty_section">Hiçbirşey bulunamadı</string>
+    <string name="loading_section">Içerik yükleniyor ...</string>
+    <string name="no_favorites">Önce bazı duvar kağıtlarını favorilere ekleyin</string>
+    <string name="wallpapers">Duvar kağıtları</string>
+    <string name="collections">Koleksiyonlar</string>
+    <string name="x_wallpapers">%1$s duvar kağıtları</string>
+    <string name="all">Hepsi</string>
+    <string name="favorites">Favoriler</string>
+    <string name="favorite">Favori</string>
+    <string name="added_to_favorites">\'%1$s\' favorilere eklendi.</string>
+    <string name="removed_from_favorites">\'%1$s\' favorilerden kaldırıldı.</string>
+    <string name="actions_dialog_content">Bu duvar kağıdıyla ne yapmak istersiniz?</string>
+    <string name="apply">Uygula</string>
+    <string name="download">İndir</string>
+    <string name="info">Bilgi</string>
+    <string name="share">Paylaş</string>
+    <!-- Do NOT remove or change the %1$s (or with any other number) -->
+    <string name="permission_denied">Depolama iznine erişim engellendi</string>
+    <string name="permission_denied_completely">Depolama izni erişimi engellendi. Bunu Ayarlar\'da manuel olarak etkinleştirmeniz gerekecek.</string>
+    <string name="permission_request">%1$s uygulamak ve duvar kağıtları kaydetmek için saklama alanına erişmek gerekiyor</string>
+    <string name="allow">İzin vermek</string>
+    <string name="downloading_wallpaper">İndiriliyor \'%1$s\'…</string>
+    <string name="download_successful">Duvar kağıdı başarıyla indirildi \'%1$s\'</string>
+    <string name="download_successful_short">Duvar kağıdı başarıyla indirildi</string>
+    <string name="open">Aç</string>
+    <string name="file_replace">Değiştirmek</string>
+    <string name="file_create_new">Yeni oluştur</string>
+    <string name="applying_wallpaper">uygulanıyor\'%1$s\'…</string>
+    <string name="apply_to">Uygula</string>
+    <string name="home_screen">Ana ekran</string>
+    <string name="lock_screen">Kilit ekranı</string>
+    <string name="home_lock_screen">Ana ve kilit ekranları</string>
+    <string name="apply_with_other_app">Diğer uygulamayla uygula</string>
+    <string name="apply_successful">Duvar kağıdı başarıyla uygulandı %1$s</string>
+    <string name="apply_successful_short">Duvar kağıdı başarıyla uygulandı</string>
+    <string name="wallpaper_details">Ayrıntılar</string>
+    <string name="wallpaper_palette">Palet</string>
+    <string name="copied_to_clipboard">Rengi panoya kopyaladı</string>
+    <string name="search">Ara</string>
+    <string name="search_x">Ara %1$s…</string>
+    <string name="search_no_results">Sonuç bulunamadı</string>
+    <string name="about">Hakkında</string>
+    <string name="refresh">Yenile</string>
+    <string name="translate">Tercüme</string>
+    <string name="licenses">Lisanslar</string>
+    <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+    <string name="dev_contributions">Geliştirme Yardımı</string>
+    <string name="ui_contributions">UI Yardımı</string>
+    <string name="settings">Ayarlar</string>
+    <string name="ui_settings_title">Kullanıcı arayüzü</string>
+    <string name="theme_setting_title">Uygulama teması</string>
+    <string name="theme_setting_content">Uygulamanın ana temasını seçin</string>
+    <!-- Light Theme -->
+    <string name="light_theme">Açık</string>
+    <!-- Dark Theme -->
+    <string name="dark_theme">Koyu</string>
+    <!-- Amoled Theme -->
+    <string name="amoled_theme">Amoled</string>
+    <!-- Transparent Theme -->
+    <string name="transparent_theme">Şeffaf</string>
+    <!-- Automatic Light-Dark Theme -->
+    <string name="auto_dark">Otomatik Açık-Koyu</string>
+    <!-- Automatic Light-Amoled Theme -->
+    <string name="auto_amoled">Otomatik Açık-Amoled</string>
+    <string name="navbar_color_setting_title">Gezinme çubuğu rengi</string>
+    <string name="wallpapers_columns_setting_title">Duvar Kağıtları sütunları</string>
+    <!-- License -->
+    <!-- Muzei Settings -->
+    <!-- Please use this character … -->
+</resources>

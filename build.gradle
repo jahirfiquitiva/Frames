@@ -44,8 +44,8 @@ allprojects {
         targetSdk = 26
         compileSdk = 26
         buildTools = '26.0.1'
-        versionCode = 105
-        versionName = '1.0.5'
+        versionCode = 206
+        versionName = '2.0.6'
         gradlePlugin = '2.3.3'
         libPubPlugin = '1.5'
         kotlin = '1.1.50'

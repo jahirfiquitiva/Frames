@@ -15,6 +15,9 @@
   ~ limitations under the License.
   -->
 <resources>
+    <!-- Your app name -->
+    <string name="app_name">Frames</string>
+
     <!--    This one applies for Muzei too. Try not to exceed 140 characters -->
     <string name="app_description">A great wallpapers app with hundreds of cool pictures.</string>
 

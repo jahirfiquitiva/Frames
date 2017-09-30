@@ -49,6 +49,7 @@
     <string name="home_screen">Ekran domowy</string>
     <string name="lock_screen">Ekran blokady</string>
     <string name="home_lock_screen">Ekran domowy i blokady</string>
+    <string name="apply_with_other_app">Ustaw za pomocą innej aplikacji</string>
     <string name="apply_successful">Tapeta ustawiona pomyślnie na %1$s</string>
     <string name="apply_successful_short">Tapeta została ustawiona pomyślnie</string>
     <string name="wallpaper_details">Szczegóły</string>

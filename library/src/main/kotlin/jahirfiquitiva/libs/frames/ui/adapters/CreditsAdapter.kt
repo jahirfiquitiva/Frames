@@ -15,8 +15,8 @@
  */
 package jahirfiquitiva.libs.frames.ui.adapters
 
+import android.support.annotation.StringRes
 import android.view.ViewGroup
-import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.inflate
 import ca.allanwang.kau.utils.visible
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
@@ -30,7 +30,8 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SectionedHeaderViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SimpleCreditViewHolder
 
-class CreditsAdapter(private val manager:RequestManager,
+class CreditsAdapter(@StringRes private val dashboardTitle:Int,
+                     private val manager:RequestManager,
                      private val credits:ArrayList<Credit>):
         SectionedRecyclerViewAdapter<SectionedViewHolder>() {
     
@@ -82,21 +83,19 @@ class CreditsAdapter(private val manager:RequestManager,
         if (holder is SectionedHeaderViewHolder) {
             when (section) {
                 0 -> {
-                    holder.setTitle(R.string.app_name, expanded)
-                    holder.icon.gone()
+                    holder.setTitle(R.string.app_name, false, expanded)
                 }
                 1 -> {
-                    holder.setTitle(R.string.frames_dashboard, expanded)
-                    holder.icon.gone()
+                    holder.setTitle(dashboardTitle, false, expanded)
                     holder.divider.visible()
                 }
                 2 -> {
-                    holder.setTitle(R.string.dev_contributions, expanded,
+                    holder.setTitle(R.string.dev_contributions, true, expanded,
                                     { toggleSectionExpanded(section) })
                     holder.divider.visible()
                 }
                 3 -> {
-                    holder.setTitle(R.string.ui_contributions, expanded,
+                    holder.setTitle(R.string.ui_contributions, true, expanded,
                                     { toggleSectionExpanded(section) })
                     holder.divider.visible()
                 }

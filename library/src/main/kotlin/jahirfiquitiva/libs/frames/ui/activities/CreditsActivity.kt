@@ -17,6 +17,7 @@ package jahirfiquitiva.libs.frames.ui.activities
 
 import android.content.Context
 import android.os.Bundle
+import android.support.annotation.StringRes
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
@@ -76,7 +77,7 @@ open class CreditsActivity:ThemedActivity() {
                                               GridLayoutManager.VERTICAL, false)
         rv.layoutManager = layoutManager
         
-        val adapter = CreditsAdapter(Glide.with(this), buildCreditsList())
+        val adapter = CreditsAdapter(getDashboardTitle(), Glide.with(this), buildCreditsList())
         adapter.setLayoutManager(layoutManager)
         rv.adapter = adapter
         
@@ -90,6 +91,9 @@ open class CreditsActivity:ThemedActivity() {
         
         rv.state = EmptyViewRecyclerView.State.NORMAL
     }
+    
+    @StringRes
+    open fun getDashboardTitle() = R.string.frames_dashboard
     
     override fun onCreateOptionsMenu(menu:Menu?):Boolean {
         menuInflater.inflate(R.menu.about_settings_menu, menu)

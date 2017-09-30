@@ -23,6 +23,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.tint
+import ca.allanwang.kau.utils.visible
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.bumptech.glide.RequestManager
 import jahirfiquitiva.libs.frames.R
@@ -85,17 +86,22 @@ class SectionedHeaderViewHolder(itemView:View):SectionedViewHolder(itemView) {
     val title:TextView by itemView.bind(R.id.section_title)
     val icon:ImageView by itemView.bind(R.id.section_icon)
     
-    fun setTitle(@StringRes text:Int, expanded:Boolean = true, listener:() -> Unit = {}) {
-        setTitle(itemView.context.getString(text), expanded, listener)
+    fun setTitle(@StringRes text:Int, shouldShowIcon:Boolean = false, expanded:Boolean = true,
+                 listener:() -> Unit = {}) {
+        setTitle(itemView.context.getString(text), shouldShowIcon, expanded, listener)
     }
     
-    fun setTitle(text:String, expanded:Boolean = true, listener:() -> Unit = {}) {
+    fun setTitle(text:String, shouldShowIcon:Boolean = false, expanded:Boolean = true,
+                 listener:() -> Unit = {}) {
         divider.setBackgroundColor(itemView.context.dividerColor)
         title.setTextColor(itemView.context.secondaryTextColor)
         title.text = text
-        icon.drawable?.tint(itemView.context.activeIconsColor)
-        icon.animate()?.rotation(if (expanded) 180F else 0F)?.setDuration(
-                SECTION_ICON_ANIMATION_DURATION)?.start()
+        if (shouldShowIcon) {
+            icon.drawable?.tint(itemView.context.activeIconsColor)
+            icon.visible()
+            icon.animate()?.rotation(if (expanded) 180F else 0F)?.setDuration(
+                    SECTION_ICON_ANIMATION_DURATION)?.start()
+        } else icon.gone()
         itemView?.setOnClickListener { listener() }
     }
 }

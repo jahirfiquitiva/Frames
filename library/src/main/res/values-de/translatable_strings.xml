@@ -18,12 +18,15 @@
     <string name="empty_section">Nichts gefunden</string>
     <string name="loading_section">Lade Inhalt...</string>
     <string name="no_favorites">Füge zuerst einige Wallpapers zu deiner Favoriten-Liste hinzu</string>
+    <string name="wallpapers">Wallpapers</string>
     <string name="collections">Sammlungen</string>
+    <string name="x_wallpapers">%1$s Wallpapers</string>
     <string name="all">Alle</string>
     <string name="favorites">Favoriten</string>
     <string name="favorite">Favorit</string>
     <string name="added_to_favorites">\'%1$s\' wurde zu deinen Favoriten hinzugefügt.</string>
     <string name="removed_from_favorites">\'%1$s\' wurde von deinen Favoriten entfernt.</string>
+    <string name="actions_dialog_content">Was möchtest du mit diesem Wallpaper tun?</string>
     <string name="apply">Anwenden</string>
     <string name="download">Herunterladen</string>
     <string name="info">Information</string>
@@ -46,13 +49,18 @@
     <string name="home_screen">Startbildschirm</string>
     <string name="lock_screen">Sperrbildschirm</string>
     <string name="home_lock_screen">Start- und Sperrbildschirm</string>
+    <string name="apply_with_other_app">Mit anderer App anwenden</string>
     <string name="apply_successful">Wallpaper erfolgreich angewendet im %1$s</string>
     <string name="apply_successful_short">Wallpaper erfolgreich angewendet</string>
+    <string name="wallpaper_details">Details</string>
+    <string name="wallpaper_palette">Palette</string>
+    <string name="copied_to_clipboard">Farbe in die Zwischenablage kopiert</string>
     <string name="search">Suchen</string>
     <string name="search_x">Suche %1$s ...</string>
     <string name="search_no_results">Keine Ergebnisse gefunden</string>
     <string name="about">Über</string>
     <string name="refresh">Aktualisieren</string>
+    <string name="translate">Übersetzen</string>
     <string name="licenses">Lizenzen</string>
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
     <string name="frames_dashboard">Frames Dashboard</string>
@@ -81,6 +89,12 @@
     <string name="navbar_color_setting_content">Färbt Navigationsleiste mit der dunklen Hauptfarbe der App</string>
     <string name="wallpapers_columns_setting_title">Wallpaper-Spalten</string>
     <string name="wallpapers_columns_setting_content">Wähle die Anzahl an Spalten, in denen Wallpaper angezeigt werden</string>
+    <string name="animations_setting_title">Animationen aktivieren</string>
+    <string name="animations_setting_content">Dies könnte Lags auf einigen Geräten hervorrufen</string>
+    <string name="load_hi_res_pictures_title">Vorschau in voller Auflösung</string>
+    <string name="load_hi_res_pictures_content">In der Gitteransicht volle Auflösung laden</string>
+    <string name="deep_search_title">Deep Search aktivieren</string>
+    <string name="deep_search_content">Nach Name und Sammlung suchen</string>
     <string name="storage_settings_title">Speicher</string>
     <string name="wallpapers_download_location_setting_title">Download-Speicherort der Wallpaper</string>
     <string name="wallpapers_download_location_setting_content">Ändere den Speicherort für Wallpaper-Downloads.\nAktueller Speicherort: %1$s</string>

@@ -49,6 +49,7 @@
     <string name="home_screen">ഹോം സ്ക്രീൻ</string>
     <string name="lock_screen">ലോക്ക് സ്ക്രീൻ</string>
     <string name="home_lock_screen">ഹോം, ലോക്ക് സ്ക്രീനുകൾ</string>
+    <string name="apply_with_other_app">മറ്റ് അപ്ലിക്കേഷൻ ഉപയോഗിച്ച് പ്രയോഗിക്കുക</string>
     <string name="apply_successful">വാൾപേപ്പർ %1$s എന്നതിലേക്ക് വിജയകരമായി അപ്പ്ലൈ ചെയ്‌തു</string>
     <string name="apply_successful_short">വാൾപേപ്പർ വിജയകരമായി പ്രയോഗിച്ചു</string>
     <string name="wallpaper_details">വിശദാംശങ്ങൾ</string>

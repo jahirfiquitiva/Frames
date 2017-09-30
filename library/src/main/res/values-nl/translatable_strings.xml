@@ -26,6 +26,7 @@
     <string name="favorite">Favoriet</string>
     <string name="added_to_favorites">\'%1$s\' is toegevoegd aan je favorieten.</string>
     <string name="removed_from_favorites">\'%1$s\' is verwijderd van je favorieten.</string>
+    <string name="actions_dialog_content">Wat wil je doen met deze achtergrond?</string>
     <string name="apply">Toepassen</string>
     <string name="download">Download</string>
     <string name="info">Informatie</string>
@@ -48,6 +49,7 @@
     <string name="home_screen">Home scherm</string>
     <string name="lock_screen">Vergrendel scherm</string>
     <string name="home_lock_screen">Home en vergrendel scherms</string>
+    <string name="apply_with_other_app">Toepassen met andere app</string>
     <string name="apply_successful">Achtergrond succesvol toegepast naar %1$s</string>
     <string name="apply_successful_short">Achtergrond succesvol toegepast</string>
     <string name="wallpaper_details">Details</string>

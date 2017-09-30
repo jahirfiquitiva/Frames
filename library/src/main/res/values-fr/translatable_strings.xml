@@ -34,14 +34,14 @@
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
     <string name="share_text">Mon fond d\'écran d\'aujourd\'hui est %1$s par %2$s, de %3$s.\nTéléchargez-le ici %4$s</string>
     <string name="permission_denied">Accès à la permission de stockage a été refusé</string>
-    <string name="permission_denied_completely">Accès à la permission de stockage a été refusé. Vous devez l\'activé manuellement dans les Paramètres.</string>
-    <string name="permission_request">%1$s requières l\'accès au stockage pour être capable d\'appliquer et de sauvegarder les fonds d\'écran</string>
+    <string name="permission_denied_completely">Accès à la permission de stockage a été refusé. Vous devez l\'activer manuellement dans les Paramètres.</string>
+    <string name="permission_request">%1$s nécessite l\'accès au stockage pour être capable d\'appliquer et de sauvegarder les fonds d\'écran</string>
     <string name="allow">Autoriser</string>
     <string name="downloading_wallpaper">Téléchargement \'%1$s\'…</string>
     <string name="download_successful">Fond d\'écran téléchargé avec succès pour \'%1$s\'</string>
     <string name="download_successful_short">Fond d\'écran téléchargé avec succès</string>
     <string name="open">Ouvrir</string>
-    <string name="file_exists">Ce fond d\'écran a déjà été téléchargé. Voulez le téléchargé pour le remplacé?</string>
+    <string name="file_exists">Ce fond d\'écran a déjà été téléchargé. Voulez le télécharger pour le remplacer?</string>
     <string name="file_replace">Remplacer</string>
     <string name="file_create_new">Créer un nouveau</string>
     <string name="applying_wallpaper">Application \'%1$s\'…</string>
@@ -49,6 +49,7 @@
     <string name="home_screen">Ecran d\'accueil</string>
     <string name="lock_screen">Ecran de vérrouillage</string>
     <string name="home_lock_screen">Ecrans d\'accueil et de vérrouillage</string>
+    <string name="apply_with_other_app">Appliquer avec une autre application</string>
     <string name="apply_successful">Fond d\'écran appliqué avec succès pour %1$s</string>
     <string name="apply_successful_short">Fond d\'écran appliqué avec succès</string>
     <string name="wallpaper_details">Détails</string>
@@ -90,7 +91,7 @@
     <string name="wallpapers_columns_setting_content">Choisissez le nombre de colonnes que vous souhaitez voir apparaître pour les fonds d\'écran</string>
     <string name="animations_setting_title">Activer les animations</string>
     <string name="animations_setting_content">Cela pourrait causer des ralentissements sur certains appareils</string>
-    <string name="load_hi_res_pictures_title">Prévisualisations en haute résolution</string>
+    <string name="load_hi_res_pictures_title">Aperçus en haute résolution</string>
     <string name="load_hi_res_pictures_content">Charger les images en haute résolution en grille</string>
     <string name="deep_search_title">Activer la recherche approfondie</string>
     <string name="deep_search_content">Rechercher par nom et collection</string>
@@ -117,7 +118,7 @@
     <string name="try_now">Essayer à nouveau</string>
     <string name="donate">Donation</string>
     <string name="donate_success_title">Merci</string>
-    <string name="donate_success_content">Merci beaucoup pour votre donation. J\'apprécie beaucoup votre geste et je suis ravis que vous aimez %1$s.</string>
+    <string name="donate_success_content">Merci beaucoup pour votre donation. J\'apprécie beaucoup votre geste et je suis ravis que vous appréciez %1$s.</string>
     <string name="donate_error">Une erreur inattendue avec le code %1$s apparemment causé par %2$s</string>
     <string name="donate_error_unknown">raisons inconnues</string>
     <string name="loading">Chargement...</string>

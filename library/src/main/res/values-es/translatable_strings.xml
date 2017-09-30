@@ -49,6 +49,7 @@
     <string name="home_screen">Pantalla de inicio</string>
     <string name="lock_screen">Pantalla de bloqueo</string>
     <string name="home_lock_screen">Pantallas de inicio y bloqueo</string>
+    <string name="apply_with_other_app">Aplicar con otra aplicación</string>
     <string name="apply_successful">Fondo de pantalla aplicado con éxito a %1$s</string>
     <string name="apply_successful_short">Fondo de pantalla aplicado satisfactoriamente</string>
     <string name="wallpaper_details">Detalles</string>

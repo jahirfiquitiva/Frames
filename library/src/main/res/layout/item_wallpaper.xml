@@ -42,6 +42,8 @@
             android:paddingRight="@dimen/fabs_margin"
             android:layout_gravity="start|bottom"
             android:gravity="start|bottom"
+            android:baselineAligned="false"
+            android:clipToPadding="false"
             android:clipChildren="false"
             tools:ignore="UseCompoundDrawables">
 
@@ -52,6 +54,7 @@
                 android:orientation="vertical"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
+                android:clipToPadding="false"
                 android:clipChildren="false">
 
             <TextView
@@ -65,6 +68,8 @@
                     android:textSize="16sp"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
+                    android:clipToPadding="false"
+                    android:clipChildren="false"
                     tools:text="Wallpaper name"/>
 
             <TextView
@@ -79,6 +84,8 @@
                     android:textSize="12sp"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
+                    android:clipToPadding="false"
+                    android:clipChildren="false"
                     tools:text="John Doe"/>
 
         </LinearLayout>
@@ -91,6 +98,8 @@
                 android:visibility="gone"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:clipToPadding="false"
+                android:clipChildren="false"
                 tools:ignore="ContentDescription"/>
 
     </LinearLayout>

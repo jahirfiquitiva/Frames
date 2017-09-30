@@ -38,6 +38,7 @@
             android:layout_gravity="start|bottom"
             android:gravity="start|bottom"
             android:baselineAligned="false"
+            android:clipToPadding="false"
             android:clipChildren="false">
 
         <TextView
@@ -54,6 +55,8 @@
                 android:gravity="center_vertical"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textSize="16sp"
+                android:clipToPadding="false"
+                android:clipChildren="false"
                 tools:text="Material Design"/>
 
         <TextView
@@ -68,6 +71,8 @@
                 android:textSize="12sp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
+                android:clipToPadding="false"
+                android:clipChildren="false"
                 tools:text="10"/>
 
     </LinearLayout>
