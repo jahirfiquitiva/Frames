@@ -20,7 +20,6 @@ import android.app.DownloadManager
 import android.app.WallpaperManager
 import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -39,11 +38,9 @@ import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.DownloadThread
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseWallpaperActionsActivity
 import jahirfiquitiva.libs.kauextensions.extensions.getUri
-import jahirfiquitiva.libs.kauextensions.extensions.printDebug
 import jahirfiquitiva.libs.kauextensions.extensions.printError
 import jahirfiquitiva.libs.kauextensions.extensions.showToast
 import java.io.File
-
 
 class WallpaperActionsFragment:DialogFragment() {
     
@@ -295,11 +292,6 @@ class WallpaperActionsFragment:DialogFragment() {
         }
     }
     
-    override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        context.printDebug("RequestCode: $requestCode - ResultCode: $resultCode")
-    }
-    
     companion object {
         private val TAG = "icon_dialog"
         private val WALLPAPER = "wallpaper"
@@ -310,8 +302,9 @@ class WallpaperActionsFragment:DialogFragment() {
         val TO_OTHER_APP_CODE = 73
         
         fun invoke(context:FragmentActivity, wallpaper:Wallpaper, destFile:File?,
-                   destBitmap:Bitmap?, toHomeScreen:Boolean, toLockScreen:Boolean,
-                   toBoth:Boolean, toOtherApp:Boolean):WallpaperActionsFragment =
+                   destBitmap:Bitmap? = null,
+                   toHomeScreen:Boolean = false, toLockScreen:Boolean = false,
+                   toBoth:Boolean = false, toOtherApp:Boolean = false):WallpaperActionsFragment =
                 WallpaperActionsFragment().apply {
                     this.downloadManager =
                             context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
@@ -327,8 +320,7 @@ class WallpaperActionsFragment:DialogFragment() {
     
     fun show(context:FragmentActivity, wallpaper:Wallpaper, destFile:File) {
         dismiss(context)
-        invoke(context, wallpaper, destFile, null, false, false, false, false)
-                .show(context.supportFragmentManager, TAG)
+        invoke(context, wallpaper, destFile).show(context.supportFragmentManager, TAG)
     }
     
     fun show(context:FragmentActivity, wallpaper:Wallpaper, destFile:File,

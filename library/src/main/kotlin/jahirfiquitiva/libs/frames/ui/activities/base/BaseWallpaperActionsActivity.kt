@@ -180,7 +180,9 @@ abstract class BaseWallpaperActionsActivity:BaseActivityWithFragments() {
         val options = arrayListOf(getString(R.string.home_screen),
                                   getString(R.string.lock_screen),
                                   getString(R.string.home_lock_screen))
-        if (isNetworkAvailable) options.add(getString(R.string.apply_with_other_app))
+        if (isNetworkAvailable && dest != null)
+            options.add(getString(R.string.apply_with_other_app))
+        
         actionDialog = buildMaterialDialog {
             title(R.string.apply_to)
             items(options)
