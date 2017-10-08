@@ -43,7 +43,7 @@ allprojects {
         minSdk = 16
         targetSdk = 26
         compileSdk = 26
-        buildTools = '26.0.1'
+        buildTools = '26.0.2'
         versionCode = 207
         versionName = '2.0.7'
         gradlePlugin = '2.3.3'
