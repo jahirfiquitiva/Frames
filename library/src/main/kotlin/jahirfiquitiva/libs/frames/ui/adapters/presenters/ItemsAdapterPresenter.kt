@@ -15,14 +15,10 @@
  */
 package jahirfiquitiva.libs.frames.ui.adapters.presenters
 
-import jahirfiquitiva.libs.frames.helpers.utils.ListDiffCallback
-
 interface ItemsAdapterPresenter<T> {
     fun clearList()
     fun addAll(newItems:ArrayList<T>)
     fun setItems(newItems:ArrayList<T>)
-    fun updateItems(newItems:ArrayList<T>, detectMoves:Boolean)
-    fun updateItems(newItems:ArrayList<T>, callback:ListDiffCallback<T>, detectMoves:Boolean)
     fun removeItem(item:T)
     fun updateItem(item:T)
     fun addItem(newItem:T)

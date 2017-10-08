@@ -15,10 +15,8 @@
  */
 package jahirfiquitiva.libs.frames.ui.adapters
 
-import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import jahirfiquitiva.libs.frames.helpers.extensions.clearChildrenAnimations
-import jahirfiquitiva.libs.frames.helpers.utils.ListDiffCallback
 import jahirfiquitiva.libs.frames.ui.adapters.presenters.ItemsAdapterPresenter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideSectionedViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideViewHolder
@@ -99,18 +97,6 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>(private val maxLoa
         list.clear()
         list.addAll(newItems)
         notifyDataSetChanged()
-    }
-    
-    override fun updateItems(newItems:ArrayList<T>, detectMoves:Boolean) {
-        updateItems(newItems, ListDiffCallback(list, newItems), detectMoves)
-    }
-    
-    override fun updateItems(newItems:ArrayList<T>, callback:ListDiffCallback<T>,
-                             detectMoves:Boolean) {
-        val result = DiffUtil.calculateDiff(callback, detectMoves)
-        list.clear()
-        list.addAll(newItems)
-        result.dispatchUpdatesTo(this)
     }
     
     override fun removeItem(item:T) {

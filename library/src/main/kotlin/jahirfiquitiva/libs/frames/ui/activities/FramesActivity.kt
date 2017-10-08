@@ -58,23 +58,24 @@ abstract class FramesActivity:BaseFramesActivity() {
     
     private var searchView:SearchView? = null
     
-    var hasCollections = true
-        set(value) {
-            field = value
-            updateTabs()
-        }
-    
-    private val defaultSection = if (hasCollections) 0 else 1
-    private var lastSection = defaultSection
+    private var hasCollections = false
+    private var lastSection = 0
     
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        hasCollections = getBoolean(R.bool.show_collections_tab)
+        
         setContentView(R.layout.activity_main)
         
         setSupportActionBar(toolbar)
         
-        adapter = FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
-                                   WallpapersFragment(), FavoritesFragment())
+        adapter = if (hasCollections) {
+            FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
+                             WallpapersFragment(), FavoritesFragment())
+        } else {
+            FragmentsAdapter(supportFragmentManager, WallpapersFragment(), FavoritesFragment())
+        }
         pager.adapter = adapter
         
         val useAccentColor = getBoolean(R.bool.enable_accent_color_in_tabs)
@@ -112,7 +113,7 @@ abstract class FramesActivity:BaseFramesActivity() {
         pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
         
         pager.offscreenPageLimit = tabs.tabCount
-        pager.setCurrentItem(1, true)
+        pager.setCurrentItem(lastSection, true)
     }
     
     private fun buildTabs() {
@@ -122,6 +123,8 @@ abstract class FramesActivity:BaseFramesActivity() {
         
         tabs.removeAllTabs()
         for (i in 0 until 3) {
+            if (i == 0 && !hasCollections) continue
+            
             val icon = when (i) {
                 0 -> R.drawable.ic_collections
                 1 -> R.drawable.ic_all_wallpapers
@@ -140,7 +143,7 @@ abstract class FramesActivity:BaseFramesActivity() {
             
             if (showIcons && icon != 0)
                 iconDrawable = ContextCompat.getDrawable(this, icon)
-                        .tint(if (i != 1) getInactiveIconsColorFor(primaryColor, 0.6F)
+                        .tint(if (i != 0) getInactiveIconsColorFor(primaryColor, 0.6F)
                               else getActiveIconsColorFor(primaryColor, 0.6F))
             
             val tab = tabs.newTab()
@@ -157,22 +160,6 @@ abstract class FramesActivity:BaseFramesActivity() {
                 }
             }
             tabs.addTab(tab)
-        }
-    }
-    
-    private fun updateTabs() {
-        if (hasCollections) {
-            if (adapter.count == 3) return
-            val newCollectionsFragment = CollectionsFragment()
-            newCollectionsFragment.forceCollectionsLoad()
-            adapter.addFragmentAt(newCollectionsFragment, 0)
-            buildTabs()
-            pager.setCurrentItem(defaultSection, true)
-        } else {
-            if (adapter.count == 2) return
-            adapter.removeItemAt(0)
-            tabs.removeTabAt(0)
-            pager.setCurrentItem(defaultSection, true)
         }
     }
     
@@ -264,14 +251,12 @@ abstract class FramesActivity:BaseFramesActivity() {
     
     override fun onSaveInstanceState(outState:Bundle?) {
         outState?.putInt("current", lastSection)
-        outState?.putBoolean("hasCollections", hasCollections)
         super.onSaveInstanceState(outState)
     }
     
     override fun onRestoreInstanceState(savedInstanceState:Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
-        hasCollections = savedInstanceState?.getBoolean("hasCollections", true) ?: true
-        lastSection = savedInstanceState?.getInt("current", defaultSection) ?: defaultSection
+        lastSection = savedInstanceState?.getInt("current", 0) ?: 0
         pager.setCurrentItem(lastSection, true)
     }
     

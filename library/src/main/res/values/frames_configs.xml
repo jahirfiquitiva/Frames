@@ -29,6 +29,12 @@
     -->
     <bool name="use_old_json_format">false</bool>
 
+    <!--    Show collections tab?
+    -       If you have collections in your JSON, set this to true
+    -       Otherwise, set it to false (is the price you pay for not doing so :P )
+    -->
+    <bool name="show_collections_tab">true</bool>
+
     <!--    Configure your own Splash Screen style
     -       Only change the parent. Available Styles:
     -       LightTheme.SplashScreen

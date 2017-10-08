@@ -199,14 +199,13 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
             if (filter.hasContent()) {
                 rv.setEmptyImage(R.drawable.no_results)
                 rv.setEmptyText(R.string.search_no_results)
-                it.updateItems(
-                        ArrayList(list.filter { filteredWallpaper(it, filter) }), true)
+                it.setItems(ArrayList(list.filter { filteredWallpaper(it, filter) }))
             } else {
                 rv.setEmptyImage(
                         if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
                 rv.setEmptyText(
                         if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
-                it.updateItems(ArrayList(list), true)
+                it.setItems(ArrayList(list))
                 scrollToTop()
             }
         }

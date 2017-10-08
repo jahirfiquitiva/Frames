@@ -246,7 +246,7 @@ class MuzeiSettingsActivity:ThemedActivity() {
                 }
                 dialog?.show()
             })
-            collsVM.loadData(ArrayList(it))
+            collsVM.loadWithContext(this, ArrayList(it))
         })
         wallsVM.loadData(this)
         dialog?.show()

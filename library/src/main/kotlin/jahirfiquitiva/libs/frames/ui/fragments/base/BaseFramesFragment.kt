@@ -60,7 +60,7 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
     
     override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
-        if (!fromCollectionActivity) collectionsModel?.loadData(data)
+        if (!fromCollectionActivity) collectionsModel?.loadWithContext(context, data)
     }
     
     abstract fun enableRefresh(enable:Boolean)

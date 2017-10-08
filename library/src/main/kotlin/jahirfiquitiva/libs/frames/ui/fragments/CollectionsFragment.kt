@@ -150,13 +150,11 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
                 if (filter.hasContent()) {
                     rv.setEmptyImage(R.drawable.no_results)
                     rv.setEmptyText(R.string.search_no_results)
-                    collsAdapter?.updateItems(
-                            ArrayList(it.filter { it.name.contains(filter, true) }),
-                            true)
+                    collsAdapter?.setItems(ArrayList(it.filter { it.name.contains(filter, true) }))
                 } else {
                     rv.setEmptyImage(R.drawable.empty_section)
                     rv.setEmptyText(R.string.empty_section)
-                    collsAdapter?.updateItems(ArrayList(it), true)
+                    collsAdapter?.setItems(ArrayList(it))
                     scrollToTop()
                 }
             }
@@ -176,8 +174,6 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
     override fun doOnCollectionsChange(data:ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
         swipeToRefresh.isRefreshing = false
-        if (activity is FramesActivity)
-            (activity as FramesActivity).hasCollections = data.size > 0
         if (data.size > 0) collsAdapter?.setItems(data)
     }
     

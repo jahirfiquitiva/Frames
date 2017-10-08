@@ -24,7 +24,6 @@ import com.bumptech.glide.util.ViewPreloadSizeProvider
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.utils.ListDiffCallback
 import jahirfiquitiva.libs.frames.helpers.utils.MAX_COLLECTIONS_LOAD
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
@@ -41,10 +40,6 @@ class CollectionsAdapter(private val manager:RequestManager,
     
     override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):CollectionHolder? =
             parent?.inflate(R.layout.item_collection)?.let { CollectionHolder(it) }
-    
-    override fun updateItems(newItems:ArrayList<Collection>, detectMoves:Boolean) {
-        updateItems(newItems, ListDiffCallback(list, newItems), detectMoves)
-    }
     
     override fun getPreloadItems(position:Int):MutableList<Wallpaper> =
             Collections.singletonList(list[position].bestCover)

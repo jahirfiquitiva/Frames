@@ -15,13 +15,22 @@
  */
 package jahirfiquitiva.libs.frames.providers.viewmodels
 
+import android.content.Context
+import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
+import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 
 class CollectionsViewModel:ListViewModel<ArrayList<Wallpaper>, Collection>() {
+    
+    fun loadWithContext(ctx:Context, parameter:ArrayList<Wallpaper>, forceLoad:Boolean = false) {
+        if (ctx.getBoolean(R.bool.show_collections_tab)) loadData(parameter, forceLoad)
+        else postResult(ArrayList())
+    }
+    
     override fun internalLoad(param:ArrayList<Wallpaper>):MutableList<Collection> {
         val collections = ArrayList<Collection>()
         val collectionsMap = HashMap<String, ArrayList<Wallpaper>>()
