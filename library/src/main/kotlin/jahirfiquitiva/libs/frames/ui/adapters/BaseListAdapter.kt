@@ -102,7 +102,7 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>(private val maxLoa
     }
     
     override fun updateItems(newItems:ArrayList<T>, detectMoves:Boolean) {
-        updateItems(newItems, object:ListDiffCallback<T>(list, newItems) {}, detectMoves)
+        updateItems(newItems, ListDiffCallback(list, newItems), detectMoves)
     }
     
     override fun updateItems(newItems:ArrayList<T>, callback:ListDiffCallback<T>,
