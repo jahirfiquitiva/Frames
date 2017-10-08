@@ -143,7 +143,8 @@ abstract class FramesActivity:BaseFramesActivity() {
             
             if (showIcons && icon != 0)
                 iconDrawable = ContextCompat.getDrawable(this, icon)
-                        .tint(if (i != 0) getInactiveIconsColorFor(primaryColor, 0.6F)
+                        .tint(if (i != (if (hasCollections) 0 else 1))
+                                  getInactiveIconsColorFor(primaryColor, 0.6F)
                               else getActiveIconsColorFor(primaryColor, 0.6F))
             
             val tab = tabs.newTab()
