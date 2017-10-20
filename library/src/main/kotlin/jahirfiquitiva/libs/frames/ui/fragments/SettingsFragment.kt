@@ -26,10 +26,10 @@ import android.preference.Preference
 import android.preference.PreferenceCategory
 import android.preference.SwitchPreference
 import android.support.design.widget.Snackbar
-import biz.kasual.materialnumberpicker.MaterialNumberPicker
 import ca.allanwang.kau.utils.buildIsLollipopAndUp
 import ca.allanwang.kau.utils.snackbar
 import com.afollestad.materialdialogs.MaterialDialog
+import com.github.stephenvinouze.materialnumberpickercore.MaterialNumberPicker
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.helpers.extensions.PermissionRequestListener
@@ -43,7 +43,6 @@ import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.ui.activities.SettingsActivity
 import jahirfiquitiva.libs.frames.ui.fragments.base.PreferenceFragment
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
-import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
@@ -115,16 +114,14 @@ open class SettingsFragment:PreferenceFragment() {
                 clearDialog()
                 val currentColumns = context.framesKonfigs.columns
                 
-                val numberPicker = MaterialNumberPicker.Builder(context)
-                        .minValue(1)
-                        .maxValue(6)
-                        .defaultValue(currentColumns)
-                        .backgroundColor(context.cardBackgroundColor)
-                        .separatorColor(Color.TRANSPARENT)
-                        .textColor(context.secondaryTextColor)
-                        .enableFocusability(false)
-                        .wrapSelectorWheel(true)
-                        .build()
+                val numberPicker = MaterialNumberPicker(
+                        context = this.context,
+                        minValue = 1,
+                        maxValue = 6,
+                        value = currentColumns,
+                        separatorColor = Color.TRANSPARENT,
+                        textColor = this.context.secondaryTextColor,
+                        wrapped = true)
                 
                 dialog = context.buildMaterialDialog {
                     title(R.string.wallpapers_columns_setting_title)
