@@ -39,7 +39,7 @@ ext.versions = [
         materialDialogs       : '0.9.4.7',
         glide                 : '4.2.0',
         okhttp                : '3.9.0',
-        kauExt                : '86e32d3',
+        kauExt                : 'e98bb1e',
         sectionedRecyclerView : '0.5.0',
         recyclerViewFastScroll: '6a72f8c',
         chips                 : 'a472057',

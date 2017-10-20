@@ -36,9 +36,9 @@ import jahirfiquitiva.libs.frames.helpers.extensions.adjustToDeviceScreen
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.DownloadThread
+import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseWallpaperActionsActivity
 import jahirfiquitiva.libs.kauextensions.extensions.getUri
-import jahirfiquitiva.libs.kauextensions.extensions.printError
 import jahirfiquitiva.libs.kauextensions.extensions.showToast
 import java.io.File
 
@@ -253,11 +253,13 @@ class WallpaperActionsFragment:DialogFragment() {
                         wm.setBitmap(finalResource, null, true)
                     } else {
                         when {
-                            toHomeScreen -> wm.setBitmap(finalResource, null, true,
-                                                         WallpaperManager.FLAG_SYSTEM)
-                            toLockScreen -> wm.setBitmap(finalResource, null, true,
-                                                         WallpaperManager.FLAG_LOCK)
-                            else -> activity.printError("The unexpected case has happened :O")
+                            toHomeScreen -> wm.setBitmap(
+                                    finalResource, null, true,
+                                    WallpaperManager.FLAG_SYSTEM)
+                            toLockScreen -> wm.setBitmap(
+                                    finalResource, null, true,
+                                    WallpaperManager.FLAG_LOCK)
+                            else -> FL.e("The unexpected case has happened :O")
                         }
                     }
                 } else {
