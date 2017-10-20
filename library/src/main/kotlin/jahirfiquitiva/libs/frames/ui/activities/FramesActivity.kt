@@ -65,6 +65,7 @@ abstract class FramesActivity:BaseFramesActivity() {
         super.onCreate(savedInstanceState)
         
         hasCollections = getBoolean(R.bool.show_collections_tab)
+        if (hasCollections) lastSection = 1
         
         setContentView(R.layout.activity_main)
         

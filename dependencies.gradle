@@ -35,9 +35,9 @@ ext.versions = [
         gms                   : '3.1.0',
         // Dependencies
         supportLibs           : '26.1.0',
-        archComponents        : '1.0.0-beta1',
+        archComponents        : '1.0.0-rc1',
         materialDialogs       : '0.9.4.7',
-        glide                 : '4.1.1',
+        glide                 : '4.2.0',
         okhttp                : '3.9.0',
         kauExt                : '86e32d3',
         sectionedRecyclerView : '0.5.0',
