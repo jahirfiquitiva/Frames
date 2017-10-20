@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 dependencies {
-    compile 'com.google.firebase:firebase-messaging:11.4.2'
+    compile libraries.firebase
 }
 
 apply plugin: 'com.google.gms.google-services'

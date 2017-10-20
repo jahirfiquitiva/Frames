@@ -15,19 +15,23 @@
  */
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply from: './dependencies.gradle'
 
 buildscript {
+    apply from: './dependencies.gradle'
+
     repositories {
         jcenter()
         maven { url 'https://maven.google.com' }
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.51'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath gradlePlugins.android
+        classpath gradlePlugins.kotlin
+        classpath gradlePlugins.libs
 
         // TODO: Remove comment marks if you plan on implementing Firebase Notifications
-        // classpath 'com.google.gms:google-services:3.1.0'
+        // classpath gradlePlugins.gms
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -35,45 +39,10 @@ buildscript {
 }
 
 allprojects {
-    project.ext {
-        // Core app details
-        appId = 'Frames'
-        appGroup = 'jahirfiquitiva.apps'
-        libGroup = 'jahirfiquitiva.libs'
-        minSdk = 16
-        targetSdk = 26
-        compileSdk = 26
-        buildTools = '26.0.2'
-        versionCode = 207
-        versionName = '2.0.7'
-        gradlePlugin = '2.3.3'
-        libPubPlugin = '1.5'
-        kotlin = '1.1.51'
-        // Libraries versions
-        supportLibs = '26.1.0'
-        archComponents = '1.0.0-beta1'
-        materialDialogs = '0.9.4.7'
-        glide = '4.1.1'
-        okhttp = '3.9.0'
-        kauExt = '86e32d3'
-        sectionedRecyclerView = '0.5.0'
-        recyclerViewFastScroll = '6a72f8c'
-        chips = 'a472057'
-        numberPicker = '1.2.1'
-        iaps = '1.0.44'
-        muzeiApi = '2.0'
-        licensesDialog = '1.8.3'
-        checker = '1.1'
-    }
-
     repositories {
         jcenter()
         mavenCentral()
         maven { url 'https://jitpack.io' }
         maven { url 'https://maven.google.com' }
     }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }

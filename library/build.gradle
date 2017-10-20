@@ -15,10 +15,12 @@
  */
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion project.ext.compileSdk
-    buildToolsVersion project.ext.buildTools
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
 
     lintOptions {
         warningsAsErrors true
@@ -33,10 +35,10 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion project.ext.minSdk
-        targetSdkVersion project.ext.targetSdk
-        versionCode project.ext.versionCode
-        versionName project.ext.versionName
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode versions.versionCode
+        versionName versions.versionName
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -56,48 +58,50 @@ android {
     }
 
     packagingOptions {
+        pickFirst 'META-INF/core_debug.kotlin_module'
         pickFirst 'META-INF/core_release.kotlin_module'
+        pickFirst 'META-INF/library_debug.kotlin_module'
         pickFirst 'META-INF/library_release.kotlin_module'
     }
 }
 
 dependencies {
     // Kotlin
-    compile 'org.jetbrains.kotlin:kotlin-stdlib:' + project.ext.kotlin
+    compile libraries.kotlin
     // Architecture Components
-    compile 'android.arch.lifecycle:extensions:' + project.ext.archComponents
-    compile 'android.arch.persistence.room:runtime:' + project.ext.archComponents
-    annotationProcessor 'android.arch.lifecycle:compiler:' + project.ext.archComponents
-    annotationProcessor 'android.arch.persistence.room:compiler:' + project.ext.archComponents
-    kapt 'android.arch.lifecycle:compiler:' + project.ext.archComponents
-    kapt 'android.arch.persistence.room:compiler:' + project.ext.archComponents
+    compile libraries.lifecycle
+    compile libraries.room
+    kapt libraries.lifecycleCompiler
+    kapt libraries.roomCompiler
     // Material Dialogs
-    compile 'com.afollestad.material-dialogs:core:' + project.ext.materialDialogs
-    compile 'com.afollestad.material-dialogs:commons:' + project.ext.materialDialogs
+    compile libraries.dialogsCore
+    compile libraries.dialogsCommons
     // OkHttp
-    compile 'com.squareup.okhttp3:okhttp:' + project.ext.okhttp
+    compile libraries.okHttp
     // Glide Image Loading
-    compile 'com.github.bumptech.glide:glide:' + project.ext.glide
-    compile 'com.github.bumptech.glide:recyclerview-integration:' + project.ext.glide
+    compile libraries.glide
+    compile libraries.gliderv
     // KAU Extensions
-    compile 'me.jahirfiquitiva.KAUExtensions:core:' + project.ext.kauExt
-    compile 'me.jahirfiquitiva.KAUExtensions:ziv:' + project.ext.kauExt
+    compile libraries.kauext
+    compile libraries.ziv
     // Sectioned RecyclerView
-    compile 'com.afollestad:sectioned-recyclerview:' + project.ext.sectionedRecyclerView
+    compile libraries.sectionedRecyclerView
     // RecyclerView Fast Scroller
-    compile('me.jahirfiquitiva:recycler-fast-scroll:' + project.ext.recyclerViewFastScroll + '@aar')
+    compile(libraries.fastScroll)
     // Material Number Picker
-    compile 'biz.kasual:materialnumberpicker:' + project.ext.numberPicker
+    compile libraries.numberPicker
     // Chips
-    compile 'me.jahirfiquitiva:MaterialChipsInput:' + project.ext.chips
+    compile libraries.chips
     // In-App Purchases
-    compile 'com.anjlab.android.iab.v3:library:' + project.ext.iaps
+    compile libraries.iaps
     // Muzei API
-    compile 'com.google.android.apps.muzei:muzei-api:' + project.ext.muzeiApi
+    compile libraries.muzeiApi
     // Licenses Dialog
-    compile 'de.psdev.licensesdialog:licensesdialog:' + project.ext.licensesDialog
+    compile libraries.licenses
     // License Checker
-    compile 'com.github.javiersantos:PiracyChecker:' + project.ext.checker
+    compile(libraries.checker) {
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+    }
 }
 
 tasks.whenTaskAdded { task ->

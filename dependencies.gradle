@@ -1,0 +1,98 @@
+/*
+ * Copyright (c) 2017. Jahir Fiquitiva
+ *
+ * Licensed under the CreativeCommons Attribution-ShareAlike
+ * 4.0 International License. You may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *    http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ext.details = [
+        // Core app details
+        appId   : 'Frames',
+        appGroup: 'jahirfiquitiva.apps',
+        libGroup: 'jahirfiquitiva.libs',
+]
+
+ext.versions = [
+        // Projects
+        minSdk                : 16,
+        targetSdk             : 26,
+        compileSdk            : 26,
+        buildTools            : '26.0.2',
+        versionCode           : 207,
+        versionName           : '2.0.7',
+        // Gradle Plugins
+        gradle                : '2.3.3',
+        kotlin                : '1.1.51',
+        libs                  : '1.5',
+        gms                   : '3.1.0',
+        // Dependencies
+        supportLibs           : '26.1.0',
+        archComponents        : '1.0.0-beta1',
+        materialDialogs       : '0.9.4.7',
+        glide                 : '4.1.1',
+        okhttp                : '3.9.0',
+        kauExt                : '86e32d3',
+        sectionedRecyclerView : '0.5.0',
+        recyclerViewFastScroll: '6a72f8c',
+        chips                 : 'a472057',
+        numberPicker          : '1.0.4',
+        iaps                  : '1.0.44',
+        muzeiApi              : '2.0',
+        licensesDialog        : '1.8.3',
+        checker               : '1.1',
+        firebase              : '11.4.2'
+]
+
+ext.gradlePlugins = [
+        android: 'com.android.tools.build:gradle:' + versions.gradle,
+        kotlin : 'org.jetbrains.kotlin:kotlin-gradle-plugin:' + versions.kotlin,
+        libs   : 'com.github.dcendents:android-maven-gradle-plugin:' + versions.libs,
+        gms    : 'com.google.gms:google-services:' + versions.gms
+]
+
+ext.libraries = [
+        // Kotlin
+        kotlin               : 'org.jetbrains.kotlin:kotlin-stdlib:' + versions.kotlin,
+        // Architecture Components
+        lifecycle            : 'android.arch.lifecycle:extensions:' + versions.archComponents,
+        room                 : 'android.arch.persistence.room:runtime:' + versions.archComponents,
+        lifecycleCompiler    : 'android.arch.lifecycle:compiler:' + versions.archComponents,
+        roomCompiler         : 'android.arch.persistence.room:compiler:' + versions.archComponents,
+        // Material Dialogs
+        dialogsCore          : 'com.afollestad.material-dialogs:core:' + versions.materialDialogs,
+        dialogsCommons       : 'com.afollestad.material-dialogs:commons:' + versions.materialDialogs,
+        // OkHttp
+        okHttp               : 'com.squareup.okhttp3:okhttp:' + versions.okhttp,
+        // Glide Image Loading
+        glide                : 'com.github.bumptech.glide:glide:' + versions.glide,
+        gliderv              : 'com.github.bumptech.glide:recyclerview-integration:' + versions.glide,
+        // KAU Extensions
+        kauext               : 'me.jahirfiquitiva.KAUExtensions:core:' + versions.kauExt,
+        ziv                  : 'me.jahirfiquitiva.KAUExtensions:ziv:' + versions.kauExt,
+        // Sectioned RecyclerView
+        sectionedRecyclerView: 'com.afollestad:sectioned-recyclerview:' + versions.sectionedRecyclerView,
+        // RecyclerView Fast Scroller
+        fastScroll           : 'me.jahirfiquitiva:recycler-fast-scroll:' + versions.recyclerViewFastScroll + '@aar',
+        // Material Number Picker
+        numberPicker         : 'com.github.StephenVinouze:MaterialNumberPicker:' + versions.numberPicker,
+        // Chips
+        chips                : 'me.jahirfiquitiva:MaterialChipsInput:' + versions.chips,
+        // In-App Purchases
+        iaps                 : 'com.anjlab.android.iab.v3:library:' + versions.iaps,
+        // Muzei API
+        muzeiApi             : 'com.google.android.apps.muzei:muzei-api:' + versions.muzeiApi,
+        // Licenses Dialog
+        licenses             : 'de.psdev.licensesdialog:licensesdialog:' + versions.licensesDialog,
+        // License Checker
+        checker              : 'com.github.javiersantos:PiracyChecker:' + versions.checker,
+        // Firebase
+        firebase             : 'com.google.firebase:firebase-messaging:' + versions.firebase
+]
