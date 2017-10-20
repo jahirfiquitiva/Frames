@@ -35,7 +35,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.changeOptionVisibility
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.lazyAndroid
 import jahirfiquitiva.libs.kauextensions.extensions.openLink
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
@@ -51,7 +50,7 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
     var hasClearedFavs = false
     private val toolbar:CustomToolbar by bind(R.id.toolbar)
     private var locationChooserDialog:FolderChooserDialog? = null
-    private val fragment:Fragment by lazyAndroid { settingsFragment() }
+    private val fragment:Fragment by lazy { settingsFragment() }
     
     open fun settingsFragment():Fragment = SettingsFragment()
     override fun fragmentsContainer():Int = R.id.fragments_container

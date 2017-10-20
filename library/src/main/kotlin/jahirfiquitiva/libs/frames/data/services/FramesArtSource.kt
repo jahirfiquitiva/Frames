@@ -32,31 +32,30 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
+import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.PLAY_STORE_LINK_PREFIX
 import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.printError
 import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 
 @Suppress("LeakingThis")
-open class FramesArtSource(name:String):RemoteMuzeiArtSource(name), LifecycleOwner {
+open class FramesArtSource(name: String) : RemoteMuzeiArtSource(name), LifecycleOwner {
     
     private val UPDATE_COMMAND_ID = 1001
     private val SHARE_COMMAND_ID = 1337
     
     private val lcRegistry = LifecycleRegistry(this)
-    override fun getLifecycle():LifecycleRegistry = lcRegistry
+    override fun getLifecycle(): LifecycleRegistry = lcRegistry
     
-    private var wallsVM:WallpapersViewModel? = null
-    private var favsDB:FavoritesDatabase? = null
-    private var favsVM:FavoritesViewModel? = null
+    private var wallsVM: WallpapersViewModel? = null
+    private var favsDB: FavoritesDatabase? = null
+    private var favsVM: FavoritesViewModel? = null
     
-    override fun onStartCommand(intent:Intent?, flags:Int, startId:Int):Int {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.let {
             val restart = it.getBooleanExtra("restart", false)
             val command = it.getStringExtra("service") ?: ""
@@ -70,8 +69,8 @@ open class FramesArtSource(name:String):RemoteMuzeiArtSource(name), LifecycleOwn
     private fun tryToUpdate() {
         try {
             onTryUpdate(MuzeiArtSource.UPDATE_REASON_USER_NEXT)
-        } catch (e:Exception) {
-            printError("Error updating Muzei: ${e.message}")
+        } catch (e: Exception) {
+            FL.e("Error updating Muzei: ${e.message}")
         }
     }
     
@@ -83,20 +82,22 @@ open class FramesArtSource(name:String):RemoteMuzeiArtSource(name), LifecycleOwn
         setUserCommands(commands)
     }
     
-    override fun onCustomCommand(id:Int) {
+    override fun onCustomCommand(id: Int) {
         super.onCustomCommand(id)
         if (id == SHARE_COMMAND_ID) {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/plain"
-            intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text, currentArtwork.title,
-                                                         currentArtwork.byline, getAppName(),
-                                                         PLAY_STORE_LINK_PREFIX + packageName))
+            intent.putExtra(
+                    Intent.EXTRA_TEXT, getString(
+                    R.string.share_text, currentArtwork.title,
+                    currentArtwork.byline, getAppName(),
+                    PLAY_STORE_LINK_PREFIX + packageName))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
     }
     
-    override fun onTryUpdate(reason:Int) {
+    override fun onTryUpdate(reason: Int) {
         if (framesKonfigs.functionalDashboard && isNetworkAvailable) {
             if (framesKonfigs.refreshMuzeiOnWiFiOnly) {
                 if (isWifiConnected) executeMuzeiUpdate()
@@ -113,9 +114,10 @@ open class FramesArtSource(name:String):RemoteMuzeiArtSource(name), LifecycleOwn
                 if (it.isNotEmpty()) {
                     val realData = getValidWallpapersList(ArrayList(it))
                     if (framesKonfigs.muzeiCollections.contains("favorites", true)) {
-                        favsDB = Room.databaseBuilder(this@FramesArtSource,
-                                                      FavoritesDatabase::class.java,
-                                                      DATABASE_NAME)
+                        favsDB = Room.databaseBuilder(
+                                this@FramesArtSource,
+                                FavoritesDatabase::class.java,
+                                DATABASE_NAME)
                                 .fallbackToDestructiveMigration().build()
                         favsVM = FavoritesViewModel()
                         favsVM?.extraObserve {
@@ -135,12 +137,12 @@ open class FramesArtSource(name:String):RemoteMuzeiArtSource(name), LifecycleOwn
                 }
             }
             wallsVM?.loadData(this, true)
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
     
-    private fun chooseRandomWallpaperAndPost(list:ArrayList<Wallpaper>) {
+    private fun chooseRandomWallpaperAndPost(list: ArrayList<Wallpaper>) {
         list.distinct()
         val randomIndex = getRandomIndex(list.size)
         if (randomIndex < 0 || randomIndex >= list.size) return
@@ -149,14 +151,14 @@ open class FramesArtSource(name:String):RemoteMuzeiArtSource(name), LifecycleOwn
         destroyViewModel()
     }
     
-    private fun getValidWallpapersList(original:ArrayList<Wallpaper>):ArrayList<Wallpaper> {
+    private fun getValidWallpapersList(original: ArrayList<Wallpaper>): ArrayList<Wallpaper> {
         val newList = ArrayList<Wallpaper>()
         original.forEach { if (validWallpaper(it)) newList.add(it) }
         newList.distinct()
         return newList
     }
     
-    private fun validWallpaper(item:Wallpaper):Boolean {
+    private fun validWallpaper(item: Wallpaper): Boolean {
         val collections = item.collections.split("[,|]".toRegex())
         val selected = framesKonfigs.muzeiCollections.split("[,|]".toRegex())
         if (collections.isEmpty() || selected.isEmpty()) return true
@@ -189,22 +191,25 @@ open class FramesArtSource(name:String):RemoteMuzeiArtSource(name), LifecycleOwn
         favsDB = null
     }
     
-    private fun getRandomIndex(maxValue:Int):Int = try {
+    private fun getRandomIndex(maxValue: Int): Int = try {
         Random().nextInt(maxValue)
-    } catch (e:Exception) {
+    } catch (e: Exception) {
         e.printStackTrace()
         0
     }
     
-    private fun publishToMuzei(name:String, author:String, url:String) {
-        publishArtwork(Artwork.Builder().title(name).byline(author).imageUri(
-                Uri.parse(url)).viewIntent(Intent(Intent.ACTION_VIEW, Uri.parse(url))).build())
-        scheduleUpdate(System.currentTimeMillis() + convertRefreshIntervalToMillis(
-                framesKonfigs.muzeiRefreshInterval))
+    private fun publishToMuzei(name: String, author: String, url: String) {
+        publishArtwork(
+                Artwork.Builder().title(name).byline(author).imageUri(
+                        Uri.parse(url)).viewIntent(
+                        Intent(Intent.ACTION_VIEW, Uri.parse(url))).build())
+        scheduleUpdate(
+                System.currentTimeMillis() + convertRefreshIntervalToMillis(
+                        framesKonfigs.muzeiRefreshInterval))
         destroyViewModel()
     }
     
-    private fun convertRefreshIntervalToMillis(interval:Int):Long {
+    private fun convertRefreshIntervalToMillis(interval: Int): Long {
         when (interval) {
             0 -> return TimeUnit.MINUTES.toMillis(15)
             1 -> return TimeUnit.MINUTES.toMillis(30)

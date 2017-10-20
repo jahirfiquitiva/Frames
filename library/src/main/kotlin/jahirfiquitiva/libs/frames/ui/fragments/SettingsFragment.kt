@@ -47,13 +47,12 @@ import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.konfigs
-import jahirfiquitiva.libs.kauextensions.extensions.lazyAndroid
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import org.jetbrains.anko.doAsync
 
 open class SettingsFragment:PreferenceFragment() {
     
-    internal val database:FavoritesDatabase by lazyAndroid {
+    internal val database:FavoritesDatabase by lazy {
         Room.databaseBuilder(activity, FavoritesDatabase::class.java,
                              DATABASE_NAME).fallbackToDestructiveMigration().build()
     }

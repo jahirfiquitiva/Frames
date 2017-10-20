@@ -46,7 +46,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.lazyAndroid
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryTextColor
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
@@ -73,10 +72,10 @@ class MuzeiSettingsActivity:ThemedActivity() {
     private val seekBar:AppCompatSeekBar by bind(R.id.every_seekbar)
     private val checkBox:AppCompatCheckBox by bind(R.id.wifi_checkbox)
     
-    private val wallsVM:WallpapersViewModel by lazyAndroid {
+    private val wallsVM:WallpapersViewModel by lazy {
         ViewModelProviders.of(this).get(WallpapersViewModel::class.java)
     }
-    private val collsVM:CollectionsViewModel by lazyAndroid {
+    private val collsVM:CollectionsViewModel by lazy {
         ViewModelProviders.of(this).get(CollectionsViewModel::class.java)
     }
     
