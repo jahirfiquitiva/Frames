@@ -1,0 +1,52 @@
+/*
+ * Copyright (c) 2017. Jahir Fiquitiva
+ *
+ * Licensed under the CreativeCommons Attribution-ShareAlike
+ * 4.0 International License. You may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *    http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ext.details = [
+        // Core app details
+        appId   : 'Frames',
+        appGroup: 'jahirfiquitiva.apps',
+        libGroup: 'jahirfiquitiva.libs',
+]
+
+ext.versions = [
+        // Projects
+        minSdk                : 16,
+        targetSdk             : 26,
+        compileSdk            : 26,
+        buildTools            : '26.0.2',
+        versionCode           : 207,
+        versionName           : '2.0.7',
+        // Gradle Plugins
+        gradle                : '2.3.3',
+        kotlin                : '1.1.51',
+        libs                  : '1.5',
+        gms                   : '3.1.0',
+        // Dependencies
+        firebase              : '11.4.2'
+]
+
+ext.gradlePlugins = [
+        android: 'com.android.tools.build:gradle:' + versions.gradle,
+        kotlin : 'org.jetbrains.kotlin:kotlin-gradle-plugin:' + versions.kotlin,
+        libs   : 'com.github.dcendents:android-maven-gradle-plugin:' + versions.libs,
+        gms    : 'com.google.gms:google-services:' + versions.gms
+]
+
+ext.libraries = [
+        // Kotlin
+        kotlin               : 'org.jetbrains.kotlin:kotlin-stdlib:' + versions.kotlin,
+        // Firebase
+        firebase             : 'com.google.firebase:firebase-messaging:' + versions.firebase
+]

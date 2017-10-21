@@ -17,28 +17,28 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion project.ext.compileSdk
-    buildToolsVersion project.ext.buildTools
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
 
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             output.outputFile = new File(output.outputFile.parent,
-                    "MyFramesApp-v${variant.versionName}-${variant.name}.apk")
+                    details.appId + "-v${variant.versionName}-${variant.name}.apk")
         }
     }
 
     lintOptions {
         abortOnError false
-        checkReleaseBuilds true
+        checkReleaseBuilds false
         disable 'MissingTranslation', 'GoogleAppIndexingWarning'
     }
 
     defaultConfig {
-        applicationId "jahirfiquitiva.apps.frames.sample"
-        minSdkVersion project.ext.minSdk
-        targetSdkVersion project.ext.targetSdk
-        versionCode 208
-        versionName '2.0.8'
+        applicationId details.appGroup + "." + details.appId.toLowerCase() + ".sample"
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode versions.versionCode
+        versionName versions.versionName
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -58,18 +58,20 @@ android {
     }
 
     packagingOptions {
+        pickFirst 'META-INF/core_debug.kotlin_module'
         pickFirst 'META-INF/core_release.kotlin_module'
+        pickFirst 'META-INF/library_debug.kotlin_module'
         pickFirst 'META-INF/library_release.kotlin_module'
     }
 }
 
 dependencies {
     // Frames
-    compile('me.jahirfiquitiva:Frames:2.0.8@aar') {
+    compile('me.jahirfiquitiva:Frames:2.0.9@aar') {
         transitive = true
     }
     // Kotlin
-    compile 'org.jetbrains.kotlin:kotlin-stdlib:' + project.ext.kotlin
+    compile libraries.kotlin
 }
 
 // TODO: Remove comment marks if you plan on implementing Firebase Notifications

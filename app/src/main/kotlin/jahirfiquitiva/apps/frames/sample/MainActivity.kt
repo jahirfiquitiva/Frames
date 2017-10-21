@@ -19,22 +19,22 @@ import android.os.Bundle
 import com.github.javiersantos.piracychecker.PiracyChecker
 import jahirfiquitiva.libs.frames.ui.activities.FramesActivity
 
-class MainActivity:FramesActivity() {
+class MainActivity : FramesActivity() {
     /**
      * These things here have the default values. You can delete the ones you don't want to change
      * and/or modify the ones you want to.
      */
     override var donationsEnabled = true
     
-    override fun amazonInstallsEnabled():Boolean = false
-    override fun checkLPF():Boolean = true
-    override fun checkStores():Boolean = true
+    override fun amazonInstallsEnabled(): Boolean = false
+    override fun checkLPF(): Boolean = true
+    override fun checkStores(): Boolean = true
     
     /**
      * This is your app's license key. Get yours on Google Play Dev Console.
      * Default one isn't valid and could cause issues in your app.
      */
-    override fun getLicKey():String? = "MIIBIjANBgkqhkiGgKglYGYGihLuihUuhhuBlouBkuiuBIyvYV"
+    override fun getLicKey(): String? = "MIIBIjANBgkqhkiGgKglYGYGihLuihUuhhuBlouBkuiuBIyvYV"
     
     /**
      * This is the license checker code. Feel free to create your own implementation or
@@ -42,7 +42,7 @@ class MainActivity:FramesActivity() {
      * Anyways, keep the 'destroyChecker()' as the very first line of this code block
      * Return null to disable license check
      */
-    override fun getLicenseChecker():PiracyChecker? {
+    override fun getLicenseChecker(): PiracyChecker? {
         destroyChecker() // Important
         if (BuildConfig.DEBUG) return null
         return super.getLicenseChecker()
@@ -51,5 +51,5 @@ class MainActivity:FramesActivity() {
     /**
      * This is needed by the app. Do NOT edit it. Do NOT delete it.
      */
-    override fun onCreate(savedInstanceState:Bundle?) = super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) = super.onCreate(savedInstanceState)
 }

@@ -13,20 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply from: './dependencies.gradle'
 
 buildscript {
+    apply from: './dependencies.gradle'
+
     repositories {
         jcenter()
         maven { url 'https://maven.google.com' }
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.51'
+        classpath gradlePlugins.android
+        classpath gradlePlugins.kotlin
+        classpath gradlePlugins.libs
 
         // TODO: Remove comment marks if you plan on implementing Firebase Notifications
-        // classpath 'com.google.gms:google-services:3.1.0'
+        // classpath gradlePlugins.gms
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -34,17 +38,6 @@ buildscript {
 }
 
 allprojects {
-    project.ext {
-        // Core app details
-        minSdk = 16
-        targetSdk = 26
-        compileSdk = 26
-        buildTools = '26.0.2'
-        gradlePlugin = '2.3.3'
-        kotlin = '1.1.51'
-        supportLibs = '26.1.0'
-    }
-
     repositories {
         jcenter()
         mavenCentral()

@@ -15,7 +15,6 @@
   ~ limitations under the License.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-
     <string-array name="credits_photos" formatted="false" tools:ignore="TypographyDashes">
         <item>https://lh3.googleusercontent.com/-0mdcClKXlgM/AAAAAAAAAAI/AAAAAAAAAAA/xgdLWeAg7pM/s120-c/photo.jpg</item>
         <item>https://ssl.gstatic.com/images/branding/product/2x/avatar_square_grey_512dp.png</item>
