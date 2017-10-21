@@ -21,6 +21,7 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 
 // TODO: Be sure to increment update if one changes Wallpaper class structure
 @Database(entities = arrayOf(Wallpaper::class), version = 7, exportSchema = false)
-abstract class FavoritesDatabase:RoomDatabase() {
-    abstract fun favoritesDao():FavoritesDao
+abstract class FavoritesDatabase : RoomDatabase() {
+    
+    abstract fun favoritesDao(): FavoritesDao
 }

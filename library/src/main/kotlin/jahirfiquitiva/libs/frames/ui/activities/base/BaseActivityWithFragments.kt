@@ -20,12 +20,12 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 
-abstract class BaseActivityWithFragments:ThemedActivity() {
+abstract class BaseActivityWithFragments : ThemedActivity() {
     
-    open fun fragmentsContainer():Int = 0
-    override fun autoStatusBarTint():Boolean = true
+    open fun fragmentsContainer(): Int = 0
+    override fun autoStatusBarTint(): Boolean = true
     
-    fun changeFragment(f:Fragment, tag:String? = null) {
+    fun changeFragment(f: Fragment, tag: String? = null) {
         if (fragmentsContainer() == 0) return
         try {
             val manager = supportFragmentManager.beginTransaction()
@@ -36,7 +36,7 @@ abstract class BaseActivityWithFragments:ThemedActivity() {
             if (tag != null) manager.replace(fragmentsContainer(), f, tag)
             else manager.replace(fragmentsContainer(), f)
             manager.commit()
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }

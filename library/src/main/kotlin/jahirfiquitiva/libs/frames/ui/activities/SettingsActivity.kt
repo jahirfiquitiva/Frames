@@ -40,22 +40,22 @@ import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import java.io.File
 
-open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.FolderCallback {
+open class SettingsActivity : BaseActivityWithFragments(), FolderChooserDialog.FolderCallback {
     
-    override fun lightTheme():Int = R.style.LightTheme
-    override fun darkTheme():Int = R.style.DarkTheme
-    override fun amoledTheme():Int = R.style.AmoledTheme
-    override fun transparentTheme():Int = R.style.TransparentTheme
+    override fun lightTheme(): Int = R.style.LightTheme
+    override fun darkTheme(): Int = R.style.DarkTheme
+    override fun amoledTheme(): Int = R.style.AmoledTheme
+    override fun transparentTheme(): Int = R.style.TransparentTheme
     
     var hasClearedFavs = false
-    private val toolbar:CustomToolbar by bind(R.id.toolbar)
-    private var locationChooserDialog:FolderChooserDialog? = null
-    private val fragment:Fragment by lazy { settingsFragment() }
+    private val toolbar: CustomToolbar by bind(R.id.toolbar)
+    private var locationChooserDialog: FolderChooserDialog? = null
+    private val fragment: Fragment by lazy { settingsFragment() }
     
-    open fun settingsFragment():Fragment = SettingsFragment()
-    override fun fragmentsContainer():Int = R.id.fragments_container
+    open fun settingsFragment(): Fragment = SettingsFragment()
+    override fun fragmentsContainer(): Int = R.id.fragments_container
     
-    override fun onCreate(savedInstanceState:Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_collection_settings)
         
@@ -66,7 +66,7 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
                      getSecondaryTextColorFor(primaryColor, 0.6F),
                      getActiveIconsColorFor(primaryColor, 0.6F))
         
-        val container:FrameLayout by bind(fragmentsContainer())
+        val container: FrameLayout by bind(fragmentsContainer())
         with(container) {
             setPadding(paddingLeft, paddingTop, paddingRight, 0)
         }
@@ -74,8 +74,8 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
         changeFragment(fragment, "Settings")
     }
     
-    override fun onRequestPermissionsResult(requestCode:Int, permissions:Array<out String>,
-                                            grantResults:IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
+                                            grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 42) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -86,7 +86,7 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
         }
     }
     
-    override fun onCreateOptionsMenu(menu:Menu?):Boolean {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.about_settings_menu, menu)
         menu?.changeOptionVisibility(R.id.licenses, false)
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
@@ -95,14 +95,14 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
         return super.onCreateOptionsMenu(menu)
     }
     
-    override fun onOptionsItemSelected(item:MenuItem?):Boolean {
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         item?.let {
             when (it.itemId) {
                 android.R.id.home -> doFinish()
                 R.id.translate -> {
                     try {
                         openLink(TRANSLATION_SITE)
-                    } catch (ignored:Exception) {
+                    } catch (ignored: Exception) {
                     }
                 }
                 else -> {
@@ -138,15 +138,15 @@ open class SettingsActivity:BaseActivityWithFragments(), FolderChooserDialog.Fol
         setResult(22, intent)
         try {
             if (fragment is SettingsFragment) (fragment as SettingsFragment).clearDialog()
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
         clearDialog()
         supportFinishAfterTransition()
     }
     
-    override fun onFolderChooserDismissed(dialog:FolderChooserDialog) {}
+    override fun onFolderChooserDismissed(dialog: FolderChooserDialog) {}
     
-    override fun onFolderSelection(dialog:FolderChooserDialog, folder:File) {
+    override fun onFolderSelection(dialog: FolderChooserDialog, folder: File) {
         framesKonfigs.downloadsFolder = folder.absolutePath
         if (fragment is SettingsFragment) {
             (fragment as SettingsFragment).updateDownloadLocation()

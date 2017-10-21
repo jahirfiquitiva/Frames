@@ -21,13 +21,13 @@ import android.support.design.widget.TabLayout
 import android.util.AttributeSet
 import ca.allanwang.kau.utils.tint
 
-open class CustomTabLayout:TabLayout {
-    constructor(context:Context):super(context)
-    constructor(context:Context, attributeSet:AttributeSet):super(context, attributeSet)
-    constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int)
-            :super(context, attributeSet, defStyleAttr)
+open class CustomTabLayout : TabLayout {
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
+    constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int)
+            : super(context, attributeSet, defStyleAttr)
     
-    fun setTabsIconsColors(@ColorInt unselectedColor:Int, @ColorInt selectedColor:Int) {
+    fun setTabsIconsColors(@ColorInt unselectedColor: Int, @ColorInt selectedColor: Int) {
         (0 until tabCount)
                 .map { getTabAt(it) }
                 .forEach { tab ->

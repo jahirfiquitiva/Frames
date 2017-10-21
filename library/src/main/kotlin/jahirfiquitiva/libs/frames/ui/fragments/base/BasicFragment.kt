@@ -22,10 +22,10 @@ import android.view.View
 import android.view.ViewGroup
 import jahirfiquitiva.libs.frames.ui.fragments.presenters.BasicFragmentPresenter
 
-abstract class BasicFragment<in T>:Fragment(), BasicFragmentPresenter<T> {
-    lateinit var content:View
-    override fun onCreateView(inflater:LayoutInflater?, container:ViewGroup?,
-                              savedInstanceState:Bundle?):View? {
+abstract class BasicFragment<in T> : Fragment(), BasicFragmentPresenter<T> {
+    lateinit var content: View
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         if (getContentLayout() != 0) {
             val contentView = inflater?.inflate(getContentLayout(), container, false)
             contentView?.let {

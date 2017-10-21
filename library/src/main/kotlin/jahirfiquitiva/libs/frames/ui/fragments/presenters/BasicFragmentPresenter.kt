@@ -20,8 +20,8 @@ import android.view.View
 
 interface BasicFragmentPresenter<in T> {
     @LayoutRes
-    fun getContentLayout():Int
+    fun getContentLayout(): Int
     
-    fun initUI(content:View)
-    fun onItemClicked(item:T)
+    fun initUI(content: View)
+    fun onItemClicked(item: T)
 }

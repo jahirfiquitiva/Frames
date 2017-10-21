@@ -51,35 +51,34 @@ import jahirfiquitiva.libs.kauextensions.extensions.primaryTextColor
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import org.jetbrains.anko.collections.forEachWithIndex
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Locale
 
-class MuzeiSettingsActivity:ThemedActivity() {
-    override fun lightTheme():Int = R.style.LightTheme
-    override fun darkTheme():Int = R.style.DarkTheme
-    override fun amoledTheme():Int = R.style.AmoledTheme
-    override fun transparentTheme():Int = R.style.TransparentTheme
-    override fun autoStatusBarTint():Boolean = true
+class MuzeiSettingsActivity : ThemedActivity() {
+    override fun lightTheme(): Int = R.style.LightTheme
+    override fun darkTheme(): Int = R.style.DarkTheme
+    override fun amoledTheme(): Int = R.style.AmoledTheme
+    override fun transparentTheme(): Int = R.style.TransparentTheme
+    override fun autoStatusBarTint(): Boolean = true
     
     private val SEEKBAR_STEPS = 1
     private val SEEKBAR_MAX_VALUE = 13
     private val SEEKBAR_MIN_VALUE = 0
     
     private var selectedCollections = ""
-    private var dialog:MaterialDialog? = null
+    private var dialog: MaterialDialog? = null
     
-    private val collsSummaryText:TextView by bind(R.id.choose_collections_summary)
-    private val seekBar:AppCompatSeekBar by bind(R.id.every_seekbar)
-    private val checkBox:AppCompatCheckBox by bind(R.id.wifi_checkbox)
+    private val collsSummaryText: TextView by bind(R.id.choose_collections_summary)
+    private val seekBar: AppCompatSeekBar by bind(R.id.every_seekbar)
+    private val checkBox: AppCompatCheckBox by bind(R.id.wifi_checkbox)
     
-    private val wallsVM:WallpapersViewModel by lazy {
+    private val wallsVM: WallpapersViewModel by lazy {
         ViewModelProviders.of(this).get(WallpapersViewModel::class.java)
     }
-    private val collsVM:CollectionsViewModel by lazy {
+    private val collsVM: CollectionsViewModel by lazy {
         ViewModelProviders.of(this).get(CollectionsViewModel::class.java)
     }
     
-    override fun onCreate(savedInstanceState:Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_muzei_settings)
         
@@ -93,10 +92,10 @@ class MuzeiSettingsActivity:ThemedActivity() {
                      getSecondaryTextColorFor(primaryColor, 0.6F),
                      getActiveIconsColorFor(primaryColor, 0.6F))
         
-        val everyTitle:TextView by bind(R.id.every_title)
+        val everyTitle: TextView by bind(R.id.every_title)
         everyTitle.setTextColor(primaryTextColor)
         
-        val everySummary:TextView by bind(R.id.every_summary)
+        val everySummary: TextView by bind(R.id.every_summary)
         everySummary.setTextColor(secondaryTextColor)
         everySummary.text = getString(R.string.every_x, textFromProgress(
                 framesKonfigs.muzeiRefreshInterval).toLowerCase(Locale.getDefault()))
@@ -143,8 +142,8 @@ class MuzeiSettingsActivity:ThemedActivity() {
             findViewById<LinearLayout>(R.id.choose_collections).gone()
         }
         
-        seekBar.setOnSeekBarChangeListener(object:SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar:SeekBar?, progress:Int, fromUser:Boolean) {
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 val value = SEEKBAR_MIN_VALUE + (progress * SEEKBAR_STEPS)
                 everySummary.text = resources.getString(R.string.every_x,
                                                         textFromProgress(value).toLowerCase(
@@ -152,14 +151,14 @@ class MuzeiSettingsActivity:ThemedActivity() {
                 saveChanges()
             }
             
-            override fun onStartTrackingTouch(p0:SeekBar?) {}
+            override fun onStartTrackingTouch(p0: SeekBar?) {}
             
-            override fun onStopTrackingTouch(p0:SeekBar?) {}
+            override fun onStopTrackingTouch(p0: SeekBar?) {}
         })
         
     }
     
-    override fun onOptionsItemSelected(item:MenuItem?):Boolean {
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         item?.let {
             if (it.itemId == android.R.id.home) {
                 doFinish()
@@ -196,11 +195,11 @@ class MuzeiSettingsActivity:ThemedActivity() {
         
         try {
             wallsVM.destroy(this)
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
         try {
             collsVM.destroy(this)
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
         
         wallsVM.observe(this, {
@@ -213,7 +212,7 @@ class MuzeiSettingsActivity:ThemedActivity() {
                 correct.distinct()
                 
                 val eachSelectedCollection = selectedCollections.split(",")
-                var selectedIndexes:Array<Int> = arrayOf()
+                var selectedIndexes: Array<Int> = arrayOf()
                 correct.forEachIndexed { index, (name) ->
                     eachSelectedCollection.forEach {
                         if (name.equals(it, true))
@@ -256,11 +255,11 @@ class MuzeiSettingsActivity:ThemedActivity() {
         saveChanges()
         try {
             wallsVM.destroy(this)
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
         try {
             collsVM.destroy(this)
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
         val intent = Intent(this, FramesArtSource::class.java)
         intent.putExtra("restart", true)
@@ -279,7 +278,7 @@ class MuzeiSettingsActivity:ThemedActivity() {
         doFinish()
     }
     
-    private fun textFromProgress(progress:Int):String {
+    private fun textFromProgress(progress: Int): String {
         when (progress) {
             0 -> return 15.toString() + " " + resources.getString(R.string.minutes)
             1 -> return 30.toString() + " " + resources.getString(R.string.minutes)

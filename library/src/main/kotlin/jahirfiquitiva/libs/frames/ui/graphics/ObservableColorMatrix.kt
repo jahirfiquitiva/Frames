@@ -24,22 +24,23 @@ import android.util.Property
  * @author WangDaYeeeeee
  * https://goo.gl/heH8Qv
  */
-class ObservableColorMatrix:ColorMatrix() {
+class ObservableColorMatrix : ColorMatrix() {
+
     private var mSaturation = 1F
     
-    override fun setSaturation(sat:Float) {
+    override fun setSaturation(sat: Float) {
         mSaturation = sat
         super.setSaturation(sat)
     }
     
     companion object {
-        val SATURATION:Property<ObservableColorMatrix, Float> =
-                object:FloatProperty<ObservableColorMatrix>("saturation") {
-                    override fun setValue(cm:ObservableColorMatrix, value:Float) {
+        val SATURATION: Property<ObservableColorMatrix, Float> =
+                object : FloatProperty<ObservableColorMatrix>("saturation") {
+                    override fun setValue(cm: ObservableColorMatrix, value: Float) {
                         cm.setSaturation(value)
                     }
                     
-                    override operator fun get(cm:ObservableColorMatrix):Float? = cm.mSaturation
+                    override operator fun get(cm: ObservableColorMatrix): Float? = cm.mSaturation
                 }
     }
 }

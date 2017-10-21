@@ -42,14 +42,15 @@ import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import org.jetbrains.anko.runOnUiThread
 
 @Suppress("NAME_SHADOWING")
-abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseViewModelFragment<T>() {
+abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
+        BaseViewModelFragment<T>() {
     
-    internal var database:FavoritesDatabase? = null
-    internal var favoritesModel:FavoritesViewModel? = null
+    internal var database: FavoritesDatabase? = null
+    internal var favoritesModel: FavoritesViewModel? = null
     
-    internal var snack:Snackbar? = null
+    internal var snack: Snackbar? = null
     
-    override fun onCreate(savedInstanceState:Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initDatabase()
         initViewModel()
@@ -92,48 +93,48 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
         favoritesModel?.destroy(this)
     }
     
-    internal fun onHeartClicked(heart:ImageView, item:Wallpaper, @ColorInt color:Int) =
+    internal fun onHeartClicked(heart: ImageView, item: Wallpaper, @ColorInt color: Int) =
             animateHeartClick(heart, item, color, !isInFavorites(item))
     
-    open fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {}
-    open fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {}
+    open fun doOnFavoritesChange(data: ArrayList<Wallpaper>) {}
+    open fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {}
     
-    internal fun getDatabase():FavoritesDao? = database?.favoritesDao()
+    internal fun getDatabase(): FavoritesDao? = database?.favoritesDao()
     
-    internal fun isInFavorites(item:Wallpaper):Boolean =
+    internal fun isInFavorites(item: Wallpaper): Boolean =
             favoritesModel?.isInFavorites(item) ?: false
     
-    internal fun addToFavorites(item:Wallpaper) =
+    internal fun addToFavorites(item: Wallpaper) =
             getDatabase()?.let {
                 favoritesModel?.addToFavorites(it, item, { showErrorSnackbar() })
             } ?: showErrorSnackbar()
     
-    internal fun removeFromFavorites(item:Wallpaper) =
+    internal fun removeFromFavorites(item: Wallpaper) =
             getDatabase()?.let {
                 favoritesModel?.removeFromFavorites(it, item, { showErrorSnackbar() })
             } ?: showErrorSnackbar()
     
-    abstract fun onItemClicked(item:T, holder:VH)
-    abstract fun fromCollectionActivity():Boolean
-    abstract fun fromFavorites():Boolean
+    abstract fun onItemClicked(item: T, holder: VH)
+    abstract fun fromCollectionActivity(): Boolean
+    abstract fun fromFavorites(): Boolean
     
-    private val ANIMATION_DURATION:Long = 150
-    private fun animateHeartClick(heart:ImageView, item:Wallpaper, @ColorInt color:Int,
-                                  check:Boolean) = context.runOnUiThread {
+    private val ANIMATION_DURATION: Long = 150
+    private fun animateHeartClick(heart: ImageView, item: Wallpaper, @ColorInt color: Int,
+                                  check: Boolean) = context.runOnUiThread {
         val scale = ScaleAnimation(1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5F,
                                    Animation.RELATIVE_TO_SELF, 0.5F)
         scale.duration = ANIMATION_DURATION
         scale.interpolator = LinearInterpolator()
-        scale.setAnimationListener(object:SimpleAnimationListener() {
-            override fun onEnd(animation:Animation) {
+        scale.setAnimationListener(object : SimpleAnimationListener() {
+            override fun onEnd(animation: Animation) {
                 super.onEnd(animation)
                 heart.setImageDrawable(context.createHeartIcon(check).applyColorFilter(color))
                 val nScale = ScaleAnimation(0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5F,
                                             Animation.RELATIVE_TO_SELF, 0.5F)
                 nScale.duration = ANIMATION_DURATION
                 nScale.interpolator = LinearInterpolator()
-                nScale.setAnimationListener(object:SimpleAnimationListener() {
-                    override fun onEnd(animation:Animation) {
+                nScale.setAnimationListener(object : SimpleAnimationListener() {
+                    override fun onEnd(animation: Animation) {
                         super.onEnd(animation)
                         postToFavorites(item, check)
                     }
@@ -144,17 +145,17 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
         heart.startAnimation(scale)
     }
     
-    internal fun postToFavorites(item:Wallpaper, check:Boolean) {
+    internal fun postToFavorites(item: Wallpaper, check: Boolean) {
         try {
             if (check) addToFavorites(item) else removeFromFavorites(item)
             showFavsSnackbar(check, item.name)
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
             showErrorSnackbar()
         }
     }
     
-    private fun showFavsSnackbar(added:Boolean, name:String) {
+    private fun showFavsSnackbar(added: Boolean, name: String) {
         showSnackBar(getString(
                 if (added) R.string.added_to_favorites else R.string.removed_from_favorites,
                 name))
@@ -164,7 +165,7 @@ abstract class BaseDatabaseFragment<in T, in VH:RecyclerView.ViewHolder>:BaseVie
         showSnackBar(getString(R.string.action_error_content))
     }
     
-    private fun showSnackBar(text:String) {
+    private fun showSnackBar(text: String) {
         snack?.dismiss()
         snack = null
         snack = view?.buildSnackbar(text, Snackbar.LENGTH_SHORT)

@@ -22,7 +22,7 @@ import android.os.Build
 import android.view.Display
 import android.view.WindowManager
 
-val Activity.navigationBarHeight:Int
+val Activity.navigationBarHeight: Int
     get() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && isInMultiWindowMode) return 0
         var height = 0
@@ -39,7 +39,7 @@ val Activity.navigationBarHeight:Int
         return height
     }
 
-fun Context.getAppUsableScreenSize():Point {
+fun Context.getAppUsableScreenSize(): Point {
     val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
     val display = windowManager.defaultDisplay
     val size = Point()
@@ -48,7 +48,7 @@ fun Context.getAppUsableScreenSize():Point {
 }
 
 @Suppress("DEPRECATION")
-fun Context.getRealScreenSize():Point {
+fun Context.getRealScreenSize(): Point {
     val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
     val display = windowManager.defaultDisplay
     val size = Point()
@@ -58,7 +58,7 @@ fun Context.getRealScreenSize():Point {
         try {
             size.x = Display::class.java.getMethod("getRawWidth").invoke(display) as Int
             size.y = Display::class.java.getMethod("getRawHeight").invoke(display) as Int
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
             size.x = display.width
             size.y = display.height
         }

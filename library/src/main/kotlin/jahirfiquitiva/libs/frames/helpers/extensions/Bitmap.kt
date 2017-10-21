@@ -25,16 +25,16 @@ import android.util.DisplayMetrics
 import ca.allanwang.kau.utils.toBitmap
 import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
 
-val Drawable.bestSwatch:Palette.Swatch?
+val Drawable.bestSwatch: Palette.Swatch?
     get() = this.toBitmap().bestSwatch
 
-fun Bitmap.createRoundedDrawable(context:Context):Drawable {
+fun Bitmap.createRoundedDrawable(context: Context): Drawable {
     val roundedPic = RoundedBitmapDrawableFactory.create(context.resources, this)
     roundedPic.isCircular = true
     return roundedPic
 }
 
-fun Bitmap.adjustToDeviceScreen(activity:Activity):Bitmap {
+fun Bitmap.adjustToDeviceScreen(activity: Activity): Bitmap {
     var flag = true
     
     val displayMetrics = DisplayMetrics()
@@ -52,7 +52,7 @@ fun Bitmap.adjustToDeviceScreen(activity:Activity):Bitmap {
                 scaledHeight = deviceHeight
             }
             return Bitmap.createScaledBitmap(this, scaledWidth, scaledHeight, true)
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
@@ -64,7 +64,7 @@ fun Bitmap.adjustToDeviceScreen(activity:Activity):Bitmap {
                 if (scaledWidth > deviceWidth)
                     scaledWidth = deviceWidth
                 return Bitmap.createScaledBitmap(this, scaledWidth, deviceHeight, true)
-            } catch (e:Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }

@@ -39,7 +39,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.bind
  
  * @author Christophe Beyls
  */
-abstract class PreferenceFragment:Fragment() {
+abstract class PreferenceFragment : Fragment() {
     
     private val FIRST_REQUEST_CODE = 100
     private val MSG_BIND_PREFERENCES = 1
@@ -47,16 +47,16 @@ abstract class PreferenceFragment:Fragment() {
     private val PREFERENCES_TAG = "android:preferences"
     private var HC_HORIZONTAL_PADDING = 0.8 //5.33
     
-    private var mHavePrefs:Boolean = false
-    private var mInitDone:Boolean = false
-    private var mList:ListView? = null
+    private var mHavePrefs: Boolean = false
+    private var mInitDone: Boolean = false
+    private var mList: ListView? = null
     
-    var preferenceManager:PreferenceManager? = null
+    var preferenceManager: PreferenceManager? = null
         private set
     
     @SuppressLint("HandlerLeak")
-    private val mHandler = object:Handler() {
-        override fun handleMessage(msg:Message) {
+    private val mHandler = object : Handler() {
+        override fun handleMessage(msg: Message) {
             when (msg.what) {
                 MSG_BIND_PREFERENCES -> bindPreferences()
                 MSG_REQUEST_FOCUS -> mList!!.focusableViewAvailable(mList)
@@ -64,20 +64,20 @@ abstract class PreferenceFragment:Fragment() {
         }
     }
     
-    override fun onCreate(savedInstanceState:Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
             val c = PreferenceManager::class.java.getDeclaredConstructor(Activity::class.java,
                                                                          Int::class.javaPrimitiveType)
             c.isAccessible = true
             preferenceManager = c.newInstance(activity, FIRST_REQUEST_CODE)
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
         
     }
     
-    override fun onCreateView(layoutInflater:LayoutInflater?, viewGroup:ViewGroup?,
-                              savedInstanceState:Bundle?):View {
+    override fun onCreateView(layoutInflater: LayoutInflater?, viewGroup: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
         val listView = ListView(activity)
         listView.id = android.R.id.list
         listView.dividerHeight = 0
@@ -91,7 +91,7 @@ abstract class PreferenceFragment:Fragment() {
         return listView
     }
     
-    override fun onActivityCreated(savedInstanceState:Bundle?) {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (mHavePrefs) {
             bindPreferences()
@@ -111,7 +111,7 @@ abstract class PreferenceFragment:Fragment() {
             val m = PreferenceManager::class.java.getDeclaredMethod("dispatchActivityStop")
             m.isAccessible = true
             m.invoke(preferenceManager)
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
     }
     
@@ -127,11 +127,11 @@ abstract class PreferenceFragment:Fragment() {
             val m = PreferenceManager::class.java.getDeclaredMethod("dispatchActivityDestroy")
             m.isAccessible = true
             m.invoke(preferenceManager)
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
     }
     
-    override fun onSaveInstanceState(outState:Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         preferenceScreen?.let {
             val container = Bundle()
@@ -140,7 +140,7 @@ abstract class PreferenceFragment:Fragment() {
         }
     }
     
-    override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
         try {
             val m = PreferenceManager::class.java.getDeclaredMethod("dispatchActivityResult",
@@ -149,16 +149,16 @@ abstract class PreferenceFragment:Fragment() {
                                                                     Intent::class.java)
             m.isAccessible = true
             m.invoke(preferenceManager, requestCode, resultCode, data)
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
     }
     
-    private var preferenceScreen:PreferenceScreen?
+    private var preferenceScreen: PreferenceScreen?
         get() = try {
             val m = PreferenceManager::class.java.getDeclaredMethod("getPreferenceScreen")
             m.isAccessible = true
             m.invoke(preferenceManager) as PreferenceScreen
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             null
         }
         set(screen) = try {
@@ -172,10 +172,10 @@ abstract class PreferenceFragment:Fragment() {
                 }
             } else {
             }
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
     
-    fun addPreferencesFromIntent(intent:Intent) {
+    fun addPreferencesFromIntent(intent: Intent) {
         requirePreferenceManager()
         try {
             val m = PreferenceManager::class.java.getDeclaredMethod("inflateFromIntent",
@@ -185,11 +185,11 @@ abstract class PreferenceFragment:Fragment() {
             val screen = m.invoke(preferenceManager, intent,
                                   preferenceScreen) as PreferenceScreen
             preferenceScreen = screen
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
     }
     
-    protected fun addPreferencesFromResource(resId:Int) {
+    protected fun addPreferencesFromResource(resId: Int) {
         requirePreferenceManager()
         try {
             val m = PreferenceManager::class.java.getDeclaredMethod("inflateFromResource",
@@ -200,11 +200,11 @@ abstract class PreferenceFragment:Fragment() {
             val screen = m.invoke(preferenceManager, activity, resId,
                                   preferenceScreen) as PreferenceScreen
             preferenceScreen = screen
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
     }
     
-    protected fun findPreference(key:CharSequence):Preference? {
+    protected fun findPreference(key: CharSequence): Preference? {
         preferenceManager?.let {
             return it.findPreference(key)
         }
@@ -227,7 +227,7 @@ abstract class PreferenceFragment:Fragment() {
         preferenceScreen?.bind(listView)
     }
     
-    private val listView:ListView?
+    private val listView: ListView?
         get() {
             ensureList()
             return mList
@@ -238,7 +238,7 @@ abstract class PreferenceFragment:Fragment() {
             return
         }
         val layout = view ?: throw IllegalStateException("Content view not yet created")
-        val list:View by layout.bind(android.R.id.list)
+        val list: View by layout.bind(android.R.id.list)
         val listV = list as? ListView ?: throw RuntimeException(
                 "Content has view with id attribute 'android.R.id.list' that is not a ListView class")
         mList = listV

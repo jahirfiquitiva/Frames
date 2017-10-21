@@ -18,7 +18,7 @@ package jahirfiquitiva.libs.frames.ui.fragments.presenters
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.OnLifecycleEvent
 
-interface ViewModelFragmentPresenter<in T>:BasicFragmentPresenter<T> {
+interface ViewModelFragmentPresenter<in T> : BasicFragmentPresenter<T> {
     fun initViewModel()
     fun registerObserver()
     fun loadDataFromViewModel()

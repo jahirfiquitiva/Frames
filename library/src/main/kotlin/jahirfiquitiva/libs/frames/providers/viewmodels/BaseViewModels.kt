@@ -26,56 +26,58 @@ import jahirfiquitiva.libs.frames.helpers.utils.SimpleAsyncTask
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import java.lang.ref.WeakReference
 
-abstract class ListViewModel<in Parameter, Result>:BasicViewModel<Parameter, MutableList<Result>>() {
-    override val isOldDataValid:Boolean = getData()?.let { it.size > 0 } ?: false
+abstract class ListViewModel<in Parameter, Result> :
+        BasicViewModel<Parameter, MutableList<Result>>() {
+    
+    override val isOldDataValid: Boolean = getData()?.let { it.size > 0 } ?: false
 }
 
-class WallpaperInfoViewModel:BasicViewModel<Wallpaper, WallpaperInfo>() {
-    override fun internalLoad(param:Wallpaper):WallpaperInfo =
+class WallpaperInfoViewModel : BasicViewModel<Wallpaper, WallpaperInfo>() {
+    override fun internalLoad(param: Wallpaper): WallpaperInfo =
             FramesUrlRequests().requestFileInfo(param.url, param.dimensions.hasContent())
     
-    override val isOldDataValid:Boolean = getData()?.isValid ?: false
+    override val isOldDataValid: Boolean = getData()?.isValid ?: false
 }
 
-abstract class BasicViewModel<in Parameter, Result>:ViewModel() {
+abstract class BasicViewModel<in Parameter, Result> : ViewModel() {
     
-    fun getData():Result? = data.value
+    fun getData(): Result? = data.value
     
     private var taskStarted = false
     private val data = MutableLiveData<Result>()
-    private var task:SimpleAsyncTask<Parameter, Result>? = null
+    private var task: SimpleAsyncTask<Parameter, Result>? = null
     
-    private var customObserver:Observer<Result>? = null
+    private var customObserver: Observer<Result>? = null
     
-    fun loadData(parameter:Parameter, forceLoad:Boolean = false) {
+    fun loadData(parameter: Parameter, forceLoad: Boolean = false) {
         if (!taskStarted || forceLoad) {
             cancelTask(true)
             task = SimpleAsyncTask<Parameter, Result>(
                     WeakReference(parameter),
-                    object:SimpleAsyncTask.AsyncTaskCallback<Parameter, Result>() {
-                        override fun doLoad(param:Parameter):Result? =
+                    object : SimpleAsyncTask.AsyncTaskCallback<Parameter, Result>() {
+                        override fun doLoad(param: Parameter): Result? =
                                 safeInternalLoad(param, forceLoad)
                         
-                        override fun onSuccess(result:Result) = postResult(result)
+                        override fun onSuccess(result: Result) = postResult(result)
                     })
             task?.execute()
             taskStarted = true
         }
     }
     
-    private fun cancelTask(interrupt:Boolean = false) {
+    private fun cancelTask(interrupt: Boolean = false) {
         task?.cancel(interrupt)
         task = null
         taskStarted = false
     }
     
-    fun destroy(owner:LifecycleOwner, interrupt:Boolean = true) {
+    fun destroy(owner: LifecycleOwner, interrupt: Boolean = true) {
         cancelTask(interrupt)
         data.removeObservers(owner)
         customObserver = null
     }
     
-    private fun safeInternalLoad(param:Parameter, forceLoad:Boolean = false):Result? {
+    private fun safeInternalLoad(param: Parameter, forceLoad: Boolean = false): Result? {
         return if (forceLoad) internalLoad(param)
         else {
             if (isOldDataValid) data.value
@@ -83,21 +85,21 @@ abstract class BasicViewModel<in Parameter, Result>:ViewModel() {
         }
     }
     
-    fun postResult(result:Result) {
+    fun postResult(result: Result) {
         data.postValue(result)
         customObserver?.onChanged(result)
         taskStarted = false
     }
     
-    fun observe(owner:LifecycleOwner, onUpdated:(Result) -> Unit) {
+    fun observe(owner: LifecycleOwner, onUpdated: (Result) -> Unit) {
         destroy(owner, true)
         data.observe(owner, Observer<Result> { r -> r?.let { onUpdated(it) } })
     }
     
-    fun extraObserve(onUpdated:(Result) -> Unit) {
+    fun extraObserve(onUpdated: (Result) -> Unit) {
         customObserver = Observer { r -> r?.let { onUpdated(it) } }
     }
     
-    protected abstract fun internalLoad(param:Parameter):Result
-    protected abstract val isOldDataValid:Boolean
+    protected abstract fun internalLoad(param: Parameter): Result
+    protected abstract val isOldDataValid: Boolean
 }

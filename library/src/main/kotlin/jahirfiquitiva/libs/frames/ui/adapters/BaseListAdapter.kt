@@ -21,7 +21,7 @@ import jahirfiquitiva.libs.frames.ui.adapters.presenters.ItemsAdapterPresenter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideSectionedViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideViewHolder
 
-abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>(private val maxLoad:Int):
+abstract class BaseListAdapter<T, VH : RecyclerView.ViewHolder>(private val maxLoad: Int) :
         RecyclerView.Adapter<VH>(), ItemsAdapterPresenter<T> {
     
     private var lastAnimatedPosition = -1
@@ -36,7 +36,7 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>(private val maxLoa
         notifyItemRangeInserted(prevSize, itemCount)
     }
     
-    override fun getItemCount():Int {
+    override fun getItemCount(): Int {
         return if (actualItemCount <= 0) {
             list.size
         } else {
@@ -45,7 +45,7 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>(private val maxLoa
         }
     }
     
-    override fun onBindViewHolder(holder:VH, position:Int) {
+    override fun onBindViewHolder(holder: VH, position: Int) {
         if (position in 0..itemCount) {
             if (position > lastAnimatedPosition) {
                 lastAnimatedPosition = position
@@ -56,7 +56,7 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>(private val maxLoa
         }
     }
     
-    override fun onBindViewHolder(holder:VH, position:Int, payloads:MutableList<Any>?) {
+    override fun onBindViewHolder(holder: VH, position: Int, payloads: MutableList<Any>?) {
         if (payloads != null) {
             if (payloads.isNotEmpty()) {
                 doBind(holder, position, true)
@@ -68,15 +68,15 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>(private val maxLoa
         }
     }
     
-    abstract fun doBind(holder:VH, position:Int, shouldAnimate:Boolean)
+    abstract fun doBind(holder: VH, position: Int, shouldAnimate: Boolean)
     
-    override fun onViewRecycled(holder:VH) {
+    override fun onViewRecycled(holder: VH) {
         super.onViewRecycled(holder)
         if (holder is GlideViewHolder) holder.doOnRecycle()
         else if (holder is GlideSectionedViewHolder) holder.doOnRecycle()
     }
     
-    override fun onViewDetachedFromWindow(holder:VH) {
+    override fun onViewDetachedFromWindow(holder: VH) {
         super.onViewDetachedFromWindow(holder)
         holder.itemView?.clearChildrenAnimations()
     }
@@ -87,19 +87,19 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>(private val maxLoa
         notifyItemRangeRemoved(0, size)
     }
     
-    override fun addAll(newItems:ArrayList<T>) {
+    override fun addAll(newItems: ArrayList<T>) {
         val prevSize = itemCount
         list.addAll(newItems)
         notifyItemRangeInserted(prevSize, newItems.size)
     }
     
-    override fun setItems(newItems:ArrayList<T>) {
+    override fun setItems(newItems: ArrayList<T>) {
         list.clear()
         list.addAll(newItems)
         notifyDataSetChanged()
     }
     
-    override fun removeItem(item:T) {
+    override fun removeItem(item: T) {
         val prevSize = itemCount
         val index = list.indexOf(item)
         if (index < 0) return
@@ -107,18 +107,17 @@ abstract class BaseListAdapter<T, VH:RecyclerView.ViewHolder>(private val maxLoa
         notifyItemRangeRemoved(index, prevSize)
     }
     
-    override fun updateItem(item:T) {
+    override fun updateItem(item: T) {
         val prevSize = itemCount
         val index = list.indexOf(item)
         if (index < 0) return
         notifyItemRangeChanged(index, prevSize)
     }
     
-    override fun addItem(newItem:T) {
+    override fun addItem(newItem: T) {
         val prevSize = itemCount
         list.add(newItem)
         notifyItemRangeInserted(prevSize, itemCount)
     }
-    
     
 }

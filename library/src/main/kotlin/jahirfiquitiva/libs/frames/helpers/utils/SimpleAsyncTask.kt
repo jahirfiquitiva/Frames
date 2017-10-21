@@ -20,19 +20,19 @@ import java.lang.ref.WeakReference
 import java.util.concurrent.Executor
 
 open class SimpleAsyncTask<Parameter, Result>(
-        private val param:WeakReference<Parameter>,
-        private val callback:AsyncTaskCallback<Parameter, Result>) {
+        private val param: WeakReference<Parameter>,
+        private val callback: AsyncTaskCallback<Parameter, Result>) {
     
-    private var task:AsyncTask<Unit, Unit, Result>
+    private var task: AsyncTask<Unit, Unit, Result>
     
     init {
-        task = object:AsyncTask<Unit, Unit, Result>() {
+        task = object : AsyncTask<Unit, Unit, Result>() {
             override fun onPreExecute() {
                 super.onPreExecute()
                 callback.doBefore()
             }
             
-            override fun doInBackground(vararg ignored:Unit?):Result? {
+            override fun doInBackground(vararg ignored: Unit?): Result? {
                 return try {
                     val actualParam = param.get()
                     if (actualParam != null) callback.doLoad(actualParam)
@@ -40,13 +40,13 @@ open class SimpleAsyncTask<Parameter, Result>(
                         callback.onError(NullPointerException(""))
                         null
                     }
-                } catch (e:Exception) {
+                } catch (e: Exception) {
                     callback.onError(e)
                     null
                 }
             }
             
-            override fun onPostExecute(result:Result?) {
+            override fun onPostExecute(result: Result?) {
                 super.onPostExecute(result)
                 if (result != null) callback.onSuccess(result)
                 else callback.onError(NullPointerException("Loaded object was null"))
@@ -54,25 +54,25 @@ open class SimpleAsyncTask<Parameter, Result>(
         }
     }
     
-    fun execute(executor:Executor? = null) {
+    fun execute(executor: Executor? = null) {
         try {
             if (executor != null) task.executeOnExecutor(executor)
             else task.execute()
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
     }
     
-    fun cancel(interrupt:Boolean = false) {
+    fun cancel(interrupt: Boolean = false) {
         try {
             task.cancel(interrupt)
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
     }
     
     abstract class AsyncTaskCallback<in Parameter, Result> {
         open fun doBefore() {}
-        abstract fun doLoad(param:Parameter):Result?
-        abstract fun onSuccess(result:Result)
-        open fun onError(e:Exception?) = e?.printStackTrace()
+        abstract fun doLoad(param: Parameter): Result?
+        abstract fun onSuccess(result: Result)
+        open fun onError(e: Exception?) = e?.printStackTrace()
     }
 }

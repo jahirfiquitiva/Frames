@@ -24,24 +24,24 @@ import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
 import jahirfiquitiva.libs.kauextensions.extensions.inactiveIconsColor
 
-class MaterialIcon:ImageView {
+class MaterialIcon : ImageView {
     var isActive = true
         set(value) {
             field = value
             setImageDrawable(drawable)
         }
     
-    constructor(context:Context):super(context)
-    constructor(context:Context, attributeSet:AttributeSet):super(context, attributeSet) {
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet) {
         init(context, attributeSet)
     }
     
-    constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int)
-            :super(context, attributeSet, defStyleAttr) {
+    constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int)
+            : super(context, attributeSet, defStyleAttr) {
         init(context, attributeSet)
     }
     
-    private fun init(context:Context, attributeSet:AttributeSet) {
+    private fun init(context: Context, attributeSet: AttributeSet) {
         val a = context.obtainStyledAttributes(attributeSet, R.styleable.MaterialIcon, 0, 0)
         try {
             isActive = a.getBoolean(R.styleable.MaterialIcon_active, true)
@@ -50,7 +50,7 @@ class MaterialIcon:ImageView {
         }
     }
     
-    override fun setImageDrawable(drawable:Drawable?) {
+    override fun setImageDrawable(drawable: Drawable?) {
         super.setImageDrawable(drawable?.applyColorFilter(
                 if (isActive) context.activeIconsColor else context.inactiveIconsColor))
     }

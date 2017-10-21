@@ -21,8 +21,8 @@ import android.view.View
 import android.view.ViewGroup
 import jahirfiquitiva.libs.frames.ui.fragments.presenters.ViewModelFragmentPresenter
 
-abstract class BaseViewModelFragment<in T>:BasicFragment<T>(), ViewModelFragmentPresenter<T> {
-    override fun onCreate(savedInstanceState:Bundle?) {
+abstract class BaseViewModelFragment<in T> : BasicFragment<T>(), ViewModelFragmentPresenter<T> {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initVM()
     }
@@ -32,8 +32,8 @@ abstract class BaseViewModelFragment<in T>:BasicFragment<T>(), ViewModelFragment
         registerObserver()
     }
     
-    override fun onCreateView(inflater:LayoutInflater?, container:ViewGroup?,
-                              savedInstanceState:Bundle?):View? {
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
         if (autoStartLoad()) loadDataFromViewModel()
         return view
@@ -44,6 +44,6 @@ abstract class BaseViewModelFragment<in T>:BasicFragment<T>(), ViewModelFragment
         unregisterObserver()
     }
     
-    override fun onItemClicked(item:T) {}
-    abstract fun autoStartLoad():Boolean
+    override fun onItemClicked(item: T) {}
+    abstract fun autoStartLoad(): Boolean
 }

@@ -22,7 +22,7 @@ import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import ca.allanwang.kau.utils.buildIsMarshmallowAndUp
 
-fun Context.shouldRequestPermission(which:String):Boolean {
+fun Context.shouldRequestPermission(which: String): Boolean {
     if (buildIsMarshmallowAndUp) {
         val permissionResult = ActivityCompat.checkSelfPermission(this, which)
         return permissionResult != PackageManager.PERMISSION_GRANTED
@@ -30,11 +30,11 @@ fun Context.shouldRequestPermission(which:String):Boolean {
     return false
 }
 
-fun Activity.requestPermissions(requestCode:Int, vararg which:String) =
+fun Activity.requestPermissions(requestCode: Int, vararg which: String) =
         ActivityCompat.requestPermissions(this, which, requestCode)
 
 @SuppressLint("NewApi")
-fun Activity.checkPermission(permission:String, listener:PermissionRequestListener) =
+fun Activity.checkPermission(permission: String, listener: PermissionRequestListener) =
         if (shouldRequestPermission(permission)) {
             // Permission has not been granted
             if (shouldShowRequestPermissionRationale(permission)) {
@@ -55,8 +55,8 @@ fun Activity.checkPermission(permission:String, listener:PermissionRequestListen
         }
 
 interface PermissionRequestListener {
-    fun onPermissionRequest(permission:String)
-    fun showPermissionInformation(permission:String)
+    fun onPermissionRequest(permission: String)
+    fun showPermissionInformation(permission: String)
     fun onPermissionCompletelyDenied()
     fun onPermissionGranted()
 }

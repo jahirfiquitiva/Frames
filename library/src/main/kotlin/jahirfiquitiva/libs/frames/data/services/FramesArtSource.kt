@@ -39,7 +39,8 @@ import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import java.util.*
+import java.util.ArrayList
+import java.util.Random
 import java.util.concurrent.TimeUnit
 
 @Suppress("LeakingThis")

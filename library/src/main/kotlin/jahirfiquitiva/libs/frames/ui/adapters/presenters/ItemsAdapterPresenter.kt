@@ -17,9 +17,9 @@ package jahirfiquitiva.libs.frames.ui.adapters.presenters
 
 interface ItemsAdapterPresenter<T> {
     fun clearList()
-    fun addAll(newItems:ArrayList<T>)
-    fun setItems(newItems:ArrayList<T>)
-    fun removeItem(item:T)
-    fun updateItem(item:T)
-    fun addItem(newItem:T)
+    fun addAll(newItems: ArrayList<T>)
+    fun setItems(newItems: ArrayList<T>)
+    fun removeItem(item: T)
+    fun updateItem(item: T)
+    fun addItem(newItem: T)
 }

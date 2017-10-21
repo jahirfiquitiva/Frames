@@ -50,18 +50,18 @@ import jahirfiquitiva.libs.kauextensions.extensions.konfigs
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import org.jetbrains.anko.doAsync
 
-open class SettingsFragment:PreferenceFragment() {
+open class SettingsFragment : PreferenceFragment() {
     
-    internal val database:FavoritesDatabase by lazy {
+    internal val database: FavoritesDatabase by lazy {
         Room.databaseBuilder(activity, FavoritesDatabase::class.java,
                              DATABASE_NAME).fallbackToDestructiveMigration().build()
     }
-    internal var downloadLocation:Preference? = null
+    internal var downloadLocation: Preference? = null
     
-    var dialog:MaterialDialog? = null
+    var dialog: MaterialDialog? = null
     
     @SuppressLint("NewApi")
-    override fun onCreate(savedInstanceState:Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initPreferences()
     }
@@ -130,7 +130,7 @@ open class SettingsFragment:PreferenceFragment() {
                         try {
                             val newColumns = numberPicker.value
                             if (currentColumns != newColumns) context.framesKonfigs.columns = newColumns
-                        } catch (ignored:Exception) {
+                        } catch (ignored: Exception) {
                         }
                         dialog.dismiss()
                     }
@@ -238,18 +238,18 @@ open class SettingsFragment:PreferenceFragment() {
         }
     }
     
-    private fun getNotificationsClass():Class<*>? {
+    private fun getNotificationsClass(): Class<*>? {
         return try {
             val className = context.getString(R.string.notifications_class)
             if (className.hasContent()) Class.forName(className)
             else null
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
             null
         }
     }
     
-    private fun isNotificationsServiceAvailable():Boolean {
+    private fun isNotificationsServiceAvailable(): Boolean {
         return try {
             val packageManager = context.packageManager
             val klass = getNotificationsClass()
@@ -262,7 +262,7 @@ open class SettingsFragment:PreferenceFragment() {
             } else {
                 false
             }
-        } catch (ex:Exception) {
+        } catch (ex: Exception) {
             ex.printStackTrace()
             false
         }
@@ -270,11 +270,11 @@ open class SettingsFragment:PreferenceFragment() {
     
     fun requestPermission() = activity.checkPermission(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            object:PermissionRequestListener {
-                override fun onPermissionRequest(permission:String) =
+            object : PermissionRequestListener {
+                override fun onPermissionRequest(permission: String) =
                         activity.requestPermissions(42, permission)
                 
-                override fun showPermissionInformation(permission:String) {
+                override fun showPermissionInformation(permission: String) {
                     doShowPermissionInformation()
                 }
                 
@@ -293,8 +293,8 @@ open class SettingsFragment:PreferenceFragment() {
                 getString(R.string.permission_request, activity.getAppName()),
                 builder = {
                     setAction(R.string.allow, { dismiss() })
-                    addCallback(object:Snackbar.Callback() {
-                        override fun onDismissed(transientBottomBar:Snackbar?, event:Int) {
+                    addCallback(object : Snackbar.Callback() {
+                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                             super.onDismissed(transientBottomBar, event)
                             requestPermission()
                         }

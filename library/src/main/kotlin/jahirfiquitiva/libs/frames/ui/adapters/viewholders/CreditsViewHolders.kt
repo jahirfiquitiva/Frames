@@ -40,10 +40,11 @@ import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kauextensions.ui.layouts.SplitButtonsLayout
 
 @Suppress("ArrayInDataClass")
-data class Credit(val name:String, val photo:String, val type:Type,
-                  val link:String = "", val description:String = "",
-                  val buttonsTitles:List<String> = ArrayList(),
-                  val buttonsLinks:List<String> = ArrayList()) {
+data class Credit(val name: String, val photo: String, val type: Type,
+                  val link: String = "", val description: String = "",
+                  val buttonsTitles: List<String> = ArrayList(),
+                  val buttonsLinks: List<String> = ArrayList()) {
+    
     enum class Type {
         CREATOR, DASHBOARD, DEV_CONTRIBUTION, UI_CONTRIBUTION
     }
@@ -79,20 +80,20 @@ data class Credit(val name:String, val photo:String, val type:Type,
     }
 }
 
-const val SECTION_ICON_ANIMATION_DURATION:Long = 250
+const val SECTION_ICON_ANIMATION_DURATION: Long = 250
 
-class SectionedHeaderViewHolder(itemView:View):SectionedViewHolder(itemView) {
-    val divider:View by itemView.bind(R.id.section_divider)
-    val title:TextView by itemView.bind(R.id.section_title)
-    val icon:ImageView by itemView.bind(R.id.section_icon)
+class SectionedHeaderViewHolder(itemView: View) : SectionedViewHolder(itemView) {
+    val divider: View by itemView.bind(R.id.section_divider)
+    val title: TextView by itemView.bind(R.id.section_title)
+    val icon: ImageView by itemView.bind(R.id.section_icon)
     
-    fun setTitle(@StringRes text:Int, shouldShowIcon:Boolean = false, expanded:Boolean = true,
-                 listener:() -> Unit = {}) {
+    fun setTitle(@StringRes text: Int, shouldShowIcon: Boolean = false, expanded: Boolean = true,
+                 listener: () -> Unit = {}) {
         setTitle(itemView.context.getString(text), shouldShowIcon, expanded, listener)
     }
     
-    fun setTitle(text:String, shouldShowIcon:Boolean = false, expanded:Boolean = true,
-                 listener:() -> Unit = {}) {
+    fun setTitle(text: String, shouldShowIcon: Boolean = false, expanded: Boolean = true,
+                 listener: () -> Unit = {}) {
         divider.setBackgroundColor(itemView.context.dividerColor)
         title.setTextColor(itemView.context.secondaryTextColor)
         title.text = text
@@ -106,14 +107,14 @@ class SectionedHeaderViewHolder(itemView:View):SectionedViewHolder(itemView) {
     }
 }
 
-open class DashboardCreditViewHolder(itemView:View):GlideSectionedViewHolder(itemView) {
-    val photo:ImageView by itemView.bind(R.id.photo)
-    val name:TextView by itemView.bind(R.id.name)
-    private val description:TextView by itemView.bind(R.id.description)
-    private val buttons:SplitButtonsLayout by itemView.bind(R.id.buttons)
+open class DashboardCreditViewHolder(itemView: View) : GlideSectionedViewHolder(itemView) {
+    val photo: ImageView by itemView.bind(R.id.photo)
+    val name: TextView by itemView.bind(R.id.name)
+    private val description: TextView by itemView.bind(R.id.description)
+    private val buttons: SplitButtonsLayout by itemView.bind(R.id.buttons)
     
-    open fun setItem(manager:RequestManager, credit:Credit, fillAvailableSpace:Boolean = true,
-                     shouldHideButtons:Boolean = false) {
+    open fun setItem(manager: RequestManager, credit: Credit, fillAvailableSpace: Boolean = true,
+                     shouldHideButtons: Boolean = false) {
         photo.loadAvatar(manager, credit.photo, false)
         name.setTextColor(itemView.context.primaryTextColor)
         name.text = credit.name
@@ -132,7 +133,7 @@ open class DashboardCreditViewHolder(itemView:View):GlideSectionedViewHolder(ite
                     itemView.context.theme.resolveAttribute(
                             android.R.attr.selectableItemBackground, outValue, true)
                     itemView?.setBackgroundResource(outValue.resourceId)
-                } catch (ignored:Exception) {
+                } catch (ignored: Exception) {
                 }
             }
         } else {
@@ -165,9 +166,9 @@ open class DashboardCreditViewHolder(itemView:View):GlideSectionedViewHolder(ite
     }
 }
 
-class SimpleCreditViewHolder(itemView:View):DashboardCreditViewHolder(itemView) {
-    override fun setItem(manager:RequestManager, credit:Credit, fillAvailableSpace:Boolean,
-                         shouldHideButtons:Boolean) {
+class SimpleCreditViewHolder(itemView: View) : DashboardCreditViewHolder(itemView) {
+    override fun setItem(manager: RequestManager, credit: Credit, fillAvailableSpace: Boolean,
+                         shouldHideButtons: Boolean) {
         super.setItem(manager, credit, false, true)
     }
 }

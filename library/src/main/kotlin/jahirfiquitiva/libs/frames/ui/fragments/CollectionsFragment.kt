@@ -32,7 +32,6 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.isLowRamDevice
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
 import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
-import jahirfiquitiva.libs.frames.ui.activities.FramesActivity
 import jahirfiquitiva.libs.frames.ui.adapters.CollectionsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
@@ -44,15 +43,15 @@ import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 
-class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
+class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     
-    private lateinit var swipeToRefresh:SwipeRefreshLayout
-    private lateinit var rv:EmptyViewRecyclerView
-    private lateinit var fastScroll:RecyclerFastScroller
+    private lateinit var swipeToRefresh: SwipeRefreshLayout
+    private lateinit var rv: EmptyViewRecyclerView
+    private lateinit var fastScroll: RecyclerFastScroller
     
-    private var collsAdapter:CollectionsAdapter? = null
+    private var collsAdapter: CollectionsAdapter? = null
     
-    override fun initUI(content:View) {
+    override fun initUI(content: View) {
         swipeToRefresh = content.findViewById(R.id.swipe_to_refresh)
         rv = content.findViewById(R.id.list_rv)
         fastScroll = content.findViewById(R.id.fast_scroller)
@@ -78,17 +77,17 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
             val provider = ViewPreloadSizeProvider<Wallpaper>()
             collsAdapter = CollectionsAdapter(
                     Glide.with(this), provider,
-                    object:FramesViewClickListener<Collection, CollectionHolder>() {
-                        override fun onSingleClick(item:Collection, holder:CollectionHolder) {
+                    object : FramesViewClickListener<Collection, CollectionHolder>() {
+                        override fun onSingleClick(item: Collection, holder: CollectionHolder) {
                             onItemClicked(item)
                         }
                     })
-            val preloader:RecyclerViewPreloader<Wallpaper> =
+            val preloader: RecyclerViewPreloader<Wallpaper> =
                     RecyclerViewPreloader(activity, collsAdapter, provider, context.maxPreload)
             addOnScrollListener(preloader)
             
-            addOnScrollListener(object:RecyclerView.OnScrollListener() {
-                override fun onScrolled(rv:RecyclerView?, dx:Int, dy:Int) {
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
                     super.onScrolled(rv, dx, dy)
                     rv?.let {
                         if (!it.canScrollVertically(1)) {
@@ -109,42 +108,42 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         rv.state = EmptyViewRecyclerView.State.LOADING
     }
     
-    override fun getContentLayout():Int = R.layout.section_lists
+    override fun getContentLayout(): Int = R.layout.section_lists
     
     override fun scrollToTop() {
         rv.post { rv.scrollToPosition(0) }
     }
     
-    override fun onItemClicked(item:Collection) {
+    override fun onItemClicked(item: Collection) {
         val intent = Intent(activity, CollectionActivity::class.java)
         intent.putExtra("item", item)
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity)
         try {
             activity.startActivityForResult(intent, 11, options.toBundle())
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
             activity.startActivityForResult(intent, 11)
         }
     }
     
-    override fun onItemClicked(item:Collection, holder:CollectionHolder) {}
+    override fun onItemClicked(item: Collection, holder: CollectionHolder) {}
     
     override fun loadDataFromViewModel() {
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.loadDataFromViewModel()
     }
     
-    override fun enableRefresh(enable:Boolean) {
+    override fun enableRefresh(enable: Boolean) {
         swipeToRefresh.isEnabled = enable
     }
     
-    override fun reloadData(section:Int) {
+    override fun reloadData(section: Int) {
         if (swipeToRefresh.isRefreshing) swipeToRefresh.isRefreshing = false
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
         swipeToRefresh.isRefreshing = true
     }
     
-    override fun applyFilter(filter:String) {
+    override fun applyFilter(filter: String) {
         if (collsAdapter != null) {
             collectionsModel?.getData()?.let {
                 if (filter.hasContent()) {
@@ -161,17 +160,17 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         }
     }
     
-    override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
+    override fun doOnFavoritesChange(data: ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
         swipeToRefresh.isRefreshing = false
     }
     
-    override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
+    override fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
         swipeToRefresh.isRefreshing = false
     }
     
-    override fun doOnCollectionsChange(data:ArrayList<Collection>) {
+    override fun doOnCollectionsChange(data: ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
         swipeToRefresh.isRefreshing = false
         if (data.size > 0) collsAdapter?.setItems(data)
@@ -183,7 +182,7 @@ class CollectionsFragment:BaseFramesFragment<Collection, CollectionHolder>() {
         }
     }
     
-    override fun autoStartLoad():Boolean = true
-    override fun fromCollectionActivity():Boolean = false
-    override fun fromFavorites():Boolean = false
+    override fun autoStartLoad(): Boolean = true
+    override fun fromCollectionActivity(): Boolean = false
+    override fun fromFavorites(): Boolean = false
 }

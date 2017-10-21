@@ -43,16 +43,16 @@ val Context.maxPreload
 val Context.maxPictureRes
     get() = if (isLowRamDevice) if (runsMinSDK) 30 else 20 else 40
 
-val Context.bestBitmapConfig:Bitmap.Config
+val Context.bestBitmapConfig: Bitmap.Config
     get() = if (isLowRamDevice) Bitmap.Config.RGB_565 else Bitmap.Config.ARGB_8888
 
 val Context.runsMinSDK
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
 
-val Context.isLowRamDevice:Boolean
+val Context.isLowRamDevice: Boolean
     get() {
         val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        val lowRAMDevice:Boolean
+        val lowRAMDevice: Boolean
         lowRAMDevice = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             activityManager.isLowRamDevice
         } else {
@@ -63,7 +63,7 @@ val Context.isLowRamDevice:Boolean
         return lowRAMDevice
     }
 
-fun Context.getStatusBarHeight(force:Boolean = false):Int {
+fun Context.getStatusBarHeight(force: Boolean = false): Int {
     var result = 0
     val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
     if (resourceId > 0) {
@@ -79,7 +79,7 @@ fun Context.getStatusBarHeight(force:Boolean = false):Int {
     }
 }
 
-fun Context.openWallpaper(uri:Uri) {
+fun Context.openWallpaper(uri: Uri) {
     val intent = Intent()
     intent.action = Intent.ACTION_VIEW
     intent.setDataAndType(uri, "image/*")
@@ -90,37 +90,37 @@ fun Context.openWallpaper(uri:Uri) {
 val Context.thumbnailColor
     get() = if (usesDarkTheme) Color.parseColor("#3dffffff") else Color.parseColor("#3d000000")
 
-fun Context.createHeartIcon(checked:Boolean):Drawable =
+fun Context.createHeartIcon(checked: Boolean): Drawable =
         (if (checked) "ic_heart" else "ic_heart_outline").getDrawable(this)
 
-val Context.framesKonfigs:FramesKonfigs
+val Context.framesKonfigs: FramesKonfigs
     get() = FramesKonfigs.newInstance(PREFERENCES_NAME, this)
 
-fun Context.run(f:() -> Unit):Runnable = Runnable { f() }
+fun Context.run(f: () -> Unit): Runnable = Runnable { f() }
 
-inline fun Context.buildMaterialDialog(action:MaterialDialog.Builder.() -> Unit):MaterialDialog {
+inline fun Context.buildMaterialDialog(action: MaterialDialog.Builder.() -> Unit): MaterialDialog {
     val builder = MaterialDialog.Builder(this)
     builder.action()
     return builder.build()
 }
 
-val Context.dataCacheSize:String
+val Context.dataCacheSize: String
     get() {
-        var cache:Long = 0
-        var extCache:Long = 0
+        var cache: Long = 0
+        var extCache: Long = 0
         
         try {
             cacheDir.listFiles().forEach {
                 cache += if (it.isDirectory) it.dirSize else it.length()
             }
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
         
         try {
             externalCacheDir.listFiles().forEach {
                 extCache += if (it.isDirectory) it.dirSize else it.length()
             }
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
         
         val finalResult = ((cache + extCache) / 1024).toDouble()
@@ -150,11 +150,11 @@ fun Context.clearCache() {
         cacheDir?.let {
             deleteFile(it)
         }
-    } catch (ignored:Exception) {
+    } catch (ignored: Exception) {
     }
 }
 
-fun Context.deleteFile(f:File) {
+fun Context.deleteFile(f: File) {
     if (f.isDirectory) {
         f.list().forEach {
             deleteFile(File(f, it))
@@ -164,7 +164,7 @@ fun Context.deleteFile(f:File) {
     }
 }
 
-val Context.basicOptions:RequestOptions
+val Context.basicOptions: RequestOptions
     get() {
         return RequestOptions()
                 .format(if (isLowRamDevice) DecodeFormat.PREFER_RGB_565
@@ -172,14 +172,14 @@ val Context.basicOptions:RequestOptions
                 .disallowHardwareConfig()
     }
 
-val Context.urlOptions:RequestOptions
+val Context.urlOptions: RequestOptions
     get() = basicOptions.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 
-val Context.resourceOptions:RequestOptions
+val Context.resourceOptions: RequestOptions
     get() = basicOptions.diskCacheStrategy(DiskCacheStrategy.NONE)
 
-val Context.thumbnailOptions:RequestOptions
+val Context.thumbnailOptions: RequestOptions
     get() = urlOptions.priority(Priority.IMMEDIATE)
 
-val Context.wallpaperOptions:RequestOptions
+val Context.wallpaperOptions: RequestOptions
     get() = urlOptions.priority(Priority.HIGH)

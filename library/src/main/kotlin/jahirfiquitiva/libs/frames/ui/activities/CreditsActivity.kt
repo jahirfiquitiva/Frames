@@ -46,19 +46,19 @@ import jahirfiquitiva.libs.kauextensions.extensions.openLink
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 
-open class CreditsActivity:ThemedActivity() {
+open class CreditsActivity : ThemedActivity() {
     
-    override fun lightTheme():Int = R.style.LightTheme
-    override fun darkTheme():Int = R.style.DarkTheme
-    override fun transparentTheme():Int = R.style.TransparentTheme
-    override fun amoledTheme():Int = R.style.AmoledTheme
-    override fun autoStatusBarTint():Boolean = true
+    override fun lightTheme(): Int = R.style.LightTheme
+    override fun darkTheme(): Int = R.style.DarkTheme
+    override fun transparentTheme(): Int = R.style.TransparentTheme
+    override fun amoledTheme(): Int = R.style.AmoledTheme
+    override fun autoStatusBarTint(): Boolean = true
     
-    private val toolbar:CustomToolbar by bind(R.id.toolbar)
-    private val rv:EmptyViewRecyclerView by bind(R.id.list_rv)
-    private val fastScroll:RecyclerFastScroller by bind(R.id.fast_scroller)
+    private val toolbar: CustomToolbar by bind(R.id.toolbar)
+    private val rv: EmptyViewRecyclerView by bind(R.id.list_rv)
+    private val fastScroll: RecyclerFastScroller by bind(R.id.fast_scroller)
     
-    override fun onCreate(savedInstanceState:Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_credits)
         
@@ -67,7 +67,7 @@ open class CreditsActivity:ThemedActivity() {
         toolbar.bindToActivity(this)
         supportActionBar?.title = getString(R.string.about)
         
-        val refreshLayout:SwipeRefreshLayout by bind(R.id.swipe_to_refresh)
+        val refreshLayout: SwipeRefreshLayout by bind(R.id.swipe_to_refresh)
         refreshLayout.isEnabled = false
         
         rv.itemAnimator = DefaultItemAnimator()
@@ -86,7 +86,7 @@ open class CreditsActivity:ThemedActivity() {
         try {
             adapter.collapseSection(2)
             adapter.collapseSection(3)
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
         
         rv.state = EmptyViewRecyclerView.State.NORMAL
@@ -95,7 +95,7 @@ open class CreditsActivity:ThemedActivity() {
     @StringRes
     open fun getDashboardTitle() = R.string.frames_dashboard
     
-    override fun onCreateOptionsMenu(menu:Menu?):Boolean {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.about_settings_menu, menu)
         toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
                      getSecondaryTextColorFor(primaryColor, 0.6F),
@@ -103,14 +103,14 @@ open class CreditsActivity:ThemedActivity() {
         return super.onCreateOptionsMenu(menu)
     }
     
-    override fun onOptionsItemSelected(item:MenuItem?):Boolean {
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         item?.let {
             when (it.itemId) {
                 android.R.id.home -> finish()
                 R.id.translate -> {
                     try {
                         openLink(TRANSLATION_SITE)
-                    } catch (ignored:Exception) {
+                    } catch (ignored: Exception) {
                     }
                 }
                 R.id.licenses -> LicensesDialog.Builder(this)
@@ -128,56 +128,56 @@ open class CreditsActivity:ThemedActivity() {
     }
     
     private fun registerCCLicense() {
-        val ccLicense = object:License() {
-            override fun getName():String = "CreativeCommons Attribution-ShareAlike 4.0 International License"
+        val ccLicense = object : License() {
+            override fun getName(): String = "CreativeCommons Attribution-ShareAlike 4.0 International License"
             
             override fun readSummaryTextFromResources(
-                    context:Context):String = readFullTextFromResources(context)
+                    context: Context): String = readFullTextFromResources(context)
             
-            override fun readFullTextFromResources(context:Context):String =
+            override fun readFullTextFromResources(context: Context): String =
                     "\tLicensed under the CreativeCommons Attribution-ShareAlike\n\t4.0 " +
-                            "International License. You may not use this file except in compliance \n" +
-                            "\twith the License. You may obtain a copy of the License at\n\n\t\t" +
-                            "http://creativecommons.org/licenses/by-sa/4.0/legalcode\n\n" +
-                            "\tUnless required by applicable law or agreed to in writing, software\n" +
-                            "\tdistributed under the License is distributed on an \"AS IS\" BASIS,\n" +
-                            "\tWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
-                            "\tSee the License for the specific language governing permissions and\n" +
-                            "\tlimitations under the License."
+                    "International License. You may not use this file except in compliance \n" +
+                    "\twith the License. You may obtain a copy of the License at\n\n\t\t" +
+                    "http://creativecommons.org/licenses/by-sa/4.0/legalcode\n\n" +
+                    "\tUnless required by applicable law or agreed to in writing, software\n" +
+                    "\tdistributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+                    "\tWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+                    "\tSee the License for the specific language governing permissions and\n" +
+                    "\tlimitations under the License."
             
-            override fun getVersion():String = "4.0"
+            override fun getVersion(): String = "4.0"
             
-            override fun getUrl():String = "http://creativecommons.org/licenses/by-sa/4.0/legalcode"
+            override fun getUrl(): String = "http://creativecommons.org/licenses/by-sa/4.0/legalcode"
         }
         
-        val eclLicense = object:License() {
-            override fun getName():String = "Educational Community License v2.0"
+        val eclLicense = object : License() {
+            override fun getName(): String = "Educational Community License v2.0"
             
             override fun readSummaryTextFromResources(
-                    context:Context):String = readFullTextFromResources(context)
+                    context: Context): String = readFullTextFromResources(context)
             
-            override fun readFullTextFromResources(context:Context):String =
+            override fun readFullTextFromResources(context: Context): String =
                     "The Educational Community License version 2.0 (\"ECL\") consists of the " +
-                            "Apache 2.0 license, modified to change the scope of the patent grant in " +
-                            "section 3 to be specific to the needs of the education communities " +
-                            "using this license.\n\nLicensed under the Apache License, Version 2.0 " +
-                            "(the \"License\");\n" + "you may not use this file except in compliance with " +
-                            "the License.\nYou may obtain a copy of the License at\n\n\t" +
-                            "http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable " +
-                            "law or agreed to in writing, software\ndistributed under the License is " +
-                            "distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY " +
-                            "KIND, either express or implied.\nSee the License for the specific " +
-                            "language governing permissions and\nlimitations under the License."
+                    "Apache 2.0 license, modified to change the scope of the patent grant in " +
+                    "section 3 to be specific to the needs of the education communities " +
+                    "using this license.\n\nLicensed under the Apache License, Version 2.0 " +
+                    "(the \"License\");\n" + "you may not use this file except in compliance with " +
+                    "the License.\nYou may obtain a copy of the License at\n\n\t" +
+                    "http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable " +
+                    "law or agreed to in writing, software\ndistributed under the License is " +
+                    "distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY " +
+                    "KIND, either express or implied.\nSee the License for the specific " +
+                    "language governing permissions and\nlimitations under the License."
             
-            override fun getVersion():String = "2.0"
+            override fun getVersion(): String = "2.0"
             
-            override fun getUrl():String = "https://opensource.org/licenses/ECL-2.0"
+            override fun getUrl(): String = "https://opensource.org/licenses/ECL-2.0"
         }
         LicenseResolver.registerLicense(ccLicense)
         LicenseResolver.registerLicense(eclLicense)
     }
     
-    private fun buildCreditsList():ArrayList<Credit> {
+    private fun buildCreditsList(): ArrayList<Credit> {
         val list = ArrayList<Credit>()
         
         try {
@@ -213,7 +213,7 @@ open class CreditsActivity:ThemedActivity() {
             
             list.addAll(Credit.EXTRA_CREDITS)
             
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
         

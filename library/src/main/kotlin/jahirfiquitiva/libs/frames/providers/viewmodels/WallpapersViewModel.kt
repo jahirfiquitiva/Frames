@@ -27,9 +27,9 @@ import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 import org.json.JSONArray
 import org.json.JSONObject
 
-class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
+class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
     
-    fun updateWallpaper(newWallpaper:Wallpaper) {
+    fun updateWallpaper(newWallpaper: Wallpaper) {
         val prevList = ArrayList(getData())
         if (prevList.size > 0) {
             val pos = prevList.indexOf(newWallpaper)
@@ -43,11 +43,11 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
         }
     }
     
-    override fun internalLoad(param:Context):MutableList<Wallpaper> =
+    override fun internalLoad(param: Context): MutableList<Wallpaper> =
             loadWallpapers(param,
                            FramesUrlRequests().requestJson(param.getString(R.string.json_url)))
     
-    private fun loadWallpapers(context:Context, serverResponse:String):MutableList<Wallpaper> {
+    private fun loadWallpapers(context: Context, serverResponse: String): MutableList<Wallpaper> {
         val prevResponse = context.framesKonfigs.backupJson
         val validPrevResponse = prevResponse.hasContent() && prevResponse != "[]"
         return if (serverResponse.hasContent()) {
@@ -64,40 +64,40 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
         }
     }
     
-    private fun safeParseResponseToJSON(context:Context, response:String):JSONArray {
+    private fun safeParseResponseToJSON(context: Context, response: String): JSONArray {
         return try {
             parseResponseToJSON(response, context.getBoolean(R.bool.use_old_json_format))
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
             try {
                 parseResponseToJSON(response, true)
-            } catch (e2:Exception) {
+            } catch (e2: Exception) {
                 e2.printStackTrace()
                 JSONArray("[]")
             }
         }
     }
     
-    private fun parseResponseToJSON(response:String, useOldFormat:Boolean):JSONArray {
+    private fun parseResponseToJSON(response: String, useOldFormat: Boolean): JSONArray {
         return if (response.hasContent()) {
             if (useOldFormat) parseResponseToOldJSON(response)
             else JSONArray(response)
         } else JSONArray("[]")
     }
     
-    private fun parseResponseToOldJSON(response:String):JSONArray {
+    private fun parseResponseToOldJSON(response: String): JSONArray {
         return try {
             JSONObject(response).getJSONArray("Wallpapers")
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
             try {
                 JSONObject(response).getJSONArray("wallpapers")
-            } catch (ignored:Exception) {
+            } catch (ignored: Exception) {
                 JSONArray("[]")
             }
         }
     }
     
-    private fun parseListFromJson(context:Context, json:JSONArray):MutableList<Wallpaper> {
+    private fun parseListFromJson(context: Context, json: JSONArray): MutableList<Wallpaper> {
         context.framesKonfigs.backupJson = json.toString()
         val fWallpapers = ArrayList<Wallpaper>()
         for (index in 0..json.length()) {
@@ -125,63 +125,63 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
         return fWallpapers
     }
     
-    private fun getWallpaperName(obj:JSONObject):String = try {
+    private fun getWallpaperName(obj: JSONObject): String = try {
         obj.getString("name") ?: ""
-    } catch (ignored:Exception) {
+    } catch (ignored: Exception) {
         ""
     }
     
-    private fun getAuthorName(obj:JSONObject):String = try {
+    private fun getAuthorName(obj: JSONObject): String = try {
         obj.getString("author") ?: ""
-    } catch (ignored:Exception) {
+    } catch (ignored: Exception) {
         ""
     }
     
-    private fun getCollectionsForWallpaper(obj:JSONObject):String = try {
+    private fun getCollectionsForWallpaper(obj: JSONObject): String = try {
         obj.getString("collections")
-    } catch (ignored:Exception) {
+    } catch (ignored: Exception) {
         try {
             obj.getString("categories")
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
             try {
                 obj.getString("category") ?: ""
-            } catch (ignored:Exception) {
+            } catch (ignored: Exception) {
                 ""
             }
         }
     }
     
-    private fun isWallpaperDownloadable(obj:JSONObject):Boolean = try {
+    private fun isWallpaperDownloadable(obj: JSONObject): Boolean = try {
         obj.getBoolean("downloadable")
-    } catch (ignored:Exception) {
+    } catch (ignored: Exception) {
         try {
             (obj.getString("downloadable") ?: "true").equals("true", true)
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
             true
         }
     }
     
-    private fun getWallpaperUrl(obj:JSONObject):String = try {
+    private fun getWallpaperUrl(obj: JSONObject): String = try {
         obj.getString("url") ?: ""
-    } catch (ignored:Exception) {
+    } catch (ignored: Exception) {
         ""
     }
     
-    private fun getWallpaperThumbnailUrl(obj:JSONObject):String = try {
+    private fun getWallpaperThumbnailUrl(obj: JSONObject): String = try {
         obj.getString("thumbnail")
-    } catch (ignored:Exception) {
+    } catch (ignored: Exception) {
         try {
             obj.getString("thumbUrl")
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
             try {
                 obj.getString("thumburl")
-            } catch (ignored:Exception) {
+            } catch (ignored: Exception) {
                 try {
                     obj.getString("thumb")
-                } catch (ignored:Exception) {
+                } catch (ignored: Exception) {
                     try {
                         obj.getString("url-thumb") ?: ""
-                    } catch (ignored:Exception) {
+                    } catch (ignored: Exception) {
                         ""
                     }
                 }
@@ -189,29 +189,29 @@ class WallpapersViewModel:ListViewModel<Context, Wallpaper>() {
         }
     }
     
-    private fun getWallpaperBytes(obj:JSONObject):Long = try {
+    private fun getWallpaperBytes(obj: JSONObject): Long = try {
         obj.getLong("size")
-    } catch (ignored:Exception) {
+    } catch (ignored: Exception) {
         try {
             obj.getString("size").toLong()
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
             0L
         }
     }
     
-    private fun getWallpaperDimensions(obj:JSONObject):String = try {
+    private fun getWallpaperDimensions(obj: JSONObject): String = try {
         obj.getString("dimensions")
-    } catch (ignored:Exception) {
+    } catch (ignored: Exception) {
         try {
             obj.getString("dimension") ?: ""
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
             ""
         }
     }
     
-    private fun getWallpaperCopyright(obj:JSONObject):String = try {
+    private fun getWallpaperCopyright(obj: JSONObject): String = try {
         obj.getString("copyright") ?: ""
-    } catch (ignored:Exception) {
+    } catch (ignored: Exception) {
         ""
     }
 }

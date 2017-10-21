@@ -72,18 +72,18 @@ import org.jetbrains.anko.runOnUiThread
  * Huge thanks to @lapism for his base
  * https://github.com/lapism/SearchView
  */
-class SearchView:FrameLayout {
+class SearchView : FrameLayout {
     
-    constructor(context:Context):super(context)
-    constructor(context:Context, attributeSet:AttributeSet):super(context, attributeSet)
-    constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int)
-            :super(context, attributeSet, defStyleAttr)
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
+    constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int)
+            : super(context, attributeSet, defStyleAttr)
     
     interface SearchListener {
-        fun onQueryChanged(query:String)
-        fun onQuerySubmit(query:String)
-        fun onSearchOpened(searchView:SearchView)
-        fun onSearchClosed(searchView:SearchView)
+        fun onQueryChanged(query: String)
+        fun onQuerySubmit(query: String)
+        fun onSearchOpened(searchView: SearchView)
+        fun onSearchClosed(searchView: SearchView)
     }
     
     /**
@@ -94,19 +94,19 @@ class SearchView:FrameLayout {
         context.runOnUiThread { cardTransition() }
     }
     
-    private val card:CustomCardView by bindView(R.id.kau_search_cardview)
-    private val editText:AppCompatEditText by bindView(R.id.kau_search_edit_text)
-    private val iconClear:ImageView by bindView(R.id.kau_search_clear)
+    private val card: CustomCardView by bindView(R.id.kau_search_cardview)
+    private val editText: AppCompatEditText by bindView(R.id.kau_search_edit_text)
+    private val iconClear: ImageView by bindView(R.id.kau_search_clear)
     
-    var menuItem:MenuItem? = null
-    val isOpen:Boolean
+    var menuItem: MenuItem? = null
+    val isOpen: Boolean
         get() = parent != null && card.isVisible
     var hintText = ""
         set(value) {
             field = value
             editText.hint = value
         }
-    var listener:SearchListener? = null
+    var listener: SearchListener? = null
     var shouldClearOnClose = true
     
     /*
@@ -134,12 +134,12 @@ class SearchView:FrameLayout {
         editText.setHintTextColor(
                 context.getPrimaryTextColorFor(context.cardBackgroundColor).withAlpha(0.5F))
         editText.hint = hintText
-        editText.addTextChangedListener(object:TextWatcher {
-            override fun afterTextChanged(s:Editable?) {}
+        editText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
             
-            override fun beforeTextChanged(s:CharSequence, start:Int, count:Int, after:Int) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             
-            override fun onTextChanged(s:CharSequence, start:Int, before:Int, count:Int) {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 listener?.onQueryChanged(s.toString().trim())
             }
         })
@@ -153,17 +153,17 @@ class SearchView:FrameLayout {
         }
     }
     
-    internal fun ImageView.setSearchIcon(@DrawableRes icon:Int):ImageView {
+    internal fun ImageView.setSearchIcon(@DrawableRes icon: Int): ImageView {
         setImageDrawable(ContextCompat.getDrawable(context, icon))
         return this
     }
     
-    internal fun ImageView.setSearchIcon(icon:Drawable):ImageView {
+    internal fun ImageView.setSearchIcon(icon: Drawable): ImageView {
         setImageDrawable(icon)
         return this
     }
     
-    internal fun cardTransition(builder:TransitionSet.() -> Unit = {}) {
+    internal fun cardTransition(builder: TransitionSet.() -> Unit = {}) {
         TransitionManager.beginDelayedTransition(card,
                 //we are only using change bounds, as the recyclerview items may be animated as well,
                 //which causes a measure IllegalStateException
@@ -179,7 +179,7 @@ class SearchView:FrameLayout {
      * This is assuming that SearchView has already been added to a ViewGroup
      * If not, see the extension function [bindSearchView]
      */
-    fun bind(menu:Menu, @IdRes id:Int, withExtra:Boolean):SearchView {
+    fun bind(menu: Menu, @IdRes id: Int, withExtra: Boolean): SearchView {
         val menuItem = menu.findItem(id) ?: throw IllegalArgumentException(
                 "Menu item with given id doesn't exist")
         card.gone()
@@ -193,13 +193,13 @@ class SearchView:FrameLayout {
      * Call to remove the searchView from the original menuItem,
      * with the option to replace the item click listener
      */
-    fun unBind(replacementMenuItemClickListener:((item:MenuItem) -> Boolean)? = null) {
+    fun unBind(replacementMenuItemClickListener: ((item: MenuItem) -> Boolean)? = null) {
         parentViewGroup.removeView(this)
         menuItem?.setOnMenuItemClickListener(replacementMenuItemClickListener)
         menuItem = null
     }
     
-    private fun configureCoords(item:MenuItem?, withExtra:Boolean) {
+    private fun configureCoords(item: MenuItem?, withExtra: Boolean) {
         if (menuX != -1 && menuHalfHeight != -1 && menuY != -1) return
         if (parent !is ViewGroup) return
         val id = item?.itemId ?: return
@@ -209,8 +209,8 @@ class SearchView:FrameLayout {
         menuX = (locations[0] + view.width / 2)
         menuHalfHeight = (view.height / 2)
         menuY = (locations[1] + (if (withExtra) menuHalfHeight else 0))
-        card.viewTreeObserver?.addOnPreDrawListener(object:ViewTreeObserver.OnPreDrawListener {
-            override fun onPreDraw():Boolean {
+        card.viewTreeObserver?.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
                 var rightHeight = (if (cardHeight > 0) cardHeight else card.height)
                 if (rightHeight <= 0) rightHeight = (view.height - 2.dpToPx)
                 val margin = menuY - (rightHeight / 2)
@@ -225,7 +225,7 @@ class SearchView:FrameLayout {
      * Handle a back press event
      * Returns true if back press is consumed, false otherwise
      */
-    fun onBackPressed():Boolean {
+    fun onBackPressed(): Boolean {
         if (isOpen && menuItem != null) {
             revealClose()
             return true
@@ -237,7 +237,7 @@ class SearchView:FrameLayout {
      * Tint foreground attributes
      * This can be done publicly through [configs], which will also save the color
      */
-    internal fun tintForeground(@ColorInt textColor:Int, @ColorInt iconsColor:Int) {
+    internal fun tintForeground(@ColorInt textColor: Int, @ColorInt iconsColor: Int) {
         iconClear.drawable.applyColorFilter(iconsColor)
         editText.tint(textColor)
         editText.tintCursor(textColor.withAlpha(0.5F))
@@ -249,11 +249,11 @@ class SearchView:FrameLayout {
      * Tint background attributes
      * This can be done publicly through [configs], which will also save the color
      */
-    internal fun tintBackground(@ColorInt color:Int) {
+    internal fun tintBackground(@ColorInt color: Int) {
         card.setCardBackgroundColor(color)
     }
     
-    fun revealOpen(withExtra:Boolean = false) {
+    fun revealOpen(withExtra: Boolean = false) {
         if (parent == null || isOpen) return
         context.runOnUiThread {
             /**
@@ -294,7 +294,7 @@ class SearchView:FrameLayout {
 /**
  * Helper function that binds to an activity's main view
  */
-fun Activity.bindSearchView(menu:Menu, @IdRes id:Int, withExtra:Boolean = false):SearchView
+fun Activity.bindSearchView(menu: Menu, @IdRes id: Int, withExtra: Boolean = false): SearchView
         = findViewById<ViewGroup>(android.R.id.content).bindSearchView(menu, id, withExtra)
 
 /**
@@ -302,7 +302,7 @@ fun Activity.bindSearchView(menu:Menu, @IdRes id:Int, withExtra:Boolean = false)
  * Be wary that if you may reinflate the menu many times (eg through [Activity.invalidateOptionsMenu]),
  * it may be worthwhile to hold a reference to the searchview and only bind it if it hasn't been bound before
  */
-fun ViewGroup.bindSearchView(menu:Menu, @IdRes id:Int, withExtra:Boolean = false):SearchView {
+fun ViewGroup.bindSearchView(menu: Menu, @IdRes id: Int, withExtra: Boolean = false): SearchView {
     val searchView = SearchView(context)
     searchView.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                                                        FrameLayout.LayoutParams.MATCH_PARENT)

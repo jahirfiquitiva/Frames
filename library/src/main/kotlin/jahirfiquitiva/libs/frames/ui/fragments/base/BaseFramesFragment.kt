@@ -22,10 +22,11 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.providers.viewmodels.CollectionsViewModel
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
 
-abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatabaseFragment<T, VH>() {
+abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
+        BaseDatabaseFragment<T, VH>() {
     
-    internal var wallpapersModel:WallpapersViewModel? = null
-    internal var collectionsModel:CollectionsViewModel? = null
+    internal var wallpapersModel: WallpapersViewModel? = null
+    internal var collectionsModel: CollectionsViewModel? = null
     
     override fun initViewModel() {
         super.initViewModel()
@@ -56,16 +57,16 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
         collectionsModel?.destroy(this)
     }
     
-    open fun doOnCollectionsChange(data:ArrayList<Collection>) {}
+    open fun doOnCollectionsChange(data: ArrayList<Collection>) {}
     
-    override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
+    override fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
         if (!fromCollectionActivity) collectionsModel?.loadWithContext(context, data)
     }
     
-    abstract fun enableRefresh(enable:Boolean)
+    abstract fun enableRefresh(enable: Boolean)
     
-    open fun reloadData(section:Int) {
+    open fun reloadData(section: Int) {
         scrollToTop()
         when (section) {
             0, 1 -> {
@@ -77,6 +78,6 @@ abstract class BaseFramesFragment<in T, in VH:RecyclerView.ViewHolder>:BaseDatab
         }
     }
     
-    abstract fun applyFilter(filter:String)
+    abstract fun applyFilter(filter: String)
     abstract fun scrollToTop()
 }
