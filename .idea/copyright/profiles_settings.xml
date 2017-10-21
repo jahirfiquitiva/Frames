@@ -23,6 +23,10 @@
       <option name="fileTypeOverride" value="3" />
       <option name="addBlankAfter" value="false" />
     </LanguageOptions>
+    <LanguageOptions name="SPI">
+      <option name="fileTypeOverride" value="3" />
+      <option name="addBlankAfter" value="false" />
+    </LanguageOptions>
     <LanguageOptions name="XML">
       <option name="fileTypeOverride" value="3" />
       <option name="addBlankAfter" value="false" />
