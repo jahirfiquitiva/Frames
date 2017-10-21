@@ -21,6 +21,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.support.v4.app.NotificationCompat
+import android.support.v4.content.ContextCompat
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
@@ -73,7 +74,7 @@ class FramesNotificationPublisher(private val id: Int,
                 .setContentText(content)
                 .setAutoCancel(true)
                 .setOngoing(false)
-                .setColor(context.accentColor)
+                .setColor(ContextCompat.getColor(context, R.color.notification_color))
         
         if (mainActivity != null) {
             val nIntent = Intent(context, mainActivity)
