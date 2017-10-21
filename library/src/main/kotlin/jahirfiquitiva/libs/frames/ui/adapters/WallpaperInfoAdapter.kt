@@ -28,13 +28,13 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperInfoHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperPaletteHolder
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 
-class WallpaperInfoAdapter(private val colorListener:(Int) -> Unit):
+class WallpaperInfoAdapter(private val colorListener: (Int) -> Unit) :
         SectionedRecyclerViewAdapter<SectionedViewHolder>() {
     
     private val details = ArrayList<WallpaperDetail>()
     private val colors = ArrayList<Int>()
     
-    fun setDetailsAndPalette(details:ArrayList<WallpaperDetail>, palette:Palette?) {
+    fun setDetailsAndPalette(details: ArrayList<WallpaperDetail>, palette: Palette?) {
         if (details.size > 0) {
             this.details.clear()
             details.filter { it.value.hasContent() }.forEach { this.details.add(it) }
@@ -54,33 +54,33 @@ class WallpaperInfoAdapter(private val colorListener:(Int) -> Unit):
         notifyDataSetChanged()
     }
     
-    private fun addToColors(color:Int) {
+    private fun addToColors(color: Int) {
         if (colors.contains(color)) return
         colors.add(color)
     }
     
-    override fun getSectionCount():Int = if (colors.size > 0) 2 else 1
+    override fun getSectionCount(): Int = if (colors.size > 0) 2 else 1
     
-    override fun getItemCount(section:Int):Int = when (section) {
+    override fun getItemCount(section: Int): Int = when (section) {
         1 -> colors.size
         0 -> details.size
         else -> 0
     }
     
-    override fun getItemViewType(section:Int, relativePosition:Int,
-                                 absolutePosition:Int):Int = section
+    override fun getItemViewType(section: Int, relativePosition: Int,
+                                 absolutePosition: Int): Int = section
     
-    override fun onBindViewHolder(holder:SectionedViewHolder?, section:Int, relativePosition:Int,
-                                  absolutePosition:Int) {
+    override fun onBindViewHolder(holder: SectionedViewHolder?, section: Int, relativePosition: Int,
+                                  absolutePosition: Int) {
         holder?.let {
             (it as? WallpaperInfoHolder)?.bind(details[relativePosition]) ?:
-                    (it as? WallpaperPaletteHolder)?.bind(colors[relativePosition],
-                                                          { colorListener(it) })
+            (it as? WallpaperPaletteHolder)?.bind(colors[relativePosition],
+                                                  { colorListener(it) })
         }
     }
     
-    override fun onBindHeaderViewHolder(holder:SectionedViewHolder?, section:Int,
-                                        expanded:Boolean) {
+    override fun onBindHeaderViewHolder(holder: SectionedViewHolder?, section: Int,
+                                        expanded: Boolean) {
         if (holder is SectionedHeaderViewHolder) {
             holder.icon.gone()
             holder.setTitle(
@@ -88,7 +88,7 @@ class WallpaperInfoAdapter(private val colorListener:(Int) -> Unit):
         }
     }
     
-    override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):SectionedViewHolder? =
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SectionedViewHolder? =
             when (viewType) {
                 0 -> parent?.inflate(R.layout.info_item)?.let { WallpaperInfoHolder(it) }
                 1 -> parent?.inflate(R.layout.info_color)?.let { WallpaperPaletteHolder(it) }
@@ -97,5 +97,5 @@ class WallpaperInfoAdapter(private val colorListener:(Int) -> Unit):
                 }
             }
     
-    override fun onBindFooterViewHolder(holder:SectionedViewHolder?, section:Int) {}
+    override fun onBindFooterViewHolder(holder: SectionedViewHolder?, section: Int) {}
 }

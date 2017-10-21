@@ -16,8 +16,6 @@
 package jahirfiquitiva.libs.frames.ui.widgets
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.support.v7.widget.RecyclerView
@@ -26,23 +24,19 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.utils.visibleIf
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
-import jahirfiquitiva.libs.frames.helpers.extensions.loadResource
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
+import jahirfiquitiva.libs.kauextensions.extensions.setDecodedBitmap
 
-open class EmptyViewRecyclerView:RecyclerView {
-    var loadingView:View? = null
-    var emptyView:View? = null
-    var textView:TextView? = null
+open class EmptyViewRecyclerView : RecyclerView {
+    var loadingView: View? = null
+    var emptyView: View? = null
+    var textView: TextView? = null
     
-    var loadingText:String = ""
-    var emptyText:String = ""
+    var loadingText: String = ""
+    var emptyText: String = ""
     
-    val manager:RequestManager = Glide.with(context)
-    
-    var state:State = State.LOADING
+    var state: State = State.LOADING
         set(value) {
             if (value != field) {
                 field = value
@@ -50,34 +44,19 @@ open class EmptyViewRecyclerView:RecyclerView {
             }
         }
     
-    fun setLoadingText(@StringRes res:Int) {
+    fun setLoadingText(@StringRes res: Int) {
         loadingText = context.getString(res)
     }
     
-    fun setEmptyText(@StringRes res:Int) {
+    fun setEmptyText(@StringRes res: Int) {
         emptyText = context.getString(res)
     }
     
-    fun setEmptyImage(img:Bitmap) {
-        emptyView?.let {
-            if (it is ImageView) it.setImageBitmap(img)
-            else throw UnsupportedOperationException(
-                    "Cannot set a Bitmap in a View that is not ImageView")
-        }
-    }
-    
-    fun setEmptyImage(img:Drawable) {
-        emptyView?.let {
-            if (it is ImageView) it.setImageDrawable(img)
-            else throw UnsupportedOperationException(
-                    "Cannot set a Drawable in a View that is not ImageView")
-        }
-    }
-    
-    fun setEmptyImage(@DrawableRes res:Int) {
+    fun setEmptyImage(@DrawableRes res: Int) {
         emptyView?.let {
             if (it is ImageView) {
-                it.loadResource(manager, res, true, false, false, null)
+                it.setImageBitmap(null)
+                it.setDecodedBitmap(res)
             } else {
                 throw UnsupportedOperationException(
                         "Cannot set a Drawable in a View that is not ImageView")
@@ -85,14 +64,10 @@ open class EmptyViewRecyclerView:RecyclerView {
         }
     }
     
-    constructor(context:Context):super(context)
-    constructor(context:Context, attributeSet:AttributeSet):super(context, attributeSet)
-    constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int)
-            :super(context, attributeSet, defStyleAttr)
-    
-    fun forceUpdateState() {
-        setStateInternal()
-    }
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
+    constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int)
+            : super(context, attributeSet, defStyleAttr)
     
     private fun setStateInternal() {
         state = if (adapter != null) {
@@ -121,44 +96,40 @@ open class EmptyViewRecyclerView:RecyclerView {
         visibleIf(state == State.NORMAL)
     }
     
-    private val observer:RecyclerView.AdapterDataObserver = object:RecyclerView.AdapterDataObserver() {
+    private val observer: RecyclerView.AdapterDataObserver = object :
+            RecyclerView.AdapterDataObserver() {
         override fun onChanged() {
             super.onChanged()
-            updateRecyclerViewState(adapter.itemCount)
+            setStateInternal()
         }
         
-        override fun onItemRangeChanged(positionStart:Int, itemCount:Int) {
+        override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
             super.onItemRangeChanged(positionStart, itemCount)
-            updateRecyclerViewState(itemCount)
+            setStateInternal()
         }
         
-        override fun onItemRangeChanged(positionStart:Int, itemCount:Int, payload:Any?) {
+        override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
             super.onItemRangeChanged(positionStart, itemCount, payload)
-            updateRecyclerViewState(itemCount)
+            setStateInternal()
         }
         
-        override fun onItemRangeInserted(positionStart:Int, itemCount:Int) {
+        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
             super.onItemRangeInserted(positionStart, itemCount)
-            updateRecyclerViewState(itemCount)
+            setStateInternal()
         }
         
-        override fun onItemRangeRemoved(positionStart:Int, itemCount:Int) {
+        override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
             super.onItemRangeRemoved(positionStart, itemCount)
-            updateRecyclerViewState(itemCount)
+            setStateInternal()
         }
         
-        override fun onItemRangeMoved(fromPosition:Int, toPosition:Int, itemCount:Int) {
+        override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
             super.onItemRangeMoved(fromPosition, toPosition, itemCount)
-            updateRecyclerViewState(itemCount)
-        }
-        
-        private fun updateRecyclerViewState(itemsCount:Int) {
-            if (itemsCount <= 0) updateStateViews()
-            else setStateInternal()
+            setStateInternal()
         }
     }
     
-    override fun setAdapter(adapter:Adapter<*>?) {
+    override fun setAdapter(adapter: Adapter<*>?) {
         val oldAdapter = getAdapter()
         oldAdapter?.unregisterAdapterDataObserver(observer)
         super.setAdapter(adapter)

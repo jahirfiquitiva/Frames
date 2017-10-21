@@ -29,11 +29,8 @@ import android.widget.TextView
 import ca.allanwang.kau.utils.postDelayed
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
-import jahirfiquitiva.libs.frames.ui.activities.base.BaseActivityWithFragments
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersInCollectionFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
-import jahirfiquitiva.libs.frames.ui.widgets.SearchView
-import jahirfiquitiva.libs.frames.ui.widgets.bindSearchView
 import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.changeOptionVisibility
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
@@ -41,33 +38,38 @@ import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
+import jahirfiquitiva.libs.kauextensions.ui.activities.FragmentsActivity
+import jahirfiquitiva.libs.kauextensions.ui.widgets.SearchView
+import jahirfiquitiva.libs.kauextensions.ui.widgets.bindSearchView
 
-open class CollectionActivity:BaseActivityWithFragments() {
+open class CollectionActivity : FragmentsActivity() {
     
-    override fun lightTheme():Int = R.style.LightTheme
-    override fun darkTheme():Int = R.style.DarkTheme
-    override fun transparentTheme():Int = R.style.TransparentTheme
-    override fun amoledTheme():Int = R.style.AmoledTheme
-    override fun fragmentsContainer():Int = R.id.fragments_container
+    override fun lightTheme(): Int = R.style.LightTheme
+    override fun darkTheme(): Int = R.style.DarkTheme
+    override fun transparentTheme(): Int = R.style.TransparentTheme
+    override fun amoledTheme(): Int = R.style.AmoledTheme
+    override fun fragmentsContainer(): Int = R.id.fragments_container
     
     private var fragmentLoaded = false
     private var closing = false
-    private var collection:Collection? = null
+    private var collection: Collection? = null
     
-    private lateinit var frag:WallpapersInCollectionFragment
+    private lateinit var frag: WallpapersInCollectionFragment
     
-    private val toolbar:CustomToolbar by bind(R.id.toolbar)
-    private var searchView:SearchView? = null
+    private val toolbar: CustomToolbar by bind(R.id.toolbar)
+    private var searchView: SearchView? = null
     
-    override fun onCreate(savedInstanceState:Bundle?) {
+    override fun autoStatusBarTint(): Boolean = true
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportPostponeEnterTransition()
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val decor = window.decorView
-            val statusBar:View by decor.bind(android.R.id.statusBarBackground)
-            val navBar:View by decor.bind(android.R.id.navigationBarBackground)
-            val actionBar:View by decor.bind(R.id.action_bar_container)
+            val statusBar: View by decor.bind(android.R.id.statusBarBackground)
+            val navBar: View by decor.bind(android.R.id.navigationBarBackground)
+            val actionBar: View by decor.bind(R.id.action_bar_container)
             
             val viewsToExclude = arrayOf(statusBar, navBar, actionBar)
             val extraViewsToExclude = arrayOf(R.id.appbar, R.id.toolbar, R.id.tabs)
@@ -77,12 +79,12 @@ open class CollectionActivity:BaseActivityWithFragments() {
                 window.sharedElementEnterTransition?.excludeTarget(it, true)
             }
             
-            window.enterTransition?.addListener(object:Transition.TransitionListener {
-                override fun onTransitionPause(p0:Transition?) = loadFragment()
-                override fun onTransitionCancel(p0:Transition?) = loadFragment()
-                override fun onTransitionEnd(p0:Transition?) = loadFragment()
-                override fun onTransitionStart(p0:Transition?) {}
-                override fun onTransitionResume(p0:Transition?) {}
+            window.enterTransition?.addListener(object : Transition.TransitionListener {
+                override fun onTransitionPause(p0: Transition?) = loadFragment()
+                override fun onTransitionCancel(p0: Transition?) = loadFragment()
+                override fun onTransitionEnd(p0: Transition?) = loadFragment()
+                override fun onTransitionStart(p0: Transition?) {}
+                override fun onTransitionResume(p0: Transition?) {}
             })
         }
         
@@ -91,7 +93,7 @@ open class CollectionActivity:BaseActivityWithFragments() {
         
         toolbar.bindToActivity(this)
         
-        val container:FrameLayout by bind(fragmentsContainer())
+        val container: FrameLayout by bind(fragmentsContainer())
         with(container) {
             setPadding(paddingLeft, paddingTop, paddingRight, 0)
         }
@@ -116,22 +118,22 @@ open class CollectionActivity:BaseActivityWithFragments() {
         }
     }
     
-    private fun setupToolbarTitle(toolbar:Toolbar) {
-        val title:TextView
+    private fun setupToolbarTitle(toolbar: Toolbar) {
+        val title: TextView
         try {
             val f = toolbar.javaClass.getDeclaredField("mTitleTextView")
             f.isAccessible = true
             title = f.get(toolbar) as TextView
             title.text = collection?.name ?: ""
             ViewCompat.setTransitionName(title, "title")
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         } finally {
             toolbar.title = collection?.name ?: ""
             supportActionBar?.title = collection?.name ?: ""
         }
     }
     
-    override fun onCreateOptionsMenu(menu:Menu?):Boolean {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.frames_menu, menu)
         
         menu?.let {
@@ -140,20 +142,20 @@ open class CollectionActivity:BaseActivityWithFragments() {
             it.changeOptionVisibility(R.id.settings, false)
             
             searchView = bindSearchView(it, R.id.search)
-            searchView?.listener = object:SearchView.SearchListener {
-                override fun onQueryChanged(query:String) {
+            searchView?.listener = object : SearchView.SearchListener {
+                override fun onQueryChanged(query: String) {
                     doSearch(query)
                 }
                 
-                override fun onQuerySubmit(query:String) {
+                override fun onQuerySubmit(query: String) {
                     doSearch(query)
                 }
                 
-                override fun onSearchOpened(searchView:SearchView) {
+                override fun onSearchOpened(searchView: SearchView) {
                     // Do nothing
                 }
                 
-                override fun onSearchClosed(searchView:SearchView) {
+                override fun onSearchClosed(searchView: SearchView) {
                     doSearch()
                 }
             }
@@ -166,7 +168,7 @@ open class CollectionActivity:BaseActivityWithFragments() {
         return super.onCreateOptionsMenu(menu)
     }
     
-    override fun onOptionsItemSelected(item:MenuItem?):Boolean {
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == android.R.id.home) {
             doFinish()
         }
@@ -176,12 +178,12 @@ open class CollectionActivity:BaseActivityWithFragments() {
     override fun onBackPressed() = doFinish()
     
     private val LOCK = Any()
-    private fun doSearch(filter:String = "") {
+    private fun doSearch(filter: String = "") {
         try {
             synchronized(LOCK, {
                 postDelayed(200, { frag.applyFilter(filter) })
             })
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
     }
     
@@ -191,7 +193,7 @@ open class CollectionActivity:BaseActivityWithFragments() {
             val intent = Intent()
             try {
                 intent.putExtra("nFavs", frag.newFavs)
-            } catch (ignored:Exception) {
+            } catch (ignored: Exception) {
             }
             setResult(11, intent)
             supportFinishAfterTransition()

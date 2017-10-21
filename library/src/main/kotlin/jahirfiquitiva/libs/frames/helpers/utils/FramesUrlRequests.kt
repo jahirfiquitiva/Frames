@@ -24,39 +24,39 @@ import okhttp3.Request
 import okhttp3.Response
 
 class FramesUrlRequests {
-    fun requestJson(url:String):String {
+    fun requestJson(url: String): String {
         try {
             val client = OkHttpClient()
             val request = Request.Builder().url(url).build()
-            var response:Response? = null
+            var response: Response? = null
             var json = ""
             try {
                 response = client.newCall(request).execute()
                 json = response?.body()?.string() ?: ""
-            } catch (ignored:Exception) {
+            } catch (ignored: Exception) {
             }
             if (json.hasContent()) response?.close()
             return json
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
         return ""
     }
     
-    fun requestFileInfo(url:String, onlySize:Boolean):WallpaperInfo {
+    fun requestFileInfo(url: String, onlySize: Boolean): WallpaperInfo {
         try {
             val client = OkHttpClient()
             val request = Request.Builder().url(url).build()
-            var response:Response? = null
-            var bytes:ByteArray? = null
+            var response: Response? = null
+            var bytes: ByteArray? = null
             try {
                 response = client.newCall(request).execute()
                 bytes = response?.body()?.bytes()
-            } catch (ignored:Exception) {
+            } catch (ignored: Exception) {
             } finally {
                 response?.close()
             }
             if (bytes != null) return bytes.toWallpaperInfo(onlySize)
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
         }
         return WallpaperInfo(0, Dimension(0, 0))
     }

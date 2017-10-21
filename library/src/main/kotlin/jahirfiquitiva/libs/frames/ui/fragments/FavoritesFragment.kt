@@ -18,19 +18,18 @@ package jahirfiquitiva.libs.frames.ui.fragments
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
 
-class FavoritesFragment:BaseWallpapersFragment() {
+class FavoritesFragment : BaseWallpapersFragment() {
     
-    override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
+    override fun doOnFavoritesChange(data: ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
         wallsAdapter?.let {
             it.updateFavorites(data)
             it.setItems(data)
-            rv.forceUpdateState()
         }
     }
     
-    override fun autoStartLoad():Boolean = true
-    override fun fromCollectionActivity():Boolean = false
-    override fun fromFavorites():Boolean = true
-    override fun showFavoritesIcon():Boolean = true
+    override fun autoStartLoad(): Boolean = true
+    override fun fromCollectionActivity(): Boolean = false
+    override fun fromFavorites(): Boolean = true
+    override fun showFavoritesIcon(): Boolean = true
 }

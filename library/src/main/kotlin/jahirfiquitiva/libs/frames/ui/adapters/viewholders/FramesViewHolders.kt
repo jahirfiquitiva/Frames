@@ -33,18 +33,17 @@ import com.bumptech.glide.util.ViewPreloadSizeProvider
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.animateColorTransition
-import jahirfiquitiva.libs.frames.helpers.extensions.animateSmoothly
-import jahirfiquitiva.libs.frames.helpers.extensions.clearChildrenAnimations
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.loadWallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
-import jahirfiquitiva.libs.frames.helpers.extensions.thumbnailColor
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
+import jahirfiquitiva.libs.kauextensions.extensions.animateColorTransition
+import jahirfiquitiva.libs.kauextensions.extensions.animateSmoothly
 import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
 import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
+import jahirfiquitiva.libs.kauextensions.extensions.clearChildrenAnimations
 import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
@@ -52,22 +51,23 @@ import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
+import jahirfiquitiva.libs.kauextensions.extensions.thumbnailColor
 import jahirfiquitiva.libs.kauextensions.extensions.withAlpha
 
 const val DETAILS_OPACITY = 0.85F
 
 abstract class FramesViewClickListener<in T, in VH> {
-    abstract fun onSingleClick(item:T, holder:VH)
-    open fun onLongClick(item:T) {}
-    open fun onHeartClick(view:ImageView, item:T, @ColorInt color:Int) {}
+    abstract fun onSingleClick(item: T, holder: VH)
+    open fun onLongClick(item: T) {}
+    open fun onHeartClick(view: ImageView, item: T, @ColorInt color: Int) {}
 }
 
-abstract class FramesWallpaperHolder(itemView:View):GlideViewHolder(itemView) {
-    internal var wallpaper:Wallpaper? = null
-    abstract internal val img:ImageView
-    abstract internal fun getListener():GlideRequestCallback<Bitmap>
+abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    internal var wallpaper: Wallpaper? = null
+    abstract internal val img: ImageView
+    abstract internal fun getListener(): GlideRequestCallback<Bitmap>
     
-    internal fun animateLoad(view:View) {
+    internal fun animateLoad(view: View) {
         with(view) {
             whenFaded(ifHasNotFaded = {
                 if (context.framesKonfigs.animationsEnabled) {
@@ -80,33 +80,33 @@ abstract class FramesWallpaperHolder(itemView:View):GlideViewHolder(itemView) {
         }
     }
     
-    internal fun loadImage(manager:RequestManager, url:String, thumbUrl:String) {
+    internal fun loadImage(manager: RequestManager, url: String, thumbUrl: String) {
         val hasFaded = wallpaper?.hasFaded ?: true
         img.loadWallpaper(manager, url, thumbUrl, hasFaded, getListener())
     }
     
-    override fun doOnRecycle() {
+    fun onRecycled() {
         img.releaseFromGlide()
     }
     
-    internal fun whenFaded(ifHasFaded:() -> Unit = {}, ifHasNotFaded:() -> Unit = {}) {
+    internal fun whenFaded(ifHasFaded: () -> Unit = {}, ifHasNotFaded: () -> Unit = {}) {
         val hasFaded = wallpaper?.hasFaded ?: true
         if (!hasFaded) ifHasNotFaded()
         else ifHasFaded()
     }
 }
 
-class CollectionHolder(itemView:View):FramesWallpaperHolder(itemView) {
-    override val img:ImageView
+class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
+    override val img: ImageView
         get() = itemView.findViewById(R.id.collection_picture)
     
-    private val detailsBg:LinearLayout by itemView.bind(R.id.collection_details)
-    private val title:TextView by itemView.bind(R.id.collection_title)
-    private val amount:TextView by itemView.bind(R.id.collection_walls_number)
+    private val detailsBg: LinearLayout by itemView.bind(R.id.collection_details)
+    private val title: TextView by itemView.bind(R.id.collection_title)
+    private val amount: TextView by itemView.bind(R.id.collection_walls_number)
     
-    fun setItem(manager:RequestManager, provider:ViewPreloadSizeProvider<Wallpaper>,
-                collection:Collection,
-                listener:FramesViewClickListener<Collection, CollectionHolder>) {
+    fun setItem(manager: RequestManager, provider: ViewPreloadSizeProvider<Wallpaper>,
+                collection: Collection,
+                listener: FramesViewClickListener<Collection, CollectionHolder>) {
         if (this.wallpaper != collection.bestCover) this.wallpaper = collection.bestCover
         with(itemView) {
             animateLoad(this)
@@ -124,9 +124,9 @@ class CollectionHolder(itemView:View):FramesWallpaperHolder(itemView) {
         }
     }
     
-    override fun getListener():GlideRequestCallback<Bitmap> {
-        return object:GlideRequestCallback<Bitmap>() {
-            override fun onLoadSucceed(resource:Bitmap):Boolean {
+    override fun getListener(): GlideRequestCallback<Bitmap> {
+        return object : GlideRequestCallback<Bitmap>() {
+            override fun onLoadSucceed(resource: Bitmap): Boolean {
                 img.setImageBitmap(resource)
                 
                 whenFaded({ itemView.clearChildrenAnimations() }, {
@@ -154,24 +154,24 @@ class CollectionHolder(itemView:View):FramesWallpaperHolder(itemView) {
     }
 }
 
-class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
+class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
         FramesWallpaperHolder(itemView) {
     
     private var shouldCheck = false
     
     private var heartColor = Color.WHITE
     
-    override val img:ImageView
+    override val img: ImageView
         get() = itemView.findViewById(R.id.wallpaper_image)
     
-    val name:TextView by itemView.bind(R.id.wallpaper_name)
-    val author:TextView by itemView.bind(R.id.wallpaper_author)
-    val heartIcon:ImageView by itemView.bind(R.id.heart_icon)
-    private val detailsBg:LinearLayout by itemView.bind(R.id.wallpaper_details)
+    val name: TextView by itemView.bind(R.id.wallpaper_name)
+    val author: TextView by itemView.bind(R.id.wallpaper_author)
+    val heartIcon: ImageView by itemView.bind(R.id.heart_icon)
+    private val detailsBg: LinearLayout by itemView.bind(R.id.wallpaper_details)
     
-    fun setItem(manager:RequestManager, provider:ViewPreloadSizeProvider<Wallpaper>,
-                wallpaper:Wallpaper, check:Boolean,
-                listener:FramesViewClickListener<Wallpaper, WallpaperHolder>) {
+    fun setItem(manager: RequestManager, provider: ViewPreloadSizeProvider<Wallpaper>,
+                wallpaper: Wallpaper, check: Boolean,
+                listener: FramesViewClickListener<Wallpaper, WallpaperHolder>) {
         if (this.wallpaper != wallpaper) this.wallpaper = wallpaper
         with(itemView) {
             detailsBg.setBackgroundColor(context.dividerColor)
@@ -213,9 +213,9 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
         itemView.setOnLongClickListener { listener.onLongClick(wallpaper);true }
     }
     
-    override fun getListener():GlideRequestCallback<Bitmap> {
-        return object:GlideRequestCallback<Bitmap>() {
-            override fun onLoadSucceed(resource:Bitmap):Boolean {
+    override fun getListener(): GlideRequestCallback<Bitmap> {
+        return object : GlideRequestCallback<Bitmap>() {
+            override fun onLoadSucceed(resource: Bitmap): Boolean {
                 img.setImageBitmap(resource)
                 whenFaded({ itemView.clearChildrenAnimations() },
                           {
@@ -247,10 +247,6 @@ class WallpaperHolder(itemView:View, private val showFavIcon:Boolean):
     }
 }
 
-abstract class GlideViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
-    abstract fun doOnRecycle()
-}
-
-abstract class GlideSectionedViewHolder(itemView:View):SectionedViewHolder(itemView) {
-    abstract fun doOnRecycle()
+abstract class GlideSectionedViewHolder(itemView: View) : SectionedViewHolder(itemView) {
+    abstract fun onRecycled()
 }

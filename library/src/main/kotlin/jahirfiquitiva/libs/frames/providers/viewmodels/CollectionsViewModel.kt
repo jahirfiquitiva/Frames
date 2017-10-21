@@ -16,6 +16,7 @@
 package jahirfiquitiva.libs.frames.providers.viewmodels
 
 import android.content.Context
+import jahirfiquitiva.libs.archhelpers.viewmodels.ListViewModel
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
@@ -24,14 +25,14 @@ import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 
-class CollectionsViewModel:ListViewModel<ArrayList<Wallpaper>, Collection>() {
+class CollectionsViewModel : ListViewModel<ArrayList<Wallpaper>, Collection>() {
     
-    fun loadWithContext(ctx:Context, parameter:ArrayList<Wallpaper>, forceLoad:Boolean = false) {
+    fun loadWithContext(ctx: Context, parameter: ArrayList<Wallpaper>, forceLoad: Boolean = false) {
         if (ctx.getBoolean(R.bool.show_collections_tab)) loadData(parameter, forceLoad)
         else postResult(ArrayList())
     }
     
-    override fun internalLoad(param:ArrayList<Wallpaper>):MutableList<Collection> {
+    override fun internalLoad(param: ArrayList<Wallpaper>): ArrayList<Collection> {
         val collections = ArrayList<Collection>()
         val collectionsMap = HashMap<String, ArrayList<Wallpaper>>()
         for ((index, wallpaper) in param.withIndex()) {
@@ -89,13 +90,13 @@ class CollectionsViewModel:ListViewModel<ArrayList<Wallpaper>, Collection>() {
         return newCollections
     }
     
-    private fun getCollectionPosition(otherName:String, inList:ArrayList<Collection>):Int {
+    private fun getCollectionPosition(otherName: String, inList: ArrayList<Collection>): Int {
         inList.forEachIndexed { index, (name) -> if (name.equals(otherName, true)) return index }
         return -1
     }
     
-    private fun getBestCoverPicture(usedNames:ArrayList<String>,
-                                    possibleWallpapers:ArrayList<Wallpaper>):Wallpaper? {
+    private fun getBestCoverPicture(usedNames: ArrayList<String>,
+                                    possibleWallpapers: ArrayList<Wallpaper>): Wallpaper? {
         possibleWallpapers.forEach {
             val wasInTheList = usedNames.contains(it.name)
             usedNames.add(it.name)

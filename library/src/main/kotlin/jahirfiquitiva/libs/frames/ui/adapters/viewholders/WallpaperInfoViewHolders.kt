@@ -22,27 +22,27 @@ import ca.allanwang.kau.utils.toHexString
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.pchmn.materialchips.ChipView
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.ui.widgets.MaterialIcon
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
 import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
+import jahirfiquitiva.libs.kauextensions.ui.widgets.MaterialIcon
 
-class WallpaperInfoHolder(itemView:View):SectionedViewHolder(itemView) {
-    val icon:MaterialIcon by itemView.bind(R.id.info_item_icon)
-    val content:TextView by itemView.bind(R.id.info_item_text)
-    fun bind(detail:WallpaperDetail) = with(itemView) {
+class WallpaperInfoHolder(itemView: View) : SectionedViewHolder(itemView) {
+    val icon: MaterialIcon by itemView.bind(R.id.info_item_icon)
+    val content: TextView by itemView.bind(R.id.info_item_text)
+    fun bind(detail: WallpaperDetail) = with(itemView) {
         icon.setImageDrawable(detail.icon.getDrawable(context))
         content.setTextColor(context.secondaryTextColor)
         content.text = detail.value
     }
 }
 
-class WallpaperPaletteHolder(itemView:View):SectionedViewHolder(itemView) {
-    private val chip:ChipView by itemView.bind(R.id.info_palette_color)
-    fun bind(@ColorInt color:Int, colorListener:(Int) -> Unit = {}) = with(itemView) {
+class WallpaperPaletteHolder(itemView: View) : SectionedViewHolder(itemView) {
+    private val chip: ChipView by itemView.bind(R.id.info_palette_color)
+    fun bind(@ColorInt color: Int, colorListener: (Int) -> Unit = {}) = with(itemView) {
         chip.setBackgroundColor(color)
         chip.setLabelColor(context.getPrimaryTextColorFor(color, 0.6F))
         chip.label = color.toHexString()
@@ -52,11 +52,11 @@ class WallpaperPaletteHolder(itemView:View):SectionedViewHolder(itemView) {
     }
 }
 
-data class WallpaperDetail(val icon:String, val value:String) {
-    override fun equals(other:Any?):Boolean =
+data class WallpaperDetail(val icon: String, val value: String) {
+    override fun equals(other: Any?): Boolean =
             (other is WallpaperDetail) && (icon.equals(other.icon, true))
     
-    override fun hashCode():Int {
+    override fun hashCode(): Int {
         var result = icon.hashCode()
         result = 31 * result + value.hashCode()
         return result

@@ -37,7 +37,6 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
-import jahirfiquitiva.libs.frames.helpers.extensions.isLowRamDevice
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPictureRes
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
 import jahirfiquitiva.libs.frames.ui.activities.ViewerActivity
@@ -51,21 +50,22 @@ import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
+import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 import java.io.FileOutputStream
 
-abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHolder>() {
+abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperHolder>() {
     
-    lateinit var swipeToRefresh:SwipeRefreshLayout
-    lateinit var rv:EmptyViewRecyclerView
-    lateinit var fastScroll:RecyclerFastScroller
+    lateinit var swipeToRefresh: SwipeRefreshLayout
+    lateinit var rv: EmptyViewRecyclerView
+    lateinit var fastScroll: RecyclerFastScroller
     
-    var wallsAdapter:WallpapersAdapter? = null
+    var wallsAdapter: WallpapersAdapter? = null
         private set
     private var spanCount = 0
-    private var spacingDecoration:GridSpacingItemDecoration? = null
+    private var spacingDecoration: GridSpacingItemDecoration? = null
     
-    override fun initUI(content:View) {
+    override fun initUI(content: View) {
         swipeToRefresh = content.findViewById(R.id.swipe_to_refresh)
         rv = content.findViewById(R.id.list_rv)
         fastScroll = content.findViewById(R.id.fast_scroller)
@@ -90,29 +90,29 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
             val provider = ViewPreloadSizeProvider<Wallpaper>()
             wallsAdapter = WallpapersAdapter(
                     Glide.with(context), provider, fromFavorites(), showFavoritesIcon(),
-                    object:FramesViewClickListener<Wallpaper, WallpaperHolder>() {
-                        override fun onSingleClick(item:Wallpaper, holder:WallpaperHolder) {
+                    object : FramesViewClickListener<Wallpaper, WallpaperHolder>() {
+                        override fun onSingleClick(item: Wallpaper, holder: WallpaperHolder) {
                             onItemClicked(item, holder)
                         }
                         
-                        override fun onLongClick(item:Wallpaper) {
+                        override fun onLongClick(item: Wallpaper) {
                             super.onLongClick(item)
                             if (activity is BaseFramesActivity)
                                 (activity as BaseFramesActivity).showWallpaperOptionsDialog(item)
                         }
                         
-                        override fun onHeartClick(view:ImageView, item:Wallpaper, color:Int) {
+                        override fun onHeartClick(view: ImageView, item: Wallpaper, color: Int) {
                             super.onHeartClick(view, item, color)
                             onHeartClicked(view, item, color)
                         }
                     })
             
-            val preloader:RecyclerViewPreloader<Wallpaper> =
+            val preloader: RecyclerViewPreloader<Wallpaper> =
                     RecyclerViewPreloader(activity, wallsAdapter, provider, context.maxPreload)
             addOnScrollListener(preloader)
             
-            addOnScrollListener(object:RecyclerView.OnScrollListener() {
-                override fun onScrolled(rv:RecyclerView?, dx:Int, dy:Int) {
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
                     super.onScrolled(rv, dx, dy)
                     rv?.let {
                         if (!it.canScrollVertically(1)) {
@@ -157,9 +157,9 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         }
     }
     
-    override fun getContentLayout():Int = R.layout.section_lists
+    override fun getContentLayout(): Int = R.layout.section_lists
     
-    override fun onItemClicked(item:Wallpaper, holder:WallpaperHolder) =
+    override fun onItemClicked(item: Wallpaper, holder: WallpaperHolder) =
             onWallpaperClicked(item, holder)
     
     override fun loadDataFromViewModel() {
@@ -167,35 +167,37 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         super.loadDataFromViewModel()
     }
     
-    override fun enableRefresh(enable:Boolean) {
+    override fun enableRefresh(enable: Boolean) {
         swipeToRefresh.isEnabled = enable
     }
     
-    override fun reloadData(section:Int) {
+    override fun reloadData(section: Int) {
         if (swipeToRefresh.isRefreshing) swipeToRefresh.isRefreshing = false
         rv.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
         swipeToRefresh.isRefreshing = true
     }
     
-    override fun doOnCollectionsChange(data:ArrayList<Collection>) {
+    override fun doOnCollectionsChange(data: ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
         swipeToRefresh.isRefreshing = false
     }
     
-    override fun doOnFavoritesChange(data:ArrayList<Wallpaper>) {
+    override fun doOnFavoritesChange(data: ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
         swipeToRefresh.isRefreshing = false
     }
     
-    override fun doOnWallpapersChange(data:ArrayList<Wallpaper>, fromCollectionActivity:Boolean) {
+    override fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
         swipeToRefresh.isRefreshing = false
     }
     
-    override fun applyFilter(filter:String) {
+    override fun applyFilter(filter: String) {
         wallsAdapter?.let {
-            val list = (if (fromFavorites()) favoritesModel?.getData() else wallpapersModel?.getData()) ?: return
+            val list = ArrayList(
+                    (if (fromFavorites()) favoritesModel?.getData() else wallpapersModel?.getData()))
+            
             if (filter.hasContent()) {
                 rv.setEmptyImage(R.drawable.no_results)
                 rv.setEmptyText(R.string.search_no_results)
@@ -205,18 +207,18 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
                         if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
                 rv.setEmptyText(
                         if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
-                it.setItems(ArrayList(list))
-                scrollToTop()
+                it.setItems(list)
             }
+            scrollToTop()
         }
     }
     
-    private fun filteredWallpaper(it:Wallpaper, filter:String):Boolean {
+    private fun filteredWallpaper(it: Wallpaper, filter: String): Boolean {
         return if (context.framesKonfigs.deepSearchEnabled) {
             it.name.contains(filter, true) || it.author.contains(filter, true) ||
-                    (!fromCollectionActivity() &&
-                            it.collections.formatCorrectly().replace("_", " ").contains(filter,
-                                                                                        true))
+            (!fromCollectionActivity() &&
+             it.collections.formatCorrectly().replace("_", " ").contains(filter,
+                                                                         true))
         } else {
             it.name.contains(filter, true)
         }
@@ -224,7 +226,7 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
     
     private var canClick = true
     
-    private fun onWallpaperClicked(wallpaper:Wallpaper, holder:WallpaperHolder) {
+    private fun onWallpaperClicked(wallpaper: Wallpaper, holder: WallpaperHolder) {
         if (!canClick) return
         try {
             val intent = Intent(activity, ViewerActivity::class.java)
@@ -243,14 +245,14 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
                 putExtra("favTransition", heartTransition)
             }
             
-            var fos:FileOutputStream? = null
+            var fos: FileOutputStream? = null
             try {
                 val filename = "thumb.png"
                 fos = activity.openFileOutput(filename, Context.MODE_PRIVATE)
                 holder.img.drawable.toBitmap().compress(Bitmap.CompressFormat.JPEG,
                                                         context.maxPictureRes, fos)
                 intent.putExtra("image", filename)
-            } catch (ignored:Exception) {
+            } catch (ignored: Exception) {
             } finally {
                 fos?.flush()
                 fos?.close()
@@ -266,15 +268,15 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
             
             try {
                 startActivityForResult(intent, 10, options.toBundle())
-            } catch (ignored:Exception) {
+            } catch (ignored: Exception) {
                 startActivityForResult(intent, 10)
             }
-        } catch (ignored:Exception) {
+        } catch (ignored: Exception) {
             canClick = true
         }
     }
     
-    override fun onActivityResult(requestCode:Int, resultCode:Int, data:Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == 10) {
             data?.let {
@@ -292,5 +294,5 @@ abstract class BaseWallpapersFragment:BaseFramesFragment<Wallpaper, WallpaperHol
         }
     }
     
-    abstract fun showFavoritesIcon():Boolean
+    abstract fun showFavoritesIcon(): Boolean
 }

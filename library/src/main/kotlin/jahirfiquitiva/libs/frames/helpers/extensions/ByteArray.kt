@@ -19,7 +19,7 @@ import android.graphics.BitmapFactory
 import jahirfiquitiva.libs.frames.data.models.Dimension
 import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
 
-fun ByteArray.toWallpaperInfo(onlySize:Boolean):WallpaperInfo {
+fun ByteArray.toWallpaperInfo(onlySize: Boolean): WallpaperInfo {
     try {
         if (onlySize) return WallpaperInfo(size.toLong(), Dimension(0L, 0L))
         val options = BitmapFactory.Options()
@@ -28,7 +28,7 @@ fun ByteArray.toWallpaperInfo(onlySize:Boolean):WallpaperInfo {
         val width = options.outWidth
         val height = options.outHeight
         return WallpaperInfo(size.toLong(), Dimension(width.toLong(), height.toLong()))
-    } catch (ignored:Exception) {
+    } catch (ignored: Exception) {
         return WallpaperInfo(0L, Dimension(0L, 0L))
     }
 }
