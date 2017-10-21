@@ -13,28 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-ext.details = [
-        // Core app details
-        appId   : 'Frames',
-        appGroup: 'jahirfiquitiva.apps',
-        libGroup: 'jahirfiquitiva.libs',
-]
-
 ext.versions = [
         // Projects
-        minSdk                : 16,
-        targetSdk             : 26,
-        compileSdk            : 26,
-        buildTools            : '26.0.2',
-        versionCode           : 207,
-        versionName           : '2.0.7',
+        minSdk    : 16,
+        targetSdk : 26,
+        compileSdk: 26,
+        buildTools: '26.0.2',
         // Gradle Plugins
-        gradle                : '2.3.3',
-        kotlin                : '1.1.51',
-        libs                  : '1.5',
-        gms                   : '3.1.0',
+        gradle    : '2.3.3',
+        kotlin    : '1.1.51',
+        libs      : '1.5',
+        gms       : '3.1.0',
         // Dependencies
-        firebase              : '11.4.2'
+        firebase  : '11.4.2'
 ]
 
 ext.gradlePlugins = [
@@ -46,7 +37,7 @@ ext.gradlePlugins = [
 
 ext.libraries = [
         // Kotlin
-        kotlin               : 'org.jetbrains.kotlin:kotlin-stdlib:' + versions.kotlin,
+        kotlin  : 'org.jetbrains.kotlin:kotlin-stdlib:' + versions.kotlin,
         // Firebase
-        firebase             : 'com.google.firebase:firebase-messaging:' + versions.firebase
+        firebase: 'com.google.firebase:firebase-messaging:' + versions.firebase
 ]

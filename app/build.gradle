@@ -23,22 +23,22 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             output.outputFile = new File(output.outputFile.parent,
-                    details.appId + "-v${variant.versionName}-${variant.name}.apk")
+                    "MyFramesApp-v${variant.versionName}-${variant.name}.apk")
         }
     }
 
     lintOptions {
         abortOnError false
-        checkReleaseBuilds false
+        checkReleaseBuilds true
         disable 'MissingTranslation', 'GoogleAppIndexingWarning'
     }
 
     defaultConfig {
-        applicationId details.appGroup + "." + details.appId.toLowerCase() + ".sample"
+        applicationId "jahirfiquitiva.apps.frames.sample"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
-        versionCode versions.versionCode
-        versionName versions.versionName
+        versionCode 209
+        versionName '2.0.9'
         vectorDrawables.useSupportLibrary = true
     }
 
