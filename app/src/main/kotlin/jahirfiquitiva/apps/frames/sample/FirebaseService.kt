@@ -22,8 +22,8 @@ import jahirfiquitiva.libs.frames.data.services.FramesNotificationPublisher
 */
 
 // TODO: Remove comment marks to enable
-class FirebaseService /*:FirebaseMessagingService() {
-    override fun onMessageReceived(remoteMessage:RemoteMessage) {
+class FirebaseService /*: FirebaseMessagingService() {
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
         remoteMessage.notification?.let {
             FramesNotificationPublisher.publish {
                 id = 0 // Put any number here

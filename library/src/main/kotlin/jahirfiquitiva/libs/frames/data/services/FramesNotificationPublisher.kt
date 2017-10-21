@@ -21,20 +21,21 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.support.v4.app.NotificationCompat
+import android.support.v4.content.ContextCompat
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 
-class FramesNotificationPublisher(private val id:Int,
-                                  private val context:Context?,
-                                  private val mainActivity:Class<*>?,
-                                  private val channel:String,
-                                  private val content:String,
-                                  private val data:Map<String, String>?) {
+class FramesNotificationPublisher(private val id: Int,
+                                  private val context: Context?,
+                                  private val mainActivity: Class<*>?,
+                                  private val channel: String,
+                                  private val content: String,
+                                  private val data: Map<String, String>?) {
     
-    private constructor(bldr:Builder):
+    private constructor(bldr: Builder) :
             this(bldr.id, bldr.from, bldr.launch, bldr.channel, bldr.content, bldr.data)
     
     fun post() {
@@ -62,18 +63,18 @@ class FramesNotificationPublisher(private val id:Int,
         }
     }
     
-    private fun postNewWallsNotification(context:Context, newSize:String) {
+    private fun postNewWallsNotification(context: Context, newSize: String) {
         internalPost(context, context.getString(R.string.new_wallpapers_available, newSize))
     }
     
-    private fun internalPost(context:Context, content:String) {
+    private fun internalPost(context: Context, content: String) {
         val notificationBuilder = NotificationCompat.Builder(context, channel)
                 .setSmallIcon(R.drawable.ic_notifications)
                 .setContentTitle(context.getAppName())
                 .setContentText(content)
                 .setAutoCancel(true)
                 .setOngoing(false)
-                .setColor(context.accentColor)
+                .setColor(ContextCompat.getColor(context, R.color.notification_color))
         
         if (mainActivity != null) {
             val nIntent = Intent(context, mainActivity)
@@ -96,16 +97,16 @@ class FramesNotificationPublisher(private val id:Int,
     }
     
     companion object {
-        inline fun publish(block:Builder.() -> Unit) = Builder().apply(block).build().post()
+        inline fun publish(block: Builder.() -> Unit) = Builder().apply(block).build().post()
     }
     
     class Builder {
-        var id:Int = 0
-        var from:Context? = null
-        var launch:Class<*>? = null
-        var channel:String = ""
-        var content:String = ""
-        var data:Map<String, String>? = null
+        var id: Int = 0
+        var from: Context? = null
+        var launch: Class<*>? = null
+        var channel: String = ""
+        var content: String = ""
+        var data: Map<String, String>? = null
         fun build() = FramesNotificationPublisher(this)
     }
 }

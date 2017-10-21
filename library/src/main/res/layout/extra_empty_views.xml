@@ -14,21 +14,20 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
-<RelativeLayout
+<LinearLayout
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:gravity="center">
 
-    <RelativeLayout
+    <FrameLayout
             android:id="@+id/all_empty_views"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:gravity="center">
 
@@ -37,7 +36,6 @@
                 style="?android:progressBarStyleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:visibility="gone"/>
@@ -46,20 +44,17 @@
                 android:id="@+id/empty_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:visibility="gone"
                 tools:ignore="ContentDescription"/>
 
-    </RelativeLayout>
+    </FrameLayout>
 
     <TextView
             android:id="@+id/empty_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/all_empty_views"
-            android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="24dp"
@@ -68,4 +63,4 @@
             android:visibility="gone"
             tools:text="This is an empty section."/>
 
-</RelativeLayout>
+</LinearLayout>

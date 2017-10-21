@@ -16,25 +16,10 @@
 package jahirfiquitiva.libs.frames.helpers.extensions
 
 import android.app.Activity
-import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
-import android.support.v7.graphics.Palette
 import android.util.DisplayMetrics
-import ca.allanwang.kau.utils.toBitmap
-import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
 
-val Drawable.bestSwatch:Palette.Swatch?
-    get() = this.toBitmap().bestSwatch
-
-fun Bitmap.createRoundedDrawable(context:Context):Drawable {
-    val roundedPic = RoundedBitmapDrawableFactory.create(context.resources, this)
-    roundedPic.isCircular = true
-    return roundedPic
-}
-
-fun Bitmap.adjustToDeviceScreen(activity:Activity):Bitmap {
+fun Bitmap.adjustToDeviceScreen(activity: Activity): Bitmap {
     var flag = true
     
     val displayMetrics = DisplayMetrics()
@@ -52,7 +37,7 @@ fun Bitmap.adjustToDeviceScreen(activity:Activity):Bitmap {
                 scaledHeight = deviceHeight
             }
             return Bitmap.createScaledBitmap(this, scaledWidth, scaledHeight, true)
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
@@ -64,7 +49,7 @@ fun Bitmap.adjustToDeviceScreen(activity:Activity):Bitmap {
                 if (scaledWidth > deviceWidth)
                     scaledWidth = deviceWidth
                 return Bitmap.createScaledBitmap(this, scaledWidth, deviceHeight, true)
-            } catch (e:Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }

@@ -24,14 +24,13 @@ import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import jahirfiquitiva.libs.frames.R
 
-
-class CustomToolbar:Toolbar {
-    constructor(context:Context):super(context)
-    constructor(context:Context, attributeSet:AttributeSet):super(context, attributeSet)
-    constructor(context:Context, attributeSet:AttributeSet, defStyleAttr:Int)
-            :super(context, attributeSet, defStyleAttr)
+class CustomToolbar : Toolbar {
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
+    constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int)
+            : super(context, attributeSet, defStyleAttr)
     
-    fun bindToActivity(activity:AppCompatActivity, showBackArrow:Boolean = true) {
+    fun bindToActivity(activity: AppCompatActivity, showBackArrow: Boolean = true) {
         activity.setSupportActionBar(this)
         activity.supportActionBar?.let {
             with(it) {
@@ -43,7 +42,7 @@ class CustomToolbar:Toolbar {
         if (showBackArrow) navigationIcon = ContextCompat.getDrawable(context, R.drawable.ic_back)
     }
     
-    fun enableScroll(enable:Boolean, behavior:AppBarLayout.Behavior = AppBarLayout.Behavior()) {
+    fun enableScroll(enable: Boolean, behavior: AppBarLayout.Behavior = AppBarLayout.Behavior()) {
         if (parent is AppBarLayout) {
             val parentView = parent as AppBarLayout
             val params = layoutParams as AppBarLayout.LayoutParams

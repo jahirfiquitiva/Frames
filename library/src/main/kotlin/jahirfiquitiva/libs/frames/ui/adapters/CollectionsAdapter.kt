@@ -27,23 +27,23 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.MAX_COLLECTIONS_LOAD
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
-import java.util.*
+import java.util.Collections
 
-class CollectionsAdapter(private val manager:RequestManager,
-                         private val provider:ViewPreloadSizeProvider<Wallpaper>,
-                         private val listener:FramesViewClickListener<Collection, CollectionHolder>):
-        BaseListAdapter<Collection, CollectionHolder>(MAX_COLLECTIONS_LOAD),
+class CollectionsAdapter(private val manager: RequestManager,
+                         private val provider: ViewPreloadSizeProvider<Wallpaper>,
+                         private val listener: FramesViewClickListener<Collection, CollectionHolder>) :
+        FramesListAdapter<Collection, CollectionHolder>(MAX_COLLECTIONS_LOAD),
         ListPreloader.PreloadModelProvider<Wallpaper> {
     
-    override fun doBind(holder:CollectionHolder, position:Int, shouldAnimate:Boolean) =
+    override fun doBind(holder: CollectionHolder, position: Int, shouldAnimate: Boolean) =
             holder.setItem(manager, provider, list[position], listener)
     
-    override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):CollectionHolder? =
-            parent?.inflate(R.layout.item_collection)?.let { CollectionHolder(it) }
+    override fun doCreateVH(parent: ViewGroup, viewType: Int): CollectionHolder =
+            CollectionHolder(parent.inflate(R.layout.item_collection))
     
-    override fun getPreloadItems(position:Int):MutableList<Wallpaper> =
+    override fun getPreloadItems(position: Int): MutableList<Wallpaper> =
             Collections.singletonList(list[position].bestCover)
     
-    override fun getPreloadRequestBuilder(item:Wallpaper?):RequestBuilder<*> =
+    override fun getPreloadRequestBuilder(item: Wallpaper?): RequestBuilder<*> =
             manager.load(item?.thumbUrl)
 }

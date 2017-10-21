@@ -24,35 +24,35 @@ import android.os.Parcelable
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
 import jahirfiquitiva.libs.kauextensions.extensions.readBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.writeBoolean
-import java.util.*
+import java.util.ArrayList
 
 @Entity(tableName = "FAVORITES")
 data class Wallpaper(
         @ColumnInfo(name = "NAME")
-        var name:String = "",
+        var name: String = "",
         @ColumnInfo(name = "AUTHOR")
-        var author:String = "",
+        var author: String = "",
         @ColumnInfo(name = "COLLECTIONS")
-        var collections:String = "",
+        var collections: String = "",
         @ColumnInfo(name = "DOWNLOADABLE")
-        var downloadable:Boolean = true,
+        var downloadable: Boolean = true,
         @ColumnInfo(name = "URL")
-        var url:String = "",
+        var url: String = "",
         @ColumnInfo(name = "THUMB_URL")
-        var thumbUrl:String = url,
+        var thumbUrl: String = url,
         @ColumnInfo(name = "SIZE")
-        var size:Long = 0,
+        var size: Long = 0,
         @ColumnInfo(name = "DIMENSIONS")
-        var dimensions:String = "",
+        var dimensions: String = "",
         @ColumnInfo(name = "COPYRIGHT")
-        var copyright:String = "",
+        var copyright: String = "",
         @Ignore
-        var hasFaded:Boolean = false,
+        var hasFaded: Boolean = false,
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "ID")
-        var id:Long = 0):Parcelable {
+        var id: Long = 0) : Parcelable {
     
-    constructor(parcel:Parcel):this(
+    constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
@@ -65,16 +65,16 @@ data class Wallpaper(
             parcel.readBoolean(),
             parcel.readLong())
     
-    override fun equals(other:Any?):Boolean {
+    override fun equals(other: Any?): Boolean {
         if (other !is Wallpaper) return false
         return name.equals(other.name, true) ||
-                url.equals(other.url, true) || thumbUrl.equals(other.thumbUrl, true)
+               url.equals(other.url, true) || thumbUrl.equals(other.thumbUrl, true)
     }
     
-    fun hasChangedFrom(other:Wallpaper?) =
+    fun hasChangedFrom(other: Wallpaper?) =
             other != null && (size != other.size || (!(dimensions.equals(other.dimensions, true))))
     
-    override fun hashCode():Int {
+    override fun hashCode(): Int {
         var result = name.hashCode()
         result = 31 * result + author.hashCode()
         result = 31 * result + url.hashCode()
@@ -82,7 +82,7 @@ data class Wallpaper(
         return result
     }
     
-    override fun writeToParcel(parcel:Parcel, flags:Int) {
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
         parcel.writeString(author)
         parcel.writeString(collections)
@@ -96,50 +96,50 @@ data class Wallpaper(
         parcel.writeLong(id)
     }
     
-    override fun describeContents():Int = 0
+    override fun describeContents(): Int = 0
     
-    companion object CREATOR:Parcelable.Creator<Wallpaper> {
-        override fun createFromParcel(parcel:Parcel):Wallpaper = Wallpaper(parcel)
-        override fun newArray(size:Int):Array<Wallpaper?> = arrayOfNulls(size)
+    companion object CREATOR : Parcelable.Creator<Wallpaper> {
+        override fun createFromParcel(parcel: Parcel): Wallpaper = Wallpaper(parcel)
+        override fun newArray(size: Int): Array<Wallpaper?> = arrayOfNulls(size)
     }
 }
 
-data class Collection(val name:String,
-                      var wallpapers:ArrayList<Wallpaper> = ArrayList()):Parcelable {
+data class Collection(val name: String,
+                      var wallpapers: ArrayList<Wallpaper> = ArrayList()) : Parcelable {
     
-    var bestCover:Wallpaper? = null
+    var bestCover: Wallpaper? = null
     
-    override fun equals(other:Any?):Boolean {
+    override fun equals(other: Any?): Boolean {
         if (other !is Collection) return false
         return name.equals(other.name, true)
     }
     
-    override fun toString():String = name
+    override fun toString(): String = name
     
-    constructor(parcel:Parcel):this(parcel.readString()) {
+    constructor(parcel: Parcel) : this(parcel.readString()) {
         parcel.readTypedList(wallpapers, Wallpaper.CREATOR)
     }
     
-    override fun writeToParcel(parcel:Parcel, flags:Int) {
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
         parcel.writeTypedList(wallpapers)
     }
     
-    override fun describeContents():Int = 0
+    override fun describeContents(): Int = 0
     
-    companion object CREATOR:Parcelable.Creator<Collection> {
-        override fun createFromParcel(parcel:Parcel):Collection = Collection(parcel)
-        override fun newArray(size:Int):Array<Collection?> = arrayOfNulls(size)
+    companion object CREATOR : Parcelable.Creator<Collection> {
+        override fun createFromParcel(parcel: Parcel): Collection = Collection(parcel)
+        override fun newArray(size: Int): Array<Collection?> = arrayOfNulls(size)
     }
 }
 
-data class WallpaperInfo(val size:Long, val dimension:Dimension) {
-    val isValid:Boolean = size > 0L || dimension.isValid
-    override fun toString():String =
+data class WallpaperInfo(val size: Long, val dimension: Dimension) {
+    val isValid: Boolean = size > 0L || dimension.isValid
+    override fun toString(): String =
             "WallpaperInfo:[size = '${size.toReadableByteCount()}', dimension = '$dimension']"
 }
 
-data class Dimension(val width:Long, val height:Long) {
-    val isValid:Boolean = width > 0L && height > 0L
-    override fun toString():String = "$width x $height px"
+data class Dimension(val width: Long, val height: Long) {
+    val isValid: Boolean = width > 0L && height > 0L
+    override fun toString(): String = "$width x $height px"
 }

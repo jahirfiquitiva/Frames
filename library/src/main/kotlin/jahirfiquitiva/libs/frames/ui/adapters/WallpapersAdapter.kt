@@ -21,20 +21,20 @@ import com.bumptech.glide.ListPreloader
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.util.ViewPreloadSizeProvider
+import jahirfiquitiva.libs.archhelpers.ui.adapters.ListAdapter
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.MAX_WALLPAPERS_LOAD
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Collections
 
-class WallpapersAdapter(private val manager:RequestManager,
-                        private val provider:ViewPreloadSizeProvider<Wallpaper>,
-                        private val fromFavorites:Boolean,
-                        private val showFavIcon:Boolean,
-                        private val listener:FramesViewClickListener<Wallpaper, WallpaperHolder>):
-        BaseListAdapter<Wallpaper, WallpaperHolder>(if (fromFavorites) -1 else MAX_WALLPAPERS_LOAD),
+class WallpapersAdapter(private val manager: RequestManager,
+                        private val provider: ViewPreloadSizeProvider<Wallpaper>,
+                        private val fromFavorites: Boolean,
+                        private val showFavIcon: Boolean,
+                        private val listener: FramesViewClickListener<Wallpaper, WallpaperHolder>) :
+        ListAdapter<Wallpaper, WallpaperHolder>(if (fromFavorites) -1 else MAX_WALLPAPERS_LOAD),
         ListPreloader.PreloadModelProvider<Wallpaper> {
     
     var favorites = ArrayList<Wallpaper>()
@@ -43,7 +43,7 @@ class WallpapersAdapter(private val manager:RequestManager,
             field.addAll(value)
         }
     
-    fun updateFavorites(newFavs:ArrayList<Wallpaper>) {
+    fun updateFavorites(newFavs: ArrayList<Wallpaper>) {
         if (fromFavorites) {
             favorites = newFavs
             notifyDataSetChanged()
@@ -54,23 +54,23 @@ class WallpapersAdapter(private val manager:RequestManager,
         }
     }
     
-    override fun doBind(holder:WallpaperHolder, position:Int, shouldAnimate:Boolean) {
+    override fun doBind(holder: WallpaperHolder, position: Int, shouldAnimate: Boolean) {
         val item = list[position]
         holder.setItem(manager, provider, item, fromFavorites || favorites.contains(item),
                        listener)
     }
     
-    override fun onCreateViewHolder(parent:ViewGroup?, viewType:Int):WallpaperHolder? =
-            parent?.inflate(R.layout.item_wallpaper)?.let { WallpaperHolder(it, showFavIcon) }
+    override fun doCreateVH(parent: ViewGroup, viewType: Int): WallpaperHolder =
+            WallpaperHolder(parent.inflate(R.layout.item_wallpaper), showFavIcon)
     
-    override fun getPreloadItems(position:Int):MutableList<Wallpaper> =
+    override fun getPreloadItems(position: Int): MutableList<Wallpaper> =
             Collections.singletonList(list[position])
     
-    override fun getPreloadRequestBuilder(item:Wallpaper?):RequestBuilder<*> =
+    override fun getPreloadRequestBuilder(item: Wallpaper?): RequestBuilder<*> =
             manager.load(item?.thumbUrl)
     
-    private fun getModifiedItems(oldList:ArrayList<Wallpaper>,
-                                 newList:ArrayList<Wallpaper>):ArrayList<Wallpaper> {
+    private fun getModifiedItems(oldList: ArrayList<Wallpaper>,
+                                 newList: ArrayList<Wallpaper>): ArrayList<Wallpaper> {
         val modified = ArrayList<Wallpaper>()
         oldList.filter { !newList.contains(it) && !modified.contains(it) }
                 .forEach { modified.add(it) }

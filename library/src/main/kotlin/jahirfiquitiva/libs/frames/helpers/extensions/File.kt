@@ -17,7 +17,7 @@ package jahirfiquitiva.libs.frames.helpers.extensions
 
 import java.io.File
 
-fun Long.toReadableByteCount(si:Boolean = false):String {
+fun Long.toReadableByteCount(si: Boolean = false): String {
     if (this <= 0L) return "-0"
     try {
         val unit = if (si) 1000 else 1024
@@ -25,15 +25,15 @@ fun Long.toReadableByteCount(si:Boolean = false):String {
         val exp = (Math.log(this.toDouble()) / Math.log(unit.toDouble())).toInt()
         val pre = (if (si) "kMGTPE" else "KMGTPE")[exp - 1] + if (si) "" else "i"
         return String.format("%.1f %sB", this / Math.pow(unit.toDouble(), exp.toDouble()), pre)
-    } catch (ignored:Exception) {
+    } catch (ignored: Exception) {
         return "-0"
     }
 }
 
-val File.dirSize:Long
+val File.dirSize: Long
     get() {
         if (exists()) {
-            var result:Long = 0
+            var result: Long = 0
             listFiles().forEach {
                 result += if (it.isDirectory) it.dirSize else it.length()
             }

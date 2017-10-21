@@ -24,7 +24,7 @@
              android:foreground="?selectableItemBackground"
              android:hapticFeedbackEnabled="true">
 
-    <jahirfiquitiva.libs.kauextensions.ui.views.VerticalImageView
+    <jahirfiquitiva.libs.kauextensions.ui.widgets.VerticalImageView
             android:id="@+id/wallpaper_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
