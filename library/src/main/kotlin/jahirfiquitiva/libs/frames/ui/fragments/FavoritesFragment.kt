@@ -25,7 +25,6 @@ class FavoritesFragment : BaseWallpapersFragment() {
         wallsAdapter?.let {
             it.updateFavorites(data)
             it.setItems(data)
-            rv.forceUpdateState()
         }
     }
     

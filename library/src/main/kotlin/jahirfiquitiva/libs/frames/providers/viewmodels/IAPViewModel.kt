@@ -20,7 +20,7 @@ import jahirfiquitiva.libs.archhelpers.viewmodels.ListViewModel
 
 class IAPViewModel : ListViewModel<Array<String>, IAPItem>() {
     var iapBillingProcessor: BillingProcessor? = null
-    override fun internalLoad(param: Array<String>): MutableList<IAPItem> {
+    override fun internalLoad(param: Array<String>): ArrayList<IAPItem> {
         val iaps = ArrayList<IAPItem>()
         try {
             param.forEach {

@@ -32,7 +32,7 @@ class CollectionsViewModel : ListViewModel<ArrayList<Wallpaper>, Collection>() {
         else postResult(ArrayList())
     }
     
-    override fun internalLoad(param: ArrayList<Wallpaper>): MutableList<Collection> {
+    override fun internalLoad(param: ArrayList<Wallpaper>): ArrayList<Collection> {
         val collections = ArrayList<Collection>()
         val collectionsMap = HashMap<String, ArrayList<Wallpaper>>()
         for ((index, wallpaper) in param.withIndex()) {

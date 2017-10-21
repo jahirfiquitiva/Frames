@@ -25,8 +25,8 @@ class FavoritesViewModel : ListViewModel<FavoritesDao, Wallpaper>() {
     
     private var daoTask: EasyAsync<*, *>? = null
     
-    override fun internalLoad(param: FavoritesDao): MutableList<Wallpaper> =
-            param.getFavorites().distinct().toMutableList()
+    override fun internalLoad(param: FavoritesDao): ArrayList<Wallpaper> =
+            ArrayList(param.getFavorites().distinct())
     
     private fun cancelDaoTask() {
         daoTask?.cancel(true)

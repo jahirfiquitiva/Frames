@@ -15,8 +15,6 @@
  */
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -71,6 +69,8 @@ dependencies {
     // Architecture Components
     compile libraries.lifecycle
     compile libraries.room
+    annotationProcessor libraries.lifecycleCompiler
+    annotationProcessor libraries.roomCompiler
     kapt libraries.lifecycleCompiler
     kapt libraries.roomCompiler
     // Material Dialogs

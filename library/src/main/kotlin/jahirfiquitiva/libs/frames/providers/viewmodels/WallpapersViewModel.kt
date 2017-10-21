@@ -44,11 +44,11 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
         }
     }
     
-    override fun internalLoad(param: Context): MutableList<Wallpaper> =
+    override fun internalLoad(param: Context): ArrayList<Wallpaper> =
             loadWallpapers(param,
                            FramesUrlRequests().requestJson(param.getString(R.string.json_url)))
     
-    private fun loadWallpapers(context: Context, serverResponse: String): MutableList<Wallpaper> {
+    private fun loadWallpapers(context: Context, serverResponse: String): ArrayList<Wallpaper> {
         val prevResponse = context.framesKonfigs.backupJson
         val validPrevResponse = prevResponse.hasContent() && prevResponse != "[]"
         return if (serverResponse.hasContent()) {
@@ -98,7 +98,7 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
         }
     }
     
-    private fun parseListFromJson(context: Context, json: JSONArray): MutableList<Wallpaper> {
+    private fun parseListFromJson(context: Context, json: JSONArray): ArrayList<Wallpaper> {
         context.framesKonfigs.backupJson = json.toString()
         val fWallpapers = ArrayList<Wallpaper>()
         for (index in 0..json.length()) {

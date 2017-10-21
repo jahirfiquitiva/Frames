@@ -195,7 +195,9 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     
     override fun applyFilter(filter: String) {
         wallsAdapter?.let {
-            val list = (if (fromFavorites()) favoritesModel?.getData() else wallpapersModel?.getData()) ?: return
+            val list = ArrayList(
+                    (if (fromFavorites()) favoritesModel?.getData() else wallpapersModel?.getData()))
+            
             if (filter.hasContent()) {
                 rv.setEmptyImage(R.drawable.no_results)
                 rv.setEmptyText(R.string.search_no_results)
@@ -205,9 +207,9 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                         if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
                 rv.setEmptyText(
                         if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
-                it.setItems(ArrayList(list))
-                scrollToTop()
+                it.setItems(list)
             }
+            scrollToTop()
         }
     }
     
