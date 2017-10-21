@@ -15,29 +15,16 @@
  */
 package jahirfiquitiva.libs.frames.helpers.extensions
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ArgbEvaluator
-import android.animation.ObjectAnimator
-import android.animation.TypeEvaluator
-import android.animation.ValueAnimator
 import android.app.Activity
-import android.graphics.ColorMatrixColorFilter
 import android.os.Build
-import android.support.annotation.ColorInt
-import android.support.annotation.StringRes
 import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
 import android.view.View
-import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
-import android.widget.ImageView
 import ca.allanwang.kau.utils.dpToPx
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.ui.graphics.ObservableColorMatrix
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
+import jahirfiquitiva.libs.kauextensions.extensions.navigationBarHeight
 
 fun View.setNavBarMargins() {
     val params = (layoutParams as? FrameLayout.LayoutParams) ?: return
@@ -73,87 +60,3 @@ fun View.setNavBarMargins() {
     layoutParams = params
     requestLayout()
 }
-
-fun View.buildSnackbar(@StringRes text: Int, duration: Int = Snackbar.LENGTH_LONG,
-                       builder: Snackbar.() -> Unit = {}): Snackbar {
-    val snackbar = Snackbar.make(this, text, duration)
-    snackbar.builder()
-    return snackbar
-}
-
-fun View.buildSnackbar(text: String, duration: Int = Snackbar.LENGTH_LONG,
-                       builder: Snackbar.() -> Unit = {}): Snackbar {
-    val snackbar = Snackbar.make(this, text, duration)
-    snackbar.builder()
-    return snackbar
-}
-
-/**
- * Credits to Mysplash
- * https://goo.gl/M2sqE2
- */
-fun ImageView.animateColorTransition(onFaded: () -> Unit = {}) {
-    setHasTransientState(true)
-    val matrix = ObservableColorMatrix()
-    val saturation = ObjectAnimator.ofFloat(matrix, ObservableColorMatrix.SATURATION, 0F, 1F)
-    saturation.addUpdateListener {
-        colorFilter = ColorMatrixColorFilter(matrix)
-    }
-    saturation.duration = 1500L
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        saturation.interpolator = AnimationUtils.loadInterpolator(context,
-                                                                  android.R.interpolator.fast_out_slow_in)
-    }
-    saturation.addListener(object : AnimatorListenerAdapter() {
-        override fun onAnimationEnd(animation: Animator?) {
-            super.onAnimationEnd(animation)
-            clearColorFilter()
-            setHasTransientState(false)
-        }
-    })
-    saturation.start()
-    onFaded()
-}
-
-fun View.clearChildrenAnimations() {
-    clearAnimation()
-    getAllChildren(this).forEach { it.clearAnimation() }
-}
-
-private fun getAllChildren(v: View): ArrayList<View> {
-    if (v !is ViewGroup) {
-        val viewArrayList = ArrayList<View>()
-        viewArrayList.add(v)
-        return viewArrayList
-    }
-    val result = ArrayList<View>()
-    for (i in 0 until v.childCount) {
-        val child = v.getChildAt(i)
-        val viewArrayList = ArrayList<View>()
-        viewArrayList.add(v)
-        viewArrayList.addAll(getAllChildren(child))
-        result.addAll(viewArrayList)
-    }
-    return result
-}
-
-@Suppress("UNCHECKED_CAST")
-fun <T> createAnimator(evaluator: TypeEvaluator<*>, vararg values: T,
-                       onConfig: ValueAnimator.() -> Unit = {},
-                       onUpdate: (T) -> Unit): ValueAnimator =
-        ValueAnimator.ofObject(evaluator, *values).apply {
-            addUpdateListener { onUpdate(it.animatedValue as T) }
-            onConfig(this)
-        }
-
-fun animateSmoothly(@ColorInt startColor: Int, @ColorInt endColor: Int,
-                    doUpdate: (Int) -> Unit): ValueAnimator =
-        createAnimator(ArgbEvaluator(),
-                       startColor, endColor,
-                       onConfig = {
-                           duration = 1000
-                           repeatMode = ValueAnimator.REVERSE
-                           repeatCount = ValueAnimator.INFINITE
-                           start()
-                       },
-                       onUpdate = doUpdate)

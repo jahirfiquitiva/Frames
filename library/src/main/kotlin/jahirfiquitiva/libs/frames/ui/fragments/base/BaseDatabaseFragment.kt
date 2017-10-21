@@ -28,22 +28,23 @@ import android.view.animation.LinearInterpolator
 import android.view.animation.ScaleAnimation
 import android.widget.ImageView
 import android.widget.TextView
+import jahirfiquitiva.libs.archhelpers.ui.fragments.ViewModelFragment
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDao
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
-import jahirfiquitiva.libs.frames.helpers.extensions.buildSnackbar
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.kauextensions.extensions.SimpleAnimationListener
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
+import jahirfiquitiva.libs.kauextensions.extensions.buildSnackbar
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import org.jetbrains.anko.runOnUiThread
 
 @Suppress("NAME_SHADOWING")
 abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
-        BaseViewModelFragment<T>() {
+        ViewModelFragment<T>() {
     
     internal var database: FavoritesDatabase? = null
     internal var favoritesModel: FavoritesViewModel? = null

@@ -19,7 +19,7 @@ import android.content.Context
 import android.os.Environment
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
-import jahirfiquitiva.libs.kauextensions.utils.Konfigurations
+import jahirfiquitiva.libs.kauextensions.helpers.Konfigurations
 
 open class FramesKonfigs(nm: String, cntxt: Context) : Konfigurations(nm, cntxt) {
     companion object {
@@ -33,14 +33,6 @@ open class FramesKonfigs(nm: String, cntxt: Context) : Konfigurations(nm, cntxt)
     var columns: Int
         get() = prefs.getInt(COLUMNS_NUMBER, if (context.isInHorizontalMode) 3 else 2)
         set(value) = prefsEditor.putInt(COLUMNS_NUMBER, value).apply()
-    
-    var animationsEnabled: Boolean
-        get() = prefs.getBoolean(ANIMATIONS_ENABLED, true)
-        set(value) = prefsEditor.putBoolean(ANIMATIONS_ENABLED, value).apply()
-    
-    var storagePermissionRequested: Boolean
-        get() = prefs.getBoolean(STORAGE_PERMISSION_REQUESTED, false)
-        set(value) = prefsEditor.putBoolean(STORAGE_PERMISSION_REQUESTED, value).apply()
     
     var downloadsFolder: String
         get() = prefs.getString(DOWNLOADS_FOLDER,

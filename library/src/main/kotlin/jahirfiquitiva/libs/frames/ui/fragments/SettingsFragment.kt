@@ -32,22 +32,21 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.github.stephenvinouze.materialnumberpickercore.MaterialNumberPicker
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
-import jahirfiquitiva.libs.frames.helpers.extensions.PermissionRequestListener
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
-import jahirfiquitiva.libs.frames.helpers.extensions.checkPermission
 import jahirfiquitiva.libs.frames.helpers.extensions.clearDataAndCache
 import jahirfiquitiva.libs.frames.helpers.extensions.dataCacheSize
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
-import jahirfiquitiva.libs.frames.helpers.extensions.requestPermissions
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.ui.activities.SettingsActivity
 import jahirfiquitiva.libs.frames.ui.fragments.base.PreferenceFragment
-import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
+import jahirfiquitiva.libs.kauextensions.extensions.PermissionRequestListener
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.konfigs
+import jahirfiquitiva.libs.kauextensions.extensions.requestSinglePermission
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
+import jahirfiquitiva.libs.kauextensions.ui.activities.ThemedActivity
 import org.jetbrains.anko.doAsync
 
 open class SettingsFragment : PreferenceFragment() {
@@ -268,13 +267,12 @@ open class SettingsFragment : PreferenceFragment() {
         }
     }
     
-    fun requestPermission() = activity.checkPermission(
+    fun requestPermission() = activity.requestSinglePermission(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            object : PermissionRequestListener {
-                override fun onPermissionRequest(permission: String) =
-                        activity.requestPermissions(42, permission)
+            42,
+            object : PermissionRequestListener() {
                 
-                override fun showPermissionInformation(permission: String) {
+                override fun onShowInformation(permission: String) {
                     doShowPermissionInformation()
                 }
                 

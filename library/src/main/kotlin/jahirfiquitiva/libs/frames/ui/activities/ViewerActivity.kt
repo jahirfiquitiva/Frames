@@ -53,9 +53,6 @@ import com.bumptech.glide.Priority
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
-import jahirfiquitiva.libs.frames.helpers.extensions.buildSnackbar
-import jahirfiquitiva.libs.frames.helpers.extensions.getStatusBarHeight
-import jahirfiquitiva.libs.frames.helpers.extensions.navigationBarHeight
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
 import jahirfiquitiva.libs.frames.helpers.extensions.urlOptions
@@ -71,14 +68,17 @@ import jahirfiquitiva.libs.kauextensions.extensions.SimpleAnimationListener
 import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
 import jahirfiquitiva.libs.kauextensions.extensions.bind
+import jahirfiquitiva.libs.kauextensions.extensions.buildSnackbar
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
 import jahirfiquitiva.libs.kauextensions.extensions.enableTranslucentStatusBar
 import jahirfiquitiva.libs.kauextensions.extensions.generatePalette
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.getColorFromRes
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
+import jahirfiquitiva.libs.kauextensions.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
+import jahirfiquitiva.libs.kauextensions.extensions.navigationBarHeight
 import jahirfiquitiva.libs.ziv.ZoomableImageView
 import org.jetbrains.anko.contentView
 import java.io.FileInputStream

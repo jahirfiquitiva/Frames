@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jahirfiquitiva.libs.frames.data.models.db
+package jahirfiquitiva.libs.frames.providers.viewmodels
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
+import jahirfiquitiva.libs.archhelpers.viewmodels.BasicViewModel
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
+import jahirfiquitiva.libs.frames.helpers.utils.FramesUrlRequests
+import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 
-// TODO: Be sure to increment update if one changes Wallpaper class structure
-@Database(entities = arrayOf(Wallpaper::class), version = 7, exportSchema = false)
-abstract class FavoritesDatabase : RoomDatabase() {
-    abstract fun favoritesDao(): FavoritesDao
+class WallpaperInfoViewModel : BasicViewModel<Wallpaper, WallpaperInfo>() {
+    override fun internalLoad(param: Wallpaper): WallpaperInfo =
+            FramesUrlRequests().requestFileInfo(param.url, param.dimensions.hasContent())
+    
+    override val isOldDataValid: Boolean = getData()?.isValid ?: false
 }

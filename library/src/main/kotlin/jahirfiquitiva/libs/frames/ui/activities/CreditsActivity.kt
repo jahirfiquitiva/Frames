@@ -34,7 +34,6 @@ import jahirfiquitiva.libs.frames.ui.adapters.CreditsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
-import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
@@ -45,6 +44,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.extensions.openLink
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
+import jahirfiquitiva.libs.kauextensions.ui.activities.ThemedActivity
 
 open class CreditsActivity : ThemedActivity() {
     

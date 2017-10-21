@@ -22,13 +22,13 @@ import ca.allanwang.kau.utils.toHexString
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.pchmn.materialchips.ChipView
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.ui.widgets.MaterialIcon
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
 import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
+import jahirfiquitiva.libs.kauextensions.ui.widgets.MaterialIcon
 
 class WallpaperInfoHolder(itemView: View) : SectionedViewHolder(itemView) {
     val icon: MaterialIcon by itemView.bind(R.id.info_item_icon)

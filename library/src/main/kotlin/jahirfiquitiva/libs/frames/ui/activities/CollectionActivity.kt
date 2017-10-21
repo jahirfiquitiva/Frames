@@ -29,11 +29,8 @@ import android.widget.TextView
 import ca.allanwang.kau.utils.postDelayed
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
-import jahirfiquitiva.libs.frames.ui.activities.base.BaseActivityWithFragments
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersInCollectionFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
-import jahirfiquitiva.libs.frames.ui.widgets.SearchView
-import jahirfiquitiva.libs.frames.ui.widgets.bindSearchView
 import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.changeOptionVisibility
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
@@ -41,8 +38,11 @@ import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
+import jahirfiquitiva.libs.kauextensions.ui.activities.FragmentsActivity
+import jahirfiquitiva.libs.kauextensions.ui.widgets.SearchView
+import jahirfiquitiva.libs.kauextensions.ui.widgets.bindSearchView
 
-open class CollectionActivity : BaseActivityWithFragments() {
+open class CollectionActivity : FragmentsActivity() {
     
     override fun lightTheme(): Int = R.style.LightTheme
     override fun darkTheme(): Int = R.style.DarkTheme
@@ -58,6 +58,8 @@ open class CollectionActivity : BaseActivityWithFragments() {
     
     private val toolbar: CustomToolbar by bind(R.id.toolbar)
     private var searchView: SearchView? = null
+    
+    override fun autoStatusBarTint(): Boolean = true
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

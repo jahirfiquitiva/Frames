@@ -23,7 +23,7 @@
              android:orientation="vertical"
              android:foreground="?selectableItemBackground">
 
-    <jahirfiquitiva.libs.kauextensions.ui.views.LandscapeImageView
+    <jahirfiquitiva.libs.kauextensions.ui.widgets.LandscapeImageView
             android:id="@+id/collection_picture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

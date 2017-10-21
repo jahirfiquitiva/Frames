@@ -21,6 +21,7 @@ import com.bumptech.glide.ListPreloader
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.util.ViewPreloadSizeProvider
+import jahirfiquitiva.libs.archhelpers.ui.adapters.ListAdapter
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.MAX_WALLPAPERS_LOAD
@@ -33,7 +34,7 @@ class WallpapersAdapter(private val manager: RequestManager,
                         private val fromFavorites: Boolean,
                         private val showFavIcon: Boolean,
                         private val listener: FramesViewClickListener<Wallpaper, WallpaperHolder>) :
-        BaseListAdapter<Wallpaper, WallpaperHolder>(if (fromFavorites) -1 else MAX_WALLPAPERS_LOAD),
+        ListAdapter<Wallpaper, WallpaperHolder>(if (fromFavorites) -1 else MAX_WALLPAPERS_LOAD),
         ListPreloader.PreloadModelProvider<Wallpaper> {
     
     var favorites = ArrayList<Wallpaper>()
@@ -59,8 +60,8 @@ class WallpapersAdapter(private val manager: RequestManager,
                        listener)
     }
     
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): WallpaperHolder? =
-            parent?.inflate(R.layout.item_wallpaper)?.let { WallpaperHolder(it, showFavIcon) }
+    override fun doCreateVH(parent: ViewGroup, viewType: Int): WallpaperHolder =
+            WallpaperHolder(parent.inflate(R.layout.item_wallpaper), showFavIcon)
     
     override fun getPreloadItems(position: Int): MutableList<Wallpaper> =
             Collections.singletonList(list[position])

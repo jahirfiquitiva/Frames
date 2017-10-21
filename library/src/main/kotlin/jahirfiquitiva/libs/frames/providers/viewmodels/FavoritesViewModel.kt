@@ -15,14 +15,15 @@
  */
 package jahirfiquitiva.libs.frames.providers.viewmodels
 
+import jahirfiquitiva.libs.archhelpers.tasks.EasyAsync
+import jahirfiquitiva.libs.archhelpers.viewmodels.ListViewModel
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDao
-import jahirfiquitiva.libs.frames.helpers.utils.SimpleAsyncTask
 import java.lang.ref.WeakReference
 
 class FavoritesViewModel : ListViewModel<FavoritesDao, Wallpaper>() {
     
-    private var daoTask: SimpleAsyncTask<*, *>? = null
+    private var daoTask: EasyAsync<*, *>? = null
     
     override fun internalLoad(param: FavoritesDao): MutableList<Wallpaper> =
             param.getFavorites().distinct().toMutableList()
@@ -34,9 +35,9 @@ class FavoritesViewModel : ListViewModel<FavoritesDao, Wallpaper>() {
     
     fun forceUpdateFavorites(dao: FavoritesDao, items: List<Wallpaper>) {
         cancelDaoTask()
-        daoTask = SimpleAsyncTask<FavoritesDao, Unit>(
+        daoTask = EasyAsync<FavoritesDao, Unit>(
                 WeakReference(dao),
-                object : SimpleAsyncTask.AsyncTaskCallback<FavoritesDao, Unit>() {
+                object : EasyAsync.Callback<FavoritesDao, Unit>() {
                     override fun doLoad(param: FavoritesDao): Unit? =
                             internalForceUpdateFavorites(param, items)
                     
@@ -56,9 +57,9 @@ class FavoritesViewModel : ListViewModel<FavoritesDao, Wallpaper>() {
     fun addToFavorites(dao: FavoritesDao, wallpaper: Wallpaper, onFail: () -> Unit) {
         if (isInFavorites(wallpaper)) return
         cancelDaoTask()
-        daoTask = SimpleAsyncTask<Wallpaper, Unit>(
+        daoTask = EasyAsync<Wallpaper, Unit>(
                 WeakReference(wallpaper),
-                object : SimpleAsyncTask.AsyncTaskCallback<Wallpaper, Unit>() {
+                object : EasyAsync.Callback<Wallpaper, Unit>() {
                     override fun doLoad(param: Wallpaper) {
                         val oldList = ArrayList(dao.getFavorites())
                         if (!oldList.contains(param)) {
@@ -79,9 +80,9 @@ class FavoritesViewModel : ListViewModel<FavoritesDao, Wallpaper>() {
     fun removeFromFavorites(dao: FavoritesDao, wallpaper: Wallpaper, onFail: () -> Unit) {
         if (!isInFavorites(wallpaper)) return
         cancelDaoTask()
-        daoTask = SimpleAsyncTask<Wallpaper, Unit>(
+        daoTask = EasyAsync<Wallpaper, Unit>(
                 WeakReference(wallpaper),
-                object : SimpleAsyncTask.AsyncTaskCallback<Wallpaper, Unit>() {
+                object : EasyAsync.Callback<Wallpaper, Unit>() {
                     override fun doLoad(param: Wallpaper) {
                         val oldList = ArrayList(dao.getFavorites())
                         if (oldList.contains(param)) {

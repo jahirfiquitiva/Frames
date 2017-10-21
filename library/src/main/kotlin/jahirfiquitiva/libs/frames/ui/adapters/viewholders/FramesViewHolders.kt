@@ -33,18 +33,17 @@ import com.bumptech.glide.util.ViewPreloadSizeProvider
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.animateColorTransition
-import jahirfiquitiva.libs.frames.helpers.extensions.animateSmoothly
-import jahirfiquitiva.libs.frames.helpers.extensions.clearChildrenAnimations
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.loadWallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
-import jahirfiquitiva.libs.frames.helpers.extensions.thumbnailColor
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
+import jahirfiquitiva.libs.kauextensions.extensions.animateColorTransition
+import jahirfiquitiva.libs.kauextensions.extensions.animateSmoothly
 import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
 import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
+import jahirfiquitiva.libs.kauextensions.extensions.clearChildrenAnimations
 import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
@@ -52,6 +51,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
+import jahirfiquitiva.libs.kauextensions.extensions.thumbnailColor
 import jahirfiquitiva.libs.kauextensions.extensions.withAlpha
 
 const val DETAILS_OPACITY = 0.85F
@@ -62,7 +62,7 @@ abstract class FramesViewClickListener<in T, in VH> {
     open fun onHeartClick(view: ImageView, item: T, @ColorInt color: Int) {}
 }
 
-abstract class FramesWallpaperHolder(itemView: View) : GlideViewHolder(itemView) {
+abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     internal var wallpaper: Wallpaper? = null
     abstract internal val img: ImageView
     abstract internal fun getListener(): GlideRequestCallback<Bitmap>
@@ -85,7 +85,7 @@ abstract class FramesWallpaperHolder(itemView: View) : GlideViewHolder(itemView)
         img.loadWallpaper(manager, url, thumbUrl, hasFaded, getListener())
     }
     
-    override fun doOnRecycle() {
+    fun onRecycled() {
         img.releaseFromGlide()
     }
     
@@ -247,10 +247,6 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
     }
 }
 
-abstract class GlideViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    abstract fun doOnRecycle()
-}
-
 abstract class GlideSectionedViewHolder(itemView: View) : SectionedViewHolder(itemView) {
-    abstract fun doOnRecycle()
+    abstract fun onRecycled()
 }

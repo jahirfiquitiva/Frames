@@ -33,10 +33,7 @@ import jahirfiquitiva.libs.frames.ui.fragments.FavoritesFragment
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersFragment
 import jahirfiquitiva.libs.frames.ui.fragments.adapters.FragmentsAdapter
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
-import jahirfiquitiva.libs.frames.ui.widgets.CustomTabLayout
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
-import jahirfiquitiva.libs.frames.ui.widgets.SearchView
-import jahirfiquitiva.libs.frames.ui.widgets.bindSearchView
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
@@ -48,6 +45,9 @@ import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
+import jahirfiquitiva.libs.kauextensions.ui.widgets.CustomTabLayout
+import jahirfiquitiva.libs.kauextensions.ui.widgets.SearchView
+import jahirfiquitiva.libs.kauextensions.ui.widgets.bindSearchView
 
 abstract class FramesActivity : BaseFramesActivity() {
     

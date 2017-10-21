@@ -161,7 +161,7 @@ open class DashboardCreditViewHolder(itemView: View) : GlideSectionedViewHolder(
         }
     }
     
-    override fun doOnRecycle() {
+    override fun onRecycled() {
         photo.releaseFromGlide()
     }
 }

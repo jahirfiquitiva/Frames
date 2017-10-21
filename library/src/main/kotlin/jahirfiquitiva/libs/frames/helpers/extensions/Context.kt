@@ -15,16 +15,13 @@
  */
 package jahirfiquitiva.libs.frames.helpers.extensions
 
-import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
-import ca.allanwang.kau.utils.dimenPixelSize
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DecodeFormat
@@ -33,8 +30,9 @@ import com.bumptech.glide.request.RequestOptions
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.PREFERENCES_NAME
+import jahirfiquitiva.libs.kauextensions.extensions.deleteEverything
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
-import jahirfiquitiva.libs.kauextensions.extensions.usesDarkTheme
+import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
 import java.io.File
 
 val Context.maxPreload
@@ -49,36 +47,6 @@ val Context.bestBitmapConfig: Bitmap.Config
 val Context.runsMinSDK
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
 
-val Context.isLowRamDevice: Boolean
-    get() {
-        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        val lowRAMDevice: Boolean
-        lowRAMDevice = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            activityManager.isLowRamDevice
-        } else {
-            val memInfo = ActivityManager.MemoryInfo()
-            activityManager.getMemoryInfo(memInfo)
-            memInfo.lowMemory
-        }
-        return lowRAMDevice
-    }
-
-fun Context.getStatusBarHeight(force: Boolean = false): Int {
-    var result = 0
-    val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-    if (resourceId > 0) {
-        result = resources.getDimensionPixelSize(resourceId)
-    }
-    val dimenResult = dimenPixelSize(R.dimen.status_bar_height)
-    //if our dimension is 0 return 0 because on those devices we don't need the height
-    return if (dimenResult == 0 && !force) {
-        0
-    } else {
-        //if our dimens is > 0 && the result == 0 use the dimenResult else the result
-        if (result == 0) dimenResult else result
-    }
-}
-
 fun Context.openWallpaper(uri: Uri) {
     val intent = Intent()
     intent.action = Intent.ACTION_VIEW
@@ -87,16 +55,11 @@ fun Context.openWallpaper(uri: Uri) {
     startActivity(intent)
 }
 
-val Context.thumbnailColor
-    get() = if (usesDarkTheme) Color.parseColor("#3dffffff") else Color.parseColor("#3d000000")
-
 fun Context.createHeartIcon(checked: Boolean): Drawable =
         (if (checked) "ic_heart" else "ic_heart_outline").getDrawable(this)
 
 val Context.framesKonfigs: FramesKonfigs
     get() = FramesKonfigs.newInstance(PREFERENCES_NAME, this)
-
-fun Context.run(f: () -> Unit): Runnable = Runnable { f() }
 
 inline fun Context.buildMaterialDialog(action: MaterialDialog.Builder.() -> Unit): MaterialDialog {
     val builder = MaterialDialog.Builder(this)
@@ -135,7 +98,7 @@ fun Context.clearDataAndCache() {
         if (it.exists()) {
             it.list().forEach {
                 if (!(it.equals("lib", true))) {
-                    deleteFile(File(appDir, it))
+                    File(appDir, it).deleteEverything()
                 }
             }
         }
@@ -147,20 +110,8 @@ fun Context.clearDataAndCache() {
 
 fun Context.clearCache() {
     try {
-        cacheDir?.let {
-            deleteFile(it)
-        }
+        cacheDir?.deleteEverything()
     } catch (ignored: Exception) {
-    }
-}
-
-fun Context.deleteFile(f: File) {
-    if (f.isDirectory) {
-        f.list().forEach {
-            deleteFile(File(f, it))
-        }
-    } else {
-        f.delete()
     }
 }
 

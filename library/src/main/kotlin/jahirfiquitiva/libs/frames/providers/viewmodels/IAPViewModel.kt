@@ -16,6 +16,7 @@
 package jahirfiquitiva.libs.frames.providers.viewmodels
 
 import com.anjlab.android.iab.v3.BillingProcessor
+import jahirfiquitiva.libs.archhelpers.viewmodels.ListViewModel
 
 class IAPViewModel : ListViewModel<Array<String>, IAPItem>() {
     var iapBillingProcessor: BillingProcessor? = null

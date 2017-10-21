@@ -37,7 +37,6 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
-import jahirfiquitiva.libs.frames.helpers.extensions.isLowRamDevice
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPictureRes
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
 import jahirfiquitiva.libs.frames.ui.activities.ViewerActivity
@@ -51,6 +50,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
+import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 import java.io.FileOutputStream
 

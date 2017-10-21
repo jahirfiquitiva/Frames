@@ -26,7 +26,6 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.DashboardCreditViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideSectionedViewHolder
-import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SectionedHeaderViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SimpleCreditViewHolder
 
@@ -65,8 +64,7 @@ class CreditsAdapter(@StringRes private val dashboardTitle: Int,
     
     override fun onViewRecycled(holder: SectionedViewHolder) {
         super.onViewRecycled(holder)
-        if (holder is GlideViewHolder) holder.doOnRecycle()
-        else (holder as? GlideSectionedViewHolder)?.doOnRecycle()
+        (holder as? GlideSectionedViewHolder)?.onRecycled()
     }
     
     override fun getItemCount(section: Int): Int =

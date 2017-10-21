@@ -82,7 +82,8 @@ dependencies {
     compile libraries.glide
     compile libraries.gliderv
     // KAU Extensions
-    compile libraries.kauext
+    compile libraries.kauExt
+    compile libraries.archHelpers
     compile libraries.ziv
     // Sectioned RecyclerView
     compile libraries.sectionedRecyclerView

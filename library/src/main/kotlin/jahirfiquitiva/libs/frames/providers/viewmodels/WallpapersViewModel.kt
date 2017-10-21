@@ -16,6 +16,7 @@
 package jahirfiquitiva.libs.frames.providers.viewmodels
 
 import android.content.Context
+import jahirfiquitiva.libs.archhelpers.viewmodels.ListViewModel
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs

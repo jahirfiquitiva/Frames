@@ -29,7 +29,6 @@ import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.isLowRamDevice
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
 import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
 import jahirfiquitiva.libs.frames.ui.adapters.CollectionsAdapter
@@ -41,6 +40,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
+import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 
 class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
@@ -79,7 +79,7 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
                     Glide.with(this), provider,
                     object : FramesViewClickListener<Collection, CollectionHolder>() {
                         override fun onSingleClick(item: Collection, holder: CollectionHolder) {
-                            onItemClicked(item)
+                            onItemClicked(item, false)
                         }
                     })
             val preloader: RecyclerViewPreloader<Wallpaper> =
@@ -114,7 +114,8 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
         rv.post { rv.scrollToPosition(0) }
     }
     
-    override fun onItemClicked(item: Collection) {
+    override fun onItemClicked(item: Collection, longClick: Boolean) {
+        super.onItemClicked(item, longClick)
         val intent = Intent(activity, CollectionActivity::class.java)
         intent.putExtra("item", item)
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity)

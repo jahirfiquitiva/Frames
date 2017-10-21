@@ -39,7 +39,6 @@ import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.providers.viewmodels.CollectionsViewModel
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
-import jahirfiquitiva.libs.kauextensions.activities.ThemedActivity
 import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
@@ -50,6 +49,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryTextColor
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
+import jahirfiquitiva.libs.kauextensions.ui.activities.ThemedActivity
 import org.jetbrains.anko.collections.forEachWithIndex
 import java.util.Locale
 

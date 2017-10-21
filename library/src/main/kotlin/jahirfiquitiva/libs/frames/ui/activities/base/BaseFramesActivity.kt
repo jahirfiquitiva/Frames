@@ -35,7 +35,6 @@ import com.github.javiersantos.piracychecker.enums.PirateApp
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
-import jahirfiquitiva.libs.frames.helpers.extensions.buildSnackbar
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.ADW_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.APPLY_ACTION
@@ -47,6 +46,7 @@ import jahirfiquitiva.libs.frames.helpers.utils.TURBO_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.WALLS_PICKER
 import jahirfiquitiva.libs.frames.providers.viewmodels.IAPItem
 import jahirfiquitiva.libs.frames.providers.viewmodels.IAPViewModel
+import jahirfiquitiva.libs.kauextensions.extensions.buildSnackbar
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getStringArray
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent

@@ -27,8 +27,8 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions.withCross
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
-import jahirfiquitiva.libs.frames.ui.graphics.ObservableColorMatrix
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
+import jahirfiquitiva.libs.kauextensions.ui.graphics.ObservableColorMatrix
 
 fun ImageView.releaseFromGlide() {
     Glide.with(context).clear(this)

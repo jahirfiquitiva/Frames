@@ -32,14 +32,14 @@ import java.util.Collections
 class CollectionsAdapter(private val manager: RequestManager,
                          private val provider: ViewPreloadSizeProvider<Wallpaper>,
                          private val listener: FramesViewClickListener<Collection, CollectionHolder>) :
-        BaseListAdapter<Collection, CollectionHolder>(MAX_COLLECTIONS_LOAD),
+        FramesListAdapter<Collection, CollectionHolder>(MAX_COLLECTIONS_LOAD),
         ListPreloader.PreloadModelProvider<Wallpaper> {
     
     override fun doBind(holder: CollectionHolder, position: Int, shouldAnimate: Boolean) =
             holder.setItem(manager, provider, list[position], listener)
     
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CollectionHolder? =
-            parent?.inflate(R.layout.item_collection)?.let { CollectionHolder(it) }
+    override fun doCreateVH(parent: ViewGroup, viewType: Int): CollectionHolder =
+            CollectionHolder(parent.inflate(R.layout.item_collection))
     
     override fun getPreloadItems(position: Int): MutableList<Wallpaper> =
             Collections.singletonList(list[position].bestCover)

@@ -26,21 +26,21 @@ import ca.allanwang.kau.utils.isNetworkAvailable
 import com.afollestad.materialdialogs.MaterialDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.PermissionRequestListener
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
-import jahirfiquitiva.libs.frames.helpers.extensions.checkPermission
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.requestPermissions
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsFragment
+import jahirfiquitiva.libs.kauextensions.extensions.PermissionRequestListener
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getUri
+import jahirfiquitiva.libs.kauextensions.extensions.requestSinglePermission
+import jahirfiquitiva.libs.kauextensions.ui.activities.FragmentsActivity
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 
-abstract class BaseWallpaperActionsActivity : BaseActivityWithFragments() {
+abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
     
     private var actionDialog: MaterialDialog? = null
     internal var wallActions: WallpaperActionsFragment? = null
@@ -50,6 +50,8 @@ abstract class BaseWallpaperActionsActivity : BaseActivityWithFragments() {
     
     internal abstract var wallpaper: Wallpaper?
     internal abstract val allowBitmapApply: Boolean
+    
+    override fun autoStatusBarTint(): Boolean = true
     
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
                                             grantResults: IntArray) {
@@ -73,13 +75,11 @@ abstract class BaseWallpaperActionsActivity : BaseActivityWithFragments() {
     @SuppressLint("NewApi")
     private fun downloadWallpaper(toApply: Boolean) {
         if (isNetworkAvailable) {
-            checkPermission(
+            requestSinglePermission(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    object : PermissionRequestListener {
-                        override fun onPermissionRequest(permission: String) =
-                                requestPermissions(if (toApply) 41 else 42, permission)
-                        
-                        override fun showPermissionInformation(permission: String) =
+                    if (toApply) 41 else 42,
+                    object : PermissionRequestListener() {
+                        override fun onShowInformation(permission: String) =
                                 showPermissionInformation(toApply)
                         
                         override fun onPermissionCompletelyDenied() =
@@ -167,10 +167,10 @@ abstract class BaseWallpaperActionsActivity : BaseActivityWithFragments() {
         return sdfDate.format(Date())
     }
     
-    private fun getWallpaperExtension(currenExt: String): String {
+    private fun getWallpaperExtension(currentExt: String): String {
         val validExtensions = arrayOf(".jpg", ".jpeg", ".png")
         validExtensions.forEach {
-            if (currenExt.contains(it, true)) return it
+            if (currentExt.contains(it, true)) return it
         }
         return ".png"
     }

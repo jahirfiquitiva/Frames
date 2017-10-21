@@ -27,7 +27,6 @@ import com.afollestad.materialdialogs.folderselector.FolderChooserDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.TRANSLATION_SITE
-import jahirfiquitiva.libs.frames.ui.activities.base.BaseActivityWithFragments
 import jahirfiquitiva.libs.frames.ui.fragments.SettingsFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.kauextensions.extensions.bind
@@ -38,14 +37,17 @@ import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.openLink
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
+import jahirfiquitiva.libs.kauextensions.ui.activities.FragmentsActivity
 import java.io.File
 
-open class SettingsActivity : BaseActivityWithFragments(), FolderChooserDialog.FolderCallback {
+open class SettingsActivity : FragmentsActivity(), FolderChooserDialog.FolderCallback {
     
     override fun lightTheme(): Int = R.style.LightTheme
     override fun darkTheme(): Int = R.style.DarkTheme
     override fun amoledTheme(): Int = R.style.AmoledTheme
     override fun transparentTheme(): Int = R.style.TransparentTheme
+    
+    override fun autoStatusBarTint(): Boolean = true
     
     var hasClearedFavs = false
     private val toolbar: CustomToolbar by bind(R.id.toolbar)

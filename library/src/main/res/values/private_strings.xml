@@ -30,24 +30,4 @@
     <bool name="isFrames">true</bool>
 
     <string name="frames_notifications_action">"jahirfiquitiva.libs.frames.NOTIFICATIONS_ACTION"</string>
-
-    <!-- KAU SEARCH -->
-    <dimen name="kau_search_base_corners">2dp</dimen>
-    <dimen name="kau_search_base_margin">4dp</dimen>
-    <dimen name="kau_search_divider">1dp</dimen>
-    <dimen name="kau_search_filter_margin_start">12dp</dimen>
-    <dimen name="kau_search_filter_margin_top">4dp</dimen>
-    <dimen name="kau_search_height">46dp</dimen>
-    <dimen name="kau_search_icon">56dp</dimen>
-    <dimen name="kau_search_item_height">56dp</dimen>
-    <dimen name="kau_search_item_margin_text">24dp</dimen>
-    <dimen name="kau_search_key_line_16">16dp</dimen>
-    <dimen name="kau_search_key_line_8">8dp</dimen>
-    <dimen name="kau_search_menu_item_margin">1dp</dimen>
-    <dimen name="kau_search_menu_item_margin_left_right">2dp</dimen>
-    <dimen name="kau_search_progress">24dp</dimen>
-    <dimen name="kau_search_reveal">24dp</dimen>
-    <dimen name="kau_search_text_medium">16sp</dimen>
-    <dimen name="kau_search_text_micro">12sp</dimen>
-    <dimen name="kau_search_text_small">14sp</dimen>
 </resources>
