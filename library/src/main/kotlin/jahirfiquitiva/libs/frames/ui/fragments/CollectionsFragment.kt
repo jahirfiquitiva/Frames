@@ -15,6 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.widget.SwipeRefreshLayout
@@ -86,16 +87,17 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
                     RecyclerViewPreloader(activity, collsAdapter, provider, context.maxPreload)
             addOnScrollListener(preloader)
             
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
-                    super.onScrolled(rv, dx, dy)
-                    rv?.let {
-                        if (!it.canScrollVertically(1)) {
-                            it.post({ collsAdapter?.allowMoreItemsLoad() })
+            addOnScrollListener(
+                    object : RecyclerView.OnScrollListener() {
+                        override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
+                            super.onScrolled(rv, dx, dy)
+                            rv?.let {
+                                if (!it.canScrollVertically(1)) {
+                                    it.post({ collsAdapter?.allowMoreItemsLoad() })
+                                }
+                            }
                         }
-                    }
-                }
-            })
+                    })
             
             adapter = collsAdapter
         }
@@ -114,15 +116,18 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
         rv.post { rv.scrollToPosition(0) }
     }
     
+    @SuppressLint("RestrictedApi")
     override fun onItemClicked(item: Collection, longClick: Boolean) {
         super.onItemClicked(item, longClick)
-        val intent = Intent(activity, CollectionActivity::class.java)
-        intent.putExtra("item", item)
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity)
-        try {
-            activity.startActivityForResult(intent, 11, options.toBundle())
-        } catch (ignored: Exception) {
-            activity.startActivityForResult(intent, 11)
+        activity?.let {
+            val intent = Intent(activity, CollectionActivity::class.java)
+            intent.putExtra("item", item)
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(it)
+            try {
+                it.startActivityForResult(intent, 11, options.toBundle())
+            } catch (ignored: Exception) {
+                it.startActivityForResult(intent, 11)
+            }
         }
     }
     

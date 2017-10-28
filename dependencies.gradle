@@ -23,23 +23,23 @@ ext.details = [
 ext.versions = [
         // Projects
         minSdk                : 16,
-        targetSdk             : 26,
-        compileSdk            : 26,
+        targetSdk             : 27,
         buildTools            : '26.0.2',
-        versionCode           : 207,
-        versionName           : '2.0.7',
+        versionCode           : 210,
+        versionName           : '2.1.0',
         // Gradle Plugins
-        gradle                : '2.3.3',
+        gradle                : '3.0.0',
         kotlin                : '1.1.51',
-        libs                  : '1.5',
+        libs                  : '2.0',
         gms                   : '3.1.0',
         // Dependencies
-        supportLibs           : '26.1.0',
+        supportLibs           : '27.0.0',
         archComponents        : '1.0.0-rc1',
-        materialDialogs       : '0.9.4.7',
+        materialDialogs       : 'beb1431',
         glide                 : '4.2.0',
         okhttp                : '3.9.0',
-        kauExt                : '3a56803',
+        kau                   : '3.4.4',
+        kauExt                : 'c569a5d',
         sectionedRecyclerView : '0.5.0',
         recyclerViewFastScroll: '6a72f8c',
         chips                 : 'a472057',
@@ -59,6 +59,14 @@ ext.gradlePlugins = [
 ]
 
 ext.libraries = [
+        // Support Libs
+        support              : 'com.android.support:support-v13:' + versions.supportLibs,
+        appcompat            : 'com.android.support:appcompat-v7:' + versions.supportLibs,
+        recyclerview         : 'com.android.support:recyclerview-v7:' + versions.supportLibs,
+        cardview             : 'com.android.support:cardview-v7:' + versions.supportLibs,
+        palette              : 'com.android.support:palette-v7:' + versions.supportLibs,
+        design               : 'com.android.support:design:' + versions.supportLibs,
+        customtabs           : 'com.android.support:customtabs:' + versions.supportLibs,
         // Kotlin
         kotlin               : 'org.jetbrains.kotlin:kotlin-stdlib:' + versions.kotlin,
         // Architecture Components
@@ -67,13 +75,15 @@ ext.libraries = [
         lifecycleCompiler    : 'android.arch.lifecycle:compiler:' + versions.archComponents,
         roomCompiler         : 'android.arch.persistence.room:compiler:' + versions.archComponents,
         // Material Dialogs
-        dialogsCore          : 'com.afollestad.material-dialogs:core:' + versions.materialDialogs,
-        dialogsCommons       : 'com.afollestad.material-dialogs:commons:' + versions.materialDialogs,
+        dialogsCore          : 'com.github.afollestad.material-dialogs:core:' + versions.materialDialogs,
+        dialogsCommons       : 'com.github.afollestad.material-dialogs:commons:' + versions.materialDialogs,
         // OkHttp
         okHttp               : 'com.squareup.okhttp3:okhttp:' + versions.okhttp,
         // Glide Image Loading
         glide                : 'com.github.bumptech.glide:glide:' + versions.glide,
         gliderv              : 'com.github.bumptech.glide:recyclerview-integration:' + versions.glide,
+        // KAU
+        kau                  : 'ca.allanwang.kau:core:' + versions.kau + '@aar',
         // KAU Extensions
         kauExt               : 'me.jahirfiquitiva.KAUExtensions:core:' + versions.kauExt,
         archHelpers          : 'me.jahirfiquitiva.KAUExtensions:archhelpers:' + versions.kauExt,

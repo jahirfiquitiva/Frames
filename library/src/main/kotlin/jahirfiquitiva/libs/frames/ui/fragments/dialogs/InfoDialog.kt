@@ -38,6 +38,8 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.ui.adapters.WallpaperInfoAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
+import jahirfiquitiva.libs.kauextensions.extensions.actv
+import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 
 class InfoDialog : DialogFragment() {
@@ -50,7 +52,7 @@ class InfoDialog : DialogFragment() {
     private var palette: Palette? = null
     
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = activity.buildMaterialDialog {
+        val dialog = actv.buildMaterialDialog {
             customView(R.layout.info_dialog, false)
         }
         
@@ -65,16 +67,17 @@ class InfoDialog : DialogFragment() {
         rv?.setPaddingBottom(16.dpToPx)
         rv?.itemAnimator = DefaultItemAnimator()
         
-        val layoutManager = GridLayoutManager(context, if (context.isInHorizontalMode) 3 else 2,
-                                              GridLayoutManager.VERTICAL, false)
+        val layoutManager = GridLayoutManager(
+                ctxt, if (ctxt.isInHorizontalMode) 3 else 2,
+                GridLayoutManager.VERTICAL, false)
         rv?.layoutManager = layoutManager
         
         if (adapter == null) adapter = WallpaperInfoAdapter {
             if (it != 0) {
-                val clipboard = context.getSystemService(
+                val clipboard = ctxt.getSystemService(
                         Context.CLIPBOARD_SERVICE) as ClipboardManager
                 clipboard.primaryClip = ClipData.newPlainText("label", it.toHexString())
-                Toast.makeText(context, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
+                Toast.makeText(ctxt, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
             }
         }
         adapter?.setLayoutManager(layoutManager)
@@ -99,8 +102,8 @@ class InfoDialog : DialogFragment() {
         rv?.visible()
     }
     
-    fun show(context: FragmentActivity) {
-        show(context.supportFragmentManager, TAG)
+    fun show(ctxt: FragmentActivity) {
+        show(ctxt.supportFragmentManager, TAG)
     }
     
     companion object {
@@ -115,8 +118,10 @@ class InfoDialog : DialogFragment() {
                     this.palette = palette
                 }
         
-        fun show(context: FragmentActivity, details: ArrayList<WallpaperDetail>,
-                 palette: Palette?) =
-                build(details, palette).show(context.supportFragmentManager, TAG)
+        fun show(
+                ctxt: FragmentActivity, details: ArrayList<WallpaperDetail>,
+                palette: Palette?
+                ) =
+                build(details, palette).show(ctxt.supportFragmentManager, TAG)
     }
 }

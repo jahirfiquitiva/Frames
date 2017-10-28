@@ -40,8 +40,10 @@ fun ImageView.setSaturation(saturation: Float) {
     colorFilter = ColorMatrixColorFilter(matrix)
 }
 
-fun ImageView.loadWallpaper(requester: RequestManager?, url: String, thumbUrl: String,
-                            hasFaded: Boolean, callback: GlideRequestCallback<Bitmap>?) {
+fun ImageView.loadWallpaper(
+        requester: RequestManager?, url: String, thumbUrl: String,
+        hasFaded: Boolean, callback: GlideRequestCallback<Bitmap>?
+                           ) {
     val manager = requester ?: Glide.with(context)
     val loadFullRes = context.framesKonfigs.fullResGridPictures
     val correctThumbUrl = if (thumbUrl.hasContent()) thumbUrl else url
@@ -50,17 +52,20 @@ fun ImageView.loadWallpaper(requester: RequestManager?, url: String, thumbUrl: S
         val validThumb = !correctThumbUrl.equals(url, true)
         val thumbnailRequest = manager.asBitmap()
                 .load(correctThumbUrl)
-                .apply((if (validThumb) context.thumbnailOptions else context.wallpaperOptions)
-                               .timeout(5000))
+                .apply(
+                        (if (validThumb) context.thumbnailOptions else context.wallpaperOptions)
+                                .timeout(5000))
                 .transition(withCrossFade())
-                .listener(object : GlideRequestCallback<Bitmap>() {
-                    override fun onLoadSucceed(resource: Bitmap): Boolean =
-                            callback?.onLoadSucceed(resource) ?: false
-                })
+                .listener(
+                        object : GlideRequestCallback<Bitmap>() {
+                            override fun onLoadSucceed(resource: Bitmap): Boolean =
+                                    callback?.onLoadSucceed(resource) == true
+                        })
         loadBitmap(manager, url, !hasFaded, false, thumbnailRequest, callback)
     } else {
-        createGlideRequest(manager, context.thumbnailOptions.timeout(5000),
-                           correctThumbUrl, !hasFaded, false, null, callback).into(this)
+        createGlideRequest(
+                manager, context.thumbnailOptions.timeout(5000),
+                correctThumbUrl, !hasFaded, false, null, callback).into(this)
     }
 }
 
@@ -68,10 +73,12 @@ fun ImageView.loadAvatar(requester: RequestManager?, url: String, shouldAnimate:
     loadBitmap(requester, url, shouldAnimate, true, null, null)
 }
 
-private fun ImageView.createGlideRequest(requester: RequestManager?, options: RequestOptions,
-                                         url: String, shouldAnimate: Boolean, isAvatar: Boolean,
-                                         thumbnail: RequestBuilder<Bitmap>?,
-                                         callback: GlideRequestCallback<Bitmap>?): RequestBuilder<Bitmap> {
+private fun ImageView.createGlideRequest(
+        requester: RequestManager?, options: RequestOptions,
+        url: String, shouldAnimate: Boolean, isAvatar: Boolean,
+        thumbnail: RequestBuilder<Bitmap>?,
+        callback: GlideRequestCallback<Bitmap>?
+                                        ): RequestBuilder<Bitmap> {
     val manager = requester ?: Glide.with(context)
     if (isAvatar) options.transform(CircleCrop())
     val builder = manager.asBitmap().load(url)
@@ -82,17 +89,22 @@ private fun ImageView.createGlideRequest(requester: RequestManager?, options: Re
     return builder.listener(callback)
 }
 
-private fun ImageView.loadBitmap(requester: RequestManager?,
-                                 url: String, shouldAnimate: Boolean, isAvatar: Boolean,
-                                 thumbnail: RequestBuilder<Bitmap>?,
-                                 callback: GlideRequestCallback<Bitmap>?) {
-    createGlideRequest(requester, context.wallpaperOptions, url, shouldAnimate,
-                       isAvatar, thumbnail, callback).into(this)
+private fun ImageView.loadBitmap(
+        requester: RequestManager?,
+        url: String, shouldAnimate: Boolean, isAvatar: Boolean,
+        thumbnail: RequestBuilder<Bitmap>?,
+        callback: GlideRequestCallback<Bitmap>?
+                                ) {
+    createGlideRequest(
+            requester, context.wallpaperOptions, url, shouldAnimate,
+            isAvatar, thumbnail, callback).into(this)
 }
 
-fun ImageView.loadResource(requester: RequestManager?, resId: Int, dontTransform: Boolean,
-                           shouldAnimate: Boolean, immediately: Boolean,
-                           callback: GlideRequestCallback<Drawable>?) {
+fun ImageView.loadResource(
+        requester: RequestManager?, resId: Int, dontTransform: Boolean,
+        shouldAnimate: Boolean, immediately: Boolean,
+        callback: GlideRequestCallback<Drawable>?
+                          ) {
     val manager = requester ?: Glide.with(context)
     
     val options = context.resourceOptions

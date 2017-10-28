@@ -79,13 +79,14 @@ open class CollectionActivity : FragmentsActivity() {
                 window.sharedElementEnterTransition?.excludeTarget(it, true)
             }
             
-            window.enterTransition?.addListener(object : Transition.TransitionListener {
-                override fun onTransitionPause(p0: Transition?) = loadFragment()
-                override fun onTransitionCancel(p0: Transition?) = loadFragment()
-                override fun onTransitionEnd(p0: Transition?) = loadFragment()
-                override fun onTransitionStart(p0: Transition?) {}
-                override fun onTransitionResume(p0: Transition?) {}
-            })
+            window.enterTransition?.addListener(
+                    object : Transition.TransitionListener {
+                        override fun onTransitionPause(p0: Transition?) = loadFragment()
+                        override fun onTransitionCancel(p0: Transition?) = loadFragment()
+                        override fun onTransitionEnd(p0: Transition?) = loadFragment()
+                        override fun onTransitionStart(p0: Transition?) {}
+                        override fun onTransitionResume(p0: Transition?) {}
+                    })
         }
         
         setContentView(R.layout.activity_collection_settings)
@@ -103,9 +104,10 @@ open class CollectionActivity : FragmentsActivity() {
         
         val number = collection?.wallpapers?.size ?: 0
         if (number > 0) toolbar.subtitle = getString(R.string.x_wallpapers, number.toString())
-        toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
-                     getSecondaryTextColorFor(primaryColor, 0.6F),
-                     getActiveIconsColorFor(primaryColor, 0.6F))
+        toolbar.tint(
+                getPrimaryTextColorFor(primaryColor, 0.6F),
+                getSecondaryTextColorFor(primaryColor, 0.6F),
+                getActiveIconsColorFor(primaryColor, 0.6F))
     }
     
     private fun loadFragment() {
@@ -162,9 +164,10 @@ open class CollectionActivity : FragmentsActivity() {
             searchView?.hintText = getString(R.string.search_x, getString(R.string.wallpapers))
         }
         
-        toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
-                     getSecondaryTextColorFor(primaryColor, 0.6F),
-                     getActiveIconsColorFor(primaryColor, 0.6F))
+        toolbar.tint(
+                getPrimaryTextColorFor(primaryColor, 0.6F),
+                getSecondaryTextColorFor(primaryColor, 0.6F),
+                getActiveIconsColorFor(primaryColor, 0.6F))
         return super.onCreateOptionsMenu(menu)
     }
     
@@ -180,7 +183,8 @@ open class CollectionActivity : FragmentsActivity() {
     private val LOCK = Any()
     private fun doSearch(filter: String = "") {
         try {
-            synchronized(LOCK, {
+            synchronized(
+                    LOCK, {
                 postDelayed(200, { frag.applyFilter(filter) })
             })
         } catch (ignored: Exception) {

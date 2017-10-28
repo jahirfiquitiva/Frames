@@ -29,11 +29,13 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListene
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import java.util.Collections
 
-class WallpapersAdapter(private val manager: RequestManager,
-                        private val provider: ViewPreloadSizeProvider<Wallpaper>,
-                        private val fromFavorites: Boolean,
-                        private val showFavIcon: Boolean,
-                        private val listener: FramesViewClickListener<Wallpaper, WallpaperHolder>) :
+class WallpapersAdapter(
+        private val manager: RequestManager,
+        private val provider: ViewPreloadSizeProvider<Wallpaper>,
+        private val fromFavorites: Boolean,
+        private val showFavIcon: Boolean,
+        private val listener: FramesViewClickListener<Wallpaper, WallpaperHolder>
+                       ) :
         ListAdapter<Wallpaper, WallpaperHolder>(if (fromFavorites) -1 else MAX_WALLPAPERS_LOAD),
         ListPreloader.PreloadModelProvider<Wallpaper> {
     
@@ -56,8 +58,9 @@ class WallpapersAdapter(private val manager: RequestManager,
     
     override fun doBind(holder: WallpaperHolder, position: Int, shouldAnimate: Boolean) {
         val item = list[position]
-        holder.setItem(manager, provider, item, fromFavorites || favorites.contains(item),
-                       listener)
+        holder.setItem(
+                manager, provider, item, fromFavorites || favorites.contains(item),
+                listener)
     }
     
     override fun doCreateVH(parent: ViewGroup, viewType: Int): WallpaperHolder =
@@ -69,8 +72,10 @@ class WallpapersAdapter(private val manager: RequestManager,
     override fun getPreloadRequestBuilder(item: Wallpaper?): RequestBuilder<*> =
             manager.load(item?.thumbUrl)
     
-    private fun getModifiedItems(oldList: ArrayList<Wallpaper>,
-                                 newList: ArrayList<Wallpaper>): ArrayList<Wallpaper> {
+    private fun getModifiedItems(
+            oldList: ArrayList<Wallpaper>,
+            newList: ArrayList<Wallpaper>
+                                ): ArrayList<Wallpaper> {
         val modified = ArrayList<Wallpaper>()
         oldList.filter { !newList.contains(it) && !modified.contains(it) }
                 .forEach { modified.add(it) }

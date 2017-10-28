@@ -15,6 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.ui.fragments.base
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
 import android.arch.persistence.room.Room
 import android.graphics.Color
@@ -37,10 +38,12 @@ import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.kauextensions.extensions.SimpleAnimationListener
+import jahirfiquitiva.libs.kauextensions.extensions.actv
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
 import jahirfiquitiva.libs.kauextensions.extensions.buildSnackbar
+import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
-import org.jetbrains.anko.runOnUiThread
+import jahirfiquitiva.libs.kauextensions.extensions.runOnUiThread
 
 @Suppress("NAME_SHADOWING")
 abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
@@ -51,6 +54,7 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
     
     internal var snack: Snackbar? = null
     
+    @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initDatabase()
@@ -58,10 +62,11 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
     }
     
     private fun initDatabase() {
-        if (!(context.getBoolean(R.bool.isFrames))) return
+        if (!(ctxt.getBoolean(R.bool.isFrames))) return
         if (database == null) {
-            database = Room.databaseBuilder(context, FavoritesDatabase::class.java,
-                                            DATABASE_NAME).fallbackToDestructiveMigration().build()
+            database = Room.databaseBuilder(
+                    ctxt, FavoritesDatabase::class.java,
+                    DATABASE_NAME).fallbackToDestructiveMigration().build()
         }
     }
     
@@ -70,16 +75,17 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
     }
     
     private fun initFavoritesViewModel() {
-        if (!(context.getBoolean(R.bool.isFrames))) return
+        if (!(ctxt.getBoolean(R.bool.isFrames))) return
         if (database == null) initDatabase()
         if (favoritesModel == null) {
-            favoritesModel = ViewModelProviders.of(activity).get(FavoritesViewModel::class.java)
+            favoritesModel = ViewModelProviders.of(actv).get(FavoritesViewModel::class.java)
         }
     }
     
     override fun registerObserver() {
         initFavoritesViewModel()
-        favoritesModel?.observe(this, {
+        favoritesModel?.observe(
+                this, {
             doOnFavoritesChange(ArrayList(it))
         })
     }
@@ -103,7 +109,7 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
     internal fun getDatabase(): FavoritesDao? = database?.favoritesDao()
     
     internal fun isInFavorites(item: Wallpaper): Boolean =
-            favoritesModel?.isInFavorites(item) ?: false
+            favoritesModel?.isInFavorites(item) == true
     
     internal fun addToFavorites(item: Wallpaper) =
             getDatabase()?.let {
@@ -120,29 +126,36 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
     abstract fun fromFavorites(): Boolean
     
     private val ANIMATION_DURATION: Long = 150
-    private fun animateHeartClick(heart: ImageView, item: Wallpaper, @ColorInt color: Int,
-                                  check: Boolean) = context.runOnUiThread {
-        val scale = ScaleAnimation(1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5F,
-                                   Animation.RELATIVE_TO_SELF, 0.5F)
+    private fun animateHeartClick(
+            heart: ImageView, item: Wallpaper, @ColorInt color: Int,
+            check: Boolean
+                                 ) = ctxt.runOnUiThread {
+        val scale = ScaleAnimation(
+                1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5F,
+                Animation.RELATIVE_TO_SELF, 0.5F)
         scale.duration = ANIMATION_DURATION
         scale.interpolator = LinearInterpolator()
-        scale.setAnimationListener(object : SimpleAnimationListener() {
-            override fun onEnd(animation: Animation) {
-                super.onEnd(animation)
-                heart.setImageDrawable(context.createHeartIcon(check).applyColorFilter(color))
-                val nScale = ScaleAnimation(0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5F,
-                                            Animation.RELATIVE_TO_SELF, 0.5F)
-                nScale.duration = ANIMATION_DURATION
-                nScale.interpolator = LinearInterpolator()
-                nScale.setAnimationListener(object : SimpleAnimationListener() {
+        scale.setAnimationListener(
+                object : SimpleAnimationListener() {
                     override fun onEnd(animation: Animation) {
                         super.onEnd(animation)
-                        postToFavorites(item, check)
+                        heart.setImageDrawable(
+                                ctxt.createHeartIcon(check)?.applyColorFilter(color))
+                        val nScale = ScaleAnimation(
+                                0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5F,
+                                Animation.RELATIVE_TO_SELF, 0.5F)
+                        nScale.duration = ANIMATION_DURATION
+                        nScale.interpolator = LinearInterpolator()
+                        nScale.setAnimationListener(
+                                object : SimpleAnimationListener() {
+                                    override fun onEnd(animation: Animation) {
+                                        super.onEnd(animation)
+                                        postToFavorites(item, check)
+                                    }
+                                })
+                        heart.startAnimation(nScale)
                     }
                 })
-                heart.startAnimation(nScale)
-            }
-        })
         heart.startAnimation(scale)
     }
     
@@ -157,9 +170,10 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
     }
     
     private fun showFavsSnackbar(added: Boolean, name: String) {
-        showSnackBar(getString(
-                if (added) R.string.added_to_favorites else R.string.removed_from_favorites,
-                name))
+        showSnackBar(
+                getString(
+                        if (added) R.string.added_to_favorites else R.string.removed_from_favorites,
+                        name))
     }
     
     internal fun showErrorSnackbar() {

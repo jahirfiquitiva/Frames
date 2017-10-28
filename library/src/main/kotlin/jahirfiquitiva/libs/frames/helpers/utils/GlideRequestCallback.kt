@@ -24,10 +24,14 @@ abstract class GlideRequestCallback<Type> : RequestListener<Type> {
     abstract fun onLoadSucceed(resource: Type): Boolean
     open fun onLoadFailed(): Boolean = false
     
-    override fun onResourceReady(resource: Type, model: Any?, target: Target<Type>?,
-                                 dataSource: DataSource?, isFirstResource: Boolean): Boolean =
+    override fun onResourceReady(
+            resource: Type, model: Any?, target: Target<Type>?,
+            dataSource: DataSource?, isFirstResource: Boolean
+                                ): Boolean =
             onLoadSucceed(resource)
     
-    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Type>?,
-                              isFirstResource: Boolean): Boolean = onLoadFailed()
+    override fun onLoadFailed(
+            e: GlideException?, model: Any?, target: Target<Type>?,
+            isFirstResource: Boolean
+                             ): Boolean = onLoadFailed()
 }

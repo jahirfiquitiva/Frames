@@ -35,9 +35,11 @@ open class FramesKonfigs(nm: String, cntxt: Context) : Konfigurations(nm, cntxt)
         set(value) = prefsEditor.putInt(COLUMNS_NUMBER, value).apply()
     
     var downloadsFolder: String
-        get() = prefs.getString(DOWNLOADS_FOLDER,
-                                context.getString(R.string.default_download_folder,
-                                                  Environment.getExternalStorageDirectory().absolutePath))
+        get() = prefs.getString(
+                DOWNLOADS_FOLDER,
+                context.getString(
+                        R.string.default_download_folder,
+                        Environment.getExternalStorageDirectory().absolutePath))
         set(value) = prefsEditor.putString(DOWNLOADS_FOLDER, value).apply()
     
     var fullResGridPictures: Boolean

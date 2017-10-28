@@ -64,9 +64,10 @@ open class SettingsActivity : FragmentsActivity(), FolderChooserDialog.FolderCal
         toolbar.bindToActivity(this)
         
         supportActionBar?.setTitle(R.string.settings)
-        toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
-                     getSecondaryTextColorFor(primaryColor, 0.6F),
-                     getActiveIconsColorFor(primaryColor, 0.6F))
+        toolbar.tint(
+                getPrimaryTextColorFor(primaryColor, 0.6F),
+                getSecondaryTextColorFor(primaryColor, 0.6F),
+                getActiveIconsColorFor(primaryColor, 0.6F))
         
         val container: FrameLayout by bind(fragmentsContainer())
         with(container) {
@@ -76,8 +77,10 @@ open class SettingsActivity : FragmentsActivity(), FolderChooserDialog.FolderCal
         changeFragment(fragment, "Settings")
     }
     
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+            requestCode: Int, permissions: Array<out String>,
+            grantResults: IntArray
+                                           ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 42) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -91,9 +94,10 @@ open class SettingsActivity : FragmentsActivity(), FolderChooserDialog.FolderCal
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.about_settings_menu, menu)
         menu?.changeOptionVisibility(R.id.licenses, false)
-        toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
-                     getSecondaryTextColorFor(primaryColor, 0.6F),
-                     getActiveIconsColorFor(primaryColor, 0.6F))
+        toolbar.tint(
+                getPrimaryTextColorFor(primaryColor, 0.6F),
+                getSecondaryTextColorFor(primaryColor, 0.6F),
+                getActiveIconsColorFor(primaryColor, 0.6F))
         return super.onCreateOptionsMenu(menu)
     }
     

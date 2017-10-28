@@ -50,7 +50,8 @@ data class Wallpaper(
         var hasFaded: Boolean = false,
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "ID")
-        var id: Long = 0) : Parcelable {
+        var id: Long = 0
+                    ) : Parcelable {
     
     constructor(parcel: Parcel) : this(
             parcel.readString(),
@@ -68,7 +69,7 @@ data class Wallpaper(
     override fun equals(other: Any?): Boolean {
         if (other !is Wallpaper) return false
         return name.equals(other.name, true) ||
-               url.equals(other.url, true) || thumbUrl.equals(other.thumbUrl, true)
+                url.equals(other.url, true) || thumbUrl.equals(other.thumbUrl, true)
     }
     
     fun hasChangedFrom(other: Wallpaper?) =
@@ -104,8 +105,10 @@ data class Wallpaper(
     }
 }
 
-data class Collection(val name: String,
-                      var wallpapers: ArrayList<Wallpaper> = ArrayList()) : Parcelable {
+data class Collection(
+        val name: String,
+        var wallpapers: ArrayList<Wallpaper> = ArrayList()
+                     ) : Parcelable {
     
     var bestCover: Wallpaper? = null
     

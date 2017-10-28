@@ -160,8 +160,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         val toolbarTitle: TextView by bind(R.id.toolbar_title)
         val toolbarSubtitle: TextView by bind(R.id.toolbar_subtitle)
         ViewCompat.setTransitionName(toolbarTitle, intent?.getStringExtra("nameTransition") ?: "")
-        ViewCompat.setTransitionName(toolbarSubtitle,
-                                     intent?.getStringExtra("authorTransition") ?: "")
+        ViewCompat.setTransitionName(
+                toolbarSubtitle,
+                intent?.getStringExtra("authorTransition") ?: "")
         toolbarTitle.text = wallpaper?.name ?: ""
         toolbarSubtitle.text = wallpaper?.author ?: ""
         
@@ -173,7 +174,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
             showInfoDialog()
         }
         
-        val downloadable = wallpaper?.downloadable ?: false
+        val downloadable = wallpaper?.downloadable == true
         if (downloadable && isNetworkAvailable) {
             findViewById<RelativeLayout>(R.id.download_container).setOnClickListener {
                 doItemClick(DOWNLOAD_ACTION_ID)
@@ -189,8 +190,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         if (showFavoritesButton) {
             val favIcon = (if (isInFavorites) "ic_heart" else "ic_heart_outline").getDrawable(this)
             val favImageView: ImageView by bind(R.id.fav_button)
-            ViewCompat.setTransitionName(favImageView,
-                                         intent?.getStringExtra("favTransition") ?: "")
+            ViewCompat.setTransitionName(
+                    favImageView,
+                    intent?.getStringExtra("favTransition") ?: "")
             favImageView.setImageDrawable(favIcon)
             findViewById<RelativeLayout>(R.id.fav_container).setOnClickListener {
                 doItemClick(FAVORITE_ACTION_ID)
@@ -264,9 +266,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
-        setSystemUIVisibility(savedInstanceState?.getBoolean(VISIBLE_SYSTEM_UI_KEY, true) ?: true)
-        this.closing = savedInstanceState?.getBoolean(CLOSING_KEY, false) ?: false
-        this.transitioned = savedInstanceState?.getBoolean(TRANSITIONED_KEY, false) ?: false
+        setSystemUIVisibility(savedInstanceState?.getBoolean(VISIBLE_SYSTEM_UI_KEY, true) != false)
+        this.closing = savedInstanceState?.getBoolean(CLOSING_KEY, false) == true
+        this.transitioned = savedInstanceState?.getBoolean(TRANSITIONED_KEY, false) == true
     }
     
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -277,7 +279,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     }
     
     override fun onBackPressed() {
-        val infoVisible = infoDialog?.isVisible ?: false
+        val infoVisible = infoDialog?.isVisible == true
         if (infoVisible) dismissInfoDialog()
         else {
             super.onBackPressed()
@@ -301,7 +303,8 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
             }
             detailsVM?.destroy(this)
             detailsVM = null
-            postDelayed(100, {
+            postDelayed(
+                    100, {
                 val intent = Intent()
                 intent.putExtra("modified", hasModifiedFavs)
                 intent.putExtra("item", wallpaper)
@@ -431,7 +434,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
                 if (dimensions.hasContent()) {
                     addToDetails(WallpaperDetail("ic_dimensions", dimensions))
                 }
-                val isValidInfo = info?.isValid ?: false
+                val isValidInfo = info?.isValid == true
                 if (isValidInfo) {
                     postWallpaperInfo(info)
                     return
@@ -451,7 +454,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     }
     
     private fun postWallpaperInfo(it: WallpaperInfo?) {
-        val isValid = it?.isValid ?: false
+        val isValid = it?.isValid == true
         
         if (isValid && (info != it)) {
             val prevSize = wallpaper?.size ?: 0L
@@ -478,49 +481,57 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         }
     }
     
-    override fun applyBitmapWallpaper(toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
-                                      toOtherApp: Boolean) {
+    override fun applyBitmapWallpaper(
+            toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
+            toOtherApp: Boolean
+                                     ) {
         wallpaper?.let {
             properlyCancelDialog()
             wallActions = WallpaperActionsFragment()
-            wallActions?.show(this, it, img.drawable.toBitmap(), toHomeScreen, toLockScreen, toBoth,
-                              toOtherApp)
+            wallActions?.show(
+                    this, it, img.drawable.toBitmap(), toHomeScreen, toLockScreen, toBoth,
+                    toOtherApp)
         }
     }
     
     private val ANIMATION_DURATION: Long = 150
     private fun toggleFavorite() = runOnUiThread {
         val favImageView: ImageView by bind(R.id.fav_button)
-        val scale = ScaleAnimation(1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5f,
-                                   Animation.RELATIVE_TO_SELF, 0.5f)
+        val scale = ScaleAnimation(
+                1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f)
         scale.duration = ANIMATION_DURATION
         scale.interpolator = LinearInterpolator()
-        scale.setAnimationListener(object : SimpleAnimationListener() {
-            override fun onEnd(animation: Animation) {
-                super.onEnd(animation)
-                favImageView.setImageDrawable(
-                        (if (isInFavorites) "ic_heart_outline" else "ic_heart")
-                                .getDrawable(this@ViewerActivity))
-                
-                val nScale = ScaleAnimation(0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5f,
-                                            Animation.RELATIVE_TO_SELF, 0.5f)
-                nScale.duration = ANIMATION_DURATION
-                nScale.interpolator = LinearInterpolator()
-                nScale.setAnimationListener(object : SimpleAnimationListener() {
+        scale.setAnimationListener(
+                object : SimpleAnimationListener() {
                     override fun onEnd(animation: Animation) {
                         super.onEnd(animation)
-                        wallpaper?.let {
-                            showSnackbar(getString(
-                                    (if (isInFavorites) R.string.removed_from_favorites else R.string.added_to_favorites),
-                                    it.name), Snackbar.LENGTH_SHORT)
-                        }
-                        hasModifiedFavs = true
-                        isInFavorites = !isInFavorites
+                        favImageView.setImageDrawable(
+                                (if (isInFavorites) "ic_heart_outline" else "ic_heart")
+                                        .getDrawable(this@ViewerActivity))
+                        
+                        val nScale = ScaleAnimation(
+                                0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5f,
+                                Animation.RELATIVE_TO_SELF, 0.5f)
+                        nScale.duration = ANIMATION_DURATION
+                        nScale.interpolator = LinearInterpolator()
+                        nScale.setAnimationListener(
+                                object : SimpleAnimationListener() {
+                                    override fun onEnd(animation: Animation) {
+                                        super.onEnd(animation)
+                                        wallpaper?.let {
+                                            showSnackbar(
+                                                    getString(
+                                                            (if (isInFavorites) R.string.removed_from_favorites else R.string.added_to_favorites),
+                                                            it.name), Snackbar.LENGTH_SHORT)
+                                        }
+                                        hasModifiedFavs = true
+                                        isInFavorites = !isInFavorites
+                                    }
+                                })
+                        favImageView.startAnimation(nScale)
                     }
                 })
-                favImageView.startAnimation(nScale)
-            }
-        })
         favImageView.startAnimation(scale)
     }
     
@@ -529,13 +540,14 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
             val snack = it.buildSnackbar(text, duration, settings)
             val bottomBarWasVisible = visibleBottomBar
             
-            snack.addCallback(object : Snackbar.Callback() {
-                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                    super.onDismissed(transientBottomBar, event)
-                    if (bottomBarWasVisible) changeBottomBarVisibility(true)
-                }
-                
-            })
+            snack.addCallback(
+                    object : Snackbar.Callback() {
+                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                            super.onDismissed(transientBottomBar, event)
+                            if (bottomBarWasVisible) changeBottomBarVisibility(true)
+                        }
+                        
+                    })
             
             var bottomNavBar = 0
             var sideNavBar = 0
@@ -553,9 +565,10 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
             if (currentRotation == 90) extraRight = sideNavBar
             else if (currentRotation == 270) extraLeft = sideNavBar
             
-            snack.view.setPadding(snack.view.paddingLeft + extraLeft, snack.view.paddingTop,
-                                  snack.view.paddingRight + extraRight,
-                                  snack.view.paddingBottom + bottomNavBar)
+            snack.view.setPadding(
+                    snack.view.paddingLeft + extraLeft, snack.view.paddingTop,
+                    snack.view.paddingRight + extraRight,
+                    snack.view.paddingBottom + bottomNavBar)
             
             val snackText = snack.view.findViewById<TextView>(R.id.snackbar_text)
             snackText.setTextColor(Color.WHITE)
@@ -571,24 +584,25 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     }
     
     private fun setSystemUIVisibility(visible: Boolean) {
-        Handler().post({
-                           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                               window.decorView.systemUiVisibility = if (visible)
-                                   View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                                           View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                                           View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                               else
-                                   View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                                           View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                                           View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                                           View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                                           View.SYSTEM_UI_FLAG_FULLSCREEN or
-                                           View.SYSTEM_UI_FLAG_IMMERSIVE or
-                                           View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                           }
-                           changeBarsVisibility(visible)
-                           visibleSystemUI = visible
-                       })
+        Handler().post(
+                {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        window.decorView.systemUiVisibility = if (visible)
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        else
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                                    View.SYSTEM_UI_FLAG_FULLSCREEN or
+                                    View.SYSTEM_UI_FLAG_IMMERSIVE or
+                                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    }
+                    changeBarsVisibility(visible)
+                    visibleSystemUI = visible
+                })
     }
     
     private fun changeBarsVisibility(show: Boolean) {

@@ -127,17 +127,21 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
             if (checker != null) {
                 checker?.let {
                     with(it) {
-                        callback(object : PiracyCheckerCallback() {
-                            override fun allow() = showLicensedDialog()
-                            
-                            override fun dontAllow(error: PiracyCheckerError, app: PirateApp?) =
-                                    showNotLicensedDialog(app)
-                            
-                            override fun onError(error: PiracyCheckerError) {
-                                super.onError(error)
-                                showLicenseErrorDialog()
-                            }
-                        })
+                        callback(
+                                object : PiracyCheckerCallback() {
+                                    override fun allow() = showLicensedDialog()
+                                    
+                                    override fun dontAllow(
+                                            error: PiracyCheckerError,
+                                            app: PirateApp?
+                                                          ) =
+                                            showNotLicensedDialog(app)
+                                    
+                                    override fun onError(error: PiracyCheckerError) {
+                                        super.onError(error)
+                                        showLicenseErrorDialog()
+                                    }
+                                })
                         start()
                     }
                 }
@@ -149,7 +153,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     
     fun getShortcut(): String {
         if (intent != null && intent.dataString != null &&
-            intent.dataString.contains("_shortcut")) {
+                intent.dataString.contains("_shortcut")) {
             return intent.dataString
         }
         return ""
@@ -205,8 +209,9 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
         destroyDialog()
         val pirateAppName = pirateApp?.name ?: ""
         val content = if (pirateAppName.hasContent()) {
-            getString(R.string.license_invalid_content, getAppName(),
-                      getString(R.string.license_invalid_content_extra, pirateAppName))
+            getString(
+                    R.string.license_invalid_content, getAppName(),
+                    getString(R.string.license_invalid_content_extra, pirateAppName))
         } else {
             getString(R.string.license_invalid_content, getAppName(), "~")
         }
@@ -275,7 +280,8 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
             if (it.isInitialized) {
                 val donationViewModel = ViewModelProviders.of(this).get(IAPViewModel::class.java)
                 donationViewModel.iapBillingProcessor = it
-                donationViewModel.observe(this, {
+                donationViewModel.observe(
+                        this, {
                     if (it.size > 0) {
                         showDonationDialog(ArrayList(it))
                     } else {
@@ -300,7 +306,8 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
         dialog = buildMaterialDialog {
             title(R.string.donate)
             items(items)
-            itemsCallbackSingleChoice(0, { _, _, which, _ ->
+            itemsCallbackSingleChoice(
+                    0, { _, _, which, _ ->
                 billingProcessor?.purchase(this@BaseFramesActivity, items[which].id)
                 true
             })
@@ -314,8 +321,10 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
         destroyDialog()
         dialog = buildMaterialDialog {
             title(R.string.error_title)
-            content(getString(R.string.donate_error, error.toString(),
-                              reason ?: getString(R.string.donate_error_unknown)))
+            content(
+                    getString(
+                            R.string.donate_error, error.toString(),
+                            reason ?: getString(R.string.donate_error_unknown)))
         }
         dialog?.show()
     }
@@ -335,8 +344,9 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     }
     
     override fun onBillingError(errorCode: Int, error: Throwable?) {
-        showDonationErrorDialog(errorCode,
-                                (error?.message ?: getString(R.string.donate_error_unknown)))
+        showDonationErrorDialog(
+                errorCode,
+                (error?.message ?: getString(R.string.donate_error_unknown)))
         destroyBillingProcessor()
     }
     
@@ -379,8 +389,10 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     override fun onBillingInitialized() {}
     override fun onPurchaseHistoryRestored() {}
     
-    override fun applyBitmapWallpaper(toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
-                                      toOtherApp: Boolean) {
+    override fun applyBitmapWallpaper(
+            toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
+            toOtherApp: Boolean
+                                     ) {
     }
     
     override fun showSnackbar(text: String, duration: Int, settings: Snackbar.() -> Unit) {

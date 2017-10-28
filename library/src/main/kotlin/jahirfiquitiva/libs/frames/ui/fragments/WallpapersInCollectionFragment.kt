@@ -32,9 +32,11 @@ class WallpapersInCollectionFragment : BaseWallpapersFragment() {
     private fun getWallpapersInCollection(all: ArrayList<Wallpaper>): ArrayList<Wallpaper> {
         collection?.let {
             val collectionName = it.name
-            return ArrayList(all.filter {
-                it.collections.formatCorrectly().replace("_", " ").contains(collectionName, true)
-            })
+            return ArrayList(
+                    all.filter {
+                        it.collections.formatCorrectly().replace("_", " ").contains(
+                                collectionName, true)
+                    })
         }
         return ArrayList()
     }
