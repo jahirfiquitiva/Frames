@@ -17,13 +17,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion versions.compileSdk
+    compileSdkVersion versions.targetSdk
     buildToolsVersion versions.buildTools
 
     applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFile = new File(output.outputFile.parent,
-                    "MyFramesApp-v${variant.versionName}-${variant.name}.apk")
+        variant.outputs.all { output ->
+            outputFileName = "MyFramesApp-v${variant.versionName}-${variant.name}.apk"
         }
     }
 
@@ -37,8 +36,8 @@ android {
         applicationId "jahirfiquitiva.apps.frames.sample"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
-        versionCode 209
-        versionName '2.0.9'
+        versionCode 210
+        versionName '2.1.0'
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -67,11 +66,9 @@ android {
 
 dependencies {
     // Frames
-    compile('me.jahirfiquitiva:Frames:2.0.9@aar') {
+    implementation('me.jahirfiquitiva:Frames:2.1.0@aar') {
         transitive = true
     }
-    // Kotlin
-    compile libraries.kotlin
 }
 
 // TODO: Remove comment marks if you plan on implementing Firebase Notifications

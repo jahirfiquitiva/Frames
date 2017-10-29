@@ -5,7 +5,6 @@ Frames
 
 [![JitPack](https://jitpack.io/v/jahirfiquitiva/Frames.svg)](https://jitpack.io/#jahirfiquitiva/Frames)
 [![Build Status](https://travis-ci.org/jahirfiquitiva/Frames.svg?branch=master)](https://travis-ci.org/jahirfiquitiva/Frames)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0daab9c8435f451eabd86c5218bc2950)](https://www.codacy.com/app/jahirfiquitiva/Frames?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jahirfiquitiva/Frames&amp;utm_campaign=Badge_Grade)
 [![codebeat badge](https://codebeat.co/badges/eee96484-e205-455d-b5c2-6e4cda77b5f3)](https://codebeat.co/projects/github-com-jahirfiquitiva-frames-master)
 
 [![Waffle.io - To Do](https://badge.waffle.io/jahirfiquitiva/Frames.svg?label=to%20do&title=To%20Do:)](http://waffle.io/jahirfiquitiva/Frames)
