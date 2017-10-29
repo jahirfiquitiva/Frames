@@ -29,9 +29,11 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideSectionedViewHold
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SectionedHeaderViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SimpleCreditViewHolder
 
-class CreditsAdapter(@StringRes private val dashboardTitle: Int,
-                     private val manager: RequestManager,
-                     private val credits: ArrayList<Credit>) :
+class CreditsAdapter(
+        @StringRes private val dashboardTitle: Int,
+        private val manager: RequestManager,
+        private val credits: ArrayList<Credit>
+                    ) :
         SectionedRecyclerViewAdapter<SectionedViewHolder>() {
     
     init {
@@ -41,22 +43,30 @@ class CreditsAdapter(@StringRes private val dashboardTitle: Int,
     
     override fun getSectionCount(): Int = 4
     
-    override fun getItemViewType(section: Int, relativePosition: Int,
-                                 absolutePosition: Int): Int = section
+    override fun getItemViewType(
+            section: Int, relativePosition: Int,
+            absolutePosition: Int
+                                ): Int = section
     
-    override fun onBindViewHolder(holder: SectionedViewHolder?, section: Int, relativePosition: Int,
-                                  absolutePosition: Int) {
+    override fun onBindViewHolder(
+            holder: SectionedViewHolder?, section: Int, relativePosition: Int,
+            absolutePosition: Int
+                                 ) {
         holder?.let {
             if (it is DashboardCreditViewHolder) {
                 when (section) {
-                    0 -> it.setItem(manager,
-                                    credits.filter { it.type == Credit.Type.CREATOR }[relativePosition])
-                    1 -> it.setItem(manager,
-                                    credits.filter { it.type == Credit.Type.DASHBOARD }[relativePosition])
-                    2 -> it.setItem(manager,
-                                    credits.filter { it.type == Credit.Type.DEV_CONTRIBUTION }[relativePosition])
-                    3 -> it.setItem(manager,
-                                    credits.filter { it.type == Credit.Type.UI_CONTRIBUTION }[relativePosition])
+                    0 -> it.setItem(
+                            manager,
+                            credits.filter { it.type == Credit.Type.CREATOR }[relativePosition])
+                    1 -> it.setItem(
+                            manager,
+                            credits.filter { it.type == Credit.Type.DASHBOARD }[relativePosition])
+                    2 -> it.setItem(
+                            manager,
+                            credits.filter { it.type == Credit.Type.DEV_CONTRIBUTION }[relativePosition])
+                    3 -> it.setItem(
+                            manager,
+                            credits.filter { it.type == Credit.Type.UI_CONTRIBUTION }[relativePosition])
                 }
             }
         }
@@ -76,8 +86,10 @@ class CreditsAdapter(@StringRes private val dashboardTitle: Int,
                 else -> 0
             }
     
-    override fun onBindHeaderViewHolder(holder: SectionedViewHolder?, section: Int,
-                                        expanded: Boolean) {
+    override fun onBindHeaderViewHolder(
+            holder: SectionedViewHolder?, section: Int,
+            expanded: Boolean
+                                       ) {
         if (holder is SectionedHeaderViewHolder) {
             when (section) {
                 0 -> {
@@ -88,13 +100,15 @@ class CreditsAdapter(@StringRes private val dashboardTitle: Int,
                     holder.divider.visible()
                 }
                 2 -> {
-                    holder.setTitle(R.string.dev_contributions, true, expanded,
-                                    { toggleSectionExpanded(section) })
+                    holder.setTitle(
+                            R.string.dev_contributions, true, expanded,
+                            { toggleSectionExpanded(section) })
                     holder.divider.visible()
                 }
                 3 -> {
-                    holder.setTitle(R.string.ui_contributions, true, expanded,
-                                    { toggleSectionExpanded(section) })
+                    holder.setTitle(
+                            R.string.ui_contributions, true, expanded,
+                            { toggleSectionExpanded(section) })
                     holder.divider.visible()
                 }
             }

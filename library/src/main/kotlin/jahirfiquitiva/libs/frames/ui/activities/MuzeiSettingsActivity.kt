@@ -15,6 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.ui.activities
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.OnLifecycleEvent
 import android.arch.lifecycle.ViewModelProviders
@@ -78,6 +79,7 @@ class MuzeiSettingsActivity : ThemedActivity() {
         ViewModelProviders.of(this).get(CollectionsViewModel::class.java)
     }
     
+    @SuppressLint("WrongViewCast", "MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_muzei_settings)
@@ -88,16 +90,18 @@ class MuzeiSettingsActivity : ThemedActivity() {
         toolbar.bindToActivity(this)
         supportActionBar?.title = getString(R.string.muzei_settings)
         
-        toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
-                     getSecondaryTextColorFor(primaryColor, 0.6F),
-                     getActiveIconsColorFor(primaryColor, 0.6F))
+        toolbar.tint(
+                getPrimaryTextColorFor(primaryColor, 0.6F),
+                getSecondaryTextColorFor(primaryColor, 0.6F),
+                getActiveIconsColorFor(primaryColor, 0.6F))
         
         val everyTitle: TextView by bind(R.id.every_title)
         everyTitle.setTextColor(primaryTextColor)
         
         val everySummary: TextView by bind(R.id.every_summary)
         everySummary.setTextColor(secondaryTextColor)
-        everySummary.text = getString(R.string.every_x, textFromProgress(
+        everySummary.text = getString(
+                R.string.every_x, textFromProgress(
                 framesKonfigs.muzeiRefreshInterval).toLowerCase(Locale.getDefault()))
         
         with(seekBar) {
@@ -142,19 +146,25 @@ class MuzeiSettingsActivity : ThemedActivity() {
             findViewById<LinearLayout>(R.id.choose_collections).gone()
         }
         
-        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val value = SEEKBAR_MIN_VALUE + (progress * SEEKBAR_STEPS)
-                everySummary.text = resources.getString(R.string.every_x,
-                                                        textFromProgress(value).toLowerCase(
-                                                                Locale.getDefault()))
-                saveChanges()
-            }
-            
-            override fun onStartTrackingTouch(p0: SeekBar?) {}
-            
-            override fun onStopTrackingTouch(p0: SeekBar?) {}
-        })
+        seekBar.setOnSeekBarChangeListener(
+                object : SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(
+                            seekBar: SeekBar?,
+                            progress: Int,
+                            fromUser: Boolean
+                                                  ) {
+                        val value = SEEKBAR_MIN_VALUE + (progress * SEEKBAR_STEPS)
+                        everySummary.text = resources.getString(
+                                R.string.every_x,
+                                textFromProgress(value).toLowerCase(
+                                        Locale.getDefault()))
+                        saveChanges()
+                    }
+                    
+                    override fun onStartTrackingTouch(p0: SeekBar?) {}
+                    
+                    override fun onStopTrackingTouch(p0: SeekBar?) {}
+                })
         
     }
     
@@ -202,9 +212,11 @@ class MuzeiSettingsActivity : ThemedActivity() {
         } catch (ignored: Exception) {
         }
         
-        wallsVM.observe(this, {
+        wallsVM.observe(
+                this, {
             destroyDialog()
-            collsVM.observe(this, {
+            collsVM.observe(
+                    this, {
                 destroyDialog()
                 val correct = ArrayList<Collection>()
                 correct.addAll(it.distinct())
@@ -224,21 +236,22 @@ class MuzeiSettingsActivity : ThemedActivity() {
                 dialog = buildMaterialDialog {
                     title(R.string.choose_collections_title)
                     items(correct)
-                    itemsCallbackMultiChoice(selectedIndexes,
-                                             { _, _, text ->
-                                                 val sb = StringBuilder()
-                                                 text.forEachWithIndex { i, item ->
-                                                     if (i > 0 && i < text.size)
-                                                         sb.append(",")
-                                                     sb.append(item)
-                                                 }
-                                                 selectedCollections = sb.toString()
-                                                 collsSummaryText.text = getString(
-                                                         R.string.choose_collections_summary,
-                                                         selectedCollections)
-                                                 saveChanges()
-                                                 true
-                                             })
+                    itemsCallbackMultiChoice(
+                            selectedIndexes,
+                            { _, _, text ->
+                                val sb = StringBuilder()
+                                text.forEachWithIndex { i, item ->
+                                    if (i > 0 && i < text.size)
+                                        sb.append(",")
+                                    sb.append(item)
+                                }
+                                selectedCollections = sb.toString()
+                                collsSummaryText.text = getString(
+                                        R.string.choose_collections_summary,
+                                        selectedCollections)
+                                saveChanges()
+                                true
+                            })
                     positiveText(android.R.string.ok)
                     negativeText(android.R.string.cancel)
                 }

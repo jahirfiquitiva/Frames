@@ -53,8 +53,10 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
     
     override fun autoStatusBarTint(): Boolean = true
     
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+            requestCode: Int, permissions: Array<out String>,
+            grantResults: IntArray
+                                           ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 41 || requestCode == 42) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -83,8 +85,9 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
                                 showPermissionInformation(toApply)
                         
                         override fun onPermissionCompletelyDenied() =
-                                showSnackbar(R.string.permission_denied_completely,
-                                             Snackbar.LENGTH_LONG)
+                                showSnackbar(
+                                        R.string.permission_denied_completely,
+                                        Snackbar.LENGTH_LONG)
                         
                         override fun onPermissionGranted() = checkIfFileExists(toApply)
                     })
@@ -95,13 +98,15 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
     }
     
     private fun showPermissionInformation(toApply: Boolean) {
-        showSnackbar(getString(R.string.permission_request, getAppName()),
-                     Snackbar.LENGTH_LONG, {
-                         setAction(R.string.allow, {
-                             dismiss()
-                             downloadWallpaper(toApply)
-                         })
-                     })
+        showSnackbar(
+                getString(R.string.permission_request, getAppName()),
+                Snackbar.LENGTH_LONG, {
+                    setAction(
+                            R.string.allow, {
+                        dismiss()
+                        downloadWallpaper(toApply)
+                    })
+                })
     }
     
     private fun checkIfFileExists(toApply: Boolean) {
@@ -150,14 +155,16 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
         sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(dest)))
         runOnUiThread {
             properlyCancelDialog()
-            showSnackbar(getString(R.string.download_successful, dest.toString()),
-                         Snackbar.LENGTH_LONG, {
-                             setAction(R.string.open, {
-                                 dest.getUri(this@BaseWallpaperActionsActivity)?.let {
-                                     openWallpaper(it)
-                                 }
-                             })
-                         })
+            showSnackbar(
+                    getString(R.string.download_successful, dest.toString()),
+                    Snackbar.LENGTH_LONG, {
+                        setAction(
+                                R.string.open, {
+                            dest.getUri(this@BaseWallpaperActionsActivity)?.let {
+                                openWallpaper(it)
+                            }
+                        })
+                    })
         }
     }
     
@@ -177,9 +184,10 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
     
     private fun showWallpaperApplyOptions(dest: File?) {
         properlyCancelDialog()
-        val options = arrayListOf(getString(R.string.home_screen),
-                                  getString(R.string.lock_screen),
-                                  getString(R.string.home_lock_screen))
+        val options = arrayListOf(
+                getString(R.string.home_screen),
+                getString(R.string.lock_screen),
+                getString(R.string.home_lock_screen))
         if (isNetworkAvailable && dest != null)
             options.add(getString(R.string.apply_with_other_app))
         
@@ -191,20 +199,25 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
                     applyWallpaper(dest, position == 0, position == 1, position == 2, position == 3)
                 } else {
                     if (allowBitmapApply)
-                        applyBitmapWallpaper(position == 0, position == 1, position == 2,
-                                             position == 3)
+                        applyBitmapWallpaper(
+                                position == 0, position == 1, position == 2,
+                                position == 3)
                 }
             }
         }
         actionDialog?.show()
     }
     
-    abstract fun applyBitmapWallpaper(toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
-                                      toOtherApp: Boolean)
+    abstract fun applyBitmapWallpaper(
+            toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
+            toOtherApp: Boolean
+                                     )
     
-    private fun applyWallpaper(dest: File,
-                               toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
-                               toOtherApp: Boolean) {
+    private fun applyWallpaper(
+            dest: File,
+            toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
+            toOtherApp: Boolean
+                              ) {
         wallpaper?.let {
             properlyCancelDialog()
             wallActions = WallpaperActionsFragment()
@@ -212,16 +225,21 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
         }
     }
     
-    fun showWallpaperAppliedSnackbar(toHomeScreen: Boolean, toLockScreen: Boolean,
-                                     toBoth: Boolean) {
+    fun showWallpaperAppliedSnackbar(
+            toHomeScreen: Boolean, toLockScreen: Boolean,
+            toBoth: Boolean
+                                    ) {
         properlyCancelDialog()
-        showSnackbar(getString(R.string.apply_successful,
-                               getString(when {
-                                             toBoth -> R.string.home_lock_screen
-                                             toHomeScreen -> R.string.home_screen
-                                             toLockScreen -> R.string.lock_screen
-                                             else -> R.string.empty
-                                         }).toLowerCase()), Snackbar.LENGTH_LONG)
+        showSnackbar(
+                getString(
+                        R.string.apply_successful,
+                        getString(
+                                when {
+                                    toBoth -> R.string.home_lock_screen
+                                    toHomeScreen -> R.string.home_screen
+                                    toLockScreen -> R.string.lock_screen
+                                    else -> R.string.empty
+                                }).toLowerCase()), Snackbar.LENGTH_LONG)
     }
     
     private var file: File? = null
@@ -273,8 +291,10 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
         actionDialog = null
     }
     
-    private fun showSnackbar(@StringRes text: Int, duration: Int,
-                             settings: Snackbar.() -> Unit = {}) {
+    private fun showSnackbar(
+            @StringRes text: Int, duration: Int,
+            settings: Snackbar.() -> Unit = {}
+                            ) {
         showSnackbar(getString(text), duration, settings)
     }
     

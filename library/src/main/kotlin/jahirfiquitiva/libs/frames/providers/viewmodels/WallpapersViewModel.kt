@@ -45,8 +45,9 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
     }
     
     override fun internalLoad(param: Context): ArrayList<Wallpaper> =
-            loadWallpapers(param,
-                           FramesUrlRequests().requestJson(param.getString(R.string.json_url)))
+            loadWallpapers(
+                    param,
+                    FramesUrlRequests().requestJson(param.getString(R.string.json_url)))
     
     private fun loadWallpapers(context: Context, serverResponse: String): ArrayList<Wallpaper> {
         val prevResponse = context.framesKonfigs.backupJson
@@ -116,10 +117,12 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
             val correctName = name.formatCorrectly().replace("_", " ").toTitleCase()
             val correctAuthor = author.formatCorrectly().replace("_", " ").toTitleCase()
             if (correctName.hasContent() && url.hasContent()) {
-                fWallpapers.add(Wallpaper(correctName, correctAuthor, collections,
-                                          downloadable, url,
-                                          if (thumbUrl.hasContent()) thumbUrl else url,
-                                          size, dimensions, copyright))
+                fWallpapers.add(
+                        Wallpaper(
+                                correctName, correctAuthor, collections,
+                                downloadable, url,
+                                if (thumbUrl.hasContent()) thumbUrl else url,
+                                size, dimensions, copyright))
             }
         }
         fWallpapers.distinct()

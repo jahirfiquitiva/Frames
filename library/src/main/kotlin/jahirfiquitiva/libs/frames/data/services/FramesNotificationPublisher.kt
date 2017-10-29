@@ -24,16 +24,17 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
-import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 
-class FramesNotificationPublisher(private val id: Int,
-                                  private val context: Context?,
-                                  private val mainActivity: Class<*>?,
-                                  private val channel: String,
-                                  private val content: String,
-                                  private val data: Map<String, String>?) {
+class FramesNotificationPublisher(
+        private val id: Int,
+        private val context: Context?,
+        private val mainActivity: Class<*>?,
+        private val channel: String,
+        private val content: String,
+        private val data: Map<String, String>?
+                                 ) {
     
     private constructor(bldr: Builder) :
             this(bldr.id, bldr.from, bldr.launch, bldr.channel, bldr.content, bldr.data)
@@ -80,8 +81,9 @@ class FramesNotificationPublisher(private val id: Int,
             val nIntent = Intent(context, mainActivity)
             nIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             
-            val pendingIntent = PendingIntent.getActivity(context, 0, nIntent,
-                                                          PendingIntent.FLAG_ONE_SHOT)
+            val pendingIntent = PendingIntent.getActivity(
+                    context, 0, nIntent,
+                    PendingIntent.FLAG_ONE_SHOT)
             notificationBuilder.setContentIntent(pendingIntent)
         }
         

@@ -69,19 +69,21 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
     
     internal fun animateLoad(view: View) {
         with(view) {
-            whenFaded(ifHasNotFaded = {
-                if (context.framesKonfigs.animationsEnabled) {
-                    animateSmoothly(context.dividerColor, context.thumbnailColor,
+            whenFaded(
+                    ifHasNotFaded = {
+                        if (context.framesKonfigs.animationsEnabled) {
+                            animateSmoothly(
+                                    context.dividerColor, context.thumbnailColor,
                                     { setBackgroundColor(it) })
-                } else {
-                    setBackgroundColor(context.dividerColor)
-                }
-            })
+                        } else {
+                            setBackgroundColor(context.dividerColor)
+                        }
+                    })
         }
     }
     
     internal fun loadImage(manager: RequestManager, url: String, thumbUrl: String) {
-        val hasFaded = wallpaper?.hasFaded ?: true
+        val hasFaded = wallpaper?.hasFaded != false
         img.loadWallpaper(manager, url, thumbUrl, hasFaded, getListener())
     }
     
@@ -90,7 +92,7 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
     }
     
     internal fun whenFaded(ifHasFaded: () -> Unit = {}, ifHasNotFaded: () -> Unit = {}) {
-        val hasFaded = wallpaper?.hasFaded ?: true
+        val hasFaded = wallpaper?.hasFaded != false
         if (!hasFaded) ifHasNotFaded()
         else ifHasFaded()
     }
@@ -104,9 +106,11 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
     private val title: TextView by itemView.bind(R.id.collection_title)
     private val amount: TextView by itemView.bind(R.id.collection_walls_number)
     
-    fun setItem(manager: RequestManager, provider: ViewPreloadSizeProvider<Wallpaper>,
-                collection: Collection,
-                listener: FramesViewClickListener<Collection, CollectionHolder>) {
+    fun setItem(
+            manager: RequestManager, provider: ViewPreloadSizeProvider<Wallpaper>,
+            collection: Collection,
+            listener: FramesViewClickListener<Collection, CollectionHolder>
+               ) {
         if (this.wallpaper != collection.bestCover) this.wallpaper = collection.bestCover
         with(itemView) {
             animateLoad(this)
@@ -129,7 +133,8 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
             override fun onLoadSucceed(resource: Bitmap): Boolean {
                 img.setImageBitmap(resource)
                 
-                whenFaded({ itemView.clearChildrenAnimations() }, {
+                whenFaded(
+                        { itemView.clearChildrenAnimations() }, {
                     if (itemView.context.framesKonfigs.animationsEnabled) {
                         img.animateColorTransition({ wallpaper?.hasFaded = true })
                     } else {
@@ -169,9 +174,11 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
     val heartIcon: ImageView by itemView.bind(R.id.heart_icon)
     private val detailsBg: LinearLayout by itemView.bind(R.id.wallpaper_details)
     
-    fun setItem(manager: RequestManager, provider: ViewPreloadSizeProvider<Wallpaper>,
-                wallpaper: Wallpaper, check: Boolean,
-                listener: FramesViewClickListener<Wallpaper, WallpaperHolder>) {
+    fun setItem(
+            manager: RequestManager, provider: ViewPreloadSizeProvider<Wallpaper>,
+            wallpaper: Wallpaper, check: Boolean,
+            listener: FramesViewClickListener<Wallpaper, WallpaperHolder>
+               ) {
         if (this.wallpaper != wallpaper) this.wallpaper = wallpaper
         with(itemView) {
             detailsBg.setBackgroundColor(context.dividerColor)
@@ -199,7 +206,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
             }
             
             if (showFavIcon) {
-                heartIcon.setImageDrawable(context.createHeartIcon(shouldCheck).tint(heartColor))
+                heartIcon.setImageDrawable(context.createHeartIcon(shouldCheck)?.tint(heartColor))
                 heartIcon.setOnClickListener {
                     listener.onHeartClick(heartIcon, wallpaper, heartColor)
                 }
@@ -217,14 +224,15 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
         return object : GlideRequestCallback<Bitmap>() {
             override fun onLoadSucceed(resource: Bitmap): Boolean {
                 img.setImageBitmap(resource)
-                whenFaded({ itemView.clearChildrenAnimations() },
-                          {
-                              if (itemView.context.framesKonfigs.animationsEnabled) {
-                                  img.animateColorTransition { wallpaper?.hasFaded = true }
-                              } else {
-                                  itemView.clearChildrenAnimations()
-                              }
-                          })
+                whenFaded(
+                        { itemView.clearChildrenAnimations() },
+                        {
+                            if (itemView.context.framesKonfigs.animationsEnabled) {
+                                img.animateColorTransition { wallpaper?.hasFaded = true }
+                            } else {
+                                itemView.clearChildrenAnimations()
+                            }
+                        })
                 
                 if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
                     val color = resource.bestSwatch?.rgb ?: itemView.context.dividerColor
@@ -235,7 +243,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                     if (showFavIcon) {
                         heartColor = itemView.context.getActiveIconsColorFor(color)
                         heartIcon.setImageDrawable(
-                                itemView.context.createHeartIcon(shouldCheck).tint(heartColor))
+                                itemView.context.createHeartIcon(shouldCheck)?.tint(heartColor))
                     }
                 } else {
                     detailsBg.background =

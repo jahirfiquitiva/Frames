@@ -31,7 +31,6 @@ import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.ui.fragments.CollectionsFragment
 import jahirfiquitiva.libs.frames.ui.fragments.FavoritesFragment
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersFragment
-import jahirfiquitiva.libs.frames.ui.fragments.adapters.FragmentsAdapter
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
@@ -45,6 +44,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
+import jahirfiquitiva.libs.kauextensions.ui.fragments.adapters.FragmentsAdapter
 import jahirfiquitiva.libs.kauextensions.ui.widgets.CustomTabLayout
 import jahirfiquitiva.libs.kauextensions.ui.widgets.SearchView
 import jahirfiquitiva.libs.kauextensions.ui.widgets.bindSearchView
@@ -72,45 +72,49 @@ abstract class FramesActivity : BaseFramesActivity() {
         setSupportActionBar(toolbar)
         
         adapter = if (hasCollections) {
-            FragmentsAdapter(supportFragmentManager, CollectionsFragment(),
-                             WallpapersFragment(), FavoritesFragment())
+            FragmentsAdapter(
+                    supportFragmentManager, CollectionsFragment(),
+                    WallpapersFragment(), FavoritesFragment())
         } else {
             FragmentsAdapter(supportFragmentManager, WallpapersFragment(), FavoritesFragment())
         }
         pager.adapter = adapter
         
         val useAccentColor = getBoolean(R.bool.enable_accent_color_in_tabs)
-        tabs.setTabTextColors(getDisabledTextColorFor(primaryColor, 0.6F),
-                              if (useAccentColor) accentColor else
-                                  getPrimaryTextColorFor(primaryColor, 0.6F))
+        tabs.setTabTextColors(
+                getDisabledTextColorFor(primaryColor, 0.6F),
+                if (useAccentColor) accentColor else
+                    getPrimaryTextColorFor(primaryColor, 0.6F))
         tabs.setSelectedTabIndicatorColor(
                 if (useAccentColor) accentColor else getPrimaryTextColorFor(primaryColor, 0.6F))
         
         buildTabs()
         
-        tabs.addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(pager) {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                tab?.let {
-                    if (lastSection == it.position) return
-                    lastSection = it.position
-                    if (getBoolean(R.bool.show_icons_in_tabs)) {
-                        tabs.setTabsIconsColors(getInactiveIconsColorFor(primaryColor, 0.6F),
-                                                if (useAccentColor) accentColor else
-                                                    getActiveIconsColorFor(primaryColor, 0.6F))
+        tabs.addOnTabSelectedListener(
+                object : TabLayout.ViewPagerOnTabSelectedListener(pager) {
+                    override fun onTabSelected(tab: TabLayout.Tab?) {
+                        tab?.let {
+                            if (lastSection == it.position) return
+                            lastSection = it.position
+                            if (getBoolean(R.bool.show_icons_in_tabs)) {
+                                tabs.setTabsIconsColors(
+                                        getInactiveIconsColorFor(primaryColor, 0.6F),
+                                        if (useAccentColor) accentColor else
+                                            getActiveIconsColorFor(primaryColor, 0.6F))
+                            }
+                            searchView?.let {
+                                it.revealClose()
+                                val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
+                                it.hintText = getString(R.string.search_x, hint.toLowerCase())
+                            }
+                            invalidateOptionsMenu()
+                            pager.setCurrentItem(lastSection, true)
+                        }
                     }
-                    searchView?.let {
-                        it.revealClose()
-                        val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
-                        it.hintText = getString(R.string.search_x, hint.toLowerCase())
-                    }
-                    invalidateOptionsMenu()
-                    pager.setCurrentItem(lastSection, true)
-                }
-            }
-            
-            override fun onTabReselected(tab: TabLayout.Tab?) = scrollToTop()
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-        })
+                    
+                    override fun onTabReselected(tab: TabLayout.Tab?) = scrollToTop()
+                    override fun onTabUnselected(tab: TabLayout.Tab?) {}
+                })
         pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
         
         pager.offscreenPageLimit = tabs.tabCount
@@ -143,10 +147,10 @@ abstract class FramesActivity : BaseFramesActivity() {
             var iconDrawable: Drawable? = null
             
             if (showIcons && icon != 0)
-                iconDrawable = ContextCompat.getDrawable(this, icon)
-                        .tint(if (i != (if (hasCollections) 0 else 1))
-                                  getInactiveIconsColorFor(primaryColor, 0.6F)
-                              else getActiveIconsColorFor(primaryColor, 0.6F))
+                iconDrawable = ContextCompat.getDrawable(this, icon)?.tint(
+                        if (i != (if (hasCollections) 0 else 1))
+                            getInactiveIconsColorFor(primaryColor, 0.6F)
+                        else getActiveIconsColorFor(primaryColor, 0.6F))
             
             val tab = tabs.newTab()
             if (reallyShowTexts) {
@@ -195,9 +199,10 @@ abstract class FramesActivity : BaseFramesActivity() {
             searchView?.hintText = getString(R.string.search_x, hint.toLowerCase())
         }
         
-        toolbar.tint(getPrimaryTextColorFor(primaryColor, 0.6F),
-                     getSecondaryTextColorFor(primaryColor, 0.6F),
-                     getActiveIconsColorFor(primaryColor, 0.6F))
+        toolbar.tint(
+                getPrimaryTextColorFor(primaryColor, 0.6F),
+                getSecondaryTextColorFor(primaryColor, 0.6F),
+                getActiveIconsColorFor(primaryColor, 0.6F))
         return super.onCreateOptionsMenu(menu)
     }
     
@@ -207,8 +212,9 @@ abstract class FramesActivity : BaseFramesActivity() {
             when (id) {
                 R.id.refresh -> refreshContent()
                 R.id.about -> startActivity(Intent(this, CreditsActivity::class.java))
-                R.id.settings -> startActivityForResult(Intent(this, SettingsActivity::class.java),
-                                                        22)
+                R.id.settings -> startActivityForResult(
+                        Intent(this, SettingsActivity::class.java),
+                        22)
                 R.id.donate -> doDonation()
             }
         }
@@ -216,7 +222,7 @@ abstract class FramesActivity : BaseFramesActivity() {
     }
     
     override fun onBackPressed() {
-        val open = searchView?.onBackPressed() ?: false
+        val open = searchView?.onBackPressed() == true
         if (!open) super.onBackPressed()
     }
     
@@ -286,7 +292,8 @@ abstract class FramesActivity : BaseFramesActivity() {
                 if (it is BaseFramesFragment<*, *>) {
                     try {
                         it.enableRefresh(!filter.hasContent())
-                        synchronized(LOCK, {
+                        synchronized(
+                                LOCK, {
                             postDelayed(200, { it.applyFilter(filter) })
                         })
                     } catch (ignored: Exception) {

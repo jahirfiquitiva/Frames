@@ -40,43 +40,56 @@ import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kauextensions.ui.layouts.SplitButtonsLayout
 
 @Suppress("ArrayInDataClass")
-data class Credit(val name: String, val photo: String, val type: Type,
-                  val link: String = "", val description: String = "",
-                  val buttonsTitles: List<String> = ArrayList(),
-                  val buttonsLinks: List<String> = ArrayList()) {
+data class Credit(
+        val name: String, val photo: String, val type: Type,
+        val link: String = "", val description: String = "",
+        val buttonsTitles: List<String> = ArrayList(),
+        val buttonsLinks: List<String> = ArrayList()
+                 ) {
     
     enum class Type {
         CREATOR, DASHBOARD, DEV_CONTRIBUTION, UI_CONTRIBUTION
     }
     
     companion object {
-        private val JAMES = Credit("James Fenn", "https://goo.gl/6Wc5rK", Type.DEV_CONTRIBUTION,
-                                   "https://plus.google.com/+JamesFennJAFFA2157")
-        private val MAX = Credit("Maximilian Keppeler", "https://goo.gl/2qUEtS",
-                                 Type.DEV_CONTRIBUTION,
-                                 "https://plus.google.com/+MaxKeppeler")
-        private val SASI = Credit("Sasi Kanth", "https://goo.gl/wvxim8", Type.DEV_CONTRIBUTION,
-                                  "https://plus.google.com/+Sasikanth")
-        private val ALEX = Credit("Alexandre Piveteau", "https://goo.gl/ZkJNnV",
-                                  Type.DEV_CONTRIBUTION,
-                                  "https://github.com/alexandrepiveteau")
-        private val LUKAS = Credit("Lukas Koller", "https://goo.gl/aPtAKZ", Type.DEV_CONTRIBUTION,
-                                   "https://github.com/kollerlukas")
+        private val JAMES = Credit(
+                "James Fenn", "https://goo.gl/6Wc5rK", Type.DEV_CONTRIBUTION,
+                "https://plus.google.com/+JamesFennJAFFA2157")
+        private val MAX = Credit(
+                "Maximilian Keppeler", "https://goo.gl/2qUEtS",
+                Type.DEV_CONTRIBUTION,
+                "https://plus.google.com/+MaxKeppeler")
+        private val SASI = Credit(
+                "Sasi Kanth", "https://goo.gl/wvxim8", Type.DEV_CONTRIBUTION,
+                "https://plus.google.com/+Sasikanth")
+        private val ALEX = Credit(
+                "Alexandre Piveteau", "https://goo.gl/ZkJNnV",
+                Type.DEV_CONTRIBUTION,
+                "https://github.com/alexandrepiveteau")
+        private val LUKAS = Credit(
+                "Lukas Koller", "https://goo.gl/aPtAKZ", Type.DEV_CONTRIBUTION,
+                "https://github.com/kollerlukas")
         
-        private val PATRYK = Credit("Patryk Goworowski", "https://goo.gl/9ccZcA",
-                                    Type.UI_CONTRIBUTION,
-                                    "https://plus.google.com/+PatrykGoworowski")
-        private val LUMIQ = Credit("Lumiq Creative", "https://goo.gl/UVRC7G", Type.UI_CONTRIBUTION,
-                                   "https://plus.google.com/+LumiqCreative")
-        private val KEVIN = Credit("Kevin Aguilar", "https://goo.gl/mGuAM9", Type.UI_CONTRIBUTION,
-                                   "http://kevaguilar.com/")
-        private val EDUARDO = Credit("Eduardo Pratti", "https://goo.gl/TSKB7s",
-                                     Type.UI_CONTRIBUTION, "https://plus.google.com/+EduardoPratti")
-        private val ANTHONY = Credit("Anthony Nguyen", "https://goo.gl/zxiBQE",
-                                     Type.UI_CONTRIBUTION, "https://plus.google.com/+AHNguyen")
+        private val PATRYK = Credit(
+                "Patryk Goworowski", "https://goo.gl/9ccZcA",
+                Type.UI_CONTRIBUTION,
+                "https://plus.google.com/+PatrykGoworowski")
+        private val LUMIQ = Credit(
+                "Lumiq Creative", "https://goo.gl/UVRC7G", Type.UI_CONTRIBUTION,
+                "https://plus.google.com/+LumiqCreative")
+        private val KEVIN = Credit(
+                "Kevin Aguilar", "https://goo.gl/mGuAM9", Type.UI_CONTRIBUTION,
+                "http://kevaguilar.com/")
+        private val EDUARDO = Credit(
+                "Eduardo Pratti", "https://goo.gl/TSKB7s",
+                Type.UI_CONTRIBUTION, "https://plus.google.com/+EduardoPratti")
+        private val ANTHONY = Credit(
+                "Anthony Nguyen", "https://goo.gl/zxiBQE",
+                Type.UI_CONTRIBUTION, "https://plus.google.com/+AHNguyen")
         
-        val EXTRA_CREDITS = arrayListOf(JAMES, MAX, SASI, ALEX, LUKAS,
-                                        PATRYK, LUMIQ, KEVIN, EDUARDO, ANTHONY)
+        val EXTRA_CREDITS = arrayListOf(
+                JAMES, MAX, SASI, ALEX, LUKAS,
+                PATRYK, LUMIQ, KEVIN, EDUARDO, ANTHONY)
     }
 }
 
@@ -87,13 +100,17 @@ class SectionedHeaderViewHolder(itemView: View) : SectionedViewHolder(itemView) 
     val title: TextView by itemView.bind(R.id.section_title)
     val icon: ImageView by itemView.bind(R.id.section_icon)
     
-    fun setTitle(@StringRes text: Int, shouldShowIcon: Boolean = false, expanded: Boolean = true,
-                 listener: () -> Unit = {}) {
+    fun setTitle(
+            @StringRes text: Int, shouldShowIcon: Boolean = false, expanded: Boolean = true,
+            listener: () -> Unit = {}
+                ) {
         setTitle(itemView.context.getString(text), shouldShowIcon, expanded, listener)
     }
     
-    fun setTitle(text: String, shouldShowIcon: Boolean = false, expanded: Boolean = true,
-                 listener: () -> Unit = {}) {
+    fun setTitle(
+            text: String, shouldShowIcon: Boolean = false, expanded: Boolean = true,
+            listener: () -> Unit = {}
+                ) {
         divider.setBackgroundColor(itemView.context.dividerColor)
         title.setTextColor(itemView.context.secondaryTextColor)
         title.text = text
@@ -113,8 +130,10 @@ open class DashboardCreditViewHolder(itemView: View) : GlideSectionedViewHolder(
     private val description: TextView by itemView.bind(R.id.description)
     private val buttons: SplitButtonsLayout by itemView.bind(R.id.buttons)
     
-    open fun setItem(manager: RequestManager, credit: Credit, fillAvailableSpace: Boolean = true,
-                     shouldHideButtons: Boolean = false) {
+    open fun setItem(
+            manager: RequestManager, credit: Credit, fillAvailableSpace: Boolean = true,
+            shouldHideButtons: Boolean = false
+                    ) {
         photo.loadAvatar(manager, credit.photo, false)
         name.setTextColor(itemView.context.primaryTextColor)
         name.text = credit.name
@@ -142,8 +161,9 @@ open class DashboardCreditViewHolder(itemView: View) : GlideSectionedViewHolder(
                 for (index in 0 until credit.buttonsTitles.size) {
                     val hasThemAll = buttons.hasAllButtons() != false
                     if (!hasThemAll) {
-                        buttons.addButton(credit.buttonsTitles[index], credit.buttonsLinks[index],
-                                          fillAvailableSpace)
+                        buttons.addButton(
+                                credit.buttonsTitles[index], credit.buttonsLinks[index],
+                                fillAvailableSpace)
                         val btn = buttons.getChildAt(index)
                         btn?.let {
                             it.setOnClickListener { view ->
@@ -167,8 +187,10 @@ open class DashboardCreditViewHolder(itemView: View) : GlideSectionedViewHolder(
 }
 
 class SimpleCreditViewHolder(itemView: View) : DashboardCreditViewHolder(itemView) {
-    override fun setItem(manager: RequestManager, credit: Credit, fillAvailableSpace: Boolean,
-                         shouldHideButtons: Boolean) {
+    override fun setItem(
+            manager: RequestManager, credit: Credit, fillAvailableSpace: Boolean,
+            shouldHideButtons: Boolean
+                        ) {
         super.setItem(manager, credit, false, true)
     }
 }

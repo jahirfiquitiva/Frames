@@ -21,6 +21,8 @@ import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.providers.viewmodels.CollectionsViewModel
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
+import jahirfiquitiva.libs.kauextensions.extensions.actv
+import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 
 abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
         BaseDatabaseFragment<T, VH>() {
@@ -31,24 +33,26 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
     override fun initViewModel() {
         super.initViewModel()
         if (wallpapersModel == null)
-            wallpapersModel = ViewModelProviders.of(activity).get(WallpapersViewModel::class.java)
+            wallpapersModel = ViewModelProviders.of(actv).get(WallpapersViewModel::class.java)
         if (collectionsModel == null)
-            collectionsModel = ViewModelProviders.of(activity).get(CollectionsViewModel::class.java)
+            collectionsModel = ViewModelProviders.of(actv).get(CollectionsViewModel::class.java)
     }
     
     override fun registerObserver() {
         super.registerObserver()
-        wallpapersModel?.observe(this, {
+        wallpapersModel?.observe(
+                this, {
             doOnWallpapersChange(ArrayList(it), fromCollectionActivity())
         })
-        collectionsModel?.observe(this, {
+        collectionsModel?.observe(
+                this, {
             doOnCollectionsChange(ArrayList(it))
         })
     }
     
     override fun loadDataFromViewModel() {
         super.loadDataFromViewModel()
-        if (!fromCollectionActivity()) wallpapersModel?.loadData(context)
+        if (!fromCollectionActivity()) wallpapersModel?.loadData(ctxt)
     }
     
     override fun unregisterObserver() {
@@ -61,7 +65,7 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
     
     override fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
-        if (!fromCollectionActivity) collectionsModel?.loadWithContext(context, data)
+        if (!fromCollectionActivity) collectionsModel?.loadWithContext(ctxt, data)
     }
     
     abstract fun enableRefresh(enable: Boolean)
@@ -70,7 +74,7 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
         scrollToTop()
         when (section) {
             0, 1 -> {
-                wallpapersModel?.loadData(context, true) ?: showErrorSnackbar()
+                wallpapersModel?.loadData(ctxt, true) ?: showErrorSnackbar()
             }
             2 -> {
                 getDatabase()?.let { favoritesModel?.loadData(it, true) } ?: showErrorSnackbar()

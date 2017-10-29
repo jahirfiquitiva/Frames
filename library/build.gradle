@@ -15,9 +15,10 @@
  */
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion versions.compileSdk
+    compileSdkVersion versions.targetSdk
     buildToolsVersion versions.buildTools
 
     lintOptions {
@@ -42,8 +43,6 @@ android {
 
     buildTypes {
         release {
-            debuggable false
-            zipAlignEnabled true
             minifyEnabled false
             shrinkResources false
             proguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
@@ -63,47 +62,7 @@ android {
     }
 }
 
-dependencies {
-    // Kotlin
-    compile libraries.kotlin
-    // Architecture Components
-    compile libraries.lifecycle
-    compile libraries.room
-    annotationProcessor libraries.lifecycleCompiler
-    annotationProcessor libraries.roomCompiler
-    kapt libraries.lifecycleCompiler
-    kapt libraries.roomCompiler
-    // Material Dialogs
-    compile libraries.dialogsCore
-    compile libraries.dialogsCommons
-    // OkHttp
-    compile libraries.okHttp
-    // Glide Image Loading
-    compile libraries.glide
-    compile libraries.gliderv
-    // KAU Extensions
-    compile libraries.kauExt
-    compile libraries.archHelpers
-    compile libraries.ziv
-    // Sectioned RecyclerView
-    compile libraries.sectionedRecyclerView
-    // RecyclerView Fast Scroller
-    compile(libraries.fastScroll)
-    // Material Number Picker
-    compile libraries.numberPicker
-    // Chips
-    compile libraries.chips
-    // In-App Purchases
-    compile libraries.iaps
-    // Muzei API
-    compile libraries.muzeiApi
-    // Licenses Dialog
-    compile libraries.licenses
-    // License Checker
-    compile(libraries.checker) {
-        exclude group: 'com.android.support', module: 'appcompat-v7'
-    }
-}
+apply from: '../frames.gradle'
 
 tasks.whenTaskAdded { task ->
     if (task.name.contains("lint") || task.name.contains("test")) {

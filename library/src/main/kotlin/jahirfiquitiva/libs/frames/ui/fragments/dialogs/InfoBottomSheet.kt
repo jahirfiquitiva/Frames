@@ -15,6 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.ui.fragments.dialogs
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -39,6 +40,7 @@ import ca.allanwang.kau.utils.visible
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.ui.adapters.WallpaperInfoAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
+import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 
 class InfoBottomSheet : BottomSheetDialogFragment() {
@@ -63,10 +65,11 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
         }
     }
     
+    @SuppressLint("RestrictedApi")
     override fun setupDialog(dialog: Dialog?, style: Int) {
         super.setupDialog(dialog, style)
         
-        val detailView = View.inflate(context, R.layout.info_dialog, null)
+        val detailView = View.inflate(ctxt, R.layout.info_dialog, null)
         
         progress = detailView?.findViewById(R.id.loading_view)
         progress?.visible()
@@ -76,15 +79,16 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
         rv?.setPaddingTop(8.dpToPx)
         rv?.itemAnimator = DefaultItemAnimator()
         
-        val layoutManager = GridLayoutManager(context, if (context.isInHorizontalMode) 4 else 3,
-                                              GridLayoutManager.VERTICAL, false)
+        val layoutManager = GridLayoutManager(
+                ctxt, if (ctxt.isInHorizontalMode) 4 else 3,
+                GridLayoutManager.VERTICAL, false)
         rv?.layoutManager = layoutManager
         
         if (adapter == null) adapter = WallpaperInfoAdapter {
             if (it != 0) {
-                val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                val clipboard = ctxt.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                 clipboard.primaryClip = ClipData.newPlainText("label", it.toHexString())
-                Toast.makeText(context, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
+                Toast.makeText(ctxt, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
             }
         }
         adapter?.setLayoutManager(layoutManager)
@@ -118,8 +122,8 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
         rv?.visible()
     }
     
-    fun show(context: FragmentActivity) {
-        show(context.supportFragmentManager, TAG)
+    fun show(ctxt: FragmentActivity) {
+        show(ctxt.supportFragmentManager, TAG)
     }
     
     override fun show(manager: FragmentManager?, tag: String?) {
@@ -144,8 +148,10 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
                     this.palette = palette
                 }
         
-        fun show(context: FragmentActivity, details: ArrayList<WallpaperDetail>,
-                 palette: Palette?) =
-                build(details, palette).show(context.supportFragmentManager, TAG)
+        fun show(
+                ctxt: FragmentActivity, details: ArrayList<WallpaperDetail>,
+                palette: Palette?
+                ) =
+                build(details, palette).show(ctxt.supportFragmentManager, TAG)
     }
 }

@@ -67,20 +67,27 @@ class WallpaperInfoAdapter(private val colorListener: (Int) -> Unit) :
         else -> 0
     }
     
-    override fun getItemViewType(section: Int, relativePosition: Int,
-                                 absolutePosition: Int): Int = section
+    override fun getItemViewType(
+            section: Int, relativePosition: Int,
+            absolutePosition: Int
+                                ): Int = section
     
-    override fun onBindViewHolder(holder: SectionedViewHolder?, section: Int, relativePosition: Int,
-                                  absolutePosition: Int) {
+    override fun onBindViewHolder(
+            holder: SectionedViewHolder?, section: Int, relativePosition: Int,
+            absolutePosition: Int
+                                 ) {
         holder?.let {
             (it as? WallpaperInfoHolder)?.bind(details[relativePosition]) ?:
-            (it as? WallpaperPaletteHolder)?.bind(colors[relativePosition],
-                                                  { colorListener(it) })
+                    (it as? WallpaperPaletteHolder)?.bind(
+                            colors[relativePosition],
+                            { colorListener(it) })
         }
     }
     
-    override fun onBindHeaderViewHolder(holder: SectionedViewHolder?, section: Int,
-                                        expanded: Boolean) {
+    override fun onBindHeaderViewHolder(
+            holder: SectionedViewHolder?, section: Int,
+            expanded: Boolean
+                                       ) {
         if (holder is SectionedHeaderViewHolder) {
             holder.icon.gone()
             holder.setTitle(

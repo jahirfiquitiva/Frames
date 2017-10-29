@@ -25,8 +25,10 @@ import java.lang.ref.WeakReference
 /**
  * Thanks to James Fenn
  */
-class DownloadThread(frag: WallpaperActionsFragment,
-                     val listener: DownloadListener? = null) : Thread() {
+class DownloadThread(
+        frag: WallpaperActionsFragment,
+        val listener: DownloadListener? = null
+                    ) : Thread() {
     
     private var weakRef: WeakReference<WallpaperActionsFragment>? = null
     private var running = true
@@ -66,15 +68,16 @@ class DownloadThread(frag: WallpaperActionsFragment,
                             else -> {
                             }
                         }
-                        progress = ((it.getInt(it.getColumnIndex(
-                                DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)) * 100L)
-                                    / it.getInt(
+                        progress = ((it.getInt(
+                                it.getColumnIndex(
+                                        DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)) * 100L)
+                                / it.getInt(
                                 it.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))).toInt()
                     } catch (e: CursorIndexOutOfBoundsException) {
                         e.printStackTrace()
                         
                         Handler(Looper.getMainLooper()).post {
-                            val fileExists = frag.destFile?.exists() ?: false
+                            val fileExists = frag.destFile?.exists() == true
                             if (fileExists) listener?.onSuccess()
                             else
                                 listener?.onFailure(

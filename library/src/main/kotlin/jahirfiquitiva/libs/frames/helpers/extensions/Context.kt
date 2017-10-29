@@ -55,7 +55,7 @@ fun Context.openWallpaper(uri: Uri) {
     startActivity(intent)
 }
 
-fun Context.createHeartIcon(checked: Boolean): Drawable =
+fun Context.createHeartIcon(checked: Boolean): Drawable? =
         (if (checked) "ic_heart" else "ic_heart_outline").getDrawable(this)
 
 val Context.framesKonfigs: FramesKonfigs
@@ -104,8 +104,9 @@ fun Context.clearDataAndCache() {
         }
     }
     clearCache()
-    framesKonfigs.downloadsFolder = getString(R.string.default_download_folder,
-                                              Environment.getExternalStorageDirectory().absolutePath)
+    framesKonfigs.downloadsFolder = getString(
+            R.string.default_download_folder,
+            Environment.getExternalStorageDirectory().absolutePath)
 }
 
 fun Context.clearCache() {
@@ -118,7 +119,8 @@ fun Context.clearCache() {
 val Context.basicOptions: RequestOptions
     get() {
         return RequestOptions()
-                .format(if (isLowRamDevice) DecodeFormat.PREFER_RGB_565
+                .format(
+                        if (isLowRamDevice) DecodeFormat.PREFER_RGB_565
                         else DecodeFormat.PREFER_ARGB_8888)
                 .disallowHardwareConfig()
     }

@@ -19,6 +19,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         package="jahirfiquitiva.libs.frames">
 
+    <uses-sdk tools:overrideLibrary="ca.allanwang.kau"/>
+
     <uses-permission android:name="com.android.vending.CHECK_LICENSE"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>

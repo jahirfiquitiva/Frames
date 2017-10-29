@@ -1,0 +1,54 @@
+/*
+ * Copyright (c) 2017. Jahir Fiquitiva
+ *
+ * Licensed under the CreativeCommons Attribution-ShareAlike
+ * 4.0 International License. You may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *    http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+dependencies {
+    // Architecture Components
+    api libraries.lifecycle
+    api libraries.room
+    annotationProcessor libraries.lifecycleCompiler
+    annotationProcessor libraries.roomCompiler
+    kapt libraries.lifecycleCompiler
+    kapt libraries.roomCompiler
+    // Material Dialogs
+    api libraries.dialogsCore
+    api libraries.dialogsCommons
+    // OkHttp
+    api libraries.okHttp
+    // Glide Image Loading
+    api libraries.glide
+    api libraries.gliderv
+    // KAU Extensions
+    api libraries.kauExt
+    api libraries.archHelpers
+    api libraries.ziv
+    // Sectioned RecyclerView
+    api libraries.sectionedRecyclerView
+    // RecyclerView Fast Scroller
+    api(libraries.fastScroll)
+    // Material Number Picker
+    api libraries.numberPicker
+    // Chips
+    api libraries.chips
+    // In-App Purchases
+    api libraries.iaps
+    // Muzei API
+    api libraries.muzeiApi
+    // Licenses Dialog
+    api libraries.licenses
+    // License Checker
+    api(libraries.checker) {
+        exclude group: 'com.android.support'
+    }
+}

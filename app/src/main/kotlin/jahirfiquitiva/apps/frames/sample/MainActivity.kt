@@ -48,8 +48,4 @@ class MainActivity : FramesActivity() {
         return super.getLicenseChecker()
     }
     
-    /**
-     * This is needed by the app. Do NOT edit it. Do NOT delete it.
-     */
-    override fun onCreate(savedInstanceState: Bundle?) = super.onCreate(savedInstanceState)
 }

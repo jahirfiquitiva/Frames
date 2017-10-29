@@ -17,13 +17,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion versions.compileSdk
+    compileSdkVersion versions.targetSdk
     buildToolsVersion versions.buildTools
 
     applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFile = new File(output.outputFile.parent,
-                    details.appId + "-v${variant.versionName}-${variant.name}.apk")
+        variant.outputs.all { output ->
+            outputFileName = details.appId + "-v${variant.versionName}-${variant.name}.apk"
         }
     }
 
@@ -46,7 +45,7 @@ android {
         release {
             debuggable false
             zipAlignEnabled true
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources false
             proguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
             consumerProguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
@@ -66,7 +65,7 @@ android {
 }
 
 dependencies {
-    compile project(path: ':library')
+    implementation project(path: ':library')
 }
 
 // TODO: Remove comment marks if you plan on implementing Firebase Notifications

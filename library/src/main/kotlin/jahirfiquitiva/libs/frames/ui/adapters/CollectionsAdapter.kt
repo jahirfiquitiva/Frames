@@ -29,9 +29,11 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
 import java.util.Collections
 
-class CollectionsAdapter(private val manager: RequestManager,
-                         private val provider: ViewPreloadSizeProvider<Wallpaper>,
-                         private val listener: FramesViewClickListener<Collection, CollectionHolder>) :
+class CollectionsAdapter(
+        private val manager: RequestManager,
+        private val provider: ViewPreloadSizeProvider<Wallpaper>,
+        private val listener: FramesViewClickListener<Collection, CollectionHolder>
+                        ) :
         FramesListAdapter<Collection, CollectionHolder>(MAX_COLLECTIONS_LOAD),
         ListPreloader.PreloadModelProvider<Wallpaper> {
     

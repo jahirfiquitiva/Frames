@@ -69,8 +69,9 @@ class CollectionsViewModel : ListViewModel<ArrayList<Wallpaper>, Collection>() {
         collections.sortBy { it.name }
         collections.distinct()
         
-        val importantCollectionsNames = arrayOf("all", "featured", "new", "wallpaper of the day",
-                                                "wallpaper of the week")
+        val importantCollectionsNames = arrayOf(
+                "all", "featured", "new", "wallpaper of the day",
+                "wallpaper of the week")
         val importantCollections = ArrayList<Collection>()
         
         importantCollectionsNames.forEach {
@@ -95,8 +96,10 @@ class CollectionsViewModel : ListViewModel<ArrayList<Wallpaper>, Collection>() {
         return -1
     }
     
-    private fun getBestCoverPicture(usedNames: ArrayList<String>,
-                                    possibleWallpapers: ArrayList<Wallpaper>): Wallpaper? {
+    private fun getBestCoverPicture(
+            usedNames: ArrayList<String>,
+            possibleWallpapers: ArrayList<Wallpaper>
+                                   ): Wallpaper? {
         possibleWallpapers.forEach {
             val wasInTheList = usedNames.contains(it.name)
             usedNames.add(it.name)

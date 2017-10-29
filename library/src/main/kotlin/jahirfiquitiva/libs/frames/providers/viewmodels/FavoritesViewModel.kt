@@ -52,7 +52,7 @@ class FavoritesViewModel : ListViewModel<FavoritesDao, Wallpaper>() {
         loadData(dao, true)
     }
     
-    fun isInFavorites(wallpaper: Wallpaper): Boolean = getData()?.contains(wallpaper) ?: false
+    fun isInFavorites(wallpaper: Wallpaper): Boolean = getData()?.contains(wallpaper) == true
     
     fun addToFavorites(dao: FavoritesDao, wallpaper: Wallpaper, onFail: () -> Unit) {
         if (isInFavorites(wallpaper)) return
