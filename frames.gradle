@@ -14,16 +14,6 @@
  * limitations under the License.
  */
 dependencies {
-    // Support Libraries
-    api libraries.support
-    api libraries.appcompat
-    api libraries.recyclerview
-    api libraries.cardview
-    api libraries.palette
-    api libraries.design
-    api libraries.customtabs
-    // Kotlin
-    api libraries.kotlin
     // Architecture Components
     api libraries.lifecycle
     api libraries.room
@@ -59,11 +49,6 @@ dependencies {
     api libraries.licenses
     // License Checker
     api(libraries.checker) {
-        exclude group: 'com.android.support'
-    }
-    // KAU
-    api(libraries.kau) {
-        transitive = true
         exclude group: 'com.android.support'
     }
 }

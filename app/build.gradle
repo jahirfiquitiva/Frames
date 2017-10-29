@@ -64,8 +64,6 @@ android {
     }
 }
 
-// apply from: '../frames.gradle
-
 dependencies {
     implementation project(path: ':library')
 }
