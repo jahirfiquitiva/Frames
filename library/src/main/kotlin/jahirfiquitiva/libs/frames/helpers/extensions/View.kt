@@ -36,7 +36,7 @@ fun View.setNavBarMargins() {
     var sideNavBar = 0
     
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        val tabletMode = context.resources.getBoolean(R.bool.md_is_tablet)
+        val tabletMode = context.resources.getBoolean(R.bool.isTablet)
         if (tabletMode || context.isInPortraitMode) {
             bottomNavBar = (context as? Activity)?.navigationBarHeight ?: 0
         } else {

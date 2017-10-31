@@ -53,11 +53,7 @@ import org.jetbrains.anko.doAsync
 
 open class SettingsFragment : PreferenceFragment() {
     
-    internal val database: FavoritesDatabase by lazy {
-        Room.databaseBuilder(
-                actv, FavoritesDatabase::class.java,
-                DATABASE_NAME).fallbackToDestructiveMigration().build()
-    }
+    internal var database: FavoritesDatabase? = null
     internal var downloadLocation: Preference? = null
     
     var dialog: MaterialDialog? = null
@@ -65,7 +61,17 @@ open class SettingsFragment : PreferenceFragment() {
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initDatabase()
         initPreferences()
+    }
+    
+    private fun initDatabase() {
+        if (!(ctxt.getBoolean(R.bool.isFrames))) return
+        if (database == null) {
+            database = Room.databaseBuilder(
+                    ctxt, FavoritesDatabase::class.java,
+                    DATABASE_NAME).fallbackToDestructiveMigration().build()
+        }
     }
     
     open fun initPreferences() {
@@ -212,7 +218,7 @@ open class SettingsFragment : PreferenceFragment() {
                     negativeText(android.R.string.cancel)
                     onPositive { _, _ ->
                         doAsync {
-                            database.favoritesDao().nukeFavorites()
+                            database?.favoritesDao()?.nukeFavorites()
                             if (activity is SettingsActivity) {
                                 (activity as SettingsActivity).hasClearedFavs = true
                             }
@@ -258,10 +264,9 @@ open class SettingsFragment : PreferenceFragment() {
             val klass = getNotificationsClass()
             val notNull = klass?.let { true } == true
             if (notNull) {
-                val intent = Intent(ctxt, klass)
+                val intent = Intent(context, klass)
                 val resolveInfo = packageManager.queryIntentServices(
-                        intent,
-                        PackageManager.MATCH_DEFAULT_ONLY)
+                        intent, PackageManager.MATCH_DEFAULT_ONLY)
                 resolveInfo.size > 0
             } else {
                 false
@@ -286,8 +291,8 @@ open class SettingsFragment : PreferenceFragment() {
                 }
                 
                 override fun onPermissionGranted() {
-                    if (actv is SettingsActivity)
-                        (actv as SettingsActivity).showLocationChooserDialog()
+                    if (activity is SettingsActivity)
+                        (activity as SettingsActivity).showLocationChooserDialog()
                 }
             })
     

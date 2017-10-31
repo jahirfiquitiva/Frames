@@ -73,13 +73,13 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         fastScroll = content.findViewById(R.id.fast_scroller)
         
         with(swipeToRefresh) {
-            setProgressBackgroundColorSchemeColor(ctxt.cardBackgroundColor)
-            setColorSchemeColors(ctxt.accentColor)
+            setProgressBackgroundColorSchemeColor(context.cardBackgroundColor)
+            setColorSchemeColors(context.accentColor)
             setOnRefreshListener { reloadData(if (fromFavorites()) 2 else 1) }
         }
         
         with(rv) {
-            itemAnimator = if (ctxt.isLowRamDevice) null else DefaultItemAnimator()
+            itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
             textView = content.findViewById(R.id.empty_text)
             emptyView = content.findViewById(R.id.empty_view)
             setEmptyImage(
@@ -91,7 +91,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             
             val provider = ViewPreloadSizeProvider<Wallpaper>()
             wallsAdapter = WallpapersAdapter(
-                    Glide.with(ctxt), provider, fromFavorites(), showFavoritesIcon(),
+                    Glide.with(context), provider, fromFavorites(), showFavoritesIcon(),
                     object : FramesViewClickListener<Wallpaper, WallpaperHolder>() {
                         override fun onSingleClick(item: Wallpaper, holder: WallpaperHolder) {
                             onItemClicked(item, holder)
@@ -99,8 +99,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                         
                         override fun onLongClick(item: Wallpaper) {
                             super.onLongClick(item)
-                            if (actv is BaseFramesActivity)
-                                (actv as BaseFramesActivity).showWallpaperOptionsDialog(item)
+                            if (activity is BaseFramesActivity)
+                                (activity as BaseFramesActivity).showWallpaperOptionsDialog(item)
                         }
                         
                         override fun onHeartClick(view: ImageView, item: Wallpaper, color: Int) {
@@ -110,7 +110,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                     })
             
             val preloader: RecyclerViewPreloader<Wallpaper> =
-                    RecyclerViewPreloader(actv, wallsAdapter, provider, ctxt.maxPreload)
+                    RecyclerViewPreloader(activity, wallsAdapter, provider, context.maxPreload)
             addOnScrollListener(preloader)
             
             addOnScrollListener(
@@ -152,12 +152,10 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             val columns = ctxt.framesKonfigs.columns
             spanCount = if (ctxt.isInHorizontalMode) ((columns * 1.5).toInt()) else columns
             rv.layoutManager = GridLayoutManager(
-                    ctxt, spanCount,
+                    context, spanCount,
                     GridLayoutManager.VERTICAL, false)
             spacingDecoration = GridSpacingItemDecoration(
-                    spanCount,
-                    ctxt.dimenPixelSize(
-                            R.dimen.wallpapers_grid_spacing))
+                    spanCount, ctxt.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
             rv.addItemDecoration(spacingDecoration)
         }
     }
@@ -235,7 +233,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     private fun onWallpaperClicked(wallpaper: Wallpaper, holder: WallpaperHolder) {
         if (!canClick) return
         try {
-            val intent = Intent(actv, ViewerActivity::class.java)
+            val intent = Intent(activity, ViewerActivity::class.java)
             val imgTransition = ViewCompat.getTransitionName(holder.img)
             val nameTransition = ViewCompat.getTransitionName(holder.name)
             val authorTransition = ViewCompat.getTransitionName(holder.author)

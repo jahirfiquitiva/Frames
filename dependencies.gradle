@@ -24,9 +24,9 @@ ext.versions = [
         // Projects
         minSdk                : 16,
         targetSdk             : 27,
-        buildTools            : '26.0.2',
-        versionCode           : 210,
-        versionName           : '2.1.0',
+        buildTools            : '27.0.0',
+        versionCode           : 211,
+        versionName           : '2.1.1',
         // Gradle Plugins
         gradle                : '3.0.0',
         kotlin                : '1.1.51',
@@ -35,11 +35,10 @@ ext.versions = [
         // Dependencies
         supportLibs           : '27.0.0',
         archComponents        : '1.0.0-rc1',
-        materialDialogs       : 'beb1431',
+        materialDialogs       : '0.9.5.0',
         glide                 : '4.2.0',
         okhttp                : '3.9.0',
-        kau                   : '3.4.4',
-        kauExt                : '279dc7e',
+        kauExt                : 'd4cebea',
         sectionedRecyclerView : '0.5.0',
         recyclerViewFastScroll: '6a72f8c',
         chips                 : 'a472057',
@@ -67,8 +66,8 @@ ext.libraries = [
         lifecycleCompiler    : 'android.arch.lifecycle:compiler:' + versions.archComponents,
         roomCompiler         : 'android.arch.persistence.room:compiler:' + versions.archComponents,
         // Material Dialogs
-        dialogsCore          : 'com.github.afollestad.material-dialogs:core:' + versions.materialDialogs,
-        dialogsCommons       : 'com.github.afollestad.material-dialogs:commons:' + versions.materialDialogs,
+        dialogsCore          : 'com.afollestad.material-dialogs:core:' + versions.materialDialogs,
+        dialogsCommons       : 'com.afollestad.material-dialogs:commons:' + versions.materialDialogs,
         // OkHttp
         okHttp               : 'com.squareup.okhttp3:okhttp:' + versions.okhttp,
         // Glide Image Loading
@@ -79,7 +78,7 @@ ext.libraries = [
         archHelpers          : 'me.jahirfiquitiva.KAUExtensions:archhelpers:' + versions.kauExt,
         ziv                  : 'me.jahirfiquitiva.KAUExtensions:ziv:' + versions.kauExt,
         // Sectioned RecyclerView
-        sectionedRecyclerView: 'com.afollestad:sectioned-recyclerview:' + versions.sectionedRecyclerView,
+        sectionedRecyclerView: 'com.afollestad:sectioned-recyclerview:' + versions.sectionedRecyclerView + '@aar',
         // RecyclerView Fast Scroller
         fastScroll           : 'me.jahirfiquitiva:recycler-fast-scroll:' + versions.recyclerViewFastScroll + '@aar',
         // Material Number Picker

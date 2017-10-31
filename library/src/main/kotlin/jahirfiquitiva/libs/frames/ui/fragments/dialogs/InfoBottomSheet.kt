@@ -69,7 +69,7 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
     override fun setupDialog(dialog: Dialog?, style: Int) {
         super.setupDialog(dialog, style)
         
-        val detailView = View.inflate(ctxt, R.layout.info_dialog, null)
+        val detailView = View.inflate(context, R.layout.info_dialog, null)
         
         progress = detailView?.findViewById(R.id.loading_view)
         progress?.visible()
@@ -122,8 +122,8 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
         rv?.visible()
     }
     
-    fun show(ctxt: FragmentActivity) {
-        show(ctxt.supportFragmentManager, TAG)
+    fun show(context: FragmentActivity) {
+        show(context.supportFragmentManager, TAG)
     }
     
     override fun show(manager: FragmentManager?, tag: String?) {
@@ -149,9 +149,9 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
                 }
         
         fun show(
-                ctxt: FragmentActivity, details: ArrayList<WallpaperDetail>,
+                context: FragmentActivity, details: ArrayList<WallpaperDetail>,
                 palette: Palette?
                 ) =
-                build(details, palette).show(ctxt.supportFragmentManager, TAG)
+                build(details, palette).show(context.supportFragmentManager, TAG)
     }
 }

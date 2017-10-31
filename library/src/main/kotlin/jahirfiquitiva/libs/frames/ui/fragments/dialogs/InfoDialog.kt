@@ -77,7 +77,7 @@ class InfoDialog : DialogFragment() {
                 val clipboard = ctxt.getSystemService(
                         Context.CLIPBOARD_SERVICE) as ClipboardManager
                 clipboard.primaryClip = ClipData.newPlainText("label", it.toHexString())
-                Toast.makeText(ctxt, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
             }
         }
         adapter?.setLayoutManager(layoutManager)
@@ -102,8 +102,8 @@ class InfoDialog : DialogFragment() {
         rv?.visible()
     }
     
-    fun show(ctxt: FragmentActivity) {
-        show(ctxt.supportFragmentManager, TAG)
+    fun show(context: FragmentActivity) {
+        show(context.supportFragmentManager, TAG)
     }
     
     companion object {
@@ -119,9 +119,9 @@ class InfoDialog : DialogFragment() {
                 }
         
         fun show(
-                ctxt: FragmentActivity, details: ArrayList<WallpaperDetail>,
+                context: FragmentActivity, details: ArrayList<WallpaperDetail>,
                 palette: Palette?
                 ) =
-                build(details, palette).show(ctxt.supportFragmentManager, TAG)
+                build(details, palette).show(context.supportFragmentManager, TAG)
     }
 }

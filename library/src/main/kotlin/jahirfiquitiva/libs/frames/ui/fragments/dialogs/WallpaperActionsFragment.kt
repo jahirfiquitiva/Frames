@@ -242,7 +242,7 @@ class WallpaperActionsFragment : DialogFragment() {
                 e.printStackTrace()
             }
             
-            val wm = WallpaperManager.getInstance(actv)
+            val wm = WallpaperManager.getInstance(activity)
             val finalResource = try {
                 resource.adjustToDeviceScreen(actv)
             } catch (ignored: Exception) {
@@ -278,8 +278,8 @@ class WallpaperActionsFragment : DialogFragment() {
     private fun showAppliedResult() {
         dismiss(actv)
         try {
-            if (actv is BaseWallpaperActionsActivity) {
-                (actv as BaseWallpaperActionsActivity).showWallpaperAppliedSnackbar(
+            if (activity is BaseWallpaperActionsActivity) {
+                (activity as BaseWallpaperActionsActivity).showWallpaperAppliedSnackbar(
                         toHomeScreen, toLockScreen, toBoth)
             } else {
                 actv.snackbar(
@@ -309,14 +309,14 @@ class WallpaperActionsFragment : DialogFragment() {
         val TO_OTHER_APP_CODE = 73
         
         fun invoke(
-                ctxt: FragmentActivity, wallpaper: Wallpaper, destFile: File?,
+                context: FragmentActivity, wallpaper: Wallpaper, destFile: File?,
                 destBitmap: Bitmap? = null,
                 toHomeScreen: Boolean = false, toLockScreen: Boolean = false,
                 toBoth: Boolean = false, toOtherApp: Boolean = false
                   ): WallpaperActionsFragment =
                 WallpaperActionsFragment().apply {
                     this.downloadManager =
-                            ctxt.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
+                            context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
                     this.wallpaper = wallpaper
                     this.destFile = destFile
                     this.destBitmap = destBitmap
@@ -327,32 +327,32 @@ class WallpaperActionsFragment : DialogFragment() {
                 }
     }
     
-    fun show(ctxt: FragmentActivity, wallpaper: Wallpaper, destFile: File) {
-        dismiss(ctxt)
-        invoke(ctxt, wallpaper, destFile).show(ctxt.supportFragmentManager, TAG)
+    fun show(context: FragmentActivity, wallpaper: Wallpaper, destFile: File) {
+        dismiss(context)
+        invoke(context, wallpaper, destFile).show(context.supportFragmentManager, TAG)
     }
     
     fun show(
-            ctxt: FragmentActivity, wallpaper: Wallpaper, destFile: File,
+            context: FragmentActivity, wallpaper: Wallpaper, destFile: File,
             toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean, toOtherApp: Boolean
             ) {
-        dismiss(ctxt)
-        invoke(ctxt, wallpaper, destFile, null, toHomeScreen, toLockScreen, toBoth, toOtherApp)
-                .show(ctxt.supportFragmentManager, TAG)
+        dismiss(context)
+        invoke(context, wallpaper, destFile, null, toHomeScreen, toLockScreen, toBoth, toOtherApp)
+                .show(context.supportFragmentManager, TAG)
     }
     
     fun show(
-            ctxt: FragmentActivity, wallpaper: Wallpaper, destBitmap: Bitmap,
+            context: FragmentActivity, wallpaper: Wallpaper, destBitmap: Bitmap,
             toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean, toOtherApp: Boolean
             ) {
-        dismiss(ctxt)
-        invoke(ctxt, wallpaper, null, destBitmap, toHomeScreen, toLockScreen, toBoth, toOtherApp)
-                .show(ctxt.supportFragmentManager, TAG)
+        dismiss(context)
+        invoke(context, wallpaper, null, destBitmap, toHomeScreen, toLockScreen, toBoth, toOtherApp)
+                .show(context.supportFragmentManager, TAG)
     }
     
-    fun dismiss(ctxt: FragmentActivity) {
+    fun dismiss(context: FragmentActivity) {
         try {
-            val frag = ctxt.supportFragmentManager.findFragmentByTag(TAG)
+            val frag = context.supportFragmentManager.findFragmentByTag(TAG)
             if (frag != null) (frag as WallpaperActionsFragment).dismiss()
         } catch (ignored: Exception) {
         }

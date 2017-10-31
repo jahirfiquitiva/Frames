@@ -34,6 +34,7 @@
         <item name="android:textColorPrimary">#de000000</item>
         <item name="android:textColorSecondary">#8a000000</item>
         <item name="android:windowBackground">@color/light_theme_background</item>
+        <item name="cardBackgroundColor">@color/light_theme_card_background</item>
 
         <!-- Material Dialogs specific values -->
         <item name="md_title_color">#de000000</item>
@@ -56,6 +57,7 @@
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">#b3ffffff</item>
         <item name="android:windowBackground">@color/dark_theme_background</item>
+        <item name="cardBackgroundColor">@color/dark_theme_card_background</item>
 
         <!-- Material Dialogs specific values -->
         <item name="md_title_color">@android:color/white</item>
@@ -73,6 +75,7 @@
         <item name="colorPrimaryDark">@android:color/black</item>
         <item name="android:windowBackground">@android:color/black</item>
         <item name="md_background_color">#101010</item>
+        <item name="cardBackgroundColor">#101010</item>
     </style>
 
     <color name="clear_bg">#70000000</color>

@@ -31,14 +31,16 @@ import org.json.JSONObject
 class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
     
     fun updateWallpaper(newWallpaper: Wallpaper) {
-        val prevList = ArrayList(getData())
-        if (prevList.size > 0) {
-            val pos = prevList.indexOf(newWallpaper)
-            if (pos >= 0) {
-                val old = prevList[pos]
-                if (newWallpaper.hasChangedFrom(old)) {
-                    prevList[pos] = newWallpaper
-                    postResult(prevList)
+        getData()?.let {
+            val prevList = ArrayList(it)
+            if (prevList.size > 0) {
+                val pos = prevList.indexOf(newWallpaper)
+                if (pos >= 0) {
+                    val old = prevList[pos]
+                    if (newWallpaper.hasChangedFrom(old)) {
+                        prevList[pos] = newWallpaper
+                        postResult(prevList)
+                    }
                 }
             }
         }

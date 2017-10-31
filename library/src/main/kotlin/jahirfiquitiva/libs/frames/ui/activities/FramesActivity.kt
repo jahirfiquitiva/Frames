@@ -15,6 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.ui.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -250,6 +251,12 @@ abstract class FramesActivity : BaseFramesActivity() {
                 e.printStackTrace()
             }
         }
+    }
+    
+    @SuppressLint("MissingSuperCall")
+    override fun onResume() {
+        super.onResume()
+        invalidateOptionsMenu()
     }
     
     override fun onPause() {

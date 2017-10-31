@@ -18,4 +18,5 @@
     <!-- Splash screen dimens -->
     <dimen name="splash_logo_bottom">24dp</dimen>
     <dimen name="splash_brand_bottom">56dp</dimen>
+    <bool name="isTablet">true</bool>
 </resources>

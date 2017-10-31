@@ -30,4 +30,5 @@
     <dimen name="wallpapers_grid_spacing">@dimen/cards_small_margin</dimen>
     <!-- Credits photo size -->
     <dimen name="photo_size">72dp</dimen>
+    <bool name="isTablet">false</bool>
 </resources>
