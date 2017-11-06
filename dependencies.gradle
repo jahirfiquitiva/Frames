@@ -74,9 +74,9 @@ ext.libraries = [
         glide                : 'com.github.bumptech.glide:glide:' + versions.glide,
         gliderv              : 'com.github.bumptech.glide:recyclerview-integration:' + versions.glide,
         // KAU Extensions
-        kauExt               : 'me.jahirfiquitiva.KAUExtensions:core:' + versions.kauExt,
-        archHelpers          : 'me.jahirfiquitiva.KAUExtensions:archhelpers:' + versions.kauExt,
-        ziv                  : 'me.jahirfiquitiva.KAUExtensions:ziv:' + versions.kauExt,
+        kauExt               : 'com.github.jahirfiquitiva.KAUExtensions:core:' + versions.kauExt,
+        archHelpers          : 'com.github.jahirfiquitiva.KAUExtensions:archhelpers:' + versions.kauExt + '@aar',
+        ziv                  : 'com.github.jahirfiquitiva.KAUExtensions:ziv:' + versions.kauExt,
         // Sectioned RecyclerView
         sectionedRecyclerView: 'com.afollestad:sectioned-recyclerview:' + versions.sectionedRecyclerView + '@aar',
         // RecyclerView Fast Scroller

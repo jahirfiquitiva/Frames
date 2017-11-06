@@ -30,8 +30,10 @@ dependencies {
     api libraries.glide
     api libraries.gliderv
     // KAU Extensions
-    api libraries.kauExt
-    api libraries.archHelpers
+    // api libraries.kauExt
+    api(libraries.archHelpers) {
+		transitive = true
+	}
     api libraries.ziv
     // Sectioned RecyclerView
     api libraries.sectionedRecyclerView
