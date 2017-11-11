@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 apply plugin: 'com.github.dcendents.android-maven'
+group = 'me.jahirfiquitiva'
 
 // build a jar with source files
 task sourcesJar(type: Jar) {

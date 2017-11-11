@@ -34,11 +34,11 @@ ext.versions = [
         gms                   : '3.1.0',
         // Dependencies
         supportLibs           : '27.0.0',
-        archComponents        : '1.0.0-rc1',
+        archComponents        : '1.0.0',
         materialDialogs       : '0.9.5.0',
         glide                 : '4.2.0',
         okhttp                : '3.9.0',
-        kauExt                : '4a35bda',
+        kauExt                : '3e3f8d9',
         sectionedRecyclerView : '0.5.0',
         recyclerViewFastScroll: '6a72f8c',
         chips                 : 'a472057',
@@ -74,9 +74,9 @@ ext.libraries = [
         glide                : 'com.github.bumptech.glide:glide:' + versions.glide,
         gliderv              : 'com.github.bumptech.glide:recyclerview-integration:' + versions.glide,
         // KAU Extensions
-        kauExt               : 'com.github.jahirfiquitiva.KAUExtensions:core:' + versions.kauExt,
-        archHelpers          : 'com.github.jahirfiquitiva.KAUExtensions:archhelpers:' + versions.kauExt + '@aar',
-        ziv                  : 'com.github.jahirfiquitiva.KAUExtensions:ziv:' + versions.kauExt,
+        kauExt               : 'me.jahirfiquitiva.KAUExtensions:core:' + versions.kauExt,
+        archHelpers          : 'me.jahirfiquitiva.KAUExtensions:archhelpers:' + versions.kauExt + '@aar',
+        ziv                  : 'me.jahirfiquitiva.KAUExtensions:ziv:' + versions.kauExt,
         // Sectioned RecyclerView
         sectionedRecyclerView: 'com.afollestad:sectioned-recyclerview:' + versions.sectionedRecyclerView + '@aar',
         // RecyclerView Fast Scroller
