@@ -17,14 +17,14 @@ ext.versions = [
         // Projects
         minSdk    : 16,
         targetSdk : 27,
-        buildTools: '27.0.0',
+        buildTools: '27.0.2',
         // Gradle Plugins
-        gradle    : '3.0.0',
-        kotlin    : '1.1.51',
+        gradle    : '3.0.1',
+        kotlin    : '1.2.0',
         libs      : '1.5',
         gms       : '3.1.0',
         // Dependencies
-        firebase  : '11.4.2'
+        firebase  : '11.6.2'
 ]
 
 ext.gradlePlugins = [
