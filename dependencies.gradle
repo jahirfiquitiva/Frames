@@ -24,21 +24,21 @@ ext.versions = [
         // Projects
         minSdk                : 16,
         targetSdk             : 27,
-        buildTools            : '27.0.0',
-        versionCode           : 211,
-        versionName           : '2.1.1',
+        buildTools            : '27.0.2',
+        versionCode           : 212,
+        versionName           : '2.1.2',
         // Gradle Plugins
-        gradle                : '3.0.0',
-        kotlin                : '1.1.51',
+        gradle                : '3.0.1',
+        kotlin                : '1.2.0',
         libs                  : '2.0',
         gms                   : '3.1.0',
         // Dependencies
-        supportLibs           : '27.0.0',
+        supportLibs           : '27.0.2',
         archComponents        : '1.0.0',
-        materialDialogs       : '0.9.5.0',
-        glide                 : '4.2.0',
-        okhttp                : '3.9.0',
-        kauExt                : '3e3f8d9',
+        materialDialogs       : 'eaeb6f4',
+        glide                 : '4.4.0',
+        okhttp                : '3.9.1',
+        kauExt                : 'c4d769e',
         sectionedRecyclerView : '0.5.0',
         recyclerViewFastScroll: '6a72f8c',
         chips                 : 'a472057',
@@ -47,7 +47,7 @@ ext.versions = [
         muzeiApi              : '2.0',
         licensesDialog        : '1.8.3',
         checker               : '1.1',
-        firebase              : '11.4.2'
+        firebase              : '11.6.2'
 ]
 
 ext.gradlePlugins = [
@@ -66,8 +66,8 @@ ext.libraries = [
         lifecycleCompiler    : 'android.arch.lifecycle:compiler:' + versions.archComponents,
         roomCompiler         : 'android.arch.persistence.room:compiler:' + versions.archComponents,
         // Material Dialogs
-        dialogsCore          : 'com.afollestad.material-dialogs:core:' + versions.materialDialogs,
-        dialogsCommons       : 'com.afollestad.material-dialogs:commons:' + versions.materialDialogs,
+        dialogsCore          : 'com.github.afollestad.material-dialogs:core:' + versions.materialDialogs,
+        dialogsCommons       : 'com.github.afollestad.material-dialogs:commons:' + versions.materialDialogs,
         // OkHttp
         okHttp               : 'com.squareup.okhttp3:okhttp:' + versions.okhttp,
         // Glide Image Loading

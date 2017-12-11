@@ -47,7 +47,8 @@ open class SettingsActivity : FragmentsActivity(), FolderChooserDialog.FolderCal
     override fun amoledTheme(): Int = R.style.AmoledTheme
     override fun transparentTheme(): Int = R.style.TransparentTheme
     
-    override fun autoStatusBarTint(): Boolean = true
+    override fun autoTintStatusBar(): Boolean = true
+    override fun autoTintNavigationBar(): Boolean = true
     
     var hasClearedFavs = false
     private val toolbar: CustomToolbar by bind(R.id.toolbar)

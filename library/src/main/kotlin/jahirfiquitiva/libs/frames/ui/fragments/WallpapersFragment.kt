@@ -26,7 +26,7 @@ class WallpapersFragment : BaseWallpapersFragment() {
     
     override fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
-        wallsAdapter?.setItems(data)
+        wallsAdapter?.setItems(ArrayList(data.subList(0, Math.min(data.size, 5000))))
     }
     
     override fun autoStartLoad(): Boolean = true

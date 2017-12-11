@@ -27,7 +27,7 @@
     -       True means yes
     -       False means no
     -->
-    <bool name="use_old_json_format">true</bool>
+    <bool name="use_old_json_format">false</bool>
 
     <!--    Show collections tab?
     -       If you have collections in your JSON, set this to true

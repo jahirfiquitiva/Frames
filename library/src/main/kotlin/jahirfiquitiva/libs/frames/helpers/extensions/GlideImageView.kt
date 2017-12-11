@@ -15,6 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.helpers.extensions
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.Drawable
@@ -65,7 +66,7 @@ fun ImageView.loadWallpaper(
     } else {
         createGlideRequest(
                 manager, context.thumbnailOptions.timeout(5000),
-                correctThumbUrl, !hasFaded, false, null, callback).into(this)
+                correctThumbUrl, !hasFaded, false, null, callback).into(this).clearOnDetach()
     }
 }
 
@@ -81,9 +82,9 @@ private fun ImageView.createGlideRequest(
                                         ): RequestBuilder<Bitmap> {
     val manager = requester ?: Glide.with(context)
     if (isAvatar) options.transform(CircleCrop())
-    val builder = manager.asBitmap().load(url)
+    var builder = manager.asBitmap().load(url)
     if (shouldAnimate) builder.transition(withCrossFade()) else options.dontAnimate()
-    builder.apply(options)
+    builder = builder.apply(options)
     if (thumbnail != null) builder.thumbnail(thumbnail)
     else builder.thumbnail(0.5F)
     return builder.listener(callback)
@@ -97,9 +98,10 @@ private fun ImageView.loadBitmap(
                                 ) {
     createGlideRequest(
             requester, context.wallpaperOptions, url, shouldAnimate,
-            isAvatar, thumbnail, callback).into(this)
+            isAvatar, thumbnail, callback).into(this).clearOnDetach()
 }
 
+@SuppressLint("CheckResult")
 fun ImageView.loadResource(
         requester: RequestManager?, resId: Int, dontTransform: Boolean,
         shouldAnimate: Boolean, immediately: Boolean,
@@ -107,21 +109,21 @@ fun ImageView.loadResource(
                           ) {
     val manager = requester ?: Glide.with(context)
     
-    val options = context.resourceOptions
+    var options = context.resourceOptions
     
     if (dontTransform) {
-        options.dontTransform()
+        options = options.dontTransform()
     }
     
     if (!shouldAnimate) {
-        options.dontAnimate()
+        options = options.dontAnimate()
     }
     
-    if (immediately) {
+    options = if (immediately) {
         options.priority(Priority.IMMEDIATE)
     } else {
         options.priority(Priority.HIGH)
     }
     
-    manager.load(resId).apply(options).listener(callback).into(this)
+    manager.load(resId).apply(options).listener(callback).into(this).clearOnDetach()
 }

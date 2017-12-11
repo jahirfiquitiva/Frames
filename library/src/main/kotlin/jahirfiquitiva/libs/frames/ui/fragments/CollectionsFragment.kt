@@ -31,6 +31,8 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
+import jahirfiquitiva.libs.frames.helpers.utils.MAX_COLLECTIONS_LOAD
+import jahirfiquitiva.libs.frames.helpers.utils.MAX_WALLPAPERS_LOAD
 import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
 import jahirfiquitiva.libs.frames.ui.adapters.CollectionsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
@@ -98,7 +100,11 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
                             }
                         }
                     })
-            
+    
+            setItemViewCacheSize(MAX_COLLECTIONS_LOAD)
+            isDrawingCacheEnabled = true
+            drawingCacheQuality = View.DRAWING_CACHE_QUALITY_AUTO
+    
             adapter = collsAdapter
         }
         

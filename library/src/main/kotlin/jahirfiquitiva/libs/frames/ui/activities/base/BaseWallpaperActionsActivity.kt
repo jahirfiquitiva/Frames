@@ -51,7 +51,8 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
     internal abstract var wallpaper: Wallpaper?
     internal abstract val allowBitmapApply: Boolean
     
-    override fun autoStatusBarTint(): Boolean = true
+    override fun autoTintStatusBar(): Boolean = true
+    override fun autoTintNavigationBar(): Boolean = true
     
     override fun onRequestPermissionsResult(
             requestCode: Int, permissions: Array<out String>,

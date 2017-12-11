@@ -22,7 +22,7 @@
 
     <!--    TODO: Change this link -->
     <!--    This is the link for the JSON file where you have listed your wallpapers -->
-    <string name="json_url">https://jahirfiquitiva.me/frames/wallpapers.json</string>
+    <string name="json_url">http://sohamsen.me/uploads/out.json</string>
 
     <!--    Default wallpapers download folder. Always write it like '%1$s/xxxxxxx' -->
     <string name="default_download_folder">%1$s/Frames/Wallpapers</string>

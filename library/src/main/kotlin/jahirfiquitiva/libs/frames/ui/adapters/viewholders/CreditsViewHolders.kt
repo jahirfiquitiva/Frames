@@ -159,8 +159,7 @@ open class DashboardCreditViewHolder(itemView: View) : GlideSectionedViewHolder(
             if (credit.buttonsTitles.size == credit.buttonsLinks.size) {
                 buttons.buttonCount = credit.buttonsTitles.size
                 for (index in 0 until credit.buttonsTitles.size) {
-                    val hasThemAll = buttons.hasAllButtons() != false
-                    if (!hasThemAll) {
+                    if (!buttons.hasAllButtons()) {
                         buttons.addButton(
                                 credit.buttonsTitles[index], credit.buttonsLinks[index],
                                 fillAvailableSpace)

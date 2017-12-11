@@ -22,11 +22,15 @@ import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import java.util.concurrent.TimeUnit
 
 class FramesUrlRequests {
     fun requestJson(url: String): String {
         try {
-            val client = OkHttpClient()
+            val client = OkHttpClient.Builder()
+                    .connectTimeout(15, TimeUnit.SECONDS)
+                    .readTimeout(20, TimeUnit.SECONDS)
+                    .build()
             val request = Request.Builder().url(url).build()
             var response: Response? = null
             var json = ""
@@ -44,7 +48,10 @@ class FramesUrlRequests {
     
     fun requestFileInfo(url: String, onlySize: Boolean): WallpaperInfo {
         try {
-            val client = OkHttpClient()
+            val client = OkHttpClient.Builder()
+                    .connectTimeout(15, TimeUnit.SECONDS)
+                    .readTimeout(15, TimeUnit.SECONDS)
+                    .build()
             val request = Request.Builder().url(url).build()
             var response: Response? = null
             var bytes: ByteArray? = null

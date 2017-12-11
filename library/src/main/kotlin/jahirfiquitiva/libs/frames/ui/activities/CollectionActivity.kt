@@ -59,7 +59,8 @@ open class CollectionActivity : FragmentsActivity() {
     private val toolbar: CustomToolbar by bind(R.id.toolbar)
     private var searchView: SearchView? = null
     
-    override fun autoStatusBarTint(): Boolean = true
+    override fun autoTintStatusBar(): Boolean = true
+    override fun autoTintNavigationBar(): Boolean = true
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

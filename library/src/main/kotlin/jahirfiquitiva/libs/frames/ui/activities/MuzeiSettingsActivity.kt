@@ -59,7 +59,9 @@ class MuzeiSettingsActivity : ThemedActivity() {
     override fun darkTheme(): Int = R.style.DarkTheme
     override fun amoledTheme(): Int = R.style.AmoledTheme
     override fun transparentTheme(): Int = R.style.TransparentTheme
-    override fun autoStatusBarTint(): Boolean = true
+    
+    override fun autoTintStatusBar(): Boolean = true
+    override fun autoTintNavigationBar(): Boolean = true
     
     private val SEEKBAR_STEPS = 1
     private val SEEKBAR_MAX_VALUE = 13

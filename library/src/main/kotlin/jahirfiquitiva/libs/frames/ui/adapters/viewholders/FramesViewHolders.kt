@@ -143,7 +143,11 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                 })
                 
                 if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
-                    val color = resource.bestSwatch?.rgb ?: itemView.context.cardBackgroundColor
+                    val color = try {
+                        resource.bestSwatch?.rgb ?: itemView.context.cardBackgroundColor
+                    } catch (e: Exception) {
+                        itemView.context.dividerColor
+                    }
                     detailsBg.background = null
                     detailsBg.setBackgroundColor(color.withAlpha(DETAILS_OPACITY))
                     title.setTextColor(itemView.context.getPrimaryTextColorFor(color))
@@ -201,6 +205,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
             if (wallpaper.author.hasContent()) {
                 author.text = wallpaper.author
                 author.setTextColor(Color.WHITE)
+                author.visible()
             } else {
                 author.gone()
             }
@@ -235,7 +240,11 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                         })
                 
                 if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
-                    val color = resource.bestSwatch?.rgb ?: itemView.context.dividerColor
+                    val color = try {
+                        resource.bestSwatch?.rgb ?: itemView.context.dividerColor
+                    } catch (e: Exception) {
+                        itemView.context.dividerColor
+                    }
                     detailsBg.background = null
                     detailsBg.setBackgroundColor(color.withAlpha(DETAILS_OPACITY))
                     name.setTextColor(itemView.context.getPrimaryTextColorFor(color))

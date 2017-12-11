@@ -52,7 +52,9 @@ open class CreditsActivity : ThemedActivity() {
     override fun darkTheme(): Int = R.style.DarkTheme
     override fun transparentTheme(): Int = R.style.TransparentTheme
     override fun amoledTheme(): Int = R.style.AmoledTheme
-    override fun autoStatusBarTint(): Boolean = true
+    
+    override fun autoTintStatusBar(): Boolean = true
+    override fun autoTintNavigationBar(): Boolean = true
     
     private val toolbar: CustomToolbar by bind(R.id.toolbar)
     private val rv: EmptyViewRecyclerView by bind(R.id.list_rv)

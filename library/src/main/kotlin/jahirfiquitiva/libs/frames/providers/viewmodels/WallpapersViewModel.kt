@@ -24,6 +24,7 @@ import jahirfiquitiva.libs.frames.helpers.utils.FramesUrlRequests
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
+import jahirfiquitiva.libs.kauextensions.extensions.string
 import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
 import org.json.JSONArray
 import org.json.JSONObject
@@ -48,8 +49,7 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
     
     override fun internalLoad(param: Context): ArrayList<Wallpaper> =
             loadWallpapers(
-                    param,
-                    FramesUrlRequests().requestJson(param.getString(R.string.json_url)))
+                    param, FramesUrlRequests().requestJson(param.getString(R.string.json_url)))
     
     private fun loadWallpapers(context: Context, serverResponse: String): ArrayList<Wallpaper> {
         val prevResponse = context.framesKonfigs.backupJson
@@ -85,7 +85,16 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
     private fun parseResponseToJSON(response: String, useOldFormat: Boolean): JSONArray {
         return if (response.hasContent()) {
             if (useOldFormat) parseResponseToOldJSON(response)
-            else JSONArray(response)
+            else {
+                if (response.length > (Integer.MAX_VALUE / 2)) {
+                    val list = response.replace("[\r\n]+", " ").internalToJSONObjects()
+                    val array = JSONArray()
+                    list.forEach { array.put(it) }
+                    array
+                } else {
+                    JSONArray(response)
+                }
+            }
         } else JSONArray("[]")
     }
     
@@ -107,15 +116,15 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
         for (index in 0..json.length()) {
             if (json.isNull(index)) continue
             val obj = json.getJSONObject(index)
-            val name = getWallpaperName(obj)
-            val author = getAuthorName(obj)
+            val name = obj.string("name")
+            val author = obj.string("author")
             val collections = getCollectionsForWallpaper(obj)
             val downloadable = isWallpaperDownloadable(obj)
-            val url = getWallpaperUrl(obj)
+            val url = obj.string("url")
             val thumbUrl = getWallpaperThumbnailUrl(obj)
             val size = getWallpaperBytes(obj)
             val dimensions = getWallpaperDimensions(obj)
-            val copyright = getWallpaperCopyright(obj)
+            val copyright = obj.string("copyright")
             val correctName = name.formatCorrectly().replace("_", " ").toTitleCase()
             val correctAuthor = author.formatCorrectly().replace("_", " ").toTitleCase()
             if (correctName.hasContent() && url.hasContent()) {
@@ -129,18 +138,6 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
         }
         fWallpapers.distinct()
         return fWallpapers
-    }
-    
-    private fun getWallpaperName(obj: JSONObject): String = try {
-        obj.getString("name") ?: ""
-    } catch (ignored: Exception) {
-        ""
-    }
-    
-    private fun getAuthorName(obj: JSONObject): String = try {
-        obj.getString("author") ?: ""
-    } catch (ignored: Exception) {
-        ""
     }
     
     private fun getCollectionsForWallpaper(obj: JSONObject): String = try {
@@ -165,12 +162,6 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
         } catch (ignored: Exception) {
             true
         }
-    }
-    
-    private fun getWallpaperUrl(obj: JSONObject): String = try {
-        obj.getString("url") ?: ""
-    } catch (ignored: Exception) {
-        ""
     }
     
     private fun getWallpaperThumbnailUrl(obj: JSONObject): String = try {
@@ -215,9 +206,36 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
         }
     }
     
-    private fun getWallpaperCopyright(obj: JSONObject): String = try {
-        obj.getString("copyright") ?: ""
-    } catch (ignored: Exception) {
-        ""
+    private fun String.internalToJSONObjects(): ArrayList<JSONObject> {
+        if (!startsWith("[") && !endsWith("]")) return ArrayList()
+        
+        val strings = ArrayList<String>()
+        
+        var lastIndex = 1
+        
+        for (i in 2 until length - 2) {
+            val cha = get(i)
+            val chb = get(i + 1)
+            val chc = get(i + 2)
+            if (cha == '}' && chb == ',' && chc == '{') {
+                strings += substring(lastIndex, i - 1)
+                lastIndex = i
+            }
+        }
+        
+        try {
+            strings += substring(lastIndex, length - 1)
+        } catch (e: Exception) {
+        }
+        
+        val objects = ArrayList<JSONObject>()
+        strings.forEach {
+            try {
+                objects += JSONObject(it)
+            } catch (e: Exception) {
+            }
+        }
+        
+        return objects
     }
 }

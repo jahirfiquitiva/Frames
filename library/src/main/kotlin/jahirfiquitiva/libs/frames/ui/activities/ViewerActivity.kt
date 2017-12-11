@@ -93,7 +93,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     override fun darkTheme(): Int = R.style.ViewerDarkTheme
     override fun amoledTheme(): Int = R.style.ViewerAmoledTheme
     override fun transparentTheme(): Int = R.style.ViewerTransparentTheme
-    override fun autoStatusBarTint(): Boolean = false
+    
+    override fun autoTintStatusBar(): Boolean = false
+    override fun autoTintNavigationBar(): Boolean = false
     
     private val FAVORITE_ACTION_ID = 3
     
@@ -163,8 +165,11 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         ViewCompat.setTransitionName(
                 toolbarSubtitle,
                 intent?.getStringExtra("authorTransition") ?: "")
-        toolbarTitle.text = wallpaper?.name ?: ""
-        toolbarSubtitle.text = wallpaper?.author ?: ""
+        toolbarTitle.text = (wallpaper?.name ?: "").trim()
+        wallpaper?.author?.let {
+            if (it.trim().hasContent()) toolbarSubtitle.text = it
+            else toolbarSubtitle.gone()
+        }
         
         findViewById<View>(R.id.bottom_bar_container).setNavBarMargins()
         
@@ -390,8 +395,12 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     }
     
     private fun postPalette(bmp: Bitmap?) {
-        palette = bmp?.generatePalette()
-        updateInfo()
+        try {
+            palette = bmp?.generatePalette()
+            updateInfo()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
     
     private fun updateInfo() {
@@ -552,7 +561,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
             var bottomNavBar = 0
             var sideNavBar = 0
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                val tabletMode = resources.getBoolean(R.bool.md_is_tablet)
+                val tabletMode = resources.getBoolean(R.bool.isTablet)
                 if (tabletMode || isInPortraitMode) {
                     bottomNavBar = navigationBarHeight
                 } else {
