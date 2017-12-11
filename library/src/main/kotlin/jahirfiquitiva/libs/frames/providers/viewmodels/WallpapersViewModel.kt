@@ -85,16 +85,7 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
     private fun parseResponseToJSON(response: String, useOldFormat: Boolean): JSONArray {
         return if (response.hasContent()) {
             if (useOldFormat) parseResponseToOldJSON(response)
-            else {
-                if (response.length > (Integer.MAX_VALUE / 2)) {
-                    val list = response.replace("[\r\n]+", " ").internalToJSONObjects()
-                    val array = JSONArray()
-                    list.forEach { array.put(it) }
-                    array
-                } else {
-                    JSONArray(response)
-                }
-            }
+            else JSONArray(response)
         } else JSONArray("[]")
     }
     
@@ -204,38 +195,5 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
         } catch (ignored: Exception) {
             ""
         }
-    }
-    
-    private fun String.internalToJSONObjects(): ArrayList<JSONObject> {
-        if (!startsWith("[") && !endsWith("]")) return ArrayList()
-        
-        val strings = ArrayList<String>()
-        
-        var lastIndex = 1
-        
-        for (i in 2 until length - 2) {
-            val cha = get(i)
-            val chb = get(i + 1)
-            val chc = get(i + 2)
-            if (cha == '}' && chb == ',' && chc == '{') {
-                strings += substring(lastIndex, i - 1)
-                lastIndex = i
-            }
-        }
-        
-        try {
-            strings += substring(lastIndex, length - 1)
-        } catch (e: Exception) {
-        }
-        
-        val objects = ArrayList<JSONObject>()
-        strings.forEach {
-            try {
-                objects += JSONObject(it)
-            } catch (e: Exception) {
-            }
-        }
-        
-        return objects
     }
 }
