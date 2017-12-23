@@ -29,7 +29,7 @@ ext.versions = [
         versionName           : '2.1.2',
         // Gradle Plugins
         gradle                : '3.0.1',
-        kotlin                : '1.2.0',
+        kotlin                : '1.2.10',
         libs                  : '2.0',
         gms                   : '3.1.0',
         // Dependencies
@@ -38,7 +38,7 @@ ext.versions = [
         materialDialogs       : 'eaeb6f4',
         glide                 : '4.4.0',
         okhttp                : '3.9.1',
-        kauExt                : 'c4d769e',
+        kauExt                : '5f35205',
         sectionedRecyclerView : '0.5.0',
         recyclerViewFastScroll: '6a72f8c',
         chips                 : 'a472057',

@@ -68,8 +68,7 @@ data class Wallpaper(
     
     override fun equals(other: Any?): Boolean {
         if (other !is Wallpaper) return false
-        return name.equals(other.name, true) ||
-                url.equals(other.url, true) || thumbUrl.equals(other.thumbUrl, true)
+        return name.equals(other.name, true) && url.equals(other.url, true)
     }
     
     fun hasChangedFrom(other: Wallpaper?) =
