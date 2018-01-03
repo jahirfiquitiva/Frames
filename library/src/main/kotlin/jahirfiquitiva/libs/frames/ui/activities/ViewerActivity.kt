@@ -15,6 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.ui.activities
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.res.Configuration
@@ -124,6 +125,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     private var palette: Palette? = null
     private var info: WallpaperInfo? = null
     
+    @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
@@ -223,6 +225,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         }
     }
     
+    @SuppressLint("MissingSuperCall")
     override fun onResume() {
         super.onResume()
         dismissInfoDialog()

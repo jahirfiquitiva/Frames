@@ -261,7 +261,7 @@ class WallpaperActionsFragment : DialogFragment() {
                             toLockScreen -> wm.setBitmap(
                                     finalResource, null, true,
                                     WallpaperManager.FLAG_LOCK)
-                            else -> FL.e("The unexpected case has happened :O")
+                            else -> FL.e(null, { "The unexpected case has happened :O" })
                         }
                     }
                 } else {

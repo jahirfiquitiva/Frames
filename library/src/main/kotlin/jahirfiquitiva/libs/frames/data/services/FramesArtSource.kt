@@ -71,7 +71,7 @@ open class FramesArtSource(name: String) : RemoteMuzeiArtSource(name), Lifecycle
         try {
             onTryUpdate(MuzeiArtSource.UPDATE_REASON_USER_NEXT)
         } catch (e: Exception) {
-            FL.e("Error updating Muzei: ${e.message}")
+            FL.e(null, { "Error updating Muzei: ${e.message}" })
         }
     }
     
