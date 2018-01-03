@@ -10,7 +10,7 @@
 <!-- Please wrap code with correct syntax highlighting. -->
 
 ```kotlin
-println("Hello, world!");
+println("Hello, world!")
 ```
 
 <!-- Please wrap logs with Gradle syntax highlighting (it makes them look better): -->
