@@ -47,8 +47,8 @@
     <!--    Define the default app theme
     -       0 -> Light
     -       1 -> Dark
-    -       2 -> Transparent
-    -       3 -> Amoled
+    -       2 -> Amoled
+    -       3 -> Transparent
     -       4 -> Auto Light-Dark
     -       5 -> Auto Light-Amoled
     -->
