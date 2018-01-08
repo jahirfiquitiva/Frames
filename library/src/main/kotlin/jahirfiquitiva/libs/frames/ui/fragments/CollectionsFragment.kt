@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. Jahir Fiquitiva
+ * Copyright (c) 2018. Jahir Fiquitiva
  *
  * Licensed under the CreativeCommons Attribution-ShareAlike
  * 4.0 International License. You may not use this file except in compliance
@@ -32,7 +32,6 @@ import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
 import jahirfiquitiva.libs.frames.helpers.utils.MAX_COLLECTIONS_LOAD
-import jahirfiquitiva.libs.frames.helpers.utils.MAX_WALLPAPERS_LOAD
 import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
 import jahirfiquitiva.libs.frames.ui.adapters.CollectionsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
@@ -44,6 +43,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
+import jahirfiquitiva.libs.kauextensions.extensions.safeActv
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 
 class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
@@ -85,9 +85,14 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
                             onItemClicked(item, false)
                         }
                     })
-            val preloader: RecyclerViewPreloader<Wallpaper> =
-                    RecyclerViewPreloader(activity, collsAdapter, provider, context.maxPreload)
-            addOnScrollListener(preloader)
+            
+            safeActv { activity ->
+                collsAdapter?.let {
+                    val preloader: RecyclerViewPreloader<Wallpaper> =
+                            RecyclerViewPreloader(activity, it, provider, context.maxPreload)
+                    addOnScrollListener(preloader)
+                }
+            }
             
             addOnScrollListener(
                     object : RecyclerView.OnScrollListener() {
@@ -100,11 +105,11 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
                             }
                         }
                     })
-    
+            
             setItemViewCacheSize(MAX_COLLECTIONS_LOAD)
             isDrawingCacheEnabled = true
             drawingCacheQuality = View.DRAWING_CACHE_QUALITY_AUTO
-    
+            
             adapter = collsAdapter
         }
         

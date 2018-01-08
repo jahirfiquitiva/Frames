@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. Jahir Fiquitiva
+ * Copyright (c) 2018. Jahir Fiquitiva
  *
  * Licensed under the CreativeCommons Attribution-ShareAlike
  * 4.0 International License. You may not use this file except in compliance
@@ -15,6 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.ui.activities.base
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.OnLifecycleEvent
 import android.arch.lifecycle.ViewModelProviders
@@ -73,6 +74,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     override var wallpaper: Wallpaper? = null
     override val allowBitmapApply: Boolean = false
     
+    @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         picker = getPickerKey()
@@ -188,7 +190,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
         if (amazonInstallsEnabled()) checker.enableInstallerId(InstallerID.AMAZON_APP_STORE)
         if (checkLPF()) checker.enableUnauthorizedAppsCheck()
         if (checkStores()) checker.enableStoresCheck()
-        checker.enableEmulatorCheck(true).enableDebugCheck()
+        checker.enableEmulatorCheck(true).enableDebugCheck().enableFoldersCheck(false)
         return checker
     }
     

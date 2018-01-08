@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. Jahir Fiquitiva
+ * Copyright (c) 2018. Jahir Fiquitiva
  *
  * Licensed under the CreativeCommons Attribution-ShareAlike
  * 4.0 International License. You may not use this file except in compliance
@@ -54,6 +54,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
+import jahirfiquitiva.libs.kauextensions.extensions.safeActv
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 import java.io.FileOutputStream
 
@@ -110,9 +111,13 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                         }
                     })
             
-            val preloader: RecyclerViewPreloader<Wallpaper> =
-                    RecyclerViewPreloader(activity, wallsAdapter, provider, context.maxPreload)
-            addOnScrollListener(preloader)
+            safeActv { activity ->
+                wallsAdapter?.let {
+                    val preloader: RecyclerViewPreloader<Wallpaper> =
+                            RecyclerViewPreloader(activity, it, provider, context.maxPreload)
+                    addOnScrollListener(preloader)
+                }
+            }
             
             addOnScrollListener(
                     object : RecyclerView.OnScrollListener() {

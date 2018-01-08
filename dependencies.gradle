@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. Jahir Fiquitiva
+ * Copyright (c) 2018. Jahir Fiquitiva
  *
  * Licensed under the CreativeCommons Attribution-ShareAlike
  * 4.0 International License. You may not use this file except in compliance
@@ -25,20 +25,20 @@ ext.versions = [
         minSdk                : 16,
         targetSdk             : 27,
         buildTools            : '27.0.3',
-        versionCode           : 213,
-        versionName           : '2.1.3',
+        versionCode           : 214,
+        versionName           : '2.1.4',
         // Gradle Plugins
         gradle                : '3.0.1',
         kotlin                : '1.2.10',
         libs                  : '2.0',
-        gms                   : '3.1.0',
+        gms                   : '3.1.1',
         // Dependencies
         supportLibs           : '27.0.2',
         archComponents        : '1.0.0',
         materialDialogs       : '0.9.6.0',
-        glide                 : '4.4.0',
+        glide                 : '4.5.0',
         okhttp                : '3.9.1',
-        kauExt                : '0fd7b87',
+        kauExt                : 'fb1512d',
         sectionedRecyclerView : '0.5.0',
         recyclerViewFastScroll: '6a72f8c',
         chips                 : 'a472057',
@@ -46,7 +46,7 @@ ext.versions = [
         iaps                  : '1.0.44',
         muzeiApi              : '2.0',
         licensesDialog        : '1.8.3',
-        checker               : '1.1',
+        checker               : 'd1c95f7',
         firebase              : '11.8.0'
 ]
 
@@ -92,7 +92,7 @@ ext.libraries = [
         // Licenses Dialog
         licenses             : 'de.psdev.licensesdialog:licensesdialog:' + versions.licensesDialog,
         // License Checker
-        checker              : 'com.github.javiersantos:PiracyChecker:' + versions.checker,
+        checker              : 'com.github.jahirfiquitiva:PiracyChecker:' + versions.checker,
         // Firebase
         firebase             : 'com.google.firebase:firebase-messaging:' + versions.firebase
 ]
