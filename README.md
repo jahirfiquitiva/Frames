@@ -7,8 +7,6 @@ Frames
 [![Build Status](https://travis-ci.org/jahirfiquitiva/Frames.svg?branch=master)](https://travis-ci.org/jahirfiquitiva/Frames)
 [![codebeat badge](https://codebeat.co/badges/eee96484-e205-455d-b5c2-6e4cda77b5f3)](https://codebeat.co/projects/github-com-jahirfiquitiva-frames-master)
 
-[![Waffle.io - To Do](https://badge.waffle.io/jahirfiquitiva/Frames.svg?label=to%20do&title=To%20Do:)](http://waffle.io/jahirfiquitiva/Frames)
-[![Waffle.io - Issues in progress](https://badge.waffle.io/jahirfiquitiva/Frames.svg?label=in%20progress&title=In%20Progress:)](http://waffle.io/jahirfiquitiva/Frames)
 ![API](https://img.shields.io/badge/API-16%2B-7ac143.svg)
 [![Sample App](https://img.shields.io/badge/SAMPLE-APP-34bf49.svg)](https://github.com/jahirfiquitiva/Frames/raw/images/frames-sample.apk)
 
