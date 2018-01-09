@@ -51,6 +51,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kauextensions.ui.activities.ThemedActivity
 import org.jetbrains.anko.doAsync
 
+@Suppress("DEPRECATION")
 open class SettingsFragment : PreferenceFragment() {
     
     internal var database: FavoritesDatabase? = null
@@ -66,7 +67,8 @@ open class SettingsFragment : PreferenceFragment() {
     }
     
     private fun initDatabase() {
-        if (!(ctxt.getBoolean(R.bool.isFrames))) return
+        val isFrames = context?.getBoolean(R.bool.isFrames) ?: false
+        if (!isFrames) return
         if (database == null) {
             database = Room.databaseBuilder(
                     ctxt, FavoritesDatabase::class.java,

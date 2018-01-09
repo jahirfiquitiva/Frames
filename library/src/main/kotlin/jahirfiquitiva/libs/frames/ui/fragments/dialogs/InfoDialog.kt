@@ -42,6 +42,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.actv
 import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 
+@Suppress("DEPRECATION")
 class InfoDialog : DialogFragment() {
     
     private var rv: RecyclerView? = null

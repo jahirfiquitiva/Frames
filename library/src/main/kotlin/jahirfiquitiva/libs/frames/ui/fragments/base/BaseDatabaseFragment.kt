@@ -45,7 +45,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.runOnUiThread
 
-@Suppress("NAME_SHADOWING")
+@Suppress("NAME_SHADOWING", "DEPRECATION")
 abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
         ViewModelFragment<T>() {
     

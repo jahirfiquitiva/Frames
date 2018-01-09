@@ -58,6 +58,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.safeActv
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 import java.io.FileOutputStream
 
+@Suppress("DEPRECATION")
 abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperHolder>() {
     
     lateinit var swipeToRefresh: SwipeRefreshLayout

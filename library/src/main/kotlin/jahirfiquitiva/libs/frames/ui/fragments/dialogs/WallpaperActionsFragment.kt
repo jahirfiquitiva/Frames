@@ -44,6 +44,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.getUri
 import jahirfiquitiva.libs.kauextensions.extensions.showToast
 import java.io.File
 
+@Suppress("DEPRECATION")
 class WallpaperActionsFragment : DialogFragment() {
     
     private var wallpaper: Wallpaper? = null

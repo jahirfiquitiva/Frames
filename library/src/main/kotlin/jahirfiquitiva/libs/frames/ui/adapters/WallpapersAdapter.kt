@@ -70,7 +70,7 @@ class WallpapersAdapter(
             Collections.singletonList(list[position])
     
     override fun getPreloadRequestBuilder(item: Wallpaper): RequestBuilder<*> =
-            manager.load(item?.thumbUrl)
+            manager.load(item.thumbUrl)
     
     private fun getModifiedItems(
             oldList: ArrayList<Wallpaper>,

@@ -43,6 +43,7 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
 import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 
+@Suppress("DEPRECATION")
 class InfoBottomSheet : BottomSheetDialogFragment() {
     
     private var rv: RecyclerView? = null

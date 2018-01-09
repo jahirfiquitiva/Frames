@@ -24,6 +24,7 @@ import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
 import jahirfiquitiva.libs.kauextensions.extensions.actv
 import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 
+@Suppress("DEPRECATION")
 abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
         BaseDatabaseFragment<T, VH>() {
     
