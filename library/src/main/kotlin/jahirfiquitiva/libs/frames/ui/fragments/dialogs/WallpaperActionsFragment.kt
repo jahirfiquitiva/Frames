@@ -119,7 +119,7 @@ class WallpaperActionsFragment : DialogFragment() {
                     }
                     return buildApplyDialog()
                 }
-                else -> return actv.buildMaterialDialog { }
+                else -> return actv.buildMaterialDialog {}
             }
         }
         return actv.buildMaterialDialog { }

@@ -49,7 +49,7 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
     private var rv: RecyclerView? = null
     private var progress: ProgressBar? = null
     private var adapter: WallpaperInfoAdapter? = null
-    private var behavior: BottomSheetBehavior<View>? = null
+    private var behavior: BottomSheetBehavior<*>? = null
     private val details = ArrayList<WallpaperDetail>()
     private var palette: Palette? = null
     
@@ -98,13 +98,12 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
         
         dialog?.setContentView(detailView)
         
-        val params = (detailView?.parent as? View)?.layoutParams as CoordinatorLayout.LayoutParams
-        val parentBehavior = params.behavior
-        parentBehavior?.let {
-            if (it is BottomSheetBehavior) {
-                (parentBehavior as BottomSheetBehavior).setBottomSheetCallback(sheetCallback)
-                behavior = parentBehavior
-            }
+        val params = (detailView.parent as? View)?.layoutParams as? CoordinatorLayout.LayoutParams
+        val parentBehavior = params?.behavior
+        
+        if (parentBehavior != null && parentBehavior is BottomSheetBehavior<*>) {
+            behavior = parentBehavior
+            behavior?.setBottomSheetCallback(sheetCallback)
         }
     }
     
