@@ -138,6 +138,7 @@
     <!-- License -->
     <string name="license_valid_title">License valid</string>
     <string name="license_valid_content">Thanks for downloading %1$s from a valid store. Enjoy it!</string>
+    <string name="license_valid_snack">License valid. Thanks for downloading %1$s. Enjoy!</string>
 
     <string name="license_invalid_title">You shall not pass!</string>
     <string name="license_invalid_content">Sorry, but we have detected that your license for %1$s is not valid. This can also be because you are using pirate apps. %2$s. If you think this is an error, please try again later. Otherwise, please download the app from a valid store.</string>

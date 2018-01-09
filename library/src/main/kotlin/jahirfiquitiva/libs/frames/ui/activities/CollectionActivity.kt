@@ -15,6 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.ui.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -62,6 +63,7 @@ open class CollectionActivity : FragmentsActivity() {
     override fun autoTintStatusBar(): Boolean = true
     override fun autoTintNavigationBar(): Boolean = true
     
+    @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportPostponeEnterTransition()

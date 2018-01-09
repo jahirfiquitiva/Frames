@@ -80,6 +80,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
 import jahirfiquitiva.libs.kauextensions.extensions.navigationBarHeight
+import jahirfiquitiva.libs.kauextensions.extensions.showToast
 import jahirfiquitiva.libs.ziv.ZoomableImageView
 import org.jetbrains.anko.contentView
 import java.io.FileInputStream
@@ -547,7 +548,12 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         favImageView.startAnimation(scale)
     }
     
-    override fun showSnackbar(text: String, duration: Int, settings: Snackbar.() -> Unit) {
+    override fun showSnackbar(
+            text: String,
+            duration: Int,
+            defaultToToast: Boolean,
+            settings: Snackbar.() -> Unit
+                             ) {
         contentView?.let {
             val snack = it.buildSnackbar(text, duration, settings)
             val bottomBarWasVisible = visibleBottomBar
@@ -588,7 +594,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
             
             if (visibleBottomBar) changeBottomBarVisibility(false)
             snack.show()
-        }
+        } ?: { if (defaultToToast) showToast(text) }()
     }
     
     private fun toggleSystemUI() {
@@ -596,25 +602,24 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     }
     
     private fun setSystemUIVisibility(visible: Boolean) {
-        Handler().post(
-                {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        window.decorView.systemUiVisibility = if (visible)
-                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        else
-                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                                    View.SYSTEM_UI_FLAG_FULLSCREEN or
-                                    View.SYSTEM_UI_FLAG_IMMERSIVE or
-                                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    }
-                    changeBarsVisibility(visible)
-                    visibleSystemUI = visible
-                })
+        Handler().post {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                window.decorView.systemUiVisibility = if (visible)
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                else
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                            View.SYSTEM_UI_FLAG_FULLSCREEN or
+                            View.SYSTEM_UI_FLAG_IMMERSIVE or
+                            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            }
+            changeBarsVisibility(visible)
+            visibleSystemUI = visible
+        }
     }
     
     private fun changeBarsVisibility(show: Boolean) {

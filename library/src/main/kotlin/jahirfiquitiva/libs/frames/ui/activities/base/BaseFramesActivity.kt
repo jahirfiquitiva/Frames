@@ -53,6 +53,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.getStringArray
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isFirstRunEver
 import jahirfiquitiva.libs.kauextensions.extensions.justUpdated
+import jahirfiquitiva.libs.kauextensions.extensions.showToast
 import org.jetbrains.anko.contentView
 
 abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
@@ -79,6 +80,10 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
         super.onCreate(savedInstanceState)
         picker = getPickerKey()
         initDonations()
+    }
+    
+    override fun setContentView(layoutResID: Int) {
+        super.setContentView(layoutResID)
         startLicenseCheck()
     }
     
@@ -131,7 +136,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
                     with(it) {
                         callback(
                                 object : PiracyCheckerCallback() {
-                                    override fun allow() = showLicensedDialog()
+                                    override fun allow() = showLicensedSnack()
                                     
                                     override fun dontAllow(
                                             error: PiracyCheckerError,
@@ -194,6 +199,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
         return checker
     }
     
+    @Deprecated("Use showLicensedSnack() instead")
     internal fun showLicensedDialog() {
         destroyDialog()
         dialog = buildMaterialDialog {
@@ -205,6 +211,13 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
         dialog?.setOnDismissListener { framesKonfigs.functionalDashboard = true }
         dialog?.setOnCancelListener { framesKonfigs.functionalDashboard = true }
         dialog?.show()
+    }
+    
+    internal fun showLicensedSnack() {
+        destroyDialog()
+        showSnackbar(
+                getString(R.string.license_valid_snack, getAppName()),
+                Snackbar.LENGTH_SHORT)
     }
     
     internal fun showNotLicensedDialog(pirateApp: PirateApp?) {
@@ -397,16 +410,21 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
                                      ) {
     }
     
-    override fun showSnackbar(text: String, duration: Int, settings: Snackbar.() -> Unit) {
+    override fun showSnackbar(
+            text: String,
+            duration: Int,
+            defaultToToast: Boolean,
+            settings: Snackbar.() -> Unit
+                             ) {
         contentView?.let {
-            val snack = it.buildSnackbar(text, duration, builder = settings)
+            val snack = it.buildSnackbar(text, duration, settings)
             
             val snackText = snack.view.findViewById<TextView>(R.id.snackbar_text)
             snackText.setTextColor(Color.WHITE)
             snackText.maxLines = 3
             
             snack.show()
-        }
+        } ?: { if (defaultToToast) showToast(text) }()
     }
     
     internal fun showWallpaperOptionsDialog(wallpaper: Wallpaper) {

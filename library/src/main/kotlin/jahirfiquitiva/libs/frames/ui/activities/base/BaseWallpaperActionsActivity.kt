@@ -101,13 +101,13 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
     private fun showPermissionInformation(toApply: Boolean) {
         showSnackbar(
                 getString(R.string.permission_request, getAppName()),
-                Snackbar.LENGTH_LONG, {
-                    setAction(
-                            R.string.allow, {
-                        dismiss()
-                        downloadWallpaper(toApply)
-                    })
-                })
+                Snackbar.LENGTH_LONG) {
+            setAction(
+                    R.string.allow, {
+                dismiss()
+                downloadWallpaper(toApply)
+            })
+        }
     }
     
     private fun checkIfFileExists(toApply: Boolean) {
@@ -158,14 +158,15 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
             properlyCancelDialog()
             showSnackbar(
                     getString(R.string.download_successful, dest.toString()),
-                    Snackbar.LENGTH_LONG, {
-                        setAction(
-                                R.string.open, {
-                            dest.getUri(this@BaseWallpaperActionsActivity)?.let {
-                                openWallpaper(it)
-                            }
-                        })
-                    })
+                    Snackbar.LENGTH_LONG) {
+                setAction(
+                        R.string.open, {
+                    dest.getUri(this@BaseWallpaperActionsActivity)?.let {
+                        openWallpaper(it)
+                    }
+                    
+                })
+            }
         }
     }
     
@@ -293,11 +294,18 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
     }
     
     private fun showSnackbar(
-            @StringRes text: Int, duration: Int,
+            @StringRes text: Int,
+            duration: Int,
+            defaultToToast: Boolean = false,
             settings: Snackbar.() -> Unit = {}
                             ) {
-        showSnackbar(getString(text), duration, settings)
+        showSnackbar(getString(text), duration, defaultToToast, settings)
     }
     
-    abstract fun showSnackbar(text: String, duration: Int, settings: Snackbar.() -> Unit = {})
+    abstract fun showSnackbar(
+            text: String,
+            duration: Int,
+            defaultToToast: Boolean = false,
+            settings: Snackbar.() -> Unit = {}
+                             )
 }
