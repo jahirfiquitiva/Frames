@@ -437,10 +437,12 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
                 dialog.dismiss()
                 doItemClick(APPLY_ACTION_ID)
             }
-            negativeText(R.string.download)
-            onNegative { dialog, _ ->
-                dialog.dismiss()
-                doItemClick(DOWNLOAD_ACTION_ID)
+            if (wallpaper.downloadable) {
+                negativeText(R.string.download)
+                onNegative { dialog, _ ->
+                    dialog.dismiss()
+                    doItemClick(DOWNLOAD_ACTION_ID)
+                }
             }
         }
         dialog?.show()
