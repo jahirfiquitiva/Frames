@@ -55,7 +55,6 @@ abstract class FramesActivity : BaseFramesActivity() {
     private val toolbar: CustomToolbar by bind(R.id.toolbar)
     private val pager: ViewPager by bind(R.id.pager)
     private val tabs: CustomTabLayout by bind(R.id.tabs)
-    private lateinit var adapter: FragmentsAdapter
     
     private var searchView: SearchView? = null
     
@@ -72,14 +71,13 @@ abstract class FramesActivity : BaseFramesActivity() {
         
         setSupportActionBar(toolbar)
         
-        adapter = if (hasCollections) {
+        pager.adapter = if (hasCollections) {
             FragmentsAdapter(
                     supportFragmentManager, CollectionsFragment(),
                     WallpapersFragment(), FavoritesFragment())
         } else {
             FragmentsAdapter(supportFragmentManager, WallpapersFragment(), FavoritesFragment())
         }
-        pager.adapter = adapter
         
         val useAccentColor = getBoolean(R.bool.enable_accent_color_in_tabs)
         tabs.setTabTextColors(

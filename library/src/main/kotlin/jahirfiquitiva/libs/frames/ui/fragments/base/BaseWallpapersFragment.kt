@@ -61,9 +61,9 @@ import java.io.FileOutputStream
 @Suppress("DEPRECATION")
 abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperHolder>() {
     
-    lateinit var swipeToRefresh: SwipeRefreshLayout
-    lateinit var rv: EmptyViewRecyclerView
-    lateinit var fastScroll: RecyclerFastScroller
+    var swipeToRefresh: SwipeRefreshLayout? = null
+    var rv: EmptyViewRecyclerView? = null
+    var fastScroll: RecyclerFastScroller? = null
     
     var wallsAdapter: WallpapersAdapter? = null
         private set
@@ -75,79 +75,83 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         rv = content.findViewById(R.id.list_rv)
         fastScroll = content.findViewById(R.id.fast_scroller)
         
-        with(swipeToRefresh) {
-            setProgressBackgroundColorSchemeColor(context.cardBackgroundColor)
-            setColorSchemeColors(context.accentColor)
-            setOnRefreshListener { reloadData(if (fromFavorites()) 2 else 1) }
+        swipeToRefresh?.let {
+            it.setProgressBackgroundColorSchemeColor(it.context.cardBackgroundColor)
+            it.setColorSchemeColors(it.context.accentColor)
+            it.setOnRefreshListener { reloadData(if (fromFavorites()) 2 else 1) }
         }
         
-        with(rv) {
-            itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
-            textView = content.findViewById(R.id.empty_text)
-            emptyView = content.findViewById(R.id.empty_view)
-            setEmptyImage(
-                    if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
-            setEmptyText(if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
-            loadingView = content.findViewById(R.id.loading_view)
-            setLoadingText(R.string.loading_section)
-            configureRVColumns()
-            
-            val provider = ViewPreloadSizeProvider<Wallpaper>()
-            wallsAdapter = WallpapersAdapter(
-                    Glide.with(context), provider, fromFavorites(), showFavoritesIcon(),
-                    object : FramesViewClickListener<Wallpaper, WallpaperHolder>() {
-                        override fun onSingleClick(item: Wallpaper, holder: WallpaperHolder) {
-                            onItemClicked(item, holder)
-                        }
-                        
-                        override fun onLongClick(item: Wallpaper) {
-                            super.onLongClick(item)
-                            (activity as? BaseFramesActivity)?.showWallpaperOptionsDialog(item)
-                        }
-                        
-                        override fun onHeartClick(view: ImageView, item: Wallpaper, color: Int) {
-                            super.onHeartClick(view, item, color)
-                            onHeartClicked(view, item, color)
-                        }
-                    })
-            
-            safeActv { activity ->
-                wallsAdapter?.let {
-                    val preloader: RecyclerViewPreloader<Wallpaper> =
-                            RecyclerViewPreloader(activity, it, provider, context.maxPreload)
-                    addOnScrollListener(preloader)
+        rv?.let { rv ->
+            with(rv) {
+                itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
+                textView = content.findViewById(R.id.empty_text)
+                emptyView = content.findViewById(R.id.empty_view)
+                setEmptyImage(
+                        if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
+                setEmptyText(if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
+                loadingView = content.findViewById(R.id.loading_view)
+                setLoadingText(R.string.loading_section)
+                configureRVColumns()
+                
+                val provider = ViewPreloadSizeProvider<Wallpaper>()
+                wallsAdapter = WallpapersAdapter(
+                        Glide.with(context), provider, fromFavorites(), showFavoritesIcon(),
+                        object : FramesViewClickListener<Wallpaper, WallpaperHolder>() {
+                            override fun onSingleClick(item: Wallpaper, holder: WallpaperHolder) {
+                                onItemClicked(item, holder)
+                            }
+                            
+                            override fun onLongClick(item: Wallpaper) {
+                                super.onLongClick(item)
+                                (activity as? BaseFramesActivity)?.showWallpaperOptionsDialog(item)
+                            }
+                            
+                            override fun onHeartClick(
+                                    view: ImageView,
+                                    item: Wallpaper,
+                                    color: Int
+                                                     ) {
+                                super.onHeartClick(view, item, color)
+                                onHeartClicked(view, item, color)
+                            }
+                        })
+                
+                safeActv { activity ->
+                    wallsAdapter?.let {
+                        val preloader: RecyclerViewPreloader<Wallpaper> =
+                                RecyclerViewPreloader(activity, it, provider, context.maxPreload)
+                        addOnScrollListener(preloader)
+                    }
                 }
-            }
-            
-            addOnScrollListener(
-                    object : RecyclerView.OnScrollListener() {
-                        override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
-                            super.onScrolled(rv, dx, dy)
-                            rv?.let {
-                                if (!it.canScrollVertically(1)) {
-                                    it.post({ wallsAdapter?.allowMoreItemsLoad() })
+                
+                addOnScrollListener(
+                        object : RecyclerView.OnScrollListener() {
+                            override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
+                                super.onScrolled(rv, dx, dy)
+                                rv?.let {
+                                    if (!it.canScrollVertically(1)) {
+                                        it.post({ wallsAdapter?.allowMoreItemsLoad() })
+                                    }
                                 }
                             }
-                        }
-                    })
-            
-            setItemViewCacheSize(MAX_WALLPAPERS_LOAD)
-            isDrawingCacheEnabled = true
-            drawingCacheQuality = View.DRAWING_CACHE_QUALITY_AUTO
-            
-            adapter = wallsAdapter
+                        })
+                
+                setItemViewCacheSize(MAX_WALLPAPERS_LOAD)
+                isDrawingCacheEnabled = true
+                drawingCacheQuality = View.DRAWING_CACHE_QUALITY_AUTO
+                
+                adapter = wallsAdapter
+            }
         }
         
-        with(fastScroll) {
-            attachSwipeRefreshLayout(swipeToRefresh)
-            attachRecyclerView(rv)
-        }
+        fastScroll?.attachSwipeRefreshLayout(swipeToRefresh)
+        fastScroll?.attachRecyclerView(rv)
         
-        rv.state = EmptyViewRecyclerView.State.LOADING
+        rv?.state = EmptyViewRecyclerView.State.LOADING
     }
     
     override fun scrollToTop() {
-        rv.post { rv.scrollToPosition(0) }
+        rv?.post { rv?.scrollToPosition(0) }
     }
     
     override fun onResume() {
@@ -158,15 +162,15 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     
     fun configureRVColumns() {
         if (ctxt.framesKonfigs.columns != spanCount) {
-            rv.removeItemDecoration(spacingDecoration)
+            rv?.removeItemDecoration(spacingDecoration)
             val columns = ctxt.framesKonfigs.columns
             spanCount = if (ctxt.isInHorizontalMode) ((columns * 1.5).toInt()) else columns
-            rv.layoutManager = GridLayoutManager(
+            rv?.layoutManager = GridLayoutManager(
                     context, spanCount,
                     GridLayoutManager.VERTICAL, false)
             spacingDecoration = GridSpacingItemDecoration(
                     spanCount, ctxt.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
-            rv.addItemDecoration(spacingDecoration)
+            rv?.addItemDecoration(spacingDecoration)
         }
     }
     
@@ -176,34 +180,35 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             onWallpaperClicked(item, holder)
     
     override fun loadDataFromViewModel() {
-        rv.state = EmptyViewRecyclerView.State.LOADING
+        rv?.state = EmptyViewRecyclerView.State.LOADING
         super.loadDataFromViewModel()
     }
     
     override fun enableRefresh(enable: Boolean) {
-        swipeToRefresh.isEnabled = enable
+        swipeToRefresh?.isEnabled = enable
     }
     
     override fun reloadData(section: Int) {
-        if (swipeToRefresh.isRefreshing) swipeToRefresh.isRefreshing = false
-        rv.state = EmptyViewRecyclerView.State.LOADING
+        val isRefreshing = swipeToRefresh?.isRefreshing ?: false
+        if (isRefreshing) swipeToRefresh?.isRefreshing = false
+        rv?.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
-        swipeToRefresh.isRefreshing = true
+        swipeToRefresh?.isRefreshing = true
     }
     
     override fun doOnCollectionsChange(data: ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
-        swipeToRefresh.isRefreshing = false
+        swipeToRefresh?.isRefreshing = false
     }
     
     override fun doOnFavoritesChange(data: ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
-        swipeToRefresh.isRefreshing = false
+        swipeToRefresh?.isRefreshing = false
     }
     
     override fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
-        swipeToRefresh.isRefreshing = false
+        swipeToRefresh?.isRefreshing = false
     }
     
     override fun applyFilter(filter: String) {
@@ -212,13 +217,13 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                     (if (fromFavorites()) favoritesModel?.getData() else wallpapersModel?.getData()))
             
             if (filter.hasContent()) {
-                rv.setEmptyImage(R.drawable.no_results)
-                rv.setEmptyText(R.string.search_no_results)
+                rv?.setEmptyImage(R.drawable.no_results)
+                rv?.setEmptyText(R.string.search_no_results)
                 it.setItems(ArrayList(list.filter { filteredWallpaper(it, filter) }))
             } else {
-                rv.setEmptyImage(
+                rv?.setEmptyImage(
                         if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
-                rv.setEmptyText(
+                rv?.setEmptyText(
                         if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
                 it.setItems(list)
             }

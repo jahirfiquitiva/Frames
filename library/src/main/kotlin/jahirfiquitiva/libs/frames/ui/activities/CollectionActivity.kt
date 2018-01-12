@@ -30,6 +30,7 @@ import android.widget.TextView
 import ca.allanwang.kau.utils.postDelayed
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
+import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersInCollectionFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.kauextensions.extensions.bind
@@ -55,7 +56,7 @@ open class CollectionActivity : FragmentsActivity() {
     private var closing = false
     private var collection: Collection? = null
     
-    private lateinit var frag: WallpapersInCollectionFragment
+    private var frag: WallpapersInCollectionFragment? = null
     
     private val toolbar: CustomToolbar by bind(R.id.toolbar)
     private var searchView: SearchView? = null
@@ -118,7 +119,7 @@ open class CollectionActivity : FragmentsActivity() {
             if (!fragmentLoaded) {
                 fragmentLoaded = true
                 frag = WallpapersInCollectionFragment.create(it, it.wallpapers)
-                changeFragment(frag)
+                frag?.let { changeFragment(it) }
             }
         }
     }
@@ -188,7 +189,7 @@ open class CollectionActivity : FragmentsActivity() {
         try {
             synchronized(
                     LOCK, {
-                postDelayed(200, { frag.applyFilter(filter) })
+                postDelayed(200, { frag?.applyFilter(filter) })
             })
         } catch (ignored: Exception) {
         }
@@ -199,7 +200,7 @@ open class CollectionActivity : FragmentsActivity() {
             closing = true
             val intent = Intent()
             try {
-                intent.putExtra("nFavs", frag.newFavs)
+                intent.putExtra("nFavs", frag?.newFavs ?: ArrayList<Wallpaper>())
             } catch (ignored: Exception) {
             }
             setResult(11, intent)
