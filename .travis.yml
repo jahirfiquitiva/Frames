@@ -55,19 +55,23 @@ before_script:
 before_install:
 - yes | sdkmanager "platforms;android-27"
 
+before_deploy:
+  - git tag -f travis-build
+  - git remote add gh
+    https://${TRAVIS_REPO_SLUG%/*}:${GITHUB_API_KEY}@github.com/${TRAVIS_REPO_SLUG}.git
+  - git push -f gh travis-build
+  - git remote remove gh
+
 deploy:
   provider: releases
-  api_key:
-    secure: 3OjMyDi9Hm1D5MR/uhjvLvQhjA7xk/HORLnGwrs4vfBLXKfiVIVcHFLRFmTgkWu2Y9zAtUxmU9Q4LQk5dvGeM++CN73DFVTgFf0+a/bOP3YHER4Fz7LmV4GDtpVgavVlN80tIoycMmmh9YU+GCR9MxpsSWHG8ng/Bv8y1/0S/rknJJIbe7SeZijaTJEzGu73XKDNwvtk7HBDRgwJKl+ZFxqtIFPBBsHfmS2aG0nqjkWsa8tV4Y94BmwvcK7Pe3SZR5JAhi/hTSr1ihW2qFU0Di1lfpJljOxTUbcrZJD3BN6eKbT906ebkR/wQZMFcr+5pQlUqoTzeC8tJH+EAhwQZuhj6y0DALsXdqw7RSNptf6pExIJ+3iVpaiV/pXl6qYHgnnacOVwXVbsRzNHy9T2fey8upBQUTsPl4fG15KbBr9BkN8nG/ajdvWNSvEP4S/B4AAk5dn13w+0/QGkNvA0sKul10jBnheMTIUY7Z6fdHEgDkvpclbzeEtvi8RDFjn9Wbpibn1jgFHJEiiWYJ8U3rWPLTYnFknWMx0C6Krpwt9zFxMBjZon5KH+0jZZFQ4eqKSIi51z78hokD0OevA/v34zSoIxv/LNHIIEai/L/fXBK0JivWVHUoc5hOXDdqx7+qppY4JpIqkyZfJEYT+N/2a7Is6dcyoQ7J+HW6ySVGQ=
+  api_key: $GITHUB_API_KEY
   file_glob: true
-  file: 
-    - $HOME/app/build/outputs/apk/debug/*.apk
-    - $HOME/app/build/outputs/apk/*/*.apk
-    - '*/app/build/outputs/apk/debug/*.apk'
-    - /app/build/outputs/apk/debug/*.apk
-    - app/build/outputs/apk/debug/*.apk
+  file: app/build/outputs/apk/debug/*.apk
   skip_cleanup: true
   overwrite: true
+  target_commitish: $TRAVIS_COMMIT
+  name: Frames APK Build
+  body: Automated Frames APK build ($TRAVIS_COMMIT) made by Travis CI on $(date +'%F %T %Z').
   on:
     branch: master
     repo: jahirfiquitiva/Frames
