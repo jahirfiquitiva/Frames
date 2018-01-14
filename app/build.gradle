@@ -16,13 +16,20 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
+// Determines if the application was built on Continuous Integration Server.
+def isCi = System.getenv("CI") == "true"
+
 android {
     compileSdkVersion versions.targetSdk
     buildToolsVersion versions.buildTools
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            outputFileName = details.appId + "-v${variant.versionName}-${variant.name}.apk"
+            if (isCi) {
+                outputFileName = "frames-v${variant.versionName}-${variant.name}-${gitLocalSha()}.apk"
+            } else {
+                outputFileName = details.appId + "-v${variant.versionName}-${variant.name}.apk"
+            }
         }
     }
 
@@ -33,6 +40,10 @@ android {
     }
 
     defaultConfig {
+        // Include all fields for later usage in developer options menu. Can be accessed via BuildConfig class.
+        buildConfigField 'boolean', 'CI', "${isCi}"
+        buildConfigField 'String', 'GIT_SHA', "\"${gitLocalSha()}\""
+
         applicationId details.appGroup + "." + details.appId.toLowerCase() + ".sample"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
@@ -75,4 +86,17 @@ tasks.whenTaskAdded { task ->
     if (task.name.contains("lint") || task.name.contains("test")) {
         task.enabled = false
     }
+}
+
+/**
+ * Get SHA of the current commit.
+ */
+def gitLocalSha() {
+    def p = 'git rev-parse --short HEAD'.execute([], project.rootDir)
+    p.waitFor()
+    if (p.exitValue() != 0) {
+        throw new RuntimeException(p.errorStream.text)
+    }
+
+    return p.text.trim()
 }
