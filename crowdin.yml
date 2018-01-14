@@ -1,0 +1,4 @@
+files:
+  - source: library/src/main/res/values/translatable_strings.xml
+    translation: library/src/main/res/values-%android_code%/translatable_strings.xml
+    translate_attributes: '0'
