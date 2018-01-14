@@ -79,7 +79,6 @@
   <!-- Dark Theme -->
   <string name="dark_theme">Ciemny</string>
   <!-- Amoled Theme -->
-  <string name="amoled_theme">Amoled</string>
   <!-- Transparent Theme -->
   <string name="transparent_theme">Przeźroczysty</string>
   <!-- Automatic Light-Dark Theme -->
