@@ -55,24 +55,20 @@ before_script:
 before_install:
 - yes | sdkmanager "platforms;android-27"
 
-before_deploy:
-  - echo "Starting deployment to GitHub releases"
-
 deploy:
   provider: releases
   api_key:
-    secure: Ld3M5KAxiW16pm0UHOVjvHnNOk7Nja5+hGcrAM85pdY44weeDlPiO2pA6kO85iBbYc2/3+Z3E8E0HDclkKQfLL1ODUxwDDs+SWzdN0YwKTc+Ha2/s+KweQx9TSho/AOq5s9BIiUbdXmKZBVZRK5D7SB7bMzNl1VIRwubx67D+tezF29Z7El3r9ID4iLdMZ/OmQ9uDx4i1s5nxMVudXy2do+AQi7aYkdNnWRhA71xLJgzubZJRex55er5w85IxCn+lyrzPqqQrxwIuKKMY/fRX9FA/nTtz69ciMSbs0HmDRw2DaPKXuIva7xfuAAcc+rUb7y3lgcWZ3XRFbq8I1+LRu2pGhzpxeDjJN4vUovQ+HvvjcH1jdz7WIRjGXkDuR3WIudqBHtv5hWkKk3sHmRkeY2tGrOhF/ftVXRVTjpzYqIwdvGfKBucM6tcEl199rdWOCOgxzezV59ge9cxLudAecCEII3dfXtu0UUkQPcswh7r7Xzjnr8rOazFfovNRIpv1MYFkWPhMUvm+S0xxA7Td1NdbMbJ9cJpJ55x6394wb2rCiw6KLHOhshV7mcF6GHmr+r8EOABHBm969HB+X0lh/OezlHLBEvayI490NmOOjFdfS0Bg2fGrco+K1TKtUvzI/w/L6R3xBvJ0y7gzHsh4Alugs7JPyWelNneWv5SL/o=
+    secure: 3OjMyDi9Hm1D5MR/uhjvLvQhjA7xk/HORLnGwrs4vfBLXKfiVIVcHFLRFmTgkWu2Y9zAtUxmU9Q4LQk5dvGeM++CN73DFVTgFf0+a/bOP3YHER4Fz7LmV4GDtpVgavVlN80tIoycMmmh9YU+GCR9MxpsSWHG8ng/Bv8y1/0S/rknJJIbe7SeZijaTJEzGu73XKDNwvtk7HBDRgwJKl+ZFxqtIFPBBsHfmS2aG0nqjkWsa8tV4Y94BmwvcK7Pe3SZR5JAhi/hTSr1ihW2qFU0Di1lfpJljOxTUbcrZJD3BN6eKbT906ebkR/wQZMFcr+5pQlUqoTzeC8tJH+EAhwQZuhj6y0DALsXdqw7RSNptf6pExIJ+3iVpaiV/pXl6qYHgnnacOVwXVbsRzNHy9T2fey8upBQUTsPl4fG15KbBr9BkN8nG/ajdvWNSvEP4S/B4AAk5dn13w+0/QGkNvA0sKul10jBnheMTIUY7Z6fdHEgDkvpclbzeEtvi8RDFjn9Wbpibn1jgFHJEiiWYJ8U3rWPLTYnFknWMx0C6Krpwt9zFxMBjZon5KH+0jZZFQ4eqKSIi51z78hokD0OevA/v34zSoIxv/LNHIIEai/L/fXBK0JivWVHUoc5hOXDdqx7+qppY4JpIqkyZfJEYT+N/2a7Is6dcyoQ7J+HW6ySVGQ=
   file_glob: true
   file: 
     - $HOME/app/build/outputs/apk/debug/*.apk
     - $HOME/app/build/outputs/apk/*/*.apk
     - '*/app/build/outputs/apk/debug/*.apk'
+    - /app/build/outputs/apk/debug/*.apk
+    - app/build/outputs/apk/debug/*.apk
   skip_cleanup: true
   overwrite: true
   on:
     branch: master
     repo: jahirfiquitiva/Frames
     tags: true
-    
-after_deploy:
-  - echo "Deployment finished"
