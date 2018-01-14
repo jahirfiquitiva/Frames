@@ -54,9 +54,6 @@ before_script:
 
 before_install:
 - yes | sdkmanager "platforms;android-27"
-  
-after_success:
-- sh set_tags.sh
 
 deploy:
   provider: releases
@@ -65,6 +62,9 @@ deploy:
   file: app/build/outputs/apk/debug/frames*debug*.apk
   file_glob: "true"
   skip_cleanup: true
+  overwrite: true
+  prerelease: true
   on:
     branch: master
     repo: jahirfiquitiva/Frames
+    tags: true
