@@ -56,8 +56,7 @@ before_install:
 - yes | sdkmanager "platforms;android-27"
 
 before_deploy:
-  - export DEPLOY_FILE = $(ls *.apk)
-  - echo "Deploying $DEPLOY_FILE to GitHub releases"
+  - echo "Starting deployment to GitHub releases"
 
 deploy:
   provider: releases
@@ -74,3 +73,6 @@ deploy:
     branch: master
     repo: jahirfiquitiva/Frames
     tags: true
+    
+after_deploy:
+  - echo "Deployment finished"
