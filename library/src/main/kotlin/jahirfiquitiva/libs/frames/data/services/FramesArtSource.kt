@@ -139,7 +139,7 @@ open class FramesArtSource(name: String) : RemoteMuzeiArtSource(name), Lifecycle
             }
             wallsVM?.loadData(this, true)
         } catch (e: Exception) {
-            e.printStackTrace()
+            FL.e { e.message }
         }
     }
     
