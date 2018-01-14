@@ -110,6 +110,7 @@
   <!-- License -->
   <string name="license_valid_title">लाइसेंस वेलिड</string>
   <string name="license_valid_content">डाउनलोड करने के लिए धन्यवाद %1$s एक वैध स्टोर से। आनंद लें!</string>
+  <string name="license_valid_snack">लाइसेंस मान्य डाउनलोड करने के लिए धन्यवाद %1$s। आनंद लें!</string>
   <string name="license_invalid_title">आप पास नहीं करेंगे!</string>
   <string name="license_invalid_content">क्षमा करें, लेकिन हमने पाया है कि आपके लाइसेंस के लिए %1$s मान्य नहीं है।
 यह भी इसलिए हो सकता है क्योंकि आप पायरेटेड ऐप्स का उपयोग कर रहे हैं। %2$s। यदि आपको लगता है कि यह एक त्रुटि है, तो कृपया बाद में फिर से प्रयास करें। अन्यथा, कृपया किसी मान्य स्टोर से एप्लिकेशन डाउनलोड करें।</string>
