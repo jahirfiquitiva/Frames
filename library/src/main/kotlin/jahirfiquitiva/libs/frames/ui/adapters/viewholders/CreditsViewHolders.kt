@@ -166,9 +166,7 @@ open class DashboardCreditViewHolder(itemView: View) : GlideSectionedViewHolder(
                         val btn = buttons.getChildAt(index)
                         btn?.let {
                             it.setOnClickListener { view ->
-                                if (view.tag is String) {
-                                    view.context.openLink(view.tag as String)
-                                }
+                                (view.tag as? String)?.let { view.context.openLink(it) }
                             }
                             (it as? AppCompatButton)?.setTextColor(it.context.accentColor)
                         }

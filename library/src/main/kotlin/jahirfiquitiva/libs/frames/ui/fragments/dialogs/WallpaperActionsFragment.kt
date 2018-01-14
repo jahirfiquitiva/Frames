@@ -41,6 +41,7 @@ import jahirfiquitiva.libs.frames.ui.activities.base.BaseWallpaperActionsActivit
 import jahirfiquitiva.libs.kauextensions.extensions.actv
 import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 import jahirfiquitiva.libs.kauextensions.extensions.getUri
+import jahirfiquitiva.libs.kauextensions.extensions.safeActv
 import jahirfiquitiva.libs.kauextensions.extensions.showToast
 import java.io.File
 
@@ -209,19 +210,17 @@ class WallpaperActionsFragment : DialogFragment() {
     
     private fun showDownloadResult(dest: File) {
         try {
-            if (actv is BaseWallpaperActionsActivity) {
-                (actv as BaseWallpaperActionsActivity).showWallpaperDownloadedSnackbar(dest)
-            } else {
-                actv.snackbar(
-                        getString(R.string.download_successful, dest.toString()),
-                        builder = {
-                            setAction(
-                                    R.string.open, {
-                                destFile?.getUri(actv)?.let {
-                                    actv.openWallpaper(it)
-                                }
-                            })
+            safeActv {
+                (it as?  BaseWallpaperActionsActivity)?.reportWallpaperDownloaded(dest) ?: {
+                    it.snackbar(getString(R.string.download_successful, dest.toString())) {
+                        setAction(
+                                R.string.open, {
+                            destFile?.getUri(actv)?.let {
+                                actv.openWallpaper(it)
+                            }
                         })
+                    }
+                }()
             }
         } catch (e: Exception) {
             e.printStackTrace()

@@ -18,6 +18,7 @@ package jahirfiquitiva.libs.frames.helpers.extensions
 import android.app.Activity
 import android.graphics.Bitmap
 import android.util.DisplayMetrics
+import jahirfiquitiva.libs.frames.helpers.utils.FL
 
 fun Bitmap.adjustToDeviceScreen(activity: Activity): Bitmap {
     var flag = true
@@ -33,25 +34,20 @@ fun Bitmap.adjustToDeviceScreen(activity: Activity): Bitmap {
         var scaledHeight = deviceHeight
         val scaledWidth = scaledHeight * width / height
         try {
-            if (scaledHeight > deviceHeight) {
-                scaledHeight = deviceHeight
-            }
+            if (scaledHeight > deviceHeight) scaledHeight = deviceHeight
             return Bitmap.createScaledBitmap(this, scaledWidth, scaledHeight, true)
         } catch (e: Exception) {
-            e.printStackTrace()
+            FL.e { e.message }
         }
     }
     
-    if (flag) {
-        if (height > deviceHeight) {
-            var scaledWidth = deviceHeight * width / height
-            try {
-                if (scaledWidth > deviceWidth)
-                    scaledWidth = deviceWidth
-                return Bitmap.createScaledBitmap(this, scaledWidth, deviceHeight, true)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+    if (flag && height > deviceHeight) {
+        var scaledWidth = deviceHeight * width / height
+        try {
+            if (scaledWidth > deviceWidth) scaledWidth = deviceWidth
+            return Bitmap.createScaledBitmap(this, scaledWidth, deviceHeight, true)
+        } catch (e: Exception) {
+            FL.e { e.message }
         }
     }
     

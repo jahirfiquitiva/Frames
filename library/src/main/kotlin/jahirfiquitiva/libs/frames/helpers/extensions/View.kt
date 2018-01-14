@@ -27,7 +27,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
 import jahirfiquitiva.libs.kauextensions.extensions.navigationBarHeight
 
 fun View.setNavBarMargins() {
-    val params = (layoutParams as? FrameLayout.LayoutParams) ?: return
+    val params = layoutParams as? FrameLayout.LayoutParams ?: return
     val left = if (this is FloatingActionButton) 16.dpToPx else 0
     var right = if (this is FloatingActionButton) 16.dpToPx else 0
     var bottom = if (this is FloatingActionButton) 16.dpToPx else 0

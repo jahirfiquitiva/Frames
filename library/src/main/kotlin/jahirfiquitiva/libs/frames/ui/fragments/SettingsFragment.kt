@@ -165,9 +165,7 @@ open class SettingsFragment : PreferenceFragment() {
             val enable = any.toString().equals("true", true)
             if (enable != ctxt.framesKonfigs.fullResGridPictures) {
                 ctxt.framesKonfigs.fullResGridPictures = enable
-                if (actv is SettingsActivity) {
-                    (actv as SettingsActivity).hasClearedFavs = true
-                }
+                (actv as? SettingsActivity)?.hasClearedFavs = true
             }
             true
         }

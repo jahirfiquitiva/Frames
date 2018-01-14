@@ -186,7 +186,7 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
         }
     }
     
-    fun showWallpaperDownloadedSnackbar(dest: File) {
+    fun reportWallpaperDownloaded(dest: File) {
         sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(dest)))
         runOnUiThread {
             properlyCancelDialog()
@@ -195,10 +195,7 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
                     Snackbar.LENGTH_LONG) {
                 setAction(
                         R.string.open, {
-                    dest.getUri(this@BaseWallpaperActionsActivity)?.let {
-                        openWallpaper(it)
-                    }
-                    
+                    dest.getUri(context)?.let { openWallpaper(it) }
                 })
             }
         }

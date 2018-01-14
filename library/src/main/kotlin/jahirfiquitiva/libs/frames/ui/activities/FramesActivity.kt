@@ -207,13 +207,11 @@ abstract class FramesActivity : BaseFramesActivity() {
     
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         item?.let {
-            val id = it.itemId
-            when (id) {
+            when (it.itemId) {
                 R.id.refresh -> refreshContent()
                 R.id.about -> startActivity(Intent(this, CreditsActivity::class.java))
                 R.id.settings -> startActivityForResult(
-                        Intent(this, SettingsActivity::class.java),
-                        22)
+                        Intent(this, SettingsActivity::class.java), 22)
                 R.id.donate -> doDonation()
             }
         }

@@ -64,21 +64,20 @@ abstract class FramesViewClickListener<in T, in VH> {
 
 abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     internal var wallpaper: Wallpaper? = null
-    abstract internal val img: ImageView
-    abstract internal fun getListener(): GlideRequestCallback<Bitmap>
+    internal abstract val img: ImageView
+    internal abstract fun getListener(): GlideRequestCallback<Bitmap>
     
     internal fun animateLoad(view: View) {
         with(view) {
-            whenFaded(
-                    ifHasNotFaded = {
-                        if (context.framesKonfigs.animationsEnabled) {
-                            animateSmoothly(
-                                    context.dividerColor, context.thumbnailColor,
-                                    { setBackgroundColor(it) })
-                        } else {
-                            setBackgroundColor(context.dividerColor)
-                        }
-                    })
+            whenFaded {
+                if (context.framesKonfigs.animationsEnabled) {
+                    animateSmoothly(
+                            context.dividerColor, context.thumbnailColor,
+                            { setBackgroundColor(it) })
+                } else {
+                    setBackgroundColor(context.dividerColor)
+                }
+            }
         }
     }
     
@@ -91,7 +90,7 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
         img.releaseFromGlide()
     }
     
-    internal fun whenFaded(ifHasFaded: () -> Unit = {}, ifHasNotFaded: () -> Unit = {}) {
+    internal fun whenFaded(ifHasFaded: () -> Unit = {}, ifHasNotFaded: () -> Unit) {
         val hasFaded = wallpaper?.hasFaded != false
         if (!hasFaded) ifHasNotFaded()
         else ifHasFaded()

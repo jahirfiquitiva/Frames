@@ -103,32 +103,22 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     
     internal fun initDonations() {
         if (donationsReady) return
-        if (donationsEnabled) {
-            if (getStringArray(R.array.donation_items).isNotEmpty()) {
-                if (BillingProcessor.isIabServiceAvailable(this)) {
-                    destroyBillingProcessor()
-                    val licKey: String? = getLicKey()
-                    if (licKey != null) {
-                        billingProcessor = BillingProcessor(this, licKey, this)
-                        billingProcessor?.let {
-                            if (!it.isInitialized) {
-                                it.initialize()
-                            }
-                            try {
-                                donationsEnabled = it.isOneTimePurchaseSupported
-                            } catch (ignored: Exception) {
-                            }
-                            donationsReady = true
-                        }
-                    } else {
-                        donationsEnabled = false
+        if (donationsEnabled && getStringArray(R.array.donation_items).isNotEmpty()
+                && BillingProcessor.isIabServiceAvailable(this)) {
+            destroyBillingProcessor()
+            getLicKey()?.let {
+                billingProcessor = BillingProcessor(this, it, this)
+                billingProcessor?.let {
+                    if (!it.isInitialized) it.initialize()
+                    try {
+                        donationsEnabled = it.isOneTimePurchaseSupported
+                    } catch (ignored: Exception) {
                     }
-                } else {
-                    donationsEnabled = false
-                }
-            } else {
-                donationsEnabled = false
-            }
+                    donationsReady = true
+                } ?: { donationsEnabled = false }()
+            } ?: { donationsEnabled = false }()
+        } else {
+            donationsEnabled = false
         }
     }
     

@@ -441,22 +441,20 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     
     private fun loadExpensiveWallpaperDetails() {
         wallpaper?.let {
-            with(it) {
-                if (size != 0L) {
-                    val sizeText = size.toReadableByteCount()
-                    if (sizeText != "-0") addToDetails(WallpaperDetail("ic_size", sizeText))
-                }
-                if (dimensions.hasContent()) {
-                    addToDetails(WallpaperDetail("ic_dimensions", dimensions))
-                }
-                val isValidInfo = info?.isValid == true
-                if (isValidInfo) {
-                    postWallpaperInfo(info)
-                    return
-                }
-                setupDetailsViewModel()
-                detailsVM?.loadData(this)
+            if (it.size != 0L) {
+                val sizeText = it.size.toReadableByteCount()
+                if (sizeText != "-0") addToDetails(WallpaperDetail("ic_size", sizeText))
             }
+            if (it.dimensions.hasContent()) {
+                addToDetails(WallpaperDetail("ic_dimensions", it.dimensions))
+            }
+            val isValidInfo = info?.isValid == true
+            if (isValidInfo) {
+                postWallpaperInfo(info)
+                return
+            }
+            setupDetailsViewModel()
+            detailsVM?.loadData(it)
         }
     }
     
