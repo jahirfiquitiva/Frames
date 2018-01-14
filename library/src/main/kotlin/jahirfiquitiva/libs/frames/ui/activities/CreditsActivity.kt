@@ -15,6 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.ui.activities
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.support.annotation.StringRes
@@ -57,9 +58,10 @@ open class CreditsActivity : ThemedActivity() {
     override fun autoTintNavigationBar(): Boolean = true
     
     private val toolbar: CustomToolbar by bind(R.id.toolbar)
-    private val rv: EmptyViewRecyclerView by bind(R.id.list_rv)
+    private val recyclerView: EmptyViewRecyclerView by bind(R.id.list_rv)
     private val fastScroll: RecyclerFastScroller by bind(R.id.fast_scroller)
     
+    @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_credits)
@@ -72,19 +74,19 @@ open class CreditsActivity : ThemedActivity() {
         val refreshLayout: SwipeRefreshLayout by bind(R.id.swipe_to_refresh)
         refreshLayout.isEnabled = false
         
-        rv.itemAnimator = DefaultItemAnimator()
-        rv.state = EmptyViewRecyclerView.State.LOADING
+        recyclerView.itemAnimator = DefaultItemAnimator()
+        recyclerView.state = EmptyViewRecyclerView.State.LOADING
         
         val layoutManager = GridLayoutManager(
                 this, if (isInHorizontalMode) 2 else 1,
                 GridLayoutManager.VERTICAL, false)
-        rv.layoutManager = layoutManager
+        recyclerView.layoutManager = layoutManager
         
         val adapter = CreditsAdapter(getDashboardTitle(), Glide.with(this), buildCreditsList())
         adapter.setLayoutManager(layoutManager)
-        rv.adapter = adapter
+        recyclerView.adapter = adapter
         
-        fastScroll.attachRecyclerView(rv)
+        fastScroll.attachRecyclerView(recyclerView)
         
         try {
             adapter.collapseSection(2)
@@ -92,7 +94,7 @@ open class CreditsActivity : ThemedActivity() {
         } catch (ignored: Exception) {
         }
         
-        rv.state = EmptyViewRecyclerView.State.NORMAL
+        recyclerView.state = EmptyViewRecyclerView.State.NORMAL
     }
     
     @StringRes

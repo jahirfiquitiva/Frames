@@ -15,6 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.ui.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -58,6 +59,7 @@ open class SettingsActivity : FragmentsActivity(), FolderChooserDialog.FolderCal
     open fun settingsFragment(): Fragment = SettingsFragment()
     override fun fragmentsContainer(): Int = R.id.fragments_container
     
+    @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_collection_settings)
@@ -144,7 +146,7 @@ open class SettingsActivity : FragmentsActivity(), FolderChooserDialog.FolderCal
         intent.putExtra("clearedFavs", hasClearedFavs)
         setResult(22, intent)
         try {
-            if (fragment is SettingsFragment) (fragment as SettingsFragment).clearDialog()
+            (fragment as? SettingsFragment)?.clearDialog()
         } catch (ignored: Exception) {
         }
         clearDialog()

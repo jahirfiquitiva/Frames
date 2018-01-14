@@ -316,7 +316,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
                     } else {
                         showDonationErrorDialog(0, null)
                     }
-                    donationViewModel.destroy(this@BaseFramesActivity)
+                    donationViewModel.destroy(this)
                 })
                 destroyDialog()
                 dialog = buildMaterialDialog {

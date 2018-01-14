@@ -68,13 +68,15 @@ class DownloadThread(
                             else -> {
                             }
                         }
-                        progress = ((it.getInt(
-                                it.getColumnIndex(
-                                        DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)) * 100L)
-                                / it.getInt(
-                                it.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))).toInt()
+                        
+                        val downloaded = it.getInt(
+                                it.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
+                        val total = it.getInt(
+                                it.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
+                        
+                        progress = ((downloaded * 100L) / total).toInt()
                     } catch (e: CursorIndexOutOfBoundsException) {
-                        e.printStackTrace()
+                        FL.e { e.message }
                         
                         Handler(Looper.getMainLooper()).post {
                             val fileExists = frag.destFile?.exists() == true

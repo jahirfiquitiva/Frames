@@ -315,7 +315,7 @@ abstract class FramesActivity : BaseFramesActivity() {
             frag?.let {
                 if (it is BaseFramesFragment<*, *>) {
                     try {
-                        it.reloadData(lastSection + (if (hasCollections) 0 else 1))
+                        it.reloadData(lastSection + if (hasCollections) 0 else 1)
                     } catch (ignored: Exception) {
                     }
                 }

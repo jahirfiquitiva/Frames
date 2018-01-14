@@ -125,9 +125,9 @@ abstract class PreferenceFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         try {
-            val m = PreferenceManager::class.java.getDeclaredMethod("dispatchActivityDestroy")
-            m.isAccessible = true
-            m.invoke(preferenceManager)
+            val manager = PreferenceManager::class.java.getDeclaredMethod("dispatchActivityDestroy")
+            manager.isAccessible = true
+            manager.invoke(preferenceManager)
         } catch (ignored: Exception) {
         }
     }

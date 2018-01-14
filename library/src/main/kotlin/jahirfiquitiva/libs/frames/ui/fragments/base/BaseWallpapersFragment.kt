@@ -62,7 +62,7 @@ import java.io.FileOutputStream
 abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperHolder>() {
     
     var swipeToRefresh: SwipeRefreshLayout? = null
-    var rv: EmptyViewRecyclerView? = null
+    var recyclerView: EmptyViewRecyclerView? = null
     var fastScroll: RecyclerFastScroller? = null
     
     var wallsAdapter: WallpapersAdapter? = null
@@ -72,7 +72,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     
     override fun initUI(content: View) {
         swipeToRefresh = content.findViewById(R.id.swipe_to_refresh)
-        rv = content.findViewById(R.id.list_rv)
+        recyclerView = content.findViewById(R.id.list_rv)
         fastScroll = content.findViewById(R.id.fast_scroller)
         
         swipeToRefresh?.let {
@@ -81,8 +81,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             it.setOnRefreshListener { reloadData(if (fromFavorites()) 2 else 1) }
         }
         
-        rv?.let { rv ->
-            with(rv) {
+        recyclerView?.let { recyclerView ->
+            with(recyclerView) {
                 itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
                 textView = content.findViewById(R.id.empty_text)
                 emptyView = content.findViewById(R.id.empty_view)
@@ -128,10 +128,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                         object : RecyclerView.OnScrollListener() {
                             override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
                                 super.onScrolled(rv, dx, dy)
-                                rv?.let {
-                                    if (!it.canScrollVertically(1)) {
-                                        it.post({ wallsAdapter?.allowMoreItemsLoad() })
-                                    }
+                                if (!recyclerView.canScrollVertically(1)) {
+                                    recyclerView.post({ wallsAdapter?.allowMoreItemsLoad() })
                                 }
                             }
                         })
@@ -145,13 +143,13 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         }
         
         fastScroll?.attachSwipeRefreshLayout(swipeToRefresh)
-        fastScroll?.attachRecyclerView(rv)
+        fastScroll?.attachRecyclerView(recyclerView)
         
-        rv?.state = EmptyViewRecyclerView.State.LOADING
+        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
     }
     
     override fun scrollToTop() {
-        rv?.post { rv?.scrollToPosition(0) }
+        recyclerView?.post { recyclerView?.scrollToPosition(0) }
     }
     
     override fun onResume() {
@@ -162,15 +160,15 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     
     fun configureRVColumns() {
         if (ctxt.framesKonfigs.columns != spanCount) {
-            rv?.removeItemDecoration(spacingDecoration)
+            recyclerView?.removeItemDecoration(spacingDecoration)
             val columns = ctxt.framesKonfigs.columns
             spanCount = if (ctxt.isInHorizontalMode) ((columns * 1.5).toInt()) else columns
-            rv?.layoutManager = GridLayoutManager(
+            recyclerView?.layoutManager = GridLayoutManager(
                     context, spanCount,
                     GridLayoutManager.VERTICAL, false)
             spacingDecoration = GridSpacingItemDecoration(
                     spanCount, ctxt.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
-            rv?.addItemDecoration(spacingDecoration)
+            recyclerView?.addItemDecoration(spacingDecoration)
         }
     }
     
@@ -180,7 +178,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             onWallpaperClicked(item, holder)
     
     override fun loadDataFromViewModel() {
-        rv?.state = EmptyViewRecyclerView.State.LOADING
+        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
         super.loadDataFromViewModel()
     }
     
@@ -191,7 +189,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     override fun reloadData(section: Int) {
         val isRefreshing = swipeToRefresh?.isRefreshing ?: false
         if (isRefreshing) swipeToRefresh?.isRefreshing = false
-        rv?.state = EmptyViewRecyclerView.State.LOADING
+        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
         swipeToRefresh?.isRefreshing = true
     }
@@ -217,13 +215,13 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                     (if (fromFavorites()) favoritesModel?.getData() else wallpapersModel?.getData()))
             
             if (filter.hasContent()) {
-                rv?.setEmptyImage(R.drawable.no_results)
-                rv?.setEmptyText(R.string.search_no_results)
+                recyclerView?.setEmptyImage(R.drawable.no_results)
+                recyclerView?.setEmptyText(R.string.search_no_results)
                 it.setItems(ArrayList(list.filter { filteredWallpaper(it, filter) }))
             } else {
-                rv?.setEmptyImage(
+                recyclerView?.setEmptyImage(
                         if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
-                rv?.setEmptyText(
+                recyclerView?.setEmptyText(
                         if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
                 it.setItems(list)
             }

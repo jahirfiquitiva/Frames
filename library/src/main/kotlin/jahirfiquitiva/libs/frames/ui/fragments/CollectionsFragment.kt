@@ -49,14 +49,14 @@ import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoratio
 class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     
     private var swipeToRefresh: SwipeRefreshLayout? = null
-    private var rv: EmptyViewRecyclerView? = null
+    private var recyclerView: EmptyViewRecyclerView? = null
     private var fastScroll: RecyclerFastScroller? = null
     
     private var collsAdapter: CollectionsAdapter? = null
     
     override fun initUI(content: View) {
         swipeToRefresh = content.findViewById(R.id.swipe_to_refresh)
-        rv = content.findViewById(R.id.list_rv)
+        recyclerView = content.findViewById(R.id.list_rv)
         fastScroll = content.findViewById(R.id.fast_scroller)
         
         swipeToRefresh?.let {
@@ -67,8 +67,8 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
             }
         }
         
-        rv?.let { rv ->
-            with(rv) {
+        recyclerView?.let { recyclerView ->
+            with(recyclerView) {
                 itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
                 textView = content.findViewById(R.id.empty_text)
                 emptyView = content.findViewById(R.id.empty_view)
@@ -102,10 +102,8 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
                         object : RecyclerView.OnScrollListener() {
                             override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
                                 super.onScrolled(rv, dx, dy)
-                                rv?.let {
-                                    if (!it.canScrollVertically(1)) {
-                                        it.post({ collsAdapter?.allowMoreItemsLoad() })
-                                    }
+                                if (!recyclerView.canScrollVertically(1)) {
+                                    recyclerView.post({ collsAdapter?.allowMoreItemsLoad() })
                                 }
                             }
                         })
@@ -119,15 +117,15 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
         }
         
         fastScroll?.attachSwipeRefreshLayout(swipeToRefresh)
-        fastScroll?.attachRecyclerView(rv)
+        fastScroll?.attachRecyclerView(recyclerView)
         
-        rv?.state = EmptyViewRecyclerView.State.LOADING
+        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
     }
     
     override fun getContentLayout(): Int = R.layout.section_lists
     
     override fun scrollToTop() {
-        rv?.post { rv?.scrollToPosition(0) }
+        recyclerView?.post { recyclerView?.scrollToPosition(0) }
     }
     
     @SuppressLint("RestrictedApi")
@@ -148,7 +146,7 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     override fun onItemClicked(item: Collection, holder: CollectionHolder) {}
     
     override fun loadDataFromViewModel() {
-        rv?.state = EmptyViewRecyclerView.State.LOADING
+        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
         super.loadDataFromViewModel()
     }
     
@@ -159,7 +157,7 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     override fun reloadData(section: Int) {
         val isRefreshing = swipeToRefresh?.isRefreshing ?: false
         if (isRefreshing) swipeToRefresh?.isRefreshing = false
-        rv?.state = EmptyViewRecyclerView.State.LOADING
+        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
         super.reloadData(section)
         swipeToRefresh?.isRefreshing = true
     }
@@ -168,13 +166,13 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
         if (collsAdapter != null) {
             val list = ArrayList(collectionsModel?.getData())
             if (filter.hasContent()) {
-                rv?.setEmptyImage(R.drawable.no_results)
-                rv?.setEmptyText(R.string.search_no_results)
+                recyclerView?.setEmptyImage(R.drawable.no_results)
+                recyclerView?.setEmptyText(R.string.search_no_results)
                 collsAdapter?.setItems(
                         ArrayList(list.filter { it.name.contains(filter, true) }))
             } else {
-                rv?.setEmptyImage(R.drawable.empty_section)
-                rv?.setEmptyText(R.string.empty_section)
+                recyclerView?.setEmptyImage(R.drawable.empty_section)
+                recyclerView?.setEmptyText(R.string.empty_section)
                 collsAdapter?.setItems(list)
             }
             scrollToTop()

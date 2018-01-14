@@ -46,7 +46,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 @Suppress("DEPRECATION")
 class InfoBottomSheet : BottomSheetDialogFragment() {
     
-    private var rv: RecyclerView? = null
+    private var recyclerView: RecyclerView? = null
     private var progress: ProgressBar? = null
     private var adapter: WallpaperInfoAdapter? = null
     private var behavior: BottomSheetBehavior<*>? = null
@@ -75,15 +75,15 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
         progress = detailView?.findViewById(R.id.loading_view)
         progress?.visible()
         
-        rv = detailView?.findViewById(R.id.info_rv)
-        rv?.gone()
-        rv?.setPaddingTop(8.dpToPx)
-        rv?.itemAnimator = DefaultItemAnimator()
+        recyclerView = detailView?.findViewById(R.id.info_rv)
+        recyclerView?.gone()
+        recyclerView?.setPaddingTop(8.dpToPx)
+        recyclerView?.itemAnimator = DefaultItemAnimator()
         
         val layoutManager = GridLayoutManager(
                 ctxt, if (ctxt.isInHorizontalMode) 4 else 3,
                 GridLayoutManager.VERTICAL, false)
-        rv?.layoutManager = layoutManager
+        recyclerView?.layoutManager = layoutManager
         
         if (adapter == null) adapter = WallpaperInfoAdapter {
             if (it != 0) {
@@ -93,7 +93,7 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
             }
         }
         adapter?.setLayoutManager(layoutManager)
-        adapter?.let { rv?.adapter = it }
+        adapter?.let { recyclerView?.adapter = it }
         setupAdapter()
         
         dialog?.setContentView(detailView)
@@ -119,7 +119,7 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
     private fun setupAdapter() {
         adapter?.setDetailsAndPalette(details, palette)
         progress?.gone()
-        rv?.visible()
+        recyclerView?.visible()
     }
     
     fun show(context: FragmentActivity) {

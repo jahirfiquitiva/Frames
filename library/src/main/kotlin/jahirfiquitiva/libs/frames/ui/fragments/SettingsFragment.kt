@@ -293,8 +293,7 @@ open class SettingsFragment : PreferenceFragment() {
                 }
                 
                 override fun onPermissionGranted() {
-                    if (activity is SettingsActivity)
-                        (activity as SettingsActivity).showLocationChooserDialog()
+                    (activity as? SettingsActivity)?.showLocationChooserDialog()
                 }
             })
     
