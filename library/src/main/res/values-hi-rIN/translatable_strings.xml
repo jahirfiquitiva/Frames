@@ -50,7 +50,7 @@
   <string name="home_screen">होम स्क्रीन</string>
   <string name="lock_screen">लॉक स्क्रीन</string>
   <string name="home_lock_screen">होम और लॉक स्क्रीन</string>
-  <string name="apply_with_other_app">Apply with other app</string>
+  <string name="apply_with_other_app">अन्य ऐप के साथ लागु करें</string>
   <string name="apply_successful">वॉलपेपर को सफलतापूर्वक लागू किया गया %1$s</string>
   <string name="apply_successful_short">वॉलपेपर सफलतापूर्वक लागू हो गया</string>
   <string name="wallpaper_details">डिटेल्स</string>
