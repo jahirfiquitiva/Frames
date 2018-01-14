@@ -60,7 +60,7 @@ deploy:
   api_key:
     secure: Ld3M5KAxiW16pm0UHOVjvHnNOk7Nja5+hGcrAM85pdY44weeDlPiO2pA6kO85iBbYc2/3+Z3E8E0HDclkKQfLL1ODUxwDDs+SWzdN0YwKTc+Ha2/s+KweQx9TSho/AOq5s9BIiUbdXmKZBVZRK5D7SB7bMzNl1VIRwubx67D+tezF29Z7El3r9ID4iLdMZ/OmQ9uDx4i1s5nxMVudXy2do+AQi7aYkdNnWRhA71xLJgzubZJRex55er5w85IxCn+lyrzPqqQrxwIuKKMY/fRX9FA/nTtz69ciMSbs0HmDRw2DaPKXuIva7xfuAAcc+rUb7y3lgcWZ3XRFbq8I1+LRu2pGhzpxeDjJN4vUovQ+HvvjcH1jdz7WIRjGXkDuR3WIudqBHtv5hWkKk3sHmRkeY2tGrOhF/ftVXRVTjpzYqIwdvGfKBucM6tcEl199rdWOCOgxzezV59ge9cxLudAecCEII3dfXtu0UUkQPcswh7r7Xzjnr8rOazFfovNRIpv1MYFkWPhMUvm+S0xxA7Td1NdbMbJ9cJpJ55x6394wb2rCiw6KLHOhshV7mcF6GHmr+r8EOABHBm969HB+X0lh/OezlHLBEvayI490NmOOjFdfS0Bg2fGrco+K1TKtUvzI/w/L6R3xBvJ0y7gzHsh4Alugs7JPyWelNneWv5SL/o=
   file_glob: true
-  file: app/build/outputs/apk/debug/*.apk
+  file: /home/travis/build/jahirfiquitiva/Frames/app/build/outputs/apk/debug/*.apk
   skip_cleanup: true
   overwrite: true
   on:
