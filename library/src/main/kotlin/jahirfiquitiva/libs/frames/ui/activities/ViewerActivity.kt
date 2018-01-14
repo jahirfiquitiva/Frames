@@ -88,6 +88,14 @@ import java.util.ArrayList
 
 open class ViewerActivity : BaseWallpaperActionsActivity() {
     
+    companion object {
+        private const val FAVORITE_ACTION_ID = 3
+        private const val ANIMATION_DURATION = 150L
+        private const val CLOSING_KEY = "closing"
+        private const val TRANSITIONED_KEY = "transitioned"
+        private const val VISIBLE_SYSTEM_UI_KEY = "visible_system_ui"
+    }
+    
     override var wallpaper: Wallpaper? = null
     override val allowBitmapApply: Boolean = true
     
@@ -99,8 +107,6 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     override fun autoTintStatusBar(): Boolean = false
     override fun autoTintNavigationBar(): Boolean = false
     
-    private val FAVORITE_ACTION_ID = 3
-    
     private val appbar: AppBarLayout by bind(R.id.appbar)
     private val toolbar: CustomToolbar by bind(R.id.toolbar)
     private val bottomBar: View by bind(R.id.bottom_bar)
@@ -111,12 +117,8 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     private var hasModifiedFavs = false
     private var showFavoritesButton = false
     
-    private val CLOSING_KEY = "closing"
     private var closing = false
-    private val TRANSITIONED_KEY = "transitioned"
     private var transitioned = false
-    
-    private val VISIBLE_SYSTEM_UI_KEY = "visible_system_ui"
     private var visibleSystemUI = true
     private var visibleBottomBar = true
     
@@ -126,7 +128,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     private var palette: Palette? = null
     private var info: WallpaperInfo? = null
     
-    @SuppressLint("MissingSuperCall")
+    @SuppressLint("MissingSuperCall", "InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
@@ -507,7 +509,6 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         }
     }
     
-    private val ANIMATION_DURATION: Long = 150
     private fun toggleFavorite() = runOnUiThread {
         val favImageView: ImageView by bind(R.id.fav_button)
         val scale = ScaleAnimation(

@@ -72,7 +72,7 @@ data class Wallpaper(
     }
     
     fun hasChangedFrom(other: Wallpaper?) =
-            other != null && (size != other.size || (!(dimensions.equals(other.dimensions, true))))
+            other != null && (size != other.size || !dimensions.equals(other.dimensions, true))
     
     override fun hashCode(): Int {
         var result = name.hashCode()

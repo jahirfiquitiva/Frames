@@ -55,6 +55,12 @@ import org.jetbrains.anko.collections.forEachWithIndex
 import java.util.Locale
 
 class MuzeiSettingsActivity : ThemedActivity() {
+    companion object {
+        private const val SEEKBAR_STEPS = 1
+        private const val SEEKBAR_MAX_VALUE = 13
+        private const val SEEKBAR_MIN_VALUE = 0
+    }
+    
     override fun lightTheme(): Int = R.style.LightTheme
     override fun darkTheme(): Int = R.style.DarkTheme
     override fun amoledTheme(): Int = R.style.AmoledTheme
@@ -62,10 +68,6 @@ class MuzeiSettingsActivity : ThemedActivity() {
     
     override fun autoTintStatusBar(): Boolean = true
     override fun autoTintNavigationBar(): Boolean = true
-    
-    private val SEEKBAR_STEPS = 1
-    private val SEEKBAR_MAX_VALUE = 13
-    private val SEEKBAR_MIN_VALUE = 0
     
     private var selectedCollections = ""
     private var dialog: MaterialDialog? = null

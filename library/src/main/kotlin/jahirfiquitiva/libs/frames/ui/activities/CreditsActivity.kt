@@ -30,6 +30,7 @@ import de.psdev.licensesdialog.LicenseResolver
 import de.psdev.licensesdialog.LicensesDialog
 import de.psdev.licensesdialog.licenses.License
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.TRANSLATION_SITE
 import jahirfiquitiva.libs.frames.ui.adapters.CreditsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
@@ -227,11 +228,9 @@ open class CreditsActivity : ThemedActivity() {
                             buttonsLinks = SHERRY_LINKS.split("|")))
             
             list.addAll(Credit.EXTRA_CREDITS)
-            
         } catch (e: Exception) {
-            e.printStackTrace()
+            FL.e { e.message }
         }
-        
         return list
     }
     

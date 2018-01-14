@@ -46,8 +46,10 @@ import java.util.concurrent.TimeUnit
 @Suppress("LeakingThis")
 open class FramesArtSource(name: String) : RemoteMuzeiArtSource(name), LifecycleOwner {
     
-    private val UPDATE_COMMAND_ID = 1001
-    private val SHARE_COMMAND_ID = 1337
+    companion object {
+        private const val UPDATE_COMMAND_ID = 1001
+        private const val SHARE_COMMAND_ID = 1337
+    }
     
     private val lcRegistry = LifecycleRegistry(this)
     override fun getLifecycle(): LifecycleRegistry = lcRegistry
@@ -166,7 +168,7 @@ open class FramesArtSource(name: String) : RemoteMuzeiArtSource(name), Lifecycle
         for (collection in collections) {
             val correct = collection.formatCorrectly().replace("_", " ")
             selected.forEach {
-                if (!(it.hasContent()) || it.equals(collection, true) || it.equals(correct, true))
+                if (!it.hasContent() || it.equals(collection, true) || it.equals(correct, true))
                     return true
             }
         }
