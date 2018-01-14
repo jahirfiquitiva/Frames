@@ -74,7 +74,7 @@ complexity:
     threshold: 10
     includeStaticDeclarations: false
   ComplexMethod:
-    active: true
+    active: false
     threshold: 10
   LabeledExpression:
     active: false
@@ -82,7 +82,7 @@ complexity:
     active: true
     threshold: 200
   LongMethod:
-    active: true
+    active: false
     threshold: 20
   LongParameterList:
     active: true
@@ -93,7 +93,7 @@ complexity:
     threshold: 5
   NestedBlockDepth:
     active: true
-    threshold: 3
+    threshold: 5
   StringLiteralDuplication:
     active: false
     threshold: 2
@@ -101,7 +101,7 @@ complexity:
     excludeStringsWithLessThan5Characters: true
     ignoreStringsRegex: '$^'
   TooManyFunctions:
-    active: true
+    active: false
     thresholdInFiles: 10
     thresholdInClasses: 10
     thresholdInInterfaces: 10
@@ -177,7 +177,7 @@ exceptions:
      - RuntimeException
      - Throwable
   TooGenericExceptionThrown:
-    active: true
+    active: false
     exceptions:
      - Error
      - Exception
@@ -249,7 +249,7 @@ style:
     forbiddenName: ''
   ForbiddenComment:
     active: true
-    values: 'TODO:,FIXME:,STOPSHIP:'
+    values: 'FIXME:,STOPSHIP:'
   ForbiddenImport:
     active: false
     imports: ''
