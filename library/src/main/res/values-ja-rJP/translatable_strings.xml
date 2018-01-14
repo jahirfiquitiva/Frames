@@ -57,7 +57,7 @@
   <string name="wallpaper_palette">Palette</string>
   <string name="copied_to_clipboard">Copied color to clipboard</string>
   <string name="search">Search</string>
-  <string name="search_x">Search %1$s…</string>
+  <string name="search_x">सर्च %1$s…</string>
   <string name="search_no_results">No results found</string>
   <string name="about">About</string>
   <string name="refresh">Refresh</string>
