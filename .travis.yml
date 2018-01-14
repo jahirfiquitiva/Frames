@@ -26,6 +26,7 @@ branches:
   except:
   - images
   - gh-pages
+  - travis-build
   
 notifications:
   email: false
