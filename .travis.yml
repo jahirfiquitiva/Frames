@@ -57,13 +57,6 @@ before_script:
 before_install:
 - yes | sdkmanager "platforms;android-27"
 
-before_deploy:
-  - git tag -f travis-build
-  - git remote add gh
-    https://${TRAVIS_REPO_SLUG%/*}:${GITHUB_API_KEY}@github.com/${TRAVIS_REPO_SLUG}.git
-  - git push -f gh travis-build
-  - git remote remove gh
-
 deploy:
   provider: releases
   api_key: $GITHUB_API_KEY
@@ -71,9 +64,6 @@ deploy:
   file: app/build/outputs/apk/debug/*.apk
   skip_cleanup: true
   overwrite: true
-  target_commitish: $TRAVIS_COMMIT
-  name: Frames APK Build
-  body: Automated Frames APK build ($TRAVIS_COMMIT) made by Travis CI on $(date +'%F %T %Z').
   on:
     branch: master
     repo: jahirfiquitiva/Frames
