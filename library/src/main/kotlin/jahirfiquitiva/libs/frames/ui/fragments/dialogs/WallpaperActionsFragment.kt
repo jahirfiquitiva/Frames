@@ -27,6 +27,8 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentActivity
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import ca.allanwang.kau.utils.materialDialog
 import ca.allanwang.kau.utils.snackbar
 import com.afollestad.materialdialogs.MaterialDialog
@@ -159,7 +161,7 @@ class WallpaperActionsFragment : DialogFragment() {
                     val resource = BitmapFactory.decodeFile(it.absolutePath)
                     resource?.let { applyWallpaper(it) }
                 } catch (e: Exception) {
-                    e.printStackTrace()
+                    FL.e { e.message }
                 }
             } else {
                 showDownloadResult(it)
@@ -168,9 +170,9 @@ class WallpaperActionsFragment : DialogFragment() {
         dismiss(actv)
     }
     
-    private fun doOnFailure(exception: Exception) {
+    private fun doOnFailure(e: Exception) {
         stopActions()
-        exception.printStackTrace()
+        FL.e { e.message }
         try {
             if (isVisible || isActive) {
                 try {
@@ -184,9 +186,8 @@ class WallpaperActionsFragment : DialogFragment() {
                         }
                     }
                 } catch (e: Exception) {
-                    e.printStackTrace()
-                    if (actv is BaseWallpaperActionsActivity)
-                        (actv as BaseWallpaperActionsActivity).properlyCancelDialog()
+                    FL.e { e.message }
+                    (actv as? BaseWallpaperActionsActivity)?.properlyCancelDialog()
                     actv.showToast(R.string.action_error_content)
                 }
             } else {
@@ -195,7 +196,7 @@ class WallpaperActionsFragment : DialogFragment() {
                 actv.showToast(R.string.action_error_content)
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            FL.e { e.message }
         }
     }
     
@@ -204,7 +205,7 @@ class WallpaperActionsFragment : DialogFragment() {
             thread?.cancel()
             downloadManager?.remove(downloadId)
         } catch (e: Exception) {
-            e.printStackTrace()
+            FL.e { e.message }
         }
     }
     
@@ -223,7 +224,7 @@ class WallpaperActionsFragment : DialogFragment() {
                 }()
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            FL.e { e.message }
             actv.showToast(R.string.download_successful_short)
         }
     }
@@ -239,7 +240,7 @@ class WallpaperActionsFragment : DialogFragment() {
             try {
                 destFile?.delete()
             } catch (e: Exception) {
-                e.printStackTrace()
+                FL.e { e.message }
             }
             
             val wm = WallpaperManager.getInstance(activity)
@@ -270,7 +271,7 @@ class WallpaperActionsFragment : DialogFragment() {
                 
                 showAppliedResult()
             } catch (e: Exception) {
-                e.printStackTrace()
+                FL.e { e.message }
             }
         }
     }
@@ -294,7 +295,7 @@ class WallpaperActionsFragment : DialogFragment() {
                                         }).toLowerCase()))
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            FL.e { e.message }
             actv.showToast(R.string.apply_successful_short)
         }
     }
@@ -308,11 +309,12 @@ class WallpaperActionsFragment : DialogFragment() {
         private val TO_OTHER_APP = "to_other_app"
         val TO_OTHER_APP_CODE = 73
         
-        fun invoke(
-                context: FragmentActivity, wallpaper: Wallpaper, destFile: File?,
+        fun create(
+                context: FragmentActivity,
+                wallpaper: Wallpaper,
+                destFile: File?,
                 destBitmap: Bitmap? = null,
-                toHomeScreen: Boolean = false, toLockScreen: Boolean = false,
-                toBoth: Boolean = false, toOtherApp: Boolean = false
+                whatTo: Array<Boolean>
                   ): WallpaperActionsFragment =
                 WallpaperActionsFragment().apply {
                     this.downloadManager =
@@ -320,34 +322,66 @@ class WallpaperActionsFragment : DialogFragment() {
                     this.wallpaper = wallpaper
                     this.destFile = destFile
                     this.destBitmap = destBitmap
-                    this.toHomeScreen = toHomeScreen
-                    this.toLockScreen = toLockScreen
-                    this.toBoth = toBoth
-                    this.toOtherApp = toOtherApp
+                    try {
+                        this.toHomeScreen = whatTo[0]
+                        this.toLockScreen = whatTo[1]
+                        this.toBoth = whatTo[2]
+                        this.toOtherApp = whatTo[3]
+                    } catch (e: Exception) {
+                        FL.e { e.message }
+                    }
                 }
+        
+        fun show(context: FragmentActivity, wallpaper: Wallpaper, destFile: File) {
+            create(context, wallpaper, destFile).show(context.supportFragmentManager, TAG)
+        }
+        
+        fun create(
+                context: FragmentActivity,
+                wallpaper: Wallpaper,
+                destFile: File
+                  ) = create(
+                context, wallpaper, destFile, null, arrayOf(false, false, false, false))
+        
+        fun create(
+                context: FragmentActivity,
+                wallpaper: Wallpaper,
+                destFile: File,
+                whatTo: Array<Boolean>
+                  ) = create(context, wallpaper, destFile, null, whatTo)
+        
+        fun create(
+                context: FragmentActivity,
+                wallpaper: Wallpaper,
+                destBitmap: Bitmap,
+                whatTo: Array<Boolean>
+                  ) = create(context, wallpaper, null, destBitmap, whatTo)
+        
+        fun show(
+                context: FragmentActivity,
+                wallpaper: Wallpaper,
+                destFile: File,
+                whatTo: Array<Boolean>
+                ) {
+            if (whatTo.size < 4) return
+            create(context, wallpaper, destFile, null, whatTo)
+                    .show(context.supportFragmentManager, TAG)
+        }
+        
+        fun show(
+                context: FragmentActivity,
+                wallpaper: Wallpaper,
+                destBitmap: Bitmap,
+                whatTo: Array<Boolean>
+                ) {
+            if (whatTo.size < 4) return
+            create(context, wallpaper, destBitmap, whatTo)
+                    .show(context.supportFragmentManager, TAG)
+        }
     }
     
-    fun show(context: FragmentActivity, wallpaper: Wallpaper, destFile: File) {
-        dismiss(context)
-        invoke(context, wallpaper, destFile).show(context.supportFragmentManager, TAG)
-    }
-    
-    fun show(
-            context: FragmentActivity, wallpaper: Wallpaper, destFile: File,
-            toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean, toOtherApp: Boolean
-            ) {
-        dismiss(context)
-        invoke(context, wallpaper, destFile, null, toHomeScreen, toLockScreen, toBoth, toOtherApp)
-                .show(context.supportFragmentManager, TAG)
-    }
-    
-    fun show(
-            context: FragmentActivity, wallpaper: Wallpaper, destBitmap: Bitmap,
-            toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean, toOtherApp: Boolean
-            ) {
-        dismiss(context)
-        invoke(context, wallpaper, null, destBitmap, toHomeScreen, toLockScreen, toBoth, toOtherApp)
-                .show(context.supportFragmentManager, TAG)
+    fun show(context: FragmentActivity) {
+        show(context.supportFragmentManager, TAG)
     }
     
     fun dismiss(context: FragmentActivity) {

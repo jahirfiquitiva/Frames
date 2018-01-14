@@ -103,7 +103,7 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
                             override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
                                 super.onScrolled(rv, dx, dy)
                                 if (!recyclerView.canScrollVertically(1)) {
-                                    recyclerView.post({ collsAdapter?.allowMoreItemsLoad() })
+                                    recyclerView.post { collsAdapter?.allowMoreItemsLoad() }
                                 }
                             }
                         })

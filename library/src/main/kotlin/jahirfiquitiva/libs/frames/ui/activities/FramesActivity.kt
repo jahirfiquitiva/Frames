@@ -28,6 +28,7 @@ import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.tint
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.ui.fragments.CollectionsFragment
 import jahirfiquitiva.libs.frames.ui.fragments.FavoritesFragment
@@ -240,11 +241,11 @@ abstract class FramesActivity : BaseFramesActivity() {
                         val nFavs = data.getSerializableExtra("nFavs") as ArrayList<Wallpaper>
                         if (nFavs.isNotEmpty()) setNewFavorites(nFavs)
                     } catch (e: Exception) {
-                        e.printStackTrace()
+                        FL.e { e.message }
                     }
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
+                FL.e { e.message }
             }
         }
     }

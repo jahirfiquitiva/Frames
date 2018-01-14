@@ -30,6 +30,7 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
+import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.REQUEST_CODE
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsFragment
 import jahirfiquitiva.libs.kauextensions.extensions.PermissionRequestListener
@@ -44,11 +45,13 @@ import java.util.Date
 
 abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
     
+    companion object {
+        const val DOWNLOAD_ACTION_ID = 1
+        const val APPLY_ACTION_ID = 2
+    }
+    
     private var actionDialog: MaterialDialog? = null
     internal var wallActions: WallpaperActionsFragment? = null
-    
-    internal val DOWNLOAD_ACTION_ID = 1
-    internal val APPLY_ACTION_ID = 2
     
     internal abstract var wallpaper: Wallpaper?
     internal abstract val allowBitmapApply: Boolean
@@ -181,8 +184,8 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
     private fun startDownload(dest: File) {
         wallpaper?.let {
             properlyCancelDialog()
-            wallActions = WallpaperActionsFragment()
-            wallActions?.show(this, it, dest)
+            wallActions = WallpaperActionsFragment.create(this, it, dest)
+            wallActions?.show(this)
         }
     }
     
@@ -253,8 +256,9 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
                               ) {
         wallpaper?.let {
             properlyCancelDialog()
-            wallActions = WallpaperActionsFragment()
-            wallActions?.show(this, it, dest, toHomeScreen, toLockScreen, toBoth, toOtherApp)
+            wallActions = WallpaperActionsFragment.create(
+                    this, it, dest, arrayOf(toHomeScreen, toLockScreen, toBoth, toOtherApp))
+            wallActions?.show(this)
         }
     }
     
@@ -290,7 +294,7 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
                         WallpaperActionsFragment.TO_OTHER_APP_CODE)
             } ?: dest.delete()
         } catch (e: Exception) {
-            e.printStackTrace()
+            FL.e { e.message }
         }
     }
     
@@ -301,7 +305,7 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
                 file?.delete()
                 file = null
             } catch (e: Exception) {
-                e.printStackTrace()
+                FL.e { e.message }
             }
         }
     }

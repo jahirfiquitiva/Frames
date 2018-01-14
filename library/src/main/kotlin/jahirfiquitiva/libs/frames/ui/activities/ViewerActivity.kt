@@ -57,6 +57,7 @@ import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
 import jahirfiquitiva.libs.frames.helpers.extensions.urlOptions
+import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpaperInfoViewModel
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseWallpaperActionsActivity
@@ -405,7 +406,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
             palette = bmp?.generatePalette()
             updateInfo()
         } catch (e: Exception) {
-            e.printStackTrace()
+            FL.e { e.message }
         }
     }
     
@@ -500,10 +501,10 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
                                      ) {
         wallpaper?.let {
             properlyCancelDialog()
-            wallActions = WallpaperActionsFragment()
-            wallActions?.show(
-                    this, it, img.drawable.toBitmap(), toHomeScreen, toLockScreen, toBoth,
-                    toOtherApp)
+            wallActions = WallpaperActionsFragment.create(
+                    this, it, img.drawable.toBitmap(),
+                    arrayOf(toHomeScreen, toLockScreen, toBoth, toOtherApp))
+            wallActions?.show(this)
         }
     }
     
@@ -634,9 +635,10 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     }
     
     private fun changeBottomBarVisibility(show: Boolean) {
+        val bottomBarParent = bottomBar.parent as? View ?: return
         visibleBottomBar = show
-        val transY = (if (show) 0 else ((bottomBar.parent as View).height + navigationBarHeight)).toFloat()
-        (bottomBar.parent as View).animate().translationY(transY)
+        val transY = (if (show) 0 else (bottomBarParent.height + navigationBarHeight)).toFloat()
+        bottomBarParent.animate().translationY(transY)
                 .setInterpolator(AccelerateDecelerateInterpolator())
                 .start()
     }

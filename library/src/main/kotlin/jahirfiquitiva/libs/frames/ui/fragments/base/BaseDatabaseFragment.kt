@@ -36,6 +36,7 @@ import jahirfiquitiva.libs.frames.data.models.db.FavoritesDao
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
+import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.kauextensions.extensions.SimpleAnimationListener
 import jahirfiquitiva.libs.kauextensions.extensions.actv
@@ -48,6 +49,10 @@ import jahirfiquitiva.libs.kauextensions.extensions.runOnUiThread
 @Suppress("NAME_SHADOWING", "DEPRECATION")
 abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
         ViewModelFragment<T>() {
+    
+    companion object {
+        private const val ANIMATION_DURATION: Long = 150
+    }
     
     internal var database: FavoritesDatabase? = null
     internal var favoritesModel: FavoritesViewModel? = null
@@ -125,7 +130,6 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
     abstract fun fromCollectionActivity(): Boolean
     abstract fun fromFavorites(): Boolean
     
-    private val ANIMATION_DURATION: Long = 150
     private fun animateHeartClick(
             heart: ImageView, item: Wallpaper, @ColorInt color: Int,
             check: Boolean
@@ -164,7 +168,7 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
             if (check) addToFavorites(item) else removeFromFavorites(item)
             showFavsSnackbar(check, item.name)
         } catch (e: Exception) {
-            e.printStackTrace()
+            FL.e { e.message }
             showErrorSnackbar()
         }
     }

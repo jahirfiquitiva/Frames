@@ -20,6 +20,7 @@ import jahirfiquitiva.libs.archhelpers.viewmodels.ListViewModel
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
+import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesUrlRequests
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
@@ -72,11 +73,11 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
         return try {
             parseResponseToJSON(response, context.getBoolean(R.bool.use_old_json_format))
         } catch (e: Exception) {
-            e.printStackTrace()
+            FL.e { e.message }
             try {
                 parseResponseToJSON(response, true)
             } catch (e2: Exception) {
-                e2.printStackTrace()
+                FL.e { e2.message }
                 JSONArray("[]")
             }
         }

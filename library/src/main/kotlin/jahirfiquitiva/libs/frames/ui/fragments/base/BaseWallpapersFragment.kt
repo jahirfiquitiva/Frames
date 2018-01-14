@@ -129,7 +129,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                             override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
                                 super.onScrolled(rv, dx, dy)
                                 if (!recyclerView.canScrollVertically(1)) {
-                                    recyclerView.post({ wallsAdapter?.allowMoreItemsLoad() })
+                                    recyclerView.post { wallsAdapter?.allowMoreItemsLoad() }
                                 }
                             }
                         })

@@ -197,7 +197,7 @@ open class FramesArtSource(name: String) : RemoteMuzeiArtSource(name), Lifecycle
     private fun getRandomIndex(maxValue: Int): Int = try {
         Random().nextInt(maxValue)
     } catch (e: Exception) {
-        e.printStackTrace()
+        FL.e { e.message }
         0
     }
     

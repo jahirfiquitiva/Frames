@@ -37,6 +37,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.clearDataAndCache
 import jahirfiquitiva.libs.frames.helpers.extensions.dataCacheSize
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
+import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.ui.activities.SettingsActivity
 import jahirfiquitiva.libs.frames.ui.fragments.base.PreferenceFragment
 import jahirfiquitiva.libs.kauextensions.extensions.PermissionRequestListener
@@ -152,8 +153,8 @@ open class SettingsFragment : PreferenceFragment() {
             uiPrefs.removePreference(columns)
         }
         
-        val animationsPref = findPreference("animations") as SwitchPreference
-        animationsPref.setOnPreferenceChangeListener { _, any ->
+        val animationsPref = findPreference("animations") as? SwitchPreference
+        animationsPref?.setOnPreferenceChangeListener { _, any ->
             val enable = any.toString().equals("true", true)
             if (enable != ctxt.framesKonfigs.animationsEnabled)
                 ctxt.framesKonfigs.animationsEnabled = enable
@@ -219,9 +220,7 @@ open class SettingsFragment : PreferenceFragment() {
                     onPositive { _, _ ->
                         doAsync {
                             database?.favoritesDao()?.nukeFavorites()
-                            if (activity is SettingsActivity) {
-                                (activity as SettingsActivity).hasClearedFavs = true
-                            }
+                            (activity as? SettingsActivity)?.hasClearedFavs = true
                         }
                     }
                 }
@@ -253,7 +252,7 @@ open class SettingsFragment : PreferenceFragment() {
             if (className.hasContent()) Class.forName(className)
             else null
         } catch (e: Exception) {
-            e.printStackTrace()
+            FL.e { e.message }
             null
         }
     }
@@ -271,8 +270,8 @@ open class SettingsFragment : PreferenceFragment() {
             } else {
                 false
             }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
+        } catch (e: Exception) {
+            FL.e { e.message }
             false
         }
     }

@@ -44,15 +44,16 @@ class CustomToolbar : Toolbar {
     
     fun enableScroll(enable: Boolean, behavior: AppBarLayout.Behavior = AppBarLayout.Behavior()) {
         if (parent is AppBarLayout) {
-            val parentView = parent as AppBarLayout
-            val params = layoutParams as AppBarLayout.LayoutParams
-            val appBarLayoutParams = parentView.layoutParams as CoordinatorLayout.LayoutParams
+            val parentView = parent as? AppBarLayout
+            val params = layoutParams as? AppBarLayout.LayoutParams
+            val appBarLayoutParams = parentView?.layoutParams as CoordinatorLayout.LayoutParams
             if (enable) {
-                params.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+                params?.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
+                        AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
                 appBarLayoutParams.behavior = behavior
                 parentView.layoutParams = appBarLayoutParams
             } else {
-                params.scrollFlags = 0
+                params?.scrollFlags = 0
                 appBarLayoutParams.behavior = null
                 parentView.layoutParams = appBarLayoutParams
             }
