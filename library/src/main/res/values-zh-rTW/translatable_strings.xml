@@ -64,7 +64,6 @@
   <string name="translate">翻譯</string>
   <string name="licenses">許可認證</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
-  <string name="frames_dashboard">Frames Dashboard</string>
   <string name="dev_contributions">開發幫助</string>
   <string name="ui_contributions">UI設計幫助</string>
   <string name="dashboard_copyright">我是一名20歲的安卓開發愛好者，並且是這個應用的開發者。</string>
@@ -90,12 +89,6 @@
   <string name="navbar_color_setting_content">應用基礎顏色導航欄</string>
   <string name="wallpapers_columns_setting_title">壁紙行數</string>
   <string name="wallpapers_columns_setting_content">選擇壁紙行數</string>
-  <string name="animations_setting_title">Enable animations</string>
-  <string name="animations_setting_content">This may cause lag in some devices.</string>
-  <string name="load_hi_res_pictures_title">Full resolution previews</string>
-  <string name="load_hi_res_pictures_content">Load full resolution pictures in grid</string>
-  <string name="deep_search_title">Enable deep search</string>
-  <string name="deep_search_content">Search by name and collection</string>
   <string name="storage_settings_title">存儲</string>
   <string name="wallpapers_download_location_setting_title">壁紙下載路徑</string>
   <string name="wallpapers_download_location_setting_content">改變壁紙下載路徑。 \n當前路徑:%1$s</string>
@@ -110,7 +103,6 @@
   <!-- License -->
   <string name="license_valid_title">許可有效</string>
   <string name="license_valid_content">謝謝您下載%1$s</string>
-  <string name="license_valid_snack">License valid. Thanks for downloading %1$s. Enjoy!</string>
   <string name="license_invalid_title">你不應該通過！</string>
   <string name="license_invalid_content">對不起，但是我們監測到你的%1$s 許可是無效的。這也是因為您使用了私人應用%2$s 。如果您覺得這是一個錯誤，請稍後嘗試。或者，請從一個有效的應用商店選擇下載。</string>
   <string name="license_invalid_content_extra">注意： \'%1$s\'應用，所以請選擇卸載。</string>
@@ -143,8 +135,4 @@
   <string name="sure_to_exit_content">在你退出之前你想保存你的設置嗎？</string>
   <string name="yes">是的</string>
   <string name="no">不</string>
-  <string name="not_connected_content">Unfortunately this action requires Internet connection. Please try again later.</string>
-  <string name="new_wallpapers_available">%1$s new wallpapers available. Tap to check them out!</string>
-  <string name="notifications_title">Notifications</string>
-  <string name="enable_notifications">Enable notifications</string>
 </resources>
