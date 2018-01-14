@@ -27,6 +27,7 @@ branches:
   - images
   - gh-pages
   - travis-build
+  - i18n
   
 notifications:
   email: false
