@@ -79,7 +79,6 @@
   <!-- Dark Theme -->
   <string name="dark_theme">Темная</string>
   <!-- Amoled Theme -->
-  <string name="amoled_theme">Amoled</string>
   <!-- Transparent Theme -->
   <string name="transparent_theme">Прозрачная</string>
   <!-- Automatic Light-Dark Theme -->
@@ -110,7 +109,6 @@
   <!-- License -->
   <string name="license_valid_title">Лицензия действует</string>
   <string name="license_valid_content">Спасибо за скачивание %1$s из магазина. Надеюсь вы получите удовольствие от использования!</string>
-  <string name="license_valid_snack">License valid. Thanks for downloading %1$s. Enjoy!</string>
   <string name="license_invalid_title">Ты не пройдешь!</string>
   <string name="license_invalid_content">Извините, но у вас недействующая лицензия %1$s . Возможно это пиратское приложение.  %2$s. Если вы полагаете, что это ошибка, то попробуйте позднее. Или скачайте приложение из официального магазина.</string>
   <string name="license_invalid_content_extra">Или обратите внимание на \'%1$s и удалите его</string>
