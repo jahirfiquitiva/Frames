@@ -20,7 +20,7 @@ android:
 jdk:
 - oraclejdk8
 
-script: "./gradlew clean test --stacktrace"
+script: "./gradlew clean test build --stacktrace"
 
 branches:
   except:
