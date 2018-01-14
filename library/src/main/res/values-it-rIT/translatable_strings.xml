@@ -79,7 +79,6 @@
   <!-- Dark Theme -->
   <string name="dark_theme">Scuro</string>
   <!-- Amoled Theme -->
-  <string name="amoled_theme">Amoled</string>
   <!-- Transparent Theme -->
   <string name="transparent_theme">Trasparente</string>
   <!-- Automatic Light-Dark Theme -->
@@ -142,7 +141,6 @@
   <string name="sure_to_exit">Esci</string>
   <string name="sure_to_exit_content">Vuoi salvare le tue impostazioni prima di uscire?</string>
   <string name="yes">Sì</string>
-  <string name="no">No</string>
   <string name="not_connected_content">Sfortunatamente questa azione richiede una connessione a Internet. Per favore riprova più tardi.</string>
   <string name="new_wallpapers_available">%1$s nuovi sfondi disponibili. Tocca per controllarli!</string>
   <string name="notifications_title">Notifiche</string>
