@@ -33,7 +33,6 @@
   <string name="info">Bilgi</string>
   <string name="share">Paylaş</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
-  <string name="share_text">My wallpaper for today is %1$s by %2$s, from %3$s.\nGet it now at %4$s</string>
   <string name="permission_denied">Depolama iznine erişim engellendi</string>
   <string name="permission_denied_completely">Depolama izni erişimi engellendi. Bunu Ayarlar\'da manuel olarak etkinleştirmeniz gerekecek.</string>
   <string name="permission_request">%1$s uygulamak ve duvar kağıtları kaydetmek için saklama alanına erişmek gerekiyor</string>
@@ -42,7 +41,6 @@
   <string name="download_successful">Duvar kağıdı başarıyla indirildi \'%1$s\'</string>
   <string name="download_successful_short">Duvar kağıdı başarıyla indirildi</string>
   <string name="open">Aç</string>
-  <string name="file_exists">Wallpaper is already downloaded. Do you want to download to replace it?</string>
   <string name="file_replace">Değiştirmek</string>
   <string name="file_create_new">Yeni oluştur</string>
   <string name="applying_wallpaper">uygulanıyor\'%1$s\'…</string>
@@ -64,12 +62,8 @@
   <string name="translate">Tercüme</string>
   <string name="licenses">Lisanslar</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
-  <string name="frames_dashboard">Frames Dashboard</string>
   <string name="dev_contributions">Geliştirme Yardımı</string>
   <string name="ui_contributions">UI Yardımı</string>
-  <string name="dashboard_copyright">I am a 20 years old Android development enthusiast and the developer of the dashboard.</string>
-  <string name="sherry_description">An ever evolving woman who never tires of learning, creative photographer and the person who made this dashboard possible.</string>
-  <string name="allan_description">First an icon pack creator, then a themer, now also a developer.\nI have helped with part of this dashboard\'s development.</string>
   <string name="settings">Ayarlar</string>
   <string name="ui_settings_title">Kullanıcı arayüzü</string>
   <string name="theme_setting_title">Uygulama teması</string>
@@ -79,7 +73,6 @@
   <!-- Dark Theme -->
   <string name="dark_theme">Koyu</string>
   <!-- Amoled Theme -->
-  <string name="amoled_theme">Amoled</string>
   <!-- Transparent Theme -->
   <string name="transparent_theme">Şeffaf</string>
   <!-- Automatic Light-Dark Theme -->
@@ -87,64 +80,8 @@
   <!-- Automatic Light-Amoled Theme -->
   <string name="auto_amoled">Otomatik Açık-Amoled</string>
   <string name="navbar_color_setting_title">Gezinme çubuğu rengi</string>
-  <string name="navbar_color_setting_content">Color navigation bar with app\'s primary dark color</string>
   <string name="wallpapers_columns_setting_title">Duvar Kağıtları sütunları</string>
-  <string name="wallpapers_columns_setting_content">Choose the amount of columns you want to see for wallpapers</string>
-  <string name="animations_setting_title">Enable animations</string>
-  <string name="animations_setting_content">This may cause lag in some devices.</string>
-  <string name="load_hi_res_pictures_title">Full resolution previews</string>
-  <string name="load_hi_res_pictures_content">Load full resolution pictures in grid</string>
-  <string name="deep_search_title">Enable deep search</string>
-  <string name="deep_search_content">Search by name and collection</string>
-  <string name="storage_settings_title">Storage</string>
-  <string name="wallpapers_download_location_setting_title">Wallpapers download location</string>
-  <string name="wallpapers_download_location_setting_content">Change location to download wallpapers.\nCurrent location: %1$s</string>
-  <string name="create_folder">Create folder</string>
-  <string name="choose_folder">Choose</string>
-  <string name="data_cache_setting_title">Clear app data and cache</string>
-  <string name="data_cache_setting_content">This will delete app cache and preferences.\nCurrent cache size: %1$s</string>
-  <string name="data_cache_confirmation">Are you sure you want to delete app data, cache and settings?</string>
-  <string name="clear_favorites_setting_title">Clear favorites database</string>
-  <string name="clear_favorites_setting_content">Clear the list of your favorite wallpapers</string>
-  <string name="clear_favorites_confirmation">Are you sure you want to delete the favorites database?</string>
   <!-- License -->
-  <string name="license_valid_title">License valid</string>
-  <string name="license_valid_content">Thanks for downloading %1$s from a valid store. Enjoy it!</string>
-  <string name="license_valid_snack">License valid. Thanks for downloading %1$s. Enjoy!</string>
-  <string name="license_invalid_title">You shall not pass!</string>
-  <string name="license_invalid_content">Sorry, but we have detected that your license for %1$s is not valid. This can also be because you are using pirate apps. %2$s. If you think this is an error, please try again later. Otherwise, please download the app from a valid store.</string>
-  <string name="license_invalid_content_extra">Or specifically: \'%1$s\' app, so please uninstall it</string>
-  <string name="error_title">Error</string>
-  <string name="action_error_content">Sorry, an unexpected error occurred while trying to complete this action.</string>
-  <string name="license_error_content">Sorry, there was an error while checking your license. Please try again later.</string>
-  <string name="try_now">Try now</string>
-  <string name="donate">Donate</string>
-  <string name="donate_success_title">Thank you</string>
-  <string name="donate_success_content">Thank you so much for your donation. I really appreciate it and I\'m glad you\'re enjoying %1$s.</string>
-  <string name="donate_error">Unexpected error with code %1$s occurred due to %2$s</string>
-  <string name="donate_error_unknown">unknown reasons</string>
-  <string name="loading">Loading…</string>
-  <string name="close">Close</string>
   <!-- Muzei Settings -->
-  <string name="muzei_settings">Muzei Settings</string>
   <!-- Please use this character … -->
-  <string name="refresh_wallpapers_every">Refresh wallpapers…</string>
-  <string name="every_x">Every %1$s</string>
-  <string name="minutes">Minutes</string>
-  <string name="hours">Hours</string>
-  <string name="days">Days</string>
-  <string name="refresh_only_on_wifi">Refresh on WiFi only</string>
-  <string name="refresh_only_on_wifi_summary">Refresh wallpapers only when device is connected to a WiFi network.</string>
-  <string name="choose_collections_title">Choose collections</string>
-  <string name="choose_collections_summary">Choose the collections to take wallpapers from. Current selected collections: %1$s</string>
-  <string name="muzei_not_connected_title">Not connected to Internet</string>
-  <string name="muzei_not_connected_content">Sorry, but to be able to choose or change the collections you want the app to take wallpapers from, you must be connected to Internet. Please try again later.</string>
-  <string name="sure_to_exit">Exit</string>
-  <string name="sure_to_exit_content">Do you want to save your settings before exit?</string>
-  <string name="yes">Yes</string>
-  <string name="no">No</string>
-  <string name="not_connected_content">Unfortunately this action requires Internet connection. Please try again later.</string>
-  <string name="new_wallpapers_available">%1$s new wallpapers available. Tap to check them out!</string>
-  <string name="notifications_title">Notifications</string>
-  <string name="enable_notifications">Enable notifications</string>
 </resources>
