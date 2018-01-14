@@ -132,8 +132,9 @@ class WallpaperActionsFragment : DialogFragment() {
         val dialog = actv.buildMaterialDialog {
             content(
                     actv.getString(
-                            if (shouldApply && !toOtherApp) R.string.applying_wallpaper else R.string.downloading_wallpaper,
-                            wallpaper?.name))
+                            if (shouldApply && !toOtherApp) R.string.applying_wallpaper
+                            else R.string.downloading_wallpaper,
+                            wallpaper?.name.orEmpty()))
             progress(false, 100)
             positiveText(android.R.string.cancel)
             onPositive { _, _ ->
@@ -387,7 +388,7 @@ class WallpaperActionsFragment : DialogFragment() {
     fun dismiss(context: FragmentActivity) {
         try {
             val frag = context.supportFragmentManager.findFragmentByTag(TAG)
-            if (frag != null) (frag as WallpaperActionsFragment).dismiss()
+            if (frag != null) (frag as? WallpaperActionsFragment)?.dismiss()
         } catch (ignored: Exception) {
         }
         try {

@@ -470,7 +470,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     private fun postWallpaperInfo(it: WallpaperInfo?) {
         val isValid = it?.isValid == true
         
-        if (isValid && (info != it)) {
+        if (isValid && info != it) {
             val prevSize = wallpaper?.size ?: 0L
             val size = it?.size ?: 0L
             val bytes = size.toReadableByteCount()
@@ -485,7 +485,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
             val prevDimension = wallpaper?.dimensions ?: ""
             val dimension = it?.dimension?.toString() ?: ""
             
-            if ((!prevDimension.hasContent()) && dimension.hasContent()) {
+            if (!prevDimension.hasContent() && dimension.hasContent()) {
                 addToDetails(WallpaperDetail("ic_dimensions", dimension))
                 wallpaper?.dimensions = dimension
             } else {
@@ -532,20 +532,25 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
                                 object : SimpleAnimationListener() {
                                     override fun onEnd(animation: Animation) {
                                         super.onEnd(animation)
-                                        wallpaper?.let {
-                                            showSnackbar(
-                                                    getString(
-                                                            (if (isInFavorites) R.string.removed_from_favorites else R.string.added_to_favorites),
-                                                            it.name), Snackbar.LENGTH_SHORT)
-                                        }
-                                        hasModifiedFavs = true
-                                        isInFavorites = !isInFavorites
+                                        onToggleEnd()
                                     }
                                 })
                         favImageView.startAnimation(nScale)
                     }
                 })
         favImageView.startAnimation(scale)
+    }
+    
+    private fun onToggleEnd() {
+        wallpaper?.let {
+            showSnackbar(
+                    getString(
+                            if (isInFavorites) R.string.removed_from_favorites
+                            else R.string.added_to_favorites,
+                            it.name), Snackbar.LENGTH_SHORT)
+        }
+        hasModifiedFavs = true
+        isInFavorites = !isInFavorites
     }
     
     override fun showSnackbar(
@@ -637,7 +642,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     private fun changeBottomBarVisibility(show: Boolean) {
         val bottomBarParent = bottomBar.parent as? View ?: return
         visibleBottomBar = show
-        val transY = (if (show) 0 else (bottomBarParent.height + navigationBarHeight)).toFloat()
+        val transY = (if (show) 0 else bottomBarParent.height + navigationBarHeight).toFloat()
         bottomBarParent.animate().translationY(transY)
                 .setInterpolator(AccelerateDecelerateInterpolator())
                 .start()

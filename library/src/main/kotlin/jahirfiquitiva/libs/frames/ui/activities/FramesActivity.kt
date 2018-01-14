@@ -238,8 +238,8 @@ abstract class FramesActivity : BaseFramesActivity() {
             try {
                 data?.let {
                     try {
-                        val nFavs = data.getSerializableExtra("nFavs") as ArrayList<Wallpaper>
-                        if (nFavs.isNotEmpty()) setNewFavorites(nFavs)
+                        val nFavs = data.getSerializableExtra("nFavs") as? ArrayList<Wallpaper>
+                        nFavs?.let { if (it.isNotEmpty()) setNewFavorites(it) }
                     } catch (e: Exception) {
                         FL.e { e.message }
                     }
@@ -287,7 +287,7 @@ abstract class FramesActivity : BaseFramesActivity() {
         }
     }
     
-    private val LOCK = Any()
+    private val lock = Any()
     private fun doSearch(filter: String = "") {
         val adapter = pager.adapter
         if (adapter is FragmentsAdapter) {
@@ -297,7 +297,7 @@ abstract class FramesActivity : BaseFramesActivity() {
                     try {
                         it.enableRefresh(!filter.hasContent())
                         synchronized(
-                                LOCK, {
+                                lock, {
                             postDelayed(200, { it.applyFilter(filter) })
                         })
                     } catch (ignored: Exception) {

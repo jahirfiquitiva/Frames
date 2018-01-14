@@ -76,8 +76,8 @@ class InfoDialog : DialogFragment() {
         if (adapter == null) adapter = WallpaperInfoAdapter {
             if (it != 0) {
                 val clipboard = ctxt.getSystemService(
-                        Context.CLIPBOARD_SERVICE) as ClipboardManager
-                clipboard.primaryClip = ClipData.newPlainText("label", it.toHexString())
+                        Context.CLIPBOARD_SERVICE) as? ClipboardManager
+                clipboard?.primaryClip = ClipData.newPlainText("label", it.toHexString())
                 Toast.makeText(context, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
             }
         }

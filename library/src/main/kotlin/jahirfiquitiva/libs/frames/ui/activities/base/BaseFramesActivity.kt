@@ -123,7 +123,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     }
     
     private fun startLicenseCheck(force: Boolean = false) {
-        if (isFirstRun || isUpdate || (!framesKonfigs.functionalDashboard) || force) {
+        if (isFirstRun || isUpdate || !framesKonfigs.functionalDashboard || force) {
             checker = getLicenseChecker()
             checker?.let {
                 with(it) {
@@ -365,7 +365,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     override fun onBillingError(errorCode: Int, error: Throwable?) {
         showDonationErrorDialog(
                 errorCode,
-                (error?.message ?: getString(R.string.donate_error_unknown)))
+                error?.message ?: getString(R.string.donate_error_unknown))
         destroyBillingProcessor()
     }
     

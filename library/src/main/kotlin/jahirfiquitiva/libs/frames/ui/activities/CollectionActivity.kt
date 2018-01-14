@@ -125,12 +125,12 @@ open class CollectionActivity : FragmentsActivity() {
     }
     
     private fun setupToolbarTitle(toolbar: Toolbar) {
-        val title: TextView
+        val title: TextView?
         try {
             val f = toolbar.javaClass.getDeclaredField("mTitleTextView")
             f.isAccessible = true
-            title = f.get(toolbar) as TextView
-            title.text = collection?.name ?: ""
+            title = f.get(toolbar) as? TextView
+            title?.text = collection?.name ?: ""
             ViewCompat.setTransitionName(title, "title")
         } catch (ignored: Exception) {
         } finally {
@@ -184,11 +184,11 @@ open class CollectionActivity : FragmentsActivity() {
     
     override fun onBackPressed() = doFinish()
     
-    private val LOCK = Any()
+    private val lock = Any()
     private fun doSearch(filter: String = "") {
         try {
             synchronized(
-                    LOCK, {
+                    lock, {
                 postDelayed(200, { frag?.applyFilter(filter) })
             })
         } catch (ignored: Exception) {

@@ -41,25 +41,27 @@ import jahirfiquitiva.libs.kauextensions.extensions.bind
  */
 abstract class PreferenceFragment : Fragment() {
     
-    private val FIRST_REQUEST_CODE = 100
-    private val MSG_BIND_PREFERENCES = 1
-    private val MSG_REQUEST_FOCUS = 2
-    private val PREFERENCES_TAG = "android:preferences"
-    private var HC_HORIZONTAL_PADDING = 0.8 //5.33
+    companion object {
+        private const val FIRST_REQUEST_CODE = 100
+        private const val MSG_BIND_PREFERENCES = 1
+        private const val MSG_REQUEST_FOCUS = 2
+        private const val PREFERENCES_TAG = "android:preferences"
+    }
+    
+    private var horizontalPadding = 0.8 //5.33
     
     private var mHavePrefs: Boolean = false
     private var mInitDone: Boolean = false
     private var mList: ListView? = null
     
-    var preferenceManager: PreferenceManager? = null
-        private set
+    private var preferenceManager: PreferenceManager? = null
     
     @SuppressLint("HandlerLeak")
     private val mHandler = object : Handler() {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
                 MSG_BIND_PREFERENCES -> bindPreferences()
-                MSG_REQUEST_FOCUS -> mList!!.focusableViewAvailable(mList)
+                MSG_REQUEST_FOCUS -> mList?.focusableViewAvailable(mList)
             }
         }
     }
@@ -85,9 +87,9 @@ abstract class PreferenceFragment : Fragment() {
         listView.id = android.R.id.list
         listView.dividerHeight = 0
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            HC_HORIZONTAL_PADDING = 5.33
+            horizontalPadding = 5.33
         }
-        val horizontalPadding = (HC_HORIZONTAL_PADDING * resources.displayMetrics.density).toInt()
+        val horizontalPadding = (horizontalPadding * resources.displayMetrics.density).toInt()
         listView.setPadding(horizontalPadding, 0, horizontalPadding, 0)
         return listView
     }
@@ -159,7 +161,7 @@ abstract class PreferenceFragment : Fragment() {
         get() = try {
             val m = PreferenceManager::class.java.getDeclaredMethod("getPreferenceScreen")
             m.isAccessible = true
-            m.invoke(preferenceManager) as PreferenceScreen
+            m.invoke(preferenceManager) as? PreferenceScreen
         } catch (e: Exception) {
             null
         }
@@ -168,10 +170,12 @@ abstract class PreferenceFragment : Fragment() {
                     "setPreferences",
                     PreferenceScreen::class.java)
             m.isAccessible = true
-            val result = m.invoke(preferenceManager, screen) as Boolean
-            if (result && screen != null) {
+            val result = m.invoke(preferenceManager, screen) as? Boolean
+            if (result != null && screen != null) {
                 mHavePrefs = true
-                if (mInitDone) postBindPreferences() else {
+                if (mInitDone) {
+                    postBindPreferences()
+                } else {
                 }
             } else {
             }
@@ -188,7 +192,7 @@ abstract class PreferenceFragment : Fragment() {
             m.isAccessible = true
             val screen = m.invoke(
                     preferenceManager, intent,
-                    preferenceScreen) as PreferenceScreen
+                    preferenceScreen) as? PreferenceScreen
             preferenceScreen = screen
         } catch (ignored: Exception) {
         }
@@ -205,7 +209,7 @@ abstract class PreferenceFragment : Fragment() {
             m.isAccessible = true
             val screen = m.invoke(
                     preferenceManager, activity, resId,
-                    preferenceScreen) as PreferenceScreen
+                    preferenceScreen) as? PreferenceScreen
             preferenceScreen = screen
         } catch (ignored: Exception) {
         }

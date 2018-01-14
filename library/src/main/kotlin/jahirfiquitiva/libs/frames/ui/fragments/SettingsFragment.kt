@@ -80,11 +80,11 @@ open class SettingsFragment : PreferenceFragment() {
     open fun initPreferences() {
         addPreferencesFromResource(R.xml.preferences)
         
-        val uiPrefs = findPreference("ui_settings") as PreferenceCategory
-        val navbarPref = findPreference("color_navbar") as SwitchPreference
+        val uiPrefs = findPreference("ui_settings") as? PreferenceCategory
+        val navbarPref = findPreference("color_navbar") as? SwitchPreference
         
         if (!buildIsLollipopAndUp) {
-            uiPrefs.removePreference(navbarPref)
+            uiPrefs?.removePreference(navbarPref)
         }
         
         val themePref = findPreference("theme")
@@ -97,7 +97,7 @@ open class SettingsFragment : PreferenceFragment() {
                 itemsCallbackSingleChoice(currentTheme) { _, _, which, _ ->
                     if (which != currentTheme) {
                         actv.konfigs.currentTheme = which
-                        if (actv is ThemedActivity) (actv as ThemedActivity).onThemeChanged()
+                        (actv as? ThemedActivity)?.onThemeChanged()
                     }
                     true
                 }
@@ -108,12 +108,12 @@ open class SettingsFragment : PreferenceFragment() {
             false
         }
         
-        navbarPref.isChecked = actv.konfigs.hasColoredNavbar
-        navbarPref.setOnPreferenceChangeListener { _, any ->
+        navbarPref?.isChecked = actv.konfigs.hasColoredNavbar
+        navbarPref?.setOnPreferenceChangeListener { _, any ->
             val tint = any.toString().equals("true", true)
             if (tint != actv.konfigs.hasColoredNavbar) {
                 actv.konfigs.hasColoredNavbar = tint
-                if (actv is ThemedActivity) (actv as ThemedActivity).onThemeChanged()
+                (actv as? ThemedActivity)?.onThemeChanged()
             }
             true
         }
@@ -150,7 +150,7 @@ open class SettingsFragment : PreferenceFragment() {
                 false
             }
         } else {
-            uiPrefs.removePreference(columns)
+            uiPrefs?.removePreference(columns)
         }
         
         val animationsPref = findPreference("animations") as? SwitchPreference
@@ -161,8 +161,8 @@ open class SettingsFragment : PreferenceFragment() {
             true
         }
         
-        val hiResPref = findPreference("hi_res_pics") as SwitchPreference
-        hiResPref.setOnPreferenceChangeListener { _, any ->
+        val hiResPref = findPreference("hi_res_pics") as? SwitchPreference
+        hiResPref?.setOnPreferenceChangeListener { _, any ->
             val enable = any.toString().equals("true", true)
             if (enable != ctxt.framesKonfigs.fullResGridPictures) {
                 ctxt.framesKonfigs.fullResGridPictures = enable
@@ -171,15 +171,15 @@ open class SettingsFragment : PreferenceFragment() {
             true
         }
         
-        val deepSearchPref = findPreference("deep_search") as SwitchPreference
-        deepSearchPref.setOnPreferenceChangeListener { _, any ->
+        val deepSearchPref = findPreference("deep_search") as? SwitchPreference
+        deepSearchPref?.setOnPreferenceChangeListener { _, any ->
             val enable = any.toString().equals("true", true)
             if (enable != ctxt.framesKonfigs.deepSearchEnabled)
                 ctxt.framesKonfigs.deepSearchEnabled = enable
             true
         }
         
-        val storagePrefs = findPreference("storage_settings") as PreferenceCategory
+        val storagePrefs = findPreference("storage_settings") as? PreferenceCategory
         
         downloadLocation = findPreference("wallpapers_download_location")
         updateDownloadLocation()
@@ -228,16 +228,16 @@ open class SettingsFragment : PreferenceFragment() {
                 true
             }
         } else {
-            storagePrefs.removePreference(clearDatabase)
+            storagePrefs?.removePreference(clearDatabase)
         }
         
-        val notifPref = findPreference("enable_notifications") as SwitchPreference
+        val notifPref = findPreference("enable_notifications") as? SwitchPreference
         
         val serviceAvailable = isNotificationsServiceAvailable()
         
-        notifPref.isEnabled = serviceAvailable
-        notifPref.isChecked = actv.framesKonfigs.notificationsEnabled && serviceAvailable
-        notifPref.setOnPreferenceChangeListener { _, any ->
+        notifPref?.isEnabled = serviceAvailable
+        notifPref?.isChecked = actv.framesKonfigs.notificationsEnabled && serviceAvailable
+        notifPref?.setOnPreferenceChangeListener { _, any ->
             val enable = any.toString().equals("true", true)
             if (enable != actv.framesKonfigs.notificationsEnabled) {
                 actv.framesKonfigs.notificationsEnabled = enable

@@ -97,7 +97,7 @@ fun Context.clearDataAndCache() {
     appDir.let {
         if (it.exists()) {
             it.list().forEach {
-                if (!(it.equals("lib", true))) {
+                if (!it.equals("lib", true)) {
                     File(appDir, it).deleteEverything()
                 }
             }
