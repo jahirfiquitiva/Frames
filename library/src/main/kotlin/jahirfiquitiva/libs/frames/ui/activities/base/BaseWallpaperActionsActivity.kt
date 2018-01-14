@@ -20,6 +20,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import ca.allanwang.kau.utils.isNetworkAvailable
@@ -29,6 +30,7 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
+import jahirfiquitiva.libs.frames.helpers.utils.REQUEST_CODE
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsFragment
 import jahirfiquitiva.libs.kauextensions.extensions.PermissionRequestListener
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
@@ -54,6 +56,8 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
     override fun autoTintStatusBar(): Boolean = true
     override fun autoTintNavigationBar(): Boolean = true
     
+    private var queuedAction: () -> Unit = {}
+    
     override fun onRequestPermissionsResult(
             requestCode: Int, permissions: Array<out String>,
             grantResults: IntArray
@@ -61,11 +65,31 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 41 || requestCode == 42) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                checkIfFileExists(requestCode == 41)
+                queuedAction()
+                queuedAction = {}
             } else {
                 showSnackbar(R.string.permission_denied, Snackbar.LENGTH_LONG)
             }
         }
+    }
+    
+    fun executeStorageAction(code: Int = 43, onGranted: () -> Unit) {
+        queuedAction = onGranted
+        requestSinglePermission(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                code,
+                object : PermissionRequestListener() {
+                    override fun onShowInformation(permission: String) =
+                            showPermissionInformation(code, false, onGranted)
+                    
+                    override fun onPermissionCompletelyDenied() {
+                        showSnackbar(
+                                R.string.permission_denied_completely,
+                                Snackbar.LENGTH_LONG)
+                    }
+                    
+                    override fun onPermissionGranted() = onGranted()
+                })
     }
     
     open fun doItemClick(actionId: Int) {
@@ -83,7 +107,7 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
                     if (toApply) 41 else 42,
                     object : PermissionRequestListener() {
                         override fun onShowInformation(permission: String) =
-                                showPermissionInformation(toApply)
+                                showPermissionInformation(if (toApply) 41 else 42, toApply)
                         
                         override fun onPermissionCompletelyDenied() =
                                 showSnackbar(
@@ -98,14 +122,18 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
         }
     }
     
-    private fun showPermissionInformation(toApply: Boolean) {
+    private fun showPermissionInformation(code: Int, toApply: Boolean, onGranted: () -> Unit = {}) {
         showSnackbar(
                 getString(R.string.permission_request, getAppName()),
                 Snackbar.LENGTH_LONG) {
             setAction(
                     R.string.allow, {
                 dismiss()
-                downloadWallpaper(toApply)
+                if (code == 43) {
+                    executeStorageAction(code, onGranted)
+                } else {
+                    downloadWallpaper(toApply)
+                }
             })
         }
     }
@@ -308,4 +336,15 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
             defaultToToast: Boolean = false,
             settings: Snackbar.() -> Unit = {}
                              )
+    
+    override fun startActivityForResult(intent: Intent?, requestCode: Int) {
+        intent?.putExtra(REQUEST_CODE, requestCode)
+        super.startActivityForResult(intent, requestCode)
+    }
+    
+    @SuppressLint("RestrictedApi")
+    override fun startActivityForResult(intent: Intent?, requestCode: Int, options: Bundle?) {
+        intent?.putExtra(REQUEST_CODE, requestCode)
+        super.startActivityForResult(intent, requestCode, options)
+    }
 }

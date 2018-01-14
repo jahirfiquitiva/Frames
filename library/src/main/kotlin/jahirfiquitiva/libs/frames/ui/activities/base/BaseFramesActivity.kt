@@ -22,6 +22,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.support.design.widget.BaseTransientBottomBar
 import android.support.design.widget.Snackbar
 import android.widget.TextView
 import ca.allanwang.kau.utils.startLink
@@ -39,6 +40,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.ADW_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.APPLY_ACTION
+import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.ICONS_APPLIER
 import jahirfiquitiva.libs.frames.helpers.utils.IMAGE_PICKER
 import jahirfiquitiva.libs.frames.helpers.utils.NOVA_ACTION
@@ -51,7 +53,9 @@ import jahirfiquitiva.libs.kauextensions.extensions.buildSnackbar
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getStringArray
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
+import jahirfiquitiva.libs.kauextensions.extensions.isFirstRun
 import jahirfiquitiva.libs.kauextensions.extensions.isFirstRunEver
+import jahirfiquitiva.libs.kauextensions.extensions.isUpdate
 import jahirfiquitiva.libs.kauextensions.extensions.justUpdated
 import jahirfiquitiva.libs.kauextensions.extensions.showToast
 import org.jetbrains.anko.contentView
@@ -128,33 +132,26 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
         }
     }
     
-    internal fun startLicenseCheck() {
-        if (isFirstRunEver || justUpdated || (!framesKonfigs.functionalDashboard)) {
+    private fun startLicenseCheck(force: Boolean = false) {
+        if (isFirstRun || isUpdate || (!framesKonfigs.functionalDashboard) || force) {
             checker = getLicenseChecker()
-            if (checker != null) {
-                checker?.let {
-                    with(it) {
-                        callback(
-                                object : PiracyCheckerCallback() {
-                                    override fun allow() = showLicensedSnack()
-                                    
-                                    override fun dontAllow(
-                                            error: PiracyCheckerError,
-                                            app: PirateApp?
-                                                          ) =
-                                            showNotLicensedDialog(app)
-                                    
-                                    override fun onError(error: PiracyCheckerError) {
-                                        super.onError(error)
-                                        showLicenseErrorDialog()
-                                    }
-                                })
-                        start()
-                    }
+            checker?.let {
+                with(it) {
+                    callback(
+                            object : PiracyCheckerCallback() {
+                                override fun allow() = showLicensedSnack()
+                                
+                                override fun dontAllow(error: PiracyCheckerError, app: PirateApp?) =
+                                        showNotLicensedDialog(app)
+                                
+                                override fun onError(error: PiracyCheckerError) {
+                                    super.onError(error)
+                                    showLicenseErrorDialog()
+                                }
+                            })
+                    start()
                 }
-            } else {
-                framesKonfigs.functionalDashboard = true
-            }
+            } ?: { framesKonfigs.functionalDashboard = true }()
         }
     }
     
@@ -187,16 +184,20 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     // Not really needed to override
     open fun getLicenseChecker(): PiracyChecker? {
         destroyChecker() // Important
-        val checker = PiracyChecker(this)
+        val prvChecker = PiracyChecker(this)
         getLicKey()?.let {
-            if (it.hasContent() && it.length > 50) checker.enableGooglePlayLicensing(it)
+            if (it.hasContent() && it.length > 50) prvChecker.enableGooglePlayLicensing(it)
         }
-        checker.enableInstallerId(InstallerID.GOOGLE_PLAY)
-        if (amazonInstallsEnabled()) checker.enableInstallerId(InstallerID.AMAZON_APP_STORE)
-        if (checkLPF()) checker.enableUnauthorizedAppsCheck()
-        if (checkStores()) checker.enableStoresCheck()
-        checker.enableEmulatorCheck(true).enableDebugCheck().enableFoldersCheck(false)
-        return checker
+        prvChecker.apply {
+            enableInstallerId(InstallerID.GOOGLE_PLAY)
+            if (amazonInstallsEnabled()) enableInstallerId(InstallerID.AMAZON_APP_STORE)
+            if (checkLPF()) enableUnauthorizedAppsCheck()
+            if (checkStores()) enableStoresCheck()
+            enableEmulatorCheck(false)
+            enableDebugCheck()
+            enableFoldersCheck(false)
+        }
+        return prvChecker
     }
     
     @Deprecated("Use showLicensedSnack() instead")
@@ -217,7 +218,20 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
         destroyDialog()
         showSnackbar(
                 getString(R.string.license_valid_snack, getAppName()),
-                Snackbar.LENGTH_SHORT)
+                Snackbar.LENGTH_SHORT) {
+            addCallback(
+                    object : Snackbar.Callback() {
+                        override fun onShown(sb: Snackbar?) {
+                            super.onShown(sb)
+                            framesKonfigs.functionalDashboard = true
+                        }
+                        
+                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                            super.onDismissed(transientBottomBar, event)
+                            framesKonfigs.functionalDashboard = true
+                        }
+                    })
+        }
     }
     
     internal fun showNotLicensedDialog(pirateApp: PirateApp?) {
@@ -269,7 +283,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
             }
             onNeutral { _, _ ->
                 framesKonfigs.functionalDashboard = false
-                startLicenseCheck()
+                startLicenseCheck(true)
             }
         }
         dialog?.setOnDismissListener {

@@ -31,6 +31,7 @@ const val MUZEI_REFRESH_INTERVAL = "muzei_refresh_interval"
 const val MUZEI_COLLECTIONS = "muzei_collections"
 
 // Intent related stuff
+const val REQUEST_CODE = "request_code"
 const val PLAY_STORE_LINK_PREFIX = "https://play.google.com/store/apps/details?id="
 const val PLAY_STORE_INSTALLER = "com.google.android.feedback"
 const val PLAY_STORE_PACKAGE = "com.android.vending"
