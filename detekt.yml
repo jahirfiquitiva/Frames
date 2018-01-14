@@ -10,8 +10,6 @@ test-pattern: # Configure exclusions for test sources
   exclude-rule-sets:
     - 'comments'
   exclude-rules:
-    - 'NamingRules'
-    - 'WildcardImport'
     - 'MagicNumber'
     - 'MaxLineLength'
     - 'StringLiteralDuplication'
@@ -223,7 +221,7 @@ potential-bugs:
   UnsafeCallOnNullableType:
     active: false
   UnsafeCast:
-    active: false
+    active: true
   UselessPostfixExpression:
     active: false
   WrongEqualsTypeParameter:
