@@ -73,14 +73,14 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
         }
     }
     
-    fun executeStorageAction(code: Int = 43, onGranted: () -> Unit) {
+    fun executeStorageAction(code: Int = 43, explanation: String, onGranted: () -> Unit) {
         queuedAction = onGranted
         requestSinglePermission(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 code,
                 object : PermissionRequestListener() {
                     override fun onShowInformation(permission: String) =
-                            showPermissionInformation(code, false, onGranted)
+                            showPermissionInformation(code, explanation, false, onGranted)
                     
                     override fun onPermissionCompletelyDenied() {
                         showSnackbar(
@@ -107,7 +107,10 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
                     if (toApply) 41 else 42,
                     object : PermissionRequestListener() {
                         override fun onShowInformation(permission: String) =
-                                showPermissionInformation(if (toApply) 41 else 42, toApply)
+                                showPermissionInformation(
+                                        if (toApply) 41 else 42,
+                                        getString(R.string.permission_request, getAppName()),
+                                        toApply)
                         
                         override fun onPermissionCompletelyDenied() =
                                 showSnackbar(
@@ -122,15 +125,18 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
         }
     }
     
-    private fun showPermissionInformation(code: Int, toApply: Boolean, onGranted: () -> Unit = {}) {
-        showSnackbar(
-                getString(R.string.permission_request, getAppName()),
-                Snackbar.LENGTH_LONG) {
+    private fun showPermissionInformation(
+            code: Int,
+            explanation: String,
+            toApply: Boolean,
+            onGranted: () -> Unit = {}
+                                         ) {
+        showSnackbar(explanation, Snackbar.LENGTH_LONG) {
             setAction(
                     R.string.allow, {
                 dismiss()
                 if (code == 43) {
-                    executeStorageAction(code, onGranted)
+                    executeStorageAction(code, explanation, onGranted)
                 } else {
                     downloadWallpaper(toApply)
                 }
