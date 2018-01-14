@@ -80,7 +80,7 @@ complexity:
     active: false
   LargeClass:
     active: true
-    threshold: 150
+    threshold: 200
   LongMethod:
     active: true
     threshold: 20
@@ -153,7 +153,7 @@ exceptions:
   RethrowCaughtException:
     active: false
   ReturnFromFinally:
-    active: false
+    active: true
   SwallowedException:
     active: false
   ThrowingExceptionFromFinally:
@@ -166,7 +166,7 @@ exceptions:
   ThrowingNewInstanceOfSameException:
     active: false
   TooGenericExceptionCaught:
-    active: true
+    active: false
     exceptions:
      - ArrayIndexOutOfBoundsException
      - Error
@@ -270,7 +270,7 @@ style:
     active: false
     maxJumpCount: 1
   MagicNumber:
-    active: true
+    active: false
     ignoreNumbers: '-1,0,1,2'
     ignoreHashCodeFunction: false
     ignorePropertyDeclaration: false
@@ -294,7 +294,7 @@ style:
   NestedClassesVisibility:
     active: false
   NewLineAtEndOfFile:
-    active: true
+    active: false
   ObjectPropertyNaming:
     active: true
     propertyPattern: '[A-Za-z][_A-Za-z0-9]*'
@@ -314,8 +314,8 @@ style:
   RedundantVisibilityModifierRule:
     active: false
   ReturnCount:
-    active: true
-    max: 2
+    active: false
+    max: 4
     excludedFunctions: "equals"
   SafeCast:
     active: true
@@ -332,7 +332,7 @@ style:
     propertyPattern: '[a-z][A-Za-z\d]*'
     privatePropertyPattern: '(_)?[a-z][A-Za-z0-9]*'
   UnnecessaryAbstractClass:
-    active: true
+    active: false
   UnnecessaryInheritance:
     active: true
   UnnecessaryParentheses:
