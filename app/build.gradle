@@ -30,6 +30,7 @@ android {
             } else {
                 outputFileName = details.appId + "-v${variant.versionName}-${variant.name}.apk"
             }
+            println "Created apk: ${outputFileName}"
         }
     }
 
