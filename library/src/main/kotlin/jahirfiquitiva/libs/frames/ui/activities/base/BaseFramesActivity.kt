@@ -22,7 +22,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.BaseTransientBottomBar
 import android.support.design.widget.Snackbar
 import android.widget.TextView
 import ca.allanwang.kau.utils.startLink
@@ -40,7 +39,6 @@ import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.ADW_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.APPLY_ACTION
-import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.ICONS_APPLIER
 import jahirfiquitiva.libs.frames.helpers.utils.IMAGE_PICKER
 import jahirfiquitiva.libs.frames.helpers.utils.MIN_TIME
@@ -56,9 +54,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getStringArray
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isFirstRun
-import jahirfiquitiva.libs.kauextensions.extensions.isFirstRunEver
 import jahirfiquitiva.libs.kauextensions.extensions.isUpdate
-import jahirfiquitiva.libs.kauextensions.extensions.justUpdated
 import jahirfiquitiva.libs.kauextensions.extensions.showToast
 import org.jetbrains.anko.contentView
 
@@ -443,7 +439,12 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
                 dialog.dismiss()
                 doItemClick(APPLY_ACTION_ID)
             }
-            if (wallpaper.downloadable && compliesWithMinTime(MIN_TIME)) {
+            
+            val actuallyComplies = if (getLicenseChecker() != null)
+                compliesWithMinTime(MIN_TIME)
+            else true
+            
+            if (wallpaper.downloadable && actuallyComplies) {
                 negativeText(R.string.download)
                 onNegative { dialog, _ ->
                     dialog.dismiss()
