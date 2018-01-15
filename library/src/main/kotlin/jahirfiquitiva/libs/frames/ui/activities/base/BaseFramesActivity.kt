@@ -173,9 +173,11 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     open fun getLicenseChecker(): PiracyChecker? {
         destroyChecker() // Important
         val prvChecker = PiracyChecker(this)
-        getLicKey()?.let {
-            if (it.hasContent() && it.length > 50) prvChecker.enableGooglePlayLicensing(it)
-        }
+        
+        val licKey = getLicKey().orEmpty()
+        if (licKey.hasContent() && licKey.length > 50)
+            prvChecker.enableGooglePlayLicensing(licKey)
+        
         prvChecker.apply {
             enableInstallerId(InstallerID.GOOGLE_PLAY)
             if (amazonInstallsEnabled()) enableInstallerId(InstallerID.AMAZON_APP_STORE)
@@ -440,7 +442,8 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
                 doItemClick(APPLY_ACTION_ID)
             }
             
-            val actuallyComplies = if (getLicenseChecker() != null)
+            val licKey = getLicKey().orEmpty()
+            val actuallyComplies = if (licKey.hasContent() && licKey.length > 50)
                 compliesWithMinTime(MIN_TIME)
             else true
             
