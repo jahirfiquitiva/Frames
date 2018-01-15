@@ -30,6 +30,7 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListene
 import java.util.Collections
 
 class CollectionsAdapter(
+        private val filledCollectionPreview: Boolean,
         private val manager: RequestManager,
         private val provider: ViewPreloadSizeProvider<Wallpaper>,
         private val listener: FramesViewClickListener<Collection, CollectionHolder>
@@ -41,7 +42,10 @@ class CollectionsAdapter(
             holder.setItem(manager, provider, list[position], listener)
     
     override fun doCreateVH(parent: ViewGroup, viewType: Int): CollectionHolder =
-            CollectionHolder(parent.inflate(R.layout.item_collection))
+            CollectionHolder(
+                    parent.inflate(
+                            if (filledCollectionPreview) R.layout.item_collection_filled
+                            else R.layout.item_collection))
     
     override fun getPreloadItems(position: Int): MutableList<Wallpaper> =
             Collections.singletonList(list[position].bestCover)
