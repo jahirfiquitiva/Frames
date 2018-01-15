@@ -41,6 +41,7 @@
   <string name="download_successful">Duvar kağıdı başarıyla indirildi \'%1$s\'</string>
   <string name="download_successful_short">Duvar kağıdı başarıyla indirildi</string>
   <string name="open">Aç</string>
+  <string name="file_exists">Duvar kağıdı çoktan indirildi. Tekrar indirmek ister misin?</string>
   <string name="file_replace">Değiştirmek</string>
   <string name="file_create_new">Yeni oluştur</string>
   <string name="applying_wallpaper">uygulanıyor\'%1$s\'…</string>
@@ -62,6 +63,7 @@
   <string name="translate">Tercüme</string>
   <string name="licenses">Lisanslar</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+  <string name="frames_dashboard">Çerçevelenmiş pano</string>
   <string name="dev_contributions">Geliştirme Yardımı</string>
   <string name="ui_contributions">UI Yardımı</string>
   <string name="settings">Ayarlar</string>
