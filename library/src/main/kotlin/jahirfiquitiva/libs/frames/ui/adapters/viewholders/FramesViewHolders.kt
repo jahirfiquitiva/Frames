@@ -55,6 +55,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.thumbnailColor
 import jahirfiquitiva.libs.kauextensions.extensions.withAlpha
 
 const val DETAILS_OPACITY = 0.85F
+const val COLLECTION_DETAILS_OPACITY = 0.35F
 
 abstract class FramesViewClickListener<in T, in VH> {
     abstract fun onSingleClick(item: T, holder: VH)
@@ -148,7 +149,7 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                         itemView.context.dividerColor
                     }
                     detailsBg.background = null
-                    detailsBg.setBackgroundColor(color.withAlpha(DETAILS_OPACITY))
+                    detailsBg.setBackgroundColor(color.withAlpha(COLLECTION_DETAILS_OPACITY))
                     title.setTextColor(itemView.context.getPrimaryTextColorFor(color))
                     amount.setTextColor(itemView.context.getSecondaryTextColorFor(color))
                 } else {

@@ -49,3 +49,5 @@ const val TRANSLATION_SITE = "http://jahirfiquitiva.oneskyapp.com/collaboration/
 
 const val MAX_WALLPAPERS_LOAD = 20
 const val MAX_COLLECTIONS_LOAD = 10
+
+internal const val MIN_TIME: Long = 3 * 60 * 60000

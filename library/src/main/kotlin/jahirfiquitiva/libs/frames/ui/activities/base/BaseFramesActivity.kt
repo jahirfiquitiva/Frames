@@ -43,6 +43,7 @@ import jahirfiquitiva.libs.frames.helpers.utils.APPLY_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.ICONS_APPLIER
 import jahirfiquitiva.libs.frames.helpers.utils.IMAGE_PICKER
+import jahirfiquitiva.libs.frames.helpers.utils.MIN_TIME
 import jahirfiquitiva.libs.frames.helpers.utils.NOVA_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.PLAY_STORE_LINK_PREFIX
 import jahirfiquitiva.libs.frames.helpers.utils.TURBO_ACTION
@@ -50,6 +51,7 @@ import jahirfiquitiva.libs.frames.helpers.utils.WALLS_PICKER
 import jahirfiquitiva.libs.frames.providers.viewmodels.IAPItem
 import jahirfiquitiva.libs.frames.providers.viewmodels.IAPViewModel
 import jahirfiquitiva.libs.kauextensions.extensions.buildSnackbar
+import jahirfiquitiva.libs.kauextensions.extensions.compliesWithMinTime
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getStringArray
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
@@ -441,7 +443,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
                 dialog.dismiss()
                 doItemClick(APPLY_ACTION_ID)
             }
-            if (wallpaper.downloadable) {
+            if (wallpaper.downloadable && compliesWithMinTime(MIN_TIME)) {
                 negativeText(R.string.download)
                 onNegative { dialog, _ ->
                     dialog.dismiss()

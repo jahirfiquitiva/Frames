@@ -59,6 +59,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
 import jahirfiquitiva.libs.frames.helpers.extensions.urlOptions
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
+import jahirfiquitiva.libs.frames.helpers.utils.MIN_TIME
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpaperInfoViewModel
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseWallpaperActionsActivity
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
@@ -71,6 +72,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
 import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.buildSnackbar
+import jahirfiquitiva.libs.kauextensions.extensions.compliesWithMinTime
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
 import jahirfiquitiva.libs.kauextensions.extensions.enableTranslucentStatusBar
 import jahirfiquitiva.libs.kauextensions.extensions.generatePalette
@@ -186,7 +188,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         }
         
         val downloadable = wallpaper?.downloadable == true
-        if (downloadable && isNetworkAvailable) {
+        if (downloadable && isNetworkAvailable && compliesWithMinTime(MIN_TIME)) {
             findViewById<RelativeLayout>(R.id.download_container).setOnClickListener {
                 doItemClick(DOWNLOAD_ACTION_ID)
             }
