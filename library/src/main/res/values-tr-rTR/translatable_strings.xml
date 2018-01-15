@@ -117,7 +117,9 @@
   <string name="hours">Saat</string>
   <string name="days">Günler</string>
   <string name="refresh_only_on_wifi">Sadece Wifi yenile</string>
+  <string name="refresh_only_on_wifi_summary">Duvar kağıtları sadece Wifi ağına bağlandığında yenilenir.</string>
   <string name="choose_collections_title">Koleksiyon seç</string>
+  <string name="choose_collections_summary">Duvar kağıdı almak için koleksiyonundan seç. Geçerli sayılan koleksiyonlar: %1$s</string>
   <string name="muzei_not_connected_title">İnternet bağlantısı yok</string>
   <string name="sure_to_exit">Çıkış</string>
   <string name="sure_to_exit_content">Çıkış yapmadan önce kaydetmek ister misiniz?</string>
