@@ -17,16 +17,16 @@
   -->
 <resources>
   <string name="empty_section">Ничего не найдено</string>
-  <string name="loading_section">Загрузка контента...</string>
-  <string name="no_favorites">Сначала добавьте обои в избранное</string>
+  <string name="loading_section">Загружаем контент...</string>
+  <string name="no_favorites">Для начала добавьте несколько обоев в избранное</string>
   <string name="wallpapers">Обои</string>
   <string name="collections">Коллекции</string>
   <string name="x_wallpapers">Обои: %1$s</string>
   <string name="all">Все</string>
   <string name="favorites">Избранное</string>
   <string name="favorite">Избранное</string>
-  <string name="added_to_favorites">В избранное добавлено: %1$s</string>
-  <string name="removed_from_favorites">%1$s был удален из избранных</string>
+  <string name="added_to_favorites">%1$s добавлено в Избранное.</string>
+  <string name="removed_from_favorites">%1$s удалено из Избранного.</string>
   <string name="actions_dialog_content">Что бы вы хотели сделать с этими обоями?</string>
   <string name="apply">Применить</string>
   <string name="download">Загрузка</string>
@@ -79,6 +79,7 @@
   <!-- Dark Theme -->
   <string name="dark_theme">Темная</string>
   <!-- Amoled Theme -->
+  <string name="amoled_theme">AMOLED</string>
   <!-- Transparent Theme -->
   <string name="transparent_theme">Прозрачная</string>
   <!-- Automatic Light-Dark Theme -->
@@ -109,6 +110,7 @@
   <!-- License -->
   <string name="license_valid_title">Лицензия действует</string>
   <string name="license_valid_content">Спасибо за скачивание %1$s из магазина. Надеюсь вы получите удовольствие от использования!</string>
+  <string name="license_valid_snack">Лицензия подтверждена. Спасибо за загрузку %1$s. Наслаждайтесь!</string>
   <string name="license_invalid_title">Ты не пройдешь!</string>
   <string name="license_invalid_content">Извините, но у вас недействующая лицензия %1$s . Возможно это пиратское приложение.  %2$s. Если вы полагаете, что это ошибка, то попробуйте позднее. Или скачайте приложение из официального магазина.</string>
   <string name="license_invalid_content_extra">Или обратите внимание на \'%1$s и удалите его</string>
