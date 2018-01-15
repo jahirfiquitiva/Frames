@@ -189,6 +189,7 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     override fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
         swipeToRefresh?.isRefreshing = false
+        recyclerView?.state = EmptyViewRecyclerView.State.NORMAL
     }
     
     override fun doOnCollectionsChange(data: ArrayList<Collection>) {

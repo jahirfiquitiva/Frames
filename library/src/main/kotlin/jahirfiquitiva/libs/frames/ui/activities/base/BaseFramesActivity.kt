@@ -53,7 +53,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.compliesWithMinTime
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getStringArray
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.isFirstRun
 import jahirfiquitiva.libs.kauextensions.extensions.isUpdate
 import jahirfiquitiva.libs.kauextensions.extensions.showToast
 import org.jetbrains.anko.contentView
@@ -121,7 +120,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     }
     
     private fun startLicenseCheck(force: Boolean = false) {
-        if (isFirstRun || isUpdate || !framesKonfigs.functionalDashboard || force) {
+        if (isUpdate || !framesKonfigs.functionalDashboard || force) {
             checker = getLicenseChecker()
             checker?.let {
                 with(it) {

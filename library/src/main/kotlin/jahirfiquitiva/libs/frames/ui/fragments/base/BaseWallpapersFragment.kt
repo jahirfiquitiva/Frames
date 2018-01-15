@@ -154,6 +154,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     
     override fun onResume() {
         super.onResume()
+        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
         configureRVColumns()
         canClick = true
     }
@@ -207,6 +208,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     override fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
         swipeToRefresh?.isRefreshing = false
+        recyclerView?.state = EmptyViewRecyclerView.State.NORMAL
     }
     
     override fun applyFilter(filter: String) {
