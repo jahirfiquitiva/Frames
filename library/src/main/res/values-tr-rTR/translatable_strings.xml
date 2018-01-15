@@ -66,6 +66,7 @@
   <string name="frames_dashboard">Çerçevelenmiş pano</string>
   <string name="dev_contributions">Geliştirme Yardımı</string>
   <string name="ui_contributions">UI Yardımı</string>
+  <string name="dashboard_copyright">Ben 20 yaşında Android geliştirme meraklısıyım ve pano geliştirmeyle uğraşırım.</string>
   <string name="settings">Ayarlar</string>
   <string name="ui_settings_title">Kullanıcı arayüzü</string>
   <string name="theme_setting_title">Uygulama teması</string>
@@ -86,6 +87,7 @@
   <string name="animations_setting_title">Görüntüler etkin</string>
   <string name="animations_setting_content">Bazı aygıtlarda gecikmeye neden olabilir.</string>
   <string name="load_hi_res_pictures_title">Tam çözünürlüklü önizleme</string>
+  <string name="load_hi_res_pictures_content">Tam çözünürlüklü resimleri yükle</string>
   <string name="deep_search_title">Ayrıntılı arama etkin</string>
   <string name="deep_search_content">Adı ve koleksiyonu ile arama</string>
   <string name="storage_settings_title">Bellek</string>
@@ -103,6 +105,7 @@
   <string name="try_now">Şimdi dene</string>
   <string name="donate">Bağış yap</string>
   <string name="donate_success_title">Teşekkürler</string>
+  <string name="donate_error_unknown">bilinmeyen sebeplerden dolayı</string>
   <string name="loading">Yükleniyor…</string>
   <string name="close">Kapat</string>
   <!-- Muzei Settings -->
