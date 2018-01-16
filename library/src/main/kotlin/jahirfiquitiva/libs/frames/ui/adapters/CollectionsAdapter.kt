@@ -52,4 +52,10 @@ class CollectionsAdapter(
     
     override fun getPreloadRequestBuilder(item: Wallpaper): RequestBuilder<*> =
             manager.load(item.thumbUrl)
+    
+    override fun getItemId(position: Int) = position.toLong()
+    
+    init {
+        setHasStableIds(true)
+    }
 }

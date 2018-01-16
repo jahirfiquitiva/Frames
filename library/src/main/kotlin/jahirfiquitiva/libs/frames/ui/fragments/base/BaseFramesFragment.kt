@@ -72,7 +72,6 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
     abstract fun enableRefresh(enable: Boolean)
     
     open fun reloadData(section: Int) {
-        scrollToTop()
         when (section) {
             0, 1 -> {
                 wallpapersModel?.loadData(ctxt, true) ?: showErrorSnackbar()

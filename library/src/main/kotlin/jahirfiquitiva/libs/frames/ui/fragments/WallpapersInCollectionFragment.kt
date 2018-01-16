@@ -18,7 +18,6 @@ package jahirfiquitiva.libs.frames.ui.fragments
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
-import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 
 class WallpapersInCollectionFragment : BaseWallpapersFragment() {
@@ -43,7 +42,7 @@ class WallpapersInCollectionFragment : BaseWallpapersFragment() {
     
     override fun doOnFavoritesChange(data: ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
-        wallsAdapter?.updateFavorites(getWallpapersInCollection(data))
+        wallsAdapter.updateFavorites(getWallpapersInCollection(data))
         if (!firstFavsModification) {
             newFavs.clear()
             newFavs.addAll(data)
@@ -54,12 +53,11 @@ class WallpapersInCollectionFragment : BaseWallpapersFragment() {
     
     override fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
-        wallsAdapter?.setItems(getWallpapersInCollection(data))
+        wallsAdapter.setItems(getWallpapersInCollection(data))
     }
     
     override fun loadDataFromViewModel() {
         super.loadDataFromViewModel()
-        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
         wallpapersModel?.postResult(wallpapers)
     }
     

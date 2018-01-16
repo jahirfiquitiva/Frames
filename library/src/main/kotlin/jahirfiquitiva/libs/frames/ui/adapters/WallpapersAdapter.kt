@@ -30,7 +30,7 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import java.util.Collections
 
 class WallpapersAdapter(
-        private val manager: RequestManager,
+        private val manager: RequestManager?,
         private val provider: ViewPreloadSizeProvider<Wallpaper>,
         private val fromFavorites: Boolean,
         private val showFavIcon: Boolean,
@@ -69,8 +69,8 @@ class WallpapersAdapter(
     override fun getPreloadItems(position: Int): MutableList<Wallpaper> =
             Collections.singletonList(list[position])
     
-    override fun getPreloadRequestBuilder(item: Wallpaper): RequestBuilder<*> =
-            manager.load(item.thumbUrl)
+    override fun getPreloadRequestBuilder(item: Wallpaper): RequestBuilder<*>? =
+            manager?.load(item.thumbUrl)
     
     private fun getModifiedItems(
             oldList: ArrayList<Wallpaper>,
@@ -82,5 +82,11 @@ class WallpapersAdapter(
         newList.filter { !oldList.contains(it) && !modified.contains(it) }
                 .forEach { modified.add(it) }
         return modified
+    }
+    
+    override fun getItemId(position: Int) = position.toLong()
+    
+    init {
+        setHasStableIds(true)
     }
 }

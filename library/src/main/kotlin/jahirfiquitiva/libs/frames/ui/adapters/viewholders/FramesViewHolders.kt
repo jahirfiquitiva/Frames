@@ -82,7 +82,7 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
         }
     }
     
-    internal fun loadImage(manager: RequestManager, url: String, thumbUrl: String) {
+    internal fun loadImage(manager: RequestManager?, url: String, thumbUrl: String) {
         val hasFaded = wallpaper?.hasFaded != false
         img.loadWallpaper(manager, url, thumbUrl, hasFaded, getListener())
     }
@@ -179,7 +179,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
     private val detailsBg: LinearLayout by itemView.bind(R.id.wallpaper_details)
     
     fun setItem(
-            manager: RequestManager, provider: ViewPreloadSizeProvider<Wallpaper>,
+            manager: RequestManager?, provider: ViewPreloadSizeProvider<Wallpaper>,
             wallpaper: Wallpaper, check: Boolean,
             listener: FramesViewClickListener<Wallpaper, WallpaperHolder>
                ) {

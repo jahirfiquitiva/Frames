@@ -6,7 +6,7 @@ Frames
 [![JitPack](https://jitpack.io/v/jahirfiquitiva/Frames.svg)](https://jitpack.io/#jahirfiquitiva/Frames)
 [![Build Status](https://travis-ci.org/jahirfiquitiva/Frames.svg?branch=master)](https://travis-ci.org/jahirfiquitiva/Frames)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0daab9c8435f451eabd86c5218bc2950)](https://www.codacy.com/app/jahirfiquitiva/Frames?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jahirfiquitiva/Frames&amp;utm_campaign=Badge_Grade)
-[![codebeat badge](https://codebeat.co/badges/eee96484-e205-455d-b5c2-6e4cda77b5f3)](https://codebeat.co/projects/github-com-jahirfiquitiva-frames-master)
+[![Crowdin](https://d322cqt584bo4o.cloudfront.net/Frames/localized.svg)](http://j.mp/FramesTranslations)
 
 ![API](https://img.shields.io/badge/API-16%2B-7ac143.svg)
 [![Sample App](https://img.shields.io/badge/SAMPLE-APP-34bf49.svg)](https://github.com/jahirfiquitiva/Frames/raw/images/frames-sample.apk)

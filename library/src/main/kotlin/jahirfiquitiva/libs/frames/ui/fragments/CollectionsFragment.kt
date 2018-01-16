@@ -53,7 +53,17 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     private var recyclerView: EmptyViewRecyclerView? = null
     private var fastScroll: RecyclerFastScroller? = null
     
-    private var collsAdapter: CollectionsAdapter? = null
+    private val provider = ViewPreloadSizeProvider<Wallpaper>()
+    val collsAdapter: CollectionsAdapter by lazy {
+        CollectionsAdapter(
+                context?.getBoolean(R.bool.enable_filled_collection_preview) ?: true,
+                Glide.with(this), provider,
+                object : FramesViewClickListener<Collection, CollectionHolder>() {
+                    override fun onSingleClick(item: Collection, holder: CollectionHolder) {
+                        onItemClicked(item, false)
+                    }
+                })
+    }
     
     override fun initUI(content: View) {
         swipeToRefresh = content.findViewById(R.id.swipe_to_refresh)
@@ -82,22 +92,10 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
                         context, spanCount, GridLayoutManager.VERTICAL, false)
                 addItemDecoration(GridSpacingItemDecoration(spanCount, 0, true))
                 
-                val provider = ViewPreloadSizeProvider<Wallpaper>()
-                collsAdapter = CollectionsAdapter(
-                        context?.getBoolean(R.bool.enable_filled_collection_preview) ?: true,
-                        Glide.with(this), provider,
-                        object : FramesViewClickListener<Collection, CollectionHolder>() {
-                            override fun onSingleClick(item: Collection, holder: CollectionHolder) {
-                                onItemClicked(item, false)
-                            }
-                        })
-                
-                safeActv { activity ->
-                    collsAdapter?.let {
-                        val preloader: RecyclerViewPreloader<Wallpaper> =
-                                RecyclerViewPreloader(activity, it, provider, context.maxPreload)
-                        addOnScrollListener(preloader)
-                    }
+                safeActv {
+                    val preloader: RecyclerViewPreloader<Wallpaper> =
+                            RecyclerViewPreloader(it, collsAdapter, provider, context.maxPreload)
+                    addOnScrollListener(preloader)
                 }
                 
                 addOnScrollListener(
@@ -105,7 +103,7 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
                             override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
                                 super.onScrolled(rv, dx, dy)
                                 if (!recyclerView.canScrollVertically(1)) {
-                                    recyclerView.post { collsAdapter?.allowMoreItemsLoad() }
+                                    recyclerView.post { collsAdapter.allowMoreItemsLoad() }
                                 }
                             }
                         })
@@ -165,20 +163,17 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     }
     
     override fun applyFilter(filter: String) {
-        if (collsAdapter != null) {
-            val list = ArrayList(collectionsModel?.getData())
-            if (filter.hasContent()) {
-                recyclerView?.setEmptyImage(R.drawable.no_results)
-                recyclerView?.setEmptyText(R.string.search_no_results)
-                collsAdapter?.setItems(
-                        ArrayList(list.filter { it.name.contains(filter, true) }))
-            } else {
-                recyclerView?.setEmptyImage(R.drawable.empty_section)
-                recyclerView?.setEmptyText(R.string.empty_section)
-                collsAdapter?.setItems(list)
-            }
-            scrollToTop()
+        val list = ArrayList(collectionsModel?.getData())
+        if (filter.hasContent()) {
+            recyclerView?.setEmptyImage(R.drawable.no_results)
+            recyclerView?.setEmptyText(R.string.search_no_results)
+            collsAdapter.setItems(ArrayList(list.filter { it.name.contains(filter, true) }))
+        } else {
+            recyclerView?.setEmptyImage(R.drawable.empty_section)
+            recyclerView?.setEmptyText(R.string.empty_section)
+            collsAdapter.setItems(list)
         }
+        scrollToTop()
     }
     
     override fun doOnFavoritesChange(data: ArrayList<Wallpaper>) {
@@ -189,13 +184,12 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     override fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
         swipeToRefresh?.isRefreshing = false
-        recyclerView?.state = EmptyViewRecyclerView.State.NORMAL
     }
     
     override fun doOnCollectionsChange(data: ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
         swipeToRefresh?.isRefreshing = false
-        if (data.size > 0) collsAdapter?.setItems(data)
+        if (data.size > 0) collsAdapter.setItems(data)
     }
     
     fun forceCollectionsLoad() {
