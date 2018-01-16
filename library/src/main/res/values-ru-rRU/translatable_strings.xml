@@ -17,16 +17,16 @@
   -->
 <resources>
   <string name="empty_section">Ничего не найдено</string>
-  <string name="loading_section">Загрузка контента...</string>
-  <string name="no_favorites">Сначала добавьте обои в избранное</string>
+  <string name="loading_section">Загружаем контент...</string>
+  <string name="no_favorites">Для начала добавьте несколько обоев в избранное</string>
   <string name="wallpapers">Обои</string>
   <string name="collections">Коллекции</string>
   <string name="x_wallpapers">Обои: %1$s</string>
   <string name="all">Все</string>
   <string name="favorites">Избранное</string>
   <string name="favorite">Избранное</string>
-  <string name="added_to_favorites">В избранное добавлено: %1$s</string>
-  <string name="removed_from_favorites">%1$s был удален из избранных</string>
+  <string name="added_to_favorites">%1$s добавлено в Избранное.</string>
+  <string name="removed_from_favorites">%1$s удалено из Избранного.</string>
   <string name="actions_dialog_content">Что бы вы хотели сделать с этими обоями?</string>
   <string name="apply">Применить</string>
   <string name="download">Загрузка</string>
@@ -34,38 +34,38 @@
   <string name="share">Поделиться</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
   <string name="share_text">Мои обои на сегодня %1$s от %2$s с %3$s.\nПопробуйте их сегодня с помощью %4$s</string>
-  <string name="permission_denied">Доступ к хранилищу был отклонен</string>
-  <string name="permission_denied_completely">Доступ к хранилищу был отклонен. Вы должны вручную включить доступ в настройках</string>
-  <string name="permission_request">%1$s требуется доступ к хранилищу для сохранения и настройки обоев</string>
+  <string name="permission_denied">Доступ к хранилищу был отключен</string>
+  <string name="permission_denied_completely">Доступ к хранилищу был отключен. Вы должны вручную включить доступ в настройках.</string>
+  <string name="permission_request">%1$s требуется доступ к хранилищу для сохранения и установки обоев</string>
   <string name="allow">Разрешить</string>
-  <string name="downloading_wallpaper">Скачать \'%1$s\'</string>
-  <string name="download_successful">Обои загружены в \'%1$s\'</string>
-  <string name="download_successful_short">Обо загружены</string>
+  <string name="downloading_wallpaper">Скачивается \'%1$s\'…</string>
+  <string name="download_successful">Обои успешно загружены в \'%1$s\'</string>
+  <string name="download_successful_short">Обои успешно загружены!</string>
   <string name="open">Открыть</string>
   <string name="file_exists">Обои уже загружены. Хотите снова скачать и заменить их?</string>
   <string name="file_replace">Заменить</string>
-  <string name="file_create_new">Создать новое</string>
+  <string name="file_create_new">Создать</string>
   <string name="applying_wallpaper">Применяем \'%1$s\'</string>
-  <string name="apply_to">Применить к:</string>
-  <string name="home_screen">Домашнему экрану</string>
-  <string name="lock_screen">Экрану блокировки</string>
-  <string name="home_lock_screen">Домашнему экрану и экрану блокировки</string>
-  <string name="apply_with_other_app">Использовать с другим приложение</string>
-  <string name="apply_successful">Обои применены к \'%1$s\'</string>
-  <string name="apply_successful_short">Обо поставлены</string>
+  <string name="apply_to">Установить на:</string>
+  <string name="home_screen">Домашний экран</string>
+  <string name="lock_screen">Экран блокировки</string>
+  <string name="home_lock_screen">Домашний экран и экран блокировки</string>
+  <string name="apply_with_other_app">Установить с другим приложением</string>
+  <string name="apply_successful">Обои успешно установлены на \'%1$s\'</string>
+  <string name="apply_successful_short">Обо успешно установлены</string>
   <string name="wallpaper_details">Детали</string>
   <string name="wallpaper_palette">Палитра</string>
-  <string name="copied_to_clipboard">Скопировать в буфер обмена</string>
+  <string name="copied_to_clipboard">Цвет скопирован в буфер обмена</string>
   <string name="search">Поиск</string>
   <string name="search_x">Поиск %1$s</string>
-  <string name="search_no_results">Результат не найден</string>
+  <string name="search_no_results">Ничего не найдено</string>
   <string name="about">О программе</string>
   <string name="refresh">Обновить</string>
   <string name="translate">Перевод</string>
   <string name="licenses">Лицензия</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
-  <string name="frames_dashboard">Панель управления Frames</string>
-  <string name="dev_contributions">Помощь разработчика</string>
+  <string name="frames_dashboard">Frames Dashboard</string>
+  <string name="dev_contributions">Помощь в разработке</string>
   <string name="ui_contributions">Помощь в интерфейсе</string>
   <string name="dashboard_copyright">Я 20-летний Android-разработчик и разработчик панели управления.</string>
   <string name="sherry_description">Увлеченная женщина, которая никогда не устает учиться, креативный фотограф и человек, благодаря которому это случилось возможным.</string>
@@ -79,6 +79,7 @@
   <!-- Dark Theme -->
   <string name="dark_theme">Темная</string>
   <!-- Amoled Theme -->
+  <string name="amoled_theme">AMOLED</string>
   <!-- Transparent Theme -->
   <string name="transparent_theme">Прозрачная</string>
   <!-- Automatic Light-Dark Theme -->
@@ -109,6 +110,7 @@
   <!-- License -->
   <string name="license_valid_title">Лицензия действует</string>
   <string name="license_valid_content">Спасибо за скачивание %1$s из магазина. Надеюсь вы получите удовольствие от использования!</string>
+  <string name="license_valid_snack">Лицензия подтверждена. Спасибо за загрузку %1$s. Наслаждайтесь!</string>
   <string name="license_invalid_title">Ты не пройдешь!</string>
   <string name="license_invalid_content">Извините, но у вас недействующая лицензия %1$s . Возможно это пиратское приложение.  %2$s. Если вы полагаете, что это ошибка, то попробуйте позднее. Или скачайте приложение из официального магазина.</string>
   <string name="license_invalid_content_extra">Или обратите внимание на \'%1$s и удалите его</string>
