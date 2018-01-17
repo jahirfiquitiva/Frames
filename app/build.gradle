@@ -43,7 +43,7 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
             if (isCi) {
-                outputFileName = "frames-v${variant.versionName}-${variant.name}-${gitLocalSha()}.apk"
+                outputFileName = "frames-latest-sample.apk"
             } else {
                 outputFileName = details.appId + "-v${variant.versionName}-${variant.name}.apk"
             }
@@ -106,16 +106,4 @@ tasks.whenTaskAdded { task ->
     if (task.name.contains("lint") || task.name.contains("test")) {
         task.enabled = false
     }
-}
-
-/**
- * Get SHA of the current commit.
- */
-def gitLocalSha() {
-    def p = 'git rev-parse --short HEAD'.execute([], project.rootDir)
-    p.waitFor()
-    if (p.exitValue() != 0) {
-        return "000"
-    }
-    return p.text.trim()
 }
