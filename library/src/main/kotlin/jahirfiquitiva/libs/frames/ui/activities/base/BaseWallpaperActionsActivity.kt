@@ -33,12 +33,12 @@ import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.REQUEST_CODE
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsDialog
-import jahirfiquitiva.libs.kauextensions.extensions.PermissionRequestListener
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getUri
 import jahirfiquitiva.libs.kauextensions.extensions.requestSinglePermission
 import jahirfiquitiva.libs.kauextensions.ui.activities.FragmentsActivity
+import jahirfiquitiva.libs.kauextensions.ui.callbacks.PermissionRequestListener
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -66,13 +66,14 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
             grantResults: IntArray
                                            ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 41 || requestCode == 42) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                queuedAction()
-                queuedAction = {}
+        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (requestCode == 41 || requestCode == 42) {
+                checkIfFileExists(requestCode == 41)
             } else {
-                showSnackbar(R.string.permission_denied, Snackbar.LENGTH_LONG)
+                executeQueuedAction()
             }
+        } else {
+            showSnackbar(R.string.permission_denied, Snackbar.LENGTH_LONG)
         }
     }
     
@@ -81,18 +82,23 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
         requestSinglePermission(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 code,
-                object : PermissionRequestListener() {
-                    override fun onShowInformation(permission: String) =
+                object : PermissionRequestListener {
+                    override fun onShowPermissionInformation(permission: String) =
                             showPermissionInformation(code, explanation, false, onGranted)
                     
-                    override fun onPermissionCompletelyDenied() {
+                    override fun onPermissionDenied(permission: String) {
                         showSnackbar(
                                 R.string.permission_denied_completely,
                                 Snackbar.LENGTH_LONG)
                     }
                     
-                    override fun onPermissionGranted() = onGranted()
+                    override fun onPermissionGranted(permission: String) = executeQueuedAction()
                 })
+    }
+    
+    private fun executeQueuedAction() {
+        queuedAction()
+        queuedAction = {}
     }
     
     open fun doItemClick(actionId: Int) {
@@ -108,19 +114,20 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
             requestSinglePermission(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     if (toApply) 41 else 42,
-                    object : PermissionRequestListener() {
-                        override fun onShowInformation(permission: String) =
+                    object : PermissionRequestListener {
+                        override fun onShowPermissionInformation(permission: String) =
                                 showPermissionInformation(
                                         if (toApply) 41 else 42,
                                         getString(R.string.permission_request, getAppName()),
                                         toApply)
                         
-                        override fun onPermissionCompletelyDenied() =
+                        override fun onPermissionDenied(permission: String) =
                                 showSnackbar(
                                         R.string.permission_denied_completely,
                                         Snackbar.LENGTH_LONG)
                         
-                        override fun onPermissionGranted() = checkIfFileExists(toApply)
+                        override fun onPermissionGranted(permission: String) =
+                                checkIfFileExists(toApply)
                     })
         } else {
             if (toApply && allowBitmapApply) showWallpaperApplyOptions(null)
@@ -154,7 +161,7 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
             folder.mkdirs()
             val extension = it.url.substring(it.url.lastIndexOf("."))
             var correctExtension = getWallpaperExtension(extension)
-            val fileName = it.name.formatCorrectly()
+            val fileName = it.name.formatCorrectly().replace(" ", "_")
             if (toApply) correctExtension = ".temp" + correctExtension
             val dest = File(folder, fileName + correctExtension)
             if (dest.exists()) {

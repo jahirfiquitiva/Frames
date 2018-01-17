@@ -103,6 +103,8 @@ class WallpaperActionsDialog : DialogFragment() {
                         
                         override fun onProgress(progress: Int) {
                             dialog?.let {
+                                it.setCancelable(progress > 0)
+                                it.setCanceledOnTouchOutside(progress > 0)
                                 (it as? MaterialDialog)?.setProgress(progress)
                             }
                         }
@@ -135,9 +137,11 @@ class WallpaperActionsDialog : DialogFragment() {
                             wallpaper?.name.orEmpty()))
             progress(false, 100)
             positiveText(android.R.string.cancel)
+            cancelable(false)
+            canceledOnTouchOutside(false)
             onPositive { _, _ ->
                 stopActions()
-                dismiss(actv)
+                safeActv { dismiss(it) }
             }
         }
         thread?.start()
@@ -166,7 +170,7 @@ class WallpaperActionsDialog : DialogFragment() {
                 showDownloadResult(it)
             }
         }
-        dismiss(actv)
+        safeActv { dismiss(it) }
     }
     
     private fun doOnFailure(e: Exception) {
@@ -181,7 +185,7 @@ class WallpaperActionsDialog : DialogFragment() {
                         positiveText(android.R.string.ok)
                         onPositive { dialog, _ ->
                             dialog.dismiss()
-                            dismiss(actv)
+                            safeActv { dismiss(it) }
                         }
                     }
                 } catch (e: Exception) {

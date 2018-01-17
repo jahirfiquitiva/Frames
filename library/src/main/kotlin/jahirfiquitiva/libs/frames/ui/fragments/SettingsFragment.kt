@@ -37,7 +37,6 @@ import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.ui.activities.SettingsActivity
 import jahirfiquitiva.libs.frames.ui.fragments.base.PreferenceFragment
-import jahirfiquitiva.libs.kauextensions.extensions.PermissionRequestListener
 import jahirfiquitiva.libs.kauextensions.extensions.actv
 import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
@@ -46,6 +45,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.konfigs
 import jahirfiquitiva.libs.kauextensions.extensions.requestSinglePermission
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kauextensions.ui.activities.ThemedActivity
+import jahirfiquitiva.libs.kauextensions.ui.callbacks.PermissionRequestListener
 import org.jetbrains.anko.doAsync
 
 @Suppress("DEPRECATION")
@@ -241,17 +241,15 @@ open class SettingsFragment : PreferenceFragment() {
     fun requestPermission() = actv.requestSinglePermission(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             42,
-            object : PermissionRequestListener() {
+            object : PermissionRequestListener {
+                override fun onShowPermissionInformation(permission: String) =
+                        doShowPermissionInformation()
                 
-                override fun onShowInformation(permission: String) {
-                    doShowPermissionInformation()
-                }
-                
-                override fun onPermissionCompletelyDenied() {
+                override fun onPermissionDenied(permission: String) {
                     actv.snackbar(R.string.permission_denied_completely)
                 }
                 
-                override fun onPermissionGranted() {
+                override fun onPermissionGranted(permission: String) {
                     (activity as? SettingsActivity)?.showLocationChooserDialog()
                 }
             })
