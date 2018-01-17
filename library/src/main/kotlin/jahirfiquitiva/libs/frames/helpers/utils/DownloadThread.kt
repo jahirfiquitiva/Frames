@@ -19,18 +19,18 @@ import android.app.DownloadManager
 import android.database.CursorIndexOutOfBoundsException
 import android.os.Handler
 import android.os.Looper
-import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsFragment
+import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsDialog
 import java.lang.ref.WeakReference
 
 /**
  * Thanks to James Fenn
  */
 class DownloadThread(
-        frag: WallpaperActionsFragment,
+        frag: WallpaperActionsDialog,
         val listener: DownloadListener? = null
                     ) : Thread() {
     
-    private var weakRef: WeakReference<WallpaperActionsFragment>? = null
+    private var weakRef: WeakReference<WallpaperActionsDialog>? = null
     private var running = true
     private var progress: Int = 0
     

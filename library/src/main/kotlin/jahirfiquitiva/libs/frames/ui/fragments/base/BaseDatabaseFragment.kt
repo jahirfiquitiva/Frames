@@ -67,7 +67,7 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
     }
     
     private fun initDatabase() {
-        if (!(ctxt.getBoolean(R.bool.isFrames))) return
+        if (!ctxt.getBoolean(R.bool.isFrames)) return
         if (database == null) {
             database = Room.databaseBuilder(
                     ctxt, FavoritesDatabase::class.java,

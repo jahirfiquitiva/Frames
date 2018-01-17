@@ -92,9 +92,7 @@ class CreditsAdapter(
                                        ) {
         if (holder is SectionedHeaderViewHolder) {
             when (section) {
-                0 -> {
-                    holder.setTitle(R.string.app_name, false, expanded)
-                }
+                0 -> holder.setTitle(R.string.app_name, false, expanded)
                 1 -> {
                     holder.setTitle(dashboardTitle, false, expanded)
                     holder.divider.visible()

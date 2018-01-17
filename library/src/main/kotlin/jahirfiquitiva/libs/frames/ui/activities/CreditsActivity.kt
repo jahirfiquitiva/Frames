@@ -114,11 +114,9 @@ open class CreditsActivity : ThemedActivity() {
         item?.let {
             when (it.itemId) {
                 android.R.id.home -> finish()
-                R.id.translate -> {
-                    try {
-                        openLink(TRANSLATION_SITE)
-                    } catch (ignored: Exception) {
-                    }
+                R.id.translate -> try {
+                    openLink(TRANSLATION_SITE)
+                } catch (ignored: Exception) {
                 }
                 R.id.licenses -> LicensesDialog.Builder(this)
                         .setTitle(R.string.licenses)

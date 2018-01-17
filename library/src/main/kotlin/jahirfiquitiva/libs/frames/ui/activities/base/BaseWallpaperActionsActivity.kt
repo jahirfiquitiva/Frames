@@ -32,7 +32,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.REQUEST_CODE
-import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsFragment
+import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsDialog
 import jahirfiquitiva.libs.kauextensions.extensions.PermissionRequestListener
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
@@ -51,7 +51,7 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
     }
     
     private var actionDialog: MaterialDialog? = null
-    internal var wallActions: WallpaperActionsFragment? = null
+    internal var wallActions: WallpaperActionsDialog? = null
     
     internal abstract var wallpaper: Wallpaper?
     internal abstract val allowBitmapApply: Boolean
@@ -184,7 +184,7 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
     private fun startDownload(dest: File) {
         wallpaper?.let {
             properlyCancelDialog()
-            wallActions = WallpaperActionsFragment.create(this, it, dest)
+            wallActions = WallpaperActionsDialog.create(this, it, dest)
             wallActions?.show(this)
         }
     }
@@ -256,7 +256,7 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
                               ) {
         wallpaper?.let {
             properlyCancelDialog()
-            wallActions = WallpaperActionsFragment.create(
+            wallActions = WallpaperActionsDialog.create(
                     this, it, dest, arrayOf(toHomeScreen, toLockScreen, toBoth, toOtherApp))
             wallActions?.show(this)
         }
@@ -291,7 +291,7 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
                 setWall.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 startActivityForResult(
                         Intent.createChooser(setWall, getString(R.string.apply_with_other_app)),
-                        WallpaperActionsFragment.TO_OTHER_APP_CODE)
+                        WallpaperActionsDialog.TO_OTHER_APP_CODE)
             } ?: dest.delete()
         } catch (e: Exception) {
             FL.e { e.message }
@@ -300,7 +300,7 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
     
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == WallpaperActionsFragment.TO_OTHER_APP_CODE) {
+        if (requestCode == WallpaperActionsDialog.TO_OTHER_APP_CODE) {
             try {
                 file?.delete()
                 file = null

@@ -41,7 +41,7 @@ class FramesNotificationPublisher(
     
     fun post() {
         context?.let {
-            val notificationsEnabled = context.framesKonfigs.notificationsEnabled
+            val notificationsEnabled = it.framesKonfigs.notificationsEnabled
             if (!notificationsEnabled) return
             if (data != null && data.isNotEmpty()) {
                 var postedNewWallsNotification = false
@@ -93,9 +93,9 @@ class FramesNotificationPublisher(
         notificationBuilder.setVibrate(longArrayOf(500, 500))
         
         val notificationManager = context.getSystemService(
-                Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.cancel(id)
-        notificationManager.notify(id, notificationBuilder.build())
+                Context.NOTIFICATION_SERVICE) as? NotificationManager
+        notificationManager?.cancel(id)
+        notificationManager?.notify(id, notificationBuilder.build())
     }
     
     companion object {

@@ -73,12 +73,8 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
     
     open fun reloadData(section: Int) {
         when (section) {
-            0, 1 -> {
-                wallpapersModel?.loadData(ctxt, true) ?: showErrorSnackbar()
-            }
-            2 -> {
-                getDatabase()?.let { favoritesModel?.loadData(it, true) } ?: showErrorSnackbar()
-            }
+            0, 1 -> wallpapersModel?.loadData(ctxt, true) ?: showErrorSnackbar()
+            2 -> getDatabase()?.let { favoritesModel?.loadData(it, true) } ?: showErrorSnackbar()
         }
     }
     

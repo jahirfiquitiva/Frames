@@ -55,7 +55,7 @@ class WallpaperPaletteHolder(itemView: View) : SectionedViewHolder(itemView) {
 
 data class WallpaperDetail(val icon: String, val value: String) {
     override fun equals(other: Any?): Boolean =
-            (other is WallpaperDetail) && (icon.equals(other.icon, true))
+            other is WallpaperDetail && icon.equals(other.icon, true)
     
     override fun hashCode(): Int {
         var result = icon.hashCode()

@@ -65,7 +65,7 @@ import jahirfiquitiva.libs.frames.ui.activities.base.BaseWallpaperActionsActivit
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.InfoBottomSheet
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.InfoDialog
-import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsFragment
+import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsDialog
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.kauextensions.extensions.SimpleAnimationListener
 import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
@@ -352,7 +352,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         
         postPalette(bmp)
         
-        val d = if (bmp != null) {
+        val drawable = if (bmp != null) {
             BitmapDrawable(resources, bmp)
         } else {
             ColorDrawable(Color.TRANSPARENT)
@@ -374,7 +374,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
             }
             
             val options = urlOptions.timeout(10000)
-                    .placeholder(d).error(d)
+                    .placeholder(drawable).error(drawable)
                     .dontTransform().dontAnimate()
                     .fitCenter()
             
@@ -507,7 +507,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
                                      ) {
         wallpaper?.let {
             properlyCancelDialog()
-            wallActions = WallpaperActionsFragment.create(
+            wallActions = WallpaperActionsDialog.create(
                     this, it, img.drawable.toBitmap(),
                     arrayOf(toHomeScreen, toLockScreen, toBoth, toOtherApp))
             wallActions?.show(this)

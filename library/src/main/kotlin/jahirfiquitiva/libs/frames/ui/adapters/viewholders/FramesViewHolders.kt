@@ -122,12 +122,12 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
             val filled = itemView.context.getBoolean(R.bool.enable_filled_collection_preview)
             title.text = if (filled) collection.name.toUpperCase() else collection.name
             title.setTextColor(Color.WHITE)
-            amount.text = (collection.wallpapers.size).toString()
+            amount.text = collection.wallpapers.size.toString()
             amount.setTextColor(Color.WHITE)
             loadImage(manager, url, thumb)
-            setOnClickListener { listener.onSingleClick(collection, this@CollectionHolder) }
             provider.setView(img)
         }
+        itemView.setOnClickListener { listener.onSingleClick(collection, this) }
     }
     
     override fun getListener(): GlideRequestCallback<Bitmap> {

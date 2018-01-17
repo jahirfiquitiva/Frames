@@ -157,8 +157,6 @@ open class SettingsActivity : FragmentsActivity(), FolderChooserDialog.FolderCal
     
     override fun onFolderSelection(dialog: FolderChooserDialog, folder: File) {
         framesKonfigs.downloadsFolder = folder.absolutePath
-        if (fragment is SettingsFragment) {
-            (fragment as SettingsFragment).updateDownloadLocation()
-        }
+        (fragment as? SettingsFragment)?.updateDownloadLocation()
     }
 }

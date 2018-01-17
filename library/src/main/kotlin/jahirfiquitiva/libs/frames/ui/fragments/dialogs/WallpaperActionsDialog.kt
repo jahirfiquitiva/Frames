@@ -27,8 +27,6 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentActivity
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentTransaction
 import ca.allanwang.kau.utils.materialDialog
 import ca.allanwang.kau.utils.snackbar
 import com.afollestad.materialdialogs.MaterialDialog
@@ -48,7 +46,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.showToast
 import java.io.File
 
 @Suppress("DEPRECATION")
-class WallpaperActionsFragment : DialogFragment() {
+class WallpaperActionsDialog : DialogFragment() {
     
     private var wallpaper: Wallpaper? = null
     private var thread: DownloadThread? = null
@@ -278,13 +276,11 @@ class WallpaperActionsFragment : DialogFragment() {
     }
     
     private fun showAppliedResult() {
-        dismiss(actv)
+        safeActv { dismiss(it) }
         try {
-            if (activity is BaseWallpaperActionsActivity) {
-                (activity as BaseWallpaperActionsActivity).showWallpaperAppliedSnackbar(
-                        toHomeScreen, toLockScreen, toBoth)
-            } else {
-                actv.snackbar(
+            safeActv {
+                (it as? BaseWallpaperActionsActivity)?.showWallpaperAppliedSnackbar(
+                        toHomeScreen, toLockScreen, toBoth) ?: it.snackbar(
                         getString(
                                 R.string.apply_successful,
                                 getString(
@@ -297,7 +293,7 @@ class WallpaperActionsFragment : DialogFragment() {
             }
         } catch (e: Exception) {
             FL.e { e.message }
-            actv.showToast(R.string.apply_successful_short)
+            safeActv { it.showToast(R.string.apply_successful_short) }
         }
     }
     
@@ -316,10 +312,10 @@ class WallpaperActionsFragment : DialogFragment() {
                 destFile: File?,
                 destBitmap: Bitmap? = null,
                 whatTo: Array<Boolean>
-                  ): WallpaperActionsFragment =
-                WallpaperActionsFragment().apply {
+                  ): WallpaperActionsDialog =
+                WallpaperActionsDialog().apply {
                     this.downloadManager =
-                            context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
+                            context.getSystemService(Context.DOWNLOAD_SERVICE) as? DownloadManager?
                     this.wallpaper = wallpaper
                     this.destFile = destFile
                     this.destBitmap = destBitmap
@@ -381,14 +377,14 @@ class WallpaperActionsFragment : DialogFragment() {
         }
     }
     
-    fun show(context: FragmentActivity) {
-        show(context.supportFragmentManager, TAG)
+    fun show(activity: FragmentActivity) {
+        show(activity.supportFragmentManager, TAG)
     }
     
-    fun dismiss(context: FragmentActivity) {
+    fun dismiss(activity: FragmentActivity) {
         try {
-            val frag = context.supportFragmentManager.findFragmentByTag(TAG)
-            if (frag != null) (frag as? WallpaperActionsFragment)?.dismiss()
+            val frag = activity.supportFragmentManager.findFragmentByTag(TAG)
+            if (frag != null) (frag as? WallpaperActionsDialog)?.dismiss()
         } catch (ignored: Exception) {
         }
         try {
