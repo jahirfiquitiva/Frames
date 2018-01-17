@@ -74,4 +74,4 @@ deploy:
     repo: jahirfiquitiva/Frames
     
 after_dploy:
-  - rm -f $TRAVIS_BUILD_DIR/app/build/outputs
+  - rm -rf $TRAVIS_BUILD_DIR/app/build/outputs
