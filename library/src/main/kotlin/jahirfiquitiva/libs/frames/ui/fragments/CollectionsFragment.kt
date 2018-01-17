@@ -80,7 +80,6 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
         
         recyclerView?.let { recyclerView ->
             with(recyclerView) {
-                itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
                 textView = content.findViewById(R.id.empty_text)
                 emptyView = content.findViewById(R.id.empty_view)
                 setEmptyImage(R.drawable.empty_section)
@@ -91,6 +90,8 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
                 layoutManager = GridLayoutManager(
                         context, spanCount, GridLayoutManager.VERTICAL, false)
                 addItemDecoration(GridSpacingItemDecoration(spanCount, 0, true))
+                itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
+                setHasFixedSize(true)
                 
                 safeActv {
                     val preloader: RecyclerViewPreloader<Wallpaper> =

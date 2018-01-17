@@ -55,7 +55,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.thumbnailColor
 import jahirfiquitiva.libs.kauextensions.extensions.withAlpha
 
 const val DETAILS_OPACITY = 0.85F
-const val COLLECTION_DETAILS_OPACITY = 0.35F
+const val COLLECTION_DETAILS_OPACITY = 0.4F
 
 abstract class FramesViewClickListener<in T, in VH> {
     abstract fun onSingleClick(item: T, holder: VH)
@@ -118,7 +118,9 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
             val rightCover = collection.bestCover ?: collection.wallpapers.first()
             val url = rightCover.url
             val thumb = rightCover.thumbUrl
-            title.text = collection.name
+            
+            val filled = itemView.context.getBoolean(R.bool.enable_filled_collection_preview)
+            title.text = if (filled) collection.name.toUpperCase() else collection.name
             title.setTextColor(Color.WHITE)
             amount.text = (collection.wallpapers.size).toString()
             amount.setTextColor(Color.WHITE)
@@ -149,7 +151,11 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                         itemView.context.dividerColor
                     }
                     detailsBg.background = null
-                    detailsBg.setBackgroundColor(color.withAlpha(COLLECTION_DETAILS_OPACITY))
+                    
+                    val opacity = if (itemView.context.getBoolean(
+                            R.bool.enable_filled_collection_preview)) COLLECTION_DETAILS_OPACITY else DETAILS_OPACITY
+                    
+                    detailsBg.setBackgroundColor(color.withAlpha(opacity))
                     title.setTextColor(itemView.context.getPrimaryTextColorFor(color))
                     amount.setTextColor(itemView.context.getSecondaryTextColorFor(color))
                 } else {

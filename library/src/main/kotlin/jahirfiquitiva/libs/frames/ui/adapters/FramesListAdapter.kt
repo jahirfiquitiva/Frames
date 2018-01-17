@@ -23,8 +23,8 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.GlideSectionedViewHold
 abstract class FramesListAdapter<T, VH : RecyclerView.ViewHolder>(maxLoad: Int = -1) :
         ListAdapter<T, VH>(maxLoad) {
     override fun onViewRecycled(holder: VH) {
-        super.onViewRecycled(holder)
         if (holder is FramesWallpaperHolder) holder.onRecycled()
         else if (holder is GlideSectionedViewHolder) holder.onRecycled()
+        super.onViewRecycled(holder)
     }
 }

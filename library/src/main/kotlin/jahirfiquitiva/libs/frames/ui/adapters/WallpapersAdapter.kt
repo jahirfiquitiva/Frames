@@ -21,7 +21,6 @@ import com.bumptech.glide.ListPreloader
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.util.ViewPreloadSizeProvider
-import jahirfiquitiva.libs.archhelpers.ui.adapters.ListAdapter
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.MAX_WALLPAPERS_LOAD
@@ -36,7 +35,8 @@ class WallpapersAdapter(
         private val showFavIcon: Boolean,
         private val listener: FramesViewClickListener<Wallpaper, WallpaperHolder>
                        ) :
-        ListAdapter<Wallpaper, WallpaperHolder>(if (fromFavorites) -1 else MAX_WALLPAPERS_LOAD),
+        FramesListAdapter<Wallpaper, WallpaperHolder>(
+                if (fromFavorites) -1 else MAX_WALLPAPERS_LOAD),
         ListPreloader.PreloadModelProvider<Wallpaper> {
     
     var favorites = ArrayList<Wallpaper>()

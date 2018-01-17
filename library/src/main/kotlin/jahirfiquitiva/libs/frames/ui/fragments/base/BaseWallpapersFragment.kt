@@ -107,7 +107,6 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         
         recyclerView?.let { recyclerView ->
             with(recyclerView) {
-                itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
                 textView = content.findViewById(R.id.empty_text)
                 emptyView = content.findViewById(R.id.empty_view)
                 setEmptyImage(
@@ -116,6 +115,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 loadingView = content.findViewById(R.id.loading_view)
                 setLoadingText(R.string.loading_section)
                 configureRVColumns()
+                itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
+                setHasFixedSize(true)
                 
                 safeActv {
                     val preloader: RecyclerViewPreloader<Wallpaper> =
