@@ -81,7 +81,7 @@ android {
 
 dependencies {
     // Frames
-    implementation('me.jahirfiquitiva:Frames:2.1.5@aar') {
+    implementation('me.jahirfiquitiva:Frames:2.1.6@aar') {
         transitive = true
     }
     // TODO: Remove comment marks to enable
