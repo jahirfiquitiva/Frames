@@ -27,7 +27,6 @@ import android.widget.TextView
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.visible
-import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.util.ViewPreloadSizeProvider
 import jahirfiquitiva.libs.frames.R
@@ -87,8 +86,9 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
         img.loadWallpaper(manager, url, thumbUrl, hasFaded, getListener())
     }
     
-    fun onRecycled() {
+    fun unbind() {
         img.releaseFromGlide()
+        img.setImageDrawable(null)
     }
     
     internal fun whenFaded(ifHasFaded: () -> Unit = {}, ifHasNotFaded: () -> Unit) {
@@ -268,8 +268,4 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
             }
         }
     }
-}
-
-abstract class GlideSectionedViewHolder(itemView: View) : SectionedViewHolder(itemView) {
-    abstract fun onRecycled()
 }

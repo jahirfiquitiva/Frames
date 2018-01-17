@@ -9,7 +9,7 @@ Frames
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2c032f5b543842a29f135f5690d4ba92)](https://www.codacy.com/app/jahirfiquitiva/Frames?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jahirfiquitiva/Frames&amp;utm_campaign=Badge_Grade)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/Frames/localized.svg)](http://j.mp/FramesTranslations)
 
-[![Sample App](https://img.shields.io/badge/SAMPLE-APP-34bf49.svg)](https://github.com/jahirfiquitiva/Frames/raw/images/frames-sample.apk)
+[![Sample App](https://github.com/jahirfiquitiva/Frames/raw/images/download_sample.svg)](https://github.com/jahirfiquitiva/Frames/raw/images/frames-sample.apk)
 
 A full-of-features, easy-to-customize, free and open source, light-weight, Android dashboard library to create wallpapers apps with almost-null effort.
 

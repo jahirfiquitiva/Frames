@@ -124,7 +124,7 @@ class SectionedHeaderViewHolder(itemView: View) : SectionedViewHolder(itemView) 
     }
 }
 
-open class DashboardCreditViewHolder(itemView: View) : GlideSectionedViewHolder(itemView) {
+open class DashboardCreditViewHolder(itemView: View) : SectionedViewHolder(itemView) {
     val photo: ImageView by itemView.bind(R.id.photo)
     val name: TextView by itemView.bind(R.id.name)
     private val description: TextView by itemView.bind(R.id.description)
@@ -178,8 +178,9 @@ open class DashboardCreditViewHolder(itemView: View) : GlideSectionedViewHolder(
         }
     }
     
-    override fun onRecycled() {
+    fun unbind() {
         photo.releaseFromGlide()
+        photo.setImageDrawable(null)
     }
 }
 
