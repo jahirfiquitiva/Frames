@@ -61,7 +61,7 @@ before_deploy:
   - git tag -f travis-build
   - git remote add travis
     https://${TRAVIS_REPO_SLUG%/*}:${GITHUB_API_KEY}@github.com/${TRAVIS_REPO_SLUG}.git
-  - git push -f gh travis-build
+  - git push -f travis travis-build
   - git remote remove travis
 
 deploy:
