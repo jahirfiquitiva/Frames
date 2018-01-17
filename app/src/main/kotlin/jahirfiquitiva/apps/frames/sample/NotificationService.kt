@@ -13,8 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-dependencies {
-    compile libraries.firebase
-}
+package jahirfiquitiva.apps.frames.sample
 
-apply plugin: 'com.google.gms.google-services'
+/* TODO: Remove comment marks to enable
+import com.onesignal.NotificationExtenderService
+import com.onesignal.OSNotificationReceivedResult
+import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
+
+class NotificationService : NotificationExtenderService() {
+    override fun onNotificationProcessing(notification: OSNotificationReceivedResult?): Boolean =
+            !framesKonfigs.notificationsEnabled
+}
+*/

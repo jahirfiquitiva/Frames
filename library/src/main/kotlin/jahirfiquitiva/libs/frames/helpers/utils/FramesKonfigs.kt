@@ -58,10 +58,6 @@ open class FramesKonfigs(nm: String, private val cntxt: Context) : Konfiguration
         get() = prefs.getBoolean(NOTIFICATIONS_ENABLED, false)
         set(value) = prefsEditor.putBoolean(NOTIFICATIONS_ENABLED, value).apply()
     
-    var notificationsMillis: Long
-        get() = prefs.getLong(NOTIFICATIONS_MILLIS, System.currentTimeMillis())
-        set(value) = prefsEditor.putLong(NOTIFICATIONS_MILLIS, value).apply()
-    
     var refreshMuzeiOnWiFiOnly: Boolean
         get() = prefs.getBoolean(REFRESH_MUZEI_ON_WIFI_ONLY, false)
         set(value) = prefsEditor.putBoolean(REFRESH_MUZEI_ON_WIFI_ONLY, value).apply()

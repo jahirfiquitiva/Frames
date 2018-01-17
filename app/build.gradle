@@ -13,6 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+// TODO: Remove comment marks to enable
+/*
+plugins {
+    id 'com.onesignal.androidsdk.onesignal-gradle-plugin' version versions.oneSignalPlugin
+}
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+*/
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
@@ -40,9 +48,13 @@ android {
     }
 
     defaultConfig {
-        // Include all fields for later usage in developer options menu. Can be accessed via BuildConfig class.
-        buildConfigField 'boolean', 'CI', "${isCi}"
-        buildConfigField 'String', 'GIT_SHA', "\"${gitLocalSha()}\""
+        // TODO: Remove comment marks to enable
+        /*
+        manifestPlaceholders = [onesignal_app_id               : "abcd-1234-efgh-5678",
+                                // Project number pulled from dashboard, local value is ignored.
+                                onesignal_google_project_number: "1234567890"]
+                                */
+
 
         applicationId details.appGroup + "." + details.appId.toLowerCase() + ".sample"
         minSdkVersion versions.minSdk
@@ -77,10 +89,9 @@ android {
 
 dependencies {
     implementation project(path: ':library')
+    // TODO: Remove comment marks to enable
+    // implementation libraries.oneSignal
 }
-
-// TODO: Remove comment marks if you plan on implementing Firebase Notifications
-// apply from: './firebase.gradle'
 
 tasks.whenTaskAdded { task ->
     if (task.name.contains("lint") || task.name.contains("test")) {
@@ -95,8 +106,7 @@ def gitLocalSha() {
     def p = 'git rev-parse --short HEAD'.execute([], project.rootDir)
     p.waitFor()
     if (p.exitValue() != 0) {
-        throw new RuntimeException(p.errorStream.text)
+        return "000"
     }
-
     return p.text.trim()
 }

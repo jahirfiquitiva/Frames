@@ -16,12 +16,6 @@
   -->
 <resources>
 
-    <!--    Notifications class name
-    -       Must be something similar to:
-    -       com.mypackage.name.FirebaseService
-    -->
-    <string name="notifications_class"></string>
-
     <!--    Use old format?
     -       If you're coming from the previous Frames, then you will find this useful
     -       True means yes

@@ -18,8 +18,6 @@ package jahirfiquitiva.libs.frames.ui.fragments
 import android.Manifest
 import android.annotation.SuppressLint
 import android.arch.persistence.room.Room
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.preference.Preference
@@ -37,7 +35,6 @@ import jahirfiquitiva.libs.frames.helpers.extensions.clearDataAndCache
 import jahirfiquitiva.libs.frames.helpers.extensions.dataCacheSize
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
-import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.ui.activities.SettingsActivity
 import jahirfiquitiva.libs.frames.ui.fragments.base.PreferenceFragment
 import jahirfiquitiva.libs.kauextensions.extensions.PermissionRequestListener
@@ -45,7 +42,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.actv
 import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
-import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.konfigs
 import jahirfiquitiva.libs.kauextensions.extensions.requestSinglePermission
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
@@ -232,47 +228,13 @@ open class SettingsFragment : PreferenceFragment() {
         }
         
         val notifPref = findPreference("enable_notifications") as? SwitchPreference
-        
-        val serviceAvailable = isNotificationsServiceAvailable()
-        
-        notifPref?.isEnabled = serviceAvailable
-        notifPref?.isChecked = actv.framesKonfigs.notificationsEnabled && serviceAvailable
+        notifPref?.isChecked = actv.framesKonfigs.notificationsEnabled
         notifPref?.setOnPreferenceChangeListener { _, any ->
             val enable = any.toString().equals("true", true)
             if (enable != actv.framesKonfigs.notificationsEnabled) {
                 actv.framesKonfigs.notificationsEnabled = enable
             }
             true
-        }
-    }
-    
-    private fun getNotificationsClass(): Class<*>? {
-        return try {
-            val className = ctxt.getString(R.string.notifications_class)
-            if (className.hasContent()) Class.forName(className)
-            else null
-        } catch (e: Exception) {
-            FL.e { e.message }
-            null
-        }
-    }
-    
-    private fun isNotificationsServiceAvailable(): Boolean {
-        return try {
-            val packageManager = ctxt.packageManager
-            val klass = getNotificationsClass()
-            val notNull = klass?.let { true } == true
-            if (notNull) {
-                val intent = Intent(context, klass)
-                val resolveInfo = packageManager.queryIntentServices(
-                        intent, PackageManager.MATCH_DEFAULT_ONLY)
-                resolveInfo.size > 0
-            } else {
-                false
-            }
-        } catch (e: Exception) {
-            FL.e { e.message }
-            false
         }
     }
     
