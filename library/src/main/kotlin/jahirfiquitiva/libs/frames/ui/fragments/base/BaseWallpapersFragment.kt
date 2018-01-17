@@ -61,8 +61,9 @@ import java.io.FileOutputStream
 @Suppress("DEPRECATION")
 abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperHolder>() {
     
+    var recyclerView: EmptyViewRecyclerView? = null
+        private set
     private var swipeToRefresh: SwipeRefreshLayout? = null
-    private var recyclerView: EmptyViewRecyclerView? = null
     private var fastScroll: RecyclerFastScroller? = null
     
     private val provider = ViewPreloadSizeProvider<Wallpaper>()
