@@ -86,7 +86,7 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 - Works with Android 4.1 and newer.
 
 ## Help translating
-:page_facing_up: Help making Frames available in more languages. [Click here to go to the translation site](http://bit.ly/TranslateFrames)
+:page_facing_up: Help making Frames available in more languages. [Click here to go to the translation site](http://j.mp/FramesTranslations)
 
 ## Changelog
 :radio_button: You can find it in the [Releases page](https://github.com/jahirfiquitiva/Frames/releases)
