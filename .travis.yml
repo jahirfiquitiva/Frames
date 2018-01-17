@@ -64,7 +64,7 @@ deploy:
   file: $TRAVIS_BUILD_DIR/app/build/outputs/apk/release/*.apk
   skip_cleanup: true
   overwrite: true
-  target_commitsh: true
+  target_commitsh: $TRAVIS_COMMIT
   on:
     branch: master
     repo: jahirfiquitiva/Frames
