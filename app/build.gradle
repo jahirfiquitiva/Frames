@@ -32,7 +32,7 @@ android {
         release {
             keyAlias 'frames'
             keyPassword 'frames'
-            storeFile rootProject.file('/library/frames.jks')
+            storeFile file('frames.jks')
             storePassword 'frames'
         }
     }
