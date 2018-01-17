@@ -57,6 +57,12 @@ before_script:
 before_install:
 - yes | sdkmanager "platforms;android-27"
 
+before_deploy:
+  - git config --local user.name "TravisCI"
+  - git config --local user.email "hi@jahirfiquitiva.me"
+  - git push --delete origin travis-build
+  - git tag -f "travis-build"
+
 deploy:
   provider: releases
   api_key: $GITHUB_API_KEY
@@ -69,7 +75,6 @@ deploy:
   on:
     branch: master
     repo: jahirfiquitiva/Frames
-    tags: true
     
 after_dploy:
   - rm -rf $TRAVIS_BUILD_DIR/app/build/outputs
