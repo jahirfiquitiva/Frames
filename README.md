@@ -35,6 +35,7 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 <img src="https://github.com/jahirfiquitiva/Frames/raw/images/10.png" height="350"/>
 </p>
 <p align="center">
+<img src="https://github.com/jahirfiquitiva/Frames/raw/images/15.png" height="350"/>
 <img src="https://github.com/jahirfiquitiva/Frames/raw/images/1.png" height="350"/>
 <img src="https://github.com/jahirfiquitiva/Frames/raw/images/11.png" height="350"/>
 <img src="https://github.com/jahirfiquitiva/Frames/raw/images/12.png" height="350"/>
