@@ -61,9 +61,10 @@ deploy:
   provider: releases
   api_key: $GITHUB_API_KEY
   file_glob: true
-  file: app/build/outputs/apk/release/*.apk
+  file: $TRAVIS_BUILD_DIR/app/build/outputs/apk/release/*.apk
   skip_cleanup: true
   overwrite: true
+  target_commitsh: true
   on:
     branch: master
     repo: jahirfiquitiva/Frames
