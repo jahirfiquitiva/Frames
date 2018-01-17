@@ -28,6 +28,15 @@ apply plugin: 'kotlin-android'
 def isCi = System.getenv("CI") == "true"
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'frames'
+            keyPassword 'frames'
+            storeFile rootProject.file('/library/frames.jks')
+            storePassword 'frames'
+        }
+    }
+
     compileSdkVersion versions.targetSdk
     buildToolsVersion versions.buildTools
 
@@ -72,6 +81,7 @@ android {
             shrinkResources false
             proguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
             consumerProguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 

@@ -20,7 +20,7 @@ android:
 jdk:
 - oraclejdk8
 
-script: if [[ "$TRAVIS_BRANCH" == "master" ]]; then "./gradlew clean :app:assembleDebug --stacktrace"; else "./gradlew clean test --stacktrace"; fi
+script: if [[ "$TRAVIS_BRANCH" == "master" ]]; then "./gradlew clean :app:assembleRelease --stacktrace"; else "./gradlew clean test --stacktrace"; fi
 
 branches:
   except:
@@ -61,7 +61,7 @@ deploy:
   provider: releases
   api_key: $GITHUB_API_KEY
   file_glob: true
-  file: app/build/outputs/apk/debug/*.apk
+  file: app/build/outputs/apk/release/*.apk
   skip_cleanup: true
   overwrite: true
   on:
