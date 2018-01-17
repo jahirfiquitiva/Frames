@@ -16,12 +16,6 @@
   -->
 <resources>
 
-    <!--    Notifications class name
-    -       Must be something similar to:
-    -       com.mypackage.name.FirebaseService
-    -->
-    <string name="notifications_class">jahirfiquitiva.apps.frames.sample.FirebaseService</string>
-
     <!--    Use old format?
     -       If you're coming from the previous Frames, then you will find this useful
     -       True means yes
@@ -56,6 +50,9 @@
 
     <!--    Choose whether you want colored tiles by default -->
     <bool name="enable_colored_tiles">true</bool>
+
+    <!--    Choose whether you want filled collection preview by default -->
+    <bool name="enable_filled_collection_preview">false</bool>
 
     <!--    Accent color in tabs
     -       If true, the accent color will be used in tabs

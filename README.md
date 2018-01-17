@@ -3,14 +3,17 @@
 Frames
 ======
 
+![API](https://img.shields.io/badge/API-16%2B-34bf49.svg)
 [![JitPack](https://jitpack.io/v/jahirfiquitiva/Frames.svg)](https://jitpack.io/#jahirfiquitiva/Frames)
 [![Build Status](https://travis-ci.org/jahirfiquitiva/Frames.svg?branch=master)](https://travis-ci.org/jahirfiquitiva/Frames)
-[![codebeat badge](https://codebeat.co/badges/eee96484-e205-455d-b5c2-6e4cda77b5f3)](https://codebeat.co/projects/github-com-jahirfiquitiva-frames-master)
-
-![API](https://img.shields.io/badge/API-16%2B-7ac143.svg)
-[![Sample App](https://img.shields.io/badge/SAMPLE-APP-34bf49.svg)](https://github.com/jahirfiquitiva/Frames/raw/images/frames-sample.apk)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2c032f5b543842a29f135f5690d4ba92)](https://www.codacy.com/app/jahirfiquitiva/Frames?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jahirfiquitiva/Frames&amp;utm_campaign=Badge_Grade)
+[![Crowdin](https://d322cqt584bo4o.cloudfront.net/Frames/localized.svg)](http://j.mp/FramesTranslations)
 
 A full-of-features, easy-to-customize, free and open source, light-weight, Android dashboard library to create wallpapers apps with almost-null effort.
+
+<a target="_blank" href="https://github.com/jahirfiquitiva/Frames/raw/images/frames-sample.apk">
+<img src="http://jahirfiquitiva.me/share/download_sample.svg" width="250"/>
+</a>
 
 ## Show some  :blue_heart:
 [![GitHub stars](https://img.shields.io/github/stars/jahirfiquitiva/Frames.svg?style=social&label=Star)](https://github.com/jahirfiquitiva/Frames)
@@ -34,6 +37,7 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 <img src="https://github.com/jahirfiquitiva/Frames/raw/images/10.png" height="350"/>
 </p>
 <p align="center">
+<img src="https://github.com/jahirfiquitiva/Frames/raw/images/15.png" height="350"/>
 <img src="https://github.com/jahirfiquitiva/Frames/raw/images/1.png" height="350"/>
 <img src="https://github.com/jahirfiquitiva/Frames/raw/images/11.png" height="350"/>
 <img src="https://github.com/jahirfiquitiva/Frames/raw/images/12.png" height="350"/>
@@ -108,7 +112,7 @@ dependencies {
     }
 }
 ```
-where `{latest version}` corresponds to published version in [![JitPack](https://jitpack.io/v/jahirfiquitiva/Frames.svg)](https://jitpack.io/#jahirfiquitiva/Frames)
+where `{latest version}` corresponds to published version in   [![JitPack](https://jitpack.io/v/jahirfiquitiva/Frames.svg)](https://jitpack.io/#jahirfiquitiva/Frames)
 
 ## How to implement
 :page_with_curl: Everything you need to know can be found in the **[Wiki Docs](https://github.com/jahirfiquitiva/Frames/wiki/)**
