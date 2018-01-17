@@ -58,7 +58,7 @@ before_install:
 - yes | sdkmanager "platforms;android-27"
 
 before_deploy:
-  - git tag -f travis-build
+  - git tag -f "travis-build"
 
 deploy:
   provider: releases
