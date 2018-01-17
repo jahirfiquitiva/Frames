@@ -68,4 +68,3 @@ deploy:
   on:
     branch: master
     repo: jahirfiquitiva/Frames
-    tags: true
