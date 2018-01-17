@@ -58,7 +58,11 @@ before_install:
 - yes | sdkmanager "platforms;android-27"
 
 before_deploy:
-  - "make VERSION=$TRAVIS_TAG"
+  - git tag -f travis-build
+  - git remote add travis
+    https://${TRAVIS_REPO_SLUG%/*}:${GITHUB_API_KEY}@github.com/${TRAVIS_REPO_SLUG}.git
+  - git push -f gh travis-build
+  - git remote remove travis
 
 deploy:
   provider: releases
@@ -67,7 +71,8 @@ deploy:
   file: $TRAVIS_BUILD_DIR/app/build/outputs/apk/release/*.apk
   skip_cleanup: true
   overwrite: true
-  # target_commitsh: $TRAVIS_COMMIT
+  prerelease: true
+  target_commitsh: $TRAVIS_COMMIT
   on:
     branch: master
     repo: jahirfiquitiva/Frames
