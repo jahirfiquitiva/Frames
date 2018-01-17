@@ -134,6 +134,7 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
         activity?.let {
             val intent = Intent(activity, CollectionActivity::class.java)
             intent.putExtra("item", item)
+            intent.putExtra("checker", hasChecker)
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(it)
             try {
                 it.startActivityForResult(intent, 11, options.toBundle())
@@ -201,4 +202,11 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     override fun autoStartLoad(): Boolean = true
     override fun fromCollectionActivity(): Boolean = false
     override fun fromFavorites(): Boolean = false
+    
+    private var hasChecker = false
+    
+    companion object {
+        fun create(hasChecker: Boolean): CollectionsFragment =
+                CollectionsFragment().apply { this.hasChecker = hasChecker }
+    }
 }

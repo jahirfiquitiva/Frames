@@ -74,10 +74,15 @@ abstract class FramesActivity : BaseFramesActivity() {
         
         pager.adapter = if (hasCollections) {
             FragmentsAdapter(
-                    supportFragmentManager, CollectionsFragment(),
-                    WallpapersFragment(), FavoritesFragment())
+                    supportFragmentManager,
+                    CollectionsFragment.create(getLicenseChecker() != null),
+                    WallpapersFragment.create(getLicenseChecker() != null),
+                    FavoritesFragment.create(getLicenseChecker() != null))
         } else {
-            FragmentsAdapter(supportFragmentManager, WallpapersFragment(), FavoritesFragment())
+            FragmentsAdapter(
+                    supportFragmentManager,
+                    WallpapersFragment.create(getLicenseChecker() != null),
+                    FavoritesFragment.create(getLicenseChecker() != null))
         }
         
         val useAccentColor = getBoolean(R.bool.enable_accent_color_in_tabs)

@@ -32,4 +32,9 @@ class FavoritesFragment : BaseWallpapersFragment() {
     override fun fromCollectionActivity(): Boolean = false
     override fun fromFavorites(): Boolean = true
     override fun showFavoritesIcon(): Boolean = true
+    
+    companion object {
+        fun create(hasChecker: Boolean): FavoritesFragment =
+                FavoritesFragment().apply { this.hasChecker = hasChecker }
+    }
 }

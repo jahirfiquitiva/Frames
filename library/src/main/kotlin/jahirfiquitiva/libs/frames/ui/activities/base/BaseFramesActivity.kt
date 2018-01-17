@@ -441,10 +441,8 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
                 doItemClick(APPLY_ACTION_ID)
             }
             
-            val licKey = getLicKey().orEmpty()
-            val actuallyComplies = if (licKey.hasContent() && licKey.length > 50)
-                compliesWithMinTime(MIN_TIME)
-            else true
+            val actuallyComplies =
+                    getLicenseChecker()?.let { compliesWithMinTime(MIN_TIME) } ?: true
             
             if (wallpaper.downloadable && actuallyComplies) {
                 negativeText(R.string.download)

@@ -188,7 +188,11 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         }
         
         val downloadable = wallpaper?.downloadable == true
-        if (downloadable && isNetworkAvailable && compliesWithMinTime(MIN_TIME)) {
+        
+        val hasChecker = intent?.getBooleanExtra("checker", false) ?: false
+        val actuallyComplies = if (hasChecker) compliesWithMinTime(MIN_TIME) else true
+        
+        if (downloadable && isNetworkAvailable && actuallyComplies) {
             findViewById<RelativeLayout>(R.id.download_container).setOnClickListener {
                 doItemClick(DOWNLOAD_ACTION_ID)
             }

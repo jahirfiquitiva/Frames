@@ -62,12 +62,17 @@ class WallpapersInCollectionFragment : BaseWallpapersFragment() {
     }
     
     companion object {
-        fun create(collection: Collection, wallpapers: ArrayList<Wallpaper>):
+        fun create(
+                collection: Collection,
+                wallpapers: ArrayList<Wallpaper>,
+                hasChecker: Boolean
+                  ):
                 WallpapersInCollectionFragment {
             return WallpapersInCollectionFragment().apply {
                 this.collection = collection
                 this.wallpapers.clear()
                 this.wallpapers.addAll(wallpapers)
+                this.hasChecker = hasChecker
             }
         }
     }

@@ -52,7 +52,7 @@
     <bool name="enable_colored_tiles">false</bool>
 
     <!--    Choose whether you want filled collection preview by default -->
-    <bool name="enable_filled_collection_preview">true</bool>
+    <bool name="enable_filled_collection_preview">false</bool>
 
     <!--    Accent color in tabs
     -       If true, the accent color will be used in tabs

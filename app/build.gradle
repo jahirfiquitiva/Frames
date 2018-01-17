@@ -64,7 +64,6 @@ android {
                                 onesignal_google_project_number: "1234567890"]
                                 */
 
-
         applicationId details.appGroup + "." + details.appId.toLowerCase() + ".sample"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk

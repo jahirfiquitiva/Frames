@@ -257,6 +257,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 putExtra("nameTransition", nameTransition)
                 putExtra("authorTransition", authorTransition)
                 putExtra("favTransition", heartTransition)
+                putExtra("checker", hasChecker)
             }
             
             var fos: FileOutputStream? = null
@@ -311,4 +312,6 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     }
     
     abstract fun showFavoritesIcon(): Boolean
+    
+    internal var hasChecker = false
 }

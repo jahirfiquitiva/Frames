@@ -118,7 +118,9 @@ open class CollectionActivity : FragmentsActivity() {
         collection?.let {
             if (!fragmentLoaded) {
                 fragmentLoaded = true
-                frag = WallpapersInCollectionFragment.create(it, it.wallpapers)
+                frag = WallpapersInCollectionFragment.create(
+                        it, it.wallpapers,
+                        intent?.getBooleanExtra("checker", false) ?: false)
                 frag?.let { changeFragment(it) }
             }
         }
