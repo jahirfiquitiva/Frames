@@ -52,6 +52,7 @@ before_cache:
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
 before_script:
+- rm -rf $TRAVIS_BUILD_DIR/app/build/outputs
 - chmod +x gradlew
 
 before_install:

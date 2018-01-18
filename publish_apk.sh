@@ -2,10 +2,10 @@ BRANCH="master"
 
 if [ "$TRAVIS_BRANCH" = "$BRANCH" ]; then
 	if [ "$TRAVIS_PULL_REQUEST" = false ]; then
-		if [ -z "$TRAVIS_TAG" ]; then
+		if [ "$TRAVIS_TAG" ]; then
 			cd $TRAVIS_BUILD_DIR/app/build/outputs/apk/release/
 
-			echo "Publishing APK to release"
+			echo "Publishing APK to tag: $TRAVIS_TAG"
 			for apk in $(find *.apk -type f); do
 			  apkName="${apk::-4}"
 			  printf "Found APK: $apkName\n"
