@@ -2,11 +2,11 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 	if [ "$TRAVIS_TAG" ]; then
 		cd $TRAVIS_BUILD_DIR/app/build/outputs/apk/release/
 		
-		echo "\nGetting tag information\n"
+		echo -e "\nGetting tag information\n"
 		tagInfo="$(curl https://api.github.com/repos/${TRAVIS_REPO_SLUG}/releases/tags/${TRAVIS_TAG})"
 		releaseId="$(echo "$tagInfo" | jq ".id")"
 
-		echo "\n\n"
+		echo -e "\n\n"
 		for apk in $(find *.apk -type f); do
 		  apkName="${apk::-4}"
 		  printf "Uploading: $apkName.apk ...\n"
