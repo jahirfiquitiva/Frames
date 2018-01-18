@@ -51,8 +51,8 @@ android {
         applicationId "jahirfiquitiva.apps.frames.sample"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
-        versionCode 215
-        versionName '2.1.5'
+        versionCode 216
+        versionName '2.1.6'
         vectorDrawables.useSupportLibrary = true
     }
 
