@@ -57,21 +57,5 @@ before_script:
 before_install:
 - yes | sdkmanager "platforms;android-27"
 
-before_deploy:
-  - git tag "travis-build"
-
-deploy:
-  provider: releases
-  api_key: $GITHUB_API_KEY
-  file_glob: true
-  file: $TRAVIS_BUILD_DIR/app/build/outputs/apk/release/*.apk
-  skip_cleanup: true
-  overwrite: true
-  prerelease: true
-  target_commitsh: $TRAVIS_COMMIT
-  on:
-    branch: master
-    repo: jahirfiquitiva/Frames
-    
-after_deploy:
-  - rm -rf $TRAVIS_BUILD_DIR/app/build/outputs
+after_success:
+- chmod +x ./publish_apk.sh; ./publish_apk.sh
