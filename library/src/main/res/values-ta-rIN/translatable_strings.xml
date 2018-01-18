@@ -16,6 +16,15 @@
   ~ limitations under the License.
   -->
 <resources>
+  <string name="empty_section">எதுவும் கிடைக்கவில்லை</string>
+  <string name="loading_section">தரவு ஏற்றுகிறது…</string>
+  <string name="no_favorites">முதலில் பிடித்த சில வால்பேரைச் சேர்க்கவும்</string>
+  <string name="wallpapers">புகைப்படம்</string>
+  <string name="collections">தொகுப்புக்கள்</string>
+  <string name="x_wallpapers">%1$s வால்பேப்பர்கள்</string>
+  <string name="all">அனைத்து</string>
+  <string name="favorites">பிடித்தவை</string>
+  <string name="added_to_favorites">\'%1$s\' பிடித்தவைக்கு சேர்க்கப்பட்டுள்ளது.</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <!-- Light Theme -->
