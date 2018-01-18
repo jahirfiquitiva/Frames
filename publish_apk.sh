@@ -16,5 +16,9 @@ if [ "$TRAVIS_BRANCH" = "$BRANCH" ]; then
 		else
 			echo "Skipping APK publish because this commit does not have a tag"
 		fi
+	else
+		echo "Skipping APK publish because this is just a pull request"
 	fi
+else
+	echo "Skipping APK publish because branch is not master"
 fi
