@@ -24,9 +24,6 @@ apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
-// Determines if the application was built on Continuous Integration Server.
-def isCi = System.getenv("CI") == "true"
-
 android {
     signingConfigs {
         release {
@@ -42,11 +39,7 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            if (isCi) {
-                outputFileName = "frames-v${variant.versionName}-${variant.name}-${gitLocalSha()}.apk"
-            } else {
-                outputFileName = details.appId + "-v${variant.versionName}-${variant.name}.apk"
-            }
+            outputFileName = details.appId + "-v${variant.versionName}-${variant.name}.apk"
         }
     }
 
@@ -107,15 +100,3 @@ tasks.whenTaskAdded { task ->
         task.enabled = false
     }
 }
-
-/**		
- * Get SHA of the current commit.		
- */		
-def gitLocalSha() {		
-	def p = 'git rev-parse --short HEAD'.execute([], project.rootDir)		
-	p.waitFor()		
-	if (p.exitValue() != 0) {		
-		return "000"		
-	}		
-	return p.text.trim()		
-} 
