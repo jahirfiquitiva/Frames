@@ -20,7 +20,7 @@ android:
 jdk:
 - oraclejdk8
 
-script: if [[ "$TRAVIS_BRANCH" == "master" ]]; then ./gradlew clean :app:assembleRelease --stacktrace; else ./gradlew clean test --stacktrace; fi
+script: if [[ "$TRAVIS_TAG" ]]; then ./gradlew clean :app:assembleRelease --stacktrace; else ./gradlew clean test --stacktrace; fi
 
 branches:
   except:
@@ -42,6 +42,7 @@ sudo: false
 
 cache:
   directories:
+  - "$HOME/.android/build-cache"
   - "$HOME/.m2"
   - "$HOME/.gradle"
   - "$HOME/.gradle/caches/"
