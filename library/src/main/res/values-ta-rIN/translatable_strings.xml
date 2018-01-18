@@ -24,7 +24,14 @@
   <string name="x_wallpapers">%1$s வால்பேப்பர்கள்</string>
   <string name="all">அனைத்து</string>
   <string name="favorites">பிடித்தவை</string>
-  <string name="added_to_favorites">\'%1$s\' பிடித்தவைக்கு சேர்க்கப்பட்டுள்ளது.</string>
+  <string name="favorite">பிடித்தவை</string>
+  <string name="added_to_favorites">\'%1$s\' விருப்பமானவற்றில் சேர்க்கப்பட்டுள்ளது.</string>
+  <string name="removed_from_favorites">\'%1$s\' விருப்பமானவற்றில் இருந்து அகற்றப்பட்டது.</string>
+  <string name="actions_dialog_content">இந்த வால்பேப்பருடன் நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?</string>
+  <string name="apply">உபயோகி</string>
+  <string name="download">பதிவிறக்கம்</string>
+  <string name="info">தகவல்</string>
+  <string name="share">பகிர்</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <!-- Light Theme -->
