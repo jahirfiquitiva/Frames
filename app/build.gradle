@@ -51,8 +51,8 @@ android {
         applicationId "jahirfiquitiva.apps.frames.sample"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
-        versionCode 216
-        versionName '2.1.6'
+        versionCode 217
+        versionName '2.1.7'
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -81,7 +81,7 @@ android {
 
 dependencies {
     // Frames
-    implementation('me.jahirfiquitiva:Frames:2.1.6@aar') {
+    implementation('me.jahirfiquitiva:Frames:2.1.7@aar') {
         transitive = true
     }
     // TODO: Remove comment marks to enable
