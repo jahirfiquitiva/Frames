@@ -79,7 +79,10 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
     }
     
     fun requestStoragePermission(explanation: String, whenAccepted: () -> Unit) {
-        request.detachAllListeners()
+        try {
+            request.detachAllListeners()
+        } catch (e: Exception) {
+        }
         request.listeners {
             onAccepted { whenAccepted() }
             onDenied { showSnackbar(R.string.permission_denied, Snackbar.LENGTH_LONG) }
