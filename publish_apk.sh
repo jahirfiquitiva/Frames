@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 	if [ "$TRAVIS_TAG" ]; then
 		cd $TRAVIS_BUILD_DIR/app/build/outputs/apk/release/
