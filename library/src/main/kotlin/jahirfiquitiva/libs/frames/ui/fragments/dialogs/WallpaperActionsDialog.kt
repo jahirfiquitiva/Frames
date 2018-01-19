@@ -35,14 +35,13 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.adjustToDeviceScreen
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
-import jahirfiquitiva.libs.frames.helpers.utils.DownloadThread
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseWallpaperActionsActivity
 import jahirfiquitiva.libs.kauextensions.extensions.actv
 import jahirfiquitiva.libs.kauextensions.extensions.ctxt
-import jahirfiquitiva.libs.kauextensions.extensions.getUri
-import jahirfiquitiva.libs.kauextensions.extensions.safeActv
 import jahirfiquitiva.libs.kauextensions.extensions.showToast
+import jahirfiquitiva.libs.kauextensions.extensions.withActv
+import jahirfiquitiva.libs.kauextensions.helpers.DownloadThread
 import java.io.File
 
 @Suppress("DEPRECATION")
@@ -76,56 +75,70 @@ class WallpaperActionsDialog : DialogFragment() {
     
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         wallpaper?.let {
-            when {
-                destFile != null -> {
-                    val request = DownloadManager.Request(Uri.parse(it.url))
-                            .setTitle(it.name)
-                            .setDescription(
-                                    ctxt.getString(R.string.downloading_wallpaper, it.name))
-                            .setDestinationUri(Uri.fromFile(destFile))
-                            .setAllowedOverRoaming(false)
-                    
-                    if (shouldApply) {
-                        request.setVisibleInDownloadsUi(false)
-                    } else {
-                        request.setNotificationVisibility(
-                                DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                        request.allowScanningByMediaScanner()
+            @Suppress("CascadeIf")
+            if (destFile != null) {
+                
+                destFile?.let {
+                    try {
+                        if (it.exists()) it.delete()
+                    } catch (e: Exception) {
                     }
-                    
-                    downloadId = downloadManager?.enqueue(request) ?: 0L
-                    
-                    thread = DownloadThread(
-                            this, object : DownloadThread.DownloadListener {
-                        override fun onFailure(exception: Exception) {
-                            doOnFailure(exception)
-                        }
-                        
-                        override fun onProgress(progress: Int) {
-                            dialog?.let {
-                                it.setCancelable(progress > 0)
-                                it.setCanceledOnTouchOutside(progress > 0)
-                                (it as? MaterialDialog)?.setProgress(progress)
-                            }
-                        }
-                        
-                        override fun onSuccess() {
-                            doOnSuccess()
-                        }
-                    })
-                    
-                    return actuallyBuildDialog()
                 }
-                destBitmap != null -> {
-                    destBitmap?.let {
-                        applyWallpaper(it)
+                
+                val fileUri: Uri? = Uri.fromFile(destFile)
+                fileUri ?: return actv.buildMaterialDialog()
+                
+                val request = DownloadManager.Request(Uri.parse(it.url))
+                        .setTitle(it.name)
+                        .setDescription(getString(R.string.downloading_wallpaper, it.name))
+                        .setDestinationUri(fileUri)
+                        .setAllowedOverRoaming(false)
+                
+                if (shouldApply) {
+                    request.setVisibleInDownloadsUi(false)
+                } else {
+                    request.setNotificationVisibility(
+                            DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                    request.allowScanningByMediaScanner()
+                }
+                
+                downloadId = downloadManager?.enqueue(request) ?: 0L
+                
+                ctxt { context ->
+                    downloadManager?.let {
+                        thread = DownloadThread(
+                                context, downloadId, it, destFile,
+                                object : DownloadThread.DownloadListener {
+                                    override fun onFailure(exception: Exception) {
+                                        doOnFailure(exception)
+                                    }
+                                    
+                                    override fun onProgress(progress: Int) {
+                                        dialog?.let {
+                                            it.setCancelable(progress > 0)
+                                            it.setCanceledOnTouchOutside(progress > 0)
+                                            (it as? MaterialDialog)?.setProgress(progress)
+                                        }
+                                    }
+                                    
+                                    override fun onSuccess(file: File?) {
+                                        doOnSuccess()
+                                    }
+                                })
                     }
-                    return buildApplyDialog()
                 }
-                else -> return actv.buildMaterialDialog {}
+                
+                return actuallyBuildDialog()
+            } else if (destBitmap != null) {
+                destBitmap?.let {
+                    applyWallpaper(it)
+                }
+                return buildApplyDialog()
+            } else {
+                return actv.buildMaterialDialog()
             }
         }
-        return actv.buildMaterialDialog { }
+        return actv.buildMaterialDialog()
     }
     
     private fun actuallyBuildDialog(): MaterialDialog {
@@ -141,7 +154,7 @@ class WallpaperActionsDialog : DialogFragment() {
             canceledOnTouchOutside(false)
             onPositive { _, _ ->
                 stopActions()
-                safeActv { dismiss(it) }
+                actv { dismiss(it) }
             }
         }
         thread?.start()
@@ -170,7 +183,7 @@ class WallpaperActionsDialog : DialogFragment() {
                 showDownloadResult(it)
             }
         }
-        safeActv { dismiss(it) }
+        actv { dismiss(it) }
     }
     
     private fun doOnFailure(e: Exception) {
@@ -179,24 +192,26 @@ class WallpaperActionsDialog : DialogFragment() {
         try {
             if (isVisible || isActive) {
                 try {
-                    actv.materialDialog {
-                        title(R.string.error_title)
-                        content(R.string.action_error_content)
-                        positiveText(android.R.string.ok)
-                        onPositive { dialog, _ ->
-                            dialog.dismiss()
-                            safeActv { dismiss(it) }
+                    withActv {
+                        materialDialog {
+                            title(R.string.error_title)
+                            content(R.string.action_error_content)
+                            positiveText(android.R.string.ok)
+                            onPositive { dialog, _ ->
+                                dialog.dismiss()
+                                actv { dismiss(it) }
+                            }
                         }
                     }
                 } catch (e: Exception) {
                     FL.e { e.message }
                     (actv as? BaseWallpaperActionsActivity)?.properlyCancelDialog()
-                    actv.showToast(R.string.action_error_content)
+                    withActv { showToast(R.string.action_error_content) }
                 }
             } else {
                 if (actv is BaseWallpaperActionsActivity)
                     (actv as BaseWallpaperActionsActivity).properlyCancelDialog()
-                actv.showToast(R.string.action_error_content)
+                withActv { showToast(R.string.action_error_content) }
             }
         } catch (e: Exception) {
             FL.e { e.message }
@@ -205,8 +220,10 @@ class WallpaperActionsDialog : DialogFragment() {
     
     fun stopActions() {
         try {
+            /* TODO: Test safety
             thread?.cancel()
             downloadManager?.remove(downloadId)
+            */
         } catch (e: Exception) {
             FL.e { e.message }
         }
@@ -214,21 +231,19 @@ class WallpaperActionsDialog : DialogFragment() {
     
     private fun showDownloadResult(dest: File) {
         try {
-            safeActv {
-                (it as?  BaseWallpaperActionsActivity)?.reportWallpaperDownloaded(dest) ?: {
-                    it.snackbar(getString(R.string.download_successful, dest.toString())) {
+            actv { activity ->
+                (activity as? BaseWallpaperActionsActivity)?.reportWallpaperDownloaded(dest) ?: {
+                    activity.snackbar(getString(R.string.download_successful, dest.toString())) {
                         setAction(
                                 R.string.open, {
-                            destFile?.getUri(actv)?.let {
-                                actv.openWallpaper(it)
-                            }
+                            activity.openWallpaper(Uri.fromFile(dest))
                         })
                     }
                 }()
             }
         } catch (e: Exception) {
             FL.e { e.message }
-            actv.showToast(R.string.download_successful_short)
+            withActv { showToast(R.string.download_successful_short) }
         }
     }
     
@@ -280,9 +295,9 @@ class WallpaperActionsDialog : DialogFragment() {
     }
     
     private fun showAppliedResult() {
-        safeActv { dismiss(it) }
+        actv { dismiss(it) }
         try {
-            safeActv {
+            actv {
                 (it as? BaseWallpaperActionsActivity)?.showWallpaperAppliedSnackbar(
                         toHomeScreen, toLockScreen, toBoth) ?: it.snackbar(
                         getString(
@@ -297,7 +312,7 @@ class WallpaperActionsDialog : DialogFragment() {
             }
         } catch (e: Exception) {
             FL.e { e.message }
-            safeActv { it.showToast(R.string.apply_successful_short) }
+            actv { it.showToast(R.string.apply_successful_short) }
         }
     }
     

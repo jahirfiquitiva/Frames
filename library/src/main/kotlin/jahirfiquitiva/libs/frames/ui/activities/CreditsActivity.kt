@@ -134,7 +134,8 @@ open class CreditsActivity : ThemedActivity() {
     
     private fun registerCCLicense() {
         val ccLicense = object : License() {
-            override fun getName(): String = "CreativeCommons Attribution-ShareAlike 4.0 International License"
+            override fun getName(): String =
+                    "CreativeCommons Attribution-ShareAlike 4.0 International License"
             
             override fun readSummaryTextFromResources(
                     context: Context
@@ -153,7 +154,8 @@ open class CreditsActivity : ThemedActivity() {
             
             override fun getVersion(): String = "4.0"
             
-            override fun getUrl(): String = "http://creativecommons.org/licenses/by-sa/4.0/legalcode"
+            override fun getUrl(): String =
+                    "http://creativecommons.org/licenses/by-sa/4.0/legalcode"
         }
         
         val eclLicense = object : License() {
@@ -233,16 +235,21 @@ open class CreditsActivity : ThemedActivity() {
     }
     
     private companion object {
-        const val JAHIR_PHOTO_URL = "https://github.com/jahirfiquitiva/Website-Resources/raw/master/myself/me-square-white.png"
+        const val JAHIR_PHOTO_URL =
+                "https://github.com/jahirfiquitiva/Website-Resources/raw/master/myself/me-square-white.png"
         const val JAHIR_BUTTONS = "Website|Google+|Play Store"
-        const val JAHIR_LINKS = "https://www.jahirfiquitiva.me/|https://www.google.com/+JahirFiquitivaR|https://play.google.com/store/apps/dev?id=7438639276314720952"
+        const val JAHIR_LINKS =
+                "https://www.jahirfiquitiva.me/|https://www.google.com/+JahirFiquitivaR|https://play.google.com/store/apps/dev?id=7438639276314720952"
         
         const val ALLAN_PHOTO_URL = "https://avatars0.githubusercontent.com/u/6251823?v=4&s=400"
         const val ALLAN_BUTTONS = "GitHub|Google+|Play Store"
-        const val ALLAN_LINKS = "https://github.com/AllanWang|https://plus.google.com/+AllanWPitchedApps|https://play.google.com/store/apps/dev?id=9057916668129524571"
+        const val ALLAN_LINKS =
+                "https://github.com/AllanWang|https://plus.google.com/+AllanWPitchedApps|https://play.google.com/store/apps/dev?id=9057916668129524571"
         
-        const val SHERRY_PHOTO_URL = "https://pbs.twimg.com/profile_images/853258651326459904/yogDkP9p.jpg"
+        const val SHERRY_PHOTO_URL =
+                "https://pbs.twimg.com/profile_images/853258651326459904/yogDkP9p.jpg"
         const val SHERRY_BUTTONS = "Website|Google+"
-        const val SHERRY_LINKS = "http://photography-by-sherry.com/home|https://plus.google.com/+SherrySabatine"
+        const val SHERRY_LINKS =
+                "http://photography-by-sherry.com/home|https://plus.google.com/+SherrySabatine"
     }
 }

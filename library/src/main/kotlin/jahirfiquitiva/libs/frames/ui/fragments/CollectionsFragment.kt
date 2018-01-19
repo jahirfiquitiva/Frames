@@ -39,12 +39,12 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListene
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
+import jahirfiquitiva.libs.kauextensions.extensions.actv
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
-import jahirfiquitiva.libs.kauextensions.extensions.safeActv
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 
 class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
@@ -93,7 +93,7 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
                 itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
                 setHasFixedSize(true)
                 
-                safeActv {
+                actv {
                     val preloader: RecyclerViewPreloader<Wallpaper> =
                             RecyclerViewPreloader(it, collsAdapter, provider, context.maxPreload)
                     addOnScrollListener(preloader)

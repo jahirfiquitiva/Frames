@@ -25,8 +25,8 @@ ext.versions = [
         minSdk                : 16,
         targetSdk             : 27,
         buildTools            : '27.0.3',
-        versionCode           : 216,
-        versionName           : '2.1.6',
+        versionCode           : 217,
+        versionName           : '2.1.7',
         // Gradle Plugins
         gradle                : '3.0.1',
         kotlin                : '1.2.10',
@@ -34,10 +34,11 @@ ext.versions = [
         // Dependencies
         supportLibs           : '27.0.2',
         archComponents        : '1.0.0',
+        permissions           : '1.0.0',
         materialDialogs       : '0.9.6.0',
         glide                 : '4.5.0',
         okhttp                : '3.9.1',
-        kauExt                : '135e3de',
+        kauExt                : '1bf08e4',
         sectionedRecyclerView : '0.5.0',
         recyclerViewFastScroll: '6a72f8c',
         chips                 : 'a472057',
@@ -45,7 +46,7 @@ ext.versions = [
         iaps                  : '1.0.44',
         muzeiApi              : '2.0',
         licensesDialog        : '1.8.3',
-        checker               : 'd1c95f7',
+        checker               : '1.2',
         oneSignal             : '3.7.1',
         oneSignalPlugin       : '0.8.1'
 ]
@@ -64,6 +65,8 @@ ext.libraries = [
         room                 : 'android.arch.persistence.room:runtime:' + versions.archComponents,
         lifecycleCompiler    : 'android.arch.lifecycle:compiler:' + versions.archComponents,
         roomCompiler         : 'android.arch.persistence.room:compiler:' + versions.archComponents,
+        // Permissions
+        permissions          : 'com.github.fondesa:kpermissions:' + versions.permissions,
         // Material Dialogs
         dialogsCore          : 'com.afollestad.material-dialogs:core:' + versions.materialDialogs,
         dialogsCommons       : 'com.afollestad.material-dialogs:commons:' + versions.materialDialogs,
@@ -91,7 +94,7 @@ ext.libraries = [
         // Licenses Dialog
         licenses             : 'de.psdev.licensesdialog:licensesdialog:' + versions.licensesDialog,
         // License Checker
-        checker              : 'com.github.jahirfiquitiva:PiracyChecker:' + versions.checker,
+        checker              : 'com.github.javiersantos:PiracyChecker:' + versions.checker,
         // OneSignal
         oneSignal            : 'com.onesignal:OneSignal:' + versions.oneSignal
 ]

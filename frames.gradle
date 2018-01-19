@@ -21,6 +21,10 @@ dependencies {
     annotationProcessor libraries.roomCompiler
     kapt libraries.lifecycleCompiler
     kapt libraries.roomCompiler
+    // Permissions
+    api(libraries.permissions) {
+        exclude group: 'com.android.support'
+    }
     // Material Dialogs
     api libraries.dialogsCore
     api libraries.dialogsCommons
@@ -32,8 +36,8 @@ dependencies {
     // KAU Extensions
     // api libraries.kauExt
     api(libraries.archHelpers) {
-		transitive = true
-	}
+        transitive = true
+    }
     api libraries.ziv
     // Sectioned RecyclerView
     api libraries.sectionedRecyclerView

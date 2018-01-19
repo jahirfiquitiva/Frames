@@ -18,13 +18,15 @@ package jahirfiquitiva.libs.frames.ui.activities.base
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import ca.allanwang.kau.utils.isNetworkAvailable
 import com.afollestad.materialdialogs.MaterialDialog
+import com.fondesa.kpermissions.extension.listeners
+import com.fondesa.kpermissions.extension.permissionsBuilder
+import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
@@ -36,9 +38,7 @@ import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsDialog
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getUri
-import jahirfiquitiva.libs.kauextensions.extensions.requestSinglePermission
 import jahirfiquitiva.libs.kauextensions.ui.activities.FragmentsActivity
-import jahirfiquitiva.libs.kauextensions.ui.callbacks.PermissionRequestListener
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -59,46 +59,16 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
     override fun autoTintStatusBar(): Boolean = true
     override fun autoTintNavigationBar(): Boolean = true
     
-    private var queuedAction: () -> Unit = {}
+    private val request by lazy {
+        permissionsBuilder(Manifest.permission.WRITE_EXTERNAL_STORAGE).build()
+    }
     
-    override fun onRequestPermissionsResult(
-            requestCode: Int, permissions: Array<out String>,
-            grantResults: IntArray
-                                           ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            if (requestCode == 41 || requestCode == 42) {
-                checkIfFileExists(requestCode == 41)
-            } else {
-                executeQueuedAction()
-            }
-        } else {
-            showSnackbar(R.string.permission_denied, Snackbar.LENGTH_LONG)
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            request.detachAllListeners()
+        } catch (e: Exception) {
         }
-    }
-    
-    fun executeStorageAction(code: Int = 43, explanation: String, onGranted: () -> Unit) {
-        queuedAction = onGranted
-        requestSinglePermission(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                code,
-                object : PermissionRequestListener {
-                    override fun onShowPermissionInformation(permission: String) =
-                            showPermissionInformation(code, explanation, false, onGranted)
-                    
-                    override fun onPermissionDenied(permission: String) {
-                        showSnackbar(
-                                R.string.permission_denied_completely,
-                                Snackbar.LENGTH_LONG)
-                    }
-                    
-                    override fun onPermissionGranted(permission: String) = executeQueuedAction()
-                })
-    }
-    
-    private fun executeQueuedAction() {
-        queuedAction()
-        queuedAction = {}
     }
     
     open fun doItemClick(actionId: Int) {
@@ -108,27 +78,25 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
         }
     }
     
+    fun requestStoragePermission(explanation: String, whenAccepted: () -> Unit) {
+        request.detachAllListeners()
+        request.listeners {
+            onAccepted { whenAccepted() }
+            onDenied { showSnackbar(R.string.permission_denied, Snackbar.LENGTH_LONG) }
+            onPermanentlyDenied {
+                showSnackbar(R.string.permission_denied_completely, Snackbar.LENGTH_LONG)
+            }
+            onShouldShowRationale { _, nonce -> showPermissionInformation(explanation, nonce) }
+        }
+        request.send()
+    }
+    
     @SuppressLint("NewApi")
     private fun downloadWallpaper(toApply: Boolean) {
         if (isNetworkAvailable) {
-            requestSinglePermission(
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    if (toApply) 41 else 42,
-                    object : PermissionRequestListener {
-                        override fun onShowPermissionInformation(permission: String) =
-                                showPermissionInformation(
-                                        if (toApply) 41 else 42,
-                                        getString(R.string.permission_request, getAppName()),
-                                        toApply)
-                        
-                        override fun onPermissionDenied(permission: String) =
-                                showSnackbar(
-                                        R.string.permission_denied_completely,
-                                        Snackbar.LENGTH_LONG)
-                        
-                        override fun onPermissionGranted(permission: String) =
-                                checkIfFileExists(toApply)
-                    })
+            requestStoragePermission(getString(R.string.permission_request, getAppName())) {
+                checkIfFileExists(toApply)
+            }
         } else {
             if (toApply && allowBitmapApply) showWallpaperApplyOptions(null)
             else showNotConnectedDialog()
@@ -136,21 +104,14 @@ abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
     }
     
     private fun showPermissionInformation(
-            code: Int,
             explanation: String,
-            toApply: Boolean,
-            onGranted: () -> Unit = {}
+            nonce: PermissionNonce
                                          ) {
         showSnackbar(explanation, Snackbar.LENGTH_LONG) {
-            setAction(
-                    R.string.allow, {
+            setAction(R.string.allow) {
                 dismiss()
-                if (code == 43) {
-                    executeStorageAction(code, explanation, onGranted)
-                } else {
-                    downloadWallpaper(toApply)
-                }
-            })
+                nonce.use()
+            }
         }
     }
     

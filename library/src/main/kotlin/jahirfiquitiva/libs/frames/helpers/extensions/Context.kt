@@ -48,6 +48,7 @@ val Context.runsMinSDK
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
 
 fun Context.openWallpaper(uri: Uri) {
+    sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri))
     val intent = Intent()
     intent.action = Intent.ACTION_VIEW
     intent.setDataAndType(uri, "image/*")
@@ -61,7 +62,7 @@ fun Context.createHeartIcon(checked: Boolean): Drawable? =
 val Context.framesKonfigs: FramesKonfigs
     get() = FramesKonfigs.newInstance(PREFERENCES_NAME, this)
 
-inline fun Context.buildMaterialDialog(action: MaterialDialog.Builder.() -> Unit): MaterialDialog {
+inline fun Context.buildMaterialDialog(action: MaterialDialog.Builder.() -> Unit = {}): MaterialDialog {
     val builder = MaterialDialog.Builder(this)
     builder.action()
     return builder.build()

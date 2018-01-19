@@ -54,7 +54,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
-import jahirfiquitiva.libs.kauextensions.extensions.safeActv
 import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
 import java.io.FileOutputStream
 
@@ -119,7 +118,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
                 setHasFixedSize(true)
                 
-                safeActv {
+                actv {
                     val preloader: RecyclerViewPreloader<Wallpaper> =
                             RecyclerViewPreloader(it, wallsAdapter, provider, context.maxPreload)
                     addOnScrollListener(preloader)

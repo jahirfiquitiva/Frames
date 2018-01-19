@@ -27,6 +27,9 @@ import android.support.design.widget.Snackbar
 import ca.allanwang.kau.utils.buildIsLollipopAndUp
 import ca.allanwang.kau.utils.snackbar
 import com.afollestad.materialdialogs.MaterialDialog
+import com.fondesa.kpermissions.extension.listeners
+import com.fondesa.kpermissions.extension.permissionsBuilder
+import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce
 import com.github.stephenvinouze.materialnumberpickercore.MaterialNumberPicker
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
@@ -42,10 +45,9 @@ import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.konfigs
-import jahirfiquitiva.libs.kauextensions.extensions.requestSinglePermission
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
+import jahirfiquitiva.libs.kauextensions.extensions.withActv
 import jahirfiquitiva.libs.kauextensions.ui.activities.ThemedActivity
-import jahirfiquitiva.libs.kauextensions.ui.callbacks.PermissionRequestListener
 import org.jetbrains.anko.doAsync
 
 @Suppress("DEPRECATION")
@@ -55,6 +57,23 @@ open class SettingsFragment : PreferenceFragment() {
     internal var downloadLocation: Preference? = null
     
     var dialog: MaterialDialog? = null
+    
+    private val request by lazy {
+        permissionsBuilder(Manifest.permission.WRITE_EXTERNAL_STORAGE).build()
+    }
+    
+    fun requestStoragePermission(explanation: String, whenAccepted: () -> Unit) {
+        request.detachAllListeners()
+        request.listeners {
+            onAccepted { whenAccepted() }
+            onDenied { withActv { snackbar(R.string.permission_denied, Snackbar.LENGTH_LONG) } }
+            onPermanentlyDenied {
+                withActv { snackbar(R.string.permission_denied_completely, Snackbar.LENGTH_LONG) }
+            }
+            onShouldShowRationale { _, nonce -> showPermissionInformation(explanation, nonce) }
+        }
+        request.send()
+    }
     
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -136,7 +155,8 @@ open class SettingsFragment : PreferenceFragment() {
                     onPositive { dialog, _ ->
                         try {
                             val newColumns = numberPicker.value
-                            if (currentColumns != newColumns) ctxt.framesKonfigs.columns = newColumns
+                            if (currentColumns != newColumns) ctxt.framesKonfigs.columns =
+                                    newColumns
                         } catch (ignored: Exception) {
                         }
                         dialog.dismiss()
@@ -238,38 +258,28 @@ open class SettingsFragment : PreferenceFragment() {
         }
     }
     
-    fun requestPermission() = actv.requestSinglePermission(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            42,
-            object : PermissionRequestListener {
-                override fun onShowPermissionInformation(permission: String) =
-                        doShowPermissionInformation()
-                
-                override fun onPermissionDenied(permission: String) {
-                    actv.snackbar(R.string.permission_denied_completely)
-                }
-                
-                override fun onPermissionGranted(permission: String) {
-                    (activity as? SettingsActivity)?.showLocationChooserDialog()
-                }
-            })
+    fun requestPermission() {
+        requestStoragePermission(getString(R.string.permission_request, actv.getAppName())) {
+            (activity as? SettingsActivity)?.showLocationChooserDialog()
+        }
+    }
     
-    private fun doShowPermissionInformation() {
-        actv.snackbar(
-                getString(R.string.permission_request, actv.getAppName()),
-                builder = {
-                    setAction(R.string.allow, { dismiss() })
-                    addCallback(
-                            object : Snackbar.Callback() {
-                                override fun onDismissed(
-                                        transientBottomBar: Snackbar?,
-                                        event: Int
-                                                        ) {
-                                    super.onDismissed(transientBottomBar, event)
-                                    requestPermission()
-                                }
-                            })
+    private fun showPermissionInformation(explanation: String, nonce: PermissionNonce) {
+        withActv {
+            snackbar(explanation) {
+                setAction(R.string.allow, {
+                    dismiss()
+                    nonce.use()
                 })
+                addCallback(
+                        object : Snackbar.Callback() {
+                            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                super.onDismissed(transientBottomBar, event)
+                                requestPermission()
+                            }
+                        })
+            }
+        }
     }
     
     fun updateDownloadLocation() {
@@ -286,5 +296,6 @@ open class SettingsFragment : PreferenceFragment() {
     override fun onDestroy() {
         super.onDestroy()
         clearDialog()
+        request.detachAllListeners()
     }
 }
