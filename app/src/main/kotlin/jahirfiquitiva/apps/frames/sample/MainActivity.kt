@@ -15,7 +15,6 @@
  */
 package jahirfiquitiva.apps.frames.sample
 
-import android.os.Bundle
 import com.github.javiersantos.piracychecker.PiracyChecker
 import jahirfiquitiva.libs.frames.ui.activities.FramesActivity
 

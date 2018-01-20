@@ -16,7 +16,7 @@
 // TODO: Remove comment marks to enable
 /*
 plugins {
-    id 'com.onesignal.androidsdk.onesignal-gradle-plugin' version versions.oneSignalPlugin
+    id 'com.onesignal.androidsdk.onesignal-gradle-plugin' version '0.8.1'
 }
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 */
@@ -51,8 +51,8 @@ android {
         applicationId "jahirfiquitiva.apps.frames.sample"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
-        versionCode 217
-        versionName '2.1.7'
+        versionCode 218
+        versionName '2.1.8'
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -81,7 +81,7 @@ android {
 
 dependencies {
     // Frames
-    implementation('me.jahirfiquitiva:Frames:2.1.7@aar') {
+    implementation('me.jahirfiquitiva:Frames:2.1.8@aar') {
         transitive = true
     }
     // TODO: Remove comment marks to enable
