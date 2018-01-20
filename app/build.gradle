@@ -16,7 +16,7 @@
 // TODO: Remove comment marks to enable
 /*
 plugins {
-    id 'com.onesignal.androidsdk.onesignal-gradle-plugin' version versions.oneSignalPlugin
+    id 'com.onesignal.androidsdk.onesignal-gradle-plugin' version '0.8.1'
 }
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 */

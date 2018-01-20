@@ -23,6 +23,12 @@
     -->
     <bool name="use_old_json_format">false</bool>
 
+    <!-- Do you want notifications to be enabled for all your users?
+    -       True means yes
+    -       False means no
+    -->
+    <bool name="notifications_enabled_by_default">true</bool>
+
     <!--    Show collections tab?
     -       If you have collections in your JSON, set this to true
     -       Otherwise, set it to false (is the price you pay for not doing so :P )

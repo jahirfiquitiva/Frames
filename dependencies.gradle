@@ -47,8 +47,7 @@ ext.versions = [
         muzeiApi              : '2.0',
         licensesDialog        : '1.8.3',
         checker               : '1.2',
-        oneSignal             : '3.7.1',
-        oneSignalPlugin       : '0.8.1'
+        oneSignal             : '3.7.1'
 ]
 
 ext.gradlePlugins = [

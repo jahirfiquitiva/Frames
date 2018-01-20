@@ -43,7 +43,7 @@ class MainActivity : FramesActivity() {
      */
     override fun getLicenseChecker(): PiracyChecker? {
         destroyChecker() // Important
-		return null // Just for CI purposes
+        return null // Just for CI purposes
         // return if (BuildConfig.DEBUG) null
         // else super.getLicenseChecker()
     }

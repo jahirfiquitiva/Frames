@@ -18,6 +18,7 @@ package jahirfiquitiva.libs.frames.helpers.utils
 import android.content.Context
 import android.os.Environment
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.helpers.Konfigurations
 
@@ -55,7 +56,8 @@ open class FramesKonfigs(nm: String, private val cntxt: Context) : Konfiguration
         set(value) = prefsEditor.putBoolean(FUNCTIONAL_DASHBOARD, value).apply()
     
     var notificationsEnabled: Boolean
-        get() = prefs.getBoolean(NOTIFICATIONS_ENABLED, false)
+        get() = prefs.getBoolean(
+                NOTIFICATIONS_ENABLED, cntxt.getBoolean(R.bool.notifications_enabled_by_default))
         set(value) = prefsEditor.putBoolean(NOTIFICATIONS_ENABLED, value).apply()
     
     var refreshMuzeiOnWiFiOnly: Boolean
