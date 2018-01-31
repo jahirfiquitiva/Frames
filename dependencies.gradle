@@ -20,7 +20,7 @@ ext.versions = [
         buildTools     : '27.0.3',
         // Gradle Plugins
         gradle         : '3.0.1',
-        kotlin         : '1.2.20',
+        kotlin         : '1.2.21',
         oneSignal      : '3.7.1'
 ]
 
