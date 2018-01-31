@@ -86,14 +86,14 @@ complexity:
     threshold: 20
   LongParameterList:
     active: true
-    threshold: 5
+    threshold: 7
     ignoreDefaultParameters: false
   MethodOverloading:
     active: false
     threshold: 5
   NestedBlockDepth:
     active: true
-    threshold: 5
+    threshold: 6
   StringLiteralDuplication:
     active: false
     threshold: 2

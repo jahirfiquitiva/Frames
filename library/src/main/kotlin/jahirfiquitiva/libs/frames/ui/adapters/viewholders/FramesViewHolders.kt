@@ -138,7 +138,7 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                 whenFaded(
                         { itemView.clearChildrenAnimations() }, {
                     if (itemView.context.framesKonfigs.animationsEnabled) {
-                        img.animateColorTransition({ wallpaper?.hasFaded = true })
+                        img.animateColorTransition { wallpaper?.hasFaded = true }
                     } else {
                         itemView.clearChildrenAnimations()
                     }
@@ -152,8 +152,11 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                     }
                     detailsBg.background = null
                     
-                    val opacity = if (itemView.context.getBoolean(
-                                    R.bool.enable_filled_collection_preview)) COLLECTION_DETAILS_OPACITY else DETAILS_OPACITY
+                    val opacity =
+                            if (itemView.context.getBoolean(
+                                            R.bool.enable_filled_collection_preview))
+                                COLLECTION_DETAILS_OPACITY
+                            else DETAILS_OPACITY
                     
                     detailsBg.setBackgroundColor(color.withAlpha(opacity))
                     title.setTextColor(itemView.context.getPrimaryTextColorFor(color))

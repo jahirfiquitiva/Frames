@@ -183,7 +183,7 @@ abstract class FramesActivity : BaseFramesActivity() {
             donationItem?.isVisible = donationsEnabled
             
             val searchItem = it.findItem(R.id.search)
-            searchView = searchItem.actionView as CustomSearchView?
+            searchView = searchItem.actionView as? CustomSearchView
             searchView?.onExpand = {
                 it.hideAllItems()
                 toolbar.enableScroll(false)

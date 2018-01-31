@@ -176,8 +176,10 @@ abstract class PreferenceFragment : Fragment() {
                 if (mInitDone) {
                     postBindPreferences()
                 } else {
+                    // Do Nothing
                 }
             } else {
+                // Do Nothing
             }
         } catch (ignored: Exception) {
         }
