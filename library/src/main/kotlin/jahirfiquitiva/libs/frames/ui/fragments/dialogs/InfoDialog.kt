@@ -27,7 +27,6 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.ProgressBar
-import android.widget.Toast
 import ca.allanwang.kau.utils.dpToPx
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.setPadding
@@ -41,6 +40,7 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
 import jahirfiquitiva.libs.kauextensions.extensions.actv
 import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
+import jahirfiquitiva.libs.kauextensions.extensions.showToast
 
 @Suppress("DEPRECATION")
 class InfoDialog : DialogFragment() {
@@ -75,10 +75,10 @@ class InfoDialog : DialogFragment() {
         
         if (adapter == null) adapter = WallpaperInfoAdapter {
             if (it != 0) {
-                val clipboard = ctxt.getSystemService(
-                        Context.CLIPBOARD_SERVICE) as? ClipboardManager
+                val clipboard =
+                        context?.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
                 clipboard?.primaryClip = ClipData.newPlainText("label", it.toHexString())
-                Toast.makeText(context, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
+                ctxt { it.showToast(R.string.copied_to_clipboard) }
             }
         }
         adapter?.setLayoutManager(layoutManager)

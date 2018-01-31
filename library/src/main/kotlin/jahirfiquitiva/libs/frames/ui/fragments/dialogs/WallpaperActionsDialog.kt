@@ -209,8 +209,7 @@ class WallpaperActionsDialog : DialogFragment() {
                     withActv { showToast(R.string.action_error_content) }
                 }
             } else {
-                if (actv is BaseWallpaperActionsActivity)
-                    (actv as BaseWallpaperActionsActivity).properlyCancelDialog()
+                (actv as? BaseWallpaperActionsActivity)?.properlyCancelDialog()
                 withActv { showToast(R.string.action_error_content) }
             }
         } catch (e: Exception) {
@@ -250,9 +249,7 @@ class WallpaperActionsDialog : DialogFragment() {
     private fun applyWallpaper(resource: Bitmap) {
         if (toOtherApp) {
             destFile?.let {
-                if (actv is BaseWallpaperActionsActivity) {
-                    (actv as BaseWallpaperActionsActivity).applyWallpaperWithOtherApp(it)
-                }
+                (actv as? BaseWallpaperActionsActivity)?.applyWallpaperWithOtherApp(it)
             }
         } else {
             try {

@@ -16,11 +16,13 @@
 package jahirfiquitiva.libs.frames.ui.fragments.base
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.providers.viewmodels.CollectionsViewModel
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
+import jahirfiquitiva.libs.kauextensions.extensions.SafeAccess
 import jahirfiquitiva.libs.kauextensions.extensions.actv
 import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 
@@ -53,7 +55,7 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
     
     override fun loadDataFromViewModel() {
         super.loadDataFromViewModel()
-        if (!fromCollectionActivity()) wallpapersModel?.loadData(ctxt)
+        ctxt { if (!fromCollectionActivity()) wallpapersModel?.loadData(it) }
     }
     
     override fun unregisterObserver() {
@@ -66,14 +68,24 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
     
     override fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
-        if (!fromCollectionActivity) collectionsModel?.loadWithContext(ctxt, data)
+        ctxt { if (!fromCollectionActivity) collectionsModel?.loadWithContext(it, data) }
     }
     
     abstract fun enableRefresh(enable: Boolean)
     
     open fun reloadData(section: Int) {
         when (section) {
-            0, 1 -> wallpapersModel?.loadData(ctxt, true) ?: showErrorSnackbar()
+            0, 1 -> ctxt(object : SafeAccess<Context> {
+                override fun ifNotNull(obj: Context) {
+                    super.ifNotNull(obj)
+                    wallpapersModel?.loadData(obj, true)
+                }
+                
+                override fun ifNull() {
+                    super.ifNull()
+                    showErrorSnackbar()
+                }
+            })
             2 -> getDatabase()?.let { favoritesModel?.loadData(it, true) } ?: showErrorSnackbar()
         }
     }

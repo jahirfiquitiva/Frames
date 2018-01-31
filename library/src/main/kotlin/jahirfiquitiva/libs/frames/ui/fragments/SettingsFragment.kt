@@ -111,8 +111,10 @@ open class SettingsFragment : PreferenceFragment() {
                 items(R.array.themes_options)
                 itemsCallbackSingleChoice(currentTheme) { _, _, which, _ ->
                     if (which != currentTheme) {
-                        actv.konfigs.currentTheme = which
-                        (actv as? ThemedActivity)?.onThemeChanged()
+                        actv {
+                            it.konfigs.currentTheme = which
+                            (it as? ThemedActivity)?.onThemeChanged()
+                        }
                     }
                     true
                 }

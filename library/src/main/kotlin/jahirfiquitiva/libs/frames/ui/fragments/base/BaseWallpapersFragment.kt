@@ -159,16 +159,18 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     }
     
     fun configureRVColumns() {
-        if (ctxt.framesKonfigs.columns != spanCount) {
-            recyclerView?.removeItemDecoration(spacingDecoration)
-            val columns = ctxt.framesKonfigs.columns
-            spanCount = if (ctxt.isInHorizontalMode) ((columns * 1.5).toInt()) else columns
-            recyclerView?.layoutManager = GridLayoutManager(
-                    context, spanCount,
-                    GridLayoutManager.VERTICAL, false)
-            spacingDecoration = GridSpacingItemDecoration(
-                    spanCount, ctxt.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
-            recyclerView?.addItemDecoration(spacingDecoration)
+        ctxt {
+            if (it.framesKonfigs.columns != spanCount) {
+                recyclerView?.removeItemDecoration(spacingDecoration)
+                val columns = ctxt.framesKonfigs.columns
+                spanCount = if (ctxt.isInHorizontalMode) ((columns * 1.5).toInt()) else columns
+                recyclerView?.layoutManager = GridLayoutManager(
+                        context, spanCount,
+                        GridLayoutManager.VERTICAL, false)
+                spacingDecoration = GridSpacingItemDecoration(
+                        spanCount, ctxt.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
+                recyclerView?.addItemDecoration(spacingDecoration)
+            }
         }
     }
     
@@ -229,16 +231,20 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         scrollToTop()
     }
     
-    private fun filteredWallpaper(it: Wallpaper, filter: String): Boolean {
-        return if (ctxt.framesKonfigs.deepSearchEnabled) {
-            it.name.contains(filter, true) || it.author.contains(filter, true) ||
-                    (!fromCollectionActivity() &&
-                            it.collections.formatCorrectly().replace("_", " ").contains(
-                                    filter,
-                                    true))
-        } else {
-            it.name.contains(filter, true)
+    private fun filteredWallpaper(wallpaper: Wallpaper, filter: String): Boolean {
+        var toReturn = false
+        ctxt {
+            toReturn = if (it.framesKonfigs.deepSearchEnabled) {
+                wallpaper.name.contains(filter, true) ||
+                        wallpaper.author.contains(filter, true) ||
+                        (!fromCollectionActivity() &&
+                                wallpaper.collections.formatCorrectly().replace("_", " ")
+                                        .contains(filter, true))
+            } else {
+                wallpaper.name.contains(filter, true)
+            }
         }
+        return toReturn
     }
     
     private var canClick = true
@@ -266,10 +272,9 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             var fos: FileOutputStream? = null
             try {
                 val filename = "thumb.png"
-                fos = actv.openFileOutput(filename, Context.MODE_PRIVATE)
+                fos = activity?.openFileOutput(filename, Context.MODE_PRIVATE)
                 holder.img.drawable.toBitmap().compress(
-                        Bitmap.CompressFormat.JPEG,
-                        ctxt.maxPictureRes, fos)
+                        Bitmap.CompressFormat.JPEG, ctxt.maxPictureRes, fos)
                 intent.putExtra("image", filename)
             } catch (ignored: Exception) {
             } finally {

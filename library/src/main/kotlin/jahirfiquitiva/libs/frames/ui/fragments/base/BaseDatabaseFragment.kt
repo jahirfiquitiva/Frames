@@ -45,6 +45,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.buildSnackbar
 import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.runOnUiThread
+import jahirfiquitiva.libs.kauextensions.extensions.withCtxt
 
 @Suppress("NAME_SHADOWING", "DEPRECATION")
 abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
@@ -67,11 +68,12 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
     }
     
     private fun initDatabase() {
-        if (!ctxt.getBoolean(R.bool.isFrames)) return
-        if (database == null) {
-            database = Room.databaseBuilder(
-                    ctxt, FavoritesDatabase::class.java,
-                    DATABASE_NAME).fallbackToDestructiveMigration().build()
+        ctxt {
+            if (it.getBoolean(R.bool.isFrames) && database == null) {
+                database = Room.databaseBuilder(
+                        it, FavoritesDatabase::class.java,
+                        DATABASE_NAME).fallbackToDestructiveMigration().build()
+            }
         }
     }
     
@@ -80,8 +82,9 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
     }
     
     private fun initFavoritesViewModel() {
-        if (!(ctxt.getBoolean(R.bool.isFrames))) return
-        if (database == null) initDatabase()
+        ctxt {
+            if (it.getBoolean(R.bool.isFrames) && database == null) initDatabase()
+        }
         if (favoritesModel == null) {
             favoritesModel = ViewModelProviders.of(actv).get(FavoritesViewModel::class.java)
         }
@@ -131,36 +134,42 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
     abstract fun fromFavorites(): Boolean
     
     private fun animateHeartClick(
-            heart: ImageView, item: Wallpaper, @ColorInt color: Int,
+            heart: ImageView,
+            item: Wallpaper,
+            @ColorInt color: Int,
             check: Boolean
-                                 ) = ctxt.runOnUiThread {
-        val scale = ScaleAnimation(
-                1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5F,
-                Animation.RELATIVE_TO_SELF, 0.5F)
-        scale.duration = ANIMATION_DURATION
-        scale.interpolator = LinearInterpolator()
-        scale.setAnimationListener(
-                object : SimpleAnimationListener() {
-                    override fun onEnd(animation: Animation) {
-                        super.onEnd(animation)
-                        heart.setImageDrawable(
-                                ctxt.createHeartIcon(check)?.applyColorFilter(color))
-                        val nScale = ScaleAnimation(
-                                0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5F,
-                                Animation.RELATIVE_TO_SELF, 0.5F)
-                        nScale.duration = ANIMATION_DURATION
-                        nScale.interpolator = LinearInterpolator()
-                        nScale.setAnimationListener(
-                                object : SimpleAnimationListener() {
-                                    override fun onEnd(animation: Animation) {
-                                        super.onEnd(animation)
-                                        postToFavorites(item, check)
-                                    }
-                                })
-                        heart.startAnimation(nScale)
-                    }
-                })
-        heart.startAnimation(scale)
+                                 ) {
+        withCtxt {
+            runOnUiThread {
+                val scale = ScaleAnimation(
+                        1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5F,
+                        Animation.RELATIVE_TO_SELF, 0.5F)
+                scale.duration = ANIMATION_DURATION
+                scale.interpolator = LinearInterpolator()
+                scale.setAnimationListener(
+                        object : SimpleAnimationListener() {
+                            override fun onEnd(animation: Animation) {
+                                super.onEnd(animation)
+                                heart.setImageDrawable(
+                                        ctxt.createHeartIcon(check)?.applyColorFilter(color))
+                                val nScale = ScaleAnimation(
+                                        0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5F,
+                                        Animation.RELATIVE_TO_SELF, 0.5F)
+                                nScale.duration = ANIMATION_DURATION
+                                nScale.interpolator = LinearInterpolator()
+                                nScale.setAnimationListener(
+                                        object : SimpleAnimationListener() {
+                                            override fun onEnd(animation: Animation) {
+                                                super.onEnd(animation)
+                                                postToFavorites(item, check)
+                                            }
+                                        })
+                                heart.startAnimation(nScale)
+                            }
+                        })
+                heart.startAnimation(scale)
+            }
+        }
     }
     
     internal fun postToFavorites(item: Wallpaper, check: Boolean) {

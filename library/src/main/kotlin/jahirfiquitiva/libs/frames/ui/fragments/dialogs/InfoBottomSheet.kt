@@ -31,7 +31,6 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ProgressBar
-import android.widget.Toast
 import ca.allanwang.kau.utils.dpToPx
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.setPaddingTop
@@ -42,6 +41,7 @@ import jahirfiquitiva.libs.frames.ui.adapters.WallpaperInfoAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
 import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
+import jahirfiquitiva.libs.kauextensions.extensions.showToast
 
 @Suppress("DEPRECATION")
 class InfoBottomSheet : BottomSheetDialogFragment() {
@@ -87,9 +87,9 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
         
         if (adapter == null) adapter = WallpaperInfoAdapter {
             if (it != 0) {
-                val clipboard = ctxt.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                clipboard.primaryClip = ClipData.newPlainText("label", it.toHexString())
-                Toast.makeText(ctxt, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show()
+                val clipboard = context?.getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager
+                clipboard?.primaryClip = ClipData.newPlainText("label", it.toHexString())
+                ctxt { it.showToast(R.string.copied_to_clipboard) }
             }
         }
         adapter?.setLayoutManager(layoutManager)
