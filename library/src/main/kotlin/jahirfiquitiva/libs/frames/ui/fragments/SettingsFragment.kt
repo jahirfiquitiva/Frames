@@ -63,7 +63,10 @@ open class SettingsFragment : PreferenceFragment() {
     }
     
     fun requestStoragePermission(explanation: String, whenAccepted: () -> Unit) {
-        request.detachAllListeners()
+        try {
+            request.detachAllListeners()
+        } catch (e: Exception) {
+        }
         request.listeners {
             onAccepted { whenAccepted() }
             onDenied { withActv { snackbar(R.string.permission_denied, Snackbar.LENGTH_LONG) } }
@@ -298,6 +301,9 @@ open class SettingsFragment : PreferenceFragment() {
     override fun onDestroy() {
         super.onDestroy()
         clearDialog()
-        request.detachAllListeners()
+        try {
+            request.detachAllListeners()
+        } catch (e: Exception) {
+        }
     }
 }

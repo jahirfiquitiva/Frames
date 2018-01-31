@@ -42,7 +42,7 @@ ext.versions = [
         sectionedRecyclerView : '0.5.0',
         recyclerViewFastScroll: '6a72f8c',
         chips                 : 'a472057',
-        numberPicker          : 'af670e8',
+        numberPicker          : '929227e',
         iaps                  : '1.0.44',
         muzeiApi              : '2.0',
         licensesDialog        : '1.8.3',
