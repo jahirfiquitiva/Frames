@@ -33,16 +33,14 @@ import org.json.JSONObject
 class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
     
     fun updateWallpaper(newWallpaper: Wallpaper) {
-        getData()?.let {
-            val prevList = ArrayList(it)
-            if (prevList.size > 0) {
-                val pos = prevList.indexOf(newWallpaper)
-                if (pos >= 0) {
-                    val old = prevList[pos]
-                    if (newWallpaper.hasChangedFrom(old)) {
-                        prevList[pos] = newWallpaper
-                        postResult(prevList)
-                    }
+        val prevList = ArrayList(getData())
+        if (prevList.isNotEmpty()) {
+            val pos = prevList.indexOf(newWallpaper)
+            if (pos >= 0) {
+                val old = prevList[pos]
+                if (newWallpaper.hasChangedFrom(old)) {
+                    prevList[pos] = newWallpaper
+                    postResult(prevList)
                 }
             }
         }
@@ -59,7 +57,7 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
             val nResponse = safeParseResponseToJSON(context, serverResponse)
             val nResponseText = nResponse.toString()
             if (validPrevResponse && nResponseText == prevResponse) {
-                if (isOldDataValid) ArrayList(getData())
+                if (isOldDataValid()) ArrayList(getData())
                 else parseListFromJson(context, nResponse)
             } else parseListFromJson(context, nResponse)
         } else {

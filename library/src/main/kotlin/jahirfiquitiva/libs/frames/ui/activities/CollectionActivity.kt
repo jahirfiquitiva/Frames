@@ -38,11 +38,12 @@ import jahirfiquitiva.libs.kauextensions.extensions.changeOptionVisibility
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
+import jahirfiquitiva.libs.kauextensions.extensions.hideAllItems
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
+import jahirfiquitiva.libs.kauextensions.extensions.showAllItems
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import jahirfiquitiva.libs.kauextensions.ui.activities.FragmentsActivity
-import jahirfiquitiva.libs.kauextensions.ui.widgets.FloatingSearchView
-import jahirfiquitiva.libs.kauextensions.ui.widgets.bindSearchView
+import jahirfiquitiva.libs.kauextensions.ui.widgets.CustomSearchView
 
 open class CollectionActivity : FragmentsActivity() {
     
@@ -59,7 +60,7 @@ open class CollectionActivity : FragmentsActivity() {
     private var frag: WallpapersInCollectionFragment? = null
     
     private val toolbar: CustomToolbar by bind(R.id.toolbar)
-    private var searchView: FloatingSearchView? = null
+    private var searchView: CustomSearchView? = null
     
     override fun autoTintStatusBar(): Boolean = true
     override fun autoTintNavigationBar(): Boolean = true
@@ -104,6 +105,10 @@ open class CollectionActivity : FragmentsActivity() {
         }
         
         collection = intent?.getParcelableExtra("item")
+        initContent()
+    }
+    
+    private fun initContent(loadFragment: Boolean = false) {
         setupToolbarTitle(toolbar)
         
         val number = collection?.wallpapers?.size ?: 0
@@ -112,11 +117,13 @@ open class CollectionActivity : FragmentsActivity() {
                 getPrimaryTextColorFor(primaryColor, 0.6F),
                 getSecondaryTextColorFor(primaryColor, 0.6F),
                 getActiveIconsColorFor(primaryColor, 0.6F))
+        
+        if (loadFragment) loadFragment(true)
     }
     
-    private fun loadFragment() {
+    private fun loadFragment(force: Boolean = false) {
         collection?.let {
-            if (!fragmentLoaded) {
+            if (!fragmentLoaded || force) {
                 fragmentLoaded = true
                 frag = WallpapersInCollectionFragment.create(
                         it, it.wallpapers,
@@ -149,14 +156,20 @@ open class CollectionActivity : FragmentsActivity() {
             it.changeOptionVisibility(R.id.about, false)
             it.changeOptionVisibility(R.id.settings, false)
             
-            searchView = bindSearchView(it, R.id.search)
-            searchView?.listener = object : FloatingSearchView.SearchListener {
-                override fun onQueryChanged(query: String) = doSearch(query)
-                override fun onQuerySubmit(query: String) = doSearch(query)
-                override fun onSearchClosed(searchView: FloatingSearchView) = doSearch()
-                override fun onSearchOpened(searchView: FloatingSearchView) {}
+            val searchItem = it.findItem(R.id.search)
+            searchView = searchItem.actionView as CustomSearchView?
+            searchView?.onExpand = { it.hideAllItems() }
+            searchView?.onCollapse = {
+                it.showAllItems()
+                doSearch()
             }
-            searchView?.hintText = getString(R.string.search_x, getString(R.string.wallpapers))
+            searchView?.onQueryChanged = { doSearch(it) }
+            searchView?.onQuerySubmit = { doSearch(it) }
+            searchView?.bindToItem(searchItem)
+            searchView?.queryHint = getString(R.string.search_x, getString(R.string.wallpapers))
+            
+            searchView?.tint(getPrimaryTextColorFor(primaryColor, 0.6F))
+            it.tint(getActiveIconsColorFor(primaryColor, 0.6F))
         }
         
         toolbar.tint(
@@ -197,5 +210,24 @@ open class CollectionActivity : FragmentsActivity() {
             setResult(11, intent)
             supportFinishAfterTransition()
         }
+    }
+    
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putParcelable("item", collection)
+        super.onSaveInstanceState(outState)
+    }
+    
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedInstanceState?.let {
+            collection = it.getParcelable("item")
+            initContent(true)
+        }
+    }
+    
+    @SuppressLint("MissingSuperCall")
+    override fun onResume() {
+        super.onResume()
+        initContent()
     }
 }

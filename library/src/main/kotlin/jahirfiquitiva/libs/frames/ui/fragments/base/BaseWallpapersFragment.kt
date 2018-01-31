@@ -211,7 +211,9 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     
     override fun applyFilter(filter: String) {
         val list = ArrayList(
-                if (fromFavorites()) favoritesModel?.getData() else wallpapersModel?.getData())
+                if (fromFavorites()) favoritesModel?.getData().orEmpty()
+                else wallpapersModel?.getData().orEmpty())
+        if (list.isEmpty()) return
         
         if (filter.hasContent()) {
             recyclerView?.setEmptyImage(R.drawable.no_results)

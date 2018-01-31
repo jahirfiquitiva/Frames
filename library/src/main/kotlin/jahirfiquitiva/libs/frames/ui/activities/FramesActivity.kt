@@ -44,12 +44,13 @@ import jahirfiquitiva.libs.kauextensions.extensions.getInactiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
+import jahirfiquitiva.libs.kauextensions.extensions.hideAllItems
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
+import jahirfiquitiva.libs.kauextensions.extensions.showAllItems
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import jahirfiquitiva.libs.kauextensions.ui.fragments.adapters.FragmentsAdapter
+import jahirfiquitiva.libs.kauextensions.ui.widgets.CustomSearchView
 import jahirfiquitiva.libs.kauextensions.ui.widgets.CustomTabLayout
-import jahirfiquitiva.libs.kauextensions.ui.widgets.FloatingSearchView
-import jahirfiquitiva.libs.kauextensions.ui.widgets.bindSearchView
 
 abstract class FramesActivity : BaseFramesActivity() {
     
@@ -57,7 +58,7 @@ abstract class FramesActivity : BaseFramesActivity() {
     private val pager: ViewPager by bind(R.id.pager)
     private val tabs: CustomTabLayout by bind(R.id.tabs)
     
-    private var searchView: FloatingSearchView? = null
+    private var searchView: CustomSearchView? = null
     
     private var hasCollections = false
     private var lastSection = 0
@@ -108,9 +109,9 @@ abstract class FramesActivity : BaseFramesActivity() {
                                             getActiveIconsColorFor(primaryColor, 0.6F))
                             }
                             searchView?.let {
-                                it.revealClose()
+                                it.onActionViewCollapsed()
                                 val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
-                                it.hintText = getString(R.string.search_x, hint.toLowerCase())
+                                it.queryHint = getString(R.string.search_x, hint.toLowerCase())
                             }
                             invalidateOptionsMenu()
                             pager.setCurrentItem(lastSection, true)
@@ -181,20 +182,26 @@ abstract class FramesActivity : BaseFramesActivity() {
             val donationItem = it.findItem(R.id.donate)
             donationItem?.isVisible = donationsEnabled
             
-            searchView = bindSearchView(it, R.id.search)
-            searchView?.listener = object : FloatingSearchView.SearchListener {
-                override fun onQueryChanged(query: String) = doSearch(query)
-                override fun onQuerySubmit(query: String) = doSearch(query)
-                override fun onSearchOpened(searchView: FloatingSearchView) =
-                        toolbar.enableScroll(false)
-                
-                override fun onSearchClosed(searchView: FloatingSearchView) {
-                    toolbar.enableScroll(true)
-                    doSearch()
-                }
+            val searchItem = it.findItem(R.id.search)
+            searchView = searchItem.actionView as CustomSearchView?
+            searchView?.onExpand = {
+                it.hideAllItems()
+                toolbar.enableScroll(false)
             }
+            searchView?.onCollapse = {
+                it.showAllItems()
+                toolbar.enableScroll(true)
+                doSearch()
+            }
+            searchView?.onQueryChanged = { doSearch(it) }
+            searchView?.onQuerySubmit = { doSearch(it) }
+            searchView?.bindToItem(searchItem)
+            
             val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
-            searchView?.hintText = getString(R.string.search_x, hint.toLowerCase())
+            searchView?.queryHint = getString(R.string.search_x, hint.toLowerCase())
+    
+            searchView?.tint(getPrimaryTextColorFor(primaryColor, 0.6F))
+            it.tint(getActiveIconsColorFor(primaryColor, 0.6F))
         }
         
         toolbar.tint(
@@ -218,7 +225,7 @@ abstract class FramesActivity : BaseFramesActivity() {
     }
     
     override fun onBackPressed() {
-        val open = searchView?.onBackPressed() == true
+        val open = searchView?.isOpen == true
         if (!open) super.onBackPressed()
     }
     
@@ -228,9 +235,7 @@ abstract class FramesActivity : BaseFramesActivity() {
         if (requestCode == 22) {
             data?.let {
                 val cleared = it.getBooleanExtra("clearedFavs", false)
-                if (cleared) {
-                    reloadFavorites()
-                }
+                if (cleared) reloadFavorites()
             }
         } else if (requestCode == 11) {
             try {
@@ -256,7 +261,7 @@ abstract class FramesActivity : BaseFramesActivity() {
     
     override fun onPause() {
         super.onPause()
-        searchView?.revealClose()
+        searchView?.onActionViewCollapsed()
     }
     
     override fun onSaveInstanceState(outState: Bundle?) {

@@ -25,5 +25,5 @@ class WallpaperInfoViewModel : BasicViewModel<Wallpaper, WallpaperInfo>() {
     override fun internalLoad(param: Wallpaper): WallpaperInfo =
             FramesUrlRequests().requestFileInfo(param.url, param.dimensions.hasContent())
     
-    override val isOldDataValid: Boolean = getData()?.isValid == true
+    override fun isOldDataValid(): Boolean = getData()?.isValid == true
 }

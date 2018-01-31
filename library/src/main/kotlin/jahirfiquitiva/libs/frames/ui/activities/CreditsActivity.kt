@@ -115,7 +115,7 @@ open class CreditsActivity : ThemedActivity() {
             when (it.itemId) {
                 android.R.id.home -> finish()
                 R.id.translate -> try {
-                    openLink(TRANSLATION_SITE)
+                    openLink(getTranslationSite())
                 } catch (ignored: Exception) {
                 }
                 R.id.licenses -> LicensesDialog.Builder(this)
@@ -131,6 +131,8 @@ open class CreditsActivity : ThemedActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+    
+    open fun getTranslationSite(): String = TRANSLATION_SITE
     
     private fun registerCCLicense() {
         val ccLicense = object : License() {

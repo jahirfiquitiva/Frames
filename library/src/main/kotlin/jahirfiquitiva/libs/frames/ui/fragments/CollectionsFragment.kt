@@ -132,7 +132,7 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     @SuppressLint("RestrictedApi")
     override fun onItemClicked(item: Collection, longClick: Boolean) {
         super.onItemClicked(item, longClick)
-        activity?.let {
+        actv {
             val intent = Intent(activity, CollectionActivity::class.java)
             intent.putExtra("item", item)
             intent.putExtra("checker", hasChecker)
@@ -165,7 +165,9 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     }
     
     override fun applyFilter(filter: String) {
-        val list = ArrayList(collectionsModel?.getData())
+        val list = ArrayList(collectionsModel?.getData().orEmpty())
+        if (list.isEmpty()) return
+        
         if (filter.hasContent()) {
             recyclerView?.setEmptyImage(R.drawable.no_results)
             recyclerView?.setEmptyText(R.string.search_no_results)

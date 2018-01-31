@@ -110,7 +110,7 @@ open class SettingsActivity : FragmentsActivity(), FolderChooserDialog.FolderCal
                 android.R.id.home -> doFinish()
                 R.id.translate -> {
                     try {
-                        openLink(TRANSLATION_SITE)
+                        openLink(getTranslationSite())
                     } catch (ignored: Exception) {
                     }
                 }
@@ -120,6 +120,8 @@ open class SettingsActivity : FragmentsActivity(), FolderChooserDialog.FolderCal
         }
         return super.onOptionsItemSelected(item)
     }
+    
+    open fun getTranslationSite():String = TRANSLATION_SITE
     
     override fun onBackPressed() {
         super.onBackPressed()
