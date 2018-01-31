@@ -48,7 +48,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import jahirfiquitiva.libs.kauextensions.ui.fragments.adapters.FragmentsAdapter
 import jahirfiquitiva.libs.kauextensions.ui.widgets.CustomTabLayout
-import jahirfiquitiva.libs.kauextensions.ui.widgets.SearchView
+import jahirfiquitiva.libs.kauextensions.ui.widgets.FloatingSearchView
 import jahirfiquitiva.libs.kauextensions.ui.widgets.bindSearchView
 
 abstract class FramesActivity : BaseFramesActivity() {
@@ -57,7 +57,7 @@ abstract class FramesActivity : BaseFramesActivity() {
     private val pager: ViewPager by bind(R.id.pager)
     private val tabs: CustomTabLayout by bind(R.id.tabs)
     
-    private var searchView: SearchView? = null
+    private var searchView: FloatingSearchView? = null
     
     private var hasCollections = false
     private var lastSection = 0
@@ -182,20 +182,13 @@ abstract class FramesActivity : BaseFramesActivity() {
             donationItem?.isVisible = donationsEnabled
             
             searchView = bindSearchView(it, R.id.search)
-            searchView?.listener = object : SearchView.SearchListener {
-                override fun onQueryChanged(query: String) {
-                    doSearch(query)
-                }
+            searchView?.listener = object : FloatingSearchView.SearchListener {
+                override fun onQueryChanged(query: String) = doSearch(query)
+                override fun onQuerySubmit(query: String) = doSearch(query)
+                override fun onSearchOpened(searchView: FloatingSearchView) =
+                        toolbar.enableScroll(false)
                 
-                override fun onQuerySubmit(query: String) {
-                    doSearch(query)
-                }
-                
-                override fun onSearchOpened(searchView: SearchView) {
-                    toolbar.enableScroll(false)
-                }
-                
-                override fun onSearchClosed(searchView: SearchView) {
+                override fun onSearchClosed(searchView: FloatingSearchView) {
                     toolbar.enableScroll(true)
                     doSearch()
                 }

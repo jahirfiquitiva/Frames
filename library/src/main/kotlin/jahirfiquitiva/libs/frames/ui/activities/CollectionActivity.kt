@@ -41,7 +41,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import jahirfiquitiva.libs.kauextensions.ui.activities.FragmentsActivity
-import jahirfiquitiva.libs.kauextensions.ui.widgets.SearchView
+import jahirfiquitiva.libs.kauextensions.ui.widgets.FloatingSearchView
 import jahirfiquitiva.libs.kauextensions.ui.widgets.bindSearchView
 
 open class CollectionActivity : FragmentsActivity() {
@@ -59,7 +59,7 @@ open class CollectionActivity : FragmentsActivity() {
     private var frag: WallpapersInCollectionFragment? = null
     
     private val toolbar: CustomToolbar by bind(R.id.toolbar)
-    private var searchView: SearchView? = null
+    private var searchView: FloatingSearchView? = null
     
     override fun autoTintStatusBar(): Boolean = true
     override fun autoTintNavigationBar(): Boolean = true
@@ -150,22 +150,11 @@ open class CollectionActivity : FragmentsActivity() {
             it.changeOptionVisibility(R.id.settings, false)
             
             searchView = bindSearchView(it, R.id.search)
-            searchView?.listener = object : SearchView.SearchListener {
-                override fun onQueryChanged(query: String) {
-                    doSearch(query)
-                }
-                
-                override fun onQuerySubmit(query: String) {
-                    doSearch(query)
-                }
-                
-                override fun onSearchOpened(searchView: SearchView) {
-                    // Do nothing
-                }
-                
-                override fun onSearchClosed(searchView: SearchView) {
-                    doSearch()
-                }
+            searchView?.listener = object : FloatingSearchView.SearchListener {
+                override fun onQueryChanged(query: String) = doSearch(query)
+                override fun onQuerySubmit(query: String) = doSearch(query)
+                override fun onSearchClosed(searchView: FloatingSearchView) = doSearch()
+                override fun onSearchOpened(searchView: FloatingSearchView) {}
             }
             searchView?.hintText = getString(R.string.search_x, getString(R.string.wallpapers))
         }

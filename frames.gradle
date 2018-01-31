@@ -15,11 +15,8 @@
  */
 dependencies {
     // Architecture Components
-    api libraries.lifecycle
     api libraries.room
-    annotationProcessor libraries.lifecycleCompiler
     annotationProcessor libraries.roomCompiler
-    kapt libraries.lifecycleCompiler
     kapt libraries.roomCompiler
     // Permissions
     api(libraries.permissions) {

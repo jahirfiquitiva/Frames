@@ -25,24 +25,24 @@ ext.versions = [
         minSdk                : 16,
         targetSdk             : 27,
         buildTools            : '27.0.3',
-        versionCode           : 218,
-        versionName           : '2.1.8',
+        versionCode           : 219,
+        versionName           : '2.1.9',
         // Gradle Plugins
         gradle                : '3.0.1',
         kotlin                : '1.2.20',
         libs                  : '2.0',
         // Dependencies
         supportLibs           : '27.0.2',
-        archComponents        : '1.0.0',
+        room                  : '1.1.0-alpha1',
         permissions           : '1.0.0',
         materialDialogs       : '0.9.6.0',
         glide                 : '4.5.0',
         okhttp                : '3.9.1',
-        kauExt                : '1bf08e4',
+        kauExt                : '0bf3981',
         sectionedRecyclerView : '0.5.0',
         recyclerViewFastScroll: '6a72f8c',
         chips                 : 'a472057',
-        numberPicker          : '1.0.4',
+        numberPicker          : 'af670e8',
         iaps                  : '1.0.44',
         muzeiApi              : '2.0',
         licensesDialog        : '1.8.3',
@@ -60,10 +60,8 @@ ext.libraries = [
         // Kotlin
         kotlin               : 'org.jetbrains.kotlin:kotlin-stdlib:' + versions.kotlin,
         // Architecture Components
-        lifecycle            : 'android.arch.lifecycle:extensions:' + versions.archComponents,
-        room                 : 'android.arch.persistence.room:runtime:' + versions.archComponents,
-        lifecycleCompiler    : 'android.arch.lifecycle:compiler:' + versions.archComponents,
-        roomCompiler         : 'android.arch.persistence.room:compiler:' + versions.archComponents,
+        room                 : 'android.arch.persistence.room:runtime:' + versions.room,
+        roomCompiler         : 'android.arch.persistence.room:compiler:' + versions.room,
         // Permissions
         permissions          : 'com.github.fondesa:kpermissions:' + versions.permissions,
         // Material Dialogs
@@ -83,7 +81,7 @@ ext.libraries = [
         // RecyclerView Fast Scroller
         fastScroll           : 'me.jahirfiquitiva:recycler-fast-scroll:' + versions.recyclerViewFastScroll + '@aar',
         // Material Number Picker
-        numberPicker         : 'com.github.StephenVinouze:MaterialNumberPicker:' + versions.numberPicker,
+        numberPicker         : 'com.github.jahirfiquitiva:MaterialNumberPicker:' + versions.numberPicker,
         // Chips
         chips                : 'me.jahirfiquitiva:MaterialChipsInput:' + versions.chips,
         // In-App Purchases
