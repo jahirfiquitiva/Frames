@@ -41,10 +41,10 @@ import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getStringArray
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.extensions.openLink
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
+import jahirfiquitiva.libs.kauextensions.extensions.stringArray
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import jahirfiquitiva.libs.kauextensions.ui.activities.ThemedActivity
 
@@ -192,11 +192,11 @@ open class CreditsActivity : ThemedActivity() {
         val list = ArrayList<Credit>()
         
         try {
-            val titles = getStringArray(R.array.credits_titles)
-            val descriptions = getStringArray(R.array.credits_descriptions)
-            val photos = getStringArray(R.array.credits_photos)
-            val buttons = getStringArray(R.array.credits_buttons)
-            val links = getStringArray(R.array.credits_links)
+            val titles = stringArray(R.array.credits_titles)
+            val descriptions = stringArray(R.array.credits_descriptions)
+            val photos = stringArray(R.array.credits_photos)
+            val buttons = stringArray(R.array.credits_buttons)
+            val links = stringArray(R.array.credits_links)
             
             if (descriptions.size == titles.size && photos.size == titles.size) {
                 (0 until titles.size).mapTo(list) {

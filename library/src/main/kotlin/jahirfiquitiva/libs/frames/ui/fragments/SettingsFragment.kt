@@ -18,7 +18,6 @@ package jahirfiquitiva.libs.frames.ui.fragments
 import android.Manifest
 import android.annotation.SuppressLint
 import android.arch.persistence.room.Room
-import android.graphics.Color
 import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceCategory
@@ -30,7 +29,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce
-import com.github.stephenvinouze.materialnumberpickercore.MaterialNumberPicker
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
@@ -41,11 +39,10 @@ import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.ui.activities.SettingsActivity
 import jahirfiquitiva.libs.frames.ui.fragments.base.PreferenceFragment
 import jahirfiquitiva.libs.kauextensions.extensions.actv
+import jahirfiquitiva.libs.kauextensions.extensions.boolean
 import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
-import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.konfigs
-import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kauextensions.extensions.withActv
 import jahirfiquitiva.libs.kauextensions.ui.activities.ThemedActivity
 import org.jetbrains.anko.doAsync
@@ -86,12 +83,12 @@ open class SettingsFragment : PreferenceFragment() {
     }
     
     private fun initDatabase() {
-        val isFrames = context?.getBoolean(R.bool.isFrames) ?: false
-        if (!isFrames) return
-        if (database == null) {
-            database = Room.databaseBuilder(
-                    ctxt, FavoritesDatabase::class.java,
-                    DATABASE_NAME).fallbackToDestructiveMigration().build()
+        if (boolean(R.bool.isFrames)) {
+            if (database == null) {
+                database = Room.databaseBuilder(
+                        ctxt, FavoritesDatabase::class.java,
+                        DATABASE_NAME).fallbackToDestructiveMigration().build()
+            }
         }
     }
     
@@ -139,33 +136,20 @@ open class SettingsFragment : PreferenceFragment() {
         }
         
         val columns = findPreference("columns")
-        if (ctxt.getBoolean(R.bool.isFrames)) {
+        if (boolean(R.bool.isFrames)) {
             columns?.setOnPreferenceClickListener {
                 clearDialog()
-                val currentColumns = ctxt.framesKonfigs.columns
-                
-                val numberPicker = MaterialNumberPicker(
-                        context = this.ctxt,
-                        minValue = 1,
-                        maxValue = 6,
-                        value = currentColumns,
-                        separatorColor = Color.TRANSPARENT,
-                        textColor = this.ctxt.secondaryTextColor,
-                        wrapped = true)
-                
+                val currentColumns = ctxt.framesKonfigs.columns - 1
                 dialog = ctxt.buildMaterialDialog {
                     title(R.string.wallpapers_columns_setting_title)
-                    customView(numberPicker, false)
-                    positiveText(android.R.string.ok)
-                    onPositive { dialog, _ ->
-                        try {
-                            val newColumns = numberPicker.value
-                            if (currentColumns != newColumns) ctxt.framesKonfigs.columns =
-                                    newColumns
-                        } catch (ignored: Exception) {
-                        }
-                        dialog.dismiss()
+                    items("1", "2", "3", "4", "5")
+                    itemsCallbackSingleChoice(currentColumns) { _, _, which, _ ->
+                        if (which != currentColumns)
+                            ctxt.framesKonfigs.columns = which + 1
+                        true
                     }
+                    positiveText(android.R.string.ok)
+                    negativeText(android.R.string.cancel)
                 }
                 dialog?.show()
                 false
@@ -230,7 +214,7 @@ open class SettingsFragment : PreferenceFragment() {
         }
         
         val clearDatabase = findPreference("clear_database")
-        if (ctxt.getBoolean(R.bool.isFrames)) {
+        if (boolean(R.bool.isFrames)) {
             clearDatabase?.setOnPreferenceClickListener {
                 clearDialog()
                 dialog = actv.buildMaterialDialog {

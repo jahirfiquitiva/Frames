@@ -42,6 +42,8 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
+import ca.allanwang.kau.utils.boolean
+import ca.allanwang.kau.utils.color
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.isNetworkAvailable
 import ca.allanwang.kau.utils.navigationBarColor
@@ -76,8 +78,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.compliesWithMinTime
 import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
 import jahirfiquitiva.libs.kauextensions.extensions.enableTranslucentStatusBar
 import jahirfiquitiva.libs.kauextensions.extensions.generatePalette
-import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
-import jahirfiquitiva.libs.kauextensions.extensions.getColorFromRes
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
@@ -165,7 +165,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         
         toolbar.bindToActivity(this)
         
-        toolbar.tint(getColorFromRes(android.R.color.white), false)
+        toolbar.tint(color(android.R.color.white), false)
         
         val toolbarTitle: TextView by bind(R.id.toolbar_title)
         val toolbarSubtitle: TextView by bind(R.id.toolbar_subtitle)
@@ -253,7 +253,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     
     private fun showInfoDialog() {
         dismissInfoDialog()
-        val showBottomSheet = getBoolean(R.bool.show_bottom_sheet)
+        val showBottomSheet = boolean(R.bool.show_bottom_sheet)
         infoDialog = if (showBottomSheet) InfoBottomSheet.build(details, palette)
         else InfoDialog.build(details, palette)
         

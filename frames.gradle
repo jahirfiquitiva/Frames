@@ -40,8 +40,6 @@ dependencies {
     api libraries.sectionedRecyclerView
     // RecyclerView Fast Scroller
     api(libraries.fastScroll)
-    // Material Number Picker
-    api libraries.numberPicker
     // Chips
     api libraries.chips
     // In-App Purchases

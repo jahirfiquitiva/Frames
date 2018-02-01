@@ -16,6 +16,7 @@
 package jahirfiquitiva.libs.frames.providers.viewmodels
 
 import android.content.Context
+import ca.allanwang.kau.utils.boolean
 import jahirfiquitiva.libs.archhelpers.viewmodels.ListViewModel
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
@@ -23,7 +24,6 @@ import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesUrlRequests
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
-import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.string
 import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
@@ -69,7 +69,7 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
     
     private fun safeParseResponseToJSON(context: Context, response: String): JSONArray {
         return try {
-            parseResponseToJSON(response, context.getBoolean(R.bool.use_old_json_format))
+            parseResponseToJSON(response, context.boolean(R.bool.use_old_json_format))
         } catch (e: Exception) {
             FL.e { e.message }
             try {

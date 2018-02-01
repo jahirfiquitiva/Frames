@@ -24,6 +24,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
+import ca.allanwang.kau.utils.boolean
 import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.tint
 import jahirfiquitiva.libs.frames.R
@@ -38,7 +39,6 @@ import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.getDisabledTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getInactiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
@@ -64,7 +64,7 @@ abstract class FramesActivity : BaseFramesActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        hasCollections = getBoolean(R.bool.show_collections_tab)
+        hasCollections = boolean(R.bool.show_collections_tab)
         if (hasCollections) lastSection = 1
         
         setContentView(R.layout.activity_main)
@@ -84,7 +84,7 @@ abstract class FramesActivity : BaseFramesActivity() {
                     FavoritesFragment.create(getLicenseChecker() != null))
         }
         
-        val useAccentColor = getBoolean(R.bool.enable_accent_color_in_tabs)
+        val useAccentColor = boolean(R.bool.enable_accent_color_in_tabs)
         tabs.setTabTextColors(
                 getDisabledTextColorFor(primaryColor, 0.6F),
                 if (useAccentColor) accentColor else
@@ -100,7 +100,7 @@ abstract class FramesActivity : BaseFramesActivity() {
                         tab?.let {
                             if (lastSection == it.position) return
                             lastSection = it.position
-                            if (getBoolean(R.bool.show_icons_in_tabs)) {
+                            if (boolean(R.bool.show_icons_in_tabs)) {
                                 tabs.setTabsIconsColors(
                                         getInactiveIconsColorFor(primaryColor, 0.6F),
                                         if (useAccentColor) accentColor else
@@ -126,8 +126,8 @@ abstract class FramesActivity : BaseFramesActivity() {
     }
     
     private fun buildTabs() {
-        val showTexts = getBoolean(R.bool.show_texts_in_tabs)
-        val showIcons = getBoolean(R.bool.show_icons_in_tabs)
+        val showTexts = boolean(R.bool.show_texts_in_tabs)
+        val showIcons = boolean(R.bool.show_icons_in_tabs)
         val reallyShowTexts = showTexts || (!showTexts && !showIcons)
         
         tabs.removeAllTabs()

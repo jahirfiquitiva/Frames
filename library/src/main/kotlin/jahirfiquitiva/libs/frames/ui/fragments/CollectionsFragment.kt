@@ -40,8 +40,8 @@ import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.actv
+import jahirfiquitiva.libs.kauextensions.extensions.boolean
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
-import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
@@ -56,7 +56,7 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     private val provider = ViewPreloadSizeProvider<Wallpaper>()
     val collsAdapter: CollectionsAdapter by lazy {
         CollectionsAdapter(
-                context?.getBoolean(R.bool.enable_filled_collection_preview) ?: true,
+                boolean(R.bool.enable_filled_collection_preview),
                 Glide.with(this), provider,
                 object : FramesViewClickListener<Collection, CollectionHolder>() {
                     override fun onSingleClick(item: Collection, holder: CollectionHolder) {

@@ -38,11 +38,10 @@ ext.versions = [
         materialDialogs       : '0.9.6.0',
         glide                 : '4.5.0',
         okhttp                : '3.9.1',
-        kauExt                : 'ad9b3fc',
+        kauExt                : '24b6023',
         sectionedRecyclerView : '0.5.0',
         recyclerViewFastScroll: '6a72f8c',
         chips                 : 'a472057',
-        numberPicker          : '929227e',
         iaps                  : '1.0.44',
         muzeiApi              : '2.0',
         licensesDialog        : '1.8.3',
@@ -80,8 +79,6 @@ ext.libraries = [
         sectionedRecyclerView: 'com.afollestad:sectioned-recyclerview:' + versions.sectionedRecyclerView + '@aar',
         // RecyclerView Fast Scroller
         fastScroll           : 'me.jahirfiquitiva:recycler-fast-scroll:' + versions.recyclerViewFastScroll + '@aar',
-        // Material Number Picker
-        numberPicker         : 'com.github.jahirfiquitiva:MaterialNumberPicker:' + versions.numberPicker,
         // Chips
         chips                : 'me.jahirfiquitiva:MaterialChipsInput:' + versions.chips,
         // In-App Purchases

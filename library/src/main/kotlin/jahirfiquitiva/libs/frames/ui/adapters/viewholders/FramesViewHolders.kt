@@ -24,6 +24,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import ca.allanwang.kau.utils.boolean
+import ca.allanwang.kau.utils.drawable
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.visible
@@ -45,8 +47,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.clearChildrenAnimations
 import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
-import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
@@ -119,7 +119,7 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
             val url = rightCover.url
             val thumb = rightCover.thumbUrl
             
-            val filled = itemView.context.getBoolean(R.bool.enable_filled_collection_preview)
+            val filled = itemView.context.boolean(R.bool.enable_filled_collection_preview)
             title.text = if (filled) collection.name.toUpperCase() else collection.name
             title.setTextColor(Color.WHITE)
             amount.text = collection.wallpapers.size.toString()
@@ -144,7 +144,7 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                     }
                 })
                 
-                if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
+                if (itemView.context.boolean(R.bool.enable_colored_tiles)) {
                     val color = try {
                         resource.bestSwatch?.rgb ?: itemView.context.cardBackgroundColor
                     } catch (e: Exception) {
@@ -153,8 +153,7 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                     detailsBg.background = null
                     
                     val opacity =
-                            if (itemView.context.getBoolean(
-                                            R.bool.enable_filled_collection_preview))
+                            if (itemView.context.boolean(R.bool.enable_filled_collection_preview))
                                 COLLECTION_DETAILS_OPACITY
                             else DETAILS_OPACITY
                     
@@ -164,7 +163,7 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                 } else {
                     detailsBg.setBackgroundColor(Color.TRANSPARENT)
                     detailsBg.background =
-                            itemView.context.getDrawable(R.drawable.gradient, null)
+                            itemView.context.drawable(R.drawable.gradient, null)
                 }
                 return true
             }
@@ -248,7 +247,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                             }
                         })
                 
-                if (itemView.context.getBoolean(R.bool.enable_colored_tiles)) {
+                if (itemView.context.boolean(R.bool.enable_colored_tiles)) {
                     val color = try {
                         resource.bestSwatch?.rgb ?: itemView.context.dividerColor
                     } catch (e: Exception) {
@@ -264,8 +263,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                                 itemView.context.createHeartIcon(shouldCheck)?.tint(heartColor))
                     }
                 } else {
-                    detailsBg.background =
-                            itemView.context.getDrawable(R.drawable.gradient, null)
+                    detailsBg.background = itemView.context.drawable(R.drawable.gradient, null)
                 }
                 return true
             }

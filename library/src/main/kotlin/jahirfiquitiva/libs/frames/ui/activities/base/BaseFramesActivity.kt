@@ -51,10 +51,10 @@ import jahirfiquitiva.libs.frames.providers.viewmodels.IAPViewModel
 import jahirfiquitiva.libs.kauextensions.extensions.buildSnackbar
 import jahirfiquitiva.libs.kauextensions.extensions.compliesWithMinTime
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
-import jahirfiquitiva.libs.kauextensions.extensions.getStringArray
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isUpdate
 import jahirfiquitiva.libs.kauextensions.extensions.showToast
+import jahirfiquitiva.libs.kauextensions.extensions.stringArray
 import org.jetbrains.anko.contentView
 
 abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
@@ -100,7 +100,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     
     internal fun initDonations() {
         if (donationsReady) return
-        if (donationsEnabled && getStringArray(R.array.donation_items).isNotEmpty()
+        if (donationsEnabled && stringArray(R.array.donation_items).isNotEmpty()
                 && BillingProcessor.isIabServiceAvailable(this)) {
             destroyBillingProcessor()
             getLicKey()?.let {
@@ -313,7 +313,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
                     progress(true, 0)
                     cancelable(false)
                 }
-                donationViewModel.loadData(getStringArray(R.array.donation_items), true)
+                donationViewModel.loadData(stringArray(R.array.donation_items), true)
                 dialog?.show()
             }
         }
