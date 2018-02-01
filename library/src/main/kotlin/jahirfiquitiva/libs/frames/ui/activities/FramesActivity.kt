@@ -44,9 +44,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.getInactiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.hideAllItems
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
-import jahirfiquitiva.libs.kauextensions.extensions.showAllItems
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import jahirfiquitiva.libs.kauextensions.ui.fragments.adapters.FragmentsAdapter
 import jahirfiquitiva.libs.kauextensions.ui.widgets.CustomSearchView
@@ -184,12 +182,8 @@ abstract class FramesActivity : BaseFramesActivity() {
             
             val searchItem = it.findItem(R.id.search)
             searchView = searchItem.actionView as? CustomSearchView
-            searchView?.onExpand = {
-                it.hideAllItems()
-                toolbar.enableScroll(false)
-            }
+            searchView?.onExpand = { toolbar.enableScroll(false) }
             searchView?.onCollapse = {
-                it.showAllItems()
                 toolbar.enableScroll(true)
                 doSearch()
             }
@@ -199,7 +193,7 @@ abstract class FramesActivity : BaseFramesActivity() {
             
             val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
             searchView?.queryHint = getString(R.string.search_x, hint.toLowerCase())
-    
+            
             searchView?.tint(getPrimaryTextColorFor(primaryColor, 0.6F))
             it.tint(getActiveIconsColorFor(primaryColor, 0.6F))
         }
