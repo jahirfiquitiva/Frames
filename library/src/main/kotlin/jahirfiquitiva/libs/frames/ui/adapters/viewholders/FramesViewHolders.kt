@@ -102,9 +102,9 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
     override val img: ImageView
         get() = itemView.findViewById(R.id.collection_picture)
     
-    private val detailsBg: LinearLayout by itemView.bind(R.id.collection_details)
-    private val title: TextView by itemView.bind(R.id.collection_title)
-    private val amount: TextView by itemView.bind(R.id.collection_walls_number)
+    private val detailsBg: LinearLayout? by itemView.bind(R.id.collection_details)
+    private val title: TextView? by itemView.bind(R.id.collection_title)
+    private val amount: TextView? by itemView.bind(R.id.collection_walls_number)
     
     fun setItem(
             manager: RequestManager, provider: ViewPreloadSizeProvider<Wallpaper>,
@@ -114,16 +114,16 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
         if (this.wallpaper != collection.bestCover) this.wallpaper = collection.bestCover
         with(itemView) {
             animateLoad(this)
-            detailsBg.setBackgroundColor(context.dividerColor)
+            detailsBg?.setBackgroundColor(context.dividerColor)
             val rightCover = collection.bestCover ?: collection.wallpapers.first()
             val url = rightCover.url
             val thumb = rightCover.thumbUrl
             
             val filled = itemView.context.boolean(R.bool.enable_filled_collection_preview)
-            title.text = if (filled) collection.name.toUpperCase() else collection.name
-            title.setTextColor(Color.WHITE)
-            amount.text = collection.wallpapers.size.toString()
-            amount.setTextColor(Color.WHITE)
+            title?.text = if (filled) collection.name.toUpperCase() else collection.name
+            title?.setTextColor(Color.WHITE)
+            amount?.text = collection.wallpapers.size.toString()
+            amount?.setTextColor(Color.WHITE)
             loadImage(manager, url, thumb)
             provider.setView(img)
         }
@@ -150,19 +150,19 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                     } catch (e: Exception) {
                         itemView.context.dividerColor
                     }
-                    detailsBg.background = null
+                    detailsBg?.background = null
                     
                     val opacity =
                             if (itemView.context.boolean(R.bool.enable_filled_collection_preview))
                                 COLLECTION_DETAILS_OPACITY
                             else DETAILS_OPACITY
                     
-                    detailsBg.setBackgroundColor(color.withAlpha(opacity))
-                    title.setTextColor(itemView.context.getPrimaryTextColorFor(color))
-                    amount.setTextColor(itemView.context.getSecondaryTextColorFor(color))
+                    detailsBg?.setBackgroundColor(color.withAlpha(opacity))
+                    title?.setTextColor(itemView.context.getPrimaryTextColorFor(color))
+                    amount?.setTextColor(itemView.context.getSecondaryTextColorFor(color))
                 } else {
-                    detailsBg.setBackgroundColor(Color.TRANSPARENT)
-                    detailsBg.background =
+                    detailsBg?.setBackgroundColor(Color.TRANSPARENT)
+                    detailsBg?.background =
                             itemView.context.drawable(R.drawable.gradient, null)
                 }
                 return true
@@ -181,10 +181,10 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
     override val img: ImageView
         get() = itemView.findViewById(R.id.wallpaper_image)
     
-    val name: TextView by itemView.bind(R.id.wallpaper_name)
-    val author: TextView by itemView.bind(R.id.wallpaper_author)
-    val heartIcon: ImageView by itemView.bind(R.id.heart_icon)
-    private val detailsBg: LinearLayout by itemView.bind(R.id.wallpaper_details)
+    val name: TextView? by itemView.bind(R.id.wallpaper_name)
+    val author: TextView? by itemView.bind(R.id.wallpaper_author)
+    val heartIcon: ImageView? by itemView.bind(R.id.heart_icon)
+    private val detailsBg: LinearLayout? by itemView.bind(R.id.wallpaper_details)
     
     fun setItem(
             manager: RequestManager?, provider: ViewPreloadSizeProvider<Wallpaper>,
@@ -193,9 +193,9 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                ) {
         if (this.wallpaper != wallpaper) this.wallpaper = wallpaper
         with(itemView) {
-            detailsBg.setBackgroundColor(context.dividerColor)
-            heartIcon.setImageDrawable(null)
-            heartIcon.gone()
+            detailsBg?.setBackgroundColor(context.dividerColor)
+            heartIcon?.setImageDrawable(null)
+            heartIcon?.gone()
             if (shouldCheck != check) shouldCheck = check
             
             ViewCompat.setTransitionName(img, "img_transition_$adapterPosition")
@@ -208,22 +208,22 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
             val url = wallpaper.url
             val thumb = wallpaper.thumbUrl
             
-            name.text = wallpaper.name
-            name.setTextColor(Color.WHITE)
+            name?.text = wallpaper.name
+            name?.setTextColor(Color.WHITE)
             if (wallpaper.author.hasContent()) {
-                author.text = wallpaper.author
-                author.setTextColor(Color.WHITE)
-                author.visible()
+                author?.text = wallpaper.author
+                author?.setTextColor(Color.WHITE)
+                author?.visible()
             } else {
-                author.gone()
+                author?.gone()
             }
             
             if (showFavIcon) {
-                heartIcon.setImageDrawable(context.createHeartIcon(shouldCheck)?.tint(heartColor))
-                heartIcon.setOnClickListener {
-                    listener.onHeartClick(heartIcon, wallpaper, heartColor)
+                heartIcon?.let { heart ->
+                    heart.setImageDrawable(context.createHeartIcon(shouldCheck)?.tint(heartColor))
+                    heart.setOnClickListener { listener.onHeartClick(heart, wallpaper, heartColor) }
+                    heart.visible()
                 }
-                heartIcon.visible()
             }
             
             loadImage(manager, url, thumb)
@@ -253,17 +253,17 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                     } catch (e: Exception) {
                         itemView.context.dividerColor
                     }
-                    detailsBg.background = null
-                    detailsBg.setBackgroundColor(color.withAlpha(DETAILS_OPACITY))
-                    name.setTextColor(itemView.context.getPrimaryTextColorFor(color))
-                    author.setTextColor(itemView.context.getSecondaryTextColorFor(color))
+                    detailsBg?.background = null
+                    detailsBg?.setBackgroundColor(color.withAlpha(DETAILS_OPACITY))
+                    name?.setTextColor(itemView.context.getPrimaryTextColorFor(color))
+                    author?.setTextColor(itemView.context.getSecondaryTextColorFor(color))
                     if (showFavIcon) {
                         heartColor = itemView.context.getActiveIconsColorFor(color)
-                        heartIcon.setImageDrawable(
+                        heartIcon?.setImageDrawable(
                                 itemView.context.createHeartIcon(shouldCheck)?.tint(heartColor))
                     }
                 } else {
-                    detailsBg.background = itemView.context.drawable(R.drawable.gradient, null)
+                    detailsBg?.background = itemView.context.drawable(R.drawable.gradient, null)
                 }
                 return true
             }

@@ -52,7 +52,7 @@ open class SettingsActivity : FragmentsActivity(), FolderChooserDialog.FolderCal
     override fun autoTintNavigationBar(): Boolean = true
     
     var hasClearedFavs = false
-    private val toolbar: CustomToolbar by bind(R.id.toolbar)
+    private val toolbar: CustomToolbar? by bind(R.id.toolbar)
     private var locationChooserDialog: FolderChooserDialog? = null
     private val fragment: Fragment by lazy { settingsFragment() }
     
@@ -64,17 +64,17 @@ open class SettingsActivity : FragmentsActivity(), FolderChooserDialog.FolderCal
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_collection_settings)
         
-        toolbar.bindToActivity(this)
+        toolbar?.bindToActivity(this)
         
         supportActionBar?.setTitle(R.string.settings)
-        toolbar.tint(
+        toolbar?.tint(
                 getPrimaryTextColorFor(primaryColor, 0.6F),
                 getSecondaryTextColorFor(primaryColor, 0.6F),
                 getActiveIconsColorFor(primaryColor, 0.6F))
         
-        val container: FrameLayout by bind(fragmentsContainer())
-        with(container) {
-            setPadding(paddingLeft, paddingTop, paddingRight, 0)
+        val container: FrameLayout? by bind(fragmentsContainer())
+        container?.let {
+            with(it) { setPadding(paddingLeft, paddingTop, paddingRight, 0) }
         }
         
         changeFragment(fragment, "Settings")
@@ -97,7 +97,7 @@ open class SettingsActivity : FragmentsActivity(), FolderChooserDialog.FolderCal
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.about_settings_menu, menu)
         menu?.changeOptionVisibility(R.id.licenses, false)
-        toolbar.tint(
+        toolbar?.tint(
                 getPrimaryTextColorFor(primaryColor, 0.6F),
                 getSecondaryTextColorFor(primaryColor, 0.6F),
                 getActiveIconsColorFor(primaryColor, 0.6F))
@@ -121,7 +121,7 @@ open class SettingsActivity : FragmentsActivity(), FolderChooserDialog.FolderCal
         return super.onOptionsItemSelected(item)
     }
     
-    open fun getTranslationSite():String = TRANSLATION_SITE
+    open fun getTranslationSite(): String = TRANSLATION_SITE
     
     override fun onBackPressed() {
         super.onBackPressed()

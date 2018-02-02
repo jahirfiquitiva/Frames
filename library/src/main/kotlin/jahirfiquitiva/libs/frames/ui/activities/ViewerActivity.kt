@@ -110,11 +110,11 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     override fun autoTintStatusBar(): Boolean = false
     override fun autoTintNavigationBar(): Boolean = false
     
-    private val appbar: AppBarLayout by bind(R.id.appbar)
-    private val toolbar: CustomToolbar by bind(R.id.toolbar)
-    private val bottomBar: View by bind(R.id.bottom_bar)
-    private val img: ZoomableImageView by bind(R.id.wallpaper)
-    private val loading: ProgressBar by bind(R.id.loading)
+    private val appbar: AppBarLayout? by bind(R.id.appbar)
+    private val toolbar: CustomToolbar? by bind(R.id.toolbar)
+    private val bottomBar: View? by bind(R.id.bottom_bar)
+    private val img: ZoomableImageView? by bind(R.id.wallpaper)
+    private val loading: ProgressBar? by bind(R.id.loading)
     
     private var isInFavorites = false
     private var hasModifiedFavs = false
@@ -143,9 +143,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val decor = window.decorView
-            val statusBar: View by decor.bind(android.R.id.statusBarBackground)
-            val navBar: View by decor.bind(android.R.id.navigationBarBackground)
-            val actionBar: View by decor.bind(R.id.action_bar_container)
+            val statusBar: View? by decor.bind(android.R.id.statusBarBackground)
+            val navBar: View? by decor.bind(android.R.id.navigationBarBackground)
+            val actionBar: View? by decor.bind(R.id.action_bar_container)
             
             val viewsToExclude = arrayOf(statusBar, navBar, actionBar)
             val extraViewsToExclude = arrayOf(R.id.appbar, R.id.toolbar, R.id.tabs)
@@ -161,22 +161,19 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         isInFavorites = intent?.getBooleanExtra("inFavorites", false) == true
         showFavoritesButton = intent?.getBooleanExtra("showFavoritesButton", false) == true
         
-        toolbar.setMarginTop(getStatusBarHeight(true))
+        toolbar?.setMarginTop(getStatusBarHeight(true))
+        toolbar?.bindToActivity(this)
+        toolbar?.tint(color(android.R.color.white), false)
         
-        toolbar.bindToActivity(this)
-        
-        toolbar.tint(color(android.R.color.white), false)
-        
-        val toolbarTitle: TextView by bind(R.id.toolbar_title)
-        val toolbarSubtitle: TextView by bind(R.id.toolbar_subtitle)
+        val toolbarTitle: TextView? by bind(R.id.toolbar_title)
+        val toolbarSubtitle: TextView? by bind(R.id.toolbar_subtitle)
         ViewCompat.setTransitionName(toolbarTitle, intent?.getStringExtra("nameTransition") ?: "")
         ViewCompat.setTransitionName(
-                toolbarSubtitle,
-                intent?.getStringExtra("authorTransition") ?: "")
-        toolbarTitle.text = (wallpaper?.name ?: "").trim()
+                toolbarSubtitle, intent?.getStringExtra("authorTransition") ?: "")
+        toolbarTitle?.text = (wallpaper?.name ?: "").trim()
         wallpaper?.author?.let {
-            if (it.trim().hasContent()) toolbarSubtitle.text = it
-            else toolbarSubtitle.gone()
+            if (it.trim().hasContent()) toolbarSubtitle?.text = it
+            else toolbarSubtitle?.gone()
         }
         
         findViewById<View>(R.id.bottom_bar_container).setNavBarMargins()
@@ -206,11 +203,10 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         
         if (showFavoritesButton) {
             val favIcon = (if (isInFavorites) "ic_heart" else "ic_heart_outline").getDrawable(this)
-            val favImageView: ImageView by bind(R.id.fav_button)
+            val favImageView: ImageView? by bind(R.id.fav_button)
             ViewCompat.setTransitionName(
-                    favImageView,
-                    intent?.getStringExtra("favTransition") ?: "")
-            favImageView.setImageDrawable(favIcon)
+                    favImageView, intent?.getStringExtra("favTransition") ?: "")
+            favImageView?.setImageDrawable(favIcon)
             findViewById<RelativeLayout>(R.id.fav_container).setOnClickListener {
                 doItemClick(FAVORITE_ACTION_ID)
             }
@@ -218,8 +214,8 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
             findViewById<RelativeLayout>(R.id.fav_container).gone()
         }
         
-        img.maxZoom = 2F
-        img.setOnSingleTapListener { toggleSystemUI(); true }
+        img?.maxZoom = 2F
+        img?.setOnSingleTapListener { toggleSystemUI(); true }
         
         ViewCompat.setTransitionName(img, intent?.getStringExtra("imgTransition") ?: "")
         startEnterTransition()
@@ -316,7 +312,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
             closing = true
             properlyCancelDialog()
             try {
-                img.setZoom(1F)
+                img?.setZoom(1F)
             } catch (ignored: Exception) {
             }
             detailsVM?.destroy(this)
@@ -361,7 +357,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         wallpaper?.let {
             val listener = object : GlideRequestCallback<Bitmap>() {
                 override fun onLoadSucceed(resource: Bitmap): Boolean {
-                    img.setImageBitmap(resource)
+                    img?.setImageBitmap(resource)
                     startEnterTransition()
                     postPalette(resource)
                     return true
@@ -378,33 +374,35 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
                     .dontTransform().dontAnimate()
                     .fitCenter()
             
-            if (it.thumbUrl.equals(it.url, true)) {
-                Glide.with(this)
-                        .asBitmap()
-                        .load(it.url)
-                        .apply(options.priority(Priority.HIGH))
-                        .thumbnail(0.5F)
-                        .listener(listener)
-                        .into(img)
-            } else {
-                val thumbnailRequest = Glide.with(this).asBitmap()
-                        .load(it.thumbUrl)
-                        .apply(options.priority(Priority.IMMEDIATE))
-                        .thumbnail(0.5F)
-                        .listener(listener)
-                
-                Glide.with(this).asBitmap()
-                        .load(it.url)
-                        .apply(options.priority(Priority.HIGH))
-                        .thumbnail(thumbnailRequest)
-                        .listener(listener)
-                        .into(img)
+            img?.let { img ->
+                if (it.thumbUrl.equals(it.url, true)) {
+                    Glide.with(this)
+                            .asBitmap()
+                            .load(it.url)
+                            .apply(options.priority(Priority.HIGH))
+                            .thumbnail(0.5F)
+                            .listener(listener)
+                            .into(img)
+                } else {
+                    val thumbnailRequest = Glide.with(this).asBitmap()
+                            .load(it.thumbUrl)
+                            .apply(options.priority(Priority.IMMEDIATE))
+                            .thumbnail(0.5F)
+                            .listener(listener)
+                    
+                    Glide.with(this).asBitmap()
+                            .load(it.url)
+                            .apply(options.priority(Priority.HIGH))
+                            .thumbnail(thumbnailRequest)
+                            .listener(listener)
+                            .into(img)
+                }
             }
         }
     }
     
     private fun setupProgressBarColors() {
-        loading.indeterminateDrawable.applyColorFilter(activeIconsColor)
+        loading?.indeterminateDrawable?.applyColorFilter(activeIconsColor)
     }
     
     private fun postPalette(bmp: Bitmap?) {
@@ -508,14 +506,14 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         wallpaper?.let {
             properlyCancelDialog()
             wallActions = WallpaperActionsDialog.create(
-                    this, it, img.drawable.toBitmap(),
+                    this, it, img?.drawable?.toBitmap(),
                     arrayOf(toHomeScreen, toLockScreen, toBoth, toOtherApp))
             wallActions?.show(this)
         }
     }
     
     private fun toggleFavorite() = runOnUiThread {
-        val favImageView: ImageView by bind(R.id.fav_button)
+        val favImageView: ImageView? by bind(R.id.fav_button)
         val scale = ScaleAnimation(
                 1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f)
@@ -525,7 +523,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
                 object : SimpleAnimationListener() {
                     override fun onEnd(animation: Animation) {
                         super.onEnd(animation)
-                        favImageView.setImageDrawable(
+                        favImageView?.setImageDrawable(
                                 (if (isInFavorites) "ic_heart_outline" else "ic_heart")
                                         .getDrawable(this@ViewerActivity))
                         
@@ -541,10 +539,10 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
                                         onToggleEnd()
                                     }
                                 })
-                        favImageView.startAnimation(nScale)
+                        favImageView?.startAnimation(nScale)
                     }
                 })
-        favImageView.startAnimation(scale)
+        favImageView?.startAnimation(scale)
     }
     
     private fun onToggleEnd() {
@@ -639,14 +637,14 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     }
     
     private fun changeAppBarVisibility(show: Boolean) {
-        val transY = (if (show) 0 else -appbar.height).toFloat()
-        appbar.animate().translationY(transY)
-                .setInterpolator(AccelerateDecelerateInterpolator())
-                .start()
+        val transY = (if (show) 0 else -(appbar?.height ?: 0)).toFloat()
+        appbar?.animate()?.translationY(transY)
+                ?.setInterpolator(AccelerateDecelerateInterpolator())
+                ?.start()
     }
     
     private fun changeBottomBarVisibility(show: Boolean) {
-        val bottomBarParent = bottomBar.parent as? View ?: return
+        val bottomBarParent = bottomBar?.parent as? View ?: return
         visibleBottomBar = show
         val transY = (if (show) 0 else bottomBarParent.height + navigationBarHeight).toFloat()
         bottomBarParent.animate().translationY(transY)

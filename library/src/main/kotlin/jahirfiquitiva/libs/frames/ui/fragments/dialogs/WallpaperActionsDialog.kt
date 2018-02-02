@@ -74,6 +74,17 @@ class WallpaperActionsDialog : DialogFragment() {
         private set
     
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        if (destFile == null && destBitmap == null) {
+            return actv.buildMaterialDialog {
+                title(R.string.error_title)
+                content(R.string.action_error_content)
+                positiveText(android.R.string.ok)
+                onPositive { dialog, _ ->
+                    dialog.dismiss()
+                    actv { dismiss(it) }
+                }
+            }
+        }
         wallpaper?.let {
             @Suppress("CascadeIf")
             if (destFile != null) {
@@ -366,7 +377,7 @@ class WallpaperActionsDialog : DialogFragment() {
         fun create(
                 context: FragmentActivity,
                 wallpaper: Wallpaper,
-                destBitmap: Bitmap,
+                destBitmap: Bitmap?,
                 whatTo: Array<Boolean>
                   ) = create(context, wallpaper, null, destBitmap, whatTo)
         

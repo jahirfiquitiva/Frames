@@ -31,25 +31,25 @@ import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kauextensions.ui.widgets.MaterialIcon
 
 class WallpaperInfoHolder(itemView: View) : SectionedViewHolder(itemView) {
-    val icon: MaterialIcon by itemView.bind(R.id.info_item_icon)
-    val content: TextView by itemView.bind(R.id.info_item_text)
+    val icon: MaterialIcon? by itemView.bind(R.id.info_item_icon)
+    val content: TextView? by itemView.bind(R.id.info_item_text)
     fun bind(detail: WallpaperDetail) = with(itemView) {
-        icon.setImageDrawable(detail.icon.getDrawable(context))
-        content.setTextColor(context.secondaryTextColor)
-        content.text = detail.value
+        icon?.setImageDrawable(detail.icon.getDrawable(context))
+        content?.setTextColor(context.secondaryTextColor)
+        content?.text = detail.value
     }
 }
 
 class WallpaperPaletteHolder(itemView: View) : SectionedViewHolder(itemView) {
-    private val chip: ChipView by itemView.bind(R.id.info_palette_color)
+    private val chip: ChipView? by itemView.bind(R.id.info_palette_color)
     fun bind(@ColorInt color: Int, colorListener: (Int) -> Unit = {}) = with(itemView) {
-        chip.setBackgroundColor(color)
-        chip.setLabelColor(context.getPrimaryTextColorFor(color, 0.6F))
-        chip.label = color.toHexString()
-        chip.setAvatarIcon(
+        chip?.setBackgroundColor(color)
+        chip?.setLabelColor(context.getPrimaryTextColorFor(color, 0.6F))
+        chip?.label = color.toHexString()
+        chip?.setAvatarIcon(
                 "ic_color_palette".getDrawable(context)?.applyColorFilter(
                         context.getActiveIconsColorFor(color, 0.6F)))
-        chip.setOnChipClicked { colorListener(color) }
+        chip?.setOnChipClicked { colorListener(color) }
     }
 }
 

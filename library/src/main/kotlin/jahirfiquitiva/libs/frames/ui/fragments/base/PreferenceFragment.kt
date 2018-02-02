@@ -251,7 +251,7 @@ abstract class PreferenceFragment : Fragment() {
             return
         }
         val layout = view ?: throw IllegalStateException("Content view not yet created")
-        val list: View by layout.bind(android.R.id.list)
+        val list: View? by layout.bind(android.R.id.list)
         val listV = list as? ListView ?: throw RuntimeException(
                 "Content has view with id attribute 'android.R.id.list' that is not a ListView class")
         mList = listV

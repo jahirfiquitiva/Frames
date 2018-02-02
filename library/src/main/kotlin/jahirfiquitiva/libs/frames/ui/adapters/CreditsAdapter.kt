@@ -94,19 +94,19 @@ class CreditsAdapter(
                 0 -> holder.setTitle(R.string.app_name, false, expanded)
                 1 -> {
                     holder.setTitle(dashboardTitle, false, expanded)
-                    holder.divider.visible()
+                    holder.divider?.visible()
                 }
                 2 -> {
                     holder.setTitle(
                             R.string.dev_contributions, true, expanded,
                             { toggleSectionExpanded(section) })
-                    holder.divider.visible()
+                    holder.divider?.visible()
                 }
                 3 -> {
                     holder.setTitle(
                             R.string.ui_contributions, true, expanded,
                             { toggleSectionExpanded(section) })
-                    holder.divider.visible()
+                    holder.divider?.visible()
                 }
             }
         }

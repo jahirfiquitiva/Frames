@@ -52,9 +52,9 @@ import jahirfiquitiva.libs.kauextensions.ui.widgets.CustomTabLayout
 
 abstract class FramesActivity : BaseFramesActivity() {
     
-    private val toolbar: CustomToolbar by bind(R.id.toolbar)
-    private val pager: ViewPager by bind(R.id.pager)
-    private val tabs: CustomTabLayout by bind(R.id.tabs)
+    private val toolbar: CustomToolbar? by bind(R.id.toolbar)
+    private val pager: ViewPager? by bind(R.id.pager)
+    private val tabs: CustomTabLayout? by bind(R.id.tabs)
     
     private var searchView: CustomSearchView? = null
     
@@ -71,7 +71,7 @@ abstract class FramesActivity : BaseFramesActivity() {
         
         setSupportActionBar(toolbar)
         
-        pager.adapter = if (hasCollections) {
+        pager?.adapter = if (hasCollections) {
             FragmentsAdapter(
                     supportFragmentManager,
                     CollectionsFragment.create(getLicenseChecker() != null),
@@ -85,44 +85,47 @@ abstract class FramesActivity : BaseFramesActivity() {
         }
         
         val useAccentColor = boolean(R.bool.enable_accent_color_in_tabs)
-        tabs.setTabTextColors(
+        tabs?.setTabTextColors(
                 getDisabledTextColorFor(primaryColor, 0.6F),
                 if (useAccentColor) accentColor else
                     getPrimaryTextColorFor(primaryColor, 0.6F))
-        tabs.setSelectedTabIndicatorColor(
+        tabs?.setSelectedTabIndicatorColor(
                 if (useAccentColor) accentColor else getPrimaryTextColorFor(primaryColor, 0.6F))
         
         buildTabs()
         
-        tabs.addOnTabSelectedListener(
+        tabs?.addOnTabSelectedListener(
                 object : TabLayout.ViewPagerOnTabSelectedListener(pager) {
                     override fun onTabSelected(tab: TabLayout.Tab?) {
                         tab?.let {
                             if (lastSection == it.position) return
                             lastSection = it.position
                             if (boolean(R.bool.show_icons_in_tabs)) {
-                                tabs.setTabsIconsColors(
+                                tabs?.setTabsIconsColors(
                                         getInactiveIconsColorFor(primaryColor, 0.6F),
                                         if (useAccentColor) accentColor else
                                             getActiveIconsColorFor(primaryColor, 0.6F))
                             }
-                            searchView?.let {
-                                it.onActionViewCollapsed()
-                                val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
-                                it.queryHint = getString(R.string.search_x, hint.toLowerCase())
+                            searchView?.let { search ->
+                                search.onActionViewCollapsed()
+                                tabs?.let {
+                                    val hint = it.getTabAt(it.selectedTabPosition)?.text.toString()
+                                    search.queryHint =
+                                            getString(R.string.search_x, hint.toLowerCase())
+                                }
                             }
                             invalidateOptionsMenu()
-                            pager.setCurrentItem(lastSection, true)
+                            pager?.setCurrentItem(lastSection, true)
                         }
                     }
                     
                     override fun onTabReselected(tab: TabLayout.Tab?) = scrollToTop()
                     override fun onTabUnselected(tab: TabLayout.Tab?) {}
                 })
-        pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+        pager?.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
         
-        pager.offscreenPageLimit = tabs.tabCount
-        pager.setCurrentItem(lastSection, true)
+        pager?.offscreenPageLimit = tabs?.tabCount ?: 1
+        pager?.setCurrentItem(lastSection, true)
     }
     
     private fun buildTabs() {
@@ -130,7 +133,7 @@ abstract class FramesActivity : BaseFramesActivity() {
         val showIcons = boolean(R.bool.show_icons_in_tabs)
         val reallyShowTexts = showTexts || (!showTexts && !showIcons)
         
-        tabs.removeAllTabs()
+        tabs?.removeAllTabs()
         for (i in 0 until 3) {
             if (i == 0 && !hasCollections) continue
             
@@ -156,20 +159,20 @@ abstract class FramesActivity : BaseFramesActivity() {
                             getInactiveIconsColorFor(primaryColor, 0.6F)
                         else getActiveIconsColorFor(primaryColor, 0.6F))
             
-            val tab = tabs.newTab()
+            val tab = tabs?.newTab()
             if (reallyShowTexts) {
-                if (text != 0) tab.setText(text)
+                if (text != 0) tab?.setText(text)
                 if (showIcons && iconDrawable != null) {
-                    tab.icon = iconDrawable
+                    tab?.icon = iconDrawable
                 }
             } else {
                 if (showIcons) {
-                    if (iconDrawable != null) tab.icon = iconDrawable
+                    if (iconDrawable != null) tab?.icon = iconDrawable
                 } else {
-                    if (text != 0) tab.setText(text)
+                    if (text != 0) tab?.setText(text)
                 }
             }
-            tabs.addTab(tab)
+            tab?.let { tabs?.addTab(it) }
         }
     }
     
@@ -182,23 +185,25 @@ abstract class FramesActivity : BaseFramesActivity() {
             
             val searchItem = it.findItem(R.id.search)
             searchView = searchItem.actionView as? CustomSearchView
-            searchView?.onExpand = { toolbar.enableScroll(false) }
+            searchView?.onExpand = { toolbar?.enableScroll(false) }
             searchView?.onCollapse = {
-                toolbar.enableScroll(true)
+                toolbar?.enableScroll(true)
                 doSearch()
             }
             searchView?.onQueryChanged = { doSearch(it) }
             searchView?.onQuerySubmit = { doSearch(it) }
             searchView?.bindToItem(searchItem)
             
-            val hint = tabs.getTabAt(tabs.selectedTabPosition)?.text.toString()
-            searchView?.queryHint = getString(R.string.search_x, hint.toLowerCase())
+            tabs?.let {
+                val hint = it.getTabAt(it.selectedTabPosition)?.text.toString()
+                searchView?.queryHint = getString(R.string.search_x, hint.toLowerCase())
+            }
             
             searchView?.tint(getPrimaryTextColorFor(primaryColor, 0.6F))
             it.tint(getActiveIconsColorFor(primaryColor, 0.6F))
         }
         
-        toolbar.tint(
+        toolbar?.tint(
                 getPrimaryTextColorFor(primaryColor, 0.6F),
                 getSecondaryTextColorFor(primaryColor, 0.6F),
                 getActiveIconsColorFor(primaryColor, 0.6F))
@@ -266,11 +271,11 @@ abstract class FramesActivity : BaseFramesActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
         lastSection = savedInstanceState?.getInt("current", 0) ?: 0
-        pager.setCurrentItem(lastSection, true)
+        pager?.setCurrentItem(lastSection, true)
     }
     
     private fun scrollToTop() {
-        val adapter = pager.adapter
+        val adapter = pager?.adapter
         if (adapter is FragmentsAdapter) {
             val frag = adapter.getItem(lastSection)
             frag?.let {
@@ -286,7 +291,7 @@ abstract class FramesActivity : BaseFramesActivity() {
     
     private val lock = Any()
     private fun doSearch(filter: String = "") {
-        val adapter = pager.adapter
+        val adapter = pager?.adapter
         if (adapter is FragmentsAdapter) {
             val frag = adapter.getItem(lastSection)
             frag?.let {
@@ -305,7 +310,7 @@ abstract class FramesActivity : BaseFramesActivity() {
     }
     
     private fun refreshContent() {
-        val adapter = pager.adapter
+        val adapter = pager?.adapter
         if (adapter is FragmentsAdapter) {
             val frag = adapter.getItem(lastSection)
             frag?.let {
@@ -320,7 +325,7 @@ abstract class FramesActivity : BaseFramesActivity() {
     }
     
     private fun reloadFavorites() {
-        val adapter = pager.adapter
+        val adapter = pager?.adapter
         if (adapter is FragmentsAdapter) {
             val frag = adapter.getItem(lastSection)
             frag?.let {
@@ -335,7 +340,7 @@ abstract class FramesActivity : BaseFramesActivity() {
     }
     
     private fun setNewFavorites(list: ArrayList<Wallpaper>) {
-        val adapter = pager.adapter
+        val adapter = pager?.adapter
         if (adapter is FragmentsAdapter) {
             val frag = adapter.getItem(if (hasCollections) 2 else 1)
             frag?.let {

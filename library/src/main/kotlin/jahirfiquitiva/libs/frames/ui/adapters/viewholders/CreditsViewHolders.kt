@@ -96,9 +96,9 @@ data class Credit(
 const val SECTION_ICON_ANIMATION_DURATION: Long = 250
 
 class SectionedHeaderViewHolder(itemView: View) : SectionedViewHolder(itemView) {
-    val divider: View by itemView.bind(R.id.section_divider)
-    val title: TextView by itemView.bind(R.id.section_title)
-    val icon: ImageView by itemView.bind(R.id.section_icon)
+    val divider: View? by itemView.bind(R.id.section_divider)
+    val title: TextView? by itemView.bind(R.id.section_title)
+    val icon: ImageView? by itemView.bind(R.id.section_icon)
     
     fun setTitle(
             @StringRes text: Int, shouldShowIcon: Boolean = false, expanded: Boolean = true,
@@ -111,40 +111,40 @@ class SectionedHeaderViewHolder(itemView: View) : SectionedViewHolder(itemView) 
             text: String, shouldShowIcon: Boolean = false, expanded: Boolean = true,
             listener: () -> Unit = {}
                 ) {
-        divider.setBackgroundColor(itemView.context.dividerColor)
-        title.setTextColor(itemView.context.secondaryTextColor)
-        title.text = text
+        divider?.setBackgroundColor(itemView.context.dividerColor)
+        title?.setTextColor(itemView.context.secondaryTextColor)
+        title?.text = text
         if (shouldShowIcon) {
-            icon.drawable?.tint(itemView.context.activeIconsColor)
-            icon.visible()
-            icon.animate()?.rotation(if (expanded) 180F else 0F)?.setDuration(
-                    SECTION_ICON_ANIMATION_DURATION)?.start()
-        } else icon.gone()
+            icon?.drawable?.tint(itemView.context.activeIconsColor)
+            icon?.visible()
+            icon?.animate()?.rotation(if (expanded) 180F else 0F)
+                    ?.setDuration(SECTION_ICON_ANIMATION_DURATION)?.start()
+        } else icon?.gone()
         itemView?.setOnClickListener { listener() }
     }
 }
 
 open class DashboardCreditViewHolder(itemView: View) : SectionedViewHolder(itemView) {
-    val photo: ImageView by itemView.bind(R.id.photo)
-    val name: TextView by itemView.bind(R.id.name)
-    private val description: TextView by itemView.bind(R.id.description)
-    private val buttons: SplitButtonsLayout by itemView.bind(R.id.buttons)
+    private val photo: ImageView? by itemView.bind(R.id.photo)
+    private val name: TextView? by itemView.bind(R.id.name)
+    private val description: TextView? by itemView.bind(R.id.description)
+    private val buttons: SplitButtonsLayout? by itemView.bind(R.id.buttons)
     
     open fun setItem(
             manager: RequestManager, credit: Credit, fillAvailableSpace: Boolean = true,
             shouldHideButtons: Boolean = false
                     ) {
-        photo.loadAvatar(manager, credit.photo, false)
-        name.setTextColor(itemView.context.primaryTextColor)
-        name.text = credit.name
+        photo?.loadAvatar(manager, credit.photo, false)
+        name?.setTextColor(itemView.context.primaryTextColor)
+        name?.text = credit.name
         if (credit.description.hasContent()) {
-            description.setTextColor(itemView.context.secondaryTextColor)
-            description.text = credit.description
+            description?.setTextColor(itemView.context.secondaryTextColor)
+            description?.text = credit.description
         } else {
-            description.gone()
+            description?.gone()
         }
         if (shouldHideButtons || credit.buttonsTitles.isEmpty()) {
-            buttons.gone()
+            buttons?.gone()
             if (credit.link.hasContent()) {
                 itemView?.setOnClickListener { view -> view.context.openLink(credit.link) }
                 try {
@@ -157,13 +157,13 @@ open class DashboardCreditViewHolder(itemView: View) : SectionedViewHolder(itemV
             }
         } else {
             if (credit.buttonsTitles.size == credit.buttonsLinks.size) {
-                buttons.buttonCount = credit.buttonsTitles.size
+                buttons?.buttonCount = credit.buttonsTitles.size
                 for (index in 0 until credit.buttonsTitles.size) {
-                    if (!buttons.hasAllButtons()) {
-                        buttons.addButton(
+                    if (buttons?.hasAllButtons() == false) {
+                        buttons?.addButton(
                                 credit.buttonsTitles[index], credit.buttonsLinks[index],
                                 fillAvailableSpace)
-                        val btn = buttons.getChildAt(index)
+                        val btn = buttons?.getChildAt(index)
                         btn?.let {
                             it.setOnClickListener { view ->
                                 (view.tag as? String)?.let { view.context.openLink(it) }
@@ -173,14 +173,14 @@ open class DashboardCreditViewHolder(itemView: View) : SectionedViewHolder(itemV
                     }
                 }
             } else {
-                buttons.gone()
+                buttons?.gone()
             }
         }
     }
     
     fun unbind() {
-        photo.releaseFromGlide()
-        photo.setImageDrawable(null)
+        photo?.releaseFromGlide()
+        photo?.setImageDrawable(null)
     }
 }
 

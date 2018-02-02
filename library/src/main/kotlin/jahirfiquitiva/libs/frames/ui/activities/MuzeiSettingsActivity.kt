@@ -72,9 +72,9 @@ class MuzeiSettingsActivity : ThemedActivity() {
     private var selectedCollections = ""
     private var dialog: MaterialDialog? = null
     
-    private val collsSummaryText: TextView by bind(R.id.choose_collections_summary)
-    private val seekBar: AppCompatSeekBar by bind(R.id.every_seekbar)
-    private val checkBox: AppCompatCheckBox by bind(R.id.wifi_checkbox)
+    private val collsSummaryText: TextView? by bind(R.id.choose_collections_summary)
+    private val seekBar: AppCompatSeekBar? by bind(R.id.every_seekbar)
+    private val checkBox: AppCompatCheckBox? by bind(R.id.wifi_checkbox)
     
     private val wallsVM: WallpapersViewModel by lazy {
         ViewModelProviders.of(this).get(WallpapersViewModel::class.java)
@@ -91,28 +91,26 @@ class MuzeiSettingsActivity : ThemedActivity() {
         selectedCollections = framesKonfigs.muzeiCollections
         
         val toolbar by bind<CustomToolbar>(R.id.toolbar)
-        toolbar.bindToActivity(this)
+        toolbar?.bindToActivity(this)
         supportActionBar?.title = getString(R.string.muzei_settings)
         
-        toolbar.tint(
+        toolbar?.tint(
                 getPrimaryTextColorFor(primaryColor, 0.6F),
                 getSecondaryTextColorFor(primaryColor, 0.6F),
                 getActiveIconsColorFor(primaryColor, 0.6F))
         
-        val everyTitle: TextView by bind(R.id.every_title)
-        everyTitle.setTextColor(primaryTextColor)
+        val everyTitle: TextView? by bind(R.id.every_title)
+        everyTitle?.setTextColor(primaryTextColor)
         
-        val everySummary: TextView by bind(R.id.every_summary)
-        everySummary.setTextColor(secondaryTextColor)
-        everySummary.text = getString(
+        val everySummary: TextView? by bind(R.id.every_summary)
+        everySummary?.setTextColor(secondaryTextColor)
+        everySummary?.text = getString(
                 R.string.every_x, textFromProgress(
                 framesKonfigs.muzeiRefreshInterval).toLowerCase(Locale.getDefault()))
         
-        with(seekBar) {
-            progress = framesKonfigs.muzeiRefreshInterval
-            incrementProgressBy(SEEKBAR_STEPS)
-            max = (SEEKBAR_MAX_VALUE - SEEKBAR_MIN_VALUE) / SEEKBAR_STEPS
-        }
+        seekBar?.progress = framesKonfigs.muzeiRefreshInterval
+        seekBar?.incrementProgressBy(SEEKBAR_STEPS)
+        seekBar?.max = (SEEKBAR_MAX_VALUE - SEEKBAR_MIN_VALUE) / SEEKBAR_STEPS
         
         val isFramesApp = boolean(R.bool.isFrames)
         
@@ -126,17 +124,17 @@ class MuzeiSettingsActivity : ThemedActivity() {
         findViewById<TextView>(R.id.wifi_only_title).setTextColor(primaryTextColor)
         findViewById<TextView>(R.id.wifi_only_summary).setTextColor(secondaryTextColor)
         
-        checkBox.isChecked = framesKonfigs.refreshMuzeiOnWiFiOnly
+        checkBox?.isChecked = framesKonfigs.refreshMuzeiOnWiFiOnly
         
         findViewById<LinearLayout>(R.id.wifi_only).setOnClickListener {
-            checkBox.toggle()
+            checkBox?.toggle()
             saveChanges()
         }
         
         findViewById<TextView>(R.id.choose_collections_title).setTextColor(primaryTextColor)
         
-        collsSummaryText.setTextColor(secondaryTextColor)
-        collsSummaryText.text = getString(R.string.choose_collections_summary, selectedCollections)
+        collsSummaryText?.setTextColor(secondaryTextColor)
+        collsSummaryText?.text = getString(R.string.choose_collections_summary, selectedCollections)
         
         if (isFramesApp) {
             findViewById<LinearLayout>(R.id.choose_collections).setOnClickListener {
@@ -150,7 +148,7 @@ class MuzeiSettingsActivity : ThemedActivity() {
             findViewById<LinearLayout>(R.id.choose_collections).gone()
         }
         
-        seekBar.setOnSeekBarChangeListener(
+        seekBar?.setOnSeekBarChangeListener(
                 object : SeekBar.OnSeekBarChangeListener {
                     override fun onProgressChanged(
                             seekBar: SeekBar?,
@@ -158,7 +156,7 @@ class MuzeiSettingsActivity : ThemedActivity() {
                             fromUser: Boolean
                                                   ) {
                         val value = SEEKBAR_MIN_VALUE + (progress * SEEKBAR_STEPS)
-                        everySummary.text = resources.getString(
+                        everySummary?.text = resources.getString(
                                 R.string.every_x,
                                 textFromProgress(value).toLowerCase(
                                         Locale.getDefault()))
@@ -184,8 +182,8 @@ class MuzeiSettingsActivity : ThemedActivity() {
     override fun onBackPressed() = doFinish()
     
     private fun saveChanges() {
-        framesKonfigs.muzeiRefreshInterval = seekBar.progress
-        framesKonfigs.refreshMuzeiOnWiFiOnly = checkBox.isChecked
+        framesKonfigs.muzeiRefreshInterval = seekBar?.progress ?: 10
+        framesKonfigs.refreshMuzeiOnWiFiOnly = checkBox?.isChecked ?: false
         framesKonfigs.muzeiCollections = selectedCollections
     }
     
@@ -250,9 +248,8 @@ class MuzeiSettingsActivity : ThemedActivity() {
                                     sb.append(item)
                                 }
                                 selectedCollections = sb.toString()
-                                collsSummaryText.text = getString(
-                                        R.string.choose_collections_summary,
-                                        selectedCollections)
+                                collsSummaryText?.text = getString(
+                                        R.string.choose_collections_summary, selectedCollections)
                                 saveChanges()
                                 true
                             })

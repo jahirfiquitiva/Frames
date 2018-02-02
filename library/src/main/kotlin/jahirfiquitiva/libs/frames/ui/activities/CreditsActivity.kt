@@ -58,9 +58,9 @@ open class CreditsActivity : ThemedActivity() {
     override fun autoTintStatusBar(): Boolean = true
     override fun autoTintNavigationBar(): Boolean = true
     
-    private val toolbar: CustomToolbar by bind(R.id.toolbar)
-    private val recyclerView: EmptyViewRecyclerView by bind(R.id.list_rv)
-    private val fastScroll: RecyclerFastScroller by bind(R.id.fast_scroller)
+    private val toolbar: CustomToolbar? by bind(R.id.toolbar)
+    private val recyclerView: EmptyViewRecyclerView? by bind(R.id.list_rv)
+    private val fastScroll: RecyclerFastScroller? by bind(R.id.fast_scroller)
     
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,25 +69,25 @@ open class CreditsActivity : ThemedActivity() {
         
         registerCCLicense()
         
-        toolbar.bindToActivity(this)
+        toolbar?.bindToActivity(this)
         supportActionBar?.title = getString(R.string.about)
         
-        val refreshLayout: SwipeRefreshLayout by bind(R.id.swipe_to_refresh)
-        refreshLayout.isEnabled = false
+        val refreshLayout: SwipeRefreshLayout? by bind(R.id.swipe_to_refresh)
+        refreshLayout?.isEnabled = false
         
-        recyclerView.itemAnimator = DefaultItemAnimator()
-        recyclerView.state = EmptyViewRecyclerView.State.LOADING
+        recyclerView?.itemAnimator = DefaultItemAnimator()
+        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
         
         val layoutManager = GridLayoutManager(
                 this, if (isInHorizontalMode) 2 else 1,
                 GridLayoutManager.VERTICAL, false)
-        recyclerView.layoutManager = layoutManager
+        recyclerView?.layoutManager = layoutManager
         
         val adapter = CreditsAdapter(getDashboardTitle(), Glide.with(this), buildCreditsList())
         adapter.setLayoutManager(layoutManager)
-        recyclerView.adapter = adapter
+        recyclerView?.adapter = adapter
         
-        fastScroll.attachRecyclerView(recyclerView)
+        fastScroll?.attachRecyclerView(recyclerView)
         
         try {
             adapter.collapseSection(2)
@@ -95,7 +95,7 @@ open class CreditsActivity : ThemedActivity() {
         } catch (ignored: Exception) {
         }
         
-        recyclerView.state = EmptyViewRecyclerView.State.NORMAL
+        recyclerView?.state = EmptyViewRecyclerView.State.NORMAL
     }
     
     @StringRes
@@ -103,7 +103,7 @@ open class CreditsActivity : ThemedActivity() {
     
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.about_settings_menu, menu)
-        toolbar.tint(
+        toolbar?.tint(
                 getPrimaryTextColorFor(primaryColor, 0.6F),
                 getSecondaryTextColorFor(primaryColor, 0.6F),
                 getActiveIconsColorFor(primaryColor, 0.6F))

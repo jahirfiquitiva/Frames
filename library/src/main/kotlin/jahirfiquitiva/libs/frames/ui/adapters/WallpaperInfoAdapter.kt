@@ -89,7 +89,7 @@ class WallpaperInfoAdapter(private val colorListener: (Int) -> Unit) :
             expanded: Boolean
                                        ) {
         if (holder is SectionedHeaderViewHolder) {
-            holder.icon.gone()
+            holder.icon?.gone()
             holder.setTitle(
                     if (section == 0) R.string.wallpaper_details else R.string.wallpaper_palette)
         }

@@ -57,22 +57,22 @@ open class CollectionActivity : FragmentsActivity() {
     
     private var frag: WallpapersInCollectionFragment? = null
     
-    private val toolbar: CustomToolbar by bind(R.id.toolbar)
+    private val toolbar: CustomToolbar? by bind(R.id.toolbar)
     private var searchView: CustomSearchView? = null
     
     override fun autoTintStatusBar(): Boolean = true
     override fun autoTintNavigationBar(): Boolean = true
     
-    @SuppressLint("MissingSuperCall")
+    @SuppressLint("MissingSuperCall", "InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportPostponeEnterTransition()
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val decor = window.decorView
-            val statusBar: View by decor.bind(android.R.id.statusBarBackground)
-            val navBar: View by decor.bind(android.R.id.navigationBarBackground)
-            val actionBar: View by decor.bind(R.id.action_bar_container)
+            val statusBar: View? by decor.bind(android.R.id.statusBarBackground)
+            val navBar: View? by decor.bind(android.R.id.navigationBarBackground)
+            val actionBar: View? by decor.bind(R.id.action_bar_container)
             
             val viewsToExclude = arrayOf(statusBar, navBar, actionBar)
             val extraViewsToExclude = arrayOf(R.id.appbar, R.id.toolbar, R.id.tabs)
@@ -95,23 +95,21 @@ open class CollectionActivity : FragmentsActivity() {
         setContentView(R.layout.activity_collection_settings)
         supportStartPostponedEnterTransition()
         
-        toolbar.bindToActivity(this)
+        toolbar?.bindToActivity(this)
         
-        val container: FrameLayout by bind(fragmentsContainer())
-        with(container) {
-            setPadding(paddingLeft, paddingTop, paddingRight, 0)
-        }
+        val container: FrameLayout? by bind(fragmentsContainer())
+        container?.let { with(it) { setPadding(paddingLeft, paddingTop, paddingRight, 0) } }
         
         collection = intent?.getParcelableExtra("item")
         initContent()
     }
     
     private fun initContent(loadFragment: Boolean = false) {
-        setupToolbarTitle(toolbar)
+        toolbar?.let { setupToolbarTitle(it) }
         
         val number = collection?.wallpapers?.size ?: 0
-        if (number > 0) toolbar.subtitle = getString(R.string.x_wallpapers, number.toString())
-        toolbar.tint(
+        if (number > 0) toolbar?.subtitle = getString(R.string.x_wallpapers, number.toString())
+        toolbar?.tint(
                 getPrimaryTextColorFor(primaryColor, 0.6F),
                 getSecondaryTextColorFor(primaryColor, 0.6F),
                 getActiveIconsColorFor(primaryColor, 0.6F))
@@ -166,7 +164,7 @@ open class CollectionActivity : FragmentsActivity() {
             it.tint(getActiveIconsColorFor(primaryColor, 0.6F))
         }
         
-        toolbar.tint(
+        toolbar?.tint(
                 getPrimaryTextColorFor(primaryColor, 0.6F),
                 getSecondaryTextColorFor(primaryColor, 0.6F),
                 getActiveIconsColorFor(primaryColor, 0.6F))
