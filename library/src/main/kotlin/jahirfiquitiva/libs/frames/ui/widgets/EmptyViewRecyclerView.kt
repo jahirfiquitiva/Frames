@@ -16,6 +16,8 @@
 package jahirfiquitiva.libs.frames.ui.widgets
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.support.v7.widget.RecyclerView
@@ -50,6 +52,29 @@ open class EmptyViewRecyclerView : RecyclerView {
     
     fun setEmptyText(@StringRes res: Int) {
         emptyText = context.getString(res)
+    }
+    
+    fun setEmptyImage(image: Bitmap?) {
+        emptyView?.let {
+            if (it is ImageView) {
+                it.setImageBitmap(image)
+            } else {
+                throw UnsupportedOperationException(
+                        "Cannot set a Drawable in a View that is not ImageView")
+            }
+        }
+    }
+    
+    fun setEmptyImage(image: Drawable?) {
+        emptyView?.let {
+            if (it is ImageView) {
+                it.setImageBitmap(null)
+                it.setImageDrawable(image)
+            } else {
+                throw UnsupportedOperationException(
+                        "Cannot set a Drawable in a View that is not ImageView")
+            }
+        }
     }
     
     fun setEmptyImage(@DrawableRes res: Int) {
