@@ -31,8 +31,8 @@ import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kauextensions.ui.widgets.MaterialIcon
 
 class WallpaperInfoHolder(itemView: View) : SectionedViewHolder(itemView) {
-    val icon: MaterialIcon? by itemView.bind(R.id.info_item_icon)
-    val content: TextView? by itemView.bind(R.id.info_item_text)
+    val icon: MaterialIcon? by bind(R.id.info_item_icon)
+    val content: TextView? by bind(R.id.info_item_text)
     fun bind(detail: WallpaperDetail) = with(itemView) {
         icon?.setImageDrawable(detail.icon.getDrawable(context))
         content?.setTextColor(context.secondaryTextColor)
@@ -41,8 +41,8 @@ class WallpaperInfoHolder(itemView: View) : SectionedViewHolder(itemView) {
 }
 
 class WallpaperPaletteHolder(itemView: View) : SectionedViewHolder(itemView) {
-    private val chip: ChipView? by itemView.bind(R.id.info_palette_color)
-    fun bind(@ColorInt color: Int, colorListener: (Int) -> Unit = {}) = with(itemView) {
+    private val chip: ChipView? by bind(R.id.info_palette_color)
+    fun bindChip(@ColorInt color: Int, colorListener: (Int) -> Unit = {}) = with(itemView) {
         chip?.setBackgroundColor(color)
         chip?.setLabelColor(context.getPrimaryTextColorFor(color, 0.6F))
         chip?.label = color.toHexString()

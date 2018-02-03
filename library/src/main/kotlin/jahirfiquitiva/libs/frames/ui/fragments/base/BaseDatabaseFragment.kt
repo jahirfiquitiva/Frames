@@ -92,10 +92,9 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
     
     override fun registerObserver() {
         initFavoritesViewModel()
-        favoritesModel?.observe(
-                this, {
+        favoritesModel?.observe(this) {
             doOnFavoritesChange(ArrayList(it))
-        })
+        }
     }
     
     override fun loadDataFromViewModel() {

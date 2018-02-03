@@ -38,8 +38,8 @@ ext.versions = [
         materialDialogs       : '0.9.6.0',
         glide                 : '4.5.0',
         okhttp                : '3.9.1',
-        kauExt                : 'ccc89b6',
-        sectionedRecyclerView : '0.5.0',
+        kauExt                : 'fe278c3',
+        sectionedRecyclerView : '7e9908b',
         recyclerViewFastScroll: '6a72f8c',
         chips                 : 'a472057',
         iaps                  : '1.0.44',
@@ -76,7 +76,7 @@ ext.libraries = [
         archHelpers          : 'me.jahirfiquitiva.KAUExtensions:archhelpers:' + versions.kauExt + '@aar',
         ziv                  : 'me.jahirfiquitiva.KAUExtensions:ziv:' + versions.kauExt,
         // Sectioned RecyclerView
-        sectionedRecyclerView: 'com.afollestad:sectioned-recyclerview:' + versions.sectionedRecyclerView + '@aar',
+        sectionedRecyclerView: 'com.github.jahirfiquitiva:sectioned-recyclerview:' + versions.sectionedRecyclerView + '@aar',
         // RecyclerView Fast Scroller
         fastScroll           : 'me.jahirfiquitiva:recycler-fast-scroll:' + versions.recyclerViewFastScroll + '@aar',
         // Chips

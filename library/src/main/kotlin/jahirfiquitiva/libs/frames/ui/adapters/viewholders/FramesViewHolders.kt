@@ -45,6 +45,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
 import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.clearChildrenAnimations
+import jahirfiquitiva.libs.kauextensions.extensions.context
 import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
@@ -102,9 +103,9 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
     override val img: ImageView
         get() = itemView.findViewById(R.id.collection_picture)
     
-    private val detailsBg: LinearLayout? by itemView.bind(R.id.collection_details)
-    private val title: TextView? by itemView.bind(R.id.collection_title)
-    private val amount: TextView? by itemView.bind(R.id.collection_walls_number)
+    private val detailsBg: LinearLayout? by bind(R.id.collection_details)
+    private val title: TextView? by bind(R.id.collection_title)
+    private val amount: TextView? by bind(R.id.collection_walls_number)
     
     fun setItem(
             manager: RequestManager, provider: ViewPreloadSizeProvider<Wallpaper>,
@@ -119,7 +120,7 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
             val url = rightCover.url
             val thumb = rightCover.thumbUrl
             
-            val filled = itemView.context.boolean(R.bool.enable_filled_collection_preview)
+            val filled = context.boolean(R.bool.enable_filled_collection_preview)
             title?.text = if (filled) collection.name.toUpperCase() else collection.name
             title?.setTextColor(Color.WHITE)
             amount?.text = collection.wallpapers.size.toString()
@@ -137,33 +138,33 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                 
                 whenFaded(
                         { itemView.clearChildrenAnimations() }, {
-                    if (itemView.context.framesKonfigs.animationsEnabled) {
+                    if (context.framesKonfigs.animationsEnabled) {
                         img.animateColorTransition { wallpaper?.hasFaded = true }
                     } else {
                         itemView.clearChildrenAnimations()
                     }
                 })
                 
-                if (itemView.context.boolean(R.bool.enable_colored_tiles)) {
+                if (context.boolean(R.bool.enable_colored_tiles)) {
                     val color = try {
-                        resource.bestSwatch?.rgb ?: itemView.context.cardBackgroundColor
+                        resource.bestSwatch?.rgb ?: context.cardBackgroundColor
                     } catch (e: Exception) {
-                        itemView.context.dividerColor
+                        context.dividerColor
                     }
                     detailsBg?.background = null
                     
                     val opacity =
-                            if (itemView.context.boolean(R.bool.enable_filled_collection_preview))
+                            if (context.boolean(R.bool.enable_filled_collection_preview))
                                 COLLECTION_DETAILS_OPACITY
                             else DETAILS_OPACITY
                     
                     detailsBg?.setBackgroundColor(color.withAlpha(opacity))
-                    title?.setTextColor(itemView.context.getPrimaryTextColorFor(color))
-                    amount?.setTextColor(itemView.context.getSecondaryTextColorFor(color))
+                    title?.setTextColor(context.getPrimaryTextColorFor(color))
+                    amount?.setTextColor(context.getSecondaryTextColorFor(color))
                 } else {
                     detailsBg?.setBackgroundColor(Color.TRANSPARENT)
                     detailsBg?.background =
-                            itemView.context.drawable(R.drawable.gradient, null)
+                            context.drawable(R.drawable.gradient, null)
                 }
                 return true
             }
@@ -181,10 +182,10 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
     override val img: ImageView
         get() = itemView.findViewById(R.id.wallpaper_image)
     
-    val name: TextView? by itemView.bind(R.id.wallpaper_name)
-    val author: TextView? by itemView.bind(R.id.wallpaper_author)
-    val heartIcon: ImageView? by itemView.bind(R.id.heart_icon)
-    private val detailsBg: LinearLayout? by itemView.bind(R.id.wallpaper_details)
+    val name: TextView? by bind(R.id.wallpaper_name)
+    val author: TextView? by bind(R.id.wallpaper_author)
+    val heartIcon: ImageView? by bind(R.id.heart_icon)
+    private val detailsBg: LinearLayout? by bind(R.id.wallpaper_details)
     
     fun setItem(
             manager: RequestManager?, provider: ViewPreloadSizeProvider<Wallpaper>,
@@ -240,30 +241,30 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                 whenFaded(
                         { itemView.clearChildrenAnimations() },
                         {
-                            if (itemView.context.framesKonfigs.animationsEnabled) {
+                            if (context.framesKonfigs.animationsEnabled) {
                                 img.animateColorTransition { wallpaper?.hasFaded = true }
                             } else {
                                 itemView.clearChildrenAnimations()
                             }
                         })
                 
-                if (itemView.context.boolean(R.bool.enable_colored_tiles)) {
+                if (context.boolean(R.bool.enable_colored_tiles)) {
                     val color = try {
-                        resource.bestSwatch?.rgb ?: itemView.context.dividerColor
+                        resource.bestSwatch?.rgb ?: context.dividerColor
                     } catch (e: Exception) {
-                        itemView.context.dividerColor
+                        context.dividerColor
                     }
                     detailsBg?.background = null
                     detailsBg?.setBackgroundColor(color.withAlpha(DETAILS_OPACITY))
-                    name?.setTextColor(itemView.context.getPrimaryTextColorFor(color))
-                    author?.setTextColor(itemView.context.getSecondaryTextColorFor(color))
+                    name?.setTextColor(context.getPrimaryTextColorFor(color))
+                    author?.setTextColor(context.getSecondaryTextColorFor(color))
                     if (showFavIcon) {
-                        heartColor = itemView.context.getActiveIconsColorFor(color)
+                        heartColor = context.getActiveIconsColorFor(color)
                         heartIcon?.setImageDrawable(
-                                itemView.context.createHeartIcon(shouldCheck)?.tint(heartColor))
+                                context.createHeartIcon(shouldCheck)?.tint(heartColor))
                     }
                 } else {
-                    detailsBg?.background = itemView.context.drawable(R.drawable.gradient, null)
+                    detailsBg?.background = context.drawable(R.drawable.gradient, null)
                 }
                 return true
             }

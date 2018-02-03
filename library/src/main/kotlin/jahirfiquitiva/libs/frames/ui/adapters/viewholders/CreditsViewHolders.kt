@@ -33,11 +33,13 @@ import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
 import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
 import jahirfiquitiva.libs.kauextensions.extensions.bind
+import jahirfiquitiva.libs.kauextensions.extensions.context
 import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.openLink
 import jahirfiquitiva.libs.kauextensions.extensions.primaryTextColor
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
+import jahirfiquitiva.libs.kauextensions.extensions.string
 import jahirfiquitiva.libs.kauextensions.ui.layouts.SplitButtonsLayout
 
 @Suppress("ArrayInDataClass")
@@ -97,11 +99,10 @@ data class Credit(
 const val SECTION_ICON_ANIMATION_DURATION: Long = 250
 
 class SectionedHeaderViewHolder(itemView: View) : SectionedViewHolder(itemView) {
-    private val container: LinearLayout? by itemView.bind(R.id.section_title_container)
-    private val divider: View? by itemView.bind(R.id.section_divider)
-    private val spacing: View? by itemView.bind(R.id.small_spacing)
-    private val title: TextView? by itemView.bind(R.id.section_title)
-    private val icon: ImageView? by itemView.bind(R.id.section_icon)
+    private val container: LinearLayout? by bind(R.id.section_title_container)
+    private val divider: View? by bind(R.id.section_divider)
+    private val title: TextView? by bind(R.id.section_title)
+    private val icon: ImageView? by bind(R.id.section_icon)
     
     fun setTitle(
             @StringRes text: Int,
@@ -110,9 +111,7 @@ class SectionedHeaderViewHolder(itemView: View) : SectionedViewHolder(itemView) 
             expanded: Boolean = true,
             listener: () -> Unit = {}
                 ) {
-        setTitle(
-                itemView.context.getString(text), shouldShowDivider, shouldShowIcon, expanded,
-                listener)
+        setTitle(string(text), shouldShowDivider, shouldShowIcon, expanded, listener)
     }
     
     @Suppress("MemberVisibilityCanBePrivate")
@@ -124,22 +123,18 @@ class SectionedHeaderViewHolder(itemView: View) : SectionedViewHolder(itemView) 
             listener: () -> Unit = {}
                 ) {
         if (shouldShowDivider) {
-            divider?.setBackgroundColor(itemView.context.dividerColor)
+            divider?.setBackgroundColor(context.dividerColor)
             divider?.visible()
         } else divider?.gone()
         
         if (text.hasContent()) {
-            title?.setTextColor(itemView.context.secondaryTextColor)
+            title?.setTextColor(context.secondaryTextColor)
             title?.text = text
-            spacing?.gone()
             container?.visible()
-        } else {
-            container?.gone()
-            spacing?.visible()
-        }
+        } else container?.gone()
         
         if (shouldShowIcon) {
-            icon?.drawable?.tint(itemView.context.activeIconsColor)
+            icon?.drawable?.tint(context.activeIconsColor)
             icon?.visible()
             icon?.animate()?.rotation(if (expanded) 180F else 0F)
                     ?.setDuration(SECTION_ICON_ANIMATION_DURATION)?.start()
@@ -150,20 +145,20 @@ class SectionedHeaderViewHolder(itemView: View) : SectionedViewHolder(itemView) 
 }
 
 open class DashboardCreditViewHolder(itemView: View) : SectionedViewHolder(itemView) {
-    private val photo: ImageView? by itemView.bind(R.id.photo)
-    private val name: TextView? by itemView.bind(R.id.name)
-    private val description: TextView? by itemView.bind(R.id.description)
-    private val buttons: SplitButtonsLayout? by itemView.bind(R.id.buttons)
+    private val photo: ImageView? by bind(R.id.photo)
+    private val name: TextView? by bind(R.id.name)
+    private val description: TextView? by bind(R.id.description)
+    private val buttons: SplitButtonsLayout? by bind(R.id.buttons)
     
     open fun setItem(
             manager: RequestManager, credit: Credit, fillAvailableSpace: Boolean = true,
             shouldHideButtons: Boolean = false
                     ) {
         photo?.loadAvatar(manager, credit.photo, false)
-        name?.setTextColor(itemView.context.primaryTextColor)
+        name?.setTextColor(context.primaryTextColor)
         name?.text = credit.name
         if (credit.description.hasContent()) {
-            description?.setTextColor(itemView.context.secondaryTextColor)
+            description?.setTextColor(context.secondaryTextColor)
             description?.text = credit.description
         } else {
             description?.gone()
@@ -174,7 +169,7 @@ open class DashboardCreditViewHolder(itemView: View) : SectionedViewHolder(itemV
                 itemView?.setOnClickListener { view -> view.context.openLink(credit.link) }
                 try {
                     val outValue = TypedValue()
-                    itemView.context.theme.resolveAttribute(
+                    context.theme.resolveAttribute(
                             android.R.attr.selectableItemBackground, outValue, true)
                     itemView?.setBackgroundResource(outValue.resourceId)
                 } catch (ignored: Exception) {

@@ -77,9 +77,9 @@ class WallpaperInfoAdapter(private val colorListener: (Int) -> Unit) :
                                  ) {
         holder?.let {
             (it as? WallpaperInfoHolder)?.bind(details[relativePosition])
-                    ?: (it as? WallpaperPaletteHolder)?.bind(
-                            colors[relativePosition],
-                            { colorListener(it) })
+                    ?: (it as? WallpaperPaletteHolder)?.bindChip(colors[relativePosition]) {
+                        colorListener(it)
+                    }
         }
     }
     
