@@ -31,7 +31,14 @@
             android:visibility="gone"
             android:clipToPadding="false"/>
 
+    <View
+            android:id="@+id/small_spacing"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/cards_margin"
+            android:visibility="gone"/>
+
     <LinearLayout
+            android:id="@+id/section_title_container"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:minHeight="48dp"

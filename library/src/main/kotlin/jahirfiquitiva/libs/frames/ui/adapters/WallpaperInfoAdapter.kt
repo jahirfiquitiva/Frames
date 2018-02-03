@@ -17,7 +17,6 @@ package jahirfiquitiva.libs.frames.ui.adapters
 
 import android.support.v7.graphics.Palette
 import android.view.ViewGroup
-import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.inflate
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
@@ -88,11 +87,9 @@ class WallpaperInfoAdapter(private val colorListener: (Int) -> Unit) :
             holder: SectionedViewHolder?, section: Int,
             expanded: Boolean
                                        ) {
-        if (holder is SectionedHeaderViewHolder) {
-            holder.icon?.gone()
-            holder.setTitle(
-                    if (section == 0) R.string.wallpaper_details else R.string.wallpaper_palette)
-        }
+        (holder as? SectionedHeaderViewHolder)?.setTitle(
+                if (section == 0) R.string.wallpaper_details else R.string.wallpaper_palette,
+                false, false)
     }
     
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SectionedViewHolder? =

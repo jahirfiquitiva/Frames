@@ -18,7 +18,6 @@ package jahirfiquitiva.libs.frames.ui.adapters
 import android.support.annotation.StringRes
 import android.view.ViewGroup
 import ca.allanwang.kau.utils.inflate
-import ca.allanwang.kau.utils.visible
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.bumptech.glide.RequestManager
@@ -89,37 +88,26 @@ class CreditsAdapter(
             holder: SectionedViewHolder?, section: Int,
             expanded: Boolean
                                        ) {
-        if (holder is SectionedHeaderViewHolder) {
+        (holder as? SectionedHeaderViewHolder)?.let {
             when (section) {
-                0 -> holder.setTitle(R.string.app_name, false, expanded)
-                1 -> {
-                    holder.setTitle(dashboardTitle, false, expanded)
-                    holder.divider?.visible()
+                0 -> it.setTitle(R.string.app_name, false, false, expanded)
+                1 -> it.setTitle(dashboardTitle, true, false, expanded)
+                2 -> it.setTitle(R.string.dev_contributions, true, true, expanded) {
+                    toggleSectionExpanded(section)
                 }
-                2 -> {
-                    holder.setTitle(
-                            R.string.dev_contributions, true, expanded,
-                            { toggleSectionExpanded(section) })
-                    holder.divider?.visible()
-                }
-                3 -> {
-                    holder.setTitle(
-                            R.string.ui_contributions, true, expanded,
-                            { toggleSectionExpanded(section) })
-                    holder.divider?.visible()
+                3 -> it.setTitle(R.string.ui_contributions, true, true, expanded) {
+                    toggleSectionExpanded(section)
                 }
             }
         }
     }
     
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SectionedViewHolder? =
-            when (viewType) {
-                0, 1 -> parent?.inflate(R.layout.item_credits)?.let {
-                    DashboardCreditViewHolder(it)
-                }
-                2, 3 -> parent?.inflate(R.layout.item_credits)?.let { SimpleCreditViewHolder(it) }
-                else -> parent?.inflate(R.layout.item_section_header)?.let {
-                    SectionedHeaderViewHolder(it)
+            parent?.let {
+                when (viewType) {
+                    0, 1 -> DashboardCreditViewHolder(it.inflate(R.layout.item_credits))
+                    2, 3 -> SimpleCreditViewHolder(it.inflate(R.layout.item_credits))
+                    else -> SectionedHeaderViewHolder(it.inflate(R.layout.item_section_header))
                 }
             }
     

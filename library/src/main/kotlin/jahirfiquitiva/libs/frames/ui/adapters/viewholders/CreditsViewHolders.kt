@@ -20,6 +20,7 @@ import android.support.v7.widget.AppCompatButton
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.tint
@@ -96,30 +97,54 @@ data class Credit(
 const val SECTION_ICON_ANIMATION_DURATION: Long = 250
 
 class SectionedHeaderViewHolder(itemView: View) : SectionedViewHolder(itemView) {
-    val divider: View? by itemView.bind(R.id.section_divider)
-    val title: TextView? by itemView.bind(R.id.section_title)
-    val icon: ImageView? by itemView.bind(R.id.section_icon)
+    private val container: LinearLayout? by itemView.bind(R.id.section_title_container)
+    private val divider: View? by itemView.bind(R.id.section_divider)
+    private val spacing: View? by itemView.bind(R.id.small_spacing)
+    private val title: TextView? by itemView.bind(R.id.section_title)
+    private val icon: ImageView? by itemView.bind(R.id.section_icon)
     
     fun setTitle(
-            @StringRes text: Int, shouldShowIcon: Boolean = false, expanded: Boolean = true,
+            @StringRes text: Int,
+            shouldShowDivider: Boolean = false,
+            shouldShowIcon: Boolean = false,
+            expanded: Boolean = true,
             listener: () -> Unit = {}
                 ) {
-        setTitle(itemView.context.getString(text), shouldShowIcon, expanded, listener)
+        setTitle(
+                itemView.context.getString(text), shouldShowDivider, shouldShowIcon, expanded,
+                listener)
     }
     
+    @Suppress("MemberVisibilityCanBePrivate")
     fun setTitle(
-            text: String, shouldShowIcon: Boolean = false, expanded: Boolean = true,
+            text: String,
+            shouldShowDivider: Boolean = false,
+            shouldShowIcon: Boolean = false,
+            expanded: Boolean = true,
             listener: () -> Unit = {}
                 ) {
-        divider?.setBackgroundColor(itemView.context.dividerColor)
-        title?.setTextColor(itemView.context.secondaryTextColor)
-        title?.text = text
+        if (shouldShowDivider) {
+            divider?.setBackgroundColor(itemView.context.dividerColor)
+            divider?.visible()
+        } else divider?.gone()
+        
+        if (text.hasContent()) {
+            title?.setTextColor(itemView.context.secondaryTextColor)
+            title?.text = text
+            spacing?.gone()
+            container?.visible()
+        } else {
+            container?.gone()
+            spacing?.visible()
+        }
+        
         if (shouldShowIcon) {
             icon?.drawable?.tint(itemView.context.activeIconsColor)
             icon?.visible()
             icon?.animate()?.rotation(if (expanded) 180F else 0F)
                     ?.setDuration(SECTION_ICON_ANIMATION_DURATION)?.start()
         } else icon?.gone()
+        
         itemView?.setOnClickListener { listener() }
     }
 }
