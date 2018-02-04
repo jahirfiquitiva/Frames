@@ -52,6 +52,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import jahirfiquitiva.libs.kauextensions.ui.activities.ThemedActivity
 import org.jetbrains.anko.collections.forEachWithIndex
+import java.util.Collections
 import java.util.Locale
 
 class MuzeiSettingsActivity : ThemedActivity() {

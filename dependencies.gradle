@@ -36,7 +36,7 @@ ext.versions = [
         lifecycle             : '1.1.0',
         room                  : '1.1.0-alpha1',
         permissions           : '1.0.0',
-        materialDialogs       : '75aff51',
+        materialDialogs       : '0.9.6.0',
         glide                 : '4.6.1',
         okhttp                : '3.9.1',
         kauExt                : '55f234f',
@@ -65,8 +65,8 @@ ext.libraries = [
         // Permissions
         permissions          : 'com.github.fondesa:kpermissions:' + versions.permissions,
         // Material Dialogs
-        dialogsCore          : 'com.github.afollestad.material-dialogs:core:' + versions.materialDialogs,
-        dialogsCommons       : 'com.github.afollestad.material-dialogs:commons:' + versions.materialDialogs,
+        dialogsCore          : 'com.afollestad.material-dialogs:core:' + versions.materialDialogs,
+        dialogsCommons       : 'com.afollestad.material-dialogs:commons:' + versions.materialDialogs,
         // OkHttp
         okHttp               : 'com.squareup.okhttp3:okhttp:' + versions.okhttp,
         // Glide Image Loading
