@@ -15,7 +15,9 @@
  */
 dependencies {
     // Architecture Components
-    api libraries.room
+    api(libraries.room) {
+        exclude group: 'com.android.support'
+    }
     annotationProcessor libraries.roomCompiler
     kapt libraries.roomCompiler
     // Permissions
@@ -23,8 +25,10 @@ dependencies {
         exclude group: 'com.android.support'
     }
     // Material Dialogs
-    api libraries.dialogsCore
-    api libraries.dialogsCommons
+    // api libraries.dialogsCore
+    api(libraries.dialogsCommons) {
+        exclude group: 'com.android.support'
+    }
     // OkHttp
     api libraries.okHttp
     // Glide Image Loading
@@ -35,19 +39,34 @@ dependencies {
     api(libraries.archHelpers) {
         transitive = true
     }
-    api libraries.ziv
+    api(libraries.ziv) {
+        exclude group: 'com.android.support'
+    }
     // Sectioned RecyclerView
-    api libraries.sectionedRecyclerView
+    api(libraries.sectionedRecyclerView) {
+        exclude group: 'com.android.support'
+    }
     // RecyclerView Fast Scroller
-    api(libraries.fastScroll)
+    api(libraries.fastScroll) {
+        exclude group: 'com.android.support'
+    }
     // Chips
-    api libraries.chips
+    api(libraries.chips) {
+        exclude group: 'com.android.support'
+    }
     // In-App Purchases
-    api libraries.iaps
+    api(libraries.iaps) {
+        exclude group: 'com.android.support'
+    }
     // Muzei API
-    api libraries.muzeiApi
+    api(libraries.muzeiApi) {
+        exclude group: 'com.android.support'
+    }
     // Licenses Dialog
-    api libraries.licenses
+    api(libraries.licenses) {
+        exclude group: 'com.android.support'
+        exclude group: 'com.google.code'
+    }
     // License Checker
     api(libraries.checker) {
         exclude group: 'com.android.support'

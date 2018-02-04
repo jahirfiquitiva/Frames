@@ -33,15 +33,16 @@ ext.versions = [
         libs                  : '2.0',
         // Dependencies
         supportLibs           : '27.0.2',
+        lifecycle             : '1.1.0',
         room                  : '1.1.0-alpha1',
         permissions           : '1.0.0',
         materialDialogs       : '0.9.6.0',
         glide                 : '4.5.0',
         okhttp                : '3.9.1',
-        kauExt                : '9c9e0cc',
+        kauExt                : '55f234f',
         sectionedRecyclerView : '7e9908b',
         recyclerViewFastScroll: '6a72f8c',
-        chips                 : 'aa4e4eb',
+        chips                 : '64d671a',
         iaps                  : '1.0.44',
         muzeiApi              : '2.0',
         licensesDialog        : '1.8.3',
@@ -80,7 +81,7 @@ ext.libraries = [
         // RecyclerView Fast Scroller
         fastScroll           : 'me.jahirfiquitiva:recycler-fast-scroll:' + versions.recyclerViewFastScroll + '@aar',
         // Chips
-        chips                : 'com.github.jahirfiquitiva.MaterialChipsInput:core:' + versions.chips,
+        chips                : 'com.github.jahirfiquitiva:MaterialChipsInput:' + versions.chips,
         // In-App Purchases
         iaps                 : 'com.anjlab.android.iab.v3:library:' + versions.iaps,
         // Muzei API
