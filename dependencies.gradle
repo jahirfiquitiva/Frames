@@ -82,7 +82,7 @@ ext.libraries = [
         // RecyclerView Fast Scroller
         fastScroll           : 'me.jahirfiquitiva:recycler-fast-scroll:' + versions.recyclerViewFastScroll + '@aar',
         // Chips
-        chips                : 'com.github.jahirfiquitiva:MaterialChipsInput:' + versions.chips,
+        chips                : 'com.github.jahirfiquitiva.MaterialChipsInput:core:' + versions.chips,
         // In-App Purchases
         iaps                 : 'com.anjlab.android.iab.v3:library:' + versions.iaps,
         // Muzei API

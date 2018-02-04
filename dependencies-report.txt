@@ -1,6 +1,6 @@
 
 ------------------------------------------------------------
-Project :library
+Project :app
 ------------------------------------------------------------
 
 androidJacocoAgent - The Jacoco agent to use to get coverage data.
@@ -21,6 +21,9 @@ No dependencies
 androidTestApi - API dependencies for 'androidTest' sources. (n)
 No dependencies
 
+androidTestApk - Apk dependencies for 'androidTest' sources (deprecated: use 'androidTestRuntimeOnly' instead). (n)
+No dependencies
+
 androidTestCompile - Compile dependencies for 'androidTest' sources (deprecated: use 'androidTestImplementation' instead). (n)
 No dependencies
 
@@ -31,6 +34,9 @@ androidTestDebugAnnotationProcessor - Classpath for the annotation processor for
 No dependencies
 
 androidTestDebugApi - API dependencies for 'androidTestDebug' sources. (n)
+No dependencies
+
+androidTestDebugApk - Apk dependencies for 'androidTestDebug' sources (deprecated: use 'androidTestDebugRuntimeOnly' instead). (n)
 No dependencies
 
 androidTestDebugCompile - Compile dependencies for 'androidTestDebug' sources (deprecated: use 'androidTestDebugImplementation' instead). (n)
@@ -45,9 +51,6 @@ No dependencies
 androidTestDebugProvided - Provided dependencies for 'androidTestDebug' sources (deprecated: use 'androidTestDebugCompileOnly' instead). (n)
 No dependencies
 
-androidTestDebugPublish - Publish dependencies for 'androidTestDebug' sources (deprecated: use 'androidTestDebugRuntimeOnly' instead). (n)
-No dependencies
-
 androidTestDebugRuntimeOnly - Runtime only dependencies for 'androidTestDebug' sources. (n)
 No dependencies
 
@@ -60,9 +63,6 @@ No dependencies
 androidTestProvided - Provided dependencies for 'androidTest' sources (deprecated: use 'androidTestCompileOnly' instead). (n)
 No dependencies
 
-androidTestPublish - Publish dependencies for 'androidTest' sources (deprecated: use 'androidTestRuntimeOnly' instead). (n)
-No dependencies
-
 androidTestRuntimeOnly - Runtime only dependencies for 'androidTest' sources. (n)
 No dependencies
 
@@ -73,139 +73,16 @@ androidTestWearApp - Link to a wear app to embed for object 'androidTest'. (n)
 No dependencies
 
 annotationProcessor - Classpath for the annotation processor for 'main'. (n)
-\--- android.arch.persistence.room:compiler:1.1.0-alpha1 (n)
+No dependencies
 
 api - API dependencies for 'main' sources. (n)
-+--- android.arch.persistence.room:runtime:1.1.0-alpha1 (n)
-+--- com.github.fondesa:kpermissions:1.0.0 (n)
-+--- com.afollestad.material-dialogs:commons:0.9.6.0 (n)
-+--- com.squareup.okhttp3:okhttp:3.9.1 (n)
-+--- com.github.bumptech.glide:glide:4.5.0 (n)
-+--- com.github.bumptech.glide:recyclerview-integration:4.5.0 (n)
-+--- me.jahirfiquitiva.KAUExtensions:archhelpers:9c9e0cc (n)
-+--- me.jahirfiquitiva.KAUExtensions:ziv:9c9e0cc (n)
-+--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b (n)
-+--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c (n)
-+--- com.github.jahirfiquitiva.MaterialChipsInput:core:aa4e4eb (n)
-+--- com.anjlab.android.iab.v3:library:1.0.44 (n)
-+--- com.google.android.apps.muzei:muzei-api:2.0 (n)
-+--- de.psdev.licensesdialog:licensesdialog:1.8.3 (n)
-\--- com.github.javiersantos:PiracyChecker:1.2 (n)
+No dependencies
+
+apk - Apk dependencies for 'main' sources (deprecated: use 'runtimeOnly' instead). (n)
+No dependencies
 
 archives - Configuration for archive artifacts.
-+--- android.arch.persistence.room:runtime:1.1.0-alpha1
-|    +--- android.arch.persistence.room:common:1.1.0-alpha1
-|    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db-framework:1.1.0-alpha1
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.persistence:db:1.1.0-alpha1
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db:1.1.0-alpha1 (*)
-|    +--- android.arch.core:runtime:1.1.0
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.core:common:1.1.0
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    \--- com.android.support:support-core-utils:26.1.0 -> 27.0.2
-|         +--- com.android.support:support-annotations:27.0.2
-|         \--- com.android.support:support-compat:27.0.2
-|              +--- com.android.support:support-annotations:27.0.2
-|              \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
-|                   +--- android.arch.lifecycle:common:1.1.0
-|                   |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|                   +--- android.arch.core:common:1.1.0 (*)
-|                   \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- com.github.fondesa:kpermissions:1.0.0
-|    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
-|         \--- org.jetbrains:annotations:13.0
-+--- com.afollestad.material-dialogs:commons:0.9.6.0
-|    \--- com.afollestad.material-dialogs:core:0.9.6.0
-|         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
-+--- com.squareup.okhttp3:okhttp:3.9.1
-|    \--- com.squareup.okio:okio:1.13.0
-+--- com.github.bumptech.glide:glide:4.5.0
-|    +--- com.github.bumptech.glide:gifdecoder:4.5.0
-|    |    \--- com.android.support:support-annotations:27.0.2
-|    +--- com.github.bumptech.glide:disklrucache:4.5.0
-|    +--- com.github.bumptech.glide:annotations:4.5.0
-|    \--- com.android.support:support-fragment:27.0.2
-|         +--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-ui:27.0.2
-|         |    +--- com.android.support:support-annotations:27.0.2
-|         |    \--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-utils:27.0.2 (*)
-|         \--- com.android.support:support-annotations:27.0.2
-+--- com.github.bumptech.glide:recyclerview-integration:4.5.0
-|    \--- com.github.bumptech.glide:glide:4.5.0 (*)
-+--- me.jahirfiquitiva.KAUExtensions:archhelpers:9c9e0cc
-|    +--- me.jahirfiquitiva.KAUExtensions:core:9c9e0cc
-|    |    +--- com.android.support:support-v13:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    \--- com.android.support:support-v4:27.0.2
-|    |    |         +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-media-compat:27.0.2
-|    |    |         |    +--- com.android.support:support-annotations:27.0.2
-|    |    |         |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    |         \--- com.android.support:support-fragment:27.0.2 (*)
-|    |    +--- com.android.support:appcompat-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
-|    |    |    +--- com.android.support:support-vector-drawable:27.0.2
-|    |    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
-|    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
-|    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:recyclerview-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:cardview-v7:27.0.2
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- com.android.support:palette-v7:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    +--- com.android.support:design:27.0.2
-|    |    |    +--- com.android.support:support-v4:27.0.2 (*)
-|    |    |    +--- com.android.support:appcompat-v7:27.0.2 (*)
-|    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
-|    |    |    \--- com.android.support:transition:27.0.2
-|    |    |         +--- com.android.support:support-annotations:27.0.2
-|    |    |         \--- com.android.support:support-compat:27.0.2 (*)
-|    |    +--- com.android.support:customtabs:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|    |    \--- ca.allanwang.kau:core:3.6.3
-|    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
-|    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
-|    |         \--- org.jetbrains.anko:anko-commons:0.10.4
-|    \--- android.arch.lifecycle:extensions:1.1.0
-|         +--- android.arch.lifecycle:runtime:1.1.0 (*)
-|         +--- android.arch.core:common:1.1.0 (*)
-|         +--- android.arch.core:runtime:1.1.0 (*)
-|         +--- com.android.support:support-fragment:26.1.0 -> 27.0.2 (*)
-|         +--- android.arch.lifecycle:common:1.1.0 (*)
-|         +--- android.arch.lifecycle:livedata:1.1.0
-|         |    +--- android.arch.core:runtime:1.1.0 (*)
-|         |    +--- android.arch.lifecycle:livedata-core:1.1.0
-|         |    |    +--- android.arch.lifecycle:common:1.1.0 (*)
-|         |    |    +--- android.arch.core:common:1.1.0 (*)
-|         |    |    \--- android.arch.core:runtime:1.1.0 (*)
-|         |    \--- android.arch.core:common:1.1.0 (*)
-|         \--- android.arch.lifecycle:viewmodel:1.1.0
-|              \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- me.jahirfiquitiva.KAUExtensions:ziv:9c9e0cc
-+--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
-+--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
-+--- com.github.jahirfiquitiva.MaterialChipsInput:core:aa4e4eb
-+--- com.anjlab.android.iab.v3:library:1.0.44
-+--- com.google.android.apps.muzei:muzei-api:2.0
-+--- de.psdev.licensesdialog:licensesdialog:1.8.3
-|    \--- com.google.code.findbugs:jsr305:3.0.1
-\--- com.github.javiersantos:PiracyChecker:1.2
+No dependencies
 
 compile - Compile dependencies for 'main' sources (deprecated: use 'implementation' instead).
 No dependencies
@@ -217,254 +94,220 @@ debugAndroidTestAnnotationProcessorClasspath - Resolved configuration for annota
 No dependencies
 
 debugAndroidTestCompileClasspath - Resolved configuration for compilation for variant: debugAndroidTest
-+--- android.arch.persistence.room:runtime:1.1.0-alpha1
-|    +--- android.arch.persistence.room:common:1.1.0-alpha1
-|    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db-framework:1.1.0-alpha1
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.persistence:db:1.1.0-alpha1
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db:1.1.0-alpha1 (*)
-|    +--- android.arch.core:runtime:1.1.0
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.core:common:1.1.0
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    \--- com.android.support:support-core-utils:26.1.0 -> 27.0.2
-|         +--- com.android.support:support-annotations:27.0.2
-|         \--- com.android.support:support-compat:27.0.2
-|              +--- com.android.support:support-annotations:27.0.2
-|              \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
-|                   +--- android.arch.lifecycle:common:1.1.0
-|                   |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|                   +--- android.arch.core:common:1.1.0 (*)
-|                   \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- com.github.fondesa:kpermissions:1.0.0
-|    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
-|         \--- org.jetbrains:annotations:13.0
-+--- com.afollestad.material-dialogs:commons:0.9.6.0
-|    \--- com.afollestad.material-dialogs:core:0.9.6.0
-|         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
-+--- com.squareup.okhttp3:okhttp:3.9.1
-|    \--- com.squareup.okio:okio:1.13.0
-+--- com.github.bumptech.glide:glide:4.5.0
-|    +--- com.github.bumptech.glide:gifdecoder:4.5.0
-|    |    \--- com.android.support:support-annotations:27.0.2
-|    +--- com.github.bumptech.glide:disklrucache:4.5.0
-|    +--- com.github.bumptech.glide:annotations:4.5.0
-|    \--- com.android.support:support-fragment:27.0.2
-|         +--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-ui:27.0.2
-|         |    +--- com.android.support:support-annotations:27.0.2
-|         |    \--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-utils:27.0.2 (*)
-|         \--- com.android.support:support-annotations:27.0.2
-+--- com.github.bumptech.glide:recyclerview-integration:4.5.0
-|    \--- com.github.bumptech.glide:glide:4.5.0 (*)
-+--- me.jahirfiquitiva.KAUExtensions:archhelpers:9c9e0cc
-|    +--- me.jahirfiquitiva.KAUExtensions:core:9c9e0cc
-|    |    +--- com.android.support:support-v13:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    \--- com.android.support:support-v4:27.0.2
-|    |    |         +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-media-compat:27.0.2
-|    |    |         |    +--- com.android.support:support-annotations:27.0.2
-|    |    |         |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    |         \--- com.android.support:support-fragment:27.0.2 (*)
-|    |    +--- com.android.support:appcompat-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
-|    |    |    +--- com.android.support:support-vector-drawable:27.0.2
-|    |    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
-|    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
-|    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:recyclerview-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:cardview-v7:27.0.2
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- com.android.support:palette-v7:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    +--- com.android.support:design:27.0.2
-|    |    |    +--- com.android.support:support-v4:27.0.2 (*)
-|    |    |    +--- com.android.support:appcompat-v7:27.0.2 (*)
-|    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
-|    |    |    \--- com.android.support:transition:27.0.2
-|    |    |         +--- com.android.support:support-annotations:27.0.2
-|    |    |         \--- com.android.support:support-compat:27.0.2 (*)
-|    |    +--- com.android.support:customtabs:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|    |    \--- ca.allanwang.kau:core:3.6.3
-|    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
-|    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
-|    |         \--- org.jetbrains.anko:anko-commons:0.10.4
-|    \--- android.arch.lifecycle:extensions:1.1.0
-|         +--- android.arch.lifecycle:runtime:1.1.0 (*)
-|         +--- android.arch.core:common:1.1.0 (*)
-|         +--- android.arch.core:runtime:1.1.0 (*)
-|         +--- com.android.support:support-fragment:26.1.0 -> 27.0.2 (*)
-|         +--- android.arch.lifecycle:common:1.1.0 (*)
-|         +--- android.arch.lifecycle:livedata:1.1.0
-|         |    +--- android.arch.core:runtime:1.1.0 (*)
-|         |    +--- android.arch.lifecycle:livedata-core:1.1.0
-|         |    |    +--- android.arch.lifecycle:common:1.1.0 (*)
-|         |    |    +--- android.arch.core:common:1.1.0 (*)
-|         |    |    \--- android.arch.core:runtime:1.1.0 (*)
-|         |    \--- android.arch.core:common:1.1.0 (*)
-|         \--- android.arch.lifecycle:viewmodel:1.1.0
-|              \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- me.jahirfiquitiva.KAUExtensions:ziv:9c9e0cc
-+--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
-+--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
-+--- com.github.jahirfiquitiva.MaterialChipsInput:core:aa4e4eb
-+--- com.anjlab.android.iab.v3:library:1.0.44
-+--- com.google.android.apps.muzei:muzei-api:2.0
-+--- de.psdev.licensesdialog:licensesdialog:1.8.3
-|    \--- com.google.code.findbugs:jsr305:3.0.1
-\--- com.github.javiersantos:PiracyChecker:1.2
+\--- project :library
+     +--- android.arch.persistence.room:runtime:1.1.0-alpha1
+     |    +--- android.arch.persistence.room:common:1.1.0-alpha1
+     |    +--- android.arch.persistence:db-framework:1.1.0-alpha1
+     |    |    \--- android.arch.persistence:db:1.1.0-alpha1
+     |    +--- android.arch.persistence:db:1.1.0-alpha1
+     |    \--- android.arch.core:runtime:1.1.0
+     |         \--- android.arch.core:common:1.1.0
+     +--- com.github.fondesa:kpermissions:1.0.0
+     |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
+     |         \--- org.jetbrains:annotations:13.0
+     +--- com.afollestad.material-dialogs:commons:0.9.6.0
+     |    \--- com.afollestad.material-dialogs:core:0.9.6.0
+     |         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
+     +--- com.squareup.okhttp3:okhttp:3.9.1
+     |    \--- com.squareup.okio:okio:1.13.0
+     +--- com.github.bumptech.glide:glide:4.6.1
+     |    +--- com.github.bumptech.glide:gifdecoder:4.6.1
+     |    +--- com.github.bumptech.glide:disklrucache:4.6.1
+     |    \--- com.github.bumptech.glide:annotations:4.6.1
+     +--- com.github.bumptech.glide:recyclerview-integration:4.6.1
+     |    \--- com.github.bumptech.glide:glide:4.6.1 (*)
+     +--- me.jahirfiquitiva.KAUExtensions:archhelpers:55f234f
+     |    +--- me.jahirfiquitiva.KAUExtensions:core:55f234f
+     |    |    +--- com.android.support:recyclerview-v7:27.0.2
+     |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
+     |    |    |    |         +--- android.arch.lifecycle:common:1.1.0
+     |    |    |    |         \--- android.arch.core:common:1.1.0
+     |    |    |    \--- com.android.support:support-core-ui:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:cardview-v7:27.0.2
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- com.android.support:palette-v7:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-core-utils:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:design:27.0.2
+     |    |    |    +--- com.android.support:support-v4:27.0.2
+     |    |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-media-compat:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:support-fragment:27.0.2
+     |    |    |    |         +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:appcompat-v7:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-vector-drawable:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
+     |    |    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
+     |    |    |    \--- com.android.support:transition:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:customtabs:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+     |    |    \--- ca.allanwang.kau:core:3.6.3
+     |    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
+     |    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
+     |    |         \--- org.jetbrains.anko:anko-commons:0.10.4
+     |    \--- android.arch.lifecycle:extensions:1.1.0
+     |         +--- android.arch.lifecycle:runtime:1.1.0 (*)
+     |         +--- android.arch.core:common:1.1.0
+     |         +--- android.arch.core:runtime:1.1.0 (*)
+     |         +--- android.arch.lifecycle:common:1.1.0
+     |         +--- android.arch.lifecycle:livedata:1.1.0
+     |         |    +--- android.arch.core:runtime:1.1.0 (*)
+     |         |    +--- android.arch.lifecycle:livedata-core:1.1.0
+     |         |    |    +--- android.arch.lifecycle:common:1.1.0
+     |         |    |    +--- android.arch.core:common:1.1.0
+     |         |    |    \--- android.arch.core:runtime:1.1.0 (*)
+     |         |    \--- android.arch.core:common:1.1.0
+     |         \--- android.arch.lifecycle:viewmodel:1.1.0
+     +--- me.jahirfiquitiva.KAUExtensions:ziv:55f234f
+     +--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
+     +--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
+     +--- com.github.jahirfiquitiva:MaterialChipsInput:64d671a
+     |    +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |    \--- com.github.jahirfiquitiva.MaterialChipsInput:layout:64d671a
+     |         +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |         +--- com.beloo.widget:ChipsLayoutManager:0.3.7
+     |         \--- de.hdodenhof:circleimageview:2.1.0
+     +--- com.anjlab.android.iab.v3:library:1.0.44
+     +--- com.google.android.apps.muzei:muzei-api:2.0
+     +--- de.psdev.licensesdialog:licensesdialog:1.8.3
+     |    \--- com.google.code.findbugs:jsr305:3.0.1
+     \--- com.github.javiersantos:PiracyChecker:1.2
 
 debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for variant: debugAndroidTest
-+--- android.arch.persistence.room:runtime:1.1.0-alpha1
-|    +--- android.arch.persistence.room:common:1.1.0-alpha1
-|    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db-framework:1.1.0-alpha1
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.persistence:db:1.1.0-alpha1
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db:1.1.0-alpha1 (*)
-|    +--- android.arch.core:runtime:1.1.0
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.core:common:1.1.0
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    \--- com.android.support:support-core-utils:26.1.0 -> 27.0.2
-|         +--- com.android.support:support-annotations:27.0.2
-|         \--- com.android.support:support-compat:27.0.2
-|              +--- com.android.support:support-annotations:27.0.2
-|              \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
-|                   +--- android.arch.lifecycle:common:1.1.0
-|                   |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|                   +--- android.arch.core:common:1.1.0 (*)
-|                   \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- com.github.fondesa:kpermissions:1.0.0
-|    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
-|         \--- org.jetbrains:annotations:13.0
-+--- com.afollestad.material-dialogs:commons:0.9.6.0
-|    \--- com.afollestad.material-dialogs:core:0.9.6.0
-|         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
-+--- com.squareup.okhttp3:okhttp:3.9.1
-|    \--- com.squareup.okio:okio:1.13.0
-+--- com.github.bumptech.glide:glide:4.5.0
-|    +--- com.github.bumptech.glide:gifdecoder:4.5.0
-|    |    \--- com.android.support:support-annotations:27.0.2
-|    +--- com.github.bumptech.glide:disklrucache:4.5.0
-|    +--- com.github.bumptech.glide:annotations:4.5.0
-|    \--- com.android.support:support-fragment:27.0.2
-|         +--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-ui:27.0.2
-|         |    +--- com.android.support:support-annotations:27.0.2
-|         |    \--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-utils:27.0.2 (*)
-|         \--- com.android.support:support-annotations:27.0.2
-+--- com.github.bumptech.glide:recyclerview-integration:4.5.0
-|    \--- com.github.bumptech.glide:glide:4.5.0 (*)
-+--- me.jahirfiquitiva.KAUExtensions:archhelpers:9c9e0cc
-|    +--- me.jahirfiquitiva.KAUExtensions:core:9c9e0cc
-|    |    +--- com.android.support:support-v13:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    \--- com.android.support:support-v4:27.0.2
-|    |    |         +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-media-compat:27.0.2
-|    |    |         |    +--- com.android.support:support-annotations:27.0.2
-|    |    |         |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    |         \--- com.android.support:support-fragment:27.0.2 (*)
-|    |    +--- com.android.support:appcompat-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
-|    |    |    +--- com.android.support:support-vector-drawable:27.0.2
-|    |    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
-|    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
-|    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:recyclerview-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:cardview-v7:27.0.2
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- com.android.support:palette-v7:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    +--- com.android.support:design:27.0.2
-|    |    |    +--- com.android.support:support-v4:27.0.2 (*)
-|    |    |    +--- com.android.support:appcompat-v7:27.0.2 (*)
-|    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
-|    |    |    \--- com.android.support:transition:27.0.2
-|    |    |         +--- com.android.support:support-annotations:27.0.2
-|    |    |         \--- com.android.support:support-compat:27.0.2 (*)
-|    |    +--- com.android.support:customtabs:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|    |    \--- ca.allanwang.kau:core:3.6.3
-|    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
-|    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
-|    |         \--- org.jetbrains.anko:anko-commons:0.10.4
-|    \--- android.arch.lifecycle:extensions:1.1.0
-|         +--- android.arch.lifecycle:runtime:1.1.0 (*)
-|         +--- android.arch.core:common:1.1.0 (*)
-|         +--- android.arch.core:runtime:1.1.0 (*)
-|         +--- com.android.support:support-fragment:26.1.0 -> 27.0.2 (*)
-|         +--- android.arch.lifecycle:common:1.1.0 (*)
-|         +--- android.arch.lifecycle:livedata:1.1.0
-|         |    +--- android.arch.core:runtime:1.1.0 (*)
-|         |    +--- android.arch.lifecycle:livedata-core:1.1.0
-|         |    |    +--- android.arch.lifecycle:common:1.1.0 (*)
-|         |    |    +--- android.arch.core:common:1.1.0 (*)
-|         |    |    \--- android.arch.core:runtime:1.1.0 (*)
-|         |    \--- android.arch.core:common:1.1.0 (*)
-|         \--- android.arch.lifecycle:viewmodel:1.1.0
-|              \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- me.jahirfiquitiva.KAUExtensions:ziv:9c9e0cc
-+--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
-+--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
-+--- com.github.jahirfiquitiva.MaterialChipsInput:core:aa4e4eb
-+--- com.anjlab.android.iab.v3:library:1.0.44
-+--- com.google.android.apps.muzei:muzei-api:2.0
-+--- de.psdev.licensesdialog:licensesdialog:1.8.3
-|    \--- com.google.code.findbugs:jsr305:3.0.1
-\--- com.github.javiersantos:PiracyChecker:1.2
+\--- project :library
+     +--- android.arch.persistence.room:runtime:1.1.0-alpha1
+     |    +--- android.arch.persistence.room:common:1.1.0-alpha1
+     |    +--- android.arch.persistence:db-framework:1.1.0-alpha1
+     |    |    \--- android.arch.persistence:db:1.1.0-alpha1
+     |    +--- android.arch.persistence:db:1.1.0-alpha1
+     |    \--- android.arch.core:runtime:1.1.0
+     |         \--- android.arch.core:common:1.1.0
+     +--- com.github.fondesa:kpermissions:1.0.0
+     |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
+     |         \--- org.jetbrains:annotations:13.0
+     +--- com.afollestad.material-dialogs:commons:0.9.6.0
+     |    \--- com.afollestad.material-dialogs:core:0.9.6.0
+     |         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
+     +--- com.squareup.okhttp3:okhttp:3.9.1
+     |    \--- com.squareup.okio:okio:1.13.0
+     +--- com.github.bumptech.glide:glide:4.6.1
+     |    +--- com.github.bumptech.glide:gifdecoder:4.6.1
+     |    +--- com.github.bumptech.glide:disklrucache:4.6.1
+     |    \--- com.github.bumptech.glide:annotations:4.6.1
+     +--- com.github.bumptech.glide:recyclerview-integration:4.6.1
+     |    \--- com.github.bumptech.glide:glide:4.6.1 (*)
+     +--- me.jahirfiquitiva.KAUExtensions:archhelpers:55f234f
+     |    +--- me.jahirfiquitiva.KAUExtensions:core:55f234f
+     |    |    +--- com.android.support:recyclerview-v7:27.0.2
+     |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
+     |    |    |    |         +--- android.arch.lifecycle:common:1.1.0
+     |    |    |    |         \--- android.arch.core:common:1.1.0
+     |    |    |    \--- com.android.support:support-core-ui:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:cardview-v7:27.0.2
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- com.android.support:palette-v7:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-core-utils:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:design:27.0.2
+     |    |    |    +--- com.android.support:support-v4:27.0.2
+     |    |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-media-compat:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:support-fragment:27.0.2
+     |    |    |    |         +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:appcompat-v7:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-vector-drawable:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
+     |    |    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
+     |    |    |    \--- com.android.support:transition:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:customtabs:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+     |    |    \--- ca.allanwang.kau:core:3.6.3
+     |    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
+     |    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
+     |    |         \--- org.jetbrains.anko:anko-commons:0.10.4
+     |    \--- android.arch.lifecycle:extensions:1.1.0
+     |         +--- android.arch.lifecycle:runtime:1.1.0 (*)
+     |         +--- android.arch.core:common:1.1.0
+     |         +--- android.arch.core:runtime:1.1.0 (*)
+     |         +--- android.arch.lifecycle:common:1.1.0
+     |         +--- android.arch.lifecycle:livedata:1.1.0
+     |         |    +--- android.arch.core:runtime:1.1.0 (*)
+     |         |    +--- android.arch.lifecycle:livedata-core:1.1.0
+     |         |    |    +--- android.arch.lifecycle:common:1.1.0
+     |         |    |    +--- android.arch.core:common:1.1.0
+     |         |    |    \--- android.arch.core:runtime:1.1.0 (*)
+     |         |    \--- android.arch.core:common:1.1.0
+     |         \--- android.arch.lifecycle:viewmodel:1.1.0
+     +--- me.jahirfiquitiva.KAUExtensions:ziv:55f234f
+     +--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
+     +--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
+     +--- com.github.jahirfiquitiva:MaterialChipsInput:64d671a
+     |    +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |    \--- com.github.jahirfiquitiva.MaterialChipsInput:layout:64d671a
+     |         +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |         +--- com.beloo.widget:ChipsLayoutManager:0.3.7
+     |         \--- de.hdodenhof:circleimageview:2.1.0
+     +--- com.anjlab.android.iab.v3:library:1.0.44
+     +--- com.google.android.apps.muzei:muzei-api:2.0
+     +--- de.psdev.licensesdialog:licensesdialog:1.8.3
+     |    \--- com.google.code.findbugs:jsr305:3.0.1
+     \--- com.github.javiersantos:PiracyChecker:1.2
 
 debugAnnotationProcessor - Classpath for the annotation processor for 'debug'. (n)
 No dependencies
 
 debugAnnotationProcessorClasspath - Resolved configuration for annotation-processor for variant: debug
-\--- android.arch.persistence.room:compiler:1.1.0-alpha1
-     +--- android.arch.persistence.room:common:1.1.0-alpha1
-     |    \--- com.android.support:support-annotations:26.1.0
-     +--- android.arch.persistence.room:migration:1.1.0-alpha1
-     |    +--- android.arch.persistence.room:common:1.1.0-alpha1 (*)
-     |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0
-     |    |    \--- org.jetbrains:annotations:13.0
-     |    \--- com.google.code.gson:gson:2.8.0
-     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 (*)
-     +--- com.google.auto:auto-common:0.6
-     |    \--- com.google.guava:guava:18.0
-     +--- com.squareup:javapoet:1.8.0
-     +--- org.antlr:antlr4:4.5.3
-     +--- org.xerial:sqlite-jdbc:3.20.1
-     \--- commons-codec:commons-codec:1.10
+No dependencies
 
 debugApi - API dependencies for 'debug' sources. (n)
 No dependencies
@@ -472,123 +315,116 @@ No dependencies
 debugApiElements - API elements for debug (n)
 No dependencies
 
+debugApk - Apk dependencies for 'debug' sources (deprecated: use 'debugRuntimeOnly' instead). (n)
+No dependencies
+
 debugCompile - Compile dependencies for 'debug' sources (deprecated: use 'debugImplementation' instead). (n)
 No dependencies
 
 debugCompileClasspath - Resolved configuration for compilation for variant: debug
-+--- android.arch.persistence.room:runtime:1.1.0-alpha1
-|    +--- android.arch.persistence.room:common:1.1.0-alpha1
-|    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db-framework:1.1.0-alpha1
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.persistence:db:1.1.0-alpha1
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db:1.1.0-alpha1 (*)
-|    +--- android.arch.core:runtime:1.1.0
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.core:common:1.1.0
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    \--- com.android.support:support-core-utils:26.1.0 -> 27.0.2
-|         +--- com.android.support:support-annotations:27.0.2
-|         \--- com.android.support:support-compat:27.0.2
-|              +--- com.android.support:support-annotations:27.0.2
-|              \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
-|                   +--- android.arch.lifecycle:common:1.1.0
-|                   |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|                   +--- android.arch.core:common:1.1.0 (*)
-|                   \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- com.github.fondesa:kpermissions:1.0.0
-|    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
-|         \--- org.jetbrains:annotations:13.0
-+--- com.afollestad.material-dialogs:commons:0.9.6.0
-|    \--- com.afollestad.material-dialogs:core:0.9.6.0
-|         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
-+--- com.squareup.okhttp3:okhttp:3.9.1
-|    \--- com.squareup.okio:okio:1.13.0
-+--- com.github.bumptech.glide:glide:4.5.0
-|    +--- com.github.bumptech.glide:gifdecoder:4.5.0
-|    |    \--- com.android.support:support-annotations:27.0.2
-|    +--- com.github.bumptech.glide:disklrucache:4.5.0
-|    +--- com.github.bumptech.glide:annotations:4.5.0
-|    \--- com.android.support:support-fragment:27.0.2
-|         +--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-ui:27.0.2
-|         |    +--- com.android.support:support-annotations:27.0.2
-|         |    \--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-utils:27.0.2 (*)
-|         \--- com.android.support:support-annotations:27.0.2
-+--- com.github.bumptech.glide:recyclerview-integration:4.5.0
-|    \--- com.github.bumptech.glide:glide:4.5.0 (*)
-+--- me.jahirfiquitiva.KAUExtensions:archhelpers:9c9e0cc
-|    +--- me.jahirfiquitiva.KAUExtensions:core:9c9e0cc
-|    |    +--- com.android.support:support-v13:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    \--- com.android.support:support-v4:27.0.2
-|    |    |         +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-media-compat:27.0.2
-|    |    |         |    +--- com.android.support:support-annotations:27.0.2
-|    |    |         |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    |         \--- com.android.support:support-fragment:27.0.2 (*)
-|    |    +--- com.android.support:appcompat-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
-|    |    |    +--- com.android.support:support-vector-drawable:27.0.2
-|    |    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
-|    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
-|    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:recyclerview-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:cardview-v7:27.0.2
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- com.android.support:palette-v7:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    +--- com.android.support:design:27.0.2
-|    |    |    +--- com.android.support:support-v4:27.0.2 (*)
-|    |    |    +--- com.android.support:appcompat-v7:27.0.2 (*)
-|    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
-|    |    |    \--- com.android.support:transition:27.0.2
-|    |    |         +--- com.android.support:support-annotations:27.0.2
-|    |    |         \--- com.android.support:support-compat:27.0.2 (*)
-|    |    +--- com.android.support:customtabs:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|    |    \--- ca.allanwang.kau:core:3.6.3
-|    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
-|    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
-|    |         \--- org.jetbrains.anko:anko-commons:0.10.4
-|    \--- android.arch.lifecycle:extensions:1.1.0
-|         +--- android.arch.lifecycle:runtime:1.1.0 (*)
-|         +--- android.arch.core:common:1.1.0 (*)
-|         +--- android.arch.core:runtime:1.1.0 (*)
-|         +--- com.android.support:support-fragment:26.1.0 -> 27.0.2 (*)
-|         +--- android.arch.lifecycle:common:1.1.0 (*)
-|         +--- android.arch.lifecycle:livedata:1.1.0
-|         |    +--- android.arch.core:runtime:1.1.0 (*)
-|         |    +--- android.arch.lifecycle:livedata-core:1.1.0
-|         |    |    +--- android.arch.lifecycle:common:1.1.0 (*)
-|         |    |    +--- android.arch.core:common:1.1.0 (*)
-|         |    |    \--- android.arch.core:runtime:1.1.0 (*)
-|         |    \--- android.arch.core:common:1.1.0 (*)
-|         \--- android.arch.lifecycle:viewmodel:1.1.0
-|              \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- me.jahirfiquitiva.KAUExtensions:ziv:9c9e0cc
-+--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
-+--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
-+--- com.github.jahirfiquitiva.MaterialChipsInput:core:aa4e4eb
-+--- com.anjlab.android.iab.v3:library:1.0.44
-+--- com.google.android.apps.muzei:muzei-api:2.0
-+--- de.psdev.licensesdialog:licensesdialog:1.8.3
-|    \--- com.google.code.findbugs:jsr305:3.0.1
-\--- com.github.javiersantos:PiracyChecker:1.2
+\--- project :library
+     +--- android.arch.persistence.room:runtime:1.1.0-alpha1
+     |    +--- android.arch.persistence.room:common:1.1.0-alpha1
+     |    +--- android.arch.persistence:db-framework:1.1.0-alpha1
+     |    |    \--- android.arch.persistence:db:1.1.0-alpha1
+     |    +--- android.arch.persistence:db:1.1.0-alpha1
+     |    \--- android.arch.core:runtime:1.1.0
+     |         \--- android.arch.core:common:1.1.0
+     +--- com.github.fondesa:kpermissions:1.0.0
+     |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
+     |         \--- org.jetbrains:annotations:13.0
+     +--- com.afollestad.material-dialogs:commons:0.9.6.0
+     |    \--- com.afollestad.material-dialogs:core:0.9.6.0
+     |         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
+     +--- com.squareup.okhttp3:okhttp:3.9.1
+     |    \--- com.squareup.okio:okio:1.13.0
+     +--- com.github.bumptech.glide:glide:4.6.1
+     |    +--- com.github.bumptech.glide:gifdecoder:4.6.1
+     |    +--- com.github.bumptech.glide:disklrucache:4.6.1
+     |    \--- com.github.bumptech.glide:annotations:4.6.1
+     +--- com.github.bumptech.glide:recyclerview-integration:4.6.1
+     |    \--- com.github.bumptech.glide:glide:4.6.1 (*)
+     +--- me.jahirfiquitiva.KAUExtensions:archhelpers:55f234f
+     |    +--- me.jahirfiquitiva.KAUExtensions:core:55f234f
+     |    |    +--- com.android.support:recyclerview-v7:27.0.2
+     |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
+     |    |    |    |         +--- android.arch.lifecycle:common:1.1.0
+     |    |    |    |         \--- android.arch.core:common:1.1.0
+     |    |    |    \--- com.android.support:support-core-ui:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:cardview-v7:27.0.2
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- com.android.support:palette-v7:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-core-utils:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:design:27.0.2
+     |    |    |    +--- com.android.support:support-v4:27.0.2
+     |    |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-media-compat:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:support-fragment:27.0.2
+     |    |    |    |         +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:appcompat-v7:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-vector-drawable:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
+     |    |    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
+     |    |    |    \--- com.android.support:transition:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:customtabs:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+     |    |    \--- ca.allanwang.kau:core:3.6.3
+     |    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
+     |    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
+     |    |         \--- org.jetbrains.anko:anko-commons:0.10.4
+     |    \--- android.arch.lifecycle:extensions:1.1.0
+     |         +--- android.arch.lifecycle:runtime:1.1.0 (*)
+     |         +--- android.arch.core:common:1.1.0
+     |         +--- android.arch.core:runtime:1.1.0 (*)
+     |         +--- android.arch.lifecycle:common:1.1.0
+     |         +--- android.arch.lifecycle:livedata:1.1.0
+     |         |    +--- android.arch.core:runtime:1.1.0 (*)
+     |         |    +--- android.arch.lifecycle:livedata-core:1.1.0
+     |         |    |    +--- android.arch.lifecycle:common:1.1.0
+     |         |    |    +--- android.arch.core:common:1.1.0
+     |         |    |    \--- android.arch.core:runtime:1.1.0 (*)
+     |         |    \--- android.arch.core:common:1.1.0
+     |         \--- android.arch.lifecycle:viewmodel:1.1.0
+     +--- me.jahirfiquitiva.KAUExtensions:ziv:55f234f
+     +--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
+     +--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
+     +--- com.github.jahirfiquitiva:MaterialChipsInput:64d671a
+     |    +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |    \--- com.github.jahirfiquitiva.MaterialChipsInput:layout:64d671a
+     |         +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |         +--- com.beloo.widget:ChipsLayoutManager:0.3.7
+     |         \--- de.hdodenhof:circleimageview:2.1.0
+     +--- com.anjlab.android.iab.v3:library:1.0.44
+     +--- com.google.android.apps.muzei:muzei-api:2.0
+     +--- de.psdev.licensesdialog:licensesdialog:1.8.3
+     |    \--- com.google.code.findbugs:jsr305:3.0.1
+     \--- com.github.javiersantos:PiracyChecker:1.2
 
 debugCompileOnly - Compile only dependencies for 'debug' sources. (n)
 No dependencies
@@ -596,126 +432,116 @@ No dependencies
 debugImplementation - Implementation only dependencies for 'debug' sources. (n)
 No dependencies
 
+debugMetadataElements - Metadata elements for debug (n)
+No dependencies
+
 debugProvided - Provided dependencies for 'debug' sources (deprecated: use 'debugCompileOnly' instead). (n)
 No dependencies
 
-debugPublish - Publish dependencies for 'debug' sources (deprecated: use 'debugRuntimeOnly' instead). (n)
-No dependencies
-
 debugRuntimeClasspath - Resolved configuration for runtime for variant: debug
-+--- android.arch.persistence.room:runtime:1.1.0-alpha1
-|    +--- android.arch.persistence.room:common:1.1.0-alpha1
-|    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db-framework:1.1.0-alpha1
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.persistence:db:1.1.0-alpha1
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db:1.1.0-alpha1 (*)
-|    +--- android.arch.core:runtime:1.1.0
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.core:common:1.1.0
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    \--- com.android.support:support-core-utils:26.1.0 -> 27.0.2
-|         +--- com.android.support:support-annotations:27.0.2
-|         \--- com.android.support:support-compat:27.0.2
-|              +--- com.android.support:support-annotations:27.0.2
-|              \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
-|                   +--- android.arch.lifecycle:common:1.1.0
-|                   |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|                   +--- android.arch.core:common:1.1.0 (*)
-|                   \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- com.github.fondesa:kpermissions:1.0.0
-|    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
-|         \--- org.jetbrains:annotations:13.0
-+--- com.afollestad.material-dialogs:commons:0.9.6.0
-|    \--- com.afollestad.material-dialogs:core:0.9.6.0
-|         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
-+--- com.squareup.okhttp3:okhttp:3.9.1
-|    \--- com.squareup.okio:okio:1.13.0
-+--- com.github.bumptech.glide:glide:4.5.0
-|    +--- com.github.bumptech.glide:gifdecoder:4.5.0
-|    |    \--- com.android.support:support-annotations:27.0.2
-|    +--- com.github.bumptech.glide:disklrucache:4.5.0
-|    +--- com.github.bumptech.glide:annotations:4.5.0
-|    \--- com.android.support:support-fragment:27.0.2
-|         +--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-ui:27.0.2
-|         |    +--- com.android.support:support-annotations:27.0.2
-|         |    \--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-utils:27.0.2 (*)
-|         \--- com.android.support:support-annotations:27.0.2
-+--- com.github.bumptech.glide:recyclerview-integration:4.5.0
-|    \--- com.github.bumptech.glide:glide:4.5.0 (*)
-+--- me.jahirfiquitiva.KAUExtensions:archhelpers:9c9e0cc
-|    +--- me.jahirfiquitiva.KAUExtensions:core:9c9e0cc
-|    |    +--- com.android.support:support-v13:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    \--- com.android.support:support-v4:27.0.2
-|    |    |         +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-media-compat:27.0.2
-|    |    |         |    +--- com.android.support:support-annotations:27.0.2
-|    |    |         |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    |         \--- com.android.support:support-fragment:27.0.2 (*)
-|    |    +--- com.android.support:appcompat-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
-|    |    |    +--- com.android.support:support-vector-drawable:27.0.2
-|    |    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
-|    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
-|    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:recyclerview-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:cardview-v7:27.0.2
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- com.android.support:palette-v7:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    +--- com.android.support:design:27.0.2
-|    |    |    +--- com.android.support:support-v4:27.0.2 (*)
-|    |    |    +--- com.android.support:appcompat-v7:27.0.2 (*)
-|    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
-|    |    |    \--- com.android.support:transition:27.0.2
-|    |    |         +--- com.android.support:support-annotations:27.0.2
-|    |    |         \--- com.android.support:support-compat:27.0.2 (*)
-|    |    +--- com.android.support:customtabs:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|    |    \--- ca.allanwang.kau:core:3.6.3
-|    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
-|    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
-|    |         \--- org.jetbrains.anko:anko-commons:0.10.4
-|    \--- android.arch.lifecycle:extensions:1.1.0
-|         +--- android.arch.lifecycle:runtime:1.1.0 (*)
-|         +--- android.arch.core:common:1.1.0 (*)
-|         +--- android.arch.core:runtime:1.1.0 (*)
-|         +--- com.android.support:support-fragment:26.1.0 -> 27.0.2 (*)
-|         +--- android.arch.lifecycle:common:1.1.0 (*)
-|         +--- android.arch.lifecycle:livedata:1.1.0
-|         |    +--- android.arch.core:runtime:1.1.0 (*)
-|         |    +--- android.arch.lifecycle:livedata-core:1.1.0
-|         |    |    +--- android.arch.lifecycle:common:1.1.0 (*)
-|         |    |    +--- android.arch.core:common:1.1.0 (*)
-|         |    |    \--- android.arch.core:runtime:1.1.0 (*)
-|         |    \--- android.arch.core:common:1.1.0 (*)
-|         \--- android.arch.lifecycle:viewmodel:1.1.0
-|              \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- me.jahirfiquitiva.KAUExtensions:ziv:9c9e0cc
-+--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
-+--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
-+--- com.github.jahirfiquitiva.MaterialChipsInput:core:aa4e4eb
-+--- com.anjlab.android.iab.v3:library:1.0.44
-+--- com.google.android.apps.muzei:muzei-api:2.0
-+--- de.psdev.licensesdialog:licensesdialog:1.8.3
-|    \--- com.google.code.findbugs:jsr305:3.0.1
-\--- com.github.javiersantos:PiracyChecker:1.2
+\--- project :library
+     +--- android.arch.persistence.room:runtime:1.1.0-alpha1
+     |    +--- android.arch.persistence.room:common:1.1.0-alpha1
+     |    +--- android.arch.persistence:db-framework:1.1.0-alpha1
+     |    |    \--- android.arch.persistence:db:1.1.0-alpha1
+     |    +--- android.arch.persistence:db:1.1.0-alpha1
+     |    \--- android.arch.core:runtime:1.1.0
+     |         \--- android.arch.core:common:1.1.0
+     +--- com.github.fondesa:kpermissions:1.0.0
+     |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
+     |         \--- org.jetbrains:annotations:13.0
+     +--- com.afollestad.material-dialogs:commons:0.9.6.0
+     |    \--- com.afollestad.material-dialogs:core:0.9.6.0
+     |         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
+     +--- com.squareup.okhttp3:okhttp:3.9.1
+     |    \--- com.squareup.okio:okio:1.13.0
+     +--- com.github.bumptech.glide:glide:4.6.1
+     |    +--- com.github.bumptech.glide:gifdecoder:4.6.1
+     |    +--- com.github.bumptech.glide:disklrucache:4.6.1
+     |    \--- com.github.bumptech.glide:annotations:4.6.1
+     +--- com.github.bumptech.glide:recyclerview-integration:4.6.1
+     |    \--- com.github.bumptech.glide:glide:4.6.1 (*)
+     +--- me.jahirfiquitiva.KAUExtensions:archhelpers:55f234f
+     |    +--- me.jahirfiquitiva.KAUExtensions:core:55f234f
+     |    |    +--- com.android.support:recyclerview-v7:27.0.2
+     |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
+     |    |    |    |         +--- android.arch.lifecycle:common:1.1.0
+     |    |    |    |         \--- android.arch.core:common:1.1.0
+     |    |    |    \--- com.android.support:support-core-ui:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:cardview-v7:27.0.2
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- com.android.support:palette-v7:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-core-utils:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:design:27.0.2
+     |    |    |    +--- com.android.support:support-v4:27.0.2
+     |    |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-media-compat:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:support-fragment:27.0.2
+     |    |    |    |         +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:appcompat-v7:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-vector-drawable:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
+     |    |    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
+     |    |    |    \--- com.android.support:transition:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:customtabs:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+     |    |    \--- ca.allanwang.kau:core:3.6.3
+     |    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
+     |    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
+     |    |         \--- org.jetbrains.anko:anko-commons:0.10.4
+     |    \--- android.arch.lifecycle:extensions:1.1.0
+     |         +--- android.arch.lifecycle:runtime:1.1.0 (*)
+     |         +--- android.arch.core:common:1.1.0
+     |         +--- android.arch.core:runtime:1.1.0 (*)
+     |         +--- android.arch.lifecycle:common:1.1.0
+     |         +--- android.arch.lifecycle:livedata:1.1.0
+     |         |    +--- android.arch.core:runtime:1.1.0 (*)
+     |         |    +--- android.arch.lifecycle:livedata-core:1.1.0
+     |         |    |    +--- android.arch.lifecycle:common:1.1.0
+     |         |    |    +--- android.arch.core:common:1.1.0
+     |         |    |    \--- android.arch.core:runtime:1.1.0 (*)
+     |         |    \--- android.arch.core:common:1.1.0
+     |         \--- android.arch.lifecycle:viewmodel:1.1.0
+     +--- me.jahirfiquitiva.KAUExtensions:ziv:55f234f
+     +--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
+     +--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
+     +--- com.github.jahirfiquitiva:MaterialChipsInput:64d671a
+     |    +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |    \--- com.github.jahirfiquitiva.MaterialChipsInput:layout:64d671a
+     |         +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |         +--- com.beloo.widget:ChipsLayoutManager:0.3.7
+     |         \--- de.hdodenhof:circleimageview:2.1.0
+     +--- com.anjlab.android.iab.v3:library:1.0.44
+     +--- com.google.android.apps.muzei:muzei-api:2.0
+     +--- de.psdev.licensesdialog:licensesdialog:1.8.3
+     |    \--- com.google.code.findbugs:jsr305:3.0.1
+     \--- com.github.javiersantos:PiracyChecker:1.2
 
 debugRuntimeElements - Runtime elements for debug (n)
 No dependencies
@@ -727,435 +553,306 @@ debugUnitTestAnnotationProcessorClasspath - Resolved configuration for annotatio
 No dependencies
 
 debugUnitTestCompileClasspath - Resolved configuration for compilation for variant: debugUnitTest
-+--- android.arch.persistence.room:runtime:1.1.0-alpha1
-|    +--- android.arch.persistence.room:common:1.1.0-alpha1
-|    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db-framework:1.1.0-alpha1
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.persistence:db:1.1.0-alpha1
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db:1.1.0-alpha1 (*)
-|    +--- android.arch.core:runtime:1.1.0
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.core:common:1.1.0
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    \--- com.android.support:support-core-utils:26.1.0 -> 27.0.2
-|         +--- com.android.support:support-annotations:27.0.2
-|         \--- com.android.support:support-compat:27.0.2
-|              +--- com.android.support:support-annotations:27.0.2
-|              \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
-|                   +--- android.arch.lifecycle:common:1.1.0
-|                   |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|                   +--- android.arch.core:common:1.1.0 (*)
-|                   \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- com.github.fondesa:kpermissions:1.0.0
-|    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
-|         \--- org.jetbrains:annotations:13.0
-+--- com.afollestad.material-dialogs:commons:0.9.6.0
-|    \--- com.afollestad.material-dialogs:core:0.9.6.0
-|         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
-+--- com.squareup.okhttp3:okhttp:3.9.1
-|    \--- com.squareup.okio:okio:1.13.0
-+--- com.github.bumptech.glide:glide:4.5.0
-|    +--- com.github.bumptech.glide:gifdecoder:4.5.0
-|    |    \--- com.android.support:support-annotations:27.0.2
-|    +--- com.github.bumptech.glide:disklrucache:4.5.0
-|    +--- com.github.bumptech.glide:annotations:4.5.0
-|    \--- com.android.support:support-fragment:27.0.2
-|         +--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-ui:27.0.2
-|         |    +--- com.android.support:support-annotations:27.0.2
-|         |    \--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-utils:27.0.2 (*)
-|         \--- com.android.support:support-annotations:27.0.2
-+--- com.github.bumptech.glide:recyclerview-integration:4.5.0
-|    \--- com.github.bumptech.glide:glide:4.5.0 (*)
-+--- me.jahirfiquitiva.KAUExtensions:archhelpers:9c9e0cc
-|    +--- me.jahirfiquitiva.KAUExtensions:core:9c9e0cc
-|    |    +--- com.android.support:support-v13:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    \--- com.android.support:support-v4:27.0.2
-|    |    |         +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-media-compat:27.0.2
-|    |    |         |    +--- com.android.support:support-annotations:27.0.2
-|    |    |         |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    |         \--- com.android.support:support-fragment:27.0.2 (*)
-|    |    +--- com.android.support:appcompat-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
-|    |    |    +--- com.android.support:support-vector-drawable:27.0.2
-|    |    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
-|    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
-|    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:recyclerview-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:cardview-v7:27.0.2
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- com.android.support:palette-v7:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    +--- com.android.support:design:27.0.2
-|    |    |    +--- com.android.support:support-v4:27.0.2 (*)
-|    |    |    +--- com.android.support:appcompat-v7:27.0.2 (*)
-|    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
-|    |    |    \--- com.android.support:transition:27.0.2
-|    |    |         +--- com.android.support:support-annotations:27.0.2
-|    |    |         \--- com.android.support:support-compat:27.0.2 (*)
-|    |    +--- com.android.support:customtabs:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|    |    \--- ca.allanwang.kau:core:3.6.3
-|    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
-|    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
-|    |         \--- org.jetbrains.anko:anko-commons:0.10.4
-|    \--- android.arch.lifecycle:extensions:1.1.0
-|         +--- android.arch.lifecycle:runtime:1.1.0 (*)
-|         +--- android.arch.core:common:1.1.0 (*)
-|         +--- android.arch.core:runtime:1.1.0 (*)
-|         +--- com.android.support:support-fragment:26.1.0 -> 27.0.2 (*)
-|         +--- android.arch.lifecycle:common:1.1.0 (*)
-|         +--- android.arch.lifecycle:livedata:1.1.0
-|         |    +--- android.arch.core:runtime:1.1.0 (*)
-|         |    +--- android.arch.lifecycle:livedata-core:1.1.0
-|         |    |    +--- android.arch.lifecycle:common:1.1.0 (*)
-|         |    |    +--- android.arch.core:common:1.1.0 (*)
-|         |    |    \--- android.arch.core:runtime:1.1.0 (*)
-|         |    \--- android.arch.core:common:1.1.0 (*)
-|         \--- android.arch.lifecycle:viewmodel:1.1.0
-|              \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- me.jahirfiquitiva.KAUExtensions:ziv:9c9e0cc
-+--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
-+--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
-+--- com.github.jahirfiquitiva.MaterialChipsInput:core:aa4e4eb
-+--- com.anjlab.android.iab.v3:library:1.0.44
-+--- com.google.android.apps.muzei:muzei-api:2.0
-+--- de.psdev.licensesdialog:licensesdialog:1.8.3
-|    \--- com.google.code.findbugs:jsr305:3.0.1
-\--- com.github.javiersantos:PiracyChecker:1.2
+\--- project :library
+     +--- android.arch.persistence.room:runtime:1.1.0-alpha1
+     |    +--- android.arch.persistence.room:common:1.1.0-alpha1
+     |    +--- android.arch.persistence:db-framework:1.1.0-alpha1
+     |    |    \--- android.arch.persistence:db:1.1.0-alpha1
+     |    +--- android.arch.persistence:db:1.1.0-alpha1
+     |    \--- android.arch.core:runtime:1.1.0
+     |         \--- android.arch.core:common:1.1.0
+     +--- com.github.fondesa:kpermissions:1.0.0
+     |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
+     |         \--- org.jetbrains:annotations:13.0
+     +--- com.afollestad.material-dialogs:commons:0.9.6.0
+     |    \--- com.afollestad.material-dialogs:core:0.9.6.0
+     |         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
+     +--- com.squareup.okhttp3:okhttp:3.9.1
+     |    \--- com.squareup.okio:okio:1.13.0
+     +--- com.github.bumptech.glide:glide:4.6.1
+     |    +--- com.github.bumptech.glide:gifdecoder:4.6.1
+     |    +--- com.github.bumptech.glide:disklrucache:4.6.1
+     |    \--- com.github.bumptech.glide:annotations:4.6.1
+     +--- com.github.bumptech.glide:recyclerview-integration:4.6.1
+     |    \--- com.github.bumptech.glide:glide:4.6.1 (*)
+     +--- me.jahirfiquitiva.KAUExtensions:archhelpers:55f234f
+     |    +--- me.jahirfiquitiva.KAUExtensions:core:55f234f
+     |    |    +--- com.android.support:recyclerview-v7:27.0.2
+     |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
+     |    |    |    |         +--- android.arch.lifecycle:common:1.1.0
+     |    |    |    |         \--- android.arch.core:common:1.1.0
+     |    |    |    \--- com.android.support:support-core-ui:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:cardview-v7:27.0.2
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- com.android.support:palette-v7:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-core-utils:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:design:27.0.2
+     |    |    |    +--- com.android.support:support-v4:27.0.2
+     |    |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-media-compat:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:support-fragment:27.0.2
+     |    |    |    |         +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:appcompat-v7:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-vector-drawable:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
+     |    |    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
+     |    |    |    \--- com.android.support:transition:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:customtabs:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+     |    |    \--- ca.allanwang.kau:core:3.6.3
+     |    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
+     |    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
+     |    |         \--- org.jetbrains.anko:anko-commons:0.10.4
+     |    \--- android.arch.lifecycle:extensions:1.1.0
+     |         +--- android.arch.lifecycle:runtime:1.1.0 (*)
+     |         +--- android.arch.core:common:1.1.0
+     |         +--- android.arch.core:runtime:1.1.0 (*)
+     |         +--- android.arch.lifecycle:common:1.1.0
+     |         +--- android.arch.lifecycle:livedata:1.1.0
+     |         |    +--- android.arch.core:runtime:1.1.0 (*)
+     |         |    +--- android.arch.lifecycle:livedata-core:1.1.0
+     |         |    |    +--- android.arch.lifecycle:common:1.1.0
+     |         |    |    +--- android.arch.core:common:1.1.0
+     |         |    |    \--- android.arch.core:runtime:1.1.0 (*)
+     |         |    \--- android.arch.core:common:1.1.0
+     |         \--- android.arch.lifecycle:viewmodel:1.1.0
+     +--- me.jahirfiquitiva.KAUExtensions:ziv:55f234f
+     +--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
+     +--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
+     +--- com.github.jahirfiquitiva:MaterialChipsInput:64d671a
+     |    +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |    \--- com.github.jahirfiquitiva.MaterialChipsInput:layout:64d671a
+     |         +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |         +--- com.beloo.widget:ChipsLayoutManager:0.3.7
+     |         \--- de.hdodenhof:circleimageview:2.1.0
+     +--- com.anjlab.android.iab.v3:library:1.0.44
+     +--- com.google.android.apps.muzei:muzei-api:2.0
+     +--- de.psdev.licensesdialog:licensesdialog:1.8.3
+     |    \--- com.google.code.findbugs:jsr305:3.0.1
+     \--- com.github.javiersantos:PiracyChecker:1.2
 
 debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: debugUnitTest
-+--- android.arch.persistence.room:runtime:1.1.0-alpha1
-|    +--- android.arch.persistence.room:common:1.1.0-alpha1
-|    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db-framework:1.1.0-alpha1
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.persistence:db:1.1.0-alpha1
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db:1.1.0-alpha1 (*)
-|    +--- android.arch.core:runtime:1.1.0
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.core:common:1.1.0
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    \--- com.android.support:support-core-utils:26.1.0 -> 27.0.2
-|         +--- com.android.support:support-annotations:27.0.2
-|         \--- com.android.support:support-compat:27.0.2
-|              +--- com.android.support:support-annotations:27.0.2
-|              \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
-|                   +--- android.arch.lifecycle:common:1.1.0
-|                   |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|                   +--- android.arch.core:common:1.1.0 (*)
-|                   \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- com.github.fondesa:kpermissions:1.0.0
-|    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
-|         \--- org.jetbrains:annotations:13.0
-+--- com.afollestad.material-dialogs:commons:0.9.6.0
-|    \--- com.afollestad.material-dialogs:core:0.9.6.0
-|         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
-+--- com.squareup.okhttp3:okhttp:3.9.1
-|    \--- com.squareup.okio:okio:1.13.0
-+--- com.github.bumptech.glide:glide:4.5.0
-|    +--- com.github.bumptech.glide:gifdecoder:4.5.0
-|    |    \--- com.android.support:support-annotations:27.0.2
-|    +--- com.github.bumptech.glide:disklrucache:4.5.0
-|    +--- com.github.bumptech.glide:annotations:4.5.0
-|    \--- com.android.support:support-fragment:27.0.2
-|         +--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-ui:27.0.2
-|         |    +--- com.android.support:support-annotations:27.0.2
-|         |    \--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-utils:27.0.2 (*)
-|         \--- com.android.support:support-annotations:27.0.2
-+--- com.github.bumptech.glide:recyclerview-integration:4.5.0
-|    \--- com.github.bumptech.glide:glide:4.5.0 (*)
-+--- me.jahirfiquitiva.KAUExtensions:archhelpers:9c9e0cc
-|    +--- me.jahirfiquitiva.KAUExtensions:core:9c9e0cc
-|    |    +--- com.android.support:support-v13:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    \--- com.android.support:support-v4:27.0.2
-|    |    |         +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-media-compat:27.0.2
-|    |    |         |    +--- com.android.support:support-annotations:27.0.2
-|    |    |         |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    |         \--- com.android.support:support-fragment:27.0.2 (*)
-|    |    +--- com.android.support:appcompat-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
-|    |    |    +--- com.android.support:support-vector-drawable:27.0.2
-|    |    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
-|    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
-|    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:recyclerview-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:cardview-v7:27.0.2
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- com.android.support:palette-v7:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    +--- com.android.support:design:27.0.2
-|    |    |    +--- com.android.support:support-v4:27.0.2 (*)
-|    |    |    +--- com.android.support:appcompat-v7:27.0.2 (*)
-|    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
-|    |    |    \--- com.android.support:transition:27.0.2
-|    |    |         +--- com.android.support:support-annotations:27.0.2
-|    |    |         \--- com.android.support:support-compat:27.0.2 (*)
-|    |    +--- com.android.support:customtabs:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|    |    \--- ca.allanwang.kau:core:3.6.3
-|    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
-|    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
-|    |         \--- org.jetbrains.anko:anko-commons:0.10.4
-|    \--- android.arch.lifecycle:extensions:1.1.0
-|         +--- android.arch.lifecycle:runtime:1.1.0 (*)
-|         +--- android.arch.core:common:1.1.0 (*)
-|         +--- android.arch.core:runtime:1.1.0 (*)
-|         +--- com.android.support:support-fragment:26.1.0 -> 27.0.2 (*)
-|         +--- android.arch.lifecycle:common:1.1.0 (*)
-|         +--- android.arch.lifecycle:livedata:1.1.0
-|         |    +--- android.arch.core:runtime:1.1.0 (*)
-|         |    +--- android.arch.lifecycle:livedata-core:1.1.0
-|         |    |    +--- android.arch.lifecycle:common:1.1.0 (*)
-|         |    |    +--- android.arch.core:common:1.1.0 (*)
-|         |    |    \--- android.arch.core:runtime:1.1.0 (*)
-|         |    \--- android.arch.core:common:1.1.0 (*)
-|         \--- android.arch.lifecycle:viewmodel:1.1.0
-|              \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- me.jahirfiquitiva.KAUExtensions:ziv:9c9e0cc
-+--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
-+--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
-+--- com.github.jahirfiquitiva.MaterialChipsInput:core:aa4e4eb
-+--- com.anjlab.android.iab.v3:library:1.0.44
-+--- com.google.android.apps.muzei:muzei-api:2.0
-+--- de.psdev.licensesdialog:licensesdialog:1.8.3
-|    \--- com.google.code.findbugs:jsr305:3.0.1
-\--- com.github.javiersantos:PiracyChecker:1.2
+\--- project :library
+     +--- android.arch.persistence.room:runtime:1.1.0-alpha1
+     |    +--- android.arch.persistence.room:common:1.1.0-alpha1
+     |    +--- android.arch.persistence:db-framework:1.1.0-alpha1
+     |    |    \--- android.arch.persistence:db:1.1.0-alpha1
+     |    +--- android.arch.persistence:db:1.1.0-alpha1
+     |    \--- android.arch.core:runtime:1.1.0
+     |         \--- android.arch.core:common:1.1.0
+     +--- com.github.fondesa:kpermissions:1.0.0
+     |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
+     |         \--- org.jetbrains:annotations:13.0
+     +--- com.afollestad.material-dialogs:commons:0.9.6.0
+     |    \--- com.afollestad.material-dialogs:core:0.9.6.0
+     |         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
+     +--- com.squareup.okhttp3:okhttp:3.9.1
+     |    \--- com.squareup.okio:okio:1.13.0
+     +--- com.github.bumptech.glide:glide:4.6.1
+     |    +--- com.github.bumptech.glide:gifdecoder:4.6.1
+     |    +--- com.github.bumptech.glide:disklrucache:4.6.1
+     |    \--- com.github.bumptech.glide:annotations:4.6.1
+     +--- com.github.bumptech.glide:recyclerview-integration:4.6.1
+     |    \--- com.github.bumptech.glide:glide:4.6.1 (*)
+     +--- me.jahirfiquitiva.KAUExtensions:archhelpers:55f234f
+     |    +--- me.jahirfiquitiva.KAUExtensions:core:55f234f
+     |    |    +--- com.android.support:recyclerview-v7:27.0.2
+     |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
+     |    |    |    |         +--- android.arch.lifecycle:common:1.1.0
+     |    |    |    |         \--- android.arch.core:common:1.1.0
+     |    |    |    \--- com.android.support:support-core-ui:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:cardview-v7:27.0.2
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- com.android.support:palette-v7:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-core-utils:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:design:27.0.2
+     |    |    |    +--- com.android.support:support-v4:27.0.2
+     |    |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-media-compat:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:support-fragment:27.0.2
+     |    |    |    |         +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:appcompat-v7:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-vector-drawable:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
+     |    |    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
+     |    |    |    \--- com.android.support:transition:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:customtabs:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+     |    |    \--- ca.allanwang.kau:core:3.6.3
+     |    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
+     |    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
+     |    |         \--- org.jetbrains.anko:anko-commons:0.10.4
+     |    \--- android.arch.lifecycle:extensions:1.1.0
+     |         +--- android.arch.lifecycle:runtime:1.1.0 (*)
+     |         +--- android.arch.core:common:1.1.0
+     |         +--- android.arch.core:runtime:1.1.0 (*)
+     |         +--- android.arch.lifecycle:common:1.1.0
+     |         +--- android.arch.lifecycle:livedata:1.1.0
+     |         |    +--- android.arch.core:runtime:1.1.0 (*)
+     |         |    +--- android.arch.lifecycle:livedata-core:1.1.0
+     |         |    |    +--- android.arch.lifecycle:common:1.1.0
+     |         |    |    +--- android.arch.core:common:1.1.0
+     |         |    |    \--- android.arch.core:runtime:1.1.0 (*)
+     |         |    \--- android.arch.core:common:1.1.0
+     |         \--- android.arch.lifecycle:viewmodel:1.1.0
+     +--- me.jahirfiquitiva.KAUExtensions:ziv:55f234f
+     +--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
+     +--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
+     +--- com.github.jahirfiquitiva:MaterialChipsInput:64d671a
+     |    +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |    \--- com.github.jahirfiquitiva.MaterialChipsInput:layout:64d671a
+     |         +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |         +--- com.beloo.widget:ChipsLayoutManager:0.3.7
+     |         \--- de.hdodenhof:circleimageview:2.1.0
+     +--- com.anjlab.android.iab.v3:library:1.0.44
+     +--- com.google.android.apps.muzei:muzei-api:2.0
+     +--- de.psdev.licensesdialog:licensesdialog:1.8.3
+     |    \--- com.google.code.findbugs:jsr305:3.0.1
+     \--- com.github.javiersantos:PiracyChecker:1.2
 
 debugWearApp - Link to a wear app to embed for object 'debug'. (n)
+No dependencies
+
+debugWearBundling - Resolved Configuration for wear app bundling for variant: debug
 No dependencies
 
 default - Configuration for default artifacts.
 No dependencies
 
 implementation - Implementation only dependencies for 'main' sources. (n)
-No dependencies
+\--- project library (n)
 
 kapt
-+--- org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.2.21
-|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21
-|    |    \--- org.jetbrains:annotations:13.0
-|    \--- org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.21
-|         +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|         +--- org.jetbrains.kotlin:kotlin-script-runtime:1.2.21
-|         \--- org.jetbrains.kotlin:kotlin-reflect:1.2.21
-|              \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-\--- android.arch.persistence.room:compiler:1.1.0-alpha1
-     +--- android.arch.persistence.room:common:1.1.0-alpha1
-     |    \--- com.android.support:support-annotations:26.1.0
-     +--- android.arch.persistence.room:migration:1.1.0-alpha1
-     |    +--- android.arch.persistence.room:common:1.1.0-alpha1 (*)
-     |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 -> 1.2.21 (*)
-     |    \--- com.google.code.gson:gson:2.8.0
-     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 -> 1.2.21 (*)
-     +--- com.google.auto:auto-common:0.6
-     |    \--- com.google.guava:guava:18.0
-     +--- com.squareup:javapoet:1.8.0
-     +--- org.antlr:antlr4:4.5.3
-     +--- org.xerial:sqlite-jdbc:3.20.1
-     \--- commons-codec:commons-codec:1.10
+\--- org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.2.21
+     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21
+     |    \--- org.jetbrains:annotations:13.0
+     \--- org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.21
+          +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+          +--- org.jetbrains.kotlin:kotlin-script-runtime:1.2.21
+          \--- org.jetbrains.kotlin:kotlin-reflect:1.2.21
+               \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
 
 kaptAndroidTest
-+--- org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.2.21
-|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21
-|    |    \--- org.jetbrains:annotations:13.0
-|    \--- org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.21
-|         +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|         +--- org.jetbrains.kotlin:kotlin-script-runtime:1.2.21
-|         \--- org.jetbrains.kotlin:kotlin-reflect:1.2.21
-|              \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-\--- android.arch.persistence.room:compiler:1.1.0-alpha1
-     +--- android.arch.persistence.room:common:1.1.0-alpha1
-     |    \--- com.android.support:support-annotations:26.1.0
-     +--- android.arch.persistence.room:migration:1.1.0-alpha1
-     |    +--- android.arch.persistence.room:common:1.1.0-alpha1 (*)
-     |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 -> 1.2.21 (*)
-     |    \--- com.google.code.gson:gson:2.8.0
-     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 -> 1.2.21 (*)
-     +--- com.google.auto:auto-common:0.6
-     |    \--- com.google.guava:guava:18.0
-     +--- com.squareup:javapoet:1.8.0
-     +--- org.antlr:antlr4:4.5.3
-     +--- org.xerial:sqlite-jdbc:3.20.1
-     \--- commons-codec:commons-codec:1.10
+\--- org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.2.21
+     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21
+     |    \--- org.jetbrains:annotations:13.0
+     \--- org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.21
+          +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+          +--- org.jetbrains.kotlin:kotlin-script-runtime:1.2.21
+          \--- org.jetbrains.kotlin:kotlin-reflect:1.2.21
+               \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
 
 kaptAndroidTestDebug
-+--- org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.2.21
-|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21
-|    |    \--- org.jetbrains:annotations:13.0
-|    \--- org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.21
-|         +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|         +--- org.jetbrains.kotlin:kotlin-script-runtime:1.2.21
-|         \--- org.jetbrains.kotlin:kotlin-reflect:1.2.21
-|              \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-\--- android.arch.persistence.room:compiler:1.1.0-alpha1
-     +--- android.arch.persistence.room:common:1.1.0-alpha1
-     |    \--- com.android.support:support-annotations:26.1.0
-     +--- android.arch.persistence.room:migration:1.1.0-alpha1
-     |    +--- android.arch.persistence.room:common:1.1.0-alpha1 (*)
-     |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 -> 1.2.21 (*)
-     |    \--- com.google.code.gson:gson:2.8.0
-     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 -> 1.2.21 (*)
-     +--- com.google.auto:auto-common:0.6
-     |    \--- com.google.guava:guava:18.0
-     +--- com.squareup:javapoet:1.8.0
-     +--- org.antlr:antlr4:4.5.3
-     +--- org.xerial:sqlite-jdbc:3.20.1
-     \--- commons-codec:commons-codec:1.10
+\--- org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.2.21
+     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21
+     |    \--- org.jetbrains:annotations:13.0
+     \--- org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.21
+          +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+          +--- org.jetbrains.kotlin:kotlin-script-runtime:1.2.21
+          \--- org.jetbrains.kotlin:kotlin-reflect:1.2.21
+               \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
 
 kaptDebug
-+--- org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.2.21
-|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21
-|    |    \--- org.jetbrains:annotations:13.0
-|    \--- org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.21
-|         +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|         +--- org.jetbrains.kotlin:kotlin-script-runtime:1.2.21
-|         \--- org.jetbrains.kotlin:kotlin-reflect:1.2.21
-|              \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-\--- android.arch.persistence.room:compiler:1.1.0-alpha1
-     +--- android.arch.persistence.room:common:1.1.0-alpha1
-     |    \--- com.android.support:support-annotations:26.1.0
-     +--- android.arch.persistence.room:migration:1.1.0-alpha1
-     |    +--- android.arch.persistence.room:common:1.1.0-alpha1 (*)
-     |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 -> 1.2.21 (*)
-     |    \--- com.google.code.gson:gson:2.8.0
-     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 -> 1.2.21 (*)
-     +--- com.google.auto:auto-common:0.6
-     |    \--- com.google.guava:guava:18.0
-     +--- com.squareup:javapoet:1.8.0
-     +--- org.antlr:antlr4:4.5.3
-     +--- org.xerial:sqlite-jdbc:3.20.1
-     \--- commons-codec:commons-codec:1.10
+\--- org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.2.21
+     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21
+     |    \--- org.jetbrains:annotations:13.0
+     \--- org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.21
+          +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+          +--- org.jetbrains.kotlin:kotlin-script-runtime:1.2.21
+          \--- org.jetbrains.kotlin:kotlin-reflect:1.2.21
+               \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
 
 kaptRelease
-+--- org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.2.21
-|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21
-|    |    \--- org.jetbrains:annotations:13.0
-|    \--- org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.21
-|         +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|         +--- org.jetbrains.kotlin:kotlin-script-runtime:1.2.21
-|         \--- org.jetbrains.kotlin:kotlin-reflect:1.2.21
-|              \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-\--- android.arch.persistence.room:compiler:1.1.0-alpha1
-     +--- android.arch.persistence.room:common:1.1.0-alpha1
-     |    \--- com.android.support:support-annotations:26.1.0
-     +--- android.arch.persistence.room:migration:1.1.0-alpha1
-     |    +--- android.arch.persistence.room:common:1.1.0-alpha1 (*)
-     |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 -> 1.2.21 (*)
-     |    \--- com.google.code.gson:gson:2.8.0
-     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 -> 1.2.21 (*)
-     +--- com.google.auto:auto-common:0.6
-     |    \--- com.google.guava:guava:18.0
-     +--- com.squareup:javapoet:1.8.0
-     +--- org.antlr:antlr4:4.5.3
-     +--- org.xerial:sqlite-jdbc:3.20.1
-     \--- commons-codec:commons-codec:1.10
+\--- org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.2.21
+     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21
+     |    \--- org.jetbrains:annotations:13.0
+     \--- org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.21
+          +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+          +--- org.jetbrains.kotlin:kotlin-script-runtime:1.2.21
+          \--- org.jetbrains.kotlin:kotlin-reflect:1.2.21
+               \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
 
 kaptTest
-+--- org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.2.21
-|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21
-|    |    \--- org.jetbrains:annotations:13.0
-|    \--- org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.21
-|         +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|         +--- org.jetbrains.kotlin:kotlin-script-runtime:1.2.21
-|         \--- org.jetbrains.kotlin:kotlin-reflect:1.2.21
-|              \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-\--- android.arch.persistence.room:compiler:1.1.0-alpha1
-     +--- android.arch.persistence.room:common:1.1.0-alpha1
-     |    \--- com.android.support:support-annotations:26.1.0
-     +--- android.arch.persistence.room:migration:1.1.0-alpha1
-     |    +--- android.arch.persistence.room:common:1.1.0-alpha1 (*)
-     |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 -> 1.2.21 (*)
-     |    \--- com.google.code.gson:gson:2.8.0
-     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 -> 1.2.21 (*)
-     +--- com.google.auto:auto-common:0.6
-     |    \--- com.google.guava:guava:18.0
-     +--- com.squareup:javapoet:1.8.0
-     +--- org.antlr:antlr4:4.5.3
-     +--- org.xerial:sqlite-jdbc:3.20.1
-     \--- commons-codec:commons-codec:1.10
+\--- org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.2.21
+     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21
+     |    \--- org.jetbrains:annotations:13.0
+     \--- org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.21
+          +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+          +--- org.jetbrains.kotlin:kotlin-script-runtime:1.2.21
+          \--- org.jetbrains.kotlin:kotlin-reflect:1.2.21
+               \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
 
 kaptTestDebug
-+--- org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.2.21
-|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21
-|    |    \--- org.jetbrains:annotations:13.0
-|    \--- org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.21
-|         +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|         +--- org.jetbrains.kotlin:kotlin-script-runtime:1.2.21
-|         \--- org.jetbrains.kotlin:kotlin-reflect:1.2.21
-|              \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-\--- android.arch.persistence.room:compiler:1.1.0-alpha1
-     +--- android.arch.persistence.room:common:1.1.0-alpha1
-     |    \--- com.android.support:support-annotations:26.1.0
-     +--- android.arch.persistence.room:migration:1.1.0-alpha1
-     |    +--- android.arch.persistence.room:common:1.1.0-alpha1 (*)
-     |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 -> 1.2.21 (*)
-     |    \--- com.google.code.gson:gson:2.8.0
-     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 -> 1.2.21 (*)
-     +--- com.google.auto:auto-common:0.6
-     |    \--- com.google.guava:guava:18.0
-     +--- com.squareup:javapoet:1.8.0
-     +--- org.antlr:antlr4:4.5.3
-     +--- org.xerial:sqlite-jdbc:3.20.1
-     \--- commons-codec:commons-codec:1.10
+\--- org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.2.21
+     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21
+     |    \--- org.jetbrains:annotations:13.0
+     \--- org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.21
+          +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+          +--- org.jetbrains.kotlin:kotlin-script-runtime:1.2.21
+          \--- org.jetbrains.kotlin:kotlin-reflect:1.2.21
+               \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
 
 kaptTestRelease
-+--- org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.2.21
-|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21
-|    |    \--- org.jetbrains:annotations:13.0
-|    \--- org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.21
-|         +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|         +--- org.jetbrains.kotlin:kotlin-script-runtime:1.2.21
-|         \--- org.jetbrains.kotlin:kotlin-reflect:1.2.21
-|              \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-\--- android.arch.persistence.room:compiler:1.1.0-alpha1
-     +--- android.arch.persistence.room:common:1.1.0-alpha1
-     |    \--- com.android.support:support-annotations:26.1.0
-     +--- android.arch.persistence.room:migration:1.1.0-alpha1
-     |    +--- android.arch.persistence.room:common:1.1.0-alpha1 (*)
-     |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 -> 1.2.21 (*)
-     |    \--- com.google.code.gson:gson:2.8.0
-     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 -> 1.2.21 (*)
-     +--- com.google.auto:auto-common:0.6
-     |    \--- com.google.guava:guava:18.0
-     +--- com.squareup:javapoet:1.8.0
-     +--- org.antlr:antlr4:4.5.3
-     +--- org.xerial:sqlite-jdbc:3.20.1
-     \--- commons-codec:commons-codec:1.10
+\--- org.jetbrains.kotlin:kotlin-annotation-processing-gradle:1.2.21
+     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21
+     |    \--- org.jetbrains:annotations:13.0
+     \--- org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.21
+          +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+          +--- org.jetbrains.kotlin:kotlin-script-runtime:1.2.21
+          \--- org.jetbrains.kotlin:kotlin-reflect:1.2.21
+               \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
 
 lintChecks - Configuration to apply external lint check jar
 No dependencies
@@ -1163,28 +860,11 @@ No dependencies
 provided - Provided dependencies for 'main' sources (deprecated: use 'compileOnly' instead). (n)
 No dependencies
 
-publish - Publish dependencies for 'main' sources (deprecated: use 'runtimeOnly' instead). (n)
-No dependencies
-
 releaseAnnotationProcessor - Classpath for the annotation processor for 'release'. (n)
 No dependencies
 
 releaseAnnotationProcessorClasspath - Resolved configuration for annotation-processor for variant: release
-\--- android.arch.persistence.room:compiler:1.1.0-alpha1
-     +--- android.arch.persistence.room:common:1.1.0-alpha1
-     |    \--- com.android.support:support-annotations:26.1.0
-     +--- android.arch.persistence.room:migration:1.1.0-alpha1
-     |    +--- android.arch.persistence.room:common:1.1.0-alpha1 (*)
-     |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0
-     |    |    \--- org.jetbrains:annotations:13.0
-     |    \--- com.google.code.gson:gson:2.8.0
-     +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.0 (*)
-     +--- com.google.auto:auto-common:0.6
-     |    \--- com.google.guava:guava:18.0
-     +--- com.squareup:javapoet:1.8.0
-     +--- org.antlr:antlr4:4.5.3
-     +--- org.xerial:sqlite-jdbc:3.20.1
-     \--- commons-codec:commons-codec:1.10
+No dependencies
 
 releaseApi - API dependencies for 'release' sources. (n)
 No dependencies
@@ -1192,123 +872,116 @@ No dependencies
 releaseApiElements - API elements for release (n)
 No dependencies
 
+releaseApk - Apk dependencies for 'release' sources (deprecated: use 'releaseRuntimeOnly' instead). (n)
+No dependencies
+
 releaseCompile - Compile dependencies for 'release' sources (deprecated: use 'releaseImplementation' instead). (n)
 No dependencies
 
 releaseCompileClasspath - Resolved configuration for compilation for variant: release
-+--- android.arch.persistence.room:runtime:1.1.0-alpha1
-|    +--- android.arch.persistence.room:common:1.1.0-alpha1
-|    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db-framework:1.1.0-alpha1
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.persistence:db:1.1.0-alpha1
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db:1.1.0-alpha1 (*)
-|    +--- android.arch.core:runtime:1.1.0
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.core:common:1.1.0
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    \--- com.android.support:support-core-utils:26.1.0 -> 27.0.2
-|         +--- com.android.support:support-annotations:27.0.2
-|         \--- com.android.support:support-compat:27.0.2
-|              +--- com.android.support:support-annotations:27.0.2
-|              \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
-|                   +--- android.arch.lifecycle:common:1.1.0
-|                   |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|                   +--- android.arch.core:common:1.1.0 (*)
-|                   \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- com.github.fondesa:kpermissions:1.0.0
-|    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
-|         \--- org.jetbrains:annotations:13.0
-+--- com.afollestad.material-dialogs:commons:0.9.6.0
-|    \--- com.afollestad.material-dialogs:core:0.9.6.0
-|         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
-+--- com.squareup.okhttp3:okhttp:3.9.1
-|    \--- com.squareup.okio:okio:1.13.0
-+--- com.github.bumptech.glide:glide:4.5.0
-|    +--- com.github.bumptech.glide:gifdecoder:4.5.0
-|    |    \--- com.android.support:support-annotations:27.0.2
-|    +--- com.github.bumptech.glide:disklrucache:4.5.0
-|    +--- com.github.bumptech.glide:annotations:4.5.0
-|    \--- com.android.support:support-fragment:27.0.2
-|         +--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-ui:27.0.2
-|         |    +--- com.android.support:support-annotations:27.0.2
-|         |    \--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-utils:27.0.2 (*)
-|         \--- com.android.support:support-annotations:27.0.2
-+--- com.github.bumptech.glide:recyclerview-integration:4.5.0
-|    \--- com.github.bumptech.glide:glide:4.5.0 (*)
-+--- me.jahirfiquitiva.KAUExtensions:archhelpers:9c9e0cc
-|    +--- me.jahirfiquitiva.KAUExtensions:core:9c9e0cc
-|    |    +--- com.android.support:support-v13:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    \--- com.android.support:support-v4:27.0.2
-|    |    |         +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-media-compat:27.0.2
-|    |    |         |    +--- com.android.support:support-annotations:27.0.2
-|    |    |         |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    |         \--- com.android.support:support-fragment:27.0.2 (*)
-|    |    +--- com.android.support:appcompat-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
-|    |    |    +--- com.android.support:support-vector-drawable:27.0.2
-|    |    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
-|    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
-|    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:recyclerview-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:cardview-v7:27.0.2
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- com.android.support:palette-v7:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    +--- com.android.support:design:27.0.2
-|    |    |    +--- com.android.support:support-v4:27.0.2 (*)
-|    |    |    +--- com.android.support:appcompat-v7:27.0.2 (*)
-|    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
-|    |    |    \--- com.android.support:transition:27.0.2
-|    |    |         +--- com.android.support:support-annotations:27.0.2
-|    |    |         \--- com.android.support:support-compat:27.0.2 (*)
-|    |    +--- com.android.support:customtabs:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|    |    \--- ca.allanwang.kau:core:3.6.3
-|    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
-|    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
-|    |         \--- org.jetbrains.anko:anko-commons:0.10.4
-|    \--- android.arch.lifecycle:extensions:1.1.0
-|         +--- android.arch.lifecycle:runtime:1.1.0 (*)
-|         +--- android.arch.core:common:1.1.0 (*)
-|         +--- android.arch.core:runtime:1.1.0 (*)
-|         +--- com.android.support:support-fragment:26.1.0 -> 27.0.2 (*)
-|         +--- android.arch.lifecycle:common:1.1.0 (*)
-|         +--- android.arch.lifecycle:livedata:1.1.0
-|         |    +--- android.arch.core:runtime:1.1.0 (*)
-|         |    +--- android.arch.lifecycle:livedata-core:1.1.0
-|         |    |    +--- android.arch.lifecycle:common:1.1.0 (*)
-|         |    |    +--- android.arch.core:common:1.1.0 (*)
-|         |    |    \--- android.arch.core:runtime:1.1.0 (*)
-|         |    \--- android.arch.core:common:1.1.0 (*)
-|         \--- android.arch.lifecycle:viewmodel:1.1.0
-|              \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- me.jahirfiquitiva.KAUExtensions:ziv:9c9e0cc
-+--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
-+--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
-+--- com.github.jahirfiquitiva.MaterialChipsInput:core:aa4e4eb
-+--- com.anjlab.android.iab.v3:library:1.0.44
-+--- com.google.android.apps.muzei:muzei-api:2.0
-+--- de.psdev.licensesdialog:licensesdialog:1.8.3
-|    \--- com.google.code.findbugs:jsr305:3.0.1
-\--- com.github.javiersantos:PiracyChecker:1.2
+\--- project :library
+     +--- android.arch.persistence.room:runtime:1.1.0-alpha1
+     |    +--- android.arch.persistence.room:common:1.1.0-alpha1
+     |    +--- android.arch.persistence:db-framework:1.1.0-alpha1
+     |    |    \--- android.arch.persistence:db:1.1.0-alpha1
+     |    +--- android.arch.persistence:db:1.1.0-alpha1
+     |    \--- android.arch.core:runtime:1.1.0
+     |         \--- android.arch.core:common:1.1.0
+     +--- com.github.fondesa:kpermissions:1.0.0
+     |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
+     |         \--- org.jetbrains:annotations:13.0
+     +--- com.afollestad.material-dialogs:commons:0.9.6.0
+     |    \--- com.afollestad.material-dialogs:core:0.9.6.0
+     |         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
+     +--- com.squareup.okhttp3:okhttp:3.9.1
+     |    \--- com.squareup.okio:okio:1.13.0
+     +--- com.github.bumptech.glide:glide:4.6.1
+     |    +--- com.github.bumptech.glide:gifdecoder:4.6.1
+     |    +--- com.github.bumptech.glide:disklrucache:4.6.1
+     |    \--- com.github.bumptech.glide:annotations:4.6.1
+     +--- com.github.bumptech.glide:recyclerview-integration:4.6.1
+     |    \--- com.github.bumptech.glide:glide:4.6.1 (*)
+     +--- me.jahirfiquitiva.KAUExtensions:archhelpers:55f234f
+     |    +--- me.jahirfiquitiva.KAUExtensions:core:55f234f
+     |    |    +--- com.android.support:recyclerview-v7:27.0.2
+     |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
+     |    |    |    |         +--- android.arch.lifecycle:common:1.1.0
+     |    |    |    |         \--- android.arch.core:common:1.1.0
+     |    |    |    \--- com.android.support:support-core-ui:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:cardview-v7:27.0.2
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- com.android.support:palette-v7:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-core-utils:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:design:27.0.2
+     |    |    |    +--- com.android.support:support-v4:27.0.2
+     |    |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-media-compat:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:support-fragment:27.0.2
+     |    |    |    |         +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:appcompat-v7:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-vector-drawable:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
+     |    |    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
+     |    |    |    \--- com.android.support:transition:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:customtabs:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+     |    |    \--- ca.allanwang.kau:core:3.6.3
+     |    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
+     |    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
+     |    |         \--- org.jetbrains.anko:anko-commons:0.10.4
+     |    \--- android.arch.lifecycle:extensions:1.1.0
+     |         +--- android.arch.lifecycle:runtime:1.1.0 (*)
+     |         +--- android.arch.core:common:1.1.0
+     |         +--- android.arch.core:runtime:1.1.0 (*)
+     |         +--- android.arch.lifecycle:common:1.1.0
+     |         +--- android.arch.lifecycle:livedata:1.1.0
+     |         |    +--- android.arch.core:runtime:1.1.0 (*)
+     |         |    +--- android.arch.lifecycle:livedata-core:1.1.0
+     |         |    |    +--- android.arch.lifecycle:common:1.1.0
+     |         |    |    +--- android.arch.core:common:1.1.0
+     |         |    |    \--- android.arch.core:runtime:1.1.0 (*)
+     |         |    \--- android.arch.core:common:1.1.0
+     |         \--- android.arch.lifecycle:viewmodel:1.1.0
+     +--- me.jahirfiquitiva.KAUExtensions:ziv:55f234f
+     +--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
+     +--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
+     +--- com.github.jahirfiquitiva:MaterialChipsInput:64d671a
+     |    +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |    \--- com.github.jahirfiquitiva.MaterialChipsInput:layout:64d671a
+     |         +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |         +--- com.beloo.widget:ChipsLayoutManager:0.3.7
+     |         \--- de.hdodenhof:circleimageview:2.1.0
+     +--- com.anjlab.android.iab.v3:library:1.0.44
+     +--- com.google.android.apps.muzei:muzei-api:2.0
+     +--- de.psdev.licensesdialog:licensesdialog:1.8.3
+     |    \--- com.google.code.findbugs:jsr305:3.0.1
+     \--- com.github.javiersantos:PiracyChecker:1.2
 
 releaseCompileOnly - Compile only dependencies for 'release' sources. (n)
 No dependencies
@@ -1316,126 +989,116 @@ No dependencies
 releaseImplementation - Implementation only dependencies for 'release' sources. (n)
 No dependencies
 
+releaseMetadataElements - Metadata elements for release (n)
+No dependencies
+
 releaseProvided - Provided dependencies for 'release' sources (deprecated: use 'releaseCompileOnly' instead). (n)
 No dependencies
 
-releasePublish - Publish dependencies for 'release' sources (deprecated: use 'releaseRuntimeOnly' instead). (n)
-No dependencies
-
 releaseRuntimeClasspath - Resolved configuration for runtime for variant: release
-+--- android.arch.persistence.room:runtime:1.1.0-alpha1
-|    +--- android.arch.persistence.room:common:1.1.0-alpha1
-|    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db-framework:1.1.0-alpha1
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.persistence:db:1.1.0-alpha1
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db:1.1.0-alpha1 (*)
-|    +--- android.arch.core:runtime:1.1.0
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.core:common:1.1.0
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    \--- com.android.support:support-core-utils:26.1.0 -> 27.0.2
-|         +--- com.android.support:support-annotations:27.0.2
-|         \--- com.android.support:support-compat:27.0.2
-|              +--- com.android.support:support-annotations:27.0.2
-|              \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
-|                   +--- android.arch.lifecycle:common:1.1.0
-|                   |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|                   +--- android.arch.core:common:1.1.0 (*)
-|                   \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- com.github.fondesa:kpermissions:1.0.0
-|    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
-|         \--- org.jetbrains:annotations:13.0
-+--- com.afollestad.material-dialogs:commons:0.9.6.0
-|    \--- com.afollestad.material-dialogs:core:0.9.6.0
-|         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
-+--- com.squareup.okhttp3:okhttp:3.9.1
-|    \--- com.squareup.okio:okio:1.13.0
-+--- com.github.bumptech.glide:glide:4.5.0
-|    +--- com.github.bumptech.glide:gifdecoder:4.5.0
-|    |    \--- com.android.support:support-annotations:27.0.2
-|    +--- com.github.bumptech.glide:disklrucache:4.5.0
-|    +--- com.github.bumptech.glide:annotations:4.5.0
-|    \--- com.android.support:support-fragment:27.0.2
-|         +--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-ui:27.0.2
-|         |    +--- com.android.support:support-annotations:27.0.2
-|         |    \--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-utils:27.0.2 (*)
-|         \--- com.android.support:support-annotations:27.0.2
-+--- com.github.bumptech.glide:recyclerview-integration:4.5.0
-|    \--- com.github.bumptech.glide:glide:4.5.0 (*)
-+--- me.jahirfiquitiva.KAUExtensions:archhelpers:9c9e0cc
-|    +--- me.jahirfiquitiva.KAUExtensions:core:9c9e0cc
-|    |    +--- com.android.support:support-v13:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    \--- com.android.support:support-v4:27.0.2
-|    |    |         +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-media-compat:27.0.2
-|    |    |         |    +--- com.android.support:support-annotations:27.0.2
-|    |    |         |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    |         \--- com.android.support:support-fragment:27.0.2 (*)
-|    |    +--- com.android.support:appcompat-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
-|    |    |    +--- com.android.support:support-vector-drawable:27.0.2
-|    |    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
-|    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
-|    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:recyclerview-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:cardview-v7:27.0.2
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- com.android.support:palette-v7:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    +--- com.android.support:design:27.0.2
-|    |    |    +--- com.android.support:support-v4:27.0.2 (*)
-|    |    |    +--- com.android.support:appcompat-v7:27.0.2 (*)
-|    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
-|    |    |    \--- com.android.support:transition:27.0.2
-|    |    |         +--- com.android.support:support-annotations:27.0.2
-|    |    |         \--- com.android.support:support-compat:27.0.2 (*)
-|    |    +--- com.android.support:customtabs:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|    |    \--- ca.allanwang.kau:core:3.6.3
-|    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
-|    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
-|    |         \--- org.jetbrains.anko:anko-commons:0.10.4
-|    \--- android.arch.lifecycle:extensions:1.1.0
-|         +--- android.arch.lifecycle:runtime:1.1.0 (*)
-|         +--- android.arch.core:common:1.1.0 (*)
-|         +--- android.arch.core:runtime:1.1.0 (*)
-|         +--- com.android.support:support-fragment:26.1.0 -> 27.0.2 (*)
-|         +--- android.arch.lifecycle:common:1.1.0 (*)
-|         +--- android.arch.lifecycle:livedata:1.1.0
-|         |    +--- android.arch.core:runtime:1.1.0 (*)
-|         |    +--- android.arch.lifecycle:livedata-core:1.1.0
-|         |    |    +--- android.arch.lifecycle:common:1.1.0 (*)
-|         |    |    +--- android.arch.core:common:1.1.0 (*)
-|         |    |    \--- android.arch.core:runtime:1.1.0 (*)
-|         |    \--- android.arch.core:common:1.1.0 (*)
-|         \--- android.arch.lifecycle:viewmodel:1.1.0
-|              \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- me.jahirfiquitiva.KAUExtensions:ziv:9c9e0cc
-+--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
-+--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
-+--- com.github.jahirfiquitiva.MaterialChipsInput:core:aa4e4eb
-+--- com.anjlab.android.iab.v3:library:1.0.44
-+--- com.google.android.apps.muzei:muzei-api:2.0
-+--- de.psdev.licensesdialog:licensesdialog:1.8.3
-|    \--- com.google.code.findbugs:jsr305:3.0.1
-\--- com.github.javiersantos:PiracyChecker:1.2
+\--- project :library
+     +--- android.arch.persistence.room:runtime:1.1.0-alpha1
+     |    +--- android.arch.persistence.room:common:1.1.0-alpha1
+     |    +--- android.arch.persistence:db-framework:1.1.0-alpha1
+     |    |    \--- android.arch.persistence:db:1.1.0-alpha1
+     |    +--- android.arch.persistence:db:1.1.0-alpha1
+     |    \--- android.arch.core:runtime:1.1.0
+     |         \--- android.arch.core:common:1.1.0
+     +--- com.github.fondesa:kpermissions:1.0.0
+     |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
+     |         \--- org.jetbrains:annotations:13.0
+     +--- com.afollestad.material-dialogs:commons:0.9.6.0
+     |    \--- com.afollestad.material-dialogs:core:0.9.6.0
+     |         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
+     +--- com.squareup.okhttp3:okhttp:3.9.1
+     |    \--- com.squareup.okio:okio:1.13.0
+     +--- com.github.bumptech.glide:glide:4.6.1
+     |    +--- com.github.bumptech.glide:gifdecoder:4.6.1
+     |    +--- com.github.bumptech.glide:disklrucache:4.6.1
+     |    \--- com.github.bumptech.glide:annotations:4.6.1
+     +--- com.github.bumptech.glide:recyclerview-integration:4.6.1
+     |    \--- com.github.bumptech.glide:glide:4.6.1 (*)
+     +--- me.jahirfiquitiva.KAUExtensions:archhelpers:55f234f
+     |    +--- me.jahirfiquitiva.KAUExtensions:core:55f234f
+     |    |    +--- com.android.support:recyclerview-v7:27.0.2
+     |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
+     |    |    |    |         +--- android.arch.lifecycle:common:1.1.0
+     |    |    |    |         \--- android.arch.core:common:1.1.0
+     |    |    |    \--- com.android.support:support-core-ui:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:cardview-v7:27.0.2
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- com.android.support:palette-v7:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-core-utils:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:design:27.0.2
+     |    |    |    +--- com.android.support:support-v4:27.0.2
+     |    |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-media-compat:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:support-fragment:27.0.2
+     |    |    |    |         +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:appcompat-v7:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-vector-drawable:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
+     |    |    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
+     |    |    |    \--- com.android.support:transition:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:customtabs:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+     |    |    \--- ca.allanwang.kau:core:3.6.3
+     |    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
+     |    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
+     |    |         \--- org.jetbrains.anko:anko-commons:0.10.4
+     |    \--- android.arch.lifecycle:extensions:1.1.0
+     |         +--- android.arch.lifecycle:runtime:1.1.0 (*)
+     |         +--- android.arch.core:common:1.1.0
+     |         +--- android.arch.core:runtime:1.1.0 (*)
+     |         +--- android.arch.lifecycle:common:1.1.0
+     |         +--- android.arch.lifecycle:livedata:1.1.0
+     |         |    +--- android.arch.core:runtime:1.1.0 (*)
+     |         |    +--- android.arch.lifecycle:livedata-core:1.1.0
+     |         |    |    +--- android.arch.lifecycle:common:1.1.0
+     |         |    |    +--- android.arch.core:common:1.1.0
+     |         |    |    \--- android.arch.core:runtime:1.1.0 (*)
+     |         |    \--- android.arch.core:common:1.1.0
+     |         \--- android.arch.lifecycle:viewmodel:1.1.0
+     +--- me.jahirfiquitiva.KAUExtensions:ziv:55f234f
+     +--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
+     +--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
+     +--- com.github.jahirfiquitiva:MaterialChipsInput:64d671a
+     |    +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |    \--- com.github.jahirfiquitiva.MaterialChipsInput:layout:64d671a
+     |         +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |         +--- com.beloo.widget:ChipsLayoutManager:0.3.7
+     |         \--- de.hdodenhof:circleimageview:2.1.0
+     +--- com.anjlab.android.iab.v3:library:1.0.44
+     +--- com.google.android.apps.muzei:muzei-api:2.0
+     +--- de.psdev.licensesdialog:licensesdialog:1.8.3
+     |    \--- com.google.code.findbugs:jsr305:3.0.1
+     \--- com.github.javiersantos:PiracyChecker:1.2
 
 releaseRuntimeElements - Runtime elements for release (n)
 No dependencies
@@ -1447,236 +1110,219 @@ releaseUnitTestAnnotationProcessorClasspath - Resolved configuration for annotat
 No dependencies
 
 releaseUnitTestCompileClasspath - Resolved configuration for compilation for variant: releaseUnitTest
-+--- android.arch.persistence.room:runtime:1.1.0-alpha1
-|    +--- android.arch.persistence.room:common:1.1.0-alpha1
-|    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db-framework:1.1.0-alpha1
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.persistence:db:1.1.0-alpha1
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db:1.1.0-alpha1 (*)
-|    +--- android.arch.core:runtime:1.1.0
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.core:common:1.1.0
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    \--- com.android.support:support-core-utils:26.1.0 -> 27.0.2
-|         +--- com.android.support:support-annotations:27.0.2
-|         \--- com.android.support:support-compat:27.0.2
-|              +--- com.android.support:support-annotations:27.0.2
-|              \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
-|                   +--- android.arch.lifecycle:common:1.1.0
-|                   |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|                   +--- android.arch.core:common:1.1.0 (*)
-|                   \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- com.github.fondesa:kpermissions:1.0.0
-|    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
-|         \--- org.jetbrains:annotations:13.0
-+--- com.afollestad.material-dialogs:commons:0.9.6.0
-|    \--- com.afollestad.material-dialogs:core:0.9.6.0
-|         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
-+--- com.squareup.okhttp3:okhttp:3.9.1
-|    \--- com.squareup.okio:okio:1.13.0
-+--- com.github.bumptech.glide:glide:4.5.0
-|    +--- com.github.bumptech.glide:gifdecoder:4.5.0
-|    |    \--- com.android.support:support-annotations:27.0.2
-|    +--- com.github.bumptech.glide:disklrucache:4.5.0
-|    +--- com.github.bumptech.glide:annotations:4.5.0
-|    \--- com.android.support:support-fragment:27.0.2
-|         +--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-ui:27.0.2
-|         |    +--- com.android.support:support-annotations:27.0.2
-|         |    \--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-utils:27.0.2 (*)
-|         \--- com.android.support:support-annotations:27.0.2
-+--- com.github.bumptech.glide:recyclerview-integration:4.5.0
-|    \--- com.github.bumptech.glide:glide:4.5.0 (*)
-+--- me.jahirfiquitiva.KAUExtensions:archhelpers:9c9e0cc
-|    +--- me.jahirfiquitiva.KAUExtensions:core:9c9e0cc
-|    |    +--- com.android.support:support-v13:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    \--- com.android.support:support-v4:27.0.2
-|    |    |         +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-media-compat:27.0.2
-|    |    |         |    +--- com.android.support:support-annotations:27.0.2
-|    |    |         |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    |         \--- com.android.support:support-fragment:27.0.2 (*)
-|    |    +--- com.android.support:appcompat-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
-|    |    |    +--- com.android.support:support-vector-drawable:27.0.2
-|    |    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
-|    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
-|    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:recyclerview-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:cardview-v7:27.0.2
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- com.android.support:palette-v7:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    +--- com.android.support:design:27.0.2
-|    |    |    +--- com.android.support:support-v4:27.0.2 (*)
-|    |    |    +--- com.android.support:appcompat-v7:27.0.2 (*)
-|    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
-|    |    |    \--- com.android.support:transition:27.0.2
-|    |    |         +--- com.android.support:support-annotations:27.0.2
-|    |    |         \--- com.android.support:support-compat:27.0.2 (*)
-|    |    +--- com.android.support:customtabs:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|    |    \--- ca.allanwang.kau:core:3.6.3
-|    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
-|    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
-|    |         \--- org.jetbrains.anko:anko-commons:0.10.4
-|    \--- android.arch.lifecycle:extensions:1.1.0
-|         +--- android.arch.lifecycle:runtime:1.1.0 (*)
-|         +--- android.arch.core:common:1.1.0 (*)
-|         +--- android.arch.core:runtime:1.1.0 (*)
-|         +--- com.android.support:support-fragment:26.1.0 -> 27.0.2 (*)
-|         +--- android.arch.lifecycle:common:1.1.0 (*)
-|         +--- android.arch.lifecycle:livedata:1.1.0
-|         |    +--- android.arch.core:runtime:1.1.0 (*)
-|         |    +--- android.arch.lifecycle:livedata-core:1.1.0
-|         |    |    +--- android.arch.lifecycle:common:1.1.0 (*)
-|         |    |    +--- android.arch.core:common:1.1.0 (*)
-|         |    |    \--- android.arch.core:runtime:1.1.0 (*)
-|         |    \--- android.arch.core:common:1.1.0 (*)
-|         \--- android.arch.lifecycle:viewmodel:1.1.0
-|              \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- me.jahirfiquitiva.KAUExtensions:ziv:9c9e0cc
-+--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
-+--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
-+--- com.github.jahirfiquitiva.MaterialChipsInput:core:aa4e4eb
-+--- com.anjlab.android.iab.v3:library:1.0.44
-+--- com.google.android.apps.muzei:muzei-api:2.0
-+--- de.psdev.licensesdialog:licensesdialog:1.8.3
-|    \--- com.google.code.findbugs:jsr305:3.0.1
-\--- com.github.javiersantos:PiracyChecker:1.2
+\--- project :library
+     +--- android.arch.persistence.room:runtime:1.1.0-alpha1
+     |    +--- android.arch.persistence.room:common:1.1.0-alpha1
+     |    +--- android.arch.persistence:db-framework:1.1.0-alpha1
+     |    |    \--- android.arch.persistence:db:1.1.0-alpha1
+     |    +--- android.arch.persistence:db:1.1.0-alpha1
+     |    \--- android.arch.core:runtime:1.1.0
+     |         \--- android.arch.core:common:1.1.0
+     +--- com.github.fondesa:kpermissions:1.0.0
+     |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
+     |         \--- org.jetbrains:annotations:13.0
+     +--- com.afollestad.material-dialogs:commons:0.9.6.0
+     |    \--- com.afollestad.material-dialogs:core:0.9.6.0
+     |         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
+     +--- com.squareup.okhttp3:okhttp:3.9.1
+     |    \--- com.squareup.okio:okio:1.13.0
+     +--- com.github.bumptech.glide:glide:4.6.1
+     |    +--- com.github.bumptech.glide:gifdecoder:4.6.1
+     |    +--- com.github.bumptech.glide:disklrucache:4.6.1
+     |    \--- com.github.bumptech.glide:annotations:4.6.1
+     +--- com.github.bumptech.glide:recyclerview-integration:4.6.1
+     |    \--- com.github.bumptech.glide:glide:4.6.1 (*)
+     +--- me.jahirfiquitiva.KAUExtensions:archhelpers:55f234f
+     |    +--- me.jahirfiquitiva.KAUExtensions:core:55f234f
+     |    |    +--- com.android.support:recyclerview-v7:27.0.2
+     |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
+     |    |    |    |         +--- android.arch.lifecycle:common:1.1.0
+     |    |    |    |         \--- android.arch.core:common:1.1.0
+     |    |    |    \--- com.android.support:support-core-ui:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:cardview-v7:27.0.2
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- com.android.support:palette-v7:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-core-utils:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:design:27.0.2
+     |    |    |    +--- com.android.support:support-v4:27.0.2
+     |    |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-media-compat:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:support-fragment:27.0.2
+     |    |    |    |         +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:appcompat-v7:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-vector-drawable:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
+     |    |    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
+     |    |    |    \--- com.android.support:transition:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:customtabs:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+     |    |    \--- ca.allanwang.kau:core:3.6.3
+     |    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
+     |    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
+     |    |         \--- org.jetbrains.anko:anko-commons:0.10.4
+     |    \--- android.arch.lifecycle:extensions:1.1.0
+     |         +--- android.arch.lifecycle:runtime:1.1.0 (*)
+     |         +--- android.arch.core:common:1.1.0
+     |         +--- android.arch.core:runtime:1.1.0 (*)
+     |         +--- android.arch.lifecycle:common:1.1.0
+     |         +--- android.arch.lifecycle:livedata:1.1.0
+     |         |    +--- android.arch.core:runtime:1.1.0 (*)
+     |         |    +--- android.arch.lifecycle:livedata-core:1.1.0
+     |         |    |    +--- android.arch.lifecycle:common:1.1.0
+     |         |    |    +--- android.arch.core:common:1.1.0
+     |         |    |    \--- android.arch.core:runtime:1.1.0 (*)
+     |         |    \--- android.arch.core:common:1.1.0
+     |         \--- android.arch.lifecycle:viewmodel:1.1.0
+     +--- me.jahirfiquitiva.KAUExtensions:ziv:55f234f
+     +--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
+     +--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
+     +--- com.github.jahirfiquitiva:MaterialChipsInput:64d671a
+     |    +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |    \--- com.github.jahirfiquitiva.MaterialChipsInput:layout:64d671a
+     |         +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |         +--- com.beloo.widget:ChipsLayoutManager:0.3.7
+     |         \--- de.hdodenhof:circleimageview:2.1.0
+     +--- com.anjlab.android.iab.v3:library:1.0.44
+     +--- com.google.android.apps.muzei:muzei-api:2.0
+     +--- de.psdev.licensesdialog:licensesdialog:1.8.3
+     |    \--- com.google.code.findbugs:jsr305:3.0.1
+     \--- com.github.javiersantos:PiracyChecker:1.2
 
 releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: releaseUnitTest
-+--- android.arch.persistence.room:runtime:1.1.0-alpha1
-|    +--- android.arch.persistence.room:common:1.1.0-alpha1
-|    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db-framework:1.1.0-alpha1
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.persistence:db:1.1.0-alpha1
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    +--- android.arch.persistence:db:1.1.0-alpha1 (*)
-|    +--- android.arch.core:runtime:1.1.0
-|    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    |    \--- android.arch.core:common:1.1.0
-|    |         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|    \--- com.android.support:support-core-utils:26.1.0 -> 27.0.2
-|         +--- com.android.support:support-annotations:27.0.2
-|         \--- com.android.support:support-compat:27.0.2
-|              +--- com.android.support:support-annotations:27.0.2
-|              \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
-|                   +--- android.arch.lifecycle:common:1.1.0
-|                   |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-|                   +--- android.arch.core:common:1.1.0 (*)
-|                   \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- com.github.fondesa:kpermissions:1.0.0
-|    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
-|         \--- org.jetbrains:annotations:13.0
-+--- com.afollestad.material-dialogs:commons:0.9.6.0
-|    \--- com.afollestad.material-dialogs:core:0.9.6.0
-|         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
-+--- com.squareup.okhttp3:okhttp:3.9.1
-|    \--- com.squareup.okio:okio:1.13.0
-+--- com.github.bumptech.glide:glide:4.5.0
-|    +--- com.github.bumptech.glide:gifdecoder:4.5.0
-|    |    \--- com.android.support:support-annotations:27.0.2
-|    +--- com.github.bumptech.glide:disklrucache:4.5.0
-|    +--- com.github.bumptech.glide:annotations:4.5.0
-|    \--- com.android.support:support-fragment:27.0.2
-|         +--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-ui:27.0.2
-|         |    +--- com.android.support:support-annotations:27.0.2
-|         |    \--- com.android.support:support-compat:27.0.2 (*)
-|         +--- com.android.support:support-core-utils:27.0.2 (*)
-|         \--- com.android.support:support-annotations:27.0.2
-+--- com.github.bumptech.glide:recyclerview-integration:4.5.0
-|    \--- com.github.bumptech.glide:glide:4.5.0 (*)
-+--- me.jahirfiquitiva.KAUExtensions:archhelpers:9c9e0cc
-|    +--- me.jahirfiquitiva.KAUExtensions:core:9c9e0cc
-|    |    +--- com.android.support:support-v13:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    \--- com.android.support:support-v4:27.0.2
-|    |    |         +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-media-compat:27.0.2
-|    |    |         |    +--- com.android.support:support-annotations:27.0.2
-|    |    |         |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    |         \--- com.android.support:support-fragment:27.0.2 (*)
-|    |    +--- com.android.support:appcompat-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
-|    |    |    +--- com.android.support:support-vector-drawable:27.0.2
-|    |    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
-|    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
-|    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:recyclerview-v7:27.0.2
-|    |    |    +--- com.android.support:support-annotations:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-ui:27.0.2 (*)
-|    |    +--- com.android.support:cardview-v7:27.0.2
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- com.android.support:palette-v7:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-core-utils:27.0.2 (*)
-|    |    +--- com.android.support:design:27.0.2
-|    |    |    +--- com.android.support:support-v4:27.0.2 (*)
-|    |    |    +--- com.android.support:appcompat-v7:27.0.2 (*)
-|    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
-|    |    |    \--- com.android.support:transition:27.0.2
-|    |    |         +--- com.android.support:support-annotations:27.0.2
-|    |    |         \--- com.android.support:support-compat:27.0.2 (*)
-|    |    +--- com.android.support:customtabs:27.0.2
-|    |    |    +--- com.android.support:support-compat:27.0.2 (*)
-|    |    |    \--- com.android.support:support-annotations:27.0.2
-|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
-|    |    \--- ca.allanwang.kau:core:3.6.3
-|    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
-|    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
-|    |         \--- org.jetbrains.anko:anko-commons:0.10.4
-|    \--- android.arch.lifecycle:extensions:1.1.0
-|         +--- android.arch.lifecycle:runtime:1.1.0 (*)
-|         +--- android.arch.core:common:1.1.0 (*)
-|         +--- android.arch.core:runtime:1.1.0 (*)
-|         +--- com.android.support:support-fragment:26.1.0 -> 27.0.2 (*)
-|         +--- android.arch.lifecycle:common:1.1.0 (*)
-|         +--- android.arch.lifecycle:livedata:1.1.0
-|         |    +--- android.arch.core:runtime:1.1.0 (*)
-|         |    +--- android.arch.lifecycle:livedata-core:1.1.0
-|         |    |    +--- android.arch.lifecycle:common:1.1.0 (*)
-|         |    |    +--- android.arch.core:common:1.1.0 (*)
-|         |    |    \--- android.arch.core:runtime:1.1.0 (*)
-|         |    \--- android.arch.core:common:1.1.0 (*)
-|         \--- android.arch.lifecycle:viewmodel:1.1.0
-|              \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
-+--- me.jahirfiquitiva.KAUExtensions:ziv:9c9e0cc
-+--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
-+--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
-+--- com.github.jahirfiquitiva.MaterialChipsInput:core:aa4e4eb
-+--- com.anjlab.android.iab.v3:library:1.0.44
-+--- com.google.android.apps.muzei:muzei-api:2.0
-+--- de.psdev.licensesdialog:licensesdialog:1.8.3
-|    \--- com.google.code.findbugs:jsr305:3.0.1
-\--- com.github.javiersantos:PiracyChecker:1.2
+\--- project :library
+     +--- android.arch.persistence.room:runtime:1.1.0-alpha1
+     |    +--- android.arch.persistence.room:common:1.1.0-alpha1
+     |    +--- android.arch.persistence:db-framework:1.1.0-alpha1
+     |    |    \--- android.arch.persistence:db:1.1.0-alpha1
+     |    +--- android.arch.persistence:db:1.1.0-alpha1
+     |    \--- android.arch.core:runtime:1.1.0
+     |         \--- android.arch.core:common:1.1.0
+     +--- com.github.fondesa:kpermissions:1.0.0
+     |    \--- org.jetbrains.kotlin:kotlin-stdlib:1.2.10 -> 1.2.21
+     |         \--- org.jetbrains:annotations:13.0
+     +--- com.afollestad.material-dialogs:commons:0.9.6.0
+     |    \--- com.afollestad.material-dialogs:core:0.9.6.0
+     |         \--- me.zhanghai.android.materialprogressbar:library:1.4.2
+     +--- com.squareup.okhttp3:okhttp:3.9.1
+     |    \--- com.squareup.okio:okio:1.13.0
+     +--- com.github.bumptech.glide:glide:4.6.1
+     |    +--- com.github.bumptech.glide:gifdecoder:4.6.1
+     |    +--- com.github.bumptech.glide:disklrucache:4.6.1
+     |    \--- com.github.bumptech.glide:annotations:4.6.1
+     +--- com.github.bumptech.glide:recyclerview-integration:4.6.1
+     |    \--- com.github.bumptech.glide:glide:4.6.1 (*)
+     +--- me.jahirfiquitiva.KAUExtensions:archhelpers:55f234f
+     |    +--- me.jahirfiquitiva.KAUExtensions:core:55f234f
+     |    |    +--- com.android.support:recyclerview-v7:27.0.2
+     |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    \--- android.arch.lifecycle:runtime:1.0.3 -> 1.1.0
+     |    |    |    |         +--- android.arch.lifecycle:common:1.1.0
+     |    |    |    |         \--- android.arch.core:common:1.1.0
+     |    |    |    \--- com.android.support:support-core-ui:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:cardview-v7:27.0.2
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- com.android.support:palette-v7:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-core-utils:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:design:27.0.2
+     |    |    |    +--- com.android.support:support-v4:27.0.2
+     |    |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-media-compat:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:support-fragment:27.0.2
+     |    |    |    |         +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    |         +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-annotations:27.0.2
+     |    |    |    +--- com.android.support:appcompat-v7:27.0.2
+     |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    +--- com.android.support:support-core-utils:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-fragment:27.0.2 (*)
+     |    |    |    |    +--- com.android.support:support-vector-drawable:27.0.2
+     |    |    |    |    |    +--- com.android.support:support-annotations:27.0.2
+     |    |    |    |    |    \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    |    \--- com.android.support:animated-vector-drawable:27.0.2
+     |    |    |    |         +--- com.android.support:support-vector-drawable:27.0.2 (*)
+     |    |    |    |         \--- com.android.support:support-core-ui:27.0.2 (*)
+     |    |    |    +--- com.android.support:recyclerview-v7:27.0.2 (*)
+     |    |    |    \--- com.android.support:transition:27.0.2
+     |    |    |         +--- com.android.support:support-annotations:27.0.2
+     |    |    |         \--- com.android.support:support-compat:27.0.2 (*)
+     |    |    +--- com.android.support:customtabs:27.0.2
+     |    |    |    +--- com.android.support:support-compat:27.0.2 (*)
+     |    |    |    \--- com.android.support:support-annotations:27.0.2
+     |    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.2.21 (*)
+     |    |    \--- ca.allanwang.kau:core:3.6.3
+     |    |         +--- com.android.support.constraint:constraint-layout:1.1.0-beta4
+     |    |         |    \--- com.android.support.constraint:constraint-layout-solver:1.1.0-beta4
+     |    |         \--- org.jetbrains.anko:anko-commons:0.10.4
+     |    \--- android.arch.lifecycle:extensions:1.1.0
+     |         +--- android.arch.lifecycle:runtime:1.1.0 (*)
+     |         +--- android.arch.core:common:1.1.0
+     |         +--- android.arch.core:runtime:1.1.0 (*)
+     |         +--- android.arch.lifecycle:common:1.1.0
+     |         +--- android.arch.lifecycle:livedata:1.1.0
+     |         |    +--- android.arch.core:runtime:1.1.0 (*)
+     |         |    +--- android.arch.lifecycle:livedata-core:1.1.0
+     |         |    |    +--- android.arch.lifecycle:common:1.1.0
+     |         |    |    +--- android.arch.core:common:1.1.0
+     |         |    |    \--- android.arch.core:runtime:1.1.0 (*)
+     |         |    \--- android.arch.core:common:1.1.0
+     |         \--- android.arch.lifecycle:viewmodel:1.1.0
+     +--- me.jahirfiquitiva.KAUExtensions:ziv:55f234f
+     +--- com.github.jahirfiquitiva:sectioned-recyclerview:7e9908b
+     +--- me.jahirfiquitiva:recycler-fast-scroll:6a72f8c
+     +--- com.github.jahirfiquitiva:MaterialChipsInput:64d671a
+     |    +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |    \--- com.github.jahirfiquitiva.MaterialChipsInput:layout:64d671a
+     |         +--- com.github.jahirfiquitiva.MaterialChipsInput:core:64d671a
+     |         +--- com.beloo.widget:ChipsLayoutManager:0.3.7
+     |         \--- de.hdodenhof:circleimageview:2.1.0
+     +--- com.anjlab.android.iab.v3:library:1.0.44
+     +--- com.google.android.apps.muzei:muzei-api:2.0
+     +--- de.psdev.licensesdialog:licensesdialog:1.8.3
+     |    \--- com.google.code.findbugs:jsr305:3.0.1
+     \--- com.github.javiersantos:PiracyChecker:1.2
 
 releaseWearApp - Link to a wear app to embed for object 'release'. (n)
+No dependencies
+
+releaseWearBundling - Resolved Configuration for wear app bundling for variant: release
 No dependencies
 
 runtimeOnly - Runtime only dependencies for 'main' sources. (n)
@@ -1686,6 +1332,9 @@ testAnnotationProcessor - Classpath for the annotation processor for 'test'. (n)
 No dependencies
 
 testApi - API dependencies for 'test' sources. (n)
+No dependencies
+
+testApk - Apk dependencies for 'test' sources (deprecated: use 'testRuntimeOnly' instead). (n)
 No dependencies
 
 testCompile - Compile dependencies for 'test' sources (deprecated: use 'testImplementation' instead).
@@ -1700,6 +1349,9 @@ No dependencies
 testDebugApi - API dependencies for 'testDebug' sources. (n)
 No dependencies
 
+testDebugApk - Apk dependencies for 'testDebug' sources (deprecated: use 'testDebugRuntimeOnly' instead). (n)
+No dependencies
+
 testDebugCompile - Compile dependencies for 'testDebug' sources (deprecated: use 'testDebugImplementation' instead). (n)
 No dependencies
 
@@ -1710,9 +1362,6 @@ testDebugImplementation - Implementation only dependencies for 'testDebug' sourc
 No dependencies
 
 testDebugProvided - Provided dependencies for 'testDebug' sources (deprecated: use 'testDebugCompileOnly' instead). (n)
-No dependencies
-
-testDebugPublish - Publish dependencies for 'testDebug' sources (deprecated: use 'testDebugRuntimeOnly' instead). (n)
 No dependencies
 
 testDebugRuntimeOnly - Runtime only dependencies for 'testDebug' sources. (n)
@@ -1727,13 +1376,13 @@ No dependencies
 testProvided - Provided dependencies for 'test' sources (deprecated: use 'testCompileOnly' instead). (n)
 No dependencies
 
-testPublish - Publish dependencies for 'test' sources (deprecated: use 'testRuntimeOnly' instead). (n)
-No dependencies
-
 testReleaseAnnotationProcessor - Classpath for the annotation processor for 'testRelease'. (n)
 No dependencies
 
 testReleaseApi - API dependencies for 'testRelease' sources. (n)
+No dependencies
+
+testReleaseApk - Apk dependencies for 'testRelease' sources (deprecated: use 'testReleaseRuntimeOnly' instead). (n)
 No dependencies
 
 testReleaseCompile - Compile dependencies for 'testRelease' sources (deprecated: use 'testReleaseImplementation' instead). (n)
@@ -1746,9 +1395,6 @@ testReleaseImplementation - Implementation only dependencies for 'testRelease' s
 No dependencies
 
 testReleaseProvided - Provided dependencies for 'testRelease' sources (deprecated: use 'testReleaseCompileOnly' instead). (n)
-No dependencies
-
-testReleasePublish - Publish dependencies for 'testRelease' sources (deprecated: use 'testReleaseRuntimeOnly' instead). (n)
 No dependencies
 
 testReleaseRuntimeOnly - Runtime only dependencies for 'testRelease' sources. (n)

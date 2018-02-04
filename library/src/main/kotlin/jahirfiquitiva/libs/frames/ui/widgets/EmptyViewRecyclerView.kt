@@ -17,6 +17,7 @@ package jahirfiquitiva.libs.frames.ui.widgets
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
@@ -25,7 +26,12 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import ca.allanwang.kau.utils.gone
+import ca.allanwang.kau.utils.postDelayed
+import ca.allanwang.kau.utils.visible
 import ca.allanwang.kau.utils.visibleIf
+import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
+import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kauextensions.extensions.setDecodedBitmap
@@ -117,7 +123,11 @@ open class EmptyViewRecyclerView : RecyclerView {
         textView?.setTextColor(context.secondaryTextColor)
         textView?.visibleIf(state != State.NORMAL && rightText.hasContent())
         loadingView?.visibleIf(state == State.LOADING)
-        emptyView?.visibleIf(state == State.EMPTY)
+        if (state == State.EMPTY) {
+            emptyView?.showAndAnimate()
+        } else {
+            emptyView?.gone()
+        }
         visibleIf(state == State.NORMAL)
     }
     
@@ -160,6 +170,14 @@ open class EmptyViewRecyclerView : RecyclerView {
         super.setAdapter(adapter)
         adapter?.registerAdapterDataObserver(observer)
         setStateInternal()
+    }
+    
+    private fun View.showAndAnimate() {
+        visible()
+        (this as? ImageView)?.let {
+            it.drawable.applyColorFilter(context.activeIconsColor)
+            postDelayed(50) { (it.drawable as? Animatable)?.start() }
+        }
     }
     
     enum class State {
