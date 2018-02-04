@@ -20,7 +20,7 @@ import android.view.View
 import android.widget.TextView
 import ca.allanwang.kau.utils.toHexString
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
-import com.pchmn.materialchips.ChipView
+import com.pchmn.materialchips.core.ChipView
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
 import jahirfiquitiva.libs.kauextensions.extensions.bind
