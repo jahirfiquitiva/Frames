@@ -65,8 +65,20 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     override fun amoledTheme(): Int = R.style.AmoledTheme
     override fun transparentTheme(): Int = R.style.TransparentTheme
     
-    var picker: Int = 0
+    var pickerKey: Int = 0
         private set
+        get() {
+            return intent?.let {
+                when (it.action) {
+                    APPLY_ACTION -> ICONS_APPLIER
+                    ADW_ACTION, TURBO_ACTION, NOVA_ACTION,
+                    Intent.ACTION_PICK, Intent.ACTION_GET_CONTENT -> IMAGE_PICKER
+                    Intent.ACTION_SET_WALLPAPER -> WALLS_PICKER
+                    else -> 0
+                }
+            } ?: 0
+        }
+    
     var dialog: MaterialDialog? = null
     
     private var checker: PiracyChecker? = null
@@ -79,7 +91,6 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        picker = getPickerKey()
         initDonations()
     }
     
@@ -89,13 +100,13 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     }
     
     override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.putInt("pickerKey", picker)
+        outState?.putInt("pickerKey", pickerKey)
         super.onSaveInstanceState(outState)
     }
     
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
-        picker = savedInstanceState?.getInt("pickerKey") ?: 0
+        pickerKey = savedInstanceState?.getInt("pickerKey") ?: 0
     }
     
     internal fun initDonations() {
@@ -148,18 +159,6 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
             return intent.dataString
         }
         return ""
-    }
-    
-    internal fun getPickerKey(): Int {
-        if (intent != null && intent.action != null) {
-            return when (intent.action) {
-                APPLY_ACTION -> ICONS_APPLIER
-                ADW_ACTION, TURBO_ACTION, NOVA_ACTION, Intent.ACTION_PICK, Intent.ACTION_GET_CONTENT -> IMAGE_PICKER
-                Intent.ACTION_SET_WALLPAPER -> WALLS_PICKER
-                else -> 0
-            }
-        }
-        return 0
     }
     
     open var donationsEnabled = false
