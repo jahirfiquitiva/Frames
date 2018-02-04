@@ -74,9 +74,9 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
                     ADW_ACTION, TURBO_ACTION, NOVA_ACTION,
                     Intent.ACTION_PICK, Intent.ACTION_GET_CONTENT -> IMAGE_PICKER
                     Intent.ACTION_SET_WALLPAPER -> WALLS_PICKER
-                    else -> 0
+                    else -> field
                 }
-            } ?: 0
+            } ?: field ?: 0
         }
     
     var dialog: MaterialDialog? = null
