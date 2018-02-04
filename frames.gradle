@@ -30,10 +30,18 @@ dependencies {
         exclude group: 'com.android.support'
     }
     // OkHttp
-    api libraries.okHttp
+    api(libraries.okHttp) {
+        exclude group: 'com.android.support'
+    }
     // Glide Image Loading
-    api libraries.glide
-    api libraries.gliderv
+    api(libraries.glide) {
+        exclude group: 'com.android.support'
+    }
+    api(libraries.gliderv) {
+        exclude group: 'com.android.support'
+    }
+    annotationProcessor libraries.glideCompiler
+    kapt libraries.glideCompiler
     // KAU Extensions
     // api libraries.kauExt
     api(libraries.archHelpers) {

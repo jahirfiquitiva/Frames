@@ -36,8 +36,8 @@ ext.versions = [
         lifecycle             : '1.1.0',
         room                  : '1.1.0-alpha1',
         permissions           : '1.0.0',
-        materialDialogs       : '0.9.6.0',
-        glide                 : '4.5.0',
+        materialDialogs       : '75aff51',
+        glide                 : '4.6.1',
         okhttp                : '3.9.1',
         kauExt                : '55f234f',
         sectionedRecyclerView : '7e9908b',
@@ -65,13 +65,14 @@ ext.libraries = [
         // Permissions
         permissions          : 'com.github.fondesa:kpermissions:' + versions.permissions,
         // Material Dialogs
-        dialogsCore          : 'com.afollestad.material-dialogs:core:' + versions.materialDialogs,
-        dialogsCommons       : 'com.afollestad.material-dialogs:commons:' + versions.materialDialogs,
+        dialogsCore          : 'com.github.afollestad.material-dialogs:core:' + versions.materialDialogs,
+        dialogsCommons       : 'com.github.afollestad.material-dialogs:commons:' + versions.materialDialogs,
         // OkHttp
         okHttp               : 'com.squareup.okhttp3:okhttp:' + versions.okhttp,
         // Glide Image Loading
         glide                : 'com.github.bumptech.glide:glide:' + versions.glide,
         gliderv              : 'com.github.bumptech.glide:recyclerview-integration:' + versions.glide,
+        glideCompiler        : 'com.github.bumptech.glide:compiler:' + versions.glide,
         // KAU Extensions
         kauExt               : 'me.jahirfiquitiva.KAUExtensions:core:' + versions.kauExt,
         archHelpers          : 'me.jahirfiquitiva.KAUExtensions:archhelpers:' + versions.kauExt + '@aar',
