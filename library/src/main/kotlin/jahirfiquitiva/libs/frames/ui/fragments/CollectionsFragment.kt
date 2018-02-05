@@ -125,7 +125,7 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
     }
     
-    override fun getContentLayout(): Int = R.layout.section_lists
+    override fun getContentLayout(): Int = R.layout.section_with_swipe_refresh
     
     override fun scrollToTop() {
         recyclerView?.post { recyclerView?.scrollToPosition(0) }

@@ -14,39 +14,30 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<android.support.v4.widget.SwipeRefreshLayout
+<FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/swipe_to_refresh"
+        android:id="@+id/list_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <FrameLayout
-            android:id="@+id/list_layout"
+    <include layout="@layout/extra_empty_views"/>
+
+    <jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
+            android:id="@+id/list_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:overScrollMode="ifContentScrolls"
+            android:splitMotionEvents="false"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-        <include layout="@layout/extra_empty_views"/>
+    <com.pluscubed.recyclerfastscroll.RecyclerFastScroller
+            android:id="@+id/fast_scroller"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"/>
 
-        <jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
-                android:id="@+id/list_rv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:overScrollMode="ifContentScrolls"
-                android:splitMotionEvents="false"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-        <com.pluscubed.recyclerfastscroll.RecyclerFastScroller
-                android:id="@+id/fast_scroller"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"/>
-
-    </FrameLayout>
-
-</android.support.v4.widget.SwipeRefreshLayout>
+</FrameLayout>

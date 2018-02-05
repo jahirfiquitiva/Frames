@@ -38,6 +38,6 @@
 
     </jahirfiquitiva.libs.kauextensions.ui.layouts.FixedElevationAppBarLayout>
 
-    <include layout="@layout/section_lists"/>
+    <include layout="@layout/section_with_swipe_refresh"/>
 
 </jahirfiquitiva.libs.kauextensions.ui.layouts.CustomCoordinatorLayout>

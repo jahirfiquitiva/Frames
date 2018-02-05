@@ -175,7 +175,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         }
     }
     
-    override fun getContentLayout(): Int = R.layout.section_lists
+    override fun getContentLayout(): Int = R.layout.section_with_swipe_refresh
     
     override fun onItemClicked(item: Wallpaper, holder: WallpaperHolder) =
             onWallpaperClicked(item, holder)
