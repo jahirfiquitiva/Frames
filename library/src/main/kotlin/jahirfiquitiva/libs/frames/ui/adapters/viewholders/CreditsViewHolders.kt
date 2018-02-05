@@ -200,7 +200,6 @@ open class DashboardCreditViewHolder(itemView: View) : SectionedViewHolder(itemV
     
     fun unbind() {
         photo?.releaseFromGlide()
-        photo?.setImageDrawable(null)
     }
 }
 

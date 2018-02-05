@@ -89,7 +89,6 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
     
     fun unbind() {
         img.releaseFromGlide()
-        img.setImageDrawable(null)
     }
     
     internal fun whenFaded(ifHasFaded: () -> Unit = {}, ifHasNotFaded: () -> Unit) {

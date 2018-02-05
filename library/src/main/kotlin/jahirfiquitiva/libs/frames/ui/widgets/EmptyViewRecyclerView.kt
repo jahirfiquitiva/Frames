@@ -76,7 +76,6 @@ open class EmptyViewRecyclerView : RecyclerView {
     fun setEmptyImage(image: Drawable?) {
         emptyView?.let {
             if (it is ImageView) {
-                it.setImageBitmap(null)
                 it.setImageDrawable(image)
             } else {
                 throw UnsupportedOperationException(
@@ -88,12 +87,13 @@ open class EmptyViewRecyclerView : RecyclerView {
     fun setEmptyImage(@DrawableRes res: Int) {
         emptyView?.let {
             if (it is ImageView) {
-                it.setImageBitmap(null)
-                it.setImageDrawable(null)
                 try {
                     it.setDecodedBitmap(res)
                 } catch (e: Exception) {
-                    it.setImageDrawable(context.drawable(res))
+                    try {
+                        it.setImageDrawable(context.drawable(res))
+                    } catch (e: Exception) {
+                    }
                 }
             } else {
                 throw UnsupportedOperationException(
