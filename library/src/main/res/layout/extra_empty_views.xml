@@ -44,6 +44,7 @@
                 android:id="@+id/empty_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="96dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:visibility="gone"
@@ -57,9 +58,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:padding="24dp"
+            android:padding="36dp"
+            android:lineSpacingMultiplier="1.2"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="italic"
+            android:maxLines="3"
+            android:ellipsize="end"
             android:visibility="gone"
             tools:text="This is an empty section."/>
 

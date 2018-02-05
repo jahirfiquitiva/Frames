@@ -22,31 +22,31 @@ ext.details = [
 
 ext.versions = [
         // Projects
-        minSdk                : 16,
-        targetSdk             : 27,
-        buildTools            : '27.0.3',
-        versionCode           : 220,
-        versionName           : '2.2.0',
+        minSdk               : 16,
+        targetSdk            : 27,
+        buildTools           : '27.0.3',
+        versionCode          : 220,
+        versionName          : '2.2.0',
         // Gradle Plugins
-        gradle                : '3.0.1',
-        kotlin                : '1.2.21',
-        libs                  : '2.0',
+        gradle               : '3.0.1',
+        kotlin               : '1.2.21',
+        libs                 : '2.0',
         // Dependencies
-        supportLibs           : '27.0.2',
-        room                  : '1.1.0-alpha1',
-        permissions           : '1.0.0',
-        materialDialogs       : '0.9.6.0',
-        glide                 : '4.6.1',
-        okhttp                : '3.9.1',
-        kauExt                : '818dbef',
-        sectionedRecyclerView : '7e9908b',
-        recyclerViewFastScroll: '6a72f8c',
-        chips                 : '02ca0e4', //'2f96710',
-        iaps                  : '1.0.44',
-        muzeiApi              : '2.0',
-        licensesDialog        : '1.8.3',
-        checker               : '1.2',
-        oneSignal             : '3.7.1'
+        supportLibs          : '27.0.2',
+        room                 : '1.1.0-alpha1',
+        permissions          : '1.0.0',
+        materialDialogs      : '0.9.6.0',
+        glide                : '4.6.1',
+        okhttp               : '3.9.1',
+        kauExt               : '818dbef',
+        sectionedRecyclerView: '7e9908b',
+        rvFastScroll         : 'a1bfb25',
+        chips                : '02ca0e4',
+        iaps                 : '1.0.44',
+        muzeiApi             : '2.0',
+        licensesDialog       : '1.8.3',
+        checker              : '1.2',
+        oneSignal            : '3.7.1'
 ]
 
 ext.gradlePlugins = [
@@ -78,8 +78,8 @@ ext.libraries = [
         ziv                  : 'me.jahirfiquitiva.KAUExtensions:ziv:' + versions.kauExt,
         // Sectioned RecyclerView
         sectionedRecyclerView: 'com.github.jahirfiquitiva:sectioned-recyclerview:' + versions.sectionedRecyclerView + '@aar',
-        // RecyclerView Fast Scroller
-        fastScroll           : 'me.jahirfiquitiva:recycler-fast-scroll:' + versions.recyclerViewFastScroll + '@aar',
+        // RecyclerView FastScroll
+        rvFastScroll         : 'com.github.jahirfiquitiva:RecyclerView-FastScroll:' + versions.rvFastScroll + '@aar',
         // Chips
         chips                : 'com.github.jahirfiquitiva:materialChipView:' + versions.chips,
         // In-App Purchases

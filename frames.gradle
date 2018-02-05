@@ -54,8 +54,8 @@ dependencies {
     api(libraries.sectionedRecyclerView) {
         exclude group: 'com.android.support'
     }
-    // RecyclerView Fast Scroller
-    api(libraries.fastScroll) {
+    // RecyclerView FastScroll
+    api(libraries.rvFastScroll) {
         exclude group: 'com.android.support'
     }
     // Chips

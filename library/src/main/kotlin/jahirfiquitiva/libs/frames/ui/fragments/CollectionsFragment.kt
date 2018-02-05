@@ -26,7 +26,6 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
 import com.bumptech.glide.util.ViewPreloadSizeProvider
-import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
@@ -53,7 +52,6 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     
     private var swipeToRefresh: SwipeRefreshLayout? = null
     private var recyclerView: EmptyViewRecyclerView? = null
-    private var fastScroll: RecyclerFastScroller? = null
     
     private val provider = ViewPreloadSizeProvider<Wallpaper>()
     val collsAdapter: CollectionsAdapter by lazy {
@@ -70,7 +68,6 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     override fun initUI(content: View) {
         swipeToRefresh = content.findViewById(R.id.swipe_to_refresh)
         recyclerView = content.findViewById(R.id.list_rv)
-        fastScroll = content.findViewById(R.id.fast_scroller)
         
         swipeToRefresh?.let {
             with(it) {
@@ -115,12 +112,11 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
                 isDrawingCacheEnabled = true
                 drawingCacheQuality = View.DRAWING_CACHE_QUALITY_AUTO
                 
+                attachSwipeRefreshLayout(swipeToRefresh)
+                
                 adapter = collsAdapter
             }
         }
-        
-        fastScroll?.attachSwipeRefreshLayout(swipeToRefresh)
-        fastScroll?.attachRecyclerView(recyclerView)
         
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
     }

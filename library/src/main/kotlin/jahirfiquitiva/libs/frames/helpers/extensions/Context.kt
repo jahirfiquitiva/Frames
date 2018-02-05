@@ -18,6 +18,7 @@ package jahirfiquitiva.libs.frames.helpers.extensions
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -33,7 +34,11 @@ import jahirfiquitiva.libs.frames.helpers.utils.PREFERENCES_NAME
 import jahirfiquitiva.libs.kauextensions.extensions.deleteEverything
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
+import jahirfiquitiva.libs.kauextensions.extensions.usesDarkTheme
 import java.io.File
+
+val Context.fastScrollThumbInactiveColor
+    get() = if (usesDarkTheme) Color.parseColor("#73ffffff") else Color.parseColor("#73000000")
 
 val Context.maxPreload
     get() = if (isLowRamDevice) 2 else 4

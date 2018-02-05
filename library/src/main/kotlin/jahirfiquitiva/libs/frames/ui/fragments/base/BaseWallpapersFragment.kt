@@ -64,7 +64,6 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     var recyclerView: EmptyViewRecyclerView? = null
         private set
     private var swipeToRefresh: SwipeRefreshLayout? = null
-    private var fastScroll: RecyclerFastScroller? = null
     
     private val provider = ViewPreloadSizeProvider<Wallpaper>()
     val wallsAdapter: WallpapersAdapter by lazy {
@@ -98,7 +97,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     override fun initUI(content: View) {
         swipeToRefresh = content.findViewById(R.id.swipe_to_refresh)
         recyclerView = content.findViewById(R.id.list_rv)
-        fastScroll = content.findViewById(R.id.fast_scroller)
+        // fastScroll = content.findViewById(R.id.fast_scroller)
         
         swipeToRefresh?.let {
             it.setProgressBackgroundColorSchemeColor(it.context.cardBackgroundColor)
@@ -139,12 +138,11 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 isDrawingCacheEnabled = true
                 drawingCacheQuality = View.DRAWING_CACHE_QUALITY_AUTO
                 
+                attachSwipeRefreshLayout(swipeToRefresh)
+                
                 adapter = wallsAdapter
             }
         }
-        
-        fastScroll?.attachSwipeRefreshLayout(swipeToRefresh)
-        fastScroll?.attachRecyclerView(recyclerView)
         
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
     }
