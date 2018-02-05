@@ -65,7 +65,7 @@ abstract class FramesViewClickListener<in T, in VH> {
 
 abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     internal var wallpaper: Wallpaper? = null
-    internal abstract val img: ImageView
+    internal abstract val img: ImageView?
     internal abstract fun getListener(): GlideRequestCallback<Bitmap>
     
     internal fun animateLoad(view: View) {
@@ -84,11 +84,11 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
     
     internal fun loadImage(manager: RequestManager?, url: String, thumbUrl: String) {
         val hasFaded = wallpaper?.hasFaded != false
-        img.loadWallpaper(manager, url, thumbUrl, hasFaded, getListener())
+        img?.loadWallpaper(manager, url, thumbUrl, hasFaded, getListener())
     }
     
     fun unbind() {
-        img.releaseFromGlide()
+        img?.releaseFromGlide()
     }
     
     internal fun whenFaded(ifHasFaded: () -> Unit = {}, ifHasNotFaded: () -> Unit) {
@@ -99,7 +99,7 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
 }
 
 class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
-    override val img: ImageView
+    override val img: ImageView?
         get() = itemView.findViewById(R.id.collection_picture)
     
     private val detailsBg: LinearLayout? by bind(R.id.collection_details)
@@ -107,7 +107,8 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
     private val amount: TextView? by bind(R.id.collection_walls_number)
     
     fun setItem(
-            manager: RequestManager, provider: ViewPreloadSizeProvider<Wallpaper>,
+            manager: RequestManager?,
+            provider: ViewPreloadSizeProvider<Wallpaper>,
             collection: Collection,
             listener: FramesViewClickListener<Collection, CollectionHolder>
                ) {
@@ -125,7 +126,7 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
             amount?.text = collection.wallpapers.size.toString()
             amount?.setTextColor(Color.WHITE)
             loadImage(manager, url, thumb)
-            provider.setView(img)
+            img?.let { provider.setView(it) }
         }
         itemView.setOnClickListener { listener.onSingleClick(collection, this) }
     }
@@ -133,12 +134,12 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
     override fun getListener(): GlideRequestCallback<Bitmap> {
         return object : GlideRequestCallback<Bitmap>() {
             override fun onLoadSucceed(resource: Bitmap): Boolean {
-                img.setImageBitmap(resource)
+                img?.setImageBitmap(resource)
                 
                 whenFaded(
                         { itemView.clearChildrenAnimations() }, {
                     if (context.framesKonfigs.animationsEnabled) {
-                        img.animateColorTransition { wallpaper?.hasFaded = true }
+                        img?.animateColorTransition { wallpaper?.hasFaded = true }
                     } else {
                         itemView.clearChildrenAnimations()
                     }
@@ -178,7 +179,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
     
     private var heartColor = Color.WHITE
     
-    override val img: ImageView
+    override val img: ImageView?
         get() = itemView.findViewById(R.id.wallpaper_image)
     
     val name: TextView? by bind(R.id.wallpaper_name)
@@ -187,8 +188,10 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
     private val detailsBg: LinearLayout? by bind(R.id.wallpaper_details)
     
     fun setItem(
-            manager: RequestManager?, provider: ViewPreloadSizeProvider<Wallpaper>,
-            wallpaper: Wallpaper, check: Boolean,
+            manager: RequestManager?,
+            provider: ViewPreloadSizeProvider<Wallpaper>,
+            wallpaper: Wallpaper,
+            check: Boolean,
             listener: FramesViewClickListener<Wallpaper, WallpaperHolder>
                ) {
         if (this.wallpaper != wallpaper) this.wallpaper = wallpaper
@@ -227,7 +230,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
             }
             
             loadImage(manager, url, thumb)
-            provider.setView(img)
+            img?.let { provider.setView(it) }
         }
         itemView.setOnClickListener { listener.onSingleClick(wallpaper, this) }
         itemView.setOnLongClickListener { listener.onLongClick(wallpaper);true }
@@ -236,12 +239,12 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
     override fun getListener(): GlideRequestCallback<Bitmap> {
         return object : GlideRequestCallback<Bitmap>() {
             override fun onLoadSucceed(resource: Bitmap): Boolean {
-                img.setImageBitmap(resource)
+                img?.setImageBitmap(resource)
                 whenFaded(
                         { itemView.clearChildrenAnimations() },
                         {
                             if (context.framesKonfigs.animationsEnabled) {
-                                img.animateColorTransition { wallpaper?.hasFaded = true }
+                                img?.animateColorTransition { wallpaper?.hasFaded = true }
                             } else {
                                 itemView.clearChildrenAnimations()
                             }

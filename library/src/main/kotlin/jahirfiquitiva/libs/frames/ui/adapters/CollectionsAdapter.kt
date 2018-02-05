@@ -31,7 +31,7 @@ import java.util.Collections
 
 class CollectionsAdapter(
         private val filledCollectionPreview: Boolean,
-        private val manager: RequestManager,
+        private val manager: RequestManager?,
         private val provider: ViewPreloadSizeProvider<Wallpaper>,
         private val listener: FramesViewClickListener<Collection, CollectionHolder>
                         ) :
@@ -50,8 +50,8 @@ class CollectionsAdapter(
     override fun getPreloadItems(position: Int): MutableList<Wallpaper> =
             Collections.singletonList(list[position].bestCover)
     
-    override fun getPreloadRequestBuilder(item: Wallpaper): RequestBuilder<*> =
-            manager.load(item.thumbUrl)
+    override fun getPreloadRequestBuilder(item: Wallpaper): RequestBuilder<*>? =
+            manager?.load(item.thumbUrl)
     
     override fun getItemId(position: Int) = position.toLong()
     

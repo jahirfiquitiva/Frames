@@ -87,7 +87,7 @@ open class CreditsActivity : ThemedActivity() {
         adapter.setLayoutManager(layoutManager)
         recyclerView?.adapter = adapter
         
-        fastScroller?.attachRecyclerView(recyclerView)
+        recyclerView?.let { fastScroller?.attachRecyclerView(it) }
         
         try {
             adapter.collapseSection(2)

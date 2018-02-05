@@ -42,8 +42,11 @@ fun ImageView.setSaturation(saturation: Float) {
 }
 
 fun ImageView.loadWallpaper(
-        requester: RequestManager?, url: String, thumbUrl: String,
-        hasFaded: Boolean, callback: GlideRequestCallback<Bitmap>?
+        requester: RequestManager?,
+        url: String,
+        thumbUrl: String,
+        hasFaded: Boolean,
+        callback: GlideRequestCallback<Bitmap>?
                            ) {
     val manager = requester ?: Glide.with(context)
     val loadFullRes = context.framesKonfigs.fullResGridPictures

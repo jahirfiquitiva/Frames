@@ -59,7 +59,7 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     val collsAdapter: CollectionsAdapter by lazy {
         CollectionsAdapter(
                 boolean(R.bool.enable_filled_collection_preview),
-                Glide.with(this), provider,
+                context?.let { Glide.with(it) }, provider,
                 object : FramesViewClickListener<Collection, CollectionHolder>() {
                     override fun onSingleClick(item: Collection, holder: CollectionHolder) {
                         onItemClicked(item, false)
@@ -120,7 +120,7 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
         }
         
         fastScroller?.attachSwipeRefreshLayout(swipeToRefresh)
-        fastScroller?.attachRecyclerView(recyclerView)
+        recyclerView?.let { fastScroller?.attachRecyclerView(it) }
         
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
     }

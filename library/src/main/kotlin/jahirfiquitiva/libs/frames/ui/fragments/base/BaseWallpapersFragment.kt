@@ -144,7 +144,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         }
         
         fastScroller?.attachSwipeRefreshLayout(swipeToRefresh)
-        fastScroller?.attachRecyclerView(recyclerView)
+        recyclerView?.let { fastScroller?.attachRecyclerView(it) }
         
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
     }
@@ -274,7 +274,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             try {
                 val filename = "thumb.png"
                 fos = activity?.openFileOutput(filename, Context.MODE_PRIVATE)
-                holder.img.drawable.toBitmap().compress(
+                holder.img?.drawable?.toBitmap()?.compress(
                         Bitmap.CompressFormat.JPEG, ctxt.maxPictureRes, fos)
                 intent.putExtra("image", filename)
             } catch (ignored: Exception) {
