@@ -66,6 +66,7 @@ open class EmptyViewRecyclerView : RecyclerView {
         emptyView?.let {
             if (it is ImageView) {
                 it.setImageBitmap(image)
+                updateEmptyState()
             } else {
                 throw UnsupportedOperationException(
                         "Cannot set a Drawable in a View that is not ImageView")
@@ -77,6 +78,7 @@ open class EmptyViewRecyclerView : RecyclerView {
         emptyView?.let {
             if (it is ImageView) {
                 it.setImageDrawable(image)
+                updateEmptyState()
             } else {
                 throw UnsupportedOperationException(
                         "Cannot set a Drawable in a View that is not ImageView")
@@ -89,9 +91,11 @@ open class EmptyViewRecyclerView : RecyclerView {
             if (it is ImageView) {
                 try {
                     it.setDecodedBitmap(res)
+                    updateEmptyState()
                 } catch (e: Exception) {
                     try {
                         it.setImageDrawable(context.drawable(res))
+                        updateEmptyState()
                     } catch (e: Exception) {
                     }
                 }
@@ -179,7 +183,7 @@ open class EmptyViewRecyclerView : RecyclerView {
         (this as? ImageView)?.drawable?.applyColorFilter(context.activeIconsColor)
         visible()
         (this as? ImageView)?.let {
-            postDelayed(200) { (it.drawable as? Animatable)?.start() }
+            postDelayed(250) { (it.drawable as? Animatable)?.start() }
         }
     }
     
