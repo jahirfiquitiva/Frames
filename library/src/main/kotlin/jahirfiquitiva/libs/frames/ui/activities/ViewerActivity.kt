@@ -295,10 +295,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
     override fun onBackPressed() {
         val infoVisible = infoDialog?.isVisible == true
         if (infoVisible) dismissInfoDialog()
-        else {
-            super.onBackPressed()
-            doFinish()
-        }
+        else doFinish()
     }
     
     override fun onDestroy() {
@@ -321,8 +318,8 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
                     100, {
                 val intent = Intent()
                 intent.putExtra("modified", hasModifiedFavs)
-                intent.putExtra("item", wallpaper)
                 if (hasModifiedFavs) {
+                    intent.putExtra("item", wallpaper)
                     intent.putExtra("inFavorites", isInFavorites)
                 }
                 setResult(10, intent)

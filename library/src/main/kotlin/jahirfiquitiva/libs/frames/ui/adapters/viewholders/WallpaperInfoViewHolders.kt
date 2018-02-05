@@ -20,7 +20,7 @@ import android.view.View
 import android.widget.TextView
 import ca.allanwang.kau.utils.toHexString
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
-import com.pchmn.materialchips.core.ChipView
+import com.robertlevonyan.views.chip.Chip
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
 import jahirfiquitiva.libs.kauextensions.extensions.bind
@@ -41,15 +41,15 @@ class WallpaperInfoHolder(itemView: View) : SectionedViewHolder(itemView) {
 }
 
 class WallpaperPaletteHolder(itemView: View) : SectionedViewHolder(itemView) {
-    private val chip: ChipView? by bind(R.id.info_palette_color)
+    private val chip: Chip? by bind(R.id.info_palette_color)
     fun bindChip(@ColorInt color: Int, colorListener: (Int) -> Unit = {}) = with(itemView) {
-        chip?.setBackgroundColor(color)
-        chip?.setLabelColor(context.getPrimaryTextColorFor(color, 0.6F))
-        chip?.label = color.toHexString()
-        chip?.setAvatarIcon(
-                "ic_color_palette".getDrawable(context)?.applyColorFilter(
-                        context.getActiveIconsColorFor(color, 0.6F)))
-        chip?.setOnChipClicked { colorListener(color) }
+        chip?.changeBackgroundColor(color)
+        chip?.textColor = context.getPrimaryTextColorFor(color, 0.6F)
+        chip?.chipText = color.toHexString()
+        val icon = "ic_color_palette".getDrawable(context)?.applyColorFilter(
+                context.getActiveIconsColorFor(color, 0.6F))
+        chip?.chipIcon = icon
+        chip?.setOnChipClickListener { colorListener(color) }
     }
 }
 

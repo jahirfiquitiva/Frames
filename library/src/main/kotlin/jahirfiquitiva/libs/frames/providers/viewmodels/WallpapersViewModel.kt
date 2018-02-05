@@ -32,20 +32,6 @@ import org.json.JSONObject
 
 class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
     
-    fun updateWallpaper(newWallpaper: Wallpaper) {
-        val prevList = ArrayList(getData().orEmpty())
-        if (prevList.isNotEmpty()) {
-            val pos = prevList.indexOf(newWallpaper)
-            if (pos >= 0) {
-                val old = prevList[pos]
-                if (newWallpaper.hasChangedFrom(old)) {
-                    prevList[pos] = newWallpaper
-                    postResult(prevList)
-                }
-            }
-        }
-    }
-    
     override fun internalLoad(param: Context): ArrayList<Wallpaper> =
             loadWallpapers(
                     param, FramesUrlRequests().requestJson(param.getString(R.string.json_url)))

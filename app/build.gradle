@@ -63,7 +63,6 @@ android {
         versionCode versions.versionCode
         versionName versions.versionName
         vectorDrawables.useSupportLibrary = true
-        multiDexEnabled = true
     }
 
     buildTypes {
@@ -87,10 +86,6 @@ android {
         pickFirst 'META-INF/core_release.kotlin_module'
         pickFirst 'META-INF/library_debug.kotlin_module'
         pickFirst 'META-INF/library_release.kotlin_module'
-    }
-
-    dexOptions {
-        preDexLibraries = false
     }
 }
 

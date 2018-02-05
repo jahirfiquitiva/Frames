@@ -60,6 +60,7 @@ import java.io.FileOutputStream
 @Suppress("DEPRECATION")
 abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperHolder>() {
     
+    internal var hasChecker = false
     var recyclerView: EmptyViewRecyclerView? = null
         private set
     private var swipeToRefresh: SwipeRefreshLayout? = null
@@ -309,7 +310,6 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 val hasModifiedFavs = it.getBooleanExtra("modified", false)
                 val inFavs = it.getBooleanExtra("inFavorites", false)
                 item?.let {
-                    wallpapersModel?.updateWallpaper(it)
                     if (hasModifiedFavs) {
                         if (inFavs) addToFavorites(it)
                         else removeFromFavorites(it)
@@ -321,5 +321,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     
     abstract fun showFavoritesIcon(): Boolean
     
-    internal var hasChecker = false
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser && !allowReloadAfterVisibleToUser()) recyclerView?.updateEmptyState()
+    }
 }

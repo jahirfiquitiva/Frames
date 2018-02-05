@@ -15,7 +15,6 @@
  */
 package jahirfiquitiva.libs.frames.ui.activities
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -56,6 +55,7 @@ abstract class FramesActivity : BaseFramesActivity() {
     private val pager: ViewPager? by bind(R.id.pager)
     private val tabs: CustomTabLayout? by bind(R.id.tabs)
     
+    private var searchItem: MenuItem? = null
     private var searchView: CustomSearchView? = null
     
     private var hasCollections = false
@@ -97,26 +97,7 @@ abstract class FramesActivity : BaseFramesActivity() {
         tabs?.addOnTabSelectedListener(
                 object : TabLayout.ViewPagerOnTabSelectedListener(pager) {
                     override fun onTabSelected(tab: TabLayout.Tab?) {
-                        tab?.let {
-                            if (lastSection == it.position) return
-                            lastSection = it.position
-                            if (boolean(R.bool.show_icons_in_tabs)) {
-                                tabs?.setTabsIconsColors(
-                                        getInactiveIconsColorFor(primaryColor, 0.6F),
-                                        if (useAccentColor) accentColor else
-                                            getActiveIconsColorFor(primaryColor, 0.6F))
-                            }
-                            searchView?.let { search ->
-                                search.onActionViewCollapsed()
-                                tabs?.let {
-                                    val hint = it.getTabAt(it.selectedTabPosition)?.text.toString()
-                                    search.queryHint =
-                                            getString(R.string.search_x, hint.toLowerCase())
-                                }
-                            }
-                            invalidateOptionsMenu()
-                            pager?.setCurrentItem(lastSection, true)
-                        }
+                        tab?.let { navigateToSection(it.position) }
                     }
                     
                     override fun onTabReselected(tab: TabLayout.Tab?) = scrollToTop()
@@ -124,7 +105,7 @@ abstract class FramesActivity : BaseFramesActivity() {
                 })
         pager?.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
         
-        pager?.offscreenPageLimit = tabs?.tabCount ?: 1
+        pager?.offscreenPageLimit = tabs?.tabCount ?: 2
         pager?.setCurrentItem(lastSection, true)
     }
     
@@ -176,6 +157,27 @@ abstract class FramesActivity : BaseFramesActivity() {
         }
     }
     
+    private fun navigateToSection(position: Int, force: Boolean = false) {
+        if (lastSection != position || force) {
+            lastSection = position
+            if (boolean(R.bool.show_icons_in_tabs)) {
+                tabs?.setTabsIconsColors(
+                        getInactiveIconsColorFor(primaryColor, 0.6F),
+                        if (boolean(R.bool.enable_accent_color_in_tabs)) accentColor else
+                            getActiveIconsColorFor(primaryColor, 0.6F))
+            }
+            searchItem?.collapseActionView()
+            searchView?.let { search ->
+                tabs?.let {
+                    val hint = it.getTabAt(it.selectedTabPosition)?.text.toString()
+                    search.queryHint =
+                            getString(R.string.search_x, hint.toLowerCase())
+                }
+            }
+            pager?.setCurrentItem(lastSection, true)
+        }
+    }
+    
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.frames_menu, menu)
         
@@ -183,8 +185,8 @@ abstract class FramesActivity : BaseFramesActivity() {
             val donationItem = it.findItem(R.id.donate)
             donationItem?.isVisible = donationsEnabled
             
-            val searchItem = it.findItem(R.id.search)
-            searchView = searchItem.actionView as? CustomSearchView
+            searchItem = it.findItem(R.id.search)
+            searchView = searchItem?.actionView as? CustomSearchView
             searchView?.onExpand = { toolbar?.enableScroll(false) }
             searchView?.onCollapse = {
                 toolbar?.enableScroll(true)
@@ -252,15 +254,9 @@ abstract class FramesActivity : BaseFramesActivity() {
         }
     }
     
-    @SuppressLint("MissingSuperCall")
-    override fun onResume() {
-        super.onResume()
-        invalidateOptionsMenu()
-    }
-    
     override fun onPause() {
         super.onPause()
-        searchView?.onActionViewCollapsed()
+        if (searchView?.isOpen == true) searchItem?.collapseActionView()
     }
     
     override fun onSaveInstanceState(outState: Bundle?) {

@@ -49,6 +49,8 @@ import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoratio
 
 class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     
+    private var hasChecker = false
+    
     private var swipeToRefresh: SwipeRefreshLayout? = null
     private var recyclerView: EmptyViewRecyclerView? = null
     private var fastScroll: RecyclerFastScroller? = null
@@ -206,7 +208,10 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     override fun fromCollectionActivity(): Boolean = false
     override fun fromFavorites(): Boolean = false
     
-    private var hasChecker = false
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser && !allowReloadAfterVisibleToUser()) recyclerView?.updateEmptyState()
+    }
     
     companion object {
         fun create(hasChecker: Boolean): CollectionsFragment =

@@ -83,10 +83,10 @@ open class SettingsFragment : PreferenceFragment() {
     }
     
     private fun initDatabase() {
-        if (boolean(R.bool.isFrames)) {
-            if (database == null) {
+        actv {
+            if (boolean(R.bool.isFrames) && database == null) {
                 database = Room.databaseBuilder(
-                        ctxt, FavoritesDatabase::class.java,
+                        it, FavoritesDatabase::class.java,
                         DATABASE_NAME).fallbackToDestructiveMigration().build()
             }
         }

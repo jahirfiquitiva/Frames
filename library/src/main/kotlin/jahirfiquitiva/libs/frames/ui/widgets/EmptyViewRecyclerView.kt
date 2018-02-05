@@ -26,6 +26,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import ca.allanwang.kau.utils.drawable
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.visible
@@ -87,7 +88,12 @@ open class EmptyViewRecyclerView : RecyclerView {
         emptyView?.let {
             if (it is ImageView) {
                 it.setImageBitmap(null)
-                it.setDecodedBitmap(res)
+                it.setImageDrawable(null)
+                try {
+                    it.setDecodedBitmap(res)
+                } catch (e: Exception) {
+                    it.setImageDrawable(context.drawable(res))
+                }
             } else {
                 throw UnsupportedOperationException(
                         "Cannot set a Drawable in a View that is not ImageView")
@@ -123,11 +129,7 @@ open class EmptyViewRecyclerView : RecyclerView {
         textView?.setTextColor(context.secondaryTextColor)
         textView?.visibleIf(state != State.NORMAL && rightText.hasContent())
         loadingView?.visibleIf(state == State.LOADING)
-        if (state == State.EMPTY) {
-            emptyView?.showAndAnimate()
-        } else {
-            emptyView?.gone()
-        }
+        updateEmptyState()
         visibleIf(state == State.NORMAL)
     }
     
@@ -176,7 +178,15 @@ open class EmptyViewRecyclerView : RecyclerView {
         visible()
         (this as? ImageView)?.let {
             it.drawable.applyColorFilter(context.activeIconsColor)
-            postDelayed(50) { (it.drawable as? Animatable)?.start() }
+            postDelayed(200) { (it.drawable as? Animatable)?.start() }
+        }
+    }
+    
+    fun updateEmptyState() {
+        if (state == State.EMPTY) {
+            emptyView?.showAndAnimate()
+        } else {
+            emptyView?.gone()
         }
     }
     

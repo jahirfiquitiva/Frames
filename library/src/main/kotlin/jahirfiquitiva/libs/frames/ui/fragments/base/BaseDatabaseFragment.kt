@@ -68,7 +68,7 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
     }
     
     private fun initDatabase() {
-        ctxt {
+        actv {
             if (it.getBoolean(R.bool.isFrames) && database == null) {
                 database = Room.databaseBuilder(
                         it, FavoritesDatabase::class.java,
@@ -82,11 +82,11 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
     }
     
     private fun initFavoritesViewModel() {
-        ctxt {
+        actv {
             if (it.getBoolean(R.bool.isFrames) && database == null) initDatabase()
-        }
-        if (favoritesModel == null) {
-            favoritesModel = ViewModelProviders.of(actv).get(FavoritesViewModel::class.java)
+            if (favoritesModel == null) {
+                favoritesModel = ViewModelProviders.of(it).get(FavoritesViewModel::class.java)
+            }
         }
     }
     
