@@ -60,7 +60,7 @@ import java.io.FileOutputStream
 @Suppress("DEPRECATION")
 abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperHolder>() {
     
-    internal var hasChecker = false
+    var hasChecker = false
     var recyclerView: EmptyViewRecyclerView? = null
         private set
     private var swipeToRefresh: SwipeRefreshLayout? = null
