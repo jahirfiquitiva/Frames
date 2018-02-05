@@ -40,7 +40,7 @@ ext.versions = [
         okhttp               : '3.9.1',
         kauExt               : '818dbef',
         sectionedRecyclerView: '7e9908b',
-        rvFastScroll         : 'a1bfb25',
+        rvFastScroll         : '6a72f8c',
         chips                : '02ca0e4',
         iaps                 : '1.0.44',
         muzeiApi             : '2.0',
@@ -79,7 +79,7 @@ ext.libraries = [
         // Sectioned RecyclerView
         sectionedRecyclerView: 'com.github.jahirfiquitiva:sectioned-recyclerview:' + versions.sectionedRecyclerView + '@aar',
         // RecyclerView FastScroll
-        rvFastScroll         : 'com.github.jahirfiquitiva:RecyclerView-FastScroll:' + versions.rvFastScroll + '@aar',
+        rvFastScroll         : 'me.jahirfiquitiva:recycler-fast-scroll:' + versions.rvFastScroll + '@aar',
         // Chips
         chips                : 'com.github.jahirfiquitiva:materialChipView:' + versions.chips,
         // In-App Purchases

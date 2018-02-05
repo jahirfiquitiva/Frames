@@ -21,7 +21,6 @@ import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
@@ -32,20 +31,13 @@ import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.visible
 import ca.allanwang.kau.utils.visibleIf
-import com.simplecityapps.recyclerview_fastscroll.interfaces.OnFastScrollStateChangeListener
-import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-import jahirfiquitiva.libs.frames.helpers.extensions.fastScrollThumbInactiveColor
 import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
-import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kauextensions.extensions.setDecodedBitmap
-import java.lang.ref.WeakReference
 
-open class EmptyViewRecyclerView : FastScrollRecyclerView {
-    
-    private var swipeToRefresh: WeakReference<SwipeRefreshLayout?>? = null
+open class EmptyViewRecyclerView : RecyclerView {
     
     var loadingView: View? = null
     var emptyView: View? = null
@@ -110,38 +102,10 @@ open class EmptyViewRecyclerView : FastScrollRecyclerView {
         }
     }
     
-    fun attachSwipeRefreshLayout(refreshLayout: SwipeRefreshLayout?) {
-        refreshLayout?.let {
-            this.swipeToRefresh = WeakReference(it)
-        }
-    }
-    
-    constructor(context: Context) : super(context) {
-        init()
-    }
-    
-    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet) {
-        init()
-    }
-    
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
     constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int)
-            : super(context, attributeSet, defStyleAttr) {
-        init()
-    }
-    
-    private fun init() {
-        setTrackColor(context.dividerColor)
-        setThumbInactiveColor(context.fastScrollThumbInactiveColor)
-        setOnScrollbarStateChangeListener(object : OnFastScrollStateChangeListener {
-            override fun onFastScrollStart() {
-                swipeToRefresh?.get()?.isEnabled = false
-            }
-            
-            override fun onFastScrollStop() {
-                swipeToRefresh?.get()?.isEnabled = true
-            }
-        })
-    }
+            : super(context, attributeSet, defStyleAttr)
     
     private fun setStateInternal() {
         state = if (adapter != null) {
@@ -225,11 +189,6 @@ open class EmptyViewRecyclerView : FastScrollRecyclerView {
         } else {
             emptyView?.gone()
         }
-    }
-    
-    override fun setVisibility(visibility: Int) {
-        super.setVisibility(visibility)
-        if (visibility == View.VISIBLE) showScrollbar()
     }
     
     enum class State {

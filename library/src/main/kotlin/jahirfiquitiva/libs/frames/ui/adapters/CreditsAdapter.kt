@@ -16,13 +16,11 @@
 package jahirfiquitiva.libs.frames.ui.adapters
 
 import android.support.annotation.StringRes
-import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import ca.allanwang.kau.utils.inflate
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.bumptech.glide.RequestManager
-import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.DashboardCreditViewHolder
@@ -34,8 +32,7 @@ class CreditsAdapter(
         private val manager: RequestManager,
         private val credits: ArrayList<Credit>
                     ) :
-        SectionedRecyclerViewAdapter<SectionedViewHolder>(),
-        FastScrollRecyclerView.MeasurableAdapter<SectionedViewHolder> {
+        SectionedRecyclerViewAdapter<SectionedViewHolder>() {
     
     init {
         shouldShowHeadersForEmptySections(false)
@@ -113,10 +110,6 @@ class CreditsAdapter(
                     else -> SectionedHeaderViewHolder(it.inflate(R.layout.item_section_header))
                 }
             }
-    
-    override fun getViewTypeHeight(p0: RecyclerView?, p1: SectionedViewHolder?, p2: Int): Int {
-        return p1?.itemView?.measuredHeight ?: 0
-    }
     
     override fun onBindFooterViewHolder(holder: SectionedViewHolder?, section: Int) {}
 }

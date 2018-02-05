@@ -39,9 +39,13 @@
                 android:clipToPadding="false"
                 android:overScrollMode="ifContentScrolls"
                 android:splitMotionEvents="false"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                app:fastScrollAutoHide="true"
-                app:fastScrollThumbColor="?colorAccent"/>
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+        <com.pluscubed.recyclerfastscroll.RecyclerFastScroller
+                android:id="@+id/fast_scroller"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"/>
 
     </FrameLayout>
 

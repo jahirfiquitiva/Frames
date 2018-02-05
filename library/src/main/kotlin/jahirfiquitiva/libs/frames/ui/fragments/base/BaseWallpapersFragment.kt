@@ -32,6 +32,7 @@ import ca.allanwang.kau.utils.toBitmap
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
 import com.bumptech.glide.util.ViewPreloadSizeProvider
+import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
@@ -63,6 +64,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     var recyclerView: EmptyViewRecyclerView? = null
         private set
     private var swipeToRefresh: SwipeRefreshLayout? = null
+    private var fastScroller: RecyclerFastScroller? = null
     
     private val provider = ViewPreloadSizeProvider<Wallpaper>()
     val wallsAdapter: WallpapersAdapter by lazy {
@@ -96,7 +98,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     override fun initUI(content: View) {
         swipeToRefresh = content.findViewById(R.id.swipe_to_refresh)
         recyclerView = content.findViewById(R.id.list_rv)
-        // fastScroll = content.findViewById(R.id.fast_scroller)
+        fastScroller = content.findViewById(R.id.fast_scroller)
         
         swipeToRefresh?.let {
             it.setProgressBackgroundColorSchemeColor(it.context.cardBackgroundColor)
@@ -137,11 +139,12 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 isDrawingCacheEnabled = true
                 drawingCacheQuality = View.DRAWING_CACHE_QUALITY_AUTO
                 
-                attachSwipeRefreshLayout(swipeToRefresh)
-                
                 adapter = wallsAdapter
             }
         }
+        
+        fastScroller?.attachSwipeRefreshLayout(swipeToRefresh)
+        fastScroller?.attachRecyclerView(recyclerView)
         
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
     }

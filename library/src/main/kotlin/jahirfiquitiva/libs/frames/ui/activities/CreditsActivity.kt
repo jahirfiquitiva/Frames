@@ -25,6 +25,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.bumptech.glide.Glide
+import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import de.psdev.licensesdialog.LicenseResolver
 import de.psdev.licensesdialog.LicensesDialog
 import de.psdev.licensesdialog.licenses.License
@@ -59,6 +60,7 @@ open class CreditsActivity : ThemedActivity() {
     
     private val toolbar: CustomToolbar? by bind(R.id.toolbar)
     private val recyclerView: EmptyViewRecyclerView? by bind(R.id.list_rv)
+    private val fastScroller: RecyclerFastScroller? by bind(R.id.fast_scroller)
     
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,7 +86,8 @@ open class CreditsActivity : ThemedActivity() {
         val adapter = CreditsAdapter(getDashboardTitle(), Glide.with(this), buildCreditsList())
         adapter.setLayoutManager(layoutManager)
         recyclerView?.adapter = adapter
-        recyclerView?.setFastScrollEnabled(false)
+        
+        fastScroller?.attachRecyclerView(recyclerView)
         
         try {
             adapter.collapseSection(2)
