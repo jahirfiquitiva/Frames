@@ -60,12 +60,6 @@
     <!--    Choose whether you want filled collection preview by default -->
     <bool name="enable_filled_collection_preview">false</bool>
 
-    <!--    Accent color in tabs
-    -       If true, the accent color will be used in tabs
-    -       If false, the color will be set depending on your primary color
-    -->
-    <bool name="enable_accent_color_in_tabs">false</bool>
-
     <!--    Show icons in tabs
     -       True means yes
     -       False means no

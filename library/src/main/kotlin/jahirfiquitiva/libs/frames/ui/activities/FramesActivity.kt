@@ -35,7 +35,6 @@ import jahirfiquitiva.libs.frames.ui.fragments.FavoritesFragment
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersFragment
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
-import jahirfiquitiva.libs.kauextensions.extensions.accentColor
 import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getDisabledTextColorFor
@@ -84,13 +83,10 @@ abstract class FramesActivity : BaseFramesActivity() {
                     FavoritesFragment.create(getLicenseChecker() != null))
         }
         
-        val useAccentColor = boolean(R.bool.enable_accent_color_in_tabs)
         tabs?.setTabTextColors(
                 getDisabledTextColorFor(primaryColor, 0.6F),
-                if (useAccentColor) accentColor else
-                    getPrimaryTextColorFor(primaryColor, 0.6F))
-        tabs?.setSelectedTabIndicatorColor(
-                if (useAccentColor) accentColor else getPrimaryTextColorFor(primaryColor, 0.6F))
+                getPrimaryTextColorFor(primaryColor, 0.6F))
+        tabs?.setSelectedTabIndicatorColor(getPrimaryTextColorFor(primaryColor, 0.6F))
         
         buildTabs()
         
@@ -163,8 +159,7 @@ abstract class FramesActivity : BaseFramesActivity() {
             if (boolean(R.bool.show_icons_in_tabs)) {
                 tabs?.setTabsIconsColors(
                         getInactiveIconsColorFor(primaryColor, 0.6F),
-                        if (boolean(R.bool.enable_accent_color_in_tabs)) accentColor else
-                            getActiveIconsColorFor(primaryColor, 0.6F))
+                        getActiveIconsColorFor(primaryColor, 0.6F))
             }
             searchItem?.collapseActionView()
             searchView?.let { search ->
