@@ -12,11 +12,11 @@ Frames
 A full-of-features, easy-to-customize, free and open source, light-weight, Android dashboard library to create wallpapers apps with almost-null effort.
 
 <a target="_blank" href="http://j.mp/FramesAPK">
-<img src="https://github.com/jahirfiquitiva/Website-Resources/raw/master/badges/download_sample.svg" width="250"/>
+<img src="http://jahirfiquitiva.me/share/download_sample.svg" width="200"/>
 </a>
 
 <a target="_blank" href="http://www.jahirfiquitiva.me/support/">
-<img src="https://github.com/jahirfiquitiva/Website-Resources/raw/master/badges/download_sample.svg" width="250"/>
+<img src="http://jahirfiquitiva.me/share/support_my_work.svg" width="200"/>
 </a>
 
 ## Show some  :blue_heart:
@@ -135,7 +135,7 @@ Just join our community and make a post. We'll help you as soon as possible. [![
 
 If you found this app/library helpful and want to thank me, you can:
 <a target="_blank" href="http://www.jahirfiquitiva.me/support/">
-<img src="https://github.com/jahirfiquitiva/Website-Resources/raw/master/badges/download_sample.svg" width="250"/>
+<img src="http://jahirfiquitiva.me/share/support_my_work.svg" width="200"/>
 </a>
 **Thanks in advance!** :pray:
 
