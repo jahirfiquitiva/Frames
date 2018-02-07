@@ -16,7 +16,6 @@
 package jahirfiquitiva.libs.frames.ui.fragments
 
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
 
 class WallpapersFragment : BaseWallpapersFragment() {
@@ -38,10 +37,5 @@ class WallpapersFragment : BaseWallpapersFragment() {
     companion object {
         fun create(hasChecker: Boolean): WallpapersFragment =
                 WallpapersFragment().apply { this.hasChecker = hasChecker }
-    }
-    
-    override fun scrollToTop() {
-        FL.d { "Scrolling to top D:" }
-        // super.scrollToTop()
     }
 }
