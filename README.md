@@ -67,7 +67,7 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 - Material Design dashboard.
 - License Checker.
 - Donations.
-- Firebase notifications ready.
+- OneSignal notifications ready.
 - Cloud based (only) wallpapers.
 - App can work offline.
 - Categories section.
