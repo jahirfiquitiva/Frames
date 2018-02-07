@@ -134,9 +134,11 @@ Just join our community and make a post. We'll help you as soon as possible. [![
 [![Google+](https://img.shields.io/badge/Follow-Google%2B-ea4335.svg)](https://plus.google.com/+JahirFiquitivaR)
 
 If you found this app/library helpful and want to thank me, you can:
+
 <a target="_blank" href="http://www.jahirfiquitiva.me/support/">
 <img src="http://jahirfiquitiva.me/share/support_my_work.svg" width="200"/>
 </a>
+
 **Thanks in advance!** :pray:
 
 ## Special Thanks:
