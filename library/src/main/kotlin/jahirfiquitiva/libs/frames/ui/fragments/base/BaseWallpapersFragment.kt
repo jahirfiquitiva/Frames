@@ -63,7 +63,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     var hasChecker = false
     var recyclerView: EmptyViewRecyclerView? = null
         private set
-    private var swipeToRefresh: SwipeRefreshLayout? = null
+    var swipeToRefresh: SwipeRefreshLayout? = null
+        private set
     private var fastScroller: RecyclerFastScroller? = null
     
     private val provider = ViewPreloadSizeProvider<Wallpaper>()
