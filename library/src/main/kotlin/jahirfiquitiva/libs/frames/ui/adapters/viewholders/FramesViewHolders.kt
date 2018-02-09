@@ -34,6 +34,7 @@ import com.bumptech.glide.util.ViewPreloadSizeProvider
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.helpers.extensions.backgroundColor
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.loadWallpaper
@@ -46,12 +47,10 @@ import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.clearChildrenAnimations
 import jahirfiquitiva.libs.kauextensions.extensions.context
-import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.thumbnailColor
 import jahirfiquitiva.libs.kauextensions.extensions.withAlpha
 
 const val DETAILS_OPACITY = 0.85F
@@ -73,10 +72,10 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
             whenFaded {
                 if (context.framesKonfigs.animationsEnabled) {
                     animateSmoothly(
-                            context.dividerColor, context.thumbnailColor,
+                            context.backgroundColor, context.cardBackgroundColor,
                             { setBackgroundColor(it) })
                 } else {
-                    setBackgroundColor(context.dividerColor)
+                    setBackgroundColor(context.cardBackgroundColor)
                 }
             }
         }
@@ -115,7 +114,7 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
         if (this.wallpaper != collection.bestCover) this.wallpaper = collection.bestCover
         with(itemView) {
             animateLoad(this)
-            detailsBg?.setBackgroundColor(context.dividerColor)
+            detailsBg?.setBackgroundColor(context.cardBackgroundColor)
             val rightCover = collection.bestCover ?: collection.wallpapers.first()
             val url = rightCover.url
             val thumb = rightCover.thumbUrl
@@ -149,7 +148,7 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                     val color = try {
                         resource.bestSwatch?.rgb ?: context.cardBackgroundColor
                     } catch (e: Exception) {
-                        context.dividerColor
+                        context.cardBackgroundColor
                     }
                     detailsBg?.background = null
                     
@@ -196,7 +195,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                ) {
         if (this.wallpaper != wallpaper) this.wallpaper = wallpaper
         with(itemView) {
-            detailsBg?.setBackgroundColor(context.dividerColor)
+            detailsBg?.setBackgroundColor(context.cardBackgroundColor)
             heartIcon?.setImageDrawable(null)
             heartIcon?.gone()
             if (shouldCheck != check) shouldCheck = check
@@ -252,9 +251,9 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                 
                 if (context.boolean(R.bool.enable_colored_tiles)) {
                     val color = try {
-                        resource.bestSwatch?.rgb ?: context.dividerColor
+                        resource.bestSwatch?.rgb ?: context.cardBackgroundColor
                     } catch (e: Exception) {
-                        context.dividerColor
+                        context.cardBackgroundColor
                     }
                     detailsBg?.background = null
                     detailsBg?.setBackgroundColor(color.withAlpha(DETAILS_OPACITY))

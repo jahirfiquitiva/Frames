@@ -15,6 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.helpers.extensions
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -32,10 +33,21 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.PREFERENCES_NAME
 import jahirfiquitiva.libs.kauextensions.extensions.deleteEverything
+import jahirfiquitiva.libs.kauextensions.extensions.extractColor
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
 import jahirfiquitiva.libs.kauextensions.extensions.usesDarkTheme
 import java.io.File
+
+val Context.backgroundColor: Int
+    @SuppressLint("PrivateResource")
+    get() {
+        return try {
+            extractColor(intArrayOf(android.R.attr.windowBackground))
+        } catch (e: Exception) {
+            if (usesDarkTheme) Color.parseColor("#303030") else Color.parseColor("#fafa")
+        }
+    }
 
 val Context.fastScrollThumbInactiveColor
     get() = if (usesDarkTheme) Color.parseColor("#73ffffff") else Color.parseColor("#73000000")
