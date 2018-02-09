@@ -14,7 +14,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Frames.LightTheme" parent="Frames.Base.Light"/>
 
@@ -34,6 +34,7 @@
         <item name="android:textColorPrimary">#de000000</item>
         <item name="android:textColorSecondary">#8a000000</item>
         <item name="android:windowBackground">@color/light_theme_background</item>
+        <item name="android:colorEdgeEffect" tools:ignore="NewApi">?attr/colorAccent</item>
         <item name="cardBackgroundColor">@color/light_theme_card_background</item>
 
         <!-- Material Dialogs specific values -->
@@ -57,6 +58,7 @@
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">#b3ffffff</item>
         <item name="android:windowBackground">@color/dark_theme_background</item>
+        <item name="android:colorEdgeEffect" tools:ignore="NewApi">?attr/colorAccent</item>
         <item name="cardBackgroundColor">@color/dark_theme_card_background</item>
 
         <!-- Material Dialogs specific values -->
