@@ -16,15 +16,15 @@
   -->
 <resources>
 
-    <style name="LightTheme" parent="AppTheme.Base.Light"/>
+    <style name="Frames.LightTheme" parent="Frames.Base.Light"/>
 
-    <style name="DarkTheme" parent="AppTheme.Base.Dark"/>
+    <style name="Frames.DarkTheme" parent="Frames.Base.Dark"/>
 
-    <style name="TransparentTheme" parent="AppTheme.Base.Clear"/>
+    <style name="Frames.TransparentTheme" parent="Frames.Base.Clear"/>
 
-    <style name="AmoledTheme" parent="AppTheme.Base.Amoled"/>
+    <style name="Frames.AmoledTheme" parent="Frames.Base.Amoled"/>
 
-    <style name="AppTheme.Base.Light" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Frames.Base.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/light_theme_primary</item>
         <item name="colorPrimaryDark">@color/light_theme_primary_dark</item>
         <item name="colorAccent">@color/light_theme_accent</item>
@@ -47,7 +47,7 @@
         <item name="isDark">false</item>
     </style>
 
-    <style name="AppTheme.Base.Dark" parent="Theme.AppCompat.NoActionBar">
+    <style name="Frames.Base.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/dark_theme_primary</item>
         <item name="colorPrimaryDark">@color/dark_theme_primary_dark</item>
         <item name="colorAccent">@color/dark_theme_accent</item>
@@ -70,7 +70,7 @@
         <item name="isDark">true</item>
     </style>
 
-    <style name="AppTheme.Base.Amoled" parent="AppTheme.Base.Dark">
+    <style name="Frames.Base.Amoled" parent="Frames.Base.Dark">
         <item name="colorPrimary">@android:color/black</item>
         <item name="colorPrimaryDark">@android:color/black</item>
         <item name="android:windowBackground">@android:color/black</item>
@@ -80,7 +80,7 @@
 
     <color name="clear_bg">#70000000</color>
 
-    <style name="AppTheme.Base.Clear" parent="AppTheme.Base.Amoled">
+    <style name="Frames.Base.Clear" parent="Frames.Base.Amoled">
         <item name="android:windowShowWallpaper">true</item>
         <item name="android:windowBackground">@color/clear_bg</item>
     </style>
@@ -123,12 +123,12 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
-    <style name="ViewerLightTheme" parent="LightTheme"/>
+    <style name="ViewerLightTheme" parent="Frames.LightTheme"/>
 
-    <style name="ViewerDarkTheme" parent="DarkTheme"/>
+    <style name="ViewerDarkTheme" parent="Frames.DarkTheme"/>
 
-    <style name="ViewerAmoledTheme" parent="AmoledTheme"/>
+    <style name="ViewerAmoledTheme" parent="Frames.AmoledTheme"/>
 
-    <style name="ViewerTransparentTheme" parent="TransparentTheme"/>
+    <style name="ViewerTransparentTheme" parent="Frames.TransparentTheme"/>
 
 </resources>

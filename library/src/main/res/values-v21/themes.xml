@@ -16,22 +16,22 @@
   -->
 <resources>
 
-    <style name="ViewerLightTheme" parent="LightTheme">
+    <style name="ViewerLightTheme" parent="Frames.LightTheme">
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowContentTransitions">true</item>
     </style>
 
-    <style name="ViewerDarkTheme" parent="DarkTheme">
+    <style name="ViewerDarkTheme" parent="Frames.DarkTheme">
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowContentTransitions">true</item>
     </style>
 
-    <style name="ViewerAmoledTheme" parent="AmoledTheme">
+    <style name="ViewerAmoledTheme" parent="Frames.AmoledTheme">
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowContentTransitions">true</item>
     </style>
 
-    <style name="ViewerTransparentTheme" parent="TransparentTheme">
+    <style name="ViewerTransparentTheme" parent="Frames.TransparentTheme">
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowContentTransitions">true</item>
     </style>
@@ -64,19 +64,19 @@
         <item name="android:navigationBarColor">@android:color/black</item>
     </style>
 
-    <style name="LightTheme" parent="AppTheme.Base.Light">
+    <style name="LightTheme" parent="Frames.Base.Light">
         <item name="android:windowContentTransitions">true</item>
     </style>
 
-    <style name="DarkTheme" parent="AppTheme.Base.Dark">
+    <style name="DarkTheme" parent="Frames.Base.Dark">
         <item name="android:windowContentTransitions">true</item>
     </style>
 
-    <style name="TransparentTheme" parent="AppTheme.Base.Clear">
+    <style name="TransparentTheme" parent="Frames.Base.Clear">
         <item name="android:windowContentTransitions">true</item>
     </style>
 
-    <style name="AmoledTheme" parent="AppTheme.Base.Amoled">
+    <style name="AmoledTheme" parent="Frames.Base.Amoled">
         <item name="android:windowContentTransitions">true</item>
     </style>
 

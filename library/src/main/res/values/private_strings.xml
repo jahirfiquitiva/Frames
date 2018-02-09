@@ -14,7 +14,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="PrivateResource">
     <!-- IMPORTANT: KEEP THIS EMPTY! -->
     <string name="empty">""</string>
 
@@ -30,4 +30,7 @@
     <bool name="isFrames">true</bool>
 
     <string name="frames_notifications_action">"jahirfiquitiva.libs.frames.NOTIFICATIONS_ACTION"</string>
+
+    <color name="cardview_light_background">@color/light_theme_card_background</color>
+    <color name="cardview_dark_background">@color/dark_theme_card_background</color>
 </resources>
