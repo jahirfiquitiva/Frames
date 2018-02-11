@@ -35,6 +35,7 @@
                 android:background="?colorPrimary"
                 android:clipChildren="false"
                 android:clipToPadding="false"
+                app:popupTheme="?attr/popupMenuStyle"
                 app:layout_collapseMode="pin"/>
 
     </jahirfiquitiva.libs.kauextensions.ui.layouts.FixedElevationAppBarLayout>

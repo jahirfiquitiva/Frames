@@ -33,6 +33,7 @@
                 android:layout_height="?actionBarSize"
                 android:minHeight="?actionBarSize"
                 android:background="?colorPrimary"
+                app:popupTheme="?attr/popupMenuStyle"
                 app:layout_scrollFlags="scroll|enterAlways"/>
 
         <jahirfiquitiva.libs.kauextensions.ui.widgets.CustomTabLayout

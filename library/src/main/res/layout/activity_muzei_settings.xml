@@ -35,6 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:title="@string/app_name"
+                app:popupTheme="?attr/popupMenuStyle"
                 app:layout_scrollFlags="enterAlways"/>
 
     </jahirfiquitiva.libs.kauextensions.ui.layouts.FixedElevationAppBarLayout>

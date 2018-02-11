@@ -53,6 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:minHeight="?actionBarSize"
+                app:popupTheme="?attr/popupMenuStyle"
                 app:elevation="0dp">
 
             <LinearLayout

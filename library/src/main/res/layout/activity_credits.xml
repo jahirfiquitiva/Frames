@@ -31,10 +31,10 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
+                android:background="?colorPrimary"
                 android:theme="?attr/actionBarTheme"
-                app:popupTheme="?attr/actionBarPopupTheme"
-                app:layout_collapseMode="pin"
-                android:background="?colorPrimary"/>
+                app:popupTheme="?attr/popupMenuStyle"
+                app:layout_collapseMode="pin"/>
 
     </jahirfiquitiva.libs.kauextensions.ui.layouts.FixedElevationAppBarLayout>
 
