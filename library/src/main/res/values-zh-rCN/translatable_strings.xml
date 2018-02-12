@@ -58,7 +58,6 @@
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <string name="dev_contributions">开发帮助</string>
   <string name="ui_contributions">UI设计帮助</string>
-  <string name="dashboard_copyright">我是一名20岁的安卓开发爱好者，并且是这个应用的开发者。</string>
   <string name="sherry_description">一个不断进步，活到老学到老的人。</string>
   <string name="allan_description">一名主题包设计创造者，主题制作者，现在是一名开发者，参与了这个项目的部分工作。</string>
   <string name="settings">设置</string>
