@@ -22,11 +22,7 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kauextensions.helpers.Konfigurations
 
-open class FramesKonfigs(nm: String, private val cntxt: Context) : Konfigurations(nm, cntxt) {
-    companion object {
-        fun newInstance(name: String, context: Context) = FramesKonfigs(name, context)
-    }
-    
+open class FramesKonfigs(private val cntxt: Context) : Konfigurations("jfdb_confs", cntxt) {
     var backupJson: String
         get() = prefs.getString(BACKUP_JSON, "[]")
         set(value) = prefsEditor.putString(BACKUP_JSON, value).apply()

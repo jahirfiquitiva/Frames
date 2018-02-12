@@ -27,7 +27,6 @@ import ca.allanwang.kau.utils.snackbar
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
-import jahirfiquitiva.libs.frames.helpers.utils.TRANSLATION_SITE
 import jahirfiquitiva.libs.frames.ui.fragments.SettingsFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.kauextensions.extensions.bind
@@ -121,7 +120,7 @@ open class SettingsActivity : FragmentsActivity(), FolderChooserDialog.FolderCal
         return super.onOptionsItemSelected(item)
     }
     
-    open fun getTranslationSite(): String = TRANSLATION_SITE
+    open fun getTranslationSite(): String = "http://j.mp/FramesTranslations"
     
     override fun onBackPressed() {
         super.onBackPressed()

@@ -17,7 +17,6 @@ package jahirfiquitiva.libs.frames.helpers.utils
 
 const val DATABASE_NAME = "FAVORITES"
 
-const val PREFERENCES_NAME = "frames_preferences"
 const val BACKUP_JSON = "backup_json"
 const val COLUMNS_NUMBER = "columns_number"
 const val DOWNLOADS_FOLDER = "downloads_folder"
@@ -33,8 +32,6 @@ const val MUZEI_COLLECTIONS = "muzei_collections"
 // Intent related stuff
 const val REQUEST_CODE = "request_code"
 const val PLAY_STORE_LINK_PREFIX = "https://play.google.com/store/apps/details?id="
-const val PLAY_STORE_INSTALLER = "com.google.android.feedback"
-const val PLAY_STORE_PACKAGE = "com.android.vending"
 const val ADW_ACTION = "org.adw.launcher.icons.ACTION_PICK_ICON"
 const val TURBO_ACTION = "com.phonemetra.turbo.launcher.icons.ACTION_PICK_ICON"
 const val NOVA_ACTION = "com.novalauncher.THEME"
@@ -44,8 +41,6 @@ const val ICONS_PICKER = 1
 const val IMAGE_PICKER = 2
 const val WALLS_PICKER = 3
 const val ICONS_APPLIER = 4
-
-const val TRANSLATION_SITE = "http://j.mp/FramesTranslations"
 
 const val MAX_WALLPAPERS_LOAD = 20
 const val MAX_COLLECTIONS_LOAD = 10

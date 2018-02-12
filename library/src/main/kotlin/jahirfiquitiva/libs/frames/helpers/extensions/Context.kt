@@ -31,7 +31,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
-import jahirfiquitiva.libs.frames.helpers.utils.PREFERENCES_NAME
 import jahirfiquitiva.libs.kauextensions.extensions.deleteEverything
 import jahirfiquitiva.libs.kauextensions.extensions.extractColor
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
@@ -77,7 +76,7 @@ fun Context.createHeartIcon(checked: Boolean): Drawable? =
         (if (checked) "ic_heart" else "ic_heart_outline").getDrawable(this)
 
 val Context.framesKonfigs: FramesKonfigs
-    get() = FramesKonfigs.newInstance(PREFERENCES_NAME, this)
+    get() = FramesKonfigs(this)
 
 inline fun Context.buildMaterialDialog(action: MaterialDialog.Builder.() -> Unit = {}): MaterialDialog {
     val builder = MaterialDialog.Builder(this)

@@ -31,7 +31,6 @@ import de.psdev.licensesdialog.LicensesDialog
 import de.psdev.licensesdialog.licenses.License
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.FL
-import jahirfiquitiva.libs.frames.helpers.utils.TRANSLATION_SITE
 import jahirfiquitiva.libs.frames.ui.adapters.CreditsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
@@ -132,7 +131,7 @@ open class CreditsActivity : ThemedActivity() {
         return super.onOptionsItemSelected(item)
     }
     
-    open fun getTranslationSite(): String = TRANSLATION_SITE
+    open fun getTranslationSite(): String = "http://j.mp/FramesTranslations"
     
     private fun registerCCLicense() {
         val ccLicense = object : License() {
