@@ -39,12 +39,12 @@ import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.loadWallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
+import jahirfiquitiva.libs.frames.helpers.extensions.tilesColor
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
 import jahirfiquitiva.libs.kauextensions.extensions.animateColorTransition
 import jahirfiquitiva.libs.kauextensions.extensions.animateSmoothly
 import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
 import jahirfiquitiva.libs.kauextensions.extensions.bind
-import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.clearChildrenAnimations
 import jahirfiquitiva.libs.kauextensions.extensions.context
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
@@ -72,10 +72,10 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
             whenFaded {
                 if (context.framesKonfigs.animationsEnabled) {
                     animateSmoothly(
-                            context.backgroundColor, context.cardBackgroundColor,
+                            context.backgroundColor, context.tilesColor,
                             { setBackgroundColor(it) })
                 } else {
-                    setBackgroundColor(context.cardBackgroundColor)
+                    setBackgroundColor(context.tilesColor)
                 }
             }
         }
@@ -114,16 +114,16 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
         if (this.wallpaper != collection.bestCover) this.wallpaper = collection.bestCover
         with(itemView) {
             animateLoad(this)
-            detailsBg?.setBackgroundColor(context.cardBackgroundColor)
+            detailsBg?.setBackgroundColor(context.tilesColor)
             val rightCover = collection.bestCover ?: collection.wallpapers.first()
             val url = rightCover.url
             val thumb = rightCover.thumbUrl
             
             val filled = context.boolean(R.bool.enable_filled_collection_preview)
             title?.text = if (filled) collection.name.toUpperCase() else collection.name
-            title?.setTextColor(Color.WHITE)
+            title?.setTextColor(context.getPrimaryTextColorFor(context.tilesColor))
             amount?.text = collection.wallpapers.size.toString()
-            amount?.setTextColor(Color.WHITE)
+            amount?.setTextColor(context.getSecondaryTextColorFor(context.tilesColor))
             loadImage(manager, url, thumb)
             img?.let { provider.setView(it) }
         }
@@ -146,9 +146,9 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                 
                 if (context.boolean(R.bool.enable_colored_tiles)) {
                     val color = try {
-                        resource.bestSwatch?.rgb ?: context.cardBackgroundColor
+                        resource.bestSwatch?.rgb ?: context.tilesColor
                     } catch (e: Exception) {
-                        context.cardBackgroundColor
+                        context.tilesColor
                     }
                     detailsBg?.background = null
                     
@@ -176,7 +176,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
     
     private var shouldCheck = false
     
-    private var heartColor = Color.WHITE
+    private var heartColor = context.getActiveIconsColorFor(context.tilesColor)
     
     override val img: ImageView?
         get() = itemView.findViewById(R.id.wallpaper_image)
@@ -195,7 +195,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                ) {
         if (this.wallpaper != wallpaper) this.wallpaper = wallpaper
         with(itemView) {
-            detailsBg?.setBackgroundColor(context.cardBackgroundColor)
+            detailsBg?.setBackgroundColor(context.tilesColor)
             heartIcon?.setImageDrawable(null)
             heartIcon?.gone()
             if (shouldCheck != check) shouldCheck = check
@@ -211,10 +211,10 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
             val thumb = wallpaper.thumbUrl
             
             name?.text = wallpaper.name
-            name?.setTextColor(Color.WHITE)
+            name?.setTextColor(context.getPrimaryTextColorFor(context.tilesColor))
             if (wallpaper.author.hasContent()) {
                 author?.text = wallpaper.author
-                author?.setTextColor(Color.WHITE)
+                author?.setTextColor(context.getSecondaryTextColorFor(context.tilesColor))
                 author?.visible()
             } else {
                 author?.gone()
@@ -251,9 +251,9 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                 
                 if (context.boolean(R.bool.enable_colored_tiles)) {
                     val color = try {
-                        resource.bestSwatch?.rgb ?: context.cardBackgroundColor
+                        resource.bestSwatch?.rgb ?: context.tilesColor
                     } catch (e: Exception) {
-                        context.cardBackgroundColor
+                        context.tilesColor
                     }
                     detailsBg?.background = null
                     detailsBg?.setBackgroundColor(color.withAlpha(DETAILS_OPACITY))

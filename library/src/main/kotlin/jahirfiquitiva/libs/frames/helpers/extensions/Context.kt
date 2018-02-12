@@ -24,6 +24,8 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import ca.allanwang.kau.utils.darken
+import ca.allanwang.kau.utils.lighten
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DecodeFormat
@@ -31,6 +33,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
+import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kauextensions.extensions.deleteEverything
 import jahirfiquitiva.libs.kauextensions.extensions.extractColor
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
@@ -46,6 +49,13 @@ val Context.backgroundColor: Int
         } catch (e: Exception) {
             if (usesDarkTheme) Color.parseColor("#303030") else Color.parseColor("#fafa")
         }
+    }
+
+val Context.tilesColor: Int
+    get() {
+        return if (usesDarkTheme) {
+            cardBackgroundColor.lighten(0.1F)
+        } else cardBackgroundColor.darken(0.1F)
     }
 
 val Context.fastScrollThumbInactiveColor

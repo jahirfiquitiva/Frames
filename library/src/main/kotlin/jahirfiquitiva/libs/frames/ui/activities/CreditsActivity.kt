@@ -238,9 +238,9 @@ open class CreditsActivity : ThemedActivity() {
     private companion object {
         const val JAHIR_PHOTO_URL =
                 "https://github.com/jahirfiquitiva/Website-Resources/raw/master/myself/me-square-white.png"
-        const val JAHIR_BUTTONS = "Website|Google+|Play Store"
+        const val JAHIR_BUTTONS = "Website|Support|Google+"
         const val JAHIR_LINKS =
-                "https://www.jahirfiquitiva.me/|https://www.google.com/+JahirFiquitivaR|https://play.google.com/store/apps/dev?id=7438639276314720952"
+                "https://www.jahirfiquitiva.me/|https://www.jahirfiquitiva.me/support/|https://www.google.com/+JahirFiquitivaR"
         
         const val ALLAN_PHOTO_URL = "https://avatars0.githubusercontent.com/u/6251823?v=4&s=400"
         const val ALLAN_BUTTONS = "GitHub|Google+|Play Store"
