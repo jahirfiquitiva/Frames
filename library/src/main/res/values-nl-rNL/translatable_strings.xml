@@ -63,7 +63,6 @@
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <string name="dev_contributions">Ontwikkelings help</string>
   <string name="ui_contributions">UI help</string>
-  <string name="dashboard_copyright">Ik ben een 20-jarige enthousiaste Android ontwikkelaar en de ontwikkelaar van het dashboard.</string>
   <string name="sherry_description">Een zich altijd ontwikkelende vrouw die nooit moe wordt van leren, creatieve fotograaf en de persoon die dit dashboard mogelijk heeft gemaakt.</string>
   <string name="allan_description">Eerst een icoon pakket maker, daarna een themer en nu ook een ontwikkelaar.\nIk heb op onderdelen geholpen met de dashboard ontwikkeling.</string>
   <string name="settings">Instellingen</string>
