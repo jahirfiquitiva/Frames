@@ -64,7 +64,6 @@
   <string name="frames_dashboard">Frames Tableau de Bord</string>
   <string name="dev_contributions">Aide au développement</string>
   <string name="ui_contributions">Aide pour l\'interface Utilisateur</string>
-  <string name="dashboard_copyright">Je suis un passionné de développement Android de 20 ans et le développeur du tableau de bord.</string>
   <string name="sherry_description">Une femme en constante évolution qui ne se fatigue jamais d\'apprendre, photographe créative et la personne qui a rendu ce tableau de bord possible.</string>
   <string name="allan_description">D\'abord, un créateur de pack d\'icônes, puis un créateur de thème, et maintenant aussi un développeur.\nJ\'ai contribué à une partie du développement de ce tableau de bord.</string>
   <string name="settings">Paramètres</string>
