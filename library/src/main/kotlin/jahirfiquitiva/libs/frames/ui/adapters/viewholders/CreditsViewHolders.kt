@@ -151,10 +151,12 @@ open class DashboardCreditViewHolder(itemView: View) : SectionedViewHolder(itemV
     private val buttons: SplitButtonsLayout? by bind(R.id.buttons)
     
     open fun setItem(
-            manager: RequestManager, credit: Credit, fillAvailableSpace: Boolean = true,
+            manager: RequestManager,
+            credit: Credit,
+            fillAvailableSpace: Boolean = true,
             shouldHideButtons: Boolean = false
                     ) {
-        photo?.loadAvatar(manager, credit.photo, false)
+        photo?.loadAvatar(manager, credit.photo)
         name?.setTextColor(context.primaryTextColor)
         name?.text = credit.name
         if (credit.description.hasContent()) {

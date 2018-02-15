@@ -64,24 +64,14 @@ abstract class FramesActivity : BaseFramesActivity() {
         super.onCreate(savedInstanceState)
         
         hasCollections = boolean(R.bool.show_collections_tab)
-        if (hasCollections) lastSection = 1
+        val correct = if (hasCollections) 1 else 0
+        lastSection = savedInstanceState?.getInt("current", correct) ?: correct
         
         setContentView(R.layout.activity_main)
         
         setSupportActionBar(toolbar)
         
-        pager?.adapter = if (hasCollections) {
-            FragmentsAdapter(
-                    supportFragmentManager,
-                    CollectionsFragment.create(getLicenseChecker() != null),
-                    WallpapersFragment.create(getLicenseChecker() != null),
-                    FavoritesFragment.create(getLicenseChecker() != null))
-        } else {
-            FragmentsAdapter(
-                    supportFragmentManager,
-                    WallpapersFragment.create(getLicenseChecker() != null),
-                    FavoritesFragment.create(getLicenseChecker() != null))
-        }
+        initPagerAdapter()
         
         tabs?.setTabTextColors(
                 getDisabledTextColorFor(primaryColor, 0.6F),
@@ -102,7 +92,23 @@ abstract class FramesActivity : BaseFramesActivity() {
         pager?.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
         
         pager?.offscreenPageLimit = tabs?.tabCount ?: 2
-        pager?.setCurrentItem(lastSection, true)
+        
+        navigateToSection(lastSection, true)
+    }
+    
+    private fun initPagerAdapter() {
+        pager?.adapter = if (hasCollections) {
+            FragmentsAdapter(
+                    supportFragmentManager,
+                    CollectionsFragment.create(getLicenseChecker() != null),
+                    WallpapersFragment.create(getLicenseChecker() != null),
+                    FavoritesFragment.create(getLicenseChecker() != null))
+        } else {
+            FragmentsAdapter(
+                    supportFragmentManager,
+                    WallpapersFragment.create(getLicenseChecker() != null),
+                    FavoritesFragment.create(getLicenseChecker() != null))
+        }
     }
     
     private fun buildTabs() {
@@ -261,87 +267,78 @@ abstract class FramesActivity : BaseFramesActivity() {
     
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
-        lastSection = savedInstanceState?.getInt("current", 0) ?: 0
+        invalidateOptionsMenu()
+        hasCollections = boolean(R.bool.show_collections_tab)
+        val correct = if (hasCollections) 1 else 0
+        lastSection = savedInstanceState?.getInt("current", correct) ?: correct
+        initPagerAdapter()
         pager?.setCurrentItem(lastSection, true)
     }
     
     private fun scrollToTop() {
-        val adapter = pager?.adapter
-        if (adapter is FragmentsAdapter) {
-            val frag = adapter.getItem(lastSection)
-            frag?.let {
-                if (it is BaseFramesFragment<*, *>) {
-                    try {
-                        it.scrollToTop()
-                    } catch (ignored: Exception) {
-                    }
+        pager?.adapter?.let {
+            (it as? FragmentsAdapter)?.getItem(lastSection)?.let {
+                try {
+                    (it as? BaseFramesFragment<*, *>)?.scrollToTop()
+                } catch (ignored: Exception) {
                 }
             }
         }
     }
     
-    private val lock = Any()
+    private val lock by lazy { Any() }
     private fun doSearch(filter: String = "") {
-        val adapter = pager?.adapter
-        if (adapter is FragmentsAdapter) {
-            val frag = adapter.getItem(lastSection)
-            frag?.let {
-                if (it is BaseFramesFragment<*, *>) {
-                    try {
-                        it.enableRefresh(!filter.hasContent())
-                        synchronized(
-                                lock, {
-                            postDelayed(200, { it.applyFilter(filter) })
-                        })
-                    } catch (ignored: Exception) {
-                    }
+        pager?.adapter?.let {
+            (it as? FragmentsAdapter)?.getItem(lastSection)?.let {
+                try {
+                    (it as? BaseFramesFragment<*, *>)?.enableRefresh(!filter.hasContent())
+                    synchronized(
+                            lock, {
+                        postDelayed(200) {
+                            (it as? BaseFramesFragment<*, *>)?.applyFilter(filter)
+                        }
+                    })
+                } catch (ignored: Exception) {
+                    ignored.printStackTrace()
                 }
             }
         }
     }
     
     private fun refreshContent() {
-        val adapter = pager?.adapter
-        if (adapter is FragmentsAdapter) {
-            val frag = adapter.getItem(lastSection)
-            frag?.let {
-                if (it is BaseFramesFragment<*, *>) {
-                    try {
-                        it.reloadData(lastSection + if (hasCollections) 0 else 1)
-                    } catch (ignored: Exception) {
-                    }
+        val adapt = pager?.adapter
+        adapt?.let {
+            (it as? FragmentsAdapter)?.getItem(lastSection)?.let {
+                try {
+                    (it as? BaseFramesFragment<*, *>)?.reloadData(
+                            lastSection + if (hasCollections) 0 else 1)
+                } catch (ignored: Exception) {
                 }
             }
         }
     }
     
     private fun reloadFavorites() {
-        val adapter = pager?.adapter
-        if (adapter is FragmentsAdapter) {
-            val frag = adapter.getItem(lastSection)
-            frag?.let {
-                if (it is BaseFramesFragment<*, *>) {
-                    try {
-                        it.reloadData(2)
-                    } catch (ignored: Exception) {
-                    }
+        pager?.adapter?.let {
+            (it as? FragmentsAdapter)?.getItem(lastSection)?.let {
+                try {
+                    (it as? BaseFramesFragment<*, *>)?.reloadData(2)
+                } catch (ignored: Exception) {
                 }
             }
         }
     }
     
     private fun setNewFavorites(list: ArrayList<Wallpaper>) {
-        val adapter = pager?.adapter
-        if (adapter is FragmentsAdapter) {
-            val frag = adapter.getItem(if (hasCollections) 2 else 1)
-            frag?.let {
-                if (it is BaseFramesFragment<*, *>) {
-                    try {
+        pager?.adapter?.let {
+            (it as? FragmentsAdapter)?.getItem(if (hasCollections) 2 else 1)?.let {
+                try {
+                    (it as? BaseFramesFragment<*, *>)?.let {
                         with(it) {
                             getDatabase()?.let { favoritesModel?.forceUpdateFavorites(it, list) }
                         }
-                    } catch (ignored: Exception) {
                     }
+                } catch (ignored: Exception) {
                 }
             }
         }

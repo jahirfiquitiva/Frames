@@ -16,7 +16,6 @@
 package jahirfiquitiva.libs.frames.helpers.extensions
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
@@ -24,11 +23,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions.withCrossFade
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
-import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
-import jahirfiquitiva.libs.kauextensions.extensions.hasContent
+import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
 import jahirfiquitiva.libs.kauextensions.ui.graphics.ObservableColorMatrix
 
 fun ImageView.releaseFromGlide() {
@@ -41,92 +41,68 @@ fun ImageView.setSaturation(saturation: Float) {
     colorFilter = ColorMatrixColorFilter(matrix)
 }
 
+@SuppressLint("CheckResult")
 fun ImageView.loadWallpaper(
         requester: RequestManager?,
         url: String,
         thumbUrl: String,
         hasFaded: Boolean,
-        callback: GlideRequestCallback<Bitmap>?
+        listener: RequestListener<Drawable>?
                            ) {
+    
     val manager = requester ?: Glide.with(context)
     val loadFullRes = context.framesKonfigs.fullResGridPictures
-    val correctThumbUrl = if (thumbUrl.hasContent()) thumbUrl else url
+    val baseOptions = RequestOptions()
+            .format(
+                    if (context.isLowRamDevice) DecodeFormat.PREFER_RGB_565
+                    else DecodeFormat.PREFER_ARGB_8888)
+            .disallowHardwareConfig()
     
     if (loadFullRes) {
-        val validThumb = !correctThumbUrl.equals(url, true)
-        val thumbnailRequest = manager.asBitmap()
-                .load(correctThumbUrl)
+        val placeholder: RequestBuilder<Drawable>? = if (!thumbUrl.equals(url, true)) {
+            manager.load(thumbUrl)
+                    .apply(
+                            baseOptions
+                                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                                    .priority(Priority.HIGH))
+                    .transition(withCrossFade(if (hasFaded) 100 else 300))
+                    .listener(listener)
+        } else null
+        
+        manager.load(url)
                 .apply(
-                        (if (validThumb) context.thumbnailOptions else context.wallpaperOptions)
-                                .timeout(5000))
-                .transition(withCrossFade())
-                .listener(
-                        object : GlideRequestCallback<Bitmap>() {
-                            override fun onLoadSucceed(resource: Bitmap): Boolean =
-                                    callback?.onLoadSucceed(resource) == true
-                        })
-        loadBitmap(manager, url, !hasFaded, false, thumbnailRequest, callback)
+                        baseOptions
+                                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                                .priority(Priority.NORMAL))
+                .transition(withCrossFade(if (hasFaded) 100 else 300))
+                .thumbnail(placeholder)
+                .listener(listener)
+                .into(this)
     } else {
-        createGlideRequest(
-                manager, context.thumbnailOptions.timeout(5000),
-                correctThumbUrl, !hasFaded, false, null, callback).into(this).clearOnDetach()
+        manager.load(thumbUrl)
+                .apply(
+                        baseOptions
+                                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                                .priority(Priority.HIGH))
+                .transition(withCrossFade(if (hasFaded) 100 else 300))
+                .listener(listener)
+                .into(this)
     }
 }
 
-fun ImageView.loadAvatar(requester: RequestManager?, url: String, shouldAnimate: Boolean) {
-    loadBitmap(requester, url, shouldAnimate, true, null, null)
-}
-
-private fun ImageView.createGlideRequest(
-        requester: RequestManager?, options: RequestOptions,
-        url: String, shouldAnimate: Boolean, isAvatar: Boolean,
-        thumbnail: RequestBuilder<Bitmap>?,
-        callback: GlideRequestCallback<Bitmap>?
-                                        ): RequestBuilder<Bitmap> {
+fun ImageView.loadAvatar(requester: RequestManager?, url: String) {
     val manager = requester ?: Glide.with(context)
-    if (isAvatar) options.transform(CircleCrop())
-    var builder = manager.asBitmap().load(url)
-    if (shouldAnimate) builder.transition(withCrossFade()) else options.dontAnimate()
-    builder = builder.apply(options)
-    if (thumbnail != null) builder.thumbnail(thumbnail)
-    else builder.thumbnail(0.5F)
-    return builder.listener(callback)
-}
-
-private fun ImageView.loadBitmap(
-        requester: RequestManager?,
-        url: String, shouldAnimate: Boolean, isAvatar: Boolean,
-        thumbnail: RequestBuilder<Bitmap>?,
-        callback: GlideRequestCallback<Bitmap>?
-                                ) {
-    createGlideRequest(
-            requester, context.wallpaperOptions, url, shouldAnimate,
-            isAvatar, thumbnail, callback).into(this).clearOnDetach()
-}
-
-@SuppressLint("CheckResult")
-fun ImageView.loadResource(
-        requester: RequestManager?, resId: Int, dontTransform: Boolean,
-        shouldAnimate: Boolean, immediately: Boolean,
-        callback: GlideRequestCallback<Drawable>?
-                          ) {
-    val manager = requester ?: Glide.with(context)
-    
-    var options = context.resourceOptions
-    
-    if (dontTransform) {
-        options = options.dontTransform()
-    }
-    
-    if (!shouldAnimate) {
-        options = options.dontAnimate()
-    }
-    
-    options = if (immediately) {
-        options.priority(Priority.IMMEDIATE)
-    } else {
-        options.priority(Priority.HIGH)
-    }
-    
-    manager.load(resId).apply(options).listener(callback).into(this).clearOnDetach()
+    val baseOptions = RequestOptions()
+            .format(
+                    if (context.isLowRamDevice) DecodeFormat.PREFER_RGB_565
+                    else DecodeFormat.PREFER_ARGB_8888)
+            .disallowHardwareConfig()
+    manager.load(url)
+            .apply(
+                    baseOptions
+                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                            .priority(Priority.NORMAL)
+                            .circleCrop())
+            .transition(withCrossFade())
+            .into(this)
 }

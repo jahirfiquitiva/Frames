@@ -67,7 +67,10 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         private set
     private var swipeToRefresh: SwipeRefreshLayout? = null
     
-    private val provider = ViewPreloadSizeProvider<Wallpaper>()
+    private val provider: ViewPreloadSizeProvider<Wallpaper> by lazy {
+        ViewPreloadSizeProvider<Wallpaper>()
+    }
+    
     val wallsAdapter: WallpapersAdapter by lazy {
         WallpapersAdapter(
                 context?.let { Glide.with(it) },
@@ -217,7 +220,6 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         val list = ArrayList(
                 if (fromFavorites()) favoritesModel?.getData().orEmpty()
                 else wallpapersModel?.getData().orEmpty())
-        if (list.isEmpty()) return
         
         if (filter.hasContent()) {
             recyclerView?.setEmptyImage(R.drawable.no_results)

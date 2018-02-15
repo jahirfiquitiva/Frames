@@ -35,22 +35,20 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
     
     override fun initViewModel() {
         super.initViewModel()
-        if (wallpapersModel == null)
-            wallpapersModel = ViewModelProviders.of(actv).get(WallpapersViewModel::class.java)
-        if (collectionsModel == null)
-            collectionsModel = ViewModelProviders.of(actv).get(CollectionsViewModel::class.java)
+        actv {
+            wallpapersModel = ViewModelProviders.of(it).get(WallpapersViewModel::class.java)
+            collectionsModel = ViewModelProviders.of(it).get(CollectionsViewModel::class.java)
+        }
     }
     
     override fun registerObserver() {
         super.registerObserver()
-        wallpapersModel?.observe(
-                this, {
+        wallpapersModel?.observe(this) {
             doOnWallpapersChange(ArrayList(it), fromCollectionActivity())
-        })
-        collectionsModel?.observe(
-                this, {
+        }
+        collectionsModel?.observe(this) {
             doOnCollectionsChange(ArrayList(it))
-        })
+        }
     }
     
     override fun loadDataFromViewModel() {

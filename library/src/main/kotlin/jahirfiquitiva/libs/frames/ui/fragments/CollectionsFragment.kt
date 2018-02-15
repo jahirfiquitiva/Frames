@@ -55,7 +55,10 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     private var recyclerView: EmptyViewRecyclerView? = null
     private var fastScroller: RecyclerFastScroller? = null
     
-    private val provider = ViewPreloadSizeProvider<Wallpaper>()
+    private val provider: ViewPreloadSizeProvider<Wallpaper> by lazy {
+        ViewPreloadSizeProvider<Wallpaper>()
+    }
+    
     val collsAdapter: CollectionsAdapter by lazy {
         CollectionsAdapter(
                 boolean(R.bool.enable_filled_collection_preview),

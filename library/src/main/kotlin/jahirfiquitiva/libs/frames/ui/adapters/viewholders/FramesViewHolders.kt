@@ -15,8 +15,8 @@
  */
 package jahirfiquitiva.libs.frames.ui.adapters.viewholders
 
-import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
@@ -65,7 +65,7 @@ abstract class FramesViewClickListener<in T, in VH> {
 abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     internal var wallpaper: Wallpaper? = null
     internal abstract val img: ImageView?
-    internal abstract fun getListener(): GlideRequestCallback<Bitmap>
+    internal abstract fun getListener(): GlideRequestCallback<Drawable>
     
     internal fun animateLoad(view: View) {
         with(view) {
@@ -130,10 +130,10 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
         itemView.setOnClickListener { listener.onSingleClick(collection, this) }
     }
     
-    override fun getListener(): GlideRequestCallback<Bitmap> {
-        return object : GlideRequestCallback<Bitmap>() {
-            override fun onLoadSucceed(resource: Bitmap): Boolean {
-                img?.setImageBitmap(resource)
+    override fun getListener(): GlideRequestCallback<Drawable> {
+        return object : GlideRequestCallback<Drawable>() {
+            override fun onLoadSucceed(resource: Drawable): Boolean {
+                img?.setImageDrawable(resource)
                 
                 whenFaded(
                         { itemView.clearChildrenAnimations() }, {
@@ -235,10 +235,11 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
         itemView.setOnLongClickListener { listener.onLongClick(wallpaper);true }
     }
     
-    override fun getListener(): GlideRequestCallback<Bitmap> {
-        return object : GlideRequestCallback<Bitmap>() {
-            override fun onLoadSucceed(resource: Bitmap): Boolean {
-                img?.setImageBitmap(resource)
+    override fun getListener(): GlideRequestCallback<Drawable> {
+        return object : GlideRequestCallback<Drawable>() {
+            override fun onLoadSucceed(resource: Drawable): Boolean {
+                img?.setImageDrawable(resource)
+                
                 whenFaded(
                         { itemView.clearChildrenAnimations() },
                         {

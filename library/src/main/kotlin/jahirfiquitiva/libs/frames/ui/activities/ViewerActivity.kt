@@ -24,6 +24,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -53,12 +54,15 @@ import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.toBitmap
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
+import com.bumptech.glide.request.RequestOptions
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
-import jahirfiquitiva.libs.frames.helpers.extensions.urlOptions
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
 import jahirfiquitiva.libs.frames.helpers.utils.MIN_TIME
@@ -82,6 +86,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
+import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
 import jahirfiquitiva.libs.kauextensions.extensions.navigationBarHeight
 import jahirfiquitiva.libs.kauextensions.extensions.showToast
 import jahirfiquitiva.libs.ziv.ZoomableImageView
@@ -343,18 +348,17 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
             }
         }
         
-        postPalette(bmp)
-        
         val drawable = if (bmp != null) {
             BitmapDrawable(resources, bmp)
         } else {
             ColorDrawable(Color.TRANSPARENT)
         }
+        postPalette(drawable)
         
         wallpaper?.let {
-            val listener = object : GlideRequestCallback<Bitmap>() {
-                override fun onLoadSucceed(resource: Bitmap): Boolean {
-                    img?.setImageBitmap(resource)
+            val listener = object : GlideRequestCallback<Drawable>() {
+                override fun onLoadSucceed(resource: Drawable): Boolean {
+                    img?.setImageDrawable(resource)
                     startEnterTransition()
                     postPalette(resource)
                     return true
@@ -366,31 +370,35 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
                 }
             }
             
-            val options = urlOptions.timeout(10000)
+            val options = RequestOptions()
+                    .format(
+                            if (isLowRamDevice) DecodeFormat.PREFER_RGB_565
+                            else DecodeFormat.PREFER_ARGB_8888)
+                    .disallowHardwareConfig()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .timeout(10000)
                     .placeholder(drawable).error(drawable)
-                    .dontTransform().dontAnimate()
                     .fitCenter()
             
             img?.let { img ->
                 if (it.thumbUrl.equals(it.url, true)) {
                     Glide.with(this)
-                            .asBitmap()
                             .load(it.url)
                             .apply(options.priority(Priority.HIGH))
-                            .thumbnail(0.5F)
+                            .transition(withCrossFade(500))
                             .listener(listener)
                             .into(img)
                 } else {
-                    val thumbnailRequest = Glide.with(this).asBitmap()
+                    val thumbnailRequest = Glide.with(this)
                             .load(it.thumbUrl)
                             .apply(options.priority(Priority.IMMEDIATE))
-                            .thumbnail(0.5F)
                             .listener(listener)
                     
-                    Glide.with(this).asBitmap()
+                    Glide.with(this)
                             .load(it.url)
                             .apply(options.priority(Priority.HIGH))
                             .thumbnail(thumbnailRequest)
+                            .transition(withCrossFade(500))
                             .listener(listener)
                             .into(img)
                 }
@@ -402,9 +410,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         loading?.indeterminateDrawable?.applyColorFilter(activeIconsColor)
     }
     
-    private fun postPalette(bmp: Bitmap?) {
+    private fun postPalette(drw: Drawable?) {
         try {
-            palette = bmp?.generatePalette()
+            palette = drw?.toBitmap()?.generatePalette()
             updateInfo()
         } catch (e: Exception) {
             FL.e { e.message }

@@ -15,11 +15,9 @@
  */
 package jahirfiquitiva.libs.frames.ui.fragments.base
 
-import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
 import android.arch.persistence.room.Room
 import android.graphics.Color
-import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.ColorInt
 import android.support.design.widget.Snackbar
@@ -48,8 +46,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.runOnUiThread
 import jahirfiquitiva.libs.kauextensions.extensions.withCtxt
 
 @Suppress("NAME_SHADOWING", "DEPRECATION")
-abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
-        ViewModelFragment<T>() {
+abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> : ViewModelFragment<T>() {
     
     companion object {
         private const val ANIMATION_DURATION: Long = 150
@@ -59,13 +56,6 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
     internal var favoritesModel: FavoritesViewModel? = null
     
     internal var snack: Snackbar? = null
-    
-    @SuppressLint("MissingSuperCall")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initDatabase()
-        initViewModel()
-    }
     
     private fun initDatabase() {
         actv {
@@ -78,20 +68,18 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> :
     }
     
     override fun initViewModel() {
+        initDatabase()
         initFavoritesViewModel()
     }
     
     private fun initFavoritesViewModel() {
         actv {
             if (it.getBoolean(R.bool.isFrames) && database == null) initDatabase()
-            if (favoritesModel == null) {
-                favoritesModel = ViewModelProviders.of(it).get(FavoritesViewModel::class.java)
-            }
+            favoritesModel = ViewModelProviders.of(it).get(FavoritesViewModel::class.java)
         }
     }
     
     override fun registerObserver() {
-        initFavoritesViewModel()
         favoritesModel?.observe(this) {
             doOnFavoritesChange(ArrayList(it))
         }
