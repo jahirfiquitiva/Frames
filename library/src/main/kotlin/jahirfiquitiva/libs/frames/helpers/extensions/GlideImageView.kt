@@ -64,7 +64,7 @@ fun ImageView.loadWallpaper(
                     .apply(
                             baseOptions
                                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                                    .priority(Priority.HIGH))
+                                    .priority(Priority.IMMEDIATE))
                     .transition(withCrossFade(if (hasFaded) 100 else 300))
                     .listener(listener)
         } else null
@@ -73,7 +73,7 @@ fun ImageView.loadWallpaper(
                 .apply(
                         baseOptions
                                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                                .priority(Priority.NORMAL))
+                                .priority(Priority.HIGH))
                 .transition(withCrossFade(if (hasFaded) 100 else 300))
                 .thumbnail(placeholder)
                 .listener(listener)
@@ -83,7 +83,7 @@ fun ImageView.loadWallpaper(
                 .apply(
                         baseOptions
                                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                                .priority(Priority.HIGH))
+                                .priority(Priority.IMMEDIATE))
                 .transition(withCrossFade(if (hasFaded) 100 else 300))
                 .listener(listener)
                 .into(this)
@@ -101,7 +101,7 @@ fun ImageView.loadAvatar(requester: RequestManager?, url: String) {
             .apply(
                     baseOptions
                             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                            .priority(Priority.NORMAL)
+                            .priority(Priority.HIGH)
                             .circleCrop())
             .transition(withCrossFade())
             .into(this)

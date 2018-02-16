@@ -34,11 +34,11 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersInCollectionFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.kauextensions.extensions.bind
-import jahirfiquitiva.libs.kauextensions.extensions.changeOptionVisibility
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
+import jahirfiquitiva.libs.kauextensions.extensions.setItemVisibility
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import jahirfiquitiva.libs.kauextensions.ui.activities.ActivityWFragments
 import jahirfiquitiva.libs.kauextensions.ui.widgets.CustomSearchView
@@ -148,9 +148,9 @@ open class CollectionActivity : ActivityWFragments() {
         menuInflater.inflate(R.menu.frames_menu, menu)
         
         menu?.let {
-            it.changeOptionVisibility(R.id.donate, false)
-            it.changeOptionVisibility(R.id.about, false)
-            it.changeOptionVisibility(R.id.settings, false)
+            it.setItemVisibility(R.id.donate, false)
+            it.setItemVisibility(R.id.about, false)
+            it.setItemVisibility(R.id.settings, false)
             
             val searchItem = it.findItem(R.id.search)
             searchView = searchItem.actionView as? CustomSearchView

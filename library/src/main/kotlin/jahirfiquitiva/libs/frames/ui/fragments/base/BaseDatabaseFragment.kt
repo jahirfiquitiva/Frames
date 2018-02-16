@@ -27,6 +27,7 @@ import android.view.animation.LinearInterpolator
 import android.view.animation.ScaleAnimation
 import android.widget.ImageView
 import android.widget.TextView
+import ca.allanwang.kau.utils.boolean
 import jahirfiquitiva.libs.archhelpers.ui.fragments.ViewModelFragment
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
@@ -41,9 +42,8 @@ import jahirfiquitiva.libs.kauextensions.extensions.actv
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
 import jahirfiquitiva.libs.kauextensions.extensions.buildSnackbar
 import jahirfiquitiva.libs.kauextensions.extensions.ctxt
-import jahirfiquitiva.libs.kauextensions.extensions.getBoolean
-import jahirfiquitiva.libs.kauextensions.extensions.runOnUiThread
 import jahirfiquitiva.libs.kauextensions.extensions.withCtxt
+import org.jetbrains.anko.runOnUiThread
 
 @Suppress("NAME_SHADOWING", "DEPRECATION")
 abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> : ViewModelFragment<T>() {
@@ -59,7 +59,7 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> : Vie
     
     private fun initDatabase() {
         actv {
-            if (it.getBoolean(R.bool.isFrames) && database == null) {
+            if (it.boolean(R.bool.isFrames) && database == null) {
                 database = Room.databaseBuilder(
                         it, FavoritesDatabase::class.java,
                         DATABASE_NAME).fallbackToDestructiveMigration().build()
@@ -74,7 +74,7 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> : Vie
     
     private fun initFavoritesViewModel() {
         actv {
-            if (it.getBoolean(R.bool.isFrames) && database == null) initDatabase()
+            if (it.boolean(R.bool.isFrames) && database == null) initDatabase()
             favoritesModel = ViewModelProviders.of(it).get(FavoritesViewModel::class.java)
         }
     }

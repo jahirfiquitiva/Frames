@@ -24,18 +24,18 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.FrameLayout
 import ca.allanwang.kau.utils.snackbar
+import ca.allanwang.kau.utils.startLink
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.ui.fragments.SettingsFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.kauextensions.extensions.bind
-import jahirfiquitiva.libs.kauextensions.extensions.changeOptionVisibility
 import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.openLink
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
+import jahirfiquitiva.libs.kauextensions.extensions.setItemVisibility
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import jahirfiquitiva.libs.kauextensions.ui.activities.ActivityWFragments
 import java.io.File
@@ -95,7 +95,7 @@ open class SettingsActivity : ActivityWFragments(), FolderChooserDialog.FolderCa
     
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.about_settings_menu, menu)
-        menu?.changeOptionVisibility(R.id.licenses, false)
+        menu?.setItemVisibility(R.id.licenses, false)
         toolbar?.tint(
                 getPrimaryTextColorFor(primaryColor, 0.6F),
                 getSecondaryTextColorFor(primaryColor, 0.6F),
@@ -109,7 +109,7 @@ open class SettingsActivity : ActivityWFragments(), FolderChooserDialog.FolderCa
                 android.R.id.home -> doFinish()
                 R.id.translate -> {
                     try {
-                        openLink(getTranslationSite())
+                        startLink(getTranslationSite())
                     } catch (ignored: Exception) {
                     }
                 }

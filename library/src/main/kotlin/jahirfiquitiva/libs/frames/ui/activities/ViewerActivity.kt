@@ -207,7 +207,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         }
         
         if (showFavoritesButton) {
-            val favIcon = (if (isInFavorites) "ic_heart" else "ic_heart_outline").getDrawable(this)
+            val favIcon = getDrawable(if (isInFavorites) "ic_heart" else "ic_heart_outline")
             val favImageView: ImageView? by bind(R.id.fav_button)
             ViewCompat.setTransitionName(
                     favImageView, intent?.getStringExtra("favTransition") ?: "")
@@ -219,7 +219,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
             findViewById<RelativeLayout>(R.id.fav_container).gone()
         }
         
-        img?.maxZoom = 2F
+        img?.enableScaleBeyondLimits(false)
+        img?.minZoom = 1F
+        img?.maxZoom = 2.5F
         img?.setOnSingleTapListener { toggleSystemUI(); true }
         
         ViewCompat.setTransitionName(img, intent?.getStringExtra("imgTransition") ?: "")
@@ -529,8 +531,8 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
                     override fun onEnd(animation: Animation) {
                         super.onEnd(animation)
                         favImageView?.setImageDrawable(
-                                (if (isInFavorites) "ic_heart_outline" else "ic_heart")
-                                        .getDrawable(this@ViewerActivity))
+                                this@ViewerActivity.getDrawable(
+                                        if (isInFavorites) "ic_heart_outline" else "ic_heart"))
                         
                         val nScale = ScaleAnimation(
                                 0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5f,

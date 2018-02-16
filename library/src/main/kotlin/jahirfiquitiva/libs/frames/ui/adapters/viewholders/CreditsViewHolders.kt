@@ -23,6 +23,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import ca.allanwang.kau.utils.gone
+import ca.allanwang.kau.utils.startLink
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.visible
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
@@ -36,7 +37,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.bind
 import jahirfiquitiva.libs.kauextensions.extensions.context
 import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.openLink
 import jahirfiquitiva.libs.kauextensions.extensions.primaryTextColor
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kauextensions.extensions.string
@@ -168,7 +168,7 @@ open class DashboardCreditViewHolder(itemView: View) : SectionedViewHolder(itemV
         if (shouldHideButtons || credit.buttonsTitles.isEmpty()) {
             buttons?.gone()
             if (credit.link.hasContent()) {
-                itemView?.setOnClickListener { view -> view.context.openLink(credit.link) }
+                itemView?.setOnClickListener { view -> view.context.startLink(credit.link) }
                 try {
                     val outValue = TypedValue()
                     context.theme.resolveAttribute(
@@ -188,7 +188,7 @@ open class DashboardCreditViewHolder(itemView: View) : SectionedViewHolder(itemV
                         val btn = buttons?.getChildAt(index)
                         btn?.let {
                             it.setOnClickListener { view ->
-                                (view.tag as? String)?.let { view.context.openLink(it) }
+                                (view.tag as? String)?.let { view.context.startLink(it) }
                             }
                             (it as? AppCompatButton)?.setTextColor(it.context.accentColor)
                         }

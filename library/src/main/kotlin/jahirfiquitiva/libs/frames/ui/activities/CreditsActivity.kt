@@ -24,6 +24,7 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import ca.allanwang.kau.utils.startLink
 import com.bumptech.glide.Glide
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import de.psdev.licensesdialog.LicenseResolver
@@ -41,7 +42,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
-import jahirfiquitiva.libs.kauextensions.extensions.openLink
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.stringArray
 import jahirfiquitiva.libs.kauextensions.extensions.tint
@@ -114,7 +114,7 @@ open class CreditsActivity : ThemedActivity() {
             when (it.itemId) {
                 android.R.id.home -> finish()
                 R.id.translate -> try {
-                    openLink(getTranslationSite())
+                    startLink(getTranslationSite())
                 } catch (ignored: Exception) {
                 }
                 R.id.licenses -> LicensesDialog.Builder(this)

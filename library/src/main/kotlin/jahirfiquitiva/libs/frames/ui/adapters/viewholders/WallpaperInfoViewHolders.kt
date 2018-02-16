@@ -34,7 +34,7 @@ class WallpaperInfoHolder(itemView: View) : SectionedViewHolder(itemView) {
     val icon: MaterialIconView? by bind(R.id.info_item_icon)
     val content: TextView? by bind(R.id.info_item_text)
     fun bind(detail: WallpaperDetail) = with(itemView) {
-        icon?.setImageDrawable(detail.icon.getDrawable(context))
+        icon?.setImageDrawable(context.getDrawable(detail.icon))
         content?.setTextColor(context.secondaryTextColor)
         content?.text = detail.value
     }
@@ -46,8 +46,8 @@ class WallpaperPaletteHolder(itemView: View) : SectionedViewHolder(itemView) {
         chip?.changeBackgroundColor(color)
         chip?.textColor = context.getPrimaryTextColorFor(color, 0.6F)
         chip?.chipText = color.toHexString()
-        val icon = "ic_color_palette".getDrawable(context)?.applyColorFilter(
-                context.getActiveIconsColorFor(color, 0.6F))
+        val icon = context.getDrawable("ic_color_palette")
+                ?.applyColorFilter(context.getActiveIconsColorFor(color, 0.6F))
         chip?.chipIcon = icon
         chip?.setOnChipClickListener { colorListener(color) }
     }

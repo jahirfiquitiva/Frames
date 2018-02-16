@@ -25,6 +25,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.widget.TextView
 import ca.allanwang.kau.utils.startLink
+import ca.allanwang.kau.xml.showChangelog
 import com.afollestad.materialdialogs.MaterialDialog
 import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.TransactionDetails
@@ -53,6 +54,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.compliesWithMinTime
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.isUpdate
+import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kauextensions.extensions.showToast
 import jahirfiquitiva.libs.kauextensions.extensions.stringArray
 import org.jetbrains.anko.contentView
@@ -131,13 +133,14 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     }
     
     private fun startLicenseCheck(force: Boolean = false) {
-        if (isUpdate || !framesKonfigs.functionalDashboard || force) {
+        val update = isUpdate
+        if (update || !framesKonfigs.functionalDashboard || force) {
             checker = getLicenseChecker()
             checker?.let {
                 with(it) {
                     callback(
                             object : PiracyCheckerCallback() {
-                                override fun allow() = showLicensedSnack()
+                                override fun allow() = showLicensedSnack(update, force)
                                 
                                 override fun dontAllow(error: PiracyCheckerError, app: PirateApp?) =
                                         showNotLicensedDialog(app)
@@ -149,7 +152,10 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
                             })
                     start()
                 }
-            } ?: { framesKonfigs.functionalDashboard = true }()
+            } ?: {
+                framesKonfigs.functionalDashboard = true
+                if (update) showChangelog(R.xml.changelog, secondaryTextColor)
+            }()
         }
     }
     
@@ -188,42 +194,21 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
         return prvChecker
     }
     
-    @Deprecated("Use showLicensedSnack() instead")
-    internal fun showLicensedDialog() {
+    internal fun showLicensedSnack(update: Boolean, force: Boolean = false) {
         destroyDialog()
-        dialog = buildMaterialDialog {
-            title(R.string.license_valid_title)
-            content(getString(R.string.license_valid_content, getAppName()))
-            positiveText(android.R.string.ok)
-            onPositive { _, _ -> framesKonfigs.functionalDashboard = true }
-        }
-        dialog?.setOnDismissListener { framesKonfigs.functionalDashboard = true }
-        dialog?.setOnCancelListener { framesKonfigs.functionalDashboard = true }
-        dialog?.show()
-    }
-    
-    internal fun showLicensedSnack() {
-        destroyDialog()
-        showSnackbar(
-                getString(R.string.license_valid_snack, getAppName()),
-                Snackbar.LENGTH_SHORT) {
-            addCallback(
-                    object : Snackbar.Callback() {
-                        override fun onShown(sb: Snackbar?) {
-                            super.onShown(sb)
-                            framesKonfigs.functionalDashboard = true
-                        }
-                        
-                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                            super.onDismissed(transientBottomBar, event)
-                            framesKonfigs.functionalDashboard = true
-                        }
-                    })
+        framesKonfigs.functionalDashboard = true
+        if (!update || force) {
+            showSnackbar(
+                    getString(R.string.license_valid_snack, getAppName()),
+                    Snackbar.LENGTH_SHORT)
+        } else {
+            showChangelog(R.xml.changelog, secondaryTextColor)
         }
     }
     
     internal fun showNotLicensedDialog(pirateApp: PirateApp?) {
         destroyDialog()
+        framesKonfigs.functionalDashboard = false
         val pirateAppName = pirateApp?.name ?: ""
         val content = if (pirateAppName.hasContent()) {
             getString(
@@ -260,6 +245,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     
     internal fun showLicenseErrorDialog() {
         destroyDialog()
+        framesKonfigs.functionalDashboard = false
         dialog = buildMaterialDialog {
             title(R.string.error_title)
             content(R.string.license_error_content)

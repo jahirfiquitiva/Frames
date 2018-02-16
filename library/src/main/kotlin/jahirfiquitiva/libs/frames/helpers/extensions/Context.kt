@@ -79,7 +79,7 @@ fun Context.openWallpaper(uri: Uri) {
 }
 
 fun Context.createHeartIcon(checked: Boolean): Drawable? =
-        (if (checked) "ic_heart" else "ic_heart_outline").getDrawable(this)
+        getDrawable(if (checked) "ic_heart" else "ic_heart_outline")
 
 val Context.framesKonfigs: FramesKonfigs
     get() = FramesKonfigs(this)

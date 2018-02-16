@@ -26,6 +26,7 @@ import android.view.MenuItem
 import ca.allanwang.kau.utils.boolean
 import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.tint
+import ca.allanwang.kau.xml.showChangelog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.FL
@@ -43,6 +44,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
+import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import jahirfiquitiva.libs.kauextensions.ui.fragments.adapters.FragmentsPagerAdapter
 import jahirfiquitiva.libs.kauextensions.ui.layouts.CustomTabLayout
@@ -217,6 +219,7 @@ abstract class FramesActivity : BaseFramesActivity() {
         item?.let {
             when (it.itemId) {
                 R.id.refresh -> refreshContent()
+                R.id.changelog -> showChangelog(R.xml.changelog, secondaryTextColor)
                 R.id.about -> startActivity(Intent(this, CreditsActivity::class.java))
                 R.id.settings -> startActivityForResult(
                         Intent(this, SettingsActivity::class.java), 22)

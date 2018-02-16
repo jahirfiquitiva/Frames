@@ -34,16 +34,12 @@
   public *;
 }
 
--keep class android.arch.** { *; }
-
--keep class jahirfiquitiva.libs.** { *; }
+-keep class jahirfiquitiva.libs.frames.** { *; }
 
 -keep class com.google.**
 -keep class autovalue.shaded.com.google.**
 -keep class com.android.vending.billing.**
 -keep public class com.android.vending.licensing.ILicensingService
--keep class com.pluscubed.recyclerfastscroll.**
--keep class com.hendraanggrian.reveallayout.**
 
 -dontwarn org.apache.**
 -dontwarn com.google.**

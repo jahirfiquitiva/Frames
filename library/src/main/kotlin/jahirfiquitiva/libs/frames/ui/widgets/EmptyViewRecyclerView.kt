@@ -35,7 +35,6 @@ import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
 import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
-import jahirfiquitiva.libs.kauextensions.extensions.setDecodedBitmap
 
 open class EmptyViewRecyclerView : RecyclerView {
     
@@ -90,14 +89,9 @@ open class EmptyViewRecyclerView : RecyclerView {
         emptyView?.let {
             if (it is ImageView) {
                 try {
-                    it.setDecodedBitmap(res)
+                    it.setImageDrawable(context.drawable(res))
                     updateEmptyState()
                 } catch (e: Exception) {
-                    try {
-                        it.setImageDrawable(context.drawable(res))
-                        updateEmptyState()
-                    } catch (e: Exception) {
-                    }
                 }
             } else {
                 throw UnsupportedOperationException(
