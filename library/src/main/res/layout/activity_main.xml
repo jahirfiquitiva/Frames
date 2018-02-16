@@ -36,7 +36,7 @@
                 app:popupTheme="?attr/popupMenuStyle"
                 app:layout_scrollFlags="scroll|enterAlways"/>
 
-        <jahirfiquitiva.libs.kauextensions.ui.widgets.CustomTabLayout
+        <jahirfiquitiva.libs.kauextensions.ui.layouts.CustomTabLayout
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
