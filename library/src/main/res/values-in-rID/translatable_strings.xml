@@ -72,12 +72,27 @@
   <string name="allan_description">Pertama seorang pencipta paket ikon, kemudian seorang yang membuat tema, juga sekarang seorang pengembang.\nSaya telah dibantu dengan bagian dari pengembangan dasbor ini.</string>
   <string name="settings">Pengaturan</string>
   <string name="ui_settings_title">Pengguna antarmuka</string>
+  <string name="theme_setting_title">Tema aplikasi</string>
+  <string name="theme_setting_content">Pilih tema utama untuk apalikasi</string>
   <!-- Light Theme -->
+  <string name="light_theme">Terang</string>
   <!-- Dark Theme -->
+  <string name="dark_theme">Gelap</string>
   <!-- Amoled Theme -->
+  <string name="amoled_theme">Amoled</string>
   <!-- Transparent Theme -->
+  <string name="transparent_theme">Transparan</string>
   <!-- Automatic Light-Dark Theme -->
+  <string name="auto_dark">Terang-Gelap Otomatis</string>
   <!-- Automatic Light-Amoled Theme -->
+  <string name="auto_amoled">Terang-Amoled Otomatis</string>
+  <string name="navbar_color_setting_title">Batang navigasi warna</string>
+  <string name="navbar_color_setting_content">Batang navigasi warna dengan aplikasi utama warna gelap</string>
+  <string name="wallpapers_columns_setting_title">Kolom wallpaper</string>
+  <string name="wallpapers_columns_setting_content">Pilih jumlah dari kolom yang anda inginkan untuk melihat wallpaper</string>
+  <string name="animations_setting_title">Aktifkan animasi</string>
+  <string name="animations_setting_content">Ini mungkin menyebabkan kelambatan di beberapa perangkat.</string>
+  <string name="load_hi_res_pictures_title">Tinjauan resolusi penuh</string>
   <!-- License -->
   <!-- Muzei Settings -->
   <!-- Please use this character … -->
