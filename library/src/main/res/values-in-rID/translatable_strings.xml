@@ -71,6 +71,7 @@
   <string name="sherry_description">Seorang wanita yang selalu berkembang yang tidak pernah lelah belajar, photografer dan orang yang membuat dasbor ini menjadi mungkin.</string>
   <string name="allan_description">Pertama seorang pencipta paket ikon, kemudian seorang yang membuat tema, juga sekarang seorang pengembang.\nSaya telah dibantu dengan bagian dari pengembangan dasbor ini.</string>
   <string name="settings">Pengaturan</string>
+  <string name="ui_settings_title">Pengguna antarmuka</string>
   <!-- Light Theme -->
   <!-- Dark Theme -->
   <!-- Amoled Theme -->
@@ -87,5 +88,14 @@
   <string name="refresh_only_on_wifi_summary">Menyegarkan wallpaper hanya ketika perangkat terhubung ke sebuah jaringan WiFi.</string>
   <string name="choose_collections_title">Memilih koleksi</string>
   <string name="choose_collections_summary">Memilih koleksi untuk mengambil bentuk wallpaper. Koleksi yang dipilih saat ini: %1$s</string>
+  <string name="muzei_not_connected_title">Tidak terhubung ke internet</string>
+  <string name="muzei_not_connected_content">Maaf, tapi bisa untuk memilih atau mengganti koleksi, anda ingin aplikasi untuk mengambil bentuk wallpaper, anda harus terhubung ke internet. Silahkan coba lagi nanti.</string>
+  <string name="sure_to_exit">Keluar</string>
+  <string name="sure_to_exit_content">Apakah anda ingin menyimpan pengaturan anda sebelum keluar?</string>
+  <string name="yes">Ya</string>
+  <string name="no">Tidak</string>
+  <string name="not_connected_content">Sayangnya tindakan ini membutuhkan koneksi internet. Silahkan coba lagi nanti.</string>
+  <string name="new_wallpapers_available">%1$s wallpaper baru tersedia. Ketuk untuk memeriksa mereka!</string>
+  <string name="notifications_title">Pemberitahuan</string>
   <string name="enable_notifications">Mengaktifkan pemberitahuan</string>
 </resources>
