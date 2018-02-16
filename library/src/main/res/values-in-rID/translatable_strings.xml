@@ -37,7 +37,36 @@
   <string name="permission_denied">Akses ke izin penyimpanan telah ditolak</string>
   <string name="permission_denied_completely">Akses ke izin penyimpanan telah ditolak. Anda harus mengaktifkannya secara manual di Pengaturan.</string>
   <string name="permission_request">%1$s memerlukan akses ke penyimpanan supaya bisa diterapkan dan menyimpan wallpaper</string>
+  <string name="allow">Mengizinkan</string>
+  <string name="downloading_wallpaper">Mengunduh \'%1$s\'…</string>
+  <string name="download_successful">Wallpaper berhasil diunduh ke \'%1$s\'</string>
+  <string name="download_successful_short">Wallpaper berhasil diunduh</string>
+  <string name="open">Buka</string>
+  <string name="file_exists">Wallpaper sudah diunduh. Apakah anda ingin mengunduh untuk menggantikannya?</string>
+  <string name="file_replace">Menggantikan</string>
+  <string name="file_create_new">Buat baru</string>
+  <string name="applying_wallpaper">Menerapkan \'%1$s\'…</string>
+  <string name="apply_to">Terapkan untuk:</string>
+  <string name="home_screen">Layar Beranda</string>
+  <string name="lock_screen">Kunci layar</string>
+  <string name="home_lock_screen">Beranda dan kunci layar</string>
+  <string name="apply_with_other_app">Terapkan dengan aplikasi lain</string>
+  <string name="apply_successful">Wallpaper berhasil diterapkan untuk %1$s</string>
+  <string name="apply_successful_short">Wallpaper berhasil diterapkan</string>
+  <string name="wallpaper_details">Rincian</string>
+  <string name="wallpaper_palette">Palet</string>
+  <string name="copied_to_clipboard">Warna disalin ke clipboard</string>
+  <string name="search">Cari</string>
+  <string name="search_x">Cari %1$s…</string>
+  <string name="search_no_results">Tidak ada hasil yang ditemukan</string>
+  <string name="about">Tentang</string>
+  <string name="refresh">Segarkan</string>
+  <string name="translate">Terjemahkan</string>
+  <string name="licenses">Lisensi</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+  <string name="frames_dashboard">Bingkai Dasbor</string>
+  <string name="dev_contributions">Bantuan Pengembangan</string>
+  <string name="ui_contributions">Bantuan UI</string>
   <!-- Light Theme -->
   <!-- Dark Theme -->
   <!-- Amoled Theme -->
