@@ -86,5 +86,6 @@
   <string name="refresh_only_on_wifi">Segarkan pada WiFi saja</string>
   <string name="refresh_only_on_wifi_summary">Menyegarkan wallpaper hanya ketika perangkat terhubung ke sebuah jaringan WiFi.</string>
   <string name="choose_collections_title">Memilih koleksi</string>
+  <string name="choose_collections_summary">Memilih koleksi untuk mengambil bentuk wallpaper. Koleksi yang dipilih saat ini: %1$s</string>
   <string name="enable_notifications">Mengaktifkan pemberitahuan</string>
 </resources>
