@@ -16,6 +16,9 @@
   ~ limitations under the License.
   -->
 <resources>
+  <string name="empty_section">Tidak ada yang ditemukan</string>
+  <string name="loading_section">Memuat konten…</string>
+  <string name="no_favorites">Tambahkan beberapa wallpaper ke favorit terlebih dahulu</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <!-- Light Theme -->
