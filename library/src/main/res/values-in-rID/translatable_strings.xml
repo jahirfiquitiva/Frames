@@ -109,6 +109,10 @@
   <string name="clear_favorites_confirmation">Apakah anda yakin ingin menghapus basisdata favorit?</string>
   <!-- License -->
   <string name="license_valid_title">Lisensi berlaku</string>
+  <string name="license_valid_content">Terimakasih untuk mengunduh %1$s dari sebuah toko yang berlaku. Nikmati lah!</string>
+  <string name="license_valid_snack">Lisensi berlaku. Terimakasih untuk mengunduh %1$s. Nikmati!</string>
+  <string name="license_invalid_title">Anda tidak boleh lewat!</string>
+  <string name="license_invalid_content">Maaf, tapi kami telah mendeteksi bahwa lisensi anda untuk %1$s tidak berlaku. Ini bisa juga terjadi karena anda menggunakan aplikasi bajakan. %2$s. Jika anda pikir ini adalah sebuah kesalahan, silahkan coba lagi nanti. Jika tidak, silahkan mengunduh aplikasi dari sebuah toko yang berlaku.</string>
   <!-- Muzei Settings -->
   <!-- Please use this character … -->
   <string name="minutes">Menit</string>
