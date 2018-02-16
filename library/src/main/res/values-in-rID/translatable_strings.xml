@@ -18,8 +18,25 @@
 <resources>
   <string name="empty_section">Tidak ada yang ditemukan</string>
   <string name="loading_section">Memuat konten…</string>
-  <string name="no_favorites">Tambahkan beberapa wallpaper ke favorit terlebih dahulu</string>
+  <string name="no_favorites">Menambahkan beberapa wallpaper ke favorit terlebih dahulu</string>
+  <string name="wallpapers">Wallpaper</string>
+  <string name="collections">Koleksi</string>
+  <string name="x_wallpapers">%1$s wallpaper</string>
+  <string name="all">Semua</string>
+  <string name="favorites">Favorit</string>
+  <string name="favorite">Favorit</string>
+  <string name="added_to_favorites">%1$s sudah ditambahkan ke favorit.</string>
+  <string name="removed_from_favorites">%1$s sudah dihapus dari favorit.</string>
+  <string name="actions_dialog_content">Apa yang ingin anda lakukan dengan wallpaper ini?</string>
+  <string name="apply">Terapkan</string>
+  <string name="download">Unduh</string>
+  <string name="info">Informasi</string>
+  <string name="share">Berbagi</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
+  <string name="share_text">Wallpaper saya untuk hari ini adalah %1$s oleh %2$s, dari %3$s.\nDapatkan sekarang di %4$s</string>
+  <string name="permission_denied">Akses ke izin penyimpanan telah ditolak</string>
+  <string name="permission_denied_completely">Akses ke izin penyimpanan telah ditolak. Anda harus mengaktifkannya secara manual di Pengaturan.</string>
+  <string name="permission_request">%1$s memerlukan akses ke penyimpanan supaya bisa diterapkan dan menyimpan wallpaper</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <!-- Light Theme -->
   <!-- Dark Theme -->
@@ -30,4 +47,5 @@
   <!-- License -->
   <!-- Muzei Settings -->
   <!-- Please use this character … -->
+  <string name="enable_notifications">Mengaktifkan pemberitahuan</string>
 </resources>
