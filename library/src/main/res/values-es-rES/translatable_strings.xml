@@ -16,7 +16,7 @@
   ~ limitations under the License.
   -->
 <resources>
-  <string name="empty_section">No hay nada</string>
+  <string name="empty_section">Nada encontrado</string>
   <string name="loading_section">Cargando contenido…</string>
   <string name="no_favorites">Primero añade algunos fondos de pantalla a favoritos</string>
   <string name="wallpapers">Fondos de pantalla</string>
@@ -67,7 +67,7 @@
   <string name="frames_dashboard">Aplicación Frames</string>
   <string name="dev_contributions">Colaboración al Desarrollo</string>
   <string name="ui_contributions">Colaboración de Interfaz</string>
-  <string name="dashboard_copyright">Soy un desarrollador de Android de 20 años, y el desarrollador de esta aplicación.</string>
+  <string name="dashboard_copyright">Soy un desarrollador Android apasionado y creativo y el creador de esta aplicación.</string>
   <string name="sherry_description">Una mujer en constante evolución, que nunca se cansa de aprender, fotógrafa creativa y la persona que hizo esta aplicación posible.</string>
   <string name="allan_description">Primero un creador de paquetes de iconos, después creador de temas, ahora también un desarrollador. He ayudado con parte del desarrollo de esta aplicación.</string>
   <string name="settings">Configuración</string>
