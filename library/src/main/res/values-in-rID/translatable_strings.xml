@@ -93,7 +93,22 @@
   <string name="animations_setting_title">Aktifkan animasi</string>
   <string name="animations_setting_content">Ini mungkin menyebabkan kelambatan di beberapa perangkat.</string>
   <string name="load_hi_res_pictures_title">Tinjauan resolusi penuh</string>
+  <string name="load_hi_res_pictures_content">Muat gambar resolusi penuh di kisi</string>
+  <string name="deep_search_title">Aktifkan pencarian mendalam</string>
+  <string name="deep_search_content">Cari berdasarkan nama dan koleksi</string>
+  <string name="storage_settings_title">Penyimpanan</string>
+  <string name="wallpapers_download_location_setting_title">Lokasi mengunduh wallpaper</string>
+  <string name="wallpapers_download_location_setting_content">Ganti lokasi untuk mengunduh wallpaper\nLokasi saat ini: %1$s</string>
+  <string name="create_folder">Buat folder</string>
+  <string name="choose_folder">Pilih</string>
+  <string name="data_cache_setting_title">Bersihkan data aplikasi dan cache</string>
+  <string name="data_cache_setting_content">Ini akan menghapus cache dan preferensi aplikasi.\nUkuran cache saat ini: %1$s</string>
+  <string name="data_cache_confirmation">Apakah anda yakin ingin menghapus data, cache dan pengaturan aplikasi?</string>
+  <string name="clear_favorites_setting_title">Bersihkan basisdata favorit</string>
+  <string name="clear_favorites_setting_content">Bersihkan daftar wallpaper favorit anda</string>
+  <string name="clear_favorites_confirmation">Apakah anda yakin ingin menghapus basisdata favorit?</string>
   <!-- License -->
+  <string name="license_valid_title">Lisensi berlaku</string>
   <!-- Muzei Settings -->
   <!-- Please use this character … -->
   <string name="minutes">Menit</string>
