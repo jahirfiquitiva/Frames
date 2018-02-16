@@ -13,7 +13,7 @@ Put an x inside the [] like this: [x] to mark the checkbox.
  - Device Name: `?`
 
 <!--
-Please wrap code with correct syntax highlighting. If you think is needed.
+Please wrap code with correct syntax highlighting. You can remove it if you think it isn't necessary.
 -->
 ```kotlin
 println("Hello, world!")
