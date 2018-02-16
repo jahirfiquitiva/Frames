@@ -14,7 +14,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<jahirfiquitiva.libs.kauextensions.ui.layouts.CustomCoordinatorLayout
+<android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -168,4 +168,4 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-</jahirfiquitiva.libs.kauextensions.ui.layouts.CustomCoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout>
