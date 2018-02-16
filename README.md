@@ -141,20 +141,35 @@ If you found this app/library helpful and want to thank me, you can:
 
 **Thanks in advance!** :pray:
 
-## Special Thanks:
+## Contributors:
 
-- [Sherry Sabatine](https://plus.google.com/+SherrySabatine). Thanks to her, Frames is completely free and open-source.
-- [Allan Wang](https://www.allanwang.ca/)
-- [James Fenn](https://theandroidmaster.github.io/)
-- [Maximilian Keppeler](https://plus.google.com/+MaxKeppeler)
-- [Sasi Kanth](https://plus.google.com/+Sasikanth)
-- [Alexandre Piveteau](https://github.com/alexandrepiveteau)
-- [Lukas Koller](https://github.com/kollerlukas)
-- [Patryk Goworowski](https://plus.google.com/+PatrykGoworowski)
-- [Lumiq Creative](https://plus.google.com/+LumiqCreative)
-- [Kevin Aguilar](http://kevaguilar.com/)
-- [Eduardo Pratti](https://plus.google.com/+EduardoPratti/posts)
-- [Anthony Nguyen](https://plus.google.com/+AHNguyen)
+Thanks goes to these awesome people 🙌
+
+<!--
+Possible badges: (Max 5 per person pls)
+[💬]("Answering Questions")
+[💻]("Code")
+[📖]("Documentation")
+[🎨]("Design")
+[💵]("Financial Support")
+[🔍]("Funding")
+[🤔]("Ideas & Planning")
+[🔌]("Plugin/Utility libraries")
+-->
+
+- [Sherry Sabatine](https://plus.google.com/+SherrySabatine). ([💵]("Financial Support") [🔍]("Funding"))
+- [Allan Wang](https://www.allanwang.ca/) (🔌 📦)
+- [James Fenn](https://theandroidmaster.github.io/) (🔌)
+- [Maximilian Keppeler](https://plus.google.com/+MaxKeppeler) (🔌)
+- [Sasi Kanth](https://plus.google.com/+Sasikanth) (🔌)
+- [Alexandre Piveteau](https://github.com/alexandrepiveteau) (💻)
+- [Lukas Koller](https://github.com/kollerlukas) (🔌)
+- [Patryk Goworowski](https://plus.google.com/+PatrykGoworowski) (🎨 💵 💬 📖 🌍 🤔)
+- [Lumiq Creative](https://plus.google.com/+LumiqCreative) (🎨 💬 📖 🌍 🤔)
+- [Jackson Hayes](https://jacksonhayes.xyz/) (📖 🤔)
+- [Kevin Aguilar](http://kevaguilar.com/) (🎨)
+- [Eduardo Pratti](https://plus.google.com/+EduardoPratti) (🎨)
+- [Anthony Nguyen](https://plus.google.com/+AHNguyen) (🎨)
 
 ---
 
