@@ -67,6 +67,10 @@
   <string name="frames_dashboard">Bingkai Dasbor</string>
   <string name="dev_contributions">Bantuan Pengembangan</string>
   <string name="ui_contributions">Bantuan UI</string>
+  <string name="dashboard_copyright">Saya adalah seorang pengembang Android yang kreatif dan penuh gairah serta pencipta dari dasbor tersebut.</string>
+  <string name="sherry_description">Seorang wanita yang selalu berkembang yang tidak pernah lelah belajar, photografer dan orang yang membuat dasbor ini menjadi mungkin.</string>
+  <string name="allan_description">Pertama seorang pencipta paket ikon, kemudian seorang yang membuat tema, juga sekarang seorang pengembang.\nSaya telah dibantu dengan bagian dari pengembangan dasbor ini.</string>
+  <string name="settings">Pengaturan</string>
   <!-- Light Theme -->
   <!-- Dark Theme -->
   <!-- Amoled Theme -->
@@ -76,5 +80,11 @@
   <!-- License -->
   <!-- Muzei Settings -->
   <!-- Please use this character … -->
+  <string name="minutes">Menit</string>
+  <string name="hours">Jam</string>
+  <string name="days">Hari</string>
+  <string name="refresh_only_on_wifi">Segarkan pada WiFi saja</string>
+  <string name="refresh_only_on_wifi_summary">Menyegarkan wallpaper hanya ketika perangkat terhubung ke sebuah jaringan WiFi.</string>
+  <string name="choose_collections_title">Memilih koleksi</string>
   <string name="enable_notifications">Mengaktifkan pemberitahuan</string>
 </resources>
