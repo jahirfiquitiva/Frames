@@ -113,8 +113,23 @@
   <string name="license_valid_snack">Lisensi berlaku. Terimakasih untuk mengunduh %1$s. Nikmati!</string>
   <string name="license_invalid_title">Anda tidak boleh lewat!</string>
   <string name="license_invalid_content">Maaf, tapi kami telah mendeteksi bahwa lisensi anda untuk %1$s tidak berlaku. Ini bisa juga terjadi karena anda menggunakan aplikasi bajakan. %2$s. Jika anda pikir ini adalah sebuah kesalahan, silahkan coba lagi nanti. Jika tidak, silahkan mengunduh aplikasi dari sebuah toko yang berlaku.</string>
+  <string name="license_invalid_content_extra">Atau secara khusus: \'%1$s\' aplikasi, jadi silahkan mencabutnya</string>
+  <string name="error_title">Kesalahan</string>
+  <string name="action_error_content">Maaf, terjadi sebuah kesalahan tak terduga saat mencoba untuk menyelesaikan tindakan ini.</string>
+  <string name="license_error_content">Maaf, ada sebuah kesalahan saat memeriksa lisensi anda. Silahkan coba lagi nanti.</string>
+  <string name="try_now">Coba sekarang</string>
+  <string name="donate">Menyumbangkan</string>
+  <string name="donate_success_title">Terima kasih</string>
+  <string name="donate_success_content">Terima kasih banyak untuk sumbangan anda. Saya sangat menghargainya dan saya senang anda menikmati %1$s.</string>
+  <string name="donate_error">Kesalahan yang tidak terduga dengan kode %1$s terjadi karena %2$s</string>
+  <string name="donate_error_unknown">alasan yang tidak diketahui</string>
+  <string name="loading">Memuat…</string>
+  <string name="close">Tutup</string>
   <!-- Muzei Settings -->
+  <string name="muzei_settings">Pengaturan Muzei</string>
   <!-- Please use this character … -->
+  <string name="refresh_wallpapers_every">Menyegarkan wallpaper…</string>
+  <string name="every_x">Setiap %1$s</string>
   <string name="minutes">Menit</string>
   <string name="hours">Jam</string>
   <string name="days">Hari</string>
