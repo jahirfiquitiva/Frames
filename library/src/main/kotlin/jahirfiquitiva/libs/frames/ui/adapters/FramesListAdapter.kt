@@ -16,12 +16,12 @@
 package jahirfiquitiva.libs.frames.ui.adapters
 
 import android.support.v7.widget.RecyclerView
-import jahirfiquitiva.libs.archhelpers.ui.adapters.ListAdapter
+import jahirfiquitiva.libs.archhelpers.ui.adapters.RecyclerViewListAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.DashboardCreditViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesWallpaperHolder
 
 abstract class FramesListAdapter<T, VH : RecyclerView.ViewHolder>(maxLoad: Int = -1) :
-        ListAdapter<T, VH>(maxLoad) {
+        RecyclerViewListAdapter<T, VH>(maxLoad) {
     override fun onViewRecycled(holder: VH) {
         if (holder is FramesWallpaperHolder) holder.unbind()
         else if (holder is DashboardCreditViewHolder) holder.unbind()

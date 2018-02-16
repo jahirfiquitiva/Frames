@@ -14,32 +14,24 @@
  * limitations under the License.
  */
 dependencies {
-    // Architecture Components
-    api(libraries.room) {
+    def exclusions = {
         exclude group: 'com.android.support'
+        exclude group: 'com.google.code'
+        exclude group: 'org.jetbrains'
     }
+    // Architecture Components
+    api libraries.room, exclusions
     annotationProcessor libraries.roomCompiler
     kapt libraries.roomCompiler
     // Permissions
-    api(libraries.permissions) {
-        exclude group: 'com.android.support'
-    }
+    api libraries.permissions, exclusions
     // Material Dialogs
-    // api libraries.dialogsCore
-    api(libraries.dialogsCommons) {
-        exclude group: 'com.android.support'
-    }
+    api libraries.dialogsCommons, exclusions
     // OkHttp
-    api(libraries.okHttp) {
-        exclude group: 'com.android.support'
-    }
+    api libraries.okHttp, exclusions
     // Glide Image Loading
-    api(libraries.glide) {
-        exclude group: 'com.android.support'
-    }
-    api(libraries.gliderv) {
-        exclude group: 'com.android.support'
-    }
+    api libraries.glide, exclusions
+    api libraries.gliderv, exclusions
     annotationProcessor libraries.glideCompiler
     kapt libraries.glideCompiler
     // KAU Extensions
@@ -47,36 +39,28 @@ dependencies {
     api(libraries.archHelpers) {
         transitive = true
     }
-    api(libraries.ziv) {
-        exclude group: 'com.android.support'
-    }
+    api libraries.ziv, exclusions
     // Sectioned RecyclerView
-    api(libraries.sectionedRecyclerView) {
-        exclude group: 'com.android.support'
-    }
+    api libraries.sectionedRecyclerView, exclusions
     // RecyclerView FastScroll
-    api(libraries.rvFastScroll) {
-        exclude group: 'com.android.support'
-    }
+    api libraries.rvFastScroll, exclusions
     // Chips
-    api(libraries.chips) {
-        exclude group: 'com.android.support'
-    }
+    api libraries.chips, exclusions
     // In-App Purchases
-    api(libraries.iaps) {
-        exclude group: 'com.android.support'
-    }
+    api libraries.iaps, exclusions
     // Muzei API
-    api(libraries.muzeiApi) {
-        exclude group: 'com.android.support'
-    }
+    api libraries.muzeiApi, exclusions
     // Licenses Dialog
-    api(libraries.licenses) {
-        exclude group: 'com.android.support'
-        exclude group: 'com.google.code'
-    }
+    api libraries.licenses, exclusions
     // License Checker
-    api(libraries.checker) {
-        exclude group: 'com.android.support'
-    }
+    api libraries.checker, exclusions
+}
+
+configurations {
+    all*.exclude module: 'constraint'
+    all*.exclude module: 'transition'
+    all*.exclude module: 'mediarouter-v7'
+    all*.exclude module: 'support-media-compat'
+    all*.exclude module: 'support-v4'
+    all*.exclude group: 'com.google.code'
 }

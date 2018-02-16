@@ -38,12 +38,12 @@ import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsDialog
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.getUri
-import jahirfiquitiva.libs.kauextensions.ui.activities.FragmentsActivity
+import jahirfiquitiva.libs.kauextensions.ui.activities.ActivityWFragments
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 
-abstract class BaseWallpaperActionsActivity : FragmentsActivity() {
+abstract class BaseWallpaperActionsActivity : ActivityWFragments() {
     
     companion object {
         const val DOWNLOAD_ACTION_ID = 1

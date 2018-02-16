@@ -44,9 +44,9 @@ import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
-import jahirfiquitiva.libs.kauextensions.ui.fragments.adapters.FragmentsAdapter
+import jahirfiquitiva.libs.kauextensions.ui.fragments.adapters.FragmentsPagerAdapter
+import jahirfiquitiva.libs.kauextensions.ui.layouts.CustomTabLayout
 import jahirfiquitiva.libs.kauextensions.ui.widgets.CustomSearchView
-import jahirfiquitiva.libs.kauextensions.ui.widgets.CustomTabLayout
 
 abstract class FramesActivity : BaseFramesActivity() {
     
@@ -98,13 +98,13 @@ abstract class FramesActivity : BaseFramesActivity() {
     
     private fun initPagerAdapter() {
         pager?.adapter = if (hasCollections) {
-            FragmentsAdapter(
+            FragmentsPagerAdapter(
                     supportFragmentManager,
                     CollectionsFragment.create(getLicenseChecker() != null),
                     WallpapersFragment.create(getLicenseChecker() != null),
                     FavoritesFragment.create(getLicenseChecker() != null))
         } else {
-            FragmentsAdapter(
+            FragmentsPagerAdapter(
                     supportFragmentManager,
                     WallpapersFragment.create(getLicenseChecker() != null),
                     FavoritesFragment.create(getLicenseChecker() != null))
@@ -277,7 +277,7 @@ abstract class FramesActivity : BaseFramesActivity() {
     
     private fun scrollToTop() {
         pager?.adapter?.let {
-            (it as? FragmentsAdapter)?.getItem(lastSection)?.let {
+            (it as? FragmentsPagerAdapter)?.getItem(lastSection)?.let {
                 try {
                     (it as? BaseFramesFragment<*, *>)?.scrollToTop()
                 } catch (ignored: Exception) {
@@ -289,7 +289,7 @@ abstract class FramesActivity : BaseFramesActivity() {
     private val lock by lazy { Any() }
     private fun doSearch(filter: String = "") {
         pager?.adapter?.let {
-            (it as? FragmentsAdapter)?.getItem(lastSection)?.let {
+            (it as? FragmentsPagerAdapter)?.getItem(lastSection)?.let {
                 try {
                     (it as? BaseFramesFragment<*, *>)?.enableRefresh(!filter.hasContent())
                     synchronized(
@@ -308,7 +308,7 @@ abstract class FramesActivity : BaseFramesActivity() {
     private fun refreshContent() {
         val adapt = pager?.adapter
         adapt?.let {
-            (it as? FragmentsAdapter)?.getItem(lastSection)?.let {
+            (it as? FragmentsPagerAdapter)?.getItem(lastSection)?.let {
                 try {
                     (it as? BaseFramesFragment<*, *>)?.reloadData(
                             lastSection + if (hasCollections) 0 else 1)
@@ -320,7 +320,7 @@ abstract class FramesActivity : BaseFramesActivity() {
     
     private fun reloadFavorites() {
         pager?.adapter?.let {
-            (it as? FragmentsAdapter)?.getItem(lastSection)?.let {
+            (it as? FragmentsPagerAdapter)?.getItem(lastSection)?.let {
                 try {
                     (it as? BaseFramesFragment<*, *>)?.reloadData(2)
                 } catch (ignored: Exception) {
@@ -331,7 +331,7 @@ abstract class FramesActivity : BaseFramesActivity() {
     
     private fun setNewFavorites(list: ArrayList<Wallpaper>) {
         pager?.adapter?.let {
-            (it as? FragmentsAdapter)?.getItem(if (hasCollections) 2 else 1)?.let {
+            (it as? FragmentsPagerAdapter)?.getItem(if (hasCollections) 2 else 1)?.let {
                 try {
                     (it as? BaseFramesFragment<*, *>)?.let {
                         with(it) {

@@ -15,13 +15,13 @@
  */
 package jahirfiquitiva.libs.frames.providers.viewmodels
 
-import jahirfiquitiva.libs.archhelpers.viewmodels.BasicViewModel
+import jahirfiquitiva.libs.archhelpers.viewmodels.ItemViewModel
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
 import jahirfiquitiva.libs.frames.helpers.utils.FramesUrlRequests
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 
-class WallpaperInfoViewModel : BasicViewModel<Wallpaper, WallpaperInfo>() {
+class WallpaperInfoViewModel : ItemViewModel<Wallpaper, WallpaperInfo>() {
     override fun internalLoad(param: Wallpaper): WallpaperInfo =
             FramesUrlRequests().requestFileInfo(param.url, param.dimensions.hasContent())
     

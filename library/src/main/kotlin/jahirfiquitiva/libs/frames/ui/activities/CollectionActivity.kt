@@ -40,10 +40,10 @@ import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
-import jahirfiquitiva.libs.kauextensions.ui.activities.FragmentsActivity
+import jahirfiquitiva.libs.kauextensions.ui.activities.ActivityWFragments
 import jahirfiquitiva.libs.kauextensions.ui.widgets.CustomSearchView
 
-open class CollectionActivity : FragmentsActivity() {
+open class CollectionActivity : ActivityWFragments() {
     
     override fun lightTheme(): Int = R.style.Frames_LightTheme
     override fun darkTheme(): Int = R.style.Frames_DarkTheme

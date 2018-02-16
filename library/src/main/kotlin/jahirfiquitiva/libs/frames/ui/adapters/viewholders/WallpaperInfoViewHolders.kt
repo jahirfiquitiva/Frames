@@ -28,10 +28,10 @@ import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
-import jahirfiquitiva.libs.kauextensions.ui.widgets.MaterialIcon
+import jahirfiquitiva.libs.kauextensions.ui.widgets.MaterialIconView
 
 class WallpaperInfoHolder(itemView: View) : SectionedViewHolder(itemView) {
-    val icon: MaterialIcon? by bind(R.id.info_item_icon)
+    val icon: MaterialIconView? by bind(R.id.info_item_icon)
     val content: TextView? by bind(R.id.info_item_text)
     fun bind(detail: WallpaperDetail) = with(itemView) {
         icon?.setImageDrawable(detail.icon.getDrawable(context))

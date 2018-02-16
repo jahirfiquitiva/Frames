@@ -37,10 +37,10 @@ import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kauextensions.extensions.openLink
 import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
 import jahirfiquitiva.libs.kauextensions.extensions.tint
-import jahirfiquitiva.libs.kauextensions.ui.activities.FragmentsActivity
+import jahirfiquitiva.libs.kauextensions.ui.activities.ActivityWFragments
 import java.io.File
 
-open class SettingsActivity : FragmentsActivity(), FolderChooserDialog.FolderCallback {
+open class SettingsActivity : ActivityWFragments(), FolderChooserDialog.FolderCallback {
     
     override fun lightTheme(): Int = R.style.Frames_LightTheme
     override fun darkTheme(): Int = R.style.Frames_DarkTheme
