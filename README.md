@@ -157,7 +157,7 @@ Possible badges: (Max 5 per person pls)
 [🔌]("Plugin/Utility libraries")
 -->
 
-- [Sherry Sabatine](https://plus.google.com/+SherrySabatine). ([💵]("Financial Support") [🔍]("Funding"))
+- [Sherry Sabatine](https://plus.google.com/+SherrySabatine). ( [💵](# "Financial Support") [🔍](# "Funding") )
 - [Allan Wang](https://www.allanwang.ca/) (🔌 📦)
 - [James Fenn](https://theandroidmaster.github.io/) (🔌)
 - [Maximilian Keppeler](https://plus.google.com/+MaxKeppeler) (🔌)
