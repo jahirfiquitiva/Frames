@@ -51,8 +51,8 @@ android {
         applicationId "jahirfiquitiva.apps.frames.sample"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
-        versionCode 229
-        versionName '2.2.9'
+        versionCode 230
+        versionName '2.3.0'
         vectorDrawables.useSupportLibrary = true
         proguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
         consumerProguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
@@ -83,7 +83,7 @@ android {
 
 dependencies {
     // Frames
-    implementation('me.jahirfiquitiva:Frames:2.2.9@aar') {
+    implementation('me.jahirfiquitiva:Frames:2.3.0@aar') {
         transitive = true
     }
     // TODO: Remove comment marks to enable
