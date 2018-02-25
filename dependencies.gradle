@@ -37,15 +37,15 @@ ext.versions = [
         permissions          : '1.0.0',
         materialDialogs      : '0.9.6.0',
         glide                : '4.6.1',
-        okhttp               : '3.9.1',
-        kauExt               : '8e23fe1',
+        okhttp               : '3.10.0',
+        kauExt               : '498f17d',
         sectionedRecyclerView: '7e9908b',
         rvFastScroll         : '887726e',
         chips                : '02ca0e4',
         iaps                 : '1.0.44',
         muzeiApi             : '2.0',
         licensesDialog       : '1.8.3',
-        checker              : 'c2268ed',
+        checker              : '1.2.2',
         oneSignal            : '3.7.1'
 ]
 
