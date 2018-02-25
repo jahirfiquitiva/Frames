@@ -46,7 +46,6 @@
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <string name="dev_contributions">ডেভেলপমেন্ট সাহায্য</string>
   <string name="ui_contributions">UI সহায়তা</string>
-  <string name="dashboard_copyright">আমি ২০ বছর বয়সি একজন অ্যান্ড্রয়েডের উন্নয়ন উদ্যোক্তা এবং এই ড্যাশবোর্ডের ডেভেলপার।</string>
   <!-- Light Theme -->
   <!-- Dark Theme -->
   <!-- Amoled Theme -->
