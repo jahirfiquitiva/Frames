@@ -25,7 +25,7 @@
   <string name="all">Все</string>
   <string name="favorites">Избранное</string>
   <string name="favorite">Избранное</string>
-  <string name="added_to_favorites">%1$s добавлено в Избранное.</string>
+  <string name="added_to_favorites">В избранное добавлено: %1$s</string>
   <string name="removed_from_favorites">%1$s удалено из Избранного.</string>
   <string name="actions_dialog_content">Что бы вы хотели сделать с этими обоями?</string>
   <string name="apply">Применить</string>
