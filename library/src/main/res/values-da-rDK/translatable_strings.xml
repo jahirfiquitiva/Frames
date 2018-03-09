@@ -16,7 +16,41 @@
   ~ limitations under the License.
   -->
 <resources>
+  <string name="empty_section">Ingenting fundet</string>
+  <string name="loading_section">Indlæser indhold…</string>
+  <string name="no_favorites">Tilføje nogle baggrund til favoritter først</string>
+  <string name="wallpapers">Baggrunde</string>
+  <string name="collections">Kollektioner</string>
+  <string name="x_wallpapers">%1$s baggrunde</string>
+  <string name="all">Alle</string>
+  <string name="favorites">Favoritter</string>
+  <string name="favorite">Favorit</string>
+  <string name="added_to_favorites">\'%1$s\' er blevet tilføjet til favoritter.</string>
+  <string name="removed_from_favorites">\'%1$s\' er blevet fjernet fra favoritter.</string>
+  <string name="actions_dialog_content">Hvad ønsker du gøre med denne baggrund?</string>
+  <string name="apply">Anvend</string>
+  <string name="download">Hent</string>
+  <string name="info">Information</string>
+  <string name="share">Del</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
+  <string name="share_text">Min baggrund for i dag er %1$s af %2$s, fra %3$s. \nHent det nu på %4$s</string>
+  <string name="permission_denied">Adgang til opbevarings tilladelser blev nægtet</string>
+  <string name="permission_denied_completely">Adgang til opbevarings tilladelser blev nægtet. Du skal slå det til manuelt i indstillinger.</string>
+  <string name="permission_request">%1$s kræver adgang til lagerkapacitet for at kunne anvende og gemme baggrumd</string>
+  <string name="allow">Tillad</string>
+  <string name="downloading_wallpaper">Henter %1$s…</string>
+  <string name="download_successful">Baggrund hentet til %1$s</string>
+  <string name="download_successful_short">Baggrund hentet</string>
+  <string name="open">Åbn</string>
+  <string name="file_exists">Bagground er allerede hentet. Vil du hente for at erstatte?</string>
+  <string name="file_replace">Erstat</string>
+  <string name="file_create_new">Opret ny</string>
+  <string name="applying_wallpaper">Anvender \'%1$s\'…</string>
+  <string name="apply_to">Anvend til:</string>
+  <string name="home_screen">Startskærm</string>
+  <string name="lock_screen">Låse skærm</string>
+  <string name="home_lock_screen">Startskærm og låseskærm</string>
+  <string name="apply_with_other_app">Anvend med andre apps</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <!-- Light Theme -->
   <!-- Dark Theme -->
