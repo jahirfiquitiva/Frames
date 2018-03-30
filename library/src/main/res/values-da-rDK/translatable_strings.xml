@@ -98,6 +98,7 @@
   <string name="deep_search_content">Søg på navn og samling</string>
   <string name="storage_settings_title">Lager</string>
   <string name="wallpapers_download_location_setting_title">Baggrunds download placering</string>
+  <string name="wallpapers_download_location_setting_content">Ændre placeringen af downloaded baggrund.\nNuværende placering: %1$s</string>
   <string name="create_folder">Opret mappe</string>
   <string name="choose_folder">Vælg</string>
   <string name="data_cache_setting_title">Ryd app data og cache</string>
@@ -105,20 +106,42 @@
   <string name="data_cache_confirmation">Er du sikker på du vil slette app data, cache og indstillinger?</string>
   <string name="clear_favorites_setting_title">Slet yndlings database</string>
   <string name="clear_favorites_setting_content">Rydde listen over din yndlings wallpapers</string>
+  <string name="clear_favorites_confirmation">Er du sikker på at du ønsker at slette din fortrukne database?</string>
   <!-- License -->
   <string name="license_valid_title">Licens lovlig</string>
   <string name="license_valid_content">Tak fordi du downloaded %1$s fra en gyldig butik. Nyd det!</string>
   <string name="license_valid_snack">Licens er gyldig. Tak for at downloade %1$s. Nyd det!</string>
+  <string name="license_invalid_title">Du må ikke passere!</string>
+  <string name="license_invalid_content">Beklager, men vi har opdaget, at din licens til %1$s ikke er gyldigt. Dette kan også være fordi du bruger pirat apps. %2$s. Hvis du tror dette er en fejl, prøv igen senere. Ellers skal du downloade appen fra en gyldig butik.</string>
+  <string name="license_invalid_content_extra">Eller specifikt: \'%1$s\' app, så afinstallere det venligst</string>
   <string name="error_title">Fejl</string>
+  <string name="action_error_content">Undskyld, en uventet fejl forkom mens du prøvede at fuldføre denne handling.</string>
+  <string name="license_error_content">Beklager, der opstod en fejl under kontrollen af dit licens. Prøv venligst igen senere.</string>
   <string name="try_now">Prøv nu</string>
   <string name="donate">Donér</string>
   <string name="donate_success_title">Tak</string>
   <string name="donate_success_content">Mange tak for din donation. Jeg værdsætter det og jeg er glad for at du nyder %1$s.</string>
+  <string name="donate_error">Uventet fejl med koden %1$s opstod på grund af %2$s</string>
   <string name="donate_error_unknown">ukendte årsager</string>
   <string name="loading">Indlæser…</string>
   <string name="close">Luk</string>
   <!-- Muzei Settings -->
   <string name="muzei_settings">Muzei indstillinger</string>
   <!-- Please use this character … -->
+  <string name="refresh_wallpapers_every">Opfrisk baggrund…</string>
   <string name="every_x">Hver %1$s</string>
+  <string name="minutes">Minutter</string>
+  <string name="hours">Timer</string>
+  <string name="days">Dage</string>
+  <string name="refresh_only_on_wifi">Opdater kun på WiFi</string>
+  <string name="refresh_only_on_wifi_summary">Opdater wallpapers kun når enheden er tilsluttet et WiFi netværk.</string>
+  <string name="choose_collections_title">Vælg samling</string>
+  <string name="choose_collections_summary">Vælg samlingen at take baggrund fra. Aktuelle valgte samling: %1$s</string>
+  <string name="muzei_not_connected_title">Ingen forbindelse til internettet</string>
+  <string name="sure_to_exit">Afslut</string>
+  <string name="sure_to_exit_content">Vil du gemme dine indstillinger før du afslutter?</string>
+  <string name="yes">Ja</string>
+  <string name="no">Nej</string>
+  <string name="notifications_title">Notifikationer</string>
+  <string name="enable_notifications">Aktivere notifikationer</string>
 </resources>
