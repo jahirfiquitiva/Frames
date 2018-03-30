@@ -138,10 +138,14 @@
   <string name="choose_collections_title">Vælg samling</string>
   <string name="choose_collections_summary">Vælg samlingen at take baggrund fra. Aktuelle valgte samling: %1$s</string>
   <string name="muzei_not_connected_title">Ingen forbindelse til internettet</string>
+  <string name="muzei_not_connected_content">Beklager, men for at kunne vælge eller ændre den samling du vil have appen til at tage baggrundende fra, skal du være tilsluttet til internettet.
+Prøv igen senere.</string>
   <string name="sure_to_exit">Afslut</string>
   <string name="sure_to_exit_content">Vil du gemme dine indstillinger før du afslutter?</string>
   <string name="yes">Ja</string>
   <string name="no">Nej</string>
+  <string name="not_connected_content">Beklager, men denne handling kræver internet tilslutteles. Prøv igen senere.</string>
+  <string name="new_wallpapers_available">%1$s nye baggrund tilgængelige. Tryk for at se dem!</string>
   <string name="notifications_title">Notifikationer</string>
   <string name="enable_notifications">Aktivere notifikationer</string>
 </resources>
