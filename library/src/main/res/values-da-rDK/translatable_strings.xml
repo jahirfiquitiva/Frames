@@ -69,18 +69,31 @@
   <string name="ui_contributions">Brugerflade hjælp</string>
   <string name="dashboard_copyright">Jeg er en passioneret og kreativ Android-udvikler og skaberen af dashboard.</string>
   <string name="sherry_description">En evig udviklene kvinde, der aldrig træt af at lære, kreative fotograf og den person, der gjorde dette dashboard muligt.</string>
+  <string name="allan_description">Først en ikon pakke laver, så en tema laver, og nu en udvikler.\nI har hjulpet med dele af dashboard\'s udvikling.</string>
   <string name="settings">Indstillinger</string>
+  <string name="ui_settings_title">Brugerflade</string>
   <string name="theme_setting_title">App tema</string>
+  <string name="theme_setting_content">Vælg de primære team for appen</string>
   <!-- Light Theme -->
   <string name="light_theme">Lys</string>
   <!-- Dark Theme -->
   <string name="dark_theme">Mørke</string>
   <!-- Amoled Theme -->
+  <string name="amoled_theme">Amoled</string>
   <!-- Transparent Theme -->
   <string name="transparent_theme">Gennemsigtig</string>
   <!-- Automatic Light-Dark Theme -->
+  <string name="auto_dark">Automatisk Lys-Mørke</string>
   <!-- Automatic Light-Amoled Theme -->
+  <string name="auto_amoled">Automatisk Lys-Amoled</string>
+  <string name="navbar_color_setting_title">Farve navigations bar</string>
+  <string name="navbar_color_setting_content">Farve navigations bar med appen\'s primære mørke farve</string>
+  <string name="wallpapers_columns_setting_title">Baggrunds kolonner</string>
+  <string name="wallpapers_columns_setting_content">Vælg antal kolonner, du vil se for baggrunde</string>
   <string name="animations_setting_title">Aktiver animationer</string>
+  <string name="animations_setting_content">Dette kan forårsage forsinkelse i nogle enheder.</string>
+  <string name="load_hi_res_pictures_title">Fuld opløsning forvisninger</string>
+  <string name="load_hi_res_pictures_content">Indlæse fuld opløsnings billeder i gitter</string>
   <string name="deep_search_title">Aktiver dyb søgning</string>
   <string name="deep_search_content">Søg på navn og samling</string>
   <string name="storage_settings_title">Lager</string>
@@ -95,6 +108,17 @@
   <!-- License -->
   <string name="license_valid_title">Licens lovlig</string>
   <string name="license_valid_content">Tak fordi du downloaded %1$s fra en gyldig butik. Nyd det!</string>
+  <string name="license_valid_snack">Licens er gyldig. Tak for at downloade %1$s. Nyd det!</string>
+  <string name="error_title">Fejl</string>
+  <string name="try_now">Prøv nu</string>
+  <string name="donate">Donér</string>
+  <string name="donate_success_title">Tak</string>
+  <string name="donate_success_content">Mange tak for din donation. Jeg værdsætter det og jeg er glad for at du nyder %1$s.</string>
+  <string name="donate_error_unknown">ukendte årsager</string>
+  <string name="loading">Indlæser…</string>
+  <string name="close">Luk</string>
   <!-- Muzei Settings -->
+  <string name="muzei_settings">Muzei indstillinger</string>
   <!-- Please use this character … -->
+  <string name="every_x">Hver %1$s</string>
 </resources>
