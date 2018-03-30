@@ -51,9 +51,25 @@
   <string name="lock_screen">Låse skærm</string>
   <string name="home_lock_screen">Startskærm og låseskærm</string>
   <string name="apply_with_other_app">Anvend med andre apps</string>
+  <string name="apply_successful">Baggrund anvendt til %1$s</string>
+  <string name="apply_successful_short">Baggrund anvendt med succes</string>
+  <string name="wallpaper_details">Detaljer</string>
+  <string name="wallpaper_palette">Palette</string>
+  <string name="copied_to_clipboard">Farve kopiret til udklipsholder</string>
+  <string name="search">Søg</string>
+  <string name="search_x">Søg %1$s…</string>
+  <string name="search_no_results">Ingen resultater fundet</string>
+  <string name="about">Om</string>
+  <string name="refresh">Genindlæs</string>
+  <string name="translate">Oversæt</string>
+  <string name="licenses">Licenser</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+  <string name="frames_dashboard">Frames instrumentpanel</string>
+  <string name="dev_contributions">Udviklings hjælp</string>
   <!-- Light Theme -->
+  <string name="light_theme">Lys</string>
   <!-- Dark Theme -->
+  <string name="dark_theme">Mørke</string>
   <!-- Amoled Theme -->
   <!-- Transparent Theme -->
   <!-- Automatic Light-Dark Theme -->
