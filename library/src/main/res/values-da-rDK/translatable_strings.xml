@@ -66,15 +66,35 @@
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <string name="frames_dashboard">Frames instrumentpanel</string>
   <string name="dev_contributions">Udviklings hjælp</string>
+  <string name="ui_contributions">Brugerflade hjælp</string>
+  <string name="dashboard_copyright">Jeg er en passioneret og kreativ Android-udvikler og skaberen af dashboard.</string>
+  <string name="sherry_description">En evig udviklene kvinde, der aldrig træt af at lære, kreative fotograf og den person, der gjorde dette dashboard muligt.</string>
+  <string name="settings">Indstillinger</string>
+  <string name="theme_setting_title">App tema</string>
   <!-- Light Theme -->
   <string name="light_theme">Lys</string>
   <!-- Dark Theme -->
   <string name="dark_theme">Mørke</string>
   <!-- Amoled Theme -->
   <!-- Transparent Theme -->
+  <string name="transparent_theme">Gennemsigtig</string>
   <!-- Automatic Light-Dark Theme -->
   <!-- Automatic Light-Amoled Theme -->
+  <string name="animations_setting_title">Aktiver animationer</string>
+  <string name="deep_search_title">Aktiver dyb søgning</string>
+  <string name="deep_search_content">Søg på navn og samling</string>
+  <string name="storage_settings_title">Lager</string>
+  <string name="wallpapers_download_location_setting_title">Baggrunds download placering</string>
+  <string name="create_folder">Opret mappe</string>
+  <string name="choose_folder">Vælg</string>
+  <string name="data_cache_setting_title">Ryd app data og cache</string>
+  <string name="data_cache_setting_content">Dette vil slette app cache og præferencer. \nNuværende cache størrelse: %1$s</string>
+  <string name="data_cache_confirmation">Er du sikker på du vil slette app data, cache og indstillinger?</string>
+  <string name="clear_favorites_setting_title">Slet yndlings database</string>
+  <string name="clear_favorites_setting_content">Rydde listen over din yndlings wallpapers</string>
   <!-- License -->
+  <string name="license_valid_title">Licens lovlig</string>
+  <string name="license_valid_content">Tak fordi du downloaded %1$s fra en gyldig butik. Nyd det!</string>
   <!-- Muzei Settings -->
   <!-- Please use this character … -->
 </resources>
