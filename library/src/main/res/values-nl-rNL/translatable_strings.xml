@@ -29,6 +29,7 @@
   <string name="removed_from_favorites">\'%1$s\' is verwijderd van je favorieten.</string>
   <string name="actions_dialog_content">Wat wil je doen met deze achtergrond?</string>
   <string name="apply">Toepassen</string>
+  <string name="download">Download</string>
   <string name="info">Informatie</string>
   <string name="share">Deel</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
@@ -40,6 +41,7 @@
   <string name="downloading_wallpaper">\'%1$s\' downloaden...</string>
   <string name="download_successful">Achtergrond is succesvol gedownload naar \'%1$s\'</string>
   <string name="download_successful_short">Achtergrond succesvol gedownload</string>
+  <string name="open">Open</string>
   <string name="file_exists">Achtergrond is al gedownload. Wil je het opnieuw downloaden om de huidige achtergrond te vervangen?</string>
   <string name="file_replace">Vervang</string>
   <string name="file_create_new">Creëer nieuw</string>
@@ -51,6 +53,7 @@
   <string name="apply_with_other_app">Toepassen met andere app</string>
   <string name="apply_successful">Achtergrond succesvol toegepast naar %1$s</string>
   <string name="apply_successful_short">Achtergrond succesvol toegepast</string>
+  <string name="wallpaper_details">Details</string>
   <string name="wallpaper_palette">Palet</string>
   <string name="copied_to_clipboard">Kleur gekopieerd naar het klembord</string>
   <string name="search">Zoek</string>
@@ -61,8 +64,10 @@
   <string name="translate">Vertaal</string>
   <string name="licenses">Licenties</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+  <string name="frames_dashboard">Frames Dashboard</string>
   <string name="dev_contributions">Ontwikkelings help</string>
   <string name="ui_contributions">UI help</string>
+  <string name="dashboard_copyright">Ik ben een gepassioneerd en creatief Android ontwikkelaar en de maker van het dashboard.</string>
   <string name="sherry_description">Een zich altijd ontwikkelende vrouw die nooit moe wordt van leren, creatieve fotograaf en de persoon die dit dashboard mogelijk heeft gemaakt.</string>
   <string name="allan_description">Eerst een icoon pakket maker, daarna een themer en nu ook een ontwikkelaar.\nIk heb op onderdelen geholpen met de dashboard ontwikkeling.</string>
   <string name="settings">Instellingen</string>
@@ -74,6 +79,7 @@
   <!-- Dark Theme -->
   <string name="dark_theme">Donker</string>
   <!-- Amoled Theme -->
+  <string name="amoled_theme">Amoled</string>
   <!-- Transparent Theme -->
   <string name="transparent_theme">Transparant</string>
   <!-- Automatic Light-Dark Theme -->
