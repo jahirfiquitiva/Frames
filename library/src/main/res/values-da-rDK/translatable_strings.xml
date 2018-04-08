@@ -51,14 +51,101 @@
   <string name="lock_screen">Låse skærm</string>
   <string name="home_lock_screen">Startskærm og låseskærm</string>
   <string name="apply_with_other_app">Anvend med andre apps</string>
+  <string name="apply_successful">Baggrund anvendt til %1$s</string>
+  <string name="apply_successful_short">Baggrund anvendt med succes</string>
+  <string name="wallpaper_details">Detaljer</string>
+  <string name="wallpaper_palette">Palette</string>
+  <string name="copied_to_clipboard">Farve kopiret til udklipsholder</string>
+  <string name="search">Søg</string>
+  <string name="search_x">Søg %1$s…</string>
+  <string name="search_no_results">Ingen resultater fundet</string>
+  <string name="about">Om</string>
+  <string name="refresh">Genindlæs</string>
+  <string name="translate">Oversæt</string>
+  <string name="licenses">Licenser</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+  <string name="frames_dashboard">Frames instrumentpanel</string>
+  <string name="dev_contributions">Udviklings hjælp</string>
+  <string name="ui_contributions">Brugerflade hjælp</string>
+  <string name="dashboard_copyright">Jeg er en passioneret og kreativ Android-udvikler og skaberen af dashboard.</string>
+  <string name="sherry_description">En evig udviklene kvinde, der aldrig træt af at lære, kreative fotograf og den person, der gjorde dette dashboard muligt.</string>
+  <string name="allan_description">Først en ikon pakke laver, så en tema laver, og nu en udvikler.\nI har hjulpet med dele af dashboard\'s udvikling.</string>
+  <string name="settings">Indstillinger</string>
+  <string name="ui_settings_title">Brugerflade</string>
+  <string name="theme_setting_title">App tema</string>
+  <string name="theme_setting_content">Vælg de primære team for appen</string>
   <!-- Light Theme -->
+  <string name="light_theme">Lys</string>
   <!-- Dark Theme -->
+  <string name="dark_theme">Mørke</string>
   <!-- Amoled Theme -->
+  <string name="amoled_theme">Amoled</string>
   <!-- Transparent Theme -->
+  <string name="transparent_theme">Gennemsigtig</string>
   <!-- Automatic Light-Dark Theme -->
+  <string name="auto_dark">Automatisk Lys-Mørke</string>
   <!-- Automatic Light-Amoled Theme -->
+  <string name="auto_amoled">Automatisk Lys-Amoled</string>
+  <string name="navbar_color_setting_title">Farve navigations bar</string>
+  <string name="navbar_color_setting_content">Farve navigations bar med appen\'s primære mørke farve</string>
+  <string name="wallpapers_columns_setting_title">Baggrunds kolonner</string>
+  <string name="wallpapers_columns_setting_content">Vælg antal kolonner, du vil se for baggrunde</string>
+  <string name="animations_setting_title">Aktiver animationer</string>
+  <string name="animations_setting_content">Dette kan forårsage forsinkelse i nogle enheder.</string>
+  <string name="load_hi_res_pictures_title">Fuld opløsning forvisninger</string>
+  <string name="load_hi_res_pictures_content">Indlæse fuld opløsnings billeder i gitter</string>
+  <string name="deep_search_title">Aktiver dyb søgning</string>
+  <string name="deep_search_content">Søg på navn og samling</string>
+  <string name="storage_settings_title">Lager</string>
+  <string name="wallpapers_download_location_setting_title">Baggrunds download placering</string>
+  <string name="wallpapers_download_location_setting_content">Ændre placeringen af downloaded baggrund.\nNuværende placering: %1$s</string>
+  <string name="create_folder">Opret mappe</string>
+  <string name="choose_folder">Vælg</string>
+  <string name="data_cache_setting_title">Ryd app data og cache</string>
+  <string name="data_cache_setting_content">Dette vil slette app cache og præferencer. \nNuværende cache størrelse: %1$s</string>
+  <string name="data_cache_confirmation">Er du sikker på du vil slette app data, cache og indstillinger?</string>
+  <string name="clear_favorites_setting_title">Slet yndlings database</string>
+  <string name="clear_favorites_setting_content">Rydde listen over din yndlings wallpapers</string>
+  <string name="clear_favorites_confirmation">Er du sikker på at du ønsker at slette din fortrukne database?</string>
   <!-- License -->
+  <string name="license_valid_title">Licens lovlig</string>
+  <string name="license_valid_content">Tak fordi du downloaded %1$s fra en gyldig butik. Nyd det!</string>
+  <string name="license_valid_snack">Licens er gyldig. Tak for at downloade %1$s. Nyd det!</string>
+  <string name="license_invalid_title">Du må ikke passere!</string>
+  <string name="license_invalid_content">Beklager, men vi har opdaget, at din licens til %1$s ikke er gyldigt. Dette kan også være fordi du bruger pirat apps. %2$s. Hvis du tror dette er en fejl, prøv igen senere. Ellers skal du downloade appen fra en gyldig butik.</string>
+  <string name="license_invalid_content_extra">Eller specifikt: \'%1$s\' app, så afinstallere det venligst</string>
+  <string name="error_title">Fejl</string>
+  <string name="action_error_content">Undskyld, en uventet fejl forkom mens du prøvede at fuldføre denne handling.</string>
+  <string name="license_error_content">Beklager, der opstod en fejl under kontrollen af dit licens. Prøv venligst igen senere.</string>
+  <string name="try_now">Prøv nu</string>
+  <string name="donate">Donér</string>
+  <string name="donate_success_title">Tak</string>
+  <string name="donate_success_content">Mange tak for din donation. Jeg værdsætter det og jeg er glad for at du nyder %1$s.</string>
+  <string name="donate_error">Uventet fejl med koden %1$s opstod på grund af %2$s</string>
+  <string name="donate_error_unknown">ukendte årsager</string>
+  <string name="loading">Indlæser…</string>
+  <string name="close">Luk</string>
   <!-- Muzei Settings -->
+  <string name="muzei_settings">Muzei indstillinger</string>
   <!-- Please use this character … -->
+  <string name="refresh_wallpapers_every">Opfrisk baggrund…</string>
+  <string name="every_x">Hver %1$s</string>
+  <string name="minutes">Minutter</string>
+  <string name="hours">Timer</string>
+  <string name="days">Dage</string>
+  <string name="refresh_only_on_wifi">Opdater kun på WiFi</string>
+  <string name="refresh_only_on_wifi_summary">Opdater wallpapers kun når enheden er tilsluttet et WiFi netværk.</string>
+  <string name="choose_collections_title">Vælg samling</string>
+  <string name="choose_collections_summary">Vælg samlingen at take baggrund fra. Aktuelle valgte samling: %1$s</string>
+  <string name="muzei_not_connected_title">Ingen forbindelse til internettet</string>
+  <string name="muzei_not_connected_content">Beklager, men for at kunne vælge eller ændre den samling du vil have appen til at tage baggrundende fra, skal du være tilsluttet til internettet.
+Prøv igen senere.</string>
+  <string name="sure_to_exit">Afslut</string>
+  <string name="sure_to_exit_content">Vil du gemme dine indstillinger før du afslutter?</string>
+  <string name="yes">Ja</string>
+  <string name="no">Nej</string>
+  <string name="not_connected_content">Beklager, men denne handling kræver internet tilslutteles. Prøv igen senere.</string>
+  <string name="new_wallpapers_available">%1$s nye baggrund tilgængelige. Tryk for at se dem!</string>
+  <string name="notifications_title">Notifikationer</string>
+  <string name="enable_notifications">Aktivere notifikationer</string>
 </resources>
