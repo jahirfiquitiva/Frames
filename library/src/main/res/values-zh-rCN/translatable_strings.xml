@@ -65,7 +65,8 @@
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <string name="dev_contributions">开发帮助</string>
   <string name="ui_contributions">UI设计帮助</string>
-  <string name="sherry_description">一个不断进步，活到老学到老的人。</string>
+  <string name="dashboard_copyright">我是个富有热情与创造力的Android开发者、本仪表盘的作者。</string>
+  <string name="sherry_description">一个不断进步，活到老学到老的人，创意摄影师，本仪表盘的重要贡献者。</string>
   <string name="allan_description">一名主题包设计创造者，主题制作者，现在是一名开发者，参与了这个项目的部分工作。</string>
   <string name="settings">设置</string>
   <string name="ui_settings_title">用户界面</string>
@@ -87,6 +88,12 @@
   <string name="navbar_color_setting_content">应用基础颜色导航栏</string>
   <string name="wallpapers_columns_setting_title">壁纸行数</string>
   <string name="wallpapers_columns_setting_content">选择壁纸行数</string>
+  <string name="animations_setting_title">启用动画</string>
+  <string name="animations_setting_content">这可能导致一些设备出现卡顿。</string>
+  <string name="load_hi_res_pictures_title">原图预览</string>
+  <string name="load_hi_res_pictures_content">在网格中加载完整分辨率的图片</string>
+  <string name="deep_search_title">启用深层搜索</string>
+  <string name="deep_search_content">按名称与合集搜索</string>
   <string name="storage_settings_title">存储</string>
   <string name="wallpapers_download_location_setting_title">壁纸下载路径</string>
   <string name="wallpapers_download_location_setting_content">改变壁纸下载路径。\n当前路径:%1$s</string>
@@ -101,6 +108,7 @@
   <!-- License -->
   <string name="license_valid_title">许可有效</string>
   <string name="license_valid_content">谢谢您下载%1$s </string>
+  <string name="license_valid_snack">许可证有效。感谢您下载 %1$s。尽情享受吧！</string>
   <string name="license_invalid_title">你不应该通过！</string>
   <string name="license_invalid_content">对不起，但是我们监测到你的%1$s 许可是无效的。这也是因为您使用了私人应用%2$s 。如果您觉得这是一个错误，请稍后尝试。或者，请从一个有效的应用商店选择下载。</string>
   <string name="license_invalid_content_extra">注意： \'%1$s\'应用，所以请选择卸载。</string>
@@ -133,4 +141,8 @@
   <string name="sure_to_exit_content">在你退出之前你想保存你的设置吗？</string>
   <string name="yes">是的</string>
   <string name="no">不</string>
+  <string name="not_connected_content">很不辛，此操作需要网际网络连接。请稍后再试。</string>
+  <string name="new_wallpapers_available">%1$s 张可用的新墙纸。点此查看它们！</string>
+  <string name="notifications_title">通知</string>
+  <string name="enable_notifications">启用通知</string>
 </resources>
