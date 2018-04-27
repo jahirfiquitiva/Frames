@@ -19,12 +19,15 @@
   <string name="empty_section">未发现</string>
   <string name="loading_section">加载中...</string>
   <string name="no_favorites">首先添加收藏的壁纸。</string>
+  <string name="wallpapers">壁纸</string>
   <string name="collections">收藏集</string>
+  <string name="x_wallpapers">%1$s 张壁纸</string>
   <string name="all">全部</string>
   <string name="favorites">喜欢</string>
   <string name="favorite">喜欢</string>
   <string name="added_to_favorites">%1$s\'已经添加至喜欢</string>
   <string name="removed_from_favorites">\'%1$s\' 已经从喜欢中被移除。</string>
+  <string name="actions_dialog_content">你希望对此图片进行什么操作？</string>
   <string name="apply">应用</string>
   <string name="download">下载</string>
   <string name="info">信息</string>
@@ -49,11 +52,15 @@
   <string name="home_lock_screen">主屏幕和锁屏</string>
   <string name="apply_successful">壁纸已经成功应用到%1$s</string>
   <string name="apply_successful_short">壁纸应用成功</string>
+  <string name="wallpaper_details">详细信息</string>
+  <string name="wallpaper_palette">色板</string>
+  <string name="copied_to_clipboard">颜色已复制到剪贴板</string>
   <string name="search">搜索</string>
   <string name="search_x">搜索 %1$s</string>
   <string name="search_no_results">未找到结果</string>
   <string name="about">关于</string>
   <string name="refresh">刷新</string>
+  <string name="translate">翻译</string>
   <string name="licenses">许可认证</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <string name="dev_contributions">开发帮助</string>
@@ -75,7 +82,7 @@
   <!-- Automatic Light-Dark Theme -->
   <string name="auto_dark">浅色与深色主题自动切换</string>
   <!-- Automatic Light-Amoled Theme -->
-  <string name="auto_amoled">浅色与Almoled主题自动切换</string>
+  <string name="auto_amoled">浅色与Amoled主题自动切换</string>
   <string name="navbar_color_setting_title">导航栏着色</string>
   <string name="navbar_color_setting_content">应用基础颜色导航栏</string>
   <string name="wallpapers_columns_setting_title">壁纸行数</string>
