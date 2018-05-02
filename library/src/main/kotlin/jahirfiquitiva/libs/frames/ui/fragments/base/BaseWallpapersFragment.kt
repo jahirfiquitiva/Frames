@@ -169,7 +169,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             if (configs.columns != spanCount) {
                 recyclerView?.removeItemDecoration(spacingDecoration)
                 val columns = configs.columns
-                spanCount = if (it.isInHorizontalMode) ((columns * 1.5).toInt()) else columns
+                spanCount = if (it.isInHorizontalMode) (columns * 1.5).toInt() else columns
                 recyclerView?.layoutManager = GridLayoutManager(
                         context, spanCount,
                         GridLayoutManager.VERTICAL, false)
