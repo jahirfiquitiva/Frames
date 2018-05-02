@@ -20,3 +20,9 @@ inline fun <reified T> ArrayList<T>.jfilter(evaluate: (T) -> Boolean): ArrayList
     for (item in this) if (evaluate(item)) newList.add(item)
     return newList
 }
+
+inline fun <reified T> Array<T>.jfilter(evaluate: (T) -> Boolean): Array<T> {
+    val newArray = arrayOf<T>()
+    for (item in this) if (evaluate(item)) newArray.plus(item)
+    return newArray
+}

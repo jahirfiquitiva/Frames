@@ -43,14 +43,13 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 
-abstract class BaseWallpaperActionsActivity : ActivityWFragments<FramesKonfigs>() {
+abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragments<T>() {
     
     companion object {
         const val DOWNLOAD_ACTION_ID = 1
         const val APPLY_ACTION_ID = 2
     }
     
-    override val configs: FramesKonfigs by lazy { FramesKonfigs(this) }
     private var actionDialog: MaterialDialog? = null
     internal var wallActions: WallpaperActionsDialog? = null
     

@@ -216,11 +216,11 @@ class WallpaperActionsDialog : DialogFragment() {
                     }
                 } catch (e: Exception) {
                     FL.e { e.message }
-                    (actv as? BaseWallpaperActionsActivity)?.properlyCancelDialog()
+                    (actv as? BaseWallpaperActionsActivity<*>)?.properlyCancelDialog()
                     withActv { showToast(R.string.action_error_content) }
                 }
             } else {
-                (actv as? BaseWallpaperActionsActivity)?.properlyCancelDialog()
+                (actv as? BaseWallpaperActionsActivity<*>)?.properlyCancelDialog()
                 withActv { showToast(R.string.action_error_content) }
             }
         } catch (e: Exception) {
@@ -242,7 +242,7 @@ class WallpaperActionsDialog : DialogFragment() {
     private fun showDownloadResult(dest: File) {
         try {
             actv { activity ->
-                (activity as? BaseWallpaperActionsActivity)?.reportWallpaperDownloaded(dest) ?: {
+                (activity as? BaseWallpaperActionsActivity<*>)?.reportWallpaperDownloaded(dest) ?: {
                     activity.snackbar(getString(R.string.download_successful, dest.toString())) {
                         setAction(
                                 R.string.open, {
@@ -260,7 +260,7 @@ class WallpaperActionsDialog : DialogFragment() {
     private fun applyWallpaper(resource: Bitmap) {
         if (toOtherApp) {
             destFile?.let {
-                (actv as? BaseWallpaperActionsActivity)?.applyWallpaperWithOtherApp(it)
+                (actv as? BaseWallpaperActionsActivity<*>)?.applyWallpaperWithOtherApp(it)
             }
         } else {
             try {
@@ -306,7 +306,7 @@ class WallpaperActionsDialog : DialogFragment() {
         actv { dismiss(it) }
         try {
             actv {
-                (it as? BaseWallpaperActionsActivity)?.showWallpaperAppliedSnackbar(
+                (it as? BaseWallpaperActionsActivity<*>)?.showWallpaperAppliedSnackbar(
                         toHomeScreen, toLockScreen, toBoth) ?: it.snackbar(
                         getString(
                                 R.string.apply_successful,

@@ -39,6 +39,7 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.helpers.utils.ADW_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.APPLY_ACTION
+import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.ICONS_APPLIER
 import jahirfiquitiva.libs.frames.helpers.utils.IMAGE_PICKER
 import jahirfiquitiva.libs.frames.helpers.utils.MIN_TIME
@@ -58,8 +59,8 @@ import jahirfiquitiva.libs.kauextensions.extensions.showToast
 import jahirfiquitiva.libs.kauextensions.extensions.stringArray
 import org.jetbrains.anko.contentView
 
-abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
-                                    BillingProcessor.IBillingHandler {
+abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActivity<T>(),
+                                                       BillingProcessor.IBillingHandler {
     
     override fun lightTheme(): Int = R.style.Frames_LightTheme
     override fun darkTheme(): Int = R.style.Frames_DarkTheme

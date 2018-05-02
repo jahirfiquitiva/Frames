@@ -83,7 +83,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                     
                     override fun onLongClick(item: Wallpaper) {
                         super.onLongClick(item)
-                        (activity as? BaseFramesActivity)?.showWallpaperOptionsDialog(item)
+                        (activity as? BaseFramesActivity<*>)?.showWallpaperOptionsDialog(item)
                     }
                     
                     override fun onHeartClick(

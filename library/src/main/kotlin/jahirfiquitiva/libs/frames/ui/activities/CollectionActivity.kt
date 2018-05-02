@@ -17,20 +17,18 @@ package jahirfiquitiva.libs.frames.ui.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
-import android.transition.Transition
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import ca.allanwang.kau.utils.postDelayed
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.helpers.extensions.framesPostponeEnterTransition
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersInCollectionFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
@@ -68,31 +66,7 @@ open class CollectionActivity : ActivityWFragments<FramesKonfigs>() {
     @SuppressLint("MissingSuperCall", "InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportPostponeEnterTransition()
-        
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val decor = window.decorView
-            val statusBar: View? by decor.bind(android.R.id.statusBarBackground)
-            val navBar: View? by decor.bind(android.R.id.navigationBarBackground)
-            val actionBar: View? by decor.bind(R.id.action_bar_container)
-            
-            val viewsToExclude = arrayOf(statusBar, navBar, actionBar)
-            val extraViewsToExclude = arrayOf(R.id.appbar, R.id.toolbar, R.id.tabs)
-            
-            viewsToExclude.forEach { window.sharedElementEnterTransition?.excludeTarget(it, true) }
-            extraViewsToExclude.forEach {
-                window.sharedElementEnterTransition?.excludeTarget(it, true)
-            }
-            
-            window.enterTransition?.addListener(
-                    object : Transition.TransitionListener {
-                        override fun onTransitionPause(p0: Transition?) = loadFragment()
-                        override fun onTransitionCancel(p0: Transition?) = loadFragment()
-                        override fun onTransitionEnd(p0: Transition?) = loadFragment()
-                        override fun onTransitionStart(p0: Transition?) {}
-                        override fun onTransitionResume(p0: Transition?) {}
-                    })
-        }
+        framesPostponeEnterTransition { loadFragment() }
         
         setContentView(R.layout.activity_collection_settings)
         supportStartPostponedEnterTransition()
