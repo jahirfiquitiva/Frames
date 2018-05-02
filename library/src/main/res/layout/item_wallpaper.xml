@@ -25,83 +25,83 @@
              android:hapticFeedbackEnabled="true">
 
     <jahirfiquitiva.libs.kauextensions.ui.widgets.VerticalImageView
-            android:id="@+id/wallpaper_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            app:heightMultiplier="@dimen/heightMultiplier"/>
+        android:id="@+id/wallpaper_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        app:heightMultiplier="@dimen/heightMultiplier" />
 
     <LinearLayout
-            android:id="@+id/wallpaper_details"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="68dp"
-            android:paddingStart="@dimen/fabs_margin"
-            android:paddingLeft="@dimen/fabs_margin"
-            android:paddingEnd="@dimen/fabs_margin"
-            android:paddingRight="@dimen/fabs_margin"
-            android:layout_gravity="start|bottom"
-            android:gravity="start|bottom"
-            android:baselineAligned="false"
-            android:clipToPadding="false"
-            android:clipChildren="false"
-            tools:ignore="UseCompoundDrawables">
+        android:id="@+id/wallpaper_details"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:paddingStart="@dimen/fabs_margin"
+        android:paddingLeft="@dimen/fabs_margin"
+        android:paddingEnd="@dimen/fabs_margin"
+        android:paddingRight="@dimen/fabs_margin"
+        android:layout_gravity="start|bottom"
+        android:gravity="start|bottom"
+        android:baselineAligned="false"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        tools:ignore="UseCompoundDrawables">
 
         <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:clipToPadding="false"
+            android:clipChildren="false">
+
+            <TextView
+                android:id="@+id/wallpaper_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@android:color/white"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="16sp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:clipToPadding="false"
-                android:clipChildren="false">
+                android:clipChildren="false"
+                tools:text="Wallpaper name" />
 
             <TextView
-                    android:id="@+id/wallpaper_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textColor="@android:color/white"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textSize="16sp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:clipToPadding="false"
-                    android:clipChildren="false"
-                    tools:text="Wallpaper name"/>
-
-            <TextView
-                    android:id="@+id/wallpaper_author"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textColor="@android:color/white"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textSize="12sp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:clipToPadding="false"
-                    android:clipChildren="false"
-                    android:visibility="gone"
-                    tools:text="John Doe"/>
+                android:id="@+id/wallpaper_author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@android:color/white"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textSize="12sp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:visibility="gone"
+                tools:text="John Doe" />
 
         </LinearLayout>
 
         <ImageView
-                android:id="@+id/heart_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="?selectableItemBackgroundBorderless"
-                android:visibility="gone"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                tools:ignore="ContentDescription"/>
+            android:id="@+id/heart_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?selectableItemBackgroundBorderless"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            tools:ignore="ContentDescription" />
 
     </LinearLayout>
 

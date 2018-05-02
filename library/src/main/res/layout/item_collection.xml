@@ -24,56 +24,56 @@
              android:foreground="?selectableItemBackground">
 
     <jahirfiquitiva.libs.kauextensions.ui.widgets.LandscapeImageView
-            android:id="@+id/collection_picture"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            app:heightDivider="@dimen/heightDivider"/>
+        android:id="@+id/collection_picture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        app:heightDivider="@dimen/heightDivider" />
 
     <LinearLayout
-            android:id="@+id/collection_details"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:layout_gravity="start|bottom"
-            android:gravity="start|bottom"
-            android:baselineAligned="false"
+        android:id="@+id/collection_details"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:layout_gravity="start|bottom"
+        android:gravity="start|bottom"
+        android:baselineAligned="false"
+        android:clipToPadding="false"
+        android:clipChildren="false">
+
+        <TextView
+            android:id="@+id/collection_title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/fabs_margin"
+            android:paddingRight="@dimen/fabs_margin"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textSize="16sp"
             android:clipToPadding="false"
-            android:clipChildren="false">
+            android:clipChildren="false"
+            tools:text="Material Design" />
 
         <TextView
-                android:id="@+id/collection_title"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:paddingLeft="@dimen/fabs_margin"
-                android:paddingRight="@dimen/fabs_margin"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textColor="@android:color/white"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textSize="16sp"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                tools:text="Material Design"/>
-
-        <TextView
-                android:id="@+id/collection_walls_number"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingLeft="@dimen/fabs_margin"
-                android:paddingRight="@dimen/fabs_margin"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                tools:text="10"/>
+            android:id="@+id/collection_walls_number"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/fabs_margin"
+            android:paddingRight="@dimen/fabs_margin"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            tools:text="10" />
 
     </LinearLayout>
 

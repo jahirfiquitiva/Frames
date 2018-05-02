@@ -6,27 +6,27 @@
         android:viewportHeight="24">
 
     <path
-            android:strokeColor="#000000"
-            android:strokeWidth="2"
-            android:strokeMiterLimit="3"
-            android:strokeLineCap="square"
-            android:pathData="M 12.004 1.508 L 15.52 5.003 L 20 5.003 C 20.552 5.003 21 5.451 21 6.003 L 21 20
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:strokeMiterLimit="3"
+        android:strokeLineCap="square"
+        android:pathData="M 12.004 1.508 L 15.52 5.003 L 20 5.003 C 20.552 5.003 21 5.451 21 6.003 L 21 20
 C 21 20.552 20.552 21 20 21 L 4 21 C 3.448 21 3 20.552 3 20 L 3 6 C 3 5.448
-3.448 5 4 5 L 8.508 5.003 L 12.004 1.508 Z"/>
+3.448 5 4 5 L 8.508 5.003 L 12.004 1.508 Z" />
     <path
-            android:fillColor="#000000"
-            android:strokeWidth="1"
-            android:pathData="M 18 8 L 18 8 L 18 18 L 18 18 Z"/>
+        android:fillColor="#000000"
+        android:strokeWidth="1"
+        android:pathData="M 18 8 L 18 8 L 18 18 L 18 18 Z" />
     <path
-            android:fillColor="#000000"
-            android:strokeColor="#000000"
-            android:strokeWidth="2"
-            android:strokeMiterLimit="3"
-            android:strokeLineCap="square"
-            android:pathData="M 15 16 L 9 10"/>
+        android:fillColor="#000000"
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:strokeMiterLimit="3"
+        android:strokeLineCap="square"
+        android:pathData="M 15 16 L 9 10" />
     <path
-            android:strokeColor="#000000"
-            android:strokeWidth="2"
-            android:strokeLineCap="square"
-            android:pathData="M 15 10 L 9 16"/>
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:strokeLineCap="square"
+        android:pathData="M 15 10 L 9 16" />
 </vector>

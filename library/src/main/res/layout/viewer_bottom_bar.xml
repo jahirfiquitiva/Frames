@@ -23,107 +23,107 @@
               android:background="@android:color/transparent">
 
     <LinearLayout
-            android:id="@+id/bottom_bar"
-            android:layout_width="match_parent"
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/cards_margin"
+        android:paddingBottom="@dimen/cards_margin"
+        android:paddingEnd="@dimen/cards_margin"
+        android:paddingStart="@dimen/cards_margin">
+
+        <RelativeLayout
+            android:id="@+id/info_container"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/gradient"
-            android:baselineAligned="false"
-            android:orientation="horizontal"
-            android:paddingTop="@dimen/cards_margin"
-            android:paddingBottom="@dimen/cards_margin"
-            android:paddingEnd="@dimen/cards_margin"
-            android:paddingStart="@dimen/cards_margin">
-
-        <RelativeLayout
-                android:id="@+id/info_container"
-                android:background="?selectableItemBackgroundBorderless"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clipChildren="false">
+            android:layout_weight="1"
+            android:clipChildren="false">
 
             <ImageView
-                    android:id="@+id/info_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="@dimen/cards_margin"
-                    android:layout_marginTop="@dimen/cards_margin"
-                    android:contentDescription="@string/info"
-                    android:padding="@dimen/cards_margin"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:clipChildren="false"
-                    app:srcCompat="@drawable/ic_info"/>
+                android:id="@+id/info_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/cards_margin"
+                android:layout_marginTop="@dimen/cards_margin"
+                android:contentDescription="@string/info"
+                android:padding="@dimen/cards_margin"
+                android:clickable="false"
+                android:focusable="false"
+                android:clipChildren="false"
+                app:srcCompat="@drawable/ic_info" />
 
         </RelativeLayout>
 
         <RelativeLayout
-                android:id="@+id/download_container"
-                android:background="?selectableItemBackgroundBorderless"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clipChildren="false">
+            android:id="@+id/download_container"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clipChildren="false">
 
             <ImageView
-                    android:id="@+id/download_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="@dimen/cards_margin"
-                    android:layout_marginTop="@dimen/cards_margin"
-                    android:contentDescription="@string/download"
-                    android:padding="@dimen/cards_margin"
-                    android:clickable="false"
-                    android:focusable="false"
-                    app:srcCompat="@drawable/ic_download"/>
+                android:id="@+id/download_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/cards_margin"
+                android:layout_marginTop="@dimen/cards_margin"
+                android:contentDescription="@string/download"
+                android:padding="@dimen/cards_margin"
+                android:clickable="false"
+                android:focusable="false"
+                app:srcCompat="@drawable/ic_download" />
 
         </RelativeLayout>
 
         <RelativeLayout
-                android:id="@+id/apply_container"
-                android:background="?selectableItemBackgroundBorderless"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clipChildren="false">
+            android:id="@+id/apply_container"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clipChildren="false">
 
             <ImageView
-                    android:id="@+id/apply_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="@dimen/cards_margin"
-                    android:layout_marginTop="@dimen/cards_margin"
-                    android:contentDescription="@string/apply"
-                    android:padding="@dimen/cards_margin"
-                    android:clickable="false"
-                    android:focusable="false"
-                    app:srcCompat="@drawable/ic_apply_wallpaper"/>
+                android:id="@+id/apply_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/cards_margin"
+                android:layout_marginTop="@dimen/cards_margin"
+                android:contentDescription="@string/apply"
+                android:padding="@dimen/cards_margin"
+                android:clickable="false"
+                android:focusable="false"
+                app:srcCompat="@drawable/ic_apply_wallpaper" />
 
         </RelativeLayout>
 
         <RelativeLayout
-                android:id="@+id/fav_container"
-                android:background="?selectableItemBackgroundBorderless"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clipChildren="false">
+            android:id="@+id/fav_container"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clipChildren="false">
 
             <ImageView
-                    android:id="@+id/fav_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="@dimen/cards_margin"
-                    android:layout_marginTop="@dimen/cards_margin"
-                    android:contentDescription="@string/favorite"
-                    android:padding="@dimen/cards_margin"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:clipChildren="false"/>
+                android:id="@+id/fav_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/cards_margin"
+                android:layout_marginTop="@dimen/cards_margin"
+                android:contentDescription="@string/favorite"
+                android:padding="@dimen/cards_margin"
+                android:clickable="false"
+                android:focusable="false"
+                android:clipChildren="false" />
 
         </RelativeLayout>
     </LinearLayout>

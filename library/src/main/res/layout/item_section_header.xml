@@ -15,66 +15,66 @@
   ~ limitations under the License.
   -->
 <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:clipToPadding="false"
-        android:clipChildren="false">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:clipToPadding="false"
+    android:clipChildren="false">
 
     <View
-            android:id="@+id/section_divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:visibility="gone"
-            android:clipToPadding="false"/>
+        android:id="@+id/section_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:visibility="gone"
+        android:clipToPadding="false" />
 
     <LinearLayout
-            android:id="@+id/section_title_container"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:minHeight="48dp"
-            android:maxHeight="48dp"
-            android:paddingStart="@dimen/fabs_margin"
-            android:paddingLeft="@dimen/fabs_margin"
-            android:paddingEnd="@dimen/fabs_margin"
-            android:paddingRight="@dimen/fabs_margin"
-            android:layout_gravity="center"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:baselineAligned="false"
-            android:clipToPadding="false"
-            android:clipChildren="false"
-            tools:ignore="UseCompoundDrawables">
+        android:id="@+id/section_title_container"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:minHeight="48dp"
+        android:maxHeight="48dp"
+        android:paddingStart="@dimen/fabs_margin"
+        android:paddingLeft="@dimen/fabs_margin"
+        android:paddingEnd="@dimen/fabs_margin"
+        android:paddingRight="@dimen/fabs_margin"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:baselineAligned="false"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        tools:ignore="UseCompoundDrawables">
 
         <TextView
-                android:id="@+id/section_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:layout_gravity="center"
-                android:gravity="center_vertical"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                tools:text="Section Header Title"/>
+            android:id="@+id/section_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            tools:text="Section Header Title" />
 
         <ImageView
-                android:id="@+id/section_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackgroundBorderless"
-                android:layout_gravity="center"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                app:srcCompat="@drawable/ic_section_expand"
-                tools:ignore="ContentDescription"/>
+            android:id="@+id/section_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_gravity="center"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            app:srcCompat="@drawable/ic_section_expand"
+            tools:ignore="ContentDescription" />
 
     </LinearLayout>
 

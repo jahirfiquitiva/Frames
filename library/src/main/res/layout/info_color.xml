@@ -15,25 +15,25 @@
   ~ limitations under the License.
   -->
 <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:clipChildren="false"
-        android:paddingLeft="@dimen/fabs_margin"
-        android:paddingStart="@dimen/fabs_margin"
-        android:paddingTop="@dimen/cards_small_margin"
-        android:paddingBottom="@dimen/cards_margin"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
-        tools:ignore="RtlSymmetry">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    android:paddingLeft="@dimen/fabs_margin"
+    android:paddingStart="@dimen/fabs_margin"
+    android:paddingTop="@dimen/cards_small_margin"
+    android:paddingBottom="@dimen/cards_margin"
+    android:layout_gravity="center_vertical"
+    android:gravity="center_vertical"
+    tools:ignore="RtlSymmetry">
 
     <com.robertlevonyan.views.chip.Chip
-            android:id="@+id/info_palette_color"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:foreground="?selectableItemBackground"/>
+        android:id="@+id/info_palette_color"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:foreground="?selectableItemBackground" />
 
 </LinearLayout>
