@@ -202,7 +202,11 @@ open class CollectionActivity : ActivityWFragments<FramesKonfigs>() {
             } catch (ignored: Exception) {
             }
             setResult(11, intent)
-            supportFinishAfterTransition()
+            try {
+                supportFinishAfterTransition()
+            } catch (e: Exception) {
+                finish()
+            }
         }
     }
     

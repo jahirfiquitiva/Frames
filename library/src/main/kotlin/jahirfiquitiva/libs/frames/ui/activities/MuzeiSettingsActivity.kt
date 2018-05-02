@@ -279,7 +279,11 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
         val intent = Intent(this, FramesArtSource::class.java)
         intent.putExtra("restart", true)
         startService(intent)
-        supportFinishAfterTransition()
+        try {
+            supportFinishAfterTransition()
+        } catch (e: Exception) {
+            finish()
+        }
     }
     
     private fun destroyDialog() {

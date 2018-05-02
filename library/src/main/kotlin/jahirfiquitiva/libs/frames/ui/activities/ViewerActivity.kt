@@ -330,7 +330,11 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
                     intent.putExtra("inFavorites", isInFavorites)
                 }
                 setResult(10, intent)
-                supportFinishAfterTransition()
+                try {
+                    supportFinishAfterTransition()
+                } catch (e: Exception) {
+                    finish()
+                }
                 overridePendingTransition(0, 0)
             })
         }

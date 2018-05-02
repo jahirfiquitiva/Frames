@@ -153,7 +153,11 @@ open class SettingsActivity : ActivityWFragments<FramesKonfigs>(),
         } catch (ignored: Exception) {
         }
         clearDialog()
-        supportFinishAfterTransition()
+        try {
+            supportFinishAfterTransition()
+        } catch (e: Exception) {
+            finish()
+        }
     }
     
     override fun onFolderChooserDismissed(dialog: FolderChooserDialog) {}
