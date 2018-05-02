@@ -40,7 +40,7 @@ ext.versions = [
         okhttp               : '3.10.0',
         kauExt               : '845effc',
         sectionedRecyclerView: '7e9908b',
-        rvFastScroll         : '887726e',
+        rvFastScroll         : '09e2079',
         chips                : 'b036a10',
         iaps                 : '1.0.44',
         muzeiApi             : '2.0',
