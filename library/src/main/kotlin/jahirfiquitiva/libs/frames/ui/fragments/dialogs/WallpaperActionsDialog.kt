@@ -357,7 +357,7 @@ class WallpaperActionsDialog : DialogFragment() {
                 }
         
         fun show(context: FragmentActivity, wallpaper: Wallpaper, destFile: File) {
-            create(context, wallpaper, destFile).show(context.supportFragmentManager, TAG)
+            create(context, wallpaper, destFile).show(context)
         }
         
         fun create(
@@ -388,8 +388,7 @@ class WallpaperActionsDialog : DialogFragment() {
                 whatTo: Array<Boolean>
                 ) {
             if (whatTo.size < 4) return
-            create(context, wallpaper, destFile, null, whatTo)
-                    .show(context.supportFragmentManager, TAG)
+            create(context, wallpaper, destFile, null, whatTo).show(context)
         }
         
         fun show(
@@ -399,24 +398,32 @@ class WallpaperActionsDialog : DialogFragment() {
                 whatTo: Array<Boolean>
                 ) {
             if (whatTo.size < 4) return
-            create(context, wallpaper, destBitmap, whatTo)
-                    .show(context.supportFragmentManager, TAG)
+            create(context, wallpaper, destBitmap, whatTo).show(context)
         }
     }
     
     fun show(activity: FragmentActivity) {
+        dismiss(activity)
         show(activity.supportFragmentManager, TAG)
     }
     
     fun dismiss(activity: FragmentActivity) {
         try {
             val frag = activity.supportFragmentManager.findFragmentByTag(TAG)
-            if (frag != null) (frag as? WallpaperActionsDialog)?.dismiss()
+            (frag as? WallpaperActionsDialog)?.internalDismiss()
         } catch (ignored: Exception) {
         }
+        internalDismiss()
+    }
+    
+    private fun internalDismiss() {
         try {
             dismiss()
         } catch (ignored: Exception) {
+            try {
+                dismissAllowingStateLoss()
+            } catch (ignored: Exception) {
+            }
         }
     }
     
