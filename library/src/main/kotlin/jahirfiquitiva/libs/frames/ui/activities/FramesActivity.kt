@@ -338,7 +338,7 @@ abstract class FramesActivity : BaseFramesActivity() {
                 try {
                     (it as? BaseFramesFragment<*, *>)?.let {
                         with(it) {
-                            getDatabase()?.let { favoritesModel?.forceUpdateFavorites(it, list) }
+                            getDatabase()?.let { favoritesModel.forceUpdateFavorites(it, list) }
                         }
                     }
                 } catch (ignored: Exception) {

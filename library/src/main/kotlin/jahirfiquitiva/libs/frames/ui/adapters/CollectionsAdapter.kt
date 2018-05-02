@@ -41,7 +41,7 @@ class CollectionsAdapter(
     override fun doBind(holder: CollectionHolder, position: Int, shouldAnimate: Boolean) =
             holder.setItem(manager, provider, list[position], listener)
     
-    override fun doCreateVH(parent: ViewGroup, viewType: Int): CollectionHolder =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionHolder =
             CollectionHolder(
                     parent.inflate(
                             if (filledCollectionPreview) R.layout.item_collection_filled

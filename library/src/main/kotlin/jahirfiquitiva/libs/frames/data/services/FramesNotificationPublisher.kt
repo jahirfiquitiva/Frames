@@ -23,7 +23,7 @@ import android.media.RingtoneManager
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
+import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
 
@@ -41,7 +41,7 @@ class FramesNotificationPublisher(
     
     fun post() {
         context?.let {
-            val notificationsEnabled = it.framesKonfigs.notificationsEnabled
+            val notificationsEnabled = FramesKonfigs(it).notificationsEnabled
             if (!notificationsEnabled) return
             if (data != null && data.isNotEmpty()) {
                 var postedNewWallsNotification = false

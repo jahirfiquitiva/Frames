@@ -22,6 +22,7 @@ import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.bumptech.glide.RequestManager
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.helpers.extensions.jfilter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.DashboardCreditViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SectionedHeaderViewHolder
@@ -33,6 +34,22 @@ class CreditsAdapter(
         private val credits: ArrayList<Credit>
                     ) :
         SectionedRecyclerViewAdapter<SectionedViewHolder>() {
+    
+    private val creatorCredits: ArrayList<Credit> by lazy {
+        credits.jfilter { it.type == Credit.Type.CREATOR }
+    }
+    
+    private val dashboardCredits: ArrayList<Credit> by lazy {
+        credits.jfilter { it.type == Credit.Type.DASHBOARD }
+    }
+    
+    private val devCredits: ArrayList<Credit> by lazy {
+        credits.jfilter { it.type == Credit.Type.DEV_CONTRIBUTION }
+    }
+    
+    private val uiCredits: ArrayList<Credit> by lazy {
+        credits.jfilter { it.type == Credit.Type.UI_CONTRIBUTION }
+    }
     
     init {
         shouldShowHeadersForEmptySections(false)
@@ -53,18 +70,10 @@ class CreditsAdapter(
         holder?.let {
             if (it is DashboardCreditViewHolder) {
                 when (section) {
-                    0 -> it.setItem(
-                            manager,
-                            credits.filter { it.type == Credit.Type.CREATOR }[relativePosition])
-                    1 -> it.setItem(
-                            manager,
-                            credits.filter { it.type == Credit.Type.DASHBOARD }[relativePosition])
-                    2 -> it.setItem(
-                            manager,
-                            credits.filter { it.type == Credit.Type.DEV_CONTRIBUTION }[relativePosition])
-                    3 -> it.setItem(
-                            manager,
-                            credits.filter { it.type == Credit.Type.UI_CONTRIBUTION }[relativePosition])
+                    0 -> it.setItem(manager, creatorCredits[relativePosition])
+                    1 -> it.setItem(manager, dashboardCredits[relativePosition])
+                    2 -> it.setItem(manager, devCredits[relativePosition])
+                    3 -> it.setItem(manager, uiCredits[relativePosition])
                 }
             }
         }
@@ -77,10 +86,10 @@ class CreditsAdapter(
     
     override fun getItemCount(section: Int): Int =
             when (section) {
-                0 -> credits.filter { it.type == Credit.Type.CREATOR }.size
-                1 -> credits.filter { it.type == Credit.Type.DASHBOARD }.size
-                2 -> credits.filter { it.type == Credit.Type.DEV_CONTRIBUTION }.size
-                3 -> credits.filter { it.type == Credit.Type.UI_CONTRIBUTION }.size
+                0 -> creatorCredits.size
+                1 -> dashboardCredits.size
+                2 -> devCredits.size
+                3 -> uiCredits.size
                 else -> 0
             }
     
@@ -102,13 +111,11 @@ class CreditsAdapter(
         }
     }
     
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SectionedViewHolder? =
-            parent?.let {
-                when (viewType) {
-                    0, 1 -> DashboardCreditViewHolder(it.inflate(R.layout.item_credits))
-                    2, 3 -> SimpleCreditViewHolder(it.inflate(R.layout.item_credits))
-                    else -> SectionedHeaderViewHolder(it.inflate(R.layout.item_section_header))
-                }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectionedViewHolder =
+            when (viewType) {
+                0, 1 -> DashboardCreditViewHolder(parent.inflate(R.layout.item_credits))
+                2, 3 -> SimpleCreditViewHolder(parent.inflate(R.layout.item_credits))
+                else -> SectionedHeaderViewHolder(parent.inflate(R.layout.item_section_header))
             }
     
     override fun onBindFooterViewHolder(holder: SectionedViewHolder?, section: Int) {}

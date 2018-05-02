@@ -30,9 +30,9 @@ import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
-import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.FL
+import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.REQUEST_CODE
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsDialog
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
@@ -43,13 +43,14 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 
-abstract class BaseWallpaperActionsActivity : ActivityWFragments() {
+abstract class BaseWallpaperActionsActivity : ActivityWFragments<FramesKonfigs>() {
     
     companion object {
         const val DOWNLOAD_ACTION_ID = 1
         const val APPLY_ACTION_ID = 2
     }
     
+    override val configs: FramesKonfigs by lazy { FramesKonfigs(this) }
     private var actionDialog: MaterialDialog? = null
     internal var wallActions: WallpaperActionsDialog? = null
     
@@ -121,7 +122,7 @@ abstract class BaseWallpaperActionsActivity : ActivityWFragments() {
     private fun checkIfFileExists(toApply: Boolean) {
         wallpaper?.let {
             properlyCancelDialog()
-            val folder = File(framesKonfigs.downloadsFolder)
+            val folder = File(configs.downloadsFolder)
             folder.mkdirs()
             val extension = it.url.substring(it.url.lastIndexOf("."))
             var correctExtension = getWallpaperExtension(extension)

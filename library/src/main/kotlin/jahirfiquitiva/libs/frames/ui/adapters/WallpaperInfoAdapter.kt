@@ -21,6 +21,7 @@ import ca.allanwang.kau.utils.inflate
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.helpers.extensions.jfilter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SectionedHeaderViewHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperInfoHolder
@@ -36,7 +37,7 @@ class WallpaperInfoAdapter(private val colorListener: (Int) -> Unit) :
     fun setDetailsAndPalette(details: ArrayList<WallpaperDetail>, palette: Palette?) {
         if (details.size > 0) {
             this.details.clear()
-            details.filter { it.value.hasContent() }.forEach { this.details.add(it) }
+            this.details.addAll(details.jfilter { it.value.hasContent() })
         }
         colors.clear()
         palette?.let {
@@ -92,13 +93,11 @@ class WallpaperInfoAdapter(private val colorListener: (Int) -> Unit) :
                 false, false)
     }
     
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SectionedViewHolder? =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectionedViewHolder =
             when (viewType) {
-                0 -> parent?.inflate(R.layout.info_item)?.let { WallpaperInfoHolder(it) }
-                1 -> parent?.inflate(R.layout.info_color)?.let { WallpaperPaletteHolder(it) }
-                else -> parent?.inflate(R.layout.item_section_header)?.let {
-                    SectionedHeaderViewHolder(it)
-                }
+                0 -> WallpaperInfoHolder(parent.inflate(R.layout.info_item))
+                1 -> WallpaperPaletteHolder(parent.inflate(R.layout.info_color))
+                else -> SectionedHeaderViewHolder(parent.inflate(R.layout.item_section_header))
             }
     
     override fun onBindFooterViewHolder(holder: SectionedViewHolder?, section: Int) {}

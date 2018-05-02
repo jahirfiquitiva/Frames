@@ -17,6 +17,7 @@ package jahirfiquitiva.libs.frames.ui.fragments
 
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.helpers.extensions.jfilter
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 
@@ -31,11 +32,9 @@ class WallpapersInCollectionFragment : BaseWallpapersFragment() {
     private fun getWallpapersInCollection(all: ArrayList<Wallpaper>): ArrayList<Wallpaper> {
         collection?.let {
             val collectionName = it.name
-            return ArrayList(
-                    all.filter {
-                        it.collections.formatCorrectly().replace("_", " ").contains(
-                                collectionName, true)
-                    })
+            return all.jfilter {
+                it.collections.formatCorrectly().replace("_", " ").contains(collectionName, true)
+            }
         }
         return ArrayList()
     }
@@ -58,7 +57,7 @@ class WallpapersInCollectionFragment : BaseWallpapersFragment() {
     
     override fun loadDataFromViewModel() {
         super.loadDataFromViewModel()
-        wallpapersModel?.postResult(wallpapers)
+        wallpapersModel.postResult(wallpapers)
     }
     
     companion object {

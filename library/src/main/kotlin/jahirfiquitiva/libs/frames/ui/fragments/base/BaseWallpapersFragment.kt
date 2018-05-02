@@ -36,7 +36,8 @@ import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
+import jahirfiquitiva.libs.frames.helpers.extensions.configs
+import jahirfiquitiva.libs.frames.helpers.extensions.jfilter
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPictureRes
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
 import jahirfiquitiva.libs.frames.helpers.utils.MAX_WALLPAPERS_LOAD
@@ -165,15 +166,15 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     
     fun configureRVColumns() {
         ctxt {
-            if (it.framesKonfigs.columns != spanCount) {
+            if (configs.columns != spanCount) {
                 recyclerView?.removeItemDecoration(spacingDecoration)
-                val columns = ctxt.framesKonfigs.columns
-                spanCount = if (ctxt.isInHorizontalMode) ((columns * 1.5).toInt()) else columns
+                val columns = configs.columns
+                spanCount = if (it.isInHorizontalMode) ((columns * 1.5).toInt()) else columns
                 recyclerView?.layoutManager = GridLayoutManager(
                         context, spanCount,
                         GridLayoutManager.VERTICAL, false)
                 spacingDecoration = GridSpacingItemDecoration(
-                        spanCount, ctxt.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
+                        spanCount, it.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
                 recyclerView?.addItemDecoration(spacingDecoration)
             }
         }
@@ -218,13 +219,13 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     
     override fun applyFilter(filter: String) {
         val list = ArrayList(
-                if (fromFavorites()) favoritesModel?.getData().orEmpty()
-                else wallpapersModel?.getData().orEmpty())
+                if (fromFavorites()) favoritesModel.getData().orEmpty()
+                else wallpapersModel.getData().orEmpty())
         
         if (filter.hasContent()) {
             recyclerView?.setEmptyImage(R.drawable.no_results)
             recyclerView?.setEmptyText(R.string.search_no_results)
-            wallsAdapter.setItems(ArrayList(list.filter { filteredWallpaper(it, filter) }))
+            wallsAdapter.setItems(list.jfilter { filteredWallpaper(it, filter) })
         } else {
             recyclerView?.setEmptyImage(
                     if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
@@ -236,19 +237,15 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     }
     
     private fun filteredWallpaper(wallpaper: Wallpaper, filter: String): Boolean {
-        var toReturn = false
-        ctxt {
-            toReturn = if (it.framesKonfigs.deepSearchEnabled) {
-                wallpaper.name.contains(filter, true) ||
-                        wallpaper.author.contains(filter, true) ||
-                        (!fromCollectionActivity() &&
-                                wallpaper.collections.formatCorrectly().replace("_", " ")
-                                        .contains(filter, true))
-            } else {
-                wallpaper.name.contains(filter, true)
-            }
+        return if (configs.deepSearchEnabled) {
+            wallpaper.name.contains(filter, true) ||
+                    wallpaper.author.contains(filter, true) ||
+                    (!fromCollectionActivity() &&
+                            wallpaper.collections.formatCorrectly().replace("_", " ")
+                                    .contains(filter, true))
+        } else {
+            wallpaper.name.contains(filter, true)
         }
-        return toReturn
     }
     
     private var canClick = true
@@ -264,7 +261,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             
             with(intent) {
                 putExtra("wallpaper", wallpaper)
-                putExtra("inFavorites", favoritesModel?.isInFavorites(wallpaper) == true)
+                putExtra("inFavorites", favoritesModel.isInFavorites(wallpaper))
                 putExtra("showFavoritesButton", showFavoritesIcon())
                 putExtra("imgTransition", imgTransition)
                 putExtra("nameTransition", nameTransition)
@@ -291,12 +288,13 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             val authorPair = Pair<View, String>(holder.author, authorTransition)
             val heartPair = Pair<View, String>(holder.heartIcon, heartTransition)
             val options =
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            actv, imgPair, namePair,
-                            authorPair, heartPair)
+                    activity?.let {
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                it, imgPair, namePair, authorPair, heartPair)
+                    }
             
             try {
-                startActivityForResult(intent, 10, options.toBundle())
+                startActivityForResult(intent, 10, options?.toBundle())
             } catch (ignored: Exception) {
                 startActivityForResult(intent, 10)
             }

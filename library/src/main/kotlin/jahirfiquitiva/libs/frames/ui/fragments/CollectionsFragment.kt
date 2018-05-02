@@ -30,6 +30,7 @@ import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.helpers.extensions.jfilter
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
 import jahirfiquitiva.libs.frames.helpers.utils.MAX_COLLECTIONS_LOAD
 import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
@@ -170,13 +171,13 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     }
     
     override fun applyFilter(filter: String) {
-        val list = ArrayList(collectionsModel?.getData().orEmpty())
+        val list = ArrayList(collectionsModel.getData().orEmpty())
         if (list.isEmpty()) return
         
         if (filter.hasContent()) {
             recyclerView?.setEmptyImage(R.drawable.no_results)
             recyclerView?.setEmptyText(R.string.search_no_results)
-            collsAdapter.setItems(ArrayList(list.filter { it.name.contains(filter, true) }))
+            collsAdapter.setItems(list.jfilter { it.name.contains(filter, true) })
         } else {
             recyclerView?.setEmptyImage(R.drawable.empty_section)
             recyclerView?.setEmptyText(R.string.empty_section)
@@ -202,8 +203,8 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     }
     
     fun forceCollectionsLoad() {
-        wallpapersModel?.getData()?.let {
-            collectionsModel?.loadData(ArrayList(it), true)
+        wallpapersModel.getData()?.let {
+            collectionsModel.loadData(ArrayList(it), true)
         }
     }
     

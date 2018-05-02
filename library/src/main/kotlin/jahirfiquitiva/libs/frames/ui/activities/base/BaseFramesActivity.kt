@@ -37,7 +37,6 @@ import com.github.javiersantos.piracychecker.enums.PirateApp
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
-import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.ADW_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.APPLY_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.ICONS_APPLIER
@@ -134,7 +133,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     
     private fun startLicenseCheck(force: Boolean = false) {
         val update = isUpdate
-        if (update || !framesKonfigs.functionalDashboard || force) {
+        if (update || !configs.functionalDashboard || force) {
             checker = getLicenseChecker()
             checker?.let {
                 with(it) {
@@ -153,7 +152,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
                     start()
                 }
             } ?: {
-                framesKonfigs.functionalDashboard = true
+                configs.functionalDashboard = true
                 if (update) showChangelog(R.xml.changelog, secondaryTextColor)
             }()
         }
@@ -196,7 +195,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     
     internal fun showLicensedSnack(update: Boolean, force: Boolean = false) {
         destroyDialog()
-        framesKonfigs.functionalDashboard = true
+        configs.functionalDashboard = true
         if (!update || force) {
             showSnackbar(
                     getString(R.string.license_valid_snack, getAppName()),
@@ -208,7 +207,7 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     
     internal fun showNotLicensedDialog(pirateApp: PirateApp?) {
         destroyDialog()
-        framesKonfigs.functionalDashboard = false
+        configs.functionalDashboard = false
         val pirateAppName = pirateApp?.name ?: ""
         val content = if (pirateAppName.hasContent()) {
             getString(
@@ -223,21 +222,21 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
             positiveText(android.R.string.ok)
             neutralText(R.string.download)
             onPositive { _, _ ->
-                framesKonfigs.functionalDashboard = false
+                configs.functionalDashboard = false
                 finish()
             }
             onNeutral { _, _ ->
-                framesKonfigs.functionalDashboard = false
+                configs.functionalDashboard = false
                 startLink(PLAY_STORE_LINK_PREFIX + packageName)
                 finish()
             }
         }
         dialog?.setOnDismissListener {
-            framesKonfigs.functionalDashboard = false
+            configs.functionalDashboard = false
             finish()
         }
         dialog?.setOnCancelListener {
-            framesKonfigs.functionalDashboard = false
+            configs.functionalDashboard = false
             finish()
         }
         dialog?.show()
@@ -245,27 +244,27 @@ abstract class BaseFramesActivity : BaseWallpaperActionsActivity(),
     
     internal fun showLicenseErrorDialog() {
         destroyDialog()
-        framesKonfigs.functionalDashboard = false
+        configs.functionalDashboard = false
         dialog = buildMaterialDialog {
             title(R.string.error_title)
             content(R.string.license_error_content)
             positiveText(android.R.string.ok)
             neutralText(R.string.try_now)
             onPositive { _, _ ->
-                framesKonfigs.functionalDashboard = false
+                configs.functionalDashboard = false
                 finish()
             }
             onNeutral { _, _ ->
-                framesKonfigs.functionalDashboard = false
+                configs.functionalDashboard = false
                 startLicenseCheck(true)
             }
         }
         dialog?.setOnDismissListener {
-            framesKonfigs.functionalDashboard = false
+            configs.functionalDashboard = false
             finish()
         }
         dialog?.setOnCancelListener {
-            framesKonfigs.functionalDashboard = false
+            configs.functionalDashboard = false
             finish()
         }
         dialog?.show()

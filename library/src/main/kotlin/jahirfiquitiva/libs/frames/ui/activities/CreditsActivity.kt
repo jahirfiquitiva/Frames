@@ -32,6 +32,7 @@ import de.psdev.licensesdialog.LicensesDialog
 import de.psdev.licensesdialog.licenses.License
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.FL
+import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.ui.adapters.CreditsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.Credit
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
@@ -47,8 +48,9 @@ import jahirfiquitiva.libs.kauextensions.extensions.stringArray
 import jahirfiquitiva.libs.kauextensions.extensions.tint
 import jahirfiquitiva.libs.kauextensions.ui.activities.ThemedActivity
 
-open class CreditsActivity : ThemedActivity() {
+open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
     
+    override val configs: FramesKonfigs by lazy { FramesKonfigs(this) }
     override fun lightTheme(): Int = R.style.Frames_LightTheme
     override fun darkTheme(): Int = R.style.Frames_DarkTheme
     override fun transparentTheme(): Int = R.style.Frames_TransparentTheme

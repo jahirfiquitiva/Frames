@@ -37,7 +37,7 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.services.FramesArtSource
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
-import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
+import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.providers.viewmodels.CollectionsViewModel
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
@@ -54,13 +54,14 @@ import jahirfiquitiva.libs.kauextensions.ui.activities.ThemedActivity
 import org.jetbrains.anko.collections.forEachWithIndex
 import java.util.Locale
 
-class MuzeiSettingsActivity : ThemedActivity() {
+class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
     companion object {
         private const val SEEKBAR_STEPS = 1
         private const val SEEKBAR_MAX_VALUE = 13
         private const val SEEKBAR_MIN_VALUE = 0
     }
     
+    override val configs: FramesKonfigs by lazy { FramesKonfigs(this) }
     override fun lightTheme(): Int = R.style.Frames_LightTheme
     override fun darkTheme(): Int = R.style.Frames_DarkTheme
     override fun amoledTheme(): Int = R.style.Frames_AmoledTheme
@@ -88,7 +89,7 @@ class MuzeiSettingsActivity : ThemedActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_muzei_settings)
         
-        selectedCollections = framesKonfigs.muzeiCollections
+        selectedCollections = configs.muzeiCollections
         
         val toolbar by bind<CustomToolbar>(R.id.toolbar)
         toolbar?.bindToActivity(this)
@@ -106,9 +107,9 @@ class MuzeiSettingsActivity : ThemedActivity() {
         everySummary?.setTextColor(secondaryTextColor)
         everySummary?.text = getString(
                 R.string.every_x, textFromProgress(
-                framesKonfigs.muzeiRefreshInterval).toLowerCase(Locale.getDefault()))
+                configs.muzeiRefreshInterval).toLowerCase(Locale.getDefault()))
         
-        seekBar?.progress = framesKonfigs.muzeiRefreshInterval
+        seekBar?.progress = configs.muzeiRefreshInterval
         seekBar?.incrementProgressBy(SEEKBAR_STEPS)
         seekBar?.max = (SEEKBAR_MAX_VALUE - SEEKBAR_MIN_VALUE) / SEEKBAR_STEPS
         
@@ -124,7 +125,7 @@ class MuzeiSettingsActivity : ThemedActivity() {
         findViewById<TextView>(R.id.wifi_only_title).setTextColor(primaryTextColor)
         findViewById<TextView>(R.id.wifi_only_summary).setTextColor(secondaryTextColor)
         
-        checkBox?.isChecked = framesKonfigs.refreshMuzeiOnWiFiOnly
+        checkBox?.isChecked = configs.refreshMuzeiOnWiFiOnly
         
         findViewById<LinearLayout>(R.id.wifi_only).setOnClickListener {
             checkBox?.toggle()
@@ -182,9 +183,9 @@ class MuzeiSettingsActivity : ThemedActivity() {
     override fun onBackPressed() = doFinish()
     
     private fun saveChanges() {
-        framesKonfigs.muzeiRefreshInterval = seekBar?.progress ?: 10
-        framesKonfigs.refreshMuzeiOnWiFiOnly = checkBox?.isChecked ?: false
-        framesKonfigs.muzeiCollections = selectedCollections
+        configs.muzeiRefreshInterval = seekBar?.progress ?: 10
+        configs.refreshMuzeiOnWiFiOnly = checkBox?.isChecked ?: false
+        configs.muzeiCollections = selectedCollections
     }
     
     private fun showNotConnectedDialog() {

@@ -15,9 +15,9 @@
  */
 package jahirfiquitiva.libs.frames.ui.fragments.base
 
-import android.arch.lifecycle.ViewModelProviders
 import android.arch.persistence.room.Room
 import android.graphics.Color
+import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.ColorInt
 import android.support.design.widget.Snackbar
@@ -28,6 +28,7 @@ import android.view.animation.ScaleAnimation
 import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.utils.boolean
+import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
 import jahirfiquitiva.libs.archhelpers.ui.fragments.ViewModelFragment
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
@@ -53,7 +54,7 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> : Vie
     }
     
     internal var database: FavoritesDatabase? = null
-    internal var favoritesModel: FavoritesViewModel? = null
+    internal val favoritesModel: FavoritesViewModel by lazyViewModel()
     
     internal var snack: Snackbar? = null
     
@@ -67,32 +68,24 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> : Vie
         }
     }
     
-    override fun initViewModel() {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         initDatabase()
-        initFavoritesViewModel()
     }
     
-    private fun initFavoritesViewModel() {
-        actv {
-            if (it.boolean(R.bool.isFrames) && database == null) initDatabase()
-            favoritesModel = ViewModelProviders.of(it).get(FavoritesViewModel::class.java)
-        }
-    }
-    
-    override fun registerObserver() {
-        favoritesModel?.observe(this) {
+    override fun registerObservers() {
+        favoritesModel.observe(this) {
             doOnFavoritesChange(ArrayList(it))
         }
     }
     
     override fun loadDataFromViewModel() {
-        initFavoritesViewModel()
-        getDatabase()?.let { favoritesModel?.loadData(it, true) }
+        getDatabase()?.let { favoritesModel.loadData(it, true) }
     }
     
     @CallSuper
-    override fun unregisterObserver() {
-        favoritesModel?.destroy(this)
+    override fun unregisterObservers() {
+        favoritesModel.destroy(this)
     }
     
     internal fun onHeartClicked(heart: ImageView, item: Wallpaper, @ColorInt color: Int) =
@@ -103,17 +96,16 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> : Vie
     
     internal fun getDatabase(): FavoritesDao? = database?.favoritesDao()
     
-    internal fun isInFavorites(item: Wallpaper): Boolean =
-            favoritesModel?.isInFavorites(item) == true
+    internal fun isInFavorites(item: Wallpaper): Boolean = favoritesModel.isInFavorites(item)
     
     internal fun addToFavorites(item: Wallpaper) =
             getDatabase()?.let {
-                favoritesModel?.addToFavorites(it, item, { showErrorSnackbar() })
+                favoritesModel.addToFavorites(it, item, { showErrorSnackbar() })
             } ?: showErrorSnackbar()
     
     internal fun removeFromFavorites(item: Wallpaper) =
             getDatabase()?.let {
-                favoritesModel?.removeFromFavorites(it, item, { showErrorSnackbar() })
+                favoritesModel.removeFromFavorites(it, item, { showErrorSnackbar() })
             } ?: showErrorSnackbar()
     
     abstract fun onItemClicked(item: T, holder: VH)

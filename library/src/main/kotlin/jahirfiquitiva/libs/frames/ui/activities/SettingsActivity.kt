@@ -27,7 +27,7 @@ import ca.allanwang.kau.utils.snackbar
 import ca.allanwang.kau.utils.startLink
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
+import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.ui.fragments.SettingsFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.kauextensions.extensions.bind
@@ -40,8 +40,10 @@ import jahirfiquitiva.libs.kauextensions.extensions.tint
 import jahirfiquitiva.libs.kauextensions.ui.activities.ActivityWFragments
 import java.io.File
 
-open class SettingsActivity : ActivityWFragments(), FolderChooserDialog.FolderCallback {
+open class SettingsActivity : ActivityWFragments<FramesKonfigs>(),
+                              FolderChooserDialog.FolderCallback {
     
+    override val configs: FramesKonfigs by lazy { FramesKonfigs(this) }
     override fun lightTheme(): Int = R.style.Frames_LightTheme
     override fun darkTheme(): Int = R.style.Frames_DarkTheme
     override fun amoledTheme(): Int = R.style.Frames_AmoledTheme
@@ -131,7 +133,7 @@ open class SettingsActivity : ActivityWFragments(), FolderChooserDialog.FolderCa
         clearDialog()
         locationChooserDialog = FolderChooserDialog.Builder(this)
                 .chooseButton(R.string.choose_folder)
-                .initialPath(framesKonfigs.downloadsFolder)
+                .initialPath(configs.downloadsFolder)
                 .allowNewFolder(true, R.string.create_folder)
                 .build()
         locationChooserDialog?.show(this)
@@ -157,7 +159,7 @@ open class SettingsActivity : ActivityWFragments(), FolderChooserDialog.FolderCa
     override fun onFolderChooserDismissed(dialog: FolderChooserDialog) {}
     
     override fun onFolderSelection(dialog: FolderChooserDialog, folder: File) {
-        framesKonfigs.downloadsFolder = folder.absolutePath
+        configs.downloadsFolder = folder.absolutePath
         (fragment as? SettingsFragment)?.updateDownloadLocation()
     }
 }
