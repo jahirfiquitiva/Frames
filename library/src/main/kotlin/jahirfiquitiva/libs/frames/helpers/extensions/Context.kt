@@ -24,18 +24,28 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.support.v4.app.Fragment
 import ca.allanwang.kau.utils.darken
 import ca.allanwang.kau.utils.lighten
 import com.afollestad.materialdialogs.MaterialDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
+import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 import jahirfiquitiva.libs.kauextensions.extensions.deleteEverything
 import jahirfiquitiva.libs.kauextensions.extensions.extractColor
 import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
 import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
 import jahirfiquitiva.libs.kauextensions.extensions.usesDarkTheme
+import jahirfiquitiva.libs.kauextensions.ui.activities.ThemedActivity
 import java.io.File
+
+@Suppress("DEPRECATION", "UNCHECKED_CAST")
+internal val Fragment.configs: FramesKonfigs
+    get() = (activity as? ThemedActivity<FramesKonfigs>)?.configs
+            ?: activity?.let { FramesKonfigs(it) }
+            ?: context?.let { FramesKonfigs(it) }
+            ?: FramesKonfigs(ctxt)
 
 val Context.backgroundColor: Int
     @SuppressLint("PrivateResource")
@@ -81,9 +91,6 @@ fun Context.openWallpaper(uri: Uri) {
 fun Context.createHeartIcon(checked: Boolean): Drawable? =
         getDrawable(if (checked) "ic_heart" else "ic_heart_outline")
 
-val Context.framesKonfigs: FramesKonfigs
-    get() = FramesKonfigs(this)
-
 inline fun Context.buildMaterialDialog(action: MaterialDialog.Builder.() -> Unit = {}): MaterialDialog {
     val builder = MaterialDialog.Builder(this)
     builder.action()
@@ -127,7 +134,7 @@ fun Context.clearDataAndCache() {
         }
     }
     clearCache()
-    framesKonfigs.downloadsFolder = getString(
+    FramesKonfigs(this).downloadsFolder = getString(
             R.string.default_download_folder,
             Environment.getExternalStorageDirectory().absolutePath)
 }

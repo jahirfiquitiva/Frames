@@ -30,6 +30,7 @@ import ca.allanwang.kau.xml.showChangelog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.FL
+import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.ui.fragments.CollectionsFragment
 import jahirfiquitiva.libs.frames.ui.fragments.FavoritesFragment
@@ -50,7 +51,9 @@ import jahirfiquitiva.libs.kauextensions.ui.fragments.adapters.FragmentsPagerAda
 import jahirfiquitiva.libs.kauextensions.ui.layouts.CustomTabLayout
 import jahirfiquitiva.libs.kauextensions.ui.widgets.CustomSearchView
 
-abstract class FramesActivity : BaseFramesActivity() {
+abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>() {
+    
+    override val configs: FramesKonfigs by lazy { FramesKonfigs(this) }
     
     private val toolbar: CustomToolbar? by bind(R.id.toolbar)
     private val pager: ViewPager? by bind(R.id.pager)
@@ -338,7 +341,7 @@ abstract class FramesActivity : BaseFramesActivity() {
                 try {
                     (it as? BaseFramesFragment<*, *>)?.let {
                         with(it) {
-                            getDatabase()?.let { favoritesModel?.forceUpdateFavorites(it, list) }
+                            getDatabase()?.let { favoritesModel.forceUpdateFavorites(it, list) }
                         }
                     }
                 } catch (ignored: Exception) {

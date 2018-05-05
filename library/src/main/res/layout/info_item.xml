@@ -29,24 +29,24 @@
               android:gravity="center_vertical">
 
     <jahirfiquitiva.libs.kauextensions.ui.widgets.MaterialIconView
-            android:id="@+id/info_item_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/fabs_margin"
-            android:layout_marginStart="@dimen/fabs_margin"
-            app:active="true"/>
+        android:id="@+id/info_item_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/fabs_margin"
+        android:layout_marginStart="@dimen/fabs_margin"
+        app:active="true" />
 
     <TextView
-            android:id="@+id/info_item_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="@dimen/fabs_margin"
-            android:paddingStart="@dimen/fabs_margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:maxLines="3"
-            android:ellipsize="end"
-            tools:text="Jahir Fiquitiva"
-            tools:ignore="RtlSymmetry"/>
+        android:id="@+id/info_item_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingLeft="@dimen/fabs_margin"
+        android:paddingStart="@dimen/fabs_margin"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:maxLines="3"
+        android:ellipsize="end"
+        tools:text="Jahir Fiquitiva"
+        tools:ignore="RtlSymmetry" />
 
 </LinearLayout>

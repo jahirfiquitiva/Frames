@@ -30,9 +30,9 @@ import com.google.android.apps.muzei.api.internal.ProtocolConstants
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
-import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.helpers.utils.FL
+import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.PLAY_STORE_LINK_PREFIX
 import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
@@ -50,6 +50,8 @@ open class FramesArtSource(name: String) : RemoteMuzeiArtSource(name), Lifecycle
         private const val UPDATE_COMMAND_ID = 1001
         private const val SHARE_COMMAND_ID = 1337
     }
+    
+    private val configs: FramesKonfigs by lazy { FramesKonfigs(this) }
     
     private val lcRegistry = LifecycleRegistry(this)
     override fun getLifecycle(): LifecycleRegistry = lcRegistry
@@ -101,8 +103,8 @@ open class FramesArtSource(name: String) : RemoteMuzeiArtSource(name), Lifecycle
     }
     
     override fun onTryUpdate(reason: Int) {
-        if (framesKonfigs.functionalDashboard && isNetworkAvailable) {
-            if (framesKonfigs.refreshMuzeiOnWiFiOnly) {
+        if (configs.functionalDashboard && isNetworkAvailable) {
+            if (configs.refreshMuzeiOnWiFiOnly) {
                 if (isWifiConnected) executeMuzeiUpdate()
             } else {
                 executeMuzeiUpdate()
@@ -116,7 +118,7 @@ open class FramesArtSource(name: String) : RemoteMuzeiArtSource(name), Lifecycle
             wallsVM?.extraObserve {
                 if (it.isNotEmpty()) {
                     val realData = getValidWallpapersList(ArrayList(it))
-                    if (framesKonfigs.muzeiCollections.contains("favorites", true)) {
+                    if (configs.muzeiCollections.contains("favorites", true)) {
                         favsDB = Room.databaseBuilder(
                                 this@FramesArtSource,
                                 FavoritesDatabase::class.java,
@@ -163,7 +165,7 @@ open class FramesArtSource(name: String) : RemoteMuzeiArtSource(name), Lifecycle
     
     private fun validWallpaper(item: Wallpaper): Boolean {
         val collections = item.collections.split("[,|]".toRegex())
-        val selected = framesKonfigs.muzeiCollections.split("[,|]".toRegex())
+        val selected = configs.muzeiCollections.split("[,|]".toRegex())
         if (collections.isEmpty() || selected.isEmpty()) return true
         for (collection in collections) {
             val correct = collection.formatCorrectly().replace("_", " ")
@@ -208,7 +210,7 @@ open class FramesArtSource(name: String) : RemoteMuzeiArtSource(name), Lifecycle
                         Intent(Intent.ACTION_VIEW, Uri.parse(url))).build())
         scheduleUpdate(
                 System.currentTimeMillis() + convertRefreshIntervalToMillis(
-                        framesKonfigs.muzeiRefreshInterval))
+                        configs.muzeiRefreshInterval))
         destroyViewModel()
     }
     

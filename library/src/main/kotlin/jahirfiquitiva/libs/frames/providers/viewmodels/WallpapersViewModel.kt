@@ -20,8 +20,8 @@ import ca.allanwang.kau.utils.boolean
 import jahirfiquitiva.libs.archhelpers.viewmodels.ListViewModel
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.FL
+import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.FramesUrlRequests
 import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
 import jahirfiquitiva.libs.kauextensions.extensions.hasContent
@@ -37,7 +37,7 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
                     param, FramesUrlRequests().requestJson(param.getString(R.string.json_url)))
     
     private fun loadWallpapers(context: Context, serverResponse: String): ArrayList<Wallpaper> {
-        val prevResponse = context.framesKonfigs.backupJson
+        val prevResponse = FramesKonfigs(context).backupJson
         val validPrevResponse = prevResponse.hasContent() && prevResponse != "[]"
         return if (serverResponse.hasContent()) {
             val nResponse = safeParseResponseToJSON(context, serverResponse)
@@ -87,7 +87,7 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
     }
     
     private fun parseListFromJson(context: Context, json: JSONArray): ArrayList<Wallpaper> {
-        context.framesKonfigs.backupJson = json.toString()
+        FramesKonfigs(context).backupJson = json.toString()
         val fWallpapers = ArrayList<Wallpaper>()
         for (index in 0..json.length()) {
             if (json.isNull(index)) continue

@@ -36,10 +36,10 @@ import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.backgroundColor
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
-import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.extensions.loadWallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
 import jahirfiquitiva.libs.frames.helpers.extensions.tilesColor
+import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
 import jahirfiquitiva.libs.kauextensions.extensions.animateColorTransition
 import jahirfiquitiva.libs.kauextensions.extensions.animateSmoothly
@@ -70,7 +70,7 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
     internal fun animateLoad(view: View) {
         with(view) {
             whenFaded {
-                if (context.framesKonfigs.animationsEnabled) {
+                if (FramesKonfigs(context).animationsEnabled) {
                     animateSmoothly(
                             context.backgroundColor, context.tilesColor,
                             { setBackgroundColor(it) })
@@ -137,7 +137,7 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                 
                 whenFaded(
                         { itemView.clearChildrenAnimations() }, {
-                    if (context.framesKonfigs.animationsEnabled) {
+                    if (FramesKonfigs(context).animationsEnabled) {
                         img?.animateColorTransition { wallpaper?.hasFaded = true }
                     } else {
                         itemView.clearChildrenAnimations()
@@ -243,7 +243,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                 whenFaded(
                         { itemView.clearChildrenAnimations() },
                         {
-                            if (context.framesKonfigs.animationsEnabled) {
+                            if (FramesKonfigs(context).animationsEnabled) {
                                 img?.animateColorTransition { wallpaper?.hasFaded = true }
                             } else {
                                 itemView.clearChildrenAnimations()

@@ -61,9 +61,11 @@ import com.bumptech.glide.request.RequestOptions
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
+import jahirfiquitiva.libs.frames.helpers.extensions.framesPostponeEnterTransition
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
 import jahirfiquitiva.libs.frames.helpers.utils.FL
+import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
 import jahirfiquitiva.libs.frames.helpers.utils.MIN_TIME
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpaperInfoViewModel
@@ -94,7 +96,7 @@ import org.jetbrains.anko.contentView
 import java.io.FileInputStream
 import java.util.ArrayList
 
-open class ViewerActivity : BaseWallpaperActionsActivity() {
+open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     
     companion object {
         private const val FAVORITE_ACTION_ID = 3
@@ -103,6 +105,8 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         private const val TRANSITIONED_KEY = "transitioned"
         private const val VISIBLE_SYSTEM_UI_KEY = "visible_system_ui"
     }
+    
+    override val configs: FramesKonfigs by lazy { FramesKonfigs(this) }
     
     override var wallpaper: Wallpaper? = null
     override val allowBitmapApply: Boolean = true
@@ -144,22 +148,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
         navigationBarColor = Color.parseColor("#66000000")
         
         setContentView(R.layout.activity_viewer)
-        supportPostponeEnterTransition()
-        
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val decor = window.decorView
-            val statusBar: View? by decor.bind(android.R.id.statusBarBackground)
-            val navBar: View? by decor.bind(android.R.id.navigationBarBackground)
-            val actionBar: View? by decor.bind(R.id.action_bar_container)
-            
-            val viewsToExclude = arrayOf(statusBar, navBar, actionBar)
-            val extraViewsToExclude = arrayOf(R.id.appbar, R.id.toolbar, R.id.tabs)
-            
-            viewsToExclude.forEach { window.sharedElementEnterTransition?.excludeTarget(it, true) }
-            extraViewsToExclude.forEach {
-                window.sharedElementEnterTransition?.excludeTarget(it, true)
-            }
-        }
+        framesPostponeEnterTransition()
         
         wallpaper = intent?.getParcelableExtra("wallpaper")
         
@@ -330,7 +319,11 @@ open class ViewerActivity : BaseWallpaperActionsActivity() {
                     intent.putExtra("inFavorites", isInFavorites)
                 }
                 setResult(10, intent)
-                supportFinishAfterTransition()
+                try {
+                    supportFinishAfterTransition()
+                } catch (e: Exception) {
+                    finish()
+                }
                 overridePendingTransition(0, 0)
             })
         }

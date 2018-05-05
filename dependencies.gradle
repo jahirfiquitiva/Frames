@@ -25,28 +25,28 @@ ext.versions = [
         minSdk               : 16,
         targetSdk            : 27,
         buildTools           : '27.0.3',
-        versionCode          : 232,
-        versionName          : '2.3.2',
+        versionCode          : 233,
+        versionName          : '2.3.3',
         // Gradle Plugins
-        gradle               : '3.0.1',
-        kotlin               : '1.2.21',
+        gradle               : '3.1.1',
+        kotlin               : '1.2.41',
         libs                 : '2.0',
         // Dependencies
-        supportLibs          : '27.0.2',
-        room                 : '1.1.0-alpha2',
+        supportLibs          : '27.1.1',
+        room                 : '1.1.0-beta3',
         permissions          : '1.0.0',
         materialDialogs      : '0.9.6.0',
-        glide                : '4.6.1',
+        glide                : '4.7.1',
         okhttp               : '3.10.0',
-        kauExt               : '498f17d',
+        kauExt               : '845effc',
         sectionedRecyclerView: '7e9908b',
-        rvFastScroll         : '887726e',
-        chips                : '02ca0e4',
+        rvFastScroll         : '09e2079',
+        chips                : 'b036a10',
         iaps                 : '1.0.44',
         muzeiApi             : '2.0',
         licensesDialog       : '1.8.3',
-        checker              : '1.2.1',
-        oneSignal            : '3.7.1'
+        checker              : '1.2.2',
+        oneSignal            : '3.8.3'
 ]
 
 ext.gradlePlugins = [

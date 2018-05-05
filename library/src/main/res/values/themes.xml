@@ -16,13 +16,13 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Frames.LightTheme" parent="Frames.Base.Light"/>
+    <style name="Frames.LightTheme" parent="Frames.Base.Light" />
 
-    <style name="Frames.DarkTheme" parent="Frames.Base.Dark"/>
+    <style name="Frames.DarkTheme" parent="Frames.Base.Dark" />
 
-    <style name="Frames.TransparentTheme" parent="Frames.Base.Clear"/>
+    <style name="Frames.TransparentTheme" parent="Frames.Base.Clear" />
 
-    <style name="Frames.AmoledTheme" parent="Frames.Base.Amoled"/>
+    <style name="Frames.AmoledTheme" parent="Frames.Base.Amoled" />
 
     <style name="Frames.Base.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/light_theme_primary</item>
@@ -128,13 +128,13 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
-    <style name="ViewerLightTheme" parent="Frames.LightTheme"/>
+    <style name="ViewerLightTheme" parent="Frames.LightTheme" />
 
-    <style name="ViewerDarkTheme" parent="Frames.DarkTheme"/>
+    <style name="ViewerDarkTheme" parent="Frames.DarkTheme" />
 
-    <style name="ViewerAmoledTheme" parent="Frames.AmoledTheme"/>
+    <style name="ViewerAmoledTheme" parent="Frames.AmoledTheme" />
 
-    <style name="ViewerTransparentTheme" parent="Frames.TransparentTheme"/>
+    <style name="ViewerTransparentTheme" parent="Frames.TransparentTheme" />
 
     <style name="FramesLightPopUp" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:colorBackground">@color/light_theme_card_background</item>

@@ -15,56 +15,56 @@
   ~ limitations under the License.
   -->
 <LinearLayout
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_centerInParent="true"
+    android:layout_gravity="center"
+    android:gravity="center">
+
+    <FrameLayout
+        android:id="@+id/all_empty_views"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:gravity="center">
 
-    <FrameLayout
-            android:id="@+id/all_empty_views"
-            android:layout_width="match_parent"
+        <ProgressBar
+            android:id="@+id/loading_view"
+            style="?android:progressBarStyleLarge"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center">
-
-        <ProgressBar
-                android:id="@+id/loading_view"
-                style="?android:progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:visibility="gone"/>
+            android:gravity="center"
+            android:visibility="gone" />
 
         <ImageView
-                android:id="@+id/empty_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="96dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:visibility="gone"
-                tools:ignore="ContentDescription"/>
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="96dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
 
     </FrameLayout>
 
     <TextView
-            android:id="@+id/empty_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="36dp"
-            android:lineSpacingMultiplier="1.2"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textStyle="italic"
-            android:maxLines="3"
-            android:ellipsize="end"
-            android:visibility="gone"
-            tools:text="This is an empty section."/>
+        android:id="@+id/empty_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="36dp"
+        android:lineSpacingMultiplier="1.2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="italic"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:visibility="gone"
+        tools:text="This is an empty section." />
 
 </LinearLayout>

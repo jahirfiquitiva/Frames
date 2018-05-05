@@ -16,16 +16,16 @@
   ~ limitations under the License.
   -->
 <resources>
-  <string name="empty_section">Nothing found</string>
-  <!-- Do NOT remove or change the %1$s (or with any other number) -->
-  <!-- Consider Frames an untranslatable word. It's the dashboard name -->
-  <!-- Light Theme -->
-  <!-- Dark Theme -->
-  <!-- Amoled Theme -->
-  <!-- Transparent Theme -->
-  <!-- Automatic Light-Dark Theme -->
-  <!-- Automatic Light-Amoled Theme -->
-  <!-- License -->
-  <!-- Muzei Settings -->
-  <!-- Please use this character … -->
+    <string name="empty_section">Nothing found</string>
+    <!-- Do NOT remove or change the %1$s (or with any other number) -->
+    <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+    <!-- Light Theme -->
+    <!-- Dark Theme -->
+    <!-- Amoled Theme -->
+    <!-- Transparent Theme -->
+    <!-- Automatic Light-Dark Theme -->
+    <!-- Automatic Light-Amoled Theme -->
+    <!-- License -->
+    <!-- Muzei Settings -->
+    <!-- Please use this character … -->
 </resources>

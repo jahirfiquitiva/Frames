@@ -23,6 +23,7 @@ import com.bumptech.glide.RequestManager
 import com.bumptech.glide.util.ViewPreloadSizeProvider
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.helpers.extensions.jfilter
 import jahirfiquitiva.libs.frames.helpers.utils.MAX_WALLPAPERS_LOAD
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
@@ -63,7 +64,7 @@ class WallpapersAdapter(
                 listener)
     }
     
-    override fun doCreateVH(parent: ViewGroup, viewType: Int): WallpaperHolder =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallpaperHolder =
             WallpaperHolder(parent.inflate(R.layout.item_wallpaper), showFavIcon)
     
     override fun getPreloadItems(position: Int): MutableList<Wallpaper> =
@@ -77,11 +78,9 @@ class WallpapersAdapter(
             newList: ArrayList<Wallpaper>
                                 ): ArrayList<Wallpaper> {
         val modified = ArrayList<Wallpaper>()
-        oldList.filter { !newList.contains(it) && !modified.contains(it) }
-                .forEach { modified.add(it) }
-        newList.filter { !oldList.contains(it) && !modified.contains(it) }
-                .forEach { modified.add(it) }
-        return modified
+        modified.addAll(oldList.jfilter { !newList.contains(it) && !modified.contains(it) })
+        modified.addAll(newList.jfilter { !oldList.contains(it) && !modified.contains(it) })
+        return ArrayList(modified.distinct())
     }
     
     override fun getItemId(position: Int) = position.toLong()

@@ -18,16 +18,16 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-            android:id="@+id/translate"
-            android:title="@string/translate"
-            android:icon="@drawable/ic_translate"
-            android:orderInCategory="100"
-            app:showAsAction="ifRoom"/>
+        android:id="@+id/translate"
+        android:title="@string/translate"
+        android:icon="@drawable/ic_translate"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom" />
 
     <item
-            android:id="@+id/licenses"
-            android:title="@string/licenses"
-            android:icon="@drawable/ic_licenses"
-            android:orderInCategory="200"
-            app:showAsAction="ifRoom"/>
+        android:id="@+id/licenses"
+        android:title="@string/licenses"
+        android:icon="@drawable/ic_licenses"
+        android:orderInCategory="200"
+        app:showAsAction="ifRoom" />
 </menu>

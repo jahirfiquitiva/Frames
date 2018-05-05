@@ -16,9 +16,9 @@
   -->
 <paths>
     <cache-path
-            name="cache"
-            path="/"/>
+        name="cache"
+        path="/" />
     <external-path
-            name="external_files"
-            path="."/>
+        name="external_files"
+        path="." />
 </paths>

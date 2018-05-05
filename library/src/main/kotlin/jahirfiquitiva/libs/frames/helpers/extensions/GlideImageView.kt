@@ -28,6 +28,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
 import jahirfiquitiva.libs.kauextensions.ui.graphics.ObservableColorMatrix
 
@@ -51,7 +52,7 @@ fun ImageView.loadWallpaper(
                            ) {
     
     val manager = requester ?: Glide.with(context)
-    val loadFullRes = context.framesKonfigs.fullResGridPictures
+    val loadFullRes = FramesKonfigs(context).fullResGridPictures
     val baseOptions = RequestOptions()
             .format(
                     if (context.isLowRamDevice) DecodeFormat.PREFER_RGB_565

@@ -25,63 +25,63 @@
               android:paddingBottom="@dimen/cards_margin">
 
     <ImageView
-            android:id="@+id/photo"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="@dimen/fabs_margin"
-            android:layout_marginStart="@dimen/fabs_margin"
-            android:scaleType="centerCrop"
-            tools:ignore="ContentDescription"/>
+        android:id="@+id/photo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="@dimen/fabs_margin"
+        android:layout_marginStart="@dimen/fabs_margin"
+        android:scaleType="centerCrop"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
-            android:layout_width="0dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:paddingStart="@dimen/fabs_margin"
+            android:paddingLeft="@dimen/fabs_margin"
+            android:paddingEnd="@dimen/fabs_margin"
+            android:paddingRight="@dimen/fabs_margin"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textSize="16sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="Jahir Fiquitiva" />
 
         <TextView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/fabs_margin"
-                android:paddingLeft="@dimen/fabs_margin"
-                android:paddingEnd="@dimen/fabs_margin"
-                android:paddingRight="@dimen/fabs_margin"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textSize="16sp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                tools:text="Jahir Fiquitiva"/>
-
-        <TextView
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/cards_margin"
-                android:paddingStart="@dimen/fabs_margin"
-                android:paddingLeft="@dimen/fabs_margin"
-                android:paddingEnd="@dimen/fabs_margin"
-                android:paddingRight="@dimen/fabs_margin"
-                android:maxLines="4"
-                android:ellipsize="end"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="14sp"
-                tools:text="@string/dashboard_copyright"/>
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/cards_margin"
+            android:paddingStart="@dimen/fabs_margin"
+            android:paddingLeft="@dimen/fabs_margin"
+            android:paddingEnd="@dimen/fabs_margin"
+            android:paddingRight="@dimen/fabs_margin"
+            android:maxLines="4"
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textSize="14sp"
+            tools:text="@string/dashboard_copyright" />
 
         <jahirfiquitiva.libs.kauextensions.ui.layouts.SplitButtonsLayout
-                android:id="@+id/buttons"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:gravity="start"
-                android:layout_marginTop="4dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginEnd="@dimen/fabs_margin"
-                android:layout_marginRight="@dimen/fabs_margin"
-                android:orientation="horizontal"/>
+            android:id="@+id/buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:gravity="start"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginEnd="@dimen/fabs_margin"
+            android:layout_marginRight="@dimen/fabs_margin"
+            android:orientation="horizontal" />
 
     </LinearLayout>
 

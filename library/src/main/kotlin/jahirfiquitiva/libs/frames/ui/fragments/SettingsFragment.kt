@@ -33,8 +33,8 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.clearDataAndCache
+import jahirfiquitiva.libs.frames.helpers.extensions.configs
 import jahirfiquitiva.libs.frames.helpers.extensions.dataCacheSize
-import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.ui.activities.SettingsActivity
 import jahirfiquitiva.libs.frames.ui.fragments.base.PreferenceFragment
@@ -42,7 +42,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.actv
 import jahirfiquitiva.libs.kauextensions.extensions.boolean
 import jahirfiquitiva.libs.kauextensions.extensions.ctxt
 import jahirfiquitiva.libs.kauextensions.extensions.getAppName
-import jahirfiquitiva.libs.kauextensions.extensions.konfigs
+
 import jahirfiquitiva.libs.kauextensions.extensions.withActv
 import jahirfiquitiva.libs.kauextensions.ui.activities.ThemedActivity
 import org.jetbrains.anko.doAsync
@@ -105,16 +105,14 @@ open class SettingsFragment : PreferenceFragment() {
         val themePref = findPreference("theme")
         themePref?.setOnPreferenceClickListener {
             clearDialog()
-            val currentTheme = actv.konfigs.currentTheme
+            val currentTheme = configs.currentTheme
             dialog = actv.buildMaterialDialog {
                 title(R.string.theme_setting_title)
                 items(R.array.themes_options)
                 itemsCallbackSingleChoice(currentTheme) { _, _, which, _ ->
                     if (which != currentTheme) {
-                        actv {
-                            it.konfigs.currentTheme = which
-                            (it as? ThemedActivity)?.onThemeChanged()
-                        }
+                        configs.currentTheme = which
+                        (activity as? ThemedActivity<*>)?.onThemeChanged()
                     }
                     true
                 }
@@ -125,12 +123,12 @@ open class SettingsFragment : PreferenceFragment() {
             false
         }
         
-        navbarPref?.isChecked = actv.konfigs.hasColoredNavbar
+        navbarPref?.isChecked = configs.hasColoredNavbar
         navbarPref?.setOnPreferenceChangeListener { _, any ->
             val tint = any.toString().equals("true", true)
-            if (tint != actv.konfigs.hasColoredNavbar) {
-                actv.konfigs.hasColoredNavbar = tint
-                (actv as? ThemedActivity)?.onThemeChanged()
+            if (tint != configs.hasColoredNavbar) {
+                configs.hasColoredNavbar = tint
+                (activity as? ThemedActivity<*>)?.onThemeChanged()
             }
             true
         }
@@ -139,13 +137,13 @@ open class SettingsFragment : PreferenceFragment() {
         if (boolean(R.bool.isFrames)) {
             columns?.setOnPreferenceClickListener {
                 clearDialog()
-                val currentColumns = ctxt.framesKonfigs.columns - 1
+                val currentColumns = configs.columns - 1
                 dialog = ctxt.buildMaterialDialog {
                     title(R.string.wallpapers_columns_setting_title)
                     items("1", "2", "3", "4", "5")
                     itemsCallbackSingleChoice(currentColumns) { _, _, which, _ ->
                         if (which != currentColumns)
-                            ctxt.framesKonfigs.columns = which + 1
+                            configs.columns = which + 1
                         true
                     }
                     positiveText(android.R.string.ok)
@@ -161,17 +159,17 @@ open class SettingsFragment : PreferenceFragment() {
         val animationsPref = findPreference("animations") as? SwitchPreference
         animationsPref?.setOnPreferenceChangeListener { _, any ->
             val enable = any.toString().equals("true", true)
-            if (enable != ctxt.framesKonfigs.animationsEnabled)
-                ctxt.framesKonfigs.animationsEnabled = enable
+            if (enable != configs.animationsEnabled)
+                configs.animationsEnabled = enable
             true
         }
         
         val hiResPref = findPreference("hi_res_pics") as? SwitchPreference
         hiResPref?.setOnPreferenceChangeListener { _, any ->
             val enable = any.toString().equals("true", true)
-            if (enable != ctxt.framesKonfigs.fullResGridPictures) {
-                ctxt.framesKonfigs.fullResGridPictures = enable
-                (actv as? SettingsActivity)?.hasClearedFavs = true
+            if (enable != configs.fullResGridPictures) {
+                configs.fullResGridPictures = enable
+                (activity as? SettingsActivity)?.hasClearedFavs = true
             }
             true
         }
@@ -179,8 +177,8 @@ open class SettingsFragment : PreferenceFragment() {
         val deepSearchPref = findPreference("deep_search") as? SwitchPreference
         deepSearchPref?.setOnPreferenceChangeListener { _, any ->
             val enable = any.toString().equals("true", true)
-            if (enable != ctxt.framesKonfigs.deepSearchEnabled)
-                ctxt.framesKonfigs.deepSearchEnabled = enable
+            if (enable != configs.deepSearchEnabled)
+                configs.deepSearchEnabled = enable
             true
         }
         
@@ -197,13 +195,13 @@ open class SettingsFragment : PreferenceFragment() {
         clearData?.summary = getString(R.string.data_cache_setting_content, actv.dataCacheSize)
         clearData?.setOnPreferenceClickListener {
             clearDialog()
-            dialog = actv.buildMaterialDialog {
+            dialog = activity?.buildMaterialDialog {
                 title(R.string.data_cache_setting_title)
                 content(R.string.data_cache_confirmation)
                 positiveText(android.R.string.ok)
                 negativeText(android.R.string.cancel)
                 onPositive { _, _ ->
-                    actv.clearDataAndCache()
+                    activity?.clearDataAndCache()
                     clearData.summary = getString(
                             R.string.data_cache_setting_content,
                             actv.dataCacheSize)
@@ -237,11 +235,11 @@ open class SettingsFragment : PreferenceFragment() {
         }
         
         val notifPref = findPreference("enable_notifications") as? SwitchPreference
-        notifPref?.isChecked = actv.framesKonfigs.notificationsEnabled
+        notifPref?.isChecked = configs.notificationsEnabled
         notifPref?.setOnPreferenceChangeListener { _, any ->
             val enable = any.toString().equals("true", true)
-            if (enable != actv.framesKonfigs.notificationsEnabled) {
-                actv.framesKonfigs.notificationsEnabled = enable
+            if (enable != configs.notificationsEnabled) {
+                configs.notificationsEnabled = enable
             }
             true
         }
@@ -273,8 +271,7 @@ open class SettingsFragment : PreferenceFragment() {
     
     fun updateDownloadLocation() {
         downloadLocation?.summary = getString(
-                R.string.wallpapers_download_location_setting_content,
-                actv.framesKonfigs.downloadsFolder)
+                R.string.wallpapers_download_location_setting_content, configs.downloadsFolder)
     }
     
     fun clearDialog() {

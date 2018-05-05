@@ -22,26 +22,26 @@
              android:layout_gravity="center">
 
     <ProgressBar
-            android:id="@+id/loading_view"
-            style="?android:progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:visibility="visible"/>
+        android:id="@+id/loading_view"
+        style="?android:progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="visible" />
 
     <android.support.v7.widget.RecyclerView
-            android:id="@+id/info_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingRight="@dimen/fabs_margin"
-            android:paddingEnd="@dimen/fabs_margin"
-            android:paddingBottom="@dimen/fabs_margin"
-            android:clipToPadding="false"
-            android:clipChildren="false"
-            android:overScrollMode="ifContentScrolls"
-            android:splitMotionEvents="false"
-            tools:ignore="RtlSymmetry"/>
+        android:id="@+id/info_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingRight="@dimen/fabs_margin"
+        android:paddingEnd="@dimen/fabs_margin"
+        android:paddingBottom="@dimen/fabs_margin"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:overScrollMode="ifContentScrolls"
+        android:splitMotionEvents="false"
+        tools:ignore="RtlSymmetry" />
 
 </FrameLayout>

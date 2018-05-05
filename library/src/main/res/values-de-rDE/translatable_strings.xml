@@ -16,134 +16,134 @@
   ~ limitations under the License.
   -->
 <resources>
-  <string name="empty_section">Nichts gefunden</string>
-  <string name="loading_section">Lade Inhalt...</string>
-  <string name="no_favorites">Füge zuerst einige Wallpapers zu deiner Favoriten-Liste hinzu</string>
-  <string name="wallpapers">Wallpaper</string>
-  <string name="collections">Sammlungen</string>
-  <string name="x_wallpapers">%1$s Wallpapers</string>
-  <string name="all">Alle</string>
-  <string name="favorites">Favoriten</string>
-  <string name="favorite">Favorit</string>
-  <string name="added_to_favorites">\'%1$s\' wurde zu deinen Favoriten hinzugefügt.</string>
-  <string name="removed_from_favorites">\'%1$s\' wurde von deinen Favoriten entfernt.</string>
-  <string name="actions_dialog_content">Was möchtest du mit diesem Wallpaper tun?</string>
-  <string name="apply">Anwenden</string>
-  <string name="download">Herunterladen</string>
-  <string name="info">Informationen</string>
-  <string name="share">Teilen</string>
-  <!-- Do NOT remove or change the %1$s (or with any other number) -->
-  <string name="share_text">Mein heutiges Wallpaper ist %1$s von %2$s, aus %3$s.\nHole es dir jetzt bei %4$s</string>
-  <string name="permission_denied">Speicher-Berechtigung wurde verweigert</string>
-  <string name="permission_denied_completely">Speicher-Berechtigung wurde verweigert. Du musst sie manuell in den Einstellungen gewähren.</string>
-  <string name="permission_request">%1$s erfordert die Speicher-Berechtigung, um Wallpaper anwenden und speichern zu können</string>
-  <string name="allow">Gewähren</string>
-  <string name="downloading_wallpaper">\'%1$s\' wird heruntergeladen…</string>
-  <string name="download_successful">Wallpaper erfolgreich heruntergeladen nach \'%1$s\'</string>
-  <string name="download_successful_short">Wallpaper erfolgreich heruntergeladen</string>
-  <string name="open">Öffnen</string>
-  <string name="file_exists">Wallpaper bereits heruntergeladen. Möchtest du es erneut herunterladen und ersetzen?</string>
-  <string name="file_replace">Ersetzen</string>
-  <string name="file_create_new">Neu erstellen</string>
-  <string name="applying_wallpaper">\'%1$s\' anwenden…</string>
-  <string name="apply_to">Anwenden in:</string>
-  <string name="home_screen">Startbildschirm</string>
-  <string name="lock_screen">Sperrbildschirm</string>
-  <string name="home_lock_screen">Start- und Sperrbildschirm</string>
-  <string name="apply_with_other_app">Mit anderer App anwenden</string>
-  <string name="apply_successful">Wallpaper erfolgreich angewendet im %1$s</string>
-  <string name="apply_successful_short">Wallpaper erfolgreich angewendet</string>
-  <string name="wallpaper_details">Details</string>
-  <string name="wallpaper_palette">Palette</string>
-  <string name="copied_to_clipboard">Farbe in die Zwischenablage kopiert</string>
-  <string name="search">Suchen</string>
-  <string name="search_x">Suche %1$s ...</string>
-  <string name="search_no_results">Keine Ergebnisse gefunden</string>
-  <string name="about">Über</string>
-  <string name="refresh">Aktualisieren</string>
-  <string name="translate">Übersetzen</string>
-  <string name="licenses">Lizenzen</string>
-  <!-- Consider Frames an untranslatable word. It's the dashboard name -->
-  <string name="frames_dashboard">Frames Dashboard</string>
-  <string name="dev_contributions">Entwicklungshilfe</string>
-  <string name="ui_contributions">UI-Hilfe</string>
-  <string name="sherry_description">Eine sich stets weiterentwickelnde Frau, die nie müde wird zu lernen, kreative Fotografin und die Person, die dieses Dashboard möglich gemacht hat.</string>
-  <string name="allan_description">Zuerst ein Icon Pack Designer, dann ein Themer, jetzt auch ein Entwickler.\nIch habe bei der Entwicklung des Dashboards geholfen.</string>
-  <string name="settings">Einstellungen</string>
-  <string name="ui_settings_title">Benutzeroberfläche</string>
-  <string name="theme_setting_title">App-Theme</string>
-  <string name="theme_setting_content">Wähle das Haupt-Theme für die App</string>
-  <!-- Light Theme -->
-  <string name="light_theme">Hell</string>
-  <!-- Dark Theme -->
-  <string name="dark_theme">Dunkel</string>
-  <!-- Amoled Theme -->
-  <string name="amoled_theme">AMOLED</string>
-  <!-- Transparent Theme -->
-  <string name="transparent_theme">Transparent</string>
-  <!-- Automatic Light-Dark Theme -->
-  <string name="auto_dark">Automatisch Hell-Dunkel</string>
-  <!-- Automatic Light-Amoled Theme -->
-  <string name="auto_amoled">Automatisch Hell-Amoled</string>
-  <string name="navbar_color_setting_title">Navigationsleiste färben</string>
-  <string name="navbar_color_setting_content">Färbt Navigationsleiste mit der dunklen Hauptfarbe der App</string>
-  <string name="wallpapers_columns_setting_title">Wallpaper-Spalten</string>
-  <string name="wallpapers_columns_setting_content">Wähle die Anzahl an Spalten, in denen Wallpaper angezeigt werden</string>
-  <string name="animations_setting_title">Animationen aktivieren</string>
-  <string name="animations_setting_content">Dies könnte Lags auf einigen Geräten hervorrufen</string>
-  <string name="load_hi_res_pictures_title">Vorschau in voller Auflösung</string>
-  <string name="load_hi_res_pictures_content">In der Gitteransicht volle Auflösung laden</string>
-  <string name="deep_search_title">Deep Search aktivieren</string>
-  <string name="deep_search_content">Nach Name und Sammlung suchen</string>
-  <string name="storage_settings_title">Speicher</string>
-  <string name="wallpapers_download_location_setting_title">Download-Speicherort der Wallpaper</string>
-  <string name="wallpapers_download_location_setting_content">Ändere den Speicherort für Wallpaper-Downloads.\nAktueller Speicherort: %1$s</string>
-  <string name="create_folder">Ordner erstellen</string>
-  <string name="choose_folder">Wählen</string>
-  <string name="data_cache_setting_title">App-Daten und Cache löschen</string>
-  <string name="data_cache_setting_content">Dadurch werden App-Cache und Einstellungen gelöscht.\nAktuelle Cache-Größe: %1$s</string>
-  <string name="data_cache_confirmation">Bist du sicher, dass du App-Daten, Cache und Einstellungen löschen möchtest?</string>
-  <string name="clear_favorites_setting_title">Favoriten-Datenbank leeren</string>
-  <string name="clear_favorites_setting_content">Liste deiner favorisierten Wallpaper leeren</string>
-  <string name="clear_favorites_confirmation">Bist du sicher, dass du die Favoriten-Datenbank löschen möchtest?</string>
-  <!-- License -->
-  <string name="license_valid_title">Lizenz gültig</string>
-  <string name="license_valid_content">Vielen Dank für den Download von %1$s aus einem offiziellen Store. Viel Spaß!</string>
-  <string name="license_valid_snack">Lizenz gültig. Vielen Dank für den Download von %1$s. Viel Spaß!</string>
-  <string name="license_invalid_title">Du kannst nicht vorbei!</string>
-  <string name="license_invalid_content">Entschuldigung, aber wir haben festgestellt, dass deine Lizenz für %1$s nicht gültig ist. Dies kann auch durch die Nutzung von illegalen Apps verursacht werden. %2$s. Wenn du denkst, es handelt sich hierbei um einen Fehler, versuche es bitte später erneut. Andernfalls lade die App bitte aus einem offiziellen Store herunter.</string>
-  <string name="license_invalid_content_extra">Oder ausdrücklich, bitte deinstalliere folgende App: \'%1$s\'</string>
-  <string name="error_title">Fehler</string>
-  <string name="action_error_content">Entschuldigung, es ist ein unvorhergesehener Fehler aufgetreten, während die Aktion ausgeführt wurde.</string>
-  <string name="license_error_content">Entschuldigung, es ist ein Fehler während der Prüfung deiner Lizenz aufgetreten. Bitte versuche es später erneut.</string>
-  <string name="try_now">Jetzt versuchen</string>
-  <string name="donate">Spenden</string>
-  <string name="donate_success_title">Vielen Dank</string>
-  <string name="donate_success_content">Vielen, vielen Dank für deine Spende. Ich schätze dies sehr und freue mich, dass dir %1$s gefällt.</string>
-  <string name="donate_error">Es ist ein unerwarteter Fehler mit dem Code %1$s aufgetreten bedingt durch %2$s</string>
-  <string name="donate_error_unknown">unbekannte Ursache</string>
-  <string name="loading">Laden...</string>
-  <string name="close">Schließen</string>
-  <!-- Muzei Settings -->
-  <string name="muzei_settings">Muzei-Einstellungen</string>
-  <!-- Please use this character … -->
-  <string name="refresh_wallpapers_every">Wallpapers aktualisieren...</string>
-  <string name="every_x">Jeder %1$s</string>
-  <string name="minutes">Minuten</string>
-  <string name="hours">Stunden</string>
-  <string name="days">Tage</string>
-  <string name="refresh_only_on_wifi">Nur im WLAN aktualisieren</string>
-  <string name="refresh_only_on_wifi_summary">Wallpapers nur aktualisieren, wenn das Gerät mit einem WLAN-Netzwerk verbunden ist.</string>
-  <string name="choose_collections_title">Sammlungen wählen</string>
-  <string name="choose_collections_summary">Wähle die Sammlungen, aus denen Wallpaper genommen werden. Aktuell ausgewählte Sammlung: %1$s</string>
-  <string name="muzei_not_connected_title">Nicht mit dem Internet verbunden</string>
-  <string name="muzei_not_connected_content">Entschuldigung, aber um Sammlungen, aus denen die App Wallpaper nimmt, auswählen oder ändern zu können, musst du mit dem Internet verbunden sein. Bitte versuche es später noch einmal.</string>
-  <string name="sure_to_exit">Beenden</string>
-  <string name="sure_to_exit_content">Möchtest du deine Einstellungen vor dem Beenden speichern?</string>
-  <string name="yes">Ja</string>
-  <string name="no">Nein</string>
-  <string name="not_connected_content">Diese Aktion benötigt eine Internetverbindung. Bitte später erneut versuchen.</string>
-  <string name="new_wallpapers_available">%1$s neue Wallpaper verfügbar. Tippe, um sie dir anzusehen!</string>
-  <string name="notifications_title">Benachrichtigungen</string>
-  <string name="enable_notifications">Benachrichtigungen aktivieren</string>
+    <string name="empty_section">Nichts gefunden</string>
+    <string name="loading_section">Lade Inhalt...</string>
+    <string name="no_favorites">Füge zuerst einige Wallpapers zu deiner Favoriten-Liste hinzu</string>
+    <string name="wallpapers">Wallpaper</string>
+    <string name="collections">Sammlungen</string>
+    <string name="x_wallpapers">%1$s Wallpapers</string>
+    <string name="all">Alle</string>
+    <string name="favorites">Favoriten</string>
+    <string name="favorite">Favorit</string>
+    <string name="added_to_favorites">\'%1$s\' wurde zu deinen Favoriten hinzugefügt.</string>
+    <string name="removed_from_favorites">\'%1$s\' wurde von deinen Favoriten entfernt.</string>
+    <string name="actions_dialog_content">Was möchtest du mit diesem Wallpaper tun?</string>
+    <string name="apply">Anwenden</string>
+    <string name="download">Herunterladen</string>
+    <string name="info">Informationen</string>
+    <string name="share">Teilen</string>
+    <!-- Do NOT remove or change the %1$s (or with any other number) -->
+    <string name="share_text">Mein heutiges Wallpaper ist %1$s von %2$s, aus %3$s.\nHole es dir jetzt bei %4$s</string>
+    <string name="permission_denied">Speicher-Berechtigung wurde verweigert</string>
+    <string name="permission_denied_completely">Speicher-Berechtigung wurde verweigert. Du musst sie manuell in den Einstellungen gewähren.</string>
+    <string name="permission_request">%1$s erfordert die Speicher-Berechtigung, um Wallpaper anwenden und speichern zu können</string>
+    <string name="allow">Gewähren</string>
+    <string name="downloading_wallpaper">\'%1$s\' wird heruntergeladen…</string>
+    <string name="download_successful">Wallpaper erfolgreich heruntergeladen nach \'%1$s\'</string>
+    <string name="download_successful_short">Wallpaper erfolgreich heruntergeladen</string>
+    <string name="open">Öffnen</string>
+    <string name="file_exists">Wallpaper bereits heruntergeladen. Möchtest du es erneut herunterladen und ersetzen?</string>
+    <string name="file_replace">Ersetzen</string>
+    <string name="file_create_new">Neu erstellen</string>
+    <string name="applying_wallpaper">\'%1$s\' anwenden…</string>
+    <string name="apply_to">Anwenden in:</string>
+    <string name="home_screen">Startbildschirm</string>
+    <string name="lock_screen">Sperrbildschirm</string>
+    <string name="home_lock_screen">Start- und Sperrbildschirm</string>
+    <string name="apply_with_other_app">Mit anderer App anwenden</string>
+    <string name="apply_successful">Wallpaper erfolgreich angewendet im %1$s</string>
+    <string name="apply_successful_short">Wallpaper erfolgreich angewendet</string>
+    <string name="wallpaper_details">Details</string>
+    <string name="wallpaper_palette">Palette</string>
+    <string name="copied_to_clipboard">Farbe in die Zwischenablage kopiert</string>
+    <string name="search">Suchen</string>
+    <string name="search_x">Suche %1$s ...</string>
+    <string name="search_no_results">Keine Ergebnisse gefunden</string>
+    <string name="about">Über</string>
+    <string name="refresh">Aktualisieren</string>
+    <string name="translate">Übersetzen</string>
+    <string name="licenses">Lizenzen</string>
+    <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+    <string name="frames_dashboard">Frames Dashboard</string>
+    <string name="dev_contributions">Entwicklungshilfe</string>
+    <string name="ui_contributions">UI-Hilfe</string>
+    <string name="sherry_description">Eine sich stets weiterentwickelnde Frau, die nie müde wird zu lernen, kreative Fotografin und die Person, die dieses Dashboard möglich gemacht hat.</string>
+    <string name="allan_description">Zuerst ein Icon Pack Designer, dann ein Themer, jetzt auch ein Entwickler.\nIch habe bei der Entwicklung des Dashboards geholfen.</string>
+    <string name="settings">Einstellungen</string>
+    <string name="ui_settings_title">Benutzeroberfläche</string>
+    <string name="theme_setting_title">App-Theme</string>
+    <string name="theme_setting_content">Wähle das Haupt-Theme für die App</string>
+    <!-- Light Theme -->
+    <string name="light_theme">Hell</string>
+    <!-- Dark Theme -->
+    <string name="dark_theme">Dunkel</string>
+    <!-- Amoled Theme -->
+    <string name="amoled_theme">AMOLED</string>
+    <!-- Transparent Theme -->
+    <string name="transparent_theme">Transparent</string>
+    <!-- Automatic Light-Dark Theme -->
+    <string name="auto_dark">Automatisch Hell-Dunkel</string>
+    <!-- Automatic Light-Amoled Theme -->
+    <string name="auto_amoled">Automatisch Hell-Amoled</string>
+    <string name="navbar_color_setting_title">Navigationsleiste färben</string>
+    <string name="navbar_color_setting_content">Färbt Navigationsleiste mit der dunklen Hauptfarbe der App</string>
+    <string name="wallpapers_columns_setting_title">Wallpaper-Spalten</string>
+    <string name="wallpapers_columns_setting_content">Wähle die Anzahl an Spalten, in denen Wallpaper angezeigt werden</string>
+    <string name="animations_setting_title">Animationen aktivieren</string>
+    <string name="animations_setting_content">Dies könnte Lags auf einigen Geräten hervorrufen</string>
+    <string name="load_hi_res_pictures_title">Vorschau in voller Auflösung</string>
+    <string name="load_hi_res_pictures_content">In der Gitteransicht volle Auflösung laden</string>
+    <string name="deep_search_title">Deep Search aktivieren</string>
+    <string name="deep_search_content">Nach Name und Sammlung suchen</string>
+    <string name="storage_settings_title">Speicher</string>
+    <string name="wallpapers_download_location_setting_title">Download-Speicherort der Wallpaper</string>
+    <string name="wallpapers_download_location_setting_content">Ändere den Speicherort für Wallpaper-Downloads.\nAktueller Speicherort: %1$s</string>
+    <string name="create_folder">Ordner erstellen</string>
+    <string name="choose_folder">Wählen</string>
+    <string name="data_cache_setting_title">App-Daten und Cache löschen</string>
+    <string name="data_cache_setting_content">Dadurch werden App-Cache und Einstellungen gelöscht.\nAktuelle Cache-Größe: %1$s</string>
+    <string name="data_cache_confirmation">Bist du sicher, dass du App-Daten, Cache und Einstellungen löschen möchtest?</string>
+    <string name="clear_favorites_setting_title">Favoriten-Datenbank leeren</string>
+    <string name="clear_favorites_setting_content">Liste deiner favorisierten Wallpaper leeren</string>
+    <string name="clear_favorites_confirmation">Bist du sicher, dass du die Favoriten-Datenbank löschen möchtest?</string>
+    <!-- License -->
+    <string name="license_valid_title">Lizenz gültig</string>
+    <string name="license_valid_content">Vielen Dank für den Download von %1$s aus einem offiziellen Store. Viel Spaß!</string>
+    <string name="license_valid_snack">Lizenz gültig. Vielen Dank für den Download von %1$s. Viel Spaß!</string>
+    <string name="license_invalid_title">Du kannst nicht vorbei!</string>
+    <string name="license_invalid_content">Entschuldigung, aber wir haben festgestellt, dass deine Lizenz für %1$s nicht gültig ist. Dies kann auch durch die Nutzung von illegalen Apps verursacht werden. %2$s. Wenn du denkst, es handelt sich hierbei um einen Fehler, versuche es bitte später erneut. Andernfalls lade die App bitte aus einem offiziellen Store herunter.</string>
+    <string name="license_invalid_content_extra">Oder ausdrücklich, bitte deinstalliere folgende App: \'%1$s\'</string>
+    <string name="error_title">Fehler</string>
+    <string name="action_error_content">Entschuldigung, es ist ein unvorhergesehener Fehler aufgetreten, während die Aktion ausgeführt wurde.</string>
+    <string name="license_error_content">Entschuldigung, es ist ein Fehler während der Prüfung deiner Lizenz aufgetreten. Bitte versuche es später erneut.</string>
+    <string name="try_now">Jetzt versuchen</string>
+    <string name="donate">Spenden</string>
+    <string name="donate_success_title">Vielen Dank</string>
+    <string name="donate_success_content">Vielen, vielen Dank für deine Spende. Ich schätze dies sehr und freue mich, dass dir %1$s gefällt.</string>
+    <string name="donate_error">Es ist ein unerwarteter Fehler mit dem Code %1$s aufgetreten bedingt durch %2$s</string>
+    <string name="donate_error_unknown">unbekannte Ursache</string>
+    <string name="loading">Laden...</string>
+    <string name="close">Schließen</string>
+    <!-- Muzei Settings -->
+    <string name="muzei_settings">Muzei-Einstellungen</string>
+    <!-- Please use this character … -->
+    <string name="refresh_wallpapers_every">Wallpapers aktualisieren...</string>
+    <string name="every_x">Jeder %1$s</string>
+    <string name="minutes">Minuten</string>
+    <string name="hours">Stunden</string>
+    <string name="days">Tage</string>
+    <string name="refresh_only_on_wifi">Nur im WLAN aktualisieren</string>
+    <string name="refresh_only_on_wifi_summary">Wallpapers nur aktualisieren, wenn das Gerät mit einem WLAN-Netzwerk verbunden ist.</string>
+    <string name="choose_collections_title">Sammlungen wählen</string>
+    <string name="choose_collections_summary">Wähle die Sammlungen, aus denen Wallpaper genommen werden. Aktuell ausgewählte Sammlung: %1$s</string>
+    <string name="muzei_not_connected_title">Nicht mit dem Internet verbunden</string>
+    <string name="muzei_not_connected_content">Entschuldigung, aber um Sammlungen, aus denen die App Wallpaper nimmt, auswählen oder ändern zu können, musst du mit dem Internet verbunden sein. Bitte versuche es später noch einmal.</string>
+    <string name="sure_to_exit">Beenden</string>
+    <string name="sure_to_exit_content">Möchtest du deine Einstellungen vor dem Beenden speichern?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="not_connected_content">Diese Aktion benötigt eine Internetverbindung. Bitte später erneut versuchen.</string>
+    <string name="new_wallpapers_available">%1$s neue Wallpaper verfügbar. Tippe, um sie dir anzusehen!</string>
+    <string name="notifications_title">Benachrichtigungen</string>
+    <string name="enable_notifications">Benachrichtigungen aktivieren</string>
 </resources>
