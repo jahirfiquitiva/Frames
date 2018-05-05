@@ -33,7 +33,7 @@ ext.versions = [
         libs                 : '2.0',
         // Dependencies
         supportLibs          : '27.1.1',
-        room                 : '1.1.0-beta3',
+        room                 : '1.1.0-rc1',
         permissions          : '1.0.0',
         materialDialogs      : '0.9.6.0',
         glide                : '4.7.1',
