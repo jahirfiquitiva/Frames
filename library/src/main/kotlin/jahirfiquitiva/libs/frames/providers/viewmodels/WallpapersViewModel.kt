@@ -101,7 +101,7 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
             val size = getWallpaperBytes(obj)
             val dimensions = getWallpaperDimensions(obj)
             val copyright = obj.string("copyright")
-            val correctName = name.formatCorrectly().replace("_", " ").toTitleCase()
+            val correctName = name.formatCorrectly().replace("_", " ")
             val correctAuthor = author.formatCorrectly().replace("_", " ").toTitleCase()
             if (correctName.hasContent() && url.hasContent()) {
                 fWallpapers.add(

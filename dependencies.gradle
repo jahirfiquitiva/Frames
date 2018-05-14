@@ -25,8 +25,8 @@ ext.versions = [
         minSdk               : 16,
         targetSdk            : 27,
         buildTools           : '27.0.3',
-        versionCode          : 235,
-        versionName          : '2.3.5',
+        versionCode          : 236,
+        versionName          : '2.3.6',
         // Gradle Plugins
         gradle               : '3.1.1',
         kotlin               : '1.2.41',
@@ -45,7 +45,7 @@ ext.versions = [
         iaps                 : '1.0.44',
         muzeiApi             : '2.0',
         licensesDialog       : '1.8.3',
-        checker              : '1.2.2',
+        checker              : '5878dd8',
         oneSignal            : '3.8.3'
 ]
 

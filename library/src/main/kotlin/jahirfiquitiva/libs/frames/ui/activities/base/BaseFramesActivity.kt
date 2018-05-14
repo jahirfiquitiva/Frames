@@ -185,11 +185,12 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         prvChecker.apply {
             enableInstallerId(InstallerID.GOOGLE_PLAY)
             if (amazonInstallsEnabled()) enableInstallerId(InstallerID.AMAZON_APP_STORE)
-            if (checkLPF()) enableUnauthorizedAppsCheck()
-            if (checkStores()) enableStoresCheck()
+            enableUnauthorizedAppsCheck(checkLPF())
+            enableStoresCheck(checkStores())
+            enableDebugCheck(true)
             enableEmulatorCheck(false)
-            enableDebugCheck()
             enableFoldersCheck(false)
+            enableAPKCheck(false)
         }
         return prvChecker
     }
