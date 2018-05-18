@@ -18,10 +18,10 @@ package jahirfiquitiva.apps.frames.sample
 /* TODO: Remove comment marks to enable
 import com.onesignal.NotificationExtenderService
 import com.onesignal.OSNotificationReceivedResult
-import jahirfiquitiva.libs.frames.helpers.extensions.framesKonfigs
+import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 
 class NotificationService : NotificationExtenderService() {
     override fun onNotificationProcessing(notification: OSNotificationReceivedResult?): Boolean =
-            !framesKonfigs.notificationsEnabled
+            !FramesKonfigs(this).notificationsEnabled
 }
 */
