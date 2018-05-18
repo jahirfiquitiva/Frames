@@ -73,15 +73,15 @@ ext.libraries = [
         gliderv              : 'com.github.bumptech.glide:recyclerview-integration:' + versions.glide,
         glideCompiler        : 'com.github.bumptech.glide:compiler:' + versions.glide,
         // KAU Extensions
-        kauExt               : 'me.jahirfiquitiva.KAUExtensions:core:' + versions.kauExt,
-        archHelpers          : 'me.jahirfiquitiva.KAUExtensions:archhelpers:' + versions.kauExt + '@aar',
-        ziv                  : 'me.jahirfiquitiva.KAUExtensions:ziv:' + versions.kauExt,
+        kauExt               : 'com.jahirfiquitiva.KAUExtensions:core:' + versions.kauExt,
+        archHelpers          : 'com.jahirfiquitiva.KAUExtensions:archhelpers:' + versions.kauExt + '@aar',
+        ziv                  : 'com.jahirfiquitiva.KAUExtensions:ziv:' + versions.kauExt,
         // Sectioned RecyclerView
-        sectionedRecyclerView: 'com.github.jahirfiquitiva:sectioned-recyclerview:' + versions.sectionedRecyclerView + '@aar',
+        sectionedRecyclerView: 'com.jahirfiquitiva:sectioned-recyclerview:' + versions.sectionedRecyclerView + '@aar',
         // RecyclerView FastScroll
-        rvFastScroll         : 'me.jahirfiquitiva:recycler-fast-scroll:' + versions.rvFastScroll + '@aar',
+        rvFastScroll         : 'com.jahirfiquitiva:recycler-fast-scroll:' + versions.rvFastScroll + '@aar',
         // Chips
-        chips                : 'com.github.jahirfiquitiva:materialChipView:' + versions.chips,
+        chips                : 'com.jahirfiquitiva:materialChipView:' + versions.chips,
         // In-App Purchases
         iaps                 : 'com.anjlab.android.iab.v3:library:' + versions.iaps,
         // Muzei API
