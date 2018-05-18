@@ -33,7 +33,7 @@ ext.versions = [
         libs                 : '2.0',
         // Dependencies
         supportLibs          : '27.1.1',
-        room                 : '1.1.0-rc1',
+        room                 : '1.1.1-rc1',
         permissions          : '1.0.0',
         materialDialogs      : '0.9.6.0',
         glide                : '4.7.1',
@@ -45,7 +45,7 @@ ext.versions = [
         iaps                 : '1.0.44',
         muzeiApi             : '2.0',
         licensesDialog       : '1.8.3',
-        checker              : '5878dd8',
+        checker              : '1.2.3',
         oneSignal            : '3.8.3'
 ]
 
