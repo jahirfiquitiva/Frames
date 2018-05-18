@@ -242,7 +242,7 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
                 "https://github.com/jahirfiquitiva/Website-Resources/raw/master/myself/me-square-white.png"
         const val JAHIR_BUTTONS = "Website|Support|Google+"
         const val JAHIR_LINKS =
-                "https://www.jahirfiquitiva.me/|https://www.jahirfiquitiva.me/support/|https://www.google.com/+JahirFiquitivaR"
+                "https://jahirfiquitiva.com/|https://jahirfiquitiva.com/donate/|https://www.google.com/+JahirFiquitivaR"
         
         const val ALLAN_PHOTO_URL = "https://avatars0.githubusercontent.com/u/6251823?v=4&s=400"
         const val ALLAN_BUTTONS = "GitHub|Google+|Play Store"
