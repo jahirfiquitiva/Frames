@@ -83,7 +83,7 @@ android {
 
 dependencies {
     // Frames
-    implementation('me.jahirfiquitiva:Frames:2.3.7@aar') {
+    implementation('com.jahirfiquitiva:Frames:2.3.7@aar') {
         transitive = true
     }
     // TODO: Remove comment marks to enable
