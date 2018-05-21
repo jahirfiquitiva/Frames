@@ -67,6 +67,7 @@
   <string name="frames_dashboard">Frames Tableau de Bord</string>
   <string name="dev_contributions">Aide au développement</string>
   <string name="ui_contributions">Aide pour l\'interface Utilisateur</string>
+  <string name="dashboard_copyright">Je suis un développeur Android créactif, passionné et le créateur de ce tableau de bord.</string>
   <string name="sherry_description">Une femme en constante évolution qui ne se fatigue jamais d\'apprendre, photographe créative et la personne qui a rendu ce tableau de bord possible.</string>
   <string name="allan_description">D\'abord, un créateur de pack d\'icônes, puis un créateur de thème, et maintenant aussi un développeur.\nJ\'ai contribué à une partie du développement de ce tableau de bord.</string>
   <string name="settings">Paramètres</string>
@@ -92,7 +93,7 @@
   <string name="animations_setting_title">Activer les animations</string>
   <string name="animations_setting_content">Cela pourrait causer des ralentissements sur certains appareils</string>
   <string name="load_hi_res_pictures_title">Aperçus en haute résolution</string>
-  <string name="load_hi_res_pictures_content">Charger les images en haute résolution en grille</string>
+  <string name="load_hi_res_pictures_content">Charger les images de la grille en haute résolution</string>
   <string name="deep_search_title">Activer la recherche approfondie</string>
   <string name="deep_search_content">Rechercher par nom et collection</string>
   <string name="storage_settings_title">Stockage</string>
