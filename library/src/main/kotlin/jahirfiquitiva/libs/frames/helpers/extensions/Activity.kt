@@ -24,7 +24,7 @@ import jahirfiquitiva.libs.kauextensions.extensions.bind
 
 fun AppCompatActivity.framesPostponeEnterTransition(onTransitionEnd: () -> Unit = {}) {
     supportPostponeEnterTransition()
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
         val decor = window.decorView
         val statusBar: View? by decor.bind(android.R.id.statusBarBackground)
         val navBar: View? by decor.bind(android.R.id.navigationBarBackground)
