@@ -147,4 +147,6 @@
   <string name="new_wallpapers_available">%1$s nuevos fondos de pantalla disponibles. Toca para verlos!</string>
   <string name="notifications_title">Notificaciones</string>
   <string name="enable_notifications">Habilitar notificaciones</string>
+  <string name="changelog">Registro de cambios</string>
+  <string name="dismiss">Descartar</string>
 </resources>
