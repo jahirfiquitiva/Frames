@@ -16,134 +16,134 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="empty_section">ഒന്നും കണ്ടെത്തിയില്ല</string>
-    <string name="loading_section">ഉള്ളടക്കം ലോഡുചെയ്യുന്നു ...</string>
-    <string name="no_favorites">ആദ്യം ഫാവോരിറ്റീസിലേക്ക് കുറച്ച് വാൾപേപ്പറുകൾ ചേർക്കുക</string>
-    <string name="wallpapers">വാൾപേപ്പറുകൾ</string>
-    <string name="collections">ശേഖരങ്ങൾ</string>
-    <string name="x_wallpapers">%1$s വാൾപേപ്പറുകൾ</string>
-    <string name="all">എല്ലാം</string>
-    <string name="favorites">പ്രിയപ്പെട്ടവ</string>
-    <string name="favorite">പ്രിയപ്പെട്ട</string>
-    <string name="added_to_favorites">%1$s \'പ്രിയപ്പെട്ടവയിലേക്ക് ചേർത്തു.</string>
-    <string name="removed_from_favorites">%1$s \'പ്രിയപ്പെട്ടവയിൽ നിന്ന് നീക്കംചെയ്തു.</string>
-    <string name="actions_dialog_content">ഈ വാൾപേപ്പർ നിങ്ങൾ എന്ത് ചെയ്യാനാണ് ആഗ്രഹിക്കുന്നത്?</string>
-    <string name="apply">അപ്പ്ലൈ</string>
-    <string name="download">ഡൗൺലോഡ് ചെയ്യുക</string>
-    <string name="info">വിവരം</string>
-    <string name="share">പങ്കിടുക</string>
-    <!-- Do NOT remove or change the %1$s (or with any other number) -->
-    <string name="share_text">%3$s മുതൽ %2$s, എന്നയാളുടെ %1$s ആണ് എന്റെ ഇന്നത്തെ വാൾപേപ്പർ.\nഇപ്പോൾ അത് %4$s ൽ നേടുക</string>
-    <string name="permission_denied">സംഭരണ ​​അനുമതിയിലേക്കുള്ള ആക്സസ്സ് നിരസിച്ചു</string>
-    <string name="permission_denied_completely">സംഭരണ ​​അനുമതിയിലേക്കുള്ള ആക്സസ്സ് നിരസിച്ചു. നിങ്ങൾ ഇത് സ്വമേധയാ സെറ്റിങ്സിൽ എനേബിൾ ചെയ്യണം.</string>
-    <string name="permission_request">വാൾപേപ്പറുകൾ പ്രയോഗിക്കുന്നതിനും സംരക്ഷിക്കുന്നതിനും %1$s സംഭരണത്തിലേക്ക് ആക്സസ് ആവശ്യമാണ്</string>
-    <string name="allow">അനുവദിക്കുക</string>
-    <string name="downloading_wallpaper">\'%1$s\' ഡൗൺലോഡുചെയ്യുന്നു ...</string>
-    <string name="download_successful">\'%1$s\' ലേക്ക് വാൾപേപ്പർ വിജയകരമായി ഡൗൺലോഡുചെയ്തു</string>
-    <string name="download_successful_short">വാൾപേപ്പർ വിജയകരമായി ഡൗൺലോഡുചെയ്തു</string>
-    <string name="open">തുറക്കുക</string>
-    <string name="file_exists">വാൾപേപ്പർ മുൻപുതന്നെ ഡൌൺലോഡ് ചെയ്തതാണ്. ഇത് മാറ്റിസ്ഥാപിക്കാൻ ഡൌൺലോഡ് ചെയ്യണോ?</string>
-    <string name="file_replace">മാറ്റിസ്ഥാപിക്കുക</string>
-    <string name="file_create_new">പുതിയത് സൃഷ്ടിക്കുക</string>
-    <string name="applying_wallpaper">\'%1$s\' അപ്പ്ലൈ ചെയ്യുന്നു ...</string>
-    <string name="apply_to">ഇതിലേക്ക് പ്രയോഗിക്കുക:</string>
-    <string name="home_screen">ഹോം സ്ക്രീൻ</string>
-    <string name="lock_screen">ലോക്ക് സ്ക്രീൻ</string>
-    <string name="home_lock_screen">ഹോം, ലോക്ക് സ്ക്രീനുകൾ</string>
-    <string name="apply_with_other_app">മറ്റ് അപ്ലിക്കേഷൻ ഉപയോഗിച്ച് പ്രയോഗിക്കുക</string>
-    <string name="apply_successful">വാൾപേപ്പർ %1$s എന്നതിലേക്ക് വിജയകരമായി അപ്പ്ലൈ ചെയ്‌തു</string>
-    <string name="apply_successful_short">വാൾപേപ്പർ വിജയകരമായി പ്രയോഗിച്ചു</string>
-    <string name="wallpaper_details">വിശദാംശങ്ങൾ</string>
-    <string name="wallpaper_palette">പാലറ്റ്</string>
-    <string name="copied_to_clipboard">ക്ലിപ്പ്ബോർഡിലേക്ക് നിറം പകർത്തി</string>
-    <string name="search">തിരയുക</string>
-    <string name="search_x">തിരയുക %1$s…</string>
-    <string name="search_no_results">ഒരു ഫലവും കണ്ടെത്താനായില്ല</string>
-    <string name="about">ആമുഖം</string>
-    <string name="refresh">പുതുക്കുക</string>
-    <string name="translate">വിവർത്തനം ചെയ്യുക</string>
-    <string name="licenses">ലൈസൻസുകൾ</string>
-    <!-- Consider Frames an untranslatable word. It's the dashboard name -->
-    <string name="frames_dashboard">ഫ്രെയിംസ് ഡാഷ്ബോർഡ്</string>
-    <string name="dev_contributions">വികസന സഹായം</string>
-    <string name="ui_contributions">യു ഐ സഹായം</string>
-    <string name="sherry_description">ഈ ഡാഷ്ബോഡ്ഡ്  സാധ്യമാക്കിയ, ക്രീറ്റിവ് ഫോട്ടോഗ്രാഫർ ആയ വനിത. </string>
-    <string name="allan_description">ആദ്യം ഒരു ഐക്കൺ പാക്ക് സ്രഷ്ടാവും പിന്നീട് ഒരു ഡവലപ്പറും ഇപ്പോൾ ഡവലപ്പറും.\nഈ ഡാഷ്ബോർഡിന്റെ വികസനത്തിന്റെ ഭാഗമായി ഞാൻ സഹായിച്ചിട്ടുണ്ട്</string>
-    <string name="settings">ക്രമീകരണങ്ങൾ</string>
-    <string name="ui_settings_title">ഉപയോക്തൃ ഇന്റർഫേസ്</string>
-    <string name="theme_setting_title">അപ്ലിക്കേഷൻ തീം</string>
-    <string name="theme_setting_content">അപ്ലിക്കേഷനായി പ്രധാന തീം തിരഞ്ഞെടുക്കുക</string>
-    <!-- Light Theme -->
-    <string name="light_theme">വെളിച്ചം</string>
-    <!-- Dark Theme -->
-    <string name="dark_theme">ഡാർക്ക്</string>
-    <!-- Amoled Theme -->
-    <string name="amoled_theme">അമോലെഡ്</string>
-    <!-- Transparent Theme -->
-    <string name="transparent_theme">സുതാര്യം</string>
-    <!-- Automatic Light-Dark Theme -->
-    <string name="auto_dark">ഓട്ടോമാറ്റിക് ലൈറ്റ്-ഡാർക്ക്</string>
-    <!-- Automatic Light-Amoled Theme -->
-    <string name="auto_amoled">ഓട്ടോമാറ്റിക് ലൈറ്റ് അമോലെഡ്</string>
-    <string name="navbar_color_setting_title">കളർ നാവിഗേഷൻ ബാർ</string>
-    <string name="navbar_color_setting_content">അപ്ലിക്കേഷൻ പ്രാഥമിക  ഡാർക്ക് നിറത്തിലുള്ള നാവിഗേഷൻ ബാർ</string>
-    <string name="wallpapers_columns_setting_title">വാൾപേപ്പറുകളുടെ നിരകൾ</string>
-    <string name="wallpapers_columns_setting_content">നിങ്ങൾ വാൾപേപ്പറുകൾ കാണാൻ ആഗ്രഹിക്കുന്ന നിരകളുടെ എണ്ണം തിരഞ്ഞെടുക്കുക</string>
-    <string name="animations_setting_title">ആനിമേഷനുകൾ പ്രാപ്തമാക്കുക</string>
-    <string name="animations_setting_content">ഇത് ചില ഉപകരണങ്ങളിൽ ലാഗ് ചെയ്യാനിടയുണ്ട്.</string>
-    <string name="load_hi_res_pictures_title">പൂർണ്ണ റെസലൂഷൻ പ്രിവ്യൂകൾ</string>
-    <string name="load_hi_res_pictures_content">ഗ്രിഡിൽ പൂർണ്ണ മിഴിവുള്ള ചിത്രങ്ങൾ ലോഡ് ചെയ്യുക</string>
-    <string name="deep_search_title">ആഴത്തിലുള്ള തിരയൽ പ്രാപ്തമാക്കുക</string>
-    <string name="deep_search_content">പേരും ശേഖരവും ഉപയോഗിച്ച് തിരയുക</string>
-    <string name="storage_settings_title">സംഭരണം</string>
-    <string name="wallpapers_download_location_setting_title">വാൾപേപ്പറുകൾ  ഡൗൺലോഡ് ചെയ്യേണ്ട ലൊക്കേഷൻ</string>
-    <string name="wallpapers_download_location_setting_content">വാൾപേപ്പറുകൾ ഡൗൺലോഡുചെയ്യാൻ ലൊക്കേഷൻ മാറ്റുക.\nഇപ്പോഴുള്ള സ്ഥലം: %1$s</string>
-    <string name="create_folder">ഫോൾഡർ സൃഷ്ടിക്കുക</string>
-    <string name="choose_folder">തിരഞ്ഞെടുക്കുക</string>
-    <string name="data_cache_setting_title">അപ്ലിക്കേഷൻ ഡാറ്റയും കാഷും മായ്ക്കുക</string>
-    <string name="data_cache_setting_content">ഇത് അപ്ലിക്കേഷൻ കാഷെയും മുൻഗണനകളും ഇല്ലാതാക്കും.\nനിലവിലെ കാഷെ വലുപ്പം: %1$s</string>
-    <string name="data_cache_confirmation">അപ്ലിക്കേഷൻ ഡാറ്റ, കാഷെ, ക്രമീകരണങ്ങൾ എന്നിവ ഇല്ലാതാക്കാൻ നിങ്ങൾക്ക് താൽപ്പര്യമുണ്ടോ?</string>
-    <string name="clear_favorites_setting_title">പ്രിയപ്പെട്ടവ ഡാറ്റാബേസ് ക്ലിയർ ചെയ്യുക</string>
-    <string name="clear_favorites_setting_content">നിങ്ങളുടെ പ്രിയപ്പെട്ട വാൾപേപ്പറുകളുടെ ലിസ്റ്റ് മായ്ക്കുക</string>
-    <string name="clear_favorites_confirmation">പ്രിയപ്പെട്ടവ ഡാറ്റാബേസ് ഇല്ലാതാക്കണമെന്ന് നിങ്ങൾക്ക് തീർച്ചയാണോ?</string>
-    <!-- License -->
-    <string name="license_valid_title">ലൈസൻസ് സാധുവാണ്</string>
-    <string name="license_valid_content">സാധുവായ ഒരു സ്റ്റോറിൽ നിന്ന് %1$s ഡൗൺലോഡ് ചെയ്തതിന് നന്ദി.  ആസ്വദിക്കൂ!</string>
-    <string name="license_valid_snack">ലൈസൻസ് സാധുവാണ്. %1$s ഡൗൺലോഡ് ചെയ്തതിന് നന്ദി. ആസ്വദിക്കൂ!</string>
-    <string name="license_invalid_title">നിങ്ങൾ കടക്കരുത്</string>
-    <string name="license_invalid_content">ക്ഷമിക്കണം, പക്ഷേ %1$s എന്നതിനുള്ള ലൈസൻസ് സാധുവായതല്ലെന്ന് ഞങ്ങൾ കണ്ടെത്തി. നിങ്ങൾ പൈറേറ്റ് അപ്ലിക്കേഷനുകൾ ഉപയോഗിക്കുന്നു കാരണം ഇത് ആകാം. %2$s. ഇതൊരു പിശകാണെന്ന് നിങ്ങൾ കരുതുന്നുവെങ്കിൽ പിന്നീട് വീണ്ടും ശ്രമിക്കുക. അല്ലെങ്കിൽ, സാധുതയുള്ള ഒരു സ്റ്റോർ ഉപയോഗിച്ച് ആപ്ലിക്കേഷൻ ഡൌൺലോഡ് ചെയ്യുക.</string>
-    <string name="license_invalid_content_extra">അല്ലെങ്കിൽ പ്രത്യേകം: \'%1$s\' അപ്ലിക്കേഷൻ, അതിനാൽ അത് അൺഇൻസ്റ്റാൾ ചെയ്യുക</string>
-    <string name="error_title">ഇറർ</string>
-    <string name="action_error_content">ക്ഷമിക്കണം, ഈ പ്രവർത്തനം പൂർത്തിയാക്കാൻ ശ്രമിക്കുമ്പോൾ ഒരു അപ്രതീക്ഷിത ഇറർ സംഭവിച്ചു.</string>
-    <string name="license_error_content">ക്ഷമിക്കണം, നിങ്ങളുടെ ലൈസൻസ് പരിശോധിക്കുമ്പോൾ ഒരു പിശക് സംഭവിച്ചു. പിന്നീട് വീണ്ടും ശ്രമിക്കുക.</string>
-    <string name="try_now">ഇപ്പോൾ ശ്രമിക്കുക</string>
-    <string name="donate">സംഭാവനചെയ്യുക</string>
-    <string name="donate_success_title">നന്ദി</string>
-    <string name="donate_success_content">നിങ്ങളുടെ സംഭാവനയ്ക്ക് വളരെയധികം നന്ദി. അത് ഞാൻ വളരെ വിലമതിക്കുന്നു, നിങ്ങൾ %1$s ആസ്വദിക്കുന്നതിൽ ഞാൻ സന്തോഷിക്കുന്നു</string>
-    <string name="donate_error">%2$s കാരണം%1$s എന്നതിനൊപ്പം അപ്രതീക്ഷിത പിശക് സംഭവിച്ചു</string>
-    <string name="donate_error_unknown">അജ്ഞാതമായ കാരണങ്ങൾ</string>
-    <string name="loading">ലോഡിംഗ്…</string>
-    <string name="close">കോസ്</string>
-    <!-- Muzei Settings -->
-    <string name="muzei_settings">മുയ്സി ക്രമീകരണങ്ങൾ</string>
-    <!-- Please use this character … -->
-    <string name="refresh_wallpapers_every">വാൾപേപ്പറുകൾ പുതുക്കുക ...</string>
-    <string name="every_x">ഓരോ %1$s - ഉം</string>
-    <string name="minutes">മിനിറ്റ്</string>
-    <string name="hours">മണിക്കൂറുകൾ</string>
-    <string name="days">ദിവസങ്ങൾ</string>
-    <string name="refresh_only_on_wifi">WiFi- ൽ മാത്രം പുതുക്കുക</string>
-    <string name="refresh_only_on_wifi_summary">ഒരു WiFi നെറ്റ്വർക്കിലേക്ക് ഉപകരണം കണക്റ്റുമാകുമ്പോൾ മാത്രം വാൾപേപ്പറുകൾ പുതുക്കുക.</string>
-    <string name="choose_collections_title">ശേഖരങ്ങൾ തിരഞ്ഞെടുക്കുക</string>
-    <string name="choose_collections_summary">വാൾപേപ്പറുകൾ എടുക്കുന്നതിന് ശേഖരങ്ങൾ തിരഞ്ഞെടുക്കുക. തിരഞ്ഞെടുത്ത ശേഖരങ്ങൾ: %1$s</string>
-    <string name="muzei_not_connected_title">ഇന്റർനെറ്റിൽ കണക്റ്റുചെയ്തിട്ടില്ല</string>
-    <string name="muzei_not_connected_content">ക്ഷമിക്കണം, നിങ്ങൾ അപ്ലിക്കേഷനിൽ വാൾപേപ്പറുകൾ എടുക്കാൻ ആഗ്രഹിക്കുന്ന ശേഖരങ്ങൾ തിരഞ്ഞെടുക്കാൻ അല്ലെങ്കിൽ മാറ്റാൻ കഴിയണമെങ്കിൽ, നിങ്ങൾ ഇന്റർനെറ്റിൽ കണക്റ്റുചെയ്തിരിക്കണം. പിന്നീട് വീണ്ടും ശ്രമിക്കുക.</string>
-    <string name="sure_to_exit">പുറത്ത്</string>
-    <string name="sure_to_exit_content">പുറത്തുകടക്കുന്നതിന് മുമ്പ് നിങ്ങളുടെ ക്രമീകരണങ്ങൾ സംരക്ഷിക്കണോ?</string>
-    <string name="yes">അതെ</string>
-    <string name="no">ഇല്ല</string>
-    <string name="not_connected_content">നിർഭാഗ്യവശാൽ ഈ പ്രവർത്തനത്തിന് ഇന്റർനെറ്റ് കണക്ഷൻ ആവശ്യമാണ്. പിന്നീട് വീണ്ടും ശ്രമിക്കുക.</string>
-    <string name="new_wallpapers_available">%1$s പുതിയ വാൾപേപ്പറുകൾ ലഭ്യമാണ്. അവ പരിശോധിക്കാൻ ടാപ്പുചെയ്യുക!</string>
-    <string name="notifications_title">അറിയിപ്പുകൾ</string>
-    <string name="enable_notifications">അറിയിപ്പുകൾ എനേബിൾ ചെയ്യുക</string>
+  <string name="empty_section">ഒന്നും കണ്ടെത്തിയില്ല</string>
+  <string name="loading_section">ഉള്ളടക്കം ലോഡുചെയ്യുന്നു ...</string>
+  <string name="no_favorites">ആദ്യം ഫാവോരിറ്റീസിലേക്ക് കുറച്ച് വാൾപേപ്പറുകൾ ചേർക്കുക</string>
+  <string name="wallpapers">വാൾപേപ്പറുകൾ</string>
+  <string name="collections">ശേഖരങ്ങൾ</string>
+  <string name="x_wallpapers">%1$s വാൾപേപ്പറുകൾ</string>
+  <string name="all">എല്ലാം</string>
+  <string name="favorites">പ്രിയപ്പെട്ടവ</string>
+  <string name="favorite">പ്രിയപ്പെട്ട</string>
+  <string name="added_to_favorites">%1$s \'പ്രിയപ്പെട്ടവയിലേക്ക് ചേർത്തു.</string>
+  <string name="removed_from_favorites">%1$s \'പ്രിയപ്പെട്ടവയിൽ നിന്ന് നീക്കംചെയ്തു.</string>
+  <string name="actions_dialog_content">ഈ വാൾപേപ്പർ നിങ്ങൾ എന്ത് ചെയ്യാനാണ് ആഗ്രഹിക്കുന്നത്?</string>
+  <string name="apply">അപ്പ്ലൈ</string>
+  <string name="download">ഡൗൺലോഡ് ചെയ്യുക</string>
+  <string name="info">വിവരം</string>
+  <string name="share">പങ്കിടുക</string>
+  <!-- Do NOT remove or change the %1$s (or with any other number) -->
+  <string name="share_text">%3$s മുതൽ %2$s, എന്നയാളുടെ %1$s ആണ് എന്റെ ഇന്നത്തെ വാൾപേപ്പർ.\nഇപ്പോൾ അത് %4$s ൽ നേടുക</string>
+  <string name="permission_denied">സംഭരണ ​​അനുമതിയിലേക്കുള്ള ആക്സസ്സ് നിരസിച്ചു</string>
+  <string name="permission_denied_completely">സംഭരണ ​​അനുമതിയിലേക്കുള്ള ആക്സസ്സ് നിരസിച്ചു. നിങ്ങൾ ഇത് സ്വമേധയാ സെറ്റിങ്സിൽ എനേബിൾ ചെയ്യണം.</string>
+  <string name="permission_request">വാൾപേപ്പറുകൾ പ്രയോഗിക്കുന്നതിനും സംരക്ഷിക്കുന്നതിനും %1$s സംഭരണത്തിലേക്ക് ആക്സസ് ആവശ്യമാണ്</string>
+  <string name="allow">അനുവദിക്കുക</string>
+  <string name="downloading_wallpaper">\'%1$s\' ഡൗൺലോഡുചെയ്യുന്നു ...</string>
+  <string name="download_successful">\'%1$s\' ലേക്ക് വാൾപേപ്പർ വിജയകരമായി ഡൗൺലോഡുചെയ്തു</string>
+  <string name="download_successful_short">വാൾപേപ്പർ വിജയകരമായി ഡൗൺലോഡുചെയ്തു</string>
+  <string name="open">തുറക്കുക</string>
+  <string name="file_exists">വാൾപേപ്പർ മുൻപുതന്നെ ഡൌൺലോഡ് ചെയ്തതാണ്. ഇത് മാറ്റിസ്ഥാപിക്കാൻ ഡൌൺലോഡ് ചെയ്യണോ?</string>
+  <string name="file_replace">മാറ്റിസ്ഥാപിക്കുക</string>
+  <string name="file_create_new">പുതിയത് സൃഷ്ടിക്കുക</string>
+  <string name="applying_wallpaper">\'%1$s\' അപ്പ്ലൈ ചെയ്യുന്നു ...</string>
+  <string name="apply_to">ഇതിലേക്ക് പ്രയോഗിക്കുക:</string>
+  <string name="home_screen">ഹോം സ്ക്രീൻ</string>
+  <string name="lock_screen">ലോക്ക് സ്ക്രീൻ</string>
+  <string name="home_lock_screen">ഹോം, ലോക്ക് സ്ക്രീനുകൾ</string>
+  <string name="apply_with_other_app">മറ്റ് അപ്ലിക്കേഷൻ ഉപയോഗിച്ച് പ്രയോഗിക്കുക</string>
+  <string name="apply_successful">വാൾപേപ്പർ %1$s എന്നതിലേക്ക് വിജയകരമായി അപ്പ്ലൈ ചെയ്‌തു</string>
+  <string name="apply_successful_short">വാൾപേപ്പർ വിജയകരമായി പ്രയോഗിച്ചു</string>
+  <string name="wallpaper_details">വിശദാംശങ്ങൾ</string>
+  <string name="wallpaper_palette">പാലറ്റ്</string>
+  <string name="copied_to_clipboard">ക്ലിപ്പ്ബോർഡിലേക്ക് നിറം പകർത്തി</string>
+  <string name="search">തിരയുക</string>
+  <string name="search_x">തിരയുക %1$s…</string>
+  <string name="search_no_results">ഒരു ഫലവും കണ്ടെത്താനായില്ല</string>
+  <string name="about">ആമുഖം</string>
+  <string name="refresh">പുതുക്കുക</string>
+  <string name="translate">വിവർത്തനം ചെയ്യുക</string>
+  <string name="licenses">ലൈസൻസുകൾ</string>
+  <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+  <string name="frames_dashboard">ഫ്രെയിംസ് ഡാഷ്ബോർഡ്</string>
+  <string name="dev_contributions">വികസന സഹായം</string>
+  <string name="ui_contributions">യു ഐ സഹായം</string>
+  <string name="sherry_description">ഈ ഡാഷ്ബോഡ്ഡ്  സാധ്യമാക്കിയ, ക്രീറ്റിവ് ഫോട്ടോഗ്രാഫർ ആയ വനിത. </string>
+  <string name="allan_description">ആദ്യം ഒരു ഐക്കൺ പാക്ക് സ്രഷ്ടാവും പിന്നീട് ഒരു ഡവലപ്പറും ഇപ്പോൾ ഡവലപ്പറും.\nഈ ഡാഷ്ബോർഡിന്റെ വികസനത്തിന്റെ ഭാഗമായി ഞാൻ സഹായിച്ചിട്ടുണ്ട്</string>
+  <string name="settings">ക്രമീകരണങ്ങൾ</string>
+  <string name="ui_settings_title">ഉപയോക്തൃ ഇന്റർഫേസ്</string>
+  <string name="theme_setting_title">അപ്ലിക്കേഷൻ തീം</string>
+  <string name="theme_setting_content">അപ്ലിക്കേഷനായി പ്രധാന തീം തിരഞ്ഞെടുക്കുക</string>
+  <!-- Light Theme -->
+  <string name="light_theme">വെളിച്ചം</string>
+  <!-- Dark Theme -->
+  <string name="dark_theme">ഡാർക്ക്</string>
+  <!-- Amoled Theme -->
+  <string name="amoled_theme">അമോലെഡ്</string>
+  <!-- Transparent Theme -->
+  <string name="transparent_theme">സുതാര്യം</string>
+  <!-- Automatic Light-Dark Theme -->
+  <string name="auto_dark">ഓട്ടോമാറ്റിക് ലൈറ്റ്-ഡാർക്ക്</string>
+  <!-- Automatic Light-Amoled Theme -->
+  <string name="auto_amoled">ഓട്ടോമാറ്റിക് ലൈറ്റ് അമോലെഡ്</string>
+  <string name="navbar_color_setting_title">കളർ നാവിഗേഷൻ ബാർ</string>
+  <string name="navbar_color_setting_content">അപ്ലിക്കേഷൻ പ്രാഥമിക  ഡാർക്ക് നിറത്തിലുള്ള നാവിഗേഷൻ ബാർ</string>
+  <string name="wallpapers_columns_setting_title">വാൾപേപ്പറുകളുടെ നിരകൾ</string>
+  <string name="wallpapers_columns_setting_content">നിങ്ങൾ വാൾപേപ്പറുകൾ കാണാൻ ആഗ്രഹിക്കുന്ന നിരകളുടെ എണ്ണം തിരഞ്ഞെടുക്കുക</string>
+  <string name="animations_setting_title">ആനിമേഷനുകൾ പ്രാപ്തമാക്കുക</string>
+  <string name="animations_setting_content">ഇത് ചില ഉപകരണങ്ങളിൽ ലാഗ് ചെയ്യാനിടയുണ്ട്.</string>
+  <string name="load_hi_res_pictures_title">പൂർണ്ണ റെസലൂഷൻ പ്രിവ്യൂകൾ</string>
+  <string name="load_hi_res_pictures_content">ഗ്രിഡിൽ പൂർണ്ണ മിഴിവുള്ള ചിത്രങ്ങൾ ലോഡ് ചെയ്യുക</string>
+  <string name="deep_search_title">ആഴത്തിലുള്ള തിരയൽ പ്രാപ്തമാക്കുക</string>
+  <string name="deep_search_content">പേരും ശേഖരവും ഉപയോഗിച്ച് തിരയുക</string>
+  <string name="storage_settings_title">സംഭരണം</string>
+  <string name="wallpapers_download_location_setting_title">വാൾപേപ്പറുകൾ  ഡൗൺലോഡ് ചെയ്യേണ്ട ലൊക്കേഷൻ</string>
+  <string name="wallpapers_download_location_setting_content">വാൾപേപ്പറുകൾ ഡൗൺലോഡുചെയ്യാൻ ലൊക്കേഷൻ മാറ്റുക.\nഇപ്പോഴുള്ള സ്ഥലം: %1$s</string>
+  <string name="create_folder">ഫോൾഡർ സൃഷ്ടിക്കുക</string>
+  <string name="choose_folder">തിരഞ്ഞെടുക്കുക</string>
+  <string name="data_cache_setting_title">അപ്ലിക്കേഷൻ ഡാറ്റയും കാഷും മായ്ക്കുക</string>
+  <string name="data_cache_setting_content">ഇത് അപ്ലിക്കേഷൻ കാഷെയും മുൻഗണനകളും ഇല്ലാതാക്കും.\nനിലവിലെ കാഷെ വലുപ്പം: %1$s</string>
+  <string name="data_cache_confirmation">അപ്ലിക്കേഷൻ ഡാറ്റ, കാഷെ, ക്രമീകരണങ്ങൾ എന്നിവ ഇല്ലാതാക്കാൻ നിങ്ങൾക്ക് താൽപ്പര്യമുണ്ടോ?</string>
+  <string name="clear_favorites_setting_title">പ്രിയപ്പെട്ടവ ഡാറ്റാബേസ് ക്ലിയർ ചെയ്യുക</string>
+  <string name="clear_favorites_setting_content">നിങ്ങളുടെ പ്രിയപ്പെട്ട വാൾപേപ്പറുകളുടെ ലിസ്റ്റ് മായ്ക്കുക</string>
+  <string name="clear_favorites_confirmation">പ്രിയപ്പെട്ടവ ഡാറ്റാബേസ് ഇല്ലാതാക്കണമെന്ന് നിങ്ങൾക്ക് തീർച്ചയാണോ?</string>
+  <!-- License -->
+  <string name="license_valid_title">ലൈസൻസ് സാധുവാണ്</string>
+  <string name="license_valid_content">സാധുവായ ഒരു സ്റ്റോറിൽ നിന്ന് %1$s ഡൗൺലോഡ് ചെയ്തതിന് നന്ദി.  ആസ്വദിക്കൂ!</string>
+  <string name="license_valid_snack">ലൈസൻസ് സാധുവാണ്. %1$s ഡൗൺലോഡ് ചെയ്തതിന് നന്ദി. ആസ്വദിക്കൂ!</string>
+  <string name="license_invalid_title">നിങ്ങൾ കടക്കരുത്</string>
+  <string name="license_invalid_content">ക്ഷമിക്കണം, പക്ഷേ %1$s എന്നതിനുള്ള ലൈസൻസ് സാധുവായതല്ലെന്ന് ഞങ്ങൾ കണ്ടെത്തി. നിങ്ങൾ പൈറേറ്റ് അപ്ലിക്കേഷനുകൾ ഉപയോഗിക്കുന്നു കാരണം ഇത് ആകാം. %2$s. ഇതൊരു പിശകാണെന്ന് നിങ്ങൾ കരുതുന്നുവെങ്കിൽ പിന്നീട് വീണ്ടും ശ്രമിക്കുക. അല്ലെങ്കിൽ, സാധുതയുള്ള ഒരു സ്റ്റോർ ഉപയോഗിച്ച് ആപ്ലിക്കേഷൻ ഡൌൺലോഡ് ചെയ്യുക.</string>
+  <string name="license_invalid_content_extra">അല്ലെങ്കിൽ പ്രത്യേകം: \'%1$s\' അപ്ലിക്കേഷൻ, അതിനാൽ അത് അൺഇൻസ്റ്റാൾ ചെയ്യുക</string>
+  <string name="error_title">ഇറർ</string>
+  <string name="action_error_content">ക്ഷമിക്കണം, ഈ പ്രവർത്തനം പൂർത്തിയാക്കാൻ ശ്രമിക്കുമ്പോൾ ഒരു അപ്രതീക്ഷിത ഇറർ സംഭവിച്ചു.</string>
+  <string name="license_error_content">ക്ഷമിക്കണം, നിങ്ങളുടെ ലൈസൻസ് പരിശോധിക്കുമ്പോൾ ഒരു പിശക് സംഭവിച്ചു. പിന്നീട് വീണ്ടും ശ്രമിക്കുക.</string>
+  <string name="try_now">ഇപ്പോൾ ശ്രമിക്കുക</string>
+  <string name="donate">സംഭാവനചെയ്യുക</string>
+  <string name="donate_success_title">നന്ദി</string>
+  <string name="donate_success_content">നിങ്ങളുടെ സംഭാവനയ്ക്ക് വളരെയധികം നന്ദി. അത് ഞാൻ വളരെ വിലമതിക്കുന്നു, നിങ്ങൾ %1$s ആസ്വദിക്കുന്നതിൽ ഞാൻ സന്തോഷിക്കുന്നു</string>
+  <string name="donate_error">%2$s കാരണം%1$s എന്നതിനൊപ്പം അപ്രതീക്ഷിത പിശക് സംഭവിച്ചു</string>
+  <string name="donate_error_unknown">അജ്ഞാതമായ കാരണങ്ങൾ</string>
+  <string name="loading">ലോഡിംഗ്…</string>
+  <string name="close">കോസ്</string>
+  <!-- Muzei Settings -->
+  <string name="muzei_settings">മുയ്സി ക്രമീകരണങ്ങൾ</string>
+  <!-- Please use this character … -->
+  <string name="refresh_wallpapers_every">വാൾപേപ്പറുകൾ പുതുക്കുക ...</string>
+  <string name="every_x">ഓരോ %1$s - ഉം</string>
+  <string name="minutes">മിനിറ്റ്</string>
+  <string name="hours">മണിക്കൂറുകൾ</string>
+  <string name="days">ദിവസങ്ങൾ</string>
+  <string name="refresh_only_on_wifi">WiFi- ൽ മാത്രം പുതുക്കുക</string>
+  <string name="refresh_only_on_wifi_summary">ഒരു WiFi നെറ്റ്വർക്കിലേക്ക് ഉപകരണം കണക്റ്റുമാകുമ്പോൾ മാത്രം വാൾപേപ്പറുകൾ പുതുക്കുക.</string>
+  <string name="choose_collections_title">ശേഖരങ്ങൾ തിരഞ്ഞെടുക്കുക</string>
+  <string name="choose_collections_summary">വാൾപേപ്പറുകൾ എടുക്കുന്നതിന് ശേഖരങ്ങൾ തിരഞ്ഞെടുക്കുക. തിരഞ്ഞെടുത്ത ശേഖരങ്ങൾ: %1$s</string>
+  <string name="muzei_not_connected_title">ഇന്റർനെറ്റിൽ കണക്റ്റുചെയ്തിട്ടില്ല</string>
+  <string name="muzei_not_connected_content">ക്ഷമിക്കണം, നിങ്ങൾ അപ്ലിക്കേഷനിൽ വാൾപേപ്പറുകൾ എടുക്കാൻ ആഗ്രഹിക്കുന്ന ശേഖരങ്ങൾ തിരഞ്ഞെടുക്കാൻ അല്ലെങ്കിൽ മാറ്റാൻ കഴിയണമെങ്കിൽ, നിങ്ങൾ ഇന്റർനെറ്റിൽ കണക്റ്റുചെയ്തിരിക്കണം. പിന്നീട് വീണ്ടും ശ്രമിക്കുക.</string>
+  <string name="sure_to_exit">പുറത്ത്</string>
+  <string name="sure_to_exit_content">പുറത്തുകടക്കുന്നതിന് മുമ്പ് നിങ്ങളുടെ ക്രമീകരണങ്ങൾ സംരക്ഷിക്കണോ?</string>
+  <string name="yes">അതെ</string>
+  <string name="no">ഇല്ല</string>
+  <string name="not_connected_content">നിർഭാഗ്യവശാൽ ഈ പ്രവർത്തനത്തിന് ഇന്റർനെറ്റ് കണക്ഷൻ ആവശ്യമാണ്. പിന്നീട് വീണ്ടും ശ്രമിക്കുക.</string>
+  <string name="new_wallpapers_available">%1$s പുതിയ വാൾപേപ്പറുകൾ ലഭ്യമാണ്. അവ പരിശോധിക്കാൻ ടാപ്പുചെയ്യുക!</string>
+  <string name="notifications_title">അറിയിപ്പുകൾ</string>
+  <string name="enable_notifications">അറിയിപ്പുകൾ എനേബിൾ ചെയ്യുക</string>
 </resources>

@@ -16,135 +16,135 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="empty_section">Tidak ada yang ditemukan</string>
-    <string name="loading_section">Memuat konten…</string>
-    <string name="no_favorites">Menambahkan beberapa wallpaper ke favorit terlebih dahulu</string>
-    <string name="wallpapers">Wallpaper</string>
-    <string name="collections">Koleksi</string>
-    <string name="x_wallpapers">%1$s wallpaper</string>
-    <string name="all">Semua</string>
-    <string name="favorites">Favorit</string>
-    <string name="favorite">Favorit</string>
-    <string name="added_to_favorites">%1$s sudah ditambahkan ke favorit.</string>
-    <string name="removed_from_favorites">%1$s sudah dihapus dari favorit.</string>
-    <string name="actions_dialog_content">Apa yang ingin anda lakukan dengan wallpaper ini?</string>
-    <string name="apply">Terapkan</string>
-    <string name="download">Unduh</string>
-    <string name="info">Informasi</string>
-    <string name="share">Berbagi</string>
-    <!-- Do NOT remove or change the %1$s (or with any other number) -->
-    <string name="share_text">Wallpaper saya untuk hari ini adalah %1$s oleh %2$s, dari %3$s.\nDapatkan sekarang di %4$s</string>
-    <string name="permission_denied">Akses ke izin penyimpanan telah ditolak</string>
-    <string name="permission_denied_completely">Akses ke izin penyimpanan telah ditolak. Anda harus mengaktifkannya secara manual di Pengaturan.</string>
-    <string name="permission_request">%1$s memerlukan akses ke penyimpanan supaya bisa diterapkan dan menyimpan wallpaper</string>
-    <string name="allow">Mengizinkan</string>
-    <string name="downloading_wallpaper">Mengunduh \'%1$s\'…</string>
-    <string name="download_successful">Wallpaper berhasil diunduh ke \'%1$s\'</string>
-    <string name="download_successful_short">Wallpaper berhasil diunduh</string>
-    <string name="open">Buka</string>
-    <string name="file_exists">Wallpaper sudah diunduh. Apakah anda ingin mengunduh untuk menggantikannya?</string>
-    <string name="file_replace">Menggantikan</string>
-    <string name="file_create_new">Buat baru</string>
-    <string name="applying_wallpaper">Menerapkan \'%1$s\'…</string>
-    <string name="apply_to">Terapkan untuk:</string>
-    <string name="home_screen">Layar Beranda</string>
-    <string name="lock_screen">Kunci layar</string>
-    <string name="home_lock_screen">Beranda dan kunci layar</string>
-    <string name="apply_with_other_app">Terapkan dengan aplikasi lain</string>
-    <string name="apply_successful">Wallpaper berhasil diterapkan untuk %1$s</string>
-    <string name="apply_successful_short">Wallpaper berhasil diterapkan</string>
-    <string name="wallpaper_details">Rincian</string>
-    <string name="wallpaper_palette">Palet</string>
-    <string name="copied_to_clipboard">Warna disalin ke clipboard</string>
-    <string name="search">Cari</string>
-    <string name="search_x">Cari %1$s…</string>
-    <string name="search_no_results">Tidak ada hasil yang ditemukan</string>
-    <string name="about">Tentang</string>
-    <string name="refresh">Segarkan</string>
-    <string name="translate">Terjemahkan</string>
-    <string name="licenses">Lisensi</string>
-    <!-- Consider Frames an untranslatable word. It's the dashboard name -->
-    <string name="frames_dashboard">Bingkai Dasbor</string>
-    <string name="dev_contributions">Bantuan Pengembangan</string>
-    <string name="ui_contributions">Bantuan UI</string>
-    <string name="dashboard_copyright">Saya adalah seorang pengembang Android yang kreatif dan penuh gairah serta pencipta dari dasbor tersebut.</string>
-    <string name="sherry_description">Seorang wanita yang selalu berkembang yang tidak pernah lelah belajar, photografer dan orang yang membuat dasbor ini menjadi mungkin.</string>
-    <string name="allan_description">Pertama seorang pencipta paket ikon, kemudian seorang yang membuat tema, juga sekarang seorang pengembang.\nSaya telah dibantu dengan bagian dari pengembangan dasbor ini.</string>
-    <string name="settings">Pengaturan</string>
-    <string name="ui_settings_title">Pengguna antarmuka</string>
-    <string name="theme_setting_title">Tema aplikasi</string>
-    <string name="theme_setting_content">Pilih tema utama untuk apalikasi</string>
-    <!-- Light Theme -->
-    <string name="light_theme">Terang</string>
-    <!-- Dark Theme -->
-    <string name="dark_theme">Gelap</string>
-    <!-- Amoled Theme -->
-    <string name="amoled_theme">Amoled</string>
-    <!-- Transparent Theme -->
-    <string name="transparent_theme">Transparan</string>
-    <!-- Automatic Light-Dark Theme -->
-    <string name="auto_dark">Terang-Gelap Otomatis</string>
-    <!-- Automatic Light-Amoled Theme -->
-    <string name="auto_amoled">Terang-Amoled Otomatis</string>
-    <string name="navbar_color_setting_title">Batang navigasi warna</string>
-    <string name="navbar_color_setting_content">Batang navigasi warna dengan aplikasi utama warna gelap</string>
-    <string name="wallpapers_columns_setting_title">Kolom wallpaper</string>
-    <string name="wallpapers_columns_setting_content">Pilih jumlah dari kolom yang anda inginkan untuk melihat wallpaper</string>
-    <string name="animations_setting_title">Aktifkan animasi</string>
-    <string name="animations_setting_content">Ini mungkin menyebabkan kelambatan di beberapa perangkat.</string>
-    <string name="load_hi_res_pictures_title">Tinjauan resolusi penuh</string>
-    <string name="load_hi_res_pictures_content">Muat gambar resolusi penuh di kisi</string>
-    <string name="deep_search_title">Aktifkan pencarian mendalam</string>
-    <string name="deep_search_content">Cari berdasarkan nama dan koleksi</string>
-    <string name="storage_settings_title">Penyimpanan</string>
-    <string name="wallpapers_download_location_setting_title">Lokasi mengunduh wallpaper</string>
-    <string name="wallpapers_download_location_setting_content">Ganti lokasi untuk mengunduh wallpaper\nLokasi saat ini: %1$s</string>
-    <string name="create_folder">Buat folder</string>
-    <string name="choose_folder">Pilih</string>
-    <string name="data_cache_setting_title">Bersihkan data aplikasi dan cache</string>
-    <string name="data_cache_setting_content">Ini akan menghapus cache dan preferensi aplikasi.\nUkuran cache saat ini: %1$s</string>
-    <string name="data_cache_confirmation">Apakah anda yakin ingin menghapus data, cache dan pengaturan aplikasi?</string>
-    <string name="clear_favorites_setting_title">Bersihkan basisdata favorit</string>
-    <string name="clear_favorites_setting_content">Bersihkan daftar wallpaper favorit anda</string>
-    <string name="clear_favorites_confirmation">Apakah anda yakin ingin menghapus basisdata favorit?</string>
-    <!-- License -->
-    <string name="license_valid_title">Lisensi berlaku</string>
-    <string name="license_valid_content">Terimakasih untuk mengunduh %1$s dari sebuah toko yang berlaku. Nikmati lah!</string>
-    <string name="license_valid_snack">Lisensi berlaku. Terimakasih untuk mengunduh %1$s. Nikmati!</string>
-    <string name="license_invalid_title">Anda tidak boleh lewat!</string>
-    <string name="license_invalid_content">Maaf, tapi kami telah mendeteksi bahwa lisensi anda untuk %1$s tidak berlaku. Ini bisa juga terjadi karena anda menggunakan aplikasi bajakan. %2$s. Jika anda pikir ini adalah sebuah kesalahan, silahkan coba lagi nanti. Jika tidak, silahkan mengunduh aplikasi dari sebuah toko yang berlaku.</string>
-    <string name="license_invalid_content_extra">Atau secara khusus: \'%1$s\' aplikasi, jadi silahkan mencabutnya</string>
-    <string name="error_title">Kesalahan</string>
-    <string name="action_error_content">Maaf, terjadi sebuah kesalahan tak terduga saat mencoba untuk menyelesaikan tindakan ini.</string>
-    <string name="license_error_content">Maaf, ada sebuah kesalahan saat memeriksa lisensi anda. Silahkan coba lagi nanti.</string>
-    <string name="try_now">Coba sekarang</string>
-    <string name="donate">Menyumbangkan</string>
-    <string name="donate_success_title">Terima kasih</string>
-    <string name="donate_success_content">Terima kasih banyak untuk sumbangan anda. Saya sangat menghargainya dan saya senang anda menikmati %1$s.</string>
-    <string name="donate_error">Kesalahan yang tidak terduga dengan kode %1$s terjadi karena %2$s</string>
-    <string name="donate_error_unknown">alasan yang tidak diketahui</string>
-    <string name="loading">Memuat…</string>
-    <string name="close">Tutup</string>
-    <!-- Muzei Settings -->
-    <string name="muzei_settings">Pengaturan Muzei</string>
-    <!-- Please use this character … -->
-    <string name="refresh_wallpapers_every">Menyegarkan wallpaper…</string>
-    <string name="every_x">Setiap %1$s</string>
-    <string name="minutes">Menit</string>
-    <string name="hours">Jam</string>
-    <string name="days">Hari</string>
-    <string name="refresh_only_on_wifi">Segarkan pada WiFi saja</string>
-    <string name="refresh_only_on_wifi_summary">Menyegarkan wallpaper hanya ketika perangkat terhubung ke sebuah jaringan WiFi.</string>
-    <string name="choose_collections_title">Memilih koleksi</string>
-    <string name="choose_collections_summary">Memilih koleksi untuk mengambil bentuk wallpaper. Koleksi yang dipilih saat ini: %1$s</string>
-    <string name="muzei_not_connected_title">Tidak terhubung ke internet</string>
-    <string name="muzei_not_connected_content">Maaf, tapi bisa untuk memilih atau mengganti koleksi, anda ingin aplikasi untuk mengambil bentuk wallpaper, anda harus terhubung ke internet. Silahkan coba lagi nanti.</string>
-    <string name="sure_to_exit">Keluar</string>
-    <string name="sure_to_exit_content">Apakah anda ingin menyimpan pengaturan anda sebelum keluar?</string>
-    <string name="yes">Ya</string>
-    <string name="no">Tidak</string>
-    <string name="not_connected_content">Sayangnya tindakan ini membutuhkan koneksi internet. Silahkan coba lagi nanti.</string>
-    <string name="new_wallpapers_available">%1$s wallpaper baru tersedia. Ketuk untuk memeriksa mereka!</string>
-    <string name="notifications_title">Pemberitahuan</string>
-    <string name="enable_notifications">Mengaktifkan pemberitahuan</string>
+  <string name="empty_section">Tidak ada yang ditemukan</string>
+  <string name="loading_section">Memuat konten…</string>
+  <string name="no_favorites">Menambahkan beberapa wallpaper ke favorit terlebih dahulu</string>
+  <string name="wallpapers">Wallpaper</string>
+  <string name="collections">Koleksi</string>
+  <string name="x_wallpapers">%1$s wallpaper</string>
+  <string name="all">Semua</string>
+  <string name="favorites">Favorit</string>
+  <string name="favorite">Favorit</string>
+  <string name="added_to_favorites">%1$s sudah ditambahkan ke favorit.</string>
+  <string name="removed_from_favorites">%1$s sudah dihapus dari favorit.</string>
+  <string name="actions_dialog_content">Apa yang ingin anda lakukan dengan wallpaper ini?</string>
+  <string name="apply">Terapkan</string>
+  <string name="download">Unduh</string>
+  <string name="info">Informasi</string>
+  <string name="share">Berbagi</string>
+  <!-- Do NOT remove or change the %1$s (or with any other number) -->
+  <string name="share_text">Wallpaper saya untuk hari ini adalah %1$s oleh %2$s, dari %3$s.\nDapatkan sekarang di %4$s</string>
+  <string name="permission_denied">Akses ke izin penyimpanan telah ditolak</string>
+  <string name="permission_denied_completely">Akses ke izin penyimpanan telah ditolak. Anda harus mengaktifkannya secara manual di Pengaturan.</string>
+  <string name="permission_request">%1$s memerlukan akses ke penyimpanan supaya bisa diterapkan dan menyimpan wallpaper</string>
+  <string name="allow">Mengizinkan</string>
+  <string name="downloading_wallpaper">Mengunduh \'%1$s\'…</string>
+  <string name="download_successful">Wallpaper berhasil diunduh ke \'%1$s\'</string>
+  <string name="download_successful_short">Wallpaper berhasil diunduh</string>
+  <string name="open">Buka</string>
+  <string name="file_exists">Wallpaper sudah diunduh. Apakah anda ingin mengunduh untuk menggantikannya?</string>
+  <string name="file_replace">Menggantikan</string>
+  <string name="file_create_new">Buat baru</string>
+  <string name="applying_wallpaper">Menerapkan \'%1$s\'…</string>
+  <string name="apply_to">Terapkan untuk:</string>
+  <string name="home_screen">Layar Beranda</string>
+  <string name="lock_screen">Kunci layar</string>
+  <string name="home_lock_screen">Beranda dan kunci layar</string>
+  <string name="apply_with_other_app">Terapkan dengan aplikasi lain</string>
+  <string name="apply_successful">Wallpaper berhasil diterapkan untuk %1$s</string>
+  <string name="apply_successful_short">Wallpaper berhasil diterapkan</string>
+  <string name="wallpaper_details">Rincian</string>
+  <string name="wallpaper_palette">Palet</string>
+  <string name="copied_to_clipboard">Warna disalin ke clipboard</string>
+  <string name="search">Cari</string>
+  <string name="search_x">Cari %1$s…</string>
+  <string name="search_no_results">Tidak ada hasil yang ditemukan</string>
+  <string name="about">Tentang</string>
+  <string name="refresh">Segarkan</string>
+  <string name="translate">Terjemahkan</string>
+  <string name="licenses">Lisensi</string>
+  <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+  <string name="frames_dashboard">Bingkai Dasbor</string>
+  <string name="dev_contributions">Bantuan Pengembangan</string>
+  <string name="ui_contributions">Bantuan UI</string>
+  <string name="dashboard_copyright">Saya adalah seorang pengembang Android yang kreatif dan penuh gairah serta pencipta dari dasbor tersebut.</string>
+  <string name="sherry_description">Seorang wanita yang selalu berkembang yang tidak pernah lelah belajar, photografer dan orang yang membuat dasbor ini menjadi mungkin.</string>
+  <string name="allan_description">Pertama seorang pencipta paket ikon, kemudian seorang yang membuat tema, juga sekarang seorang pengembang.\nSaya telah dibantu dengan bagian dari pengembangan dasbor ini.</string>
+  <string name="settings">Pengaturan</string>
+  <string name="ui_settings_title">Pengguna antarmuka</string>
+  <string name="theme_setting_title">Tema aplikasi</string>
+  <string name="theme_setting_content">Pilih tema utama untuk apalikasi</string>
+  <!-- Light Theme -->
+  <string name="light_theme">Terang</string>
+  <!-- Dark Theme -->
+  <string name="dark_theme">Gelap</string>
+  <!-- Amoled Theme -->
+  <string name="amoled_theme">Amoled</string>
+  <!-- Transparent Theme -->
+  <string name="transparent_theme">Transparan</string>
+  <!-- Automatic Light-Dark Theme -->
+  <string name="auto_dark">Terang-Gelap Otomatis</string>
+  <!-- Automatic Light-Amoled Theme -->
+  <string name="auto_amoled">Terang-Amoled Otomatis</string>
+  <string name="navbar_color_setting_title">Batang navigasi warna</string>
+  <string name="navbar_color_setting_content">Batang navigasi warna dengan aplikasi utama warna gelap</string>
+  <string name="wallpapers_columns_setting_title">Kolom wallpaper</string>
+  <string name="wallpapers_columns_setting_content">Pilih jumlah dari kolom yang anda inginkan untuk melihat wallpaper</string>
+  <string name="animations_setting_title">Aktifkan animasi</string>
+  <string name="animations_setting_content">Ini mungkin menyebabkan kelambatan di beberapa perangkat.</string>
+  <string name="load_hi_res_pictures_title">Tinjauan resolusi penuh</string>
+  <string name="load_hi_res_pictures_content">Muat gambar resolusi penuh di kisi</string>
+  <string name="deep_search_title">Aktifkan pencarian mendalam</string>
+  <string name="deep_search_content">Cari berdasarkan nama dan koleksi</string>
+  <string name="storage_settings_title">Penyimpanan</string>
+  <string name="wallpapers_download_location_setting_title">Lokasi mengunduh wallpaper</string>
+  <string name="wallpapers_download_location_setting_content">Ganti lokasi untuk mengunduh wallpaper\nLokasi saat ini: %1$s</string>
+  <string name="create_folder">Buat folder</string>
+  <string name="choose_folder">Pilih</string>
+  <string name="data_cache_setting_title">Bersihkan data aplikasi dan cache</string>
+  <string name="data_cache_setting_content">Ini akan menghapus cache dan preferensi aplikasi.\nUkuran cache saat ini: %1$s</string>
+  <string name="data_cache_confirmation">Apakah anda yakin ingin menghapus data, cache dan pengaturan aplikasi?</string>
+  <string name="clear_favorites_setting_title">Bersihkan basisdata favorit</string>
+  <string name="clear_favorites_setting_content">Bersihkan daftar wallpaper favorit anda</string>
+  <string name="clear_favorites_confirmation">Apakah anda yakin ingin menghapus basisdata favorit?</string>
+  <!-- License -->
+  <string name="license_valid_title">Lisensi berlaku</string>
+  <string name="license_valid_content">Terimakasih untuk mengunduh %1$s dari sebuah toko yang berlaku. Nikmati lah!</string>
+  <string name="license_valid_snack">Lisensi berlaku. Terimakasih untuk mengunduh %1$s. Nikmati!</string>
+  <string name="license_invalid_title">Anda tidak boleh lewat!</string>
+  <string name="license_invalid_content">Maaf, tapi kami telah mendeteksi bahwa lisensi anda untuk %1$s tidak berlaku. Ini bisa juga terjadi karena anda menggunakan aplikasi bajakan. %2$s. Jika anda pikir ini adalah sebuah kesalahan, silahkan coba lagi nanti. Jika tidak, silahkan mengunduh aplikasi dari sebuah toko yang berlaku.</string>
+  <string name="license_invalid_content_extra">Atau secara khusus: \'%1$s\' aplikasi, jadi silahkan mencabutnya</string>
+  <string name="error_title">Kesalahan</string>
+  <string name="action_error_content">Maaf, terjadi sebuah kesalahan tak terduga saat mencoba untuk menyelesaikan tindakan ini.</string>
+  <string name="license_error_content">Maaf, ada sebuah kesalahan saat memeriksa lisensi anda. Silahkan coba lagi nanti.</string>
+  <string name="try_now">Coba sekarang</string>
+  <string name="donate">Menyumbangkan</string>
+  <string name="donate_success_title">Terima kasih</string>
+  <string name="donate_success_content">Terima kasih banyak untuk sumbangan anda. Saya sangat menghargainya dan saya senang anda menikmati %1$s.</string>
+  <string name="donate_error">Kesalahan yang tidak terduga dengan kode %1$s terjadi karena %2$s</string>
+  <string name="donate_error_unknown">alasan yang tidak diketahui</string>
+  <string name="loading">Memuat…</string>
+  <string name="close">Tutup</string>
+  <!-- Muzei Settings -->
+  <string name="muzei_settings">Pengaturan Muzei</string>
+  <!-- Please use this character … -->
+  <string name="refresh_wallpapers_every">Menyegarkan wallpaper…</string>
+  <string name="every_x">Setiap %1$s</string>
+  <string name="minutes">Menit</string>
+  <string name="hours">Jam</string>
+  <string name="days">Hari</string>
+  <string name="refresh_only_on_wifi">Segarkan pada WiFi saja</string>
+  <string name="refresh_only_on_wifi_summary">Menyegarkan wallpaper hanya ketika perangkat terhubung ke sebuah jaringan WiFi.</string>
+  <string name="choose_collections_title">Memilih koleksi</string>
+  <string name="choose_collections_summary">Memilih koleksi untuk mengambil bentuk wallpaper. Koleksi yang dipilih saat ini: %1$s</string>
+  <string name="muzei_not_connected_title">Tidak terhubung ke internet</string>
+  <string name="muzei_not_connected_content">Maaf, tapi bisa untuk memilih atau mengganti koleksi, anda ingin aplikasi untuk mengambil bentuk wallpaper, anda harus terhubung ke internet. Silahkan coba lagi nanti.</string>
+  <string name="sure_to_exit">Keluar</string>
+  <string name="sure_to_exit_content">Apakah anda ingin menyimpan pengaturan anda sebelum keluar?</string>
+  <string name="yes">Ya</string>
+  <string name="no">Tidak</string>
+  <string name="not_connected_content">Sayangnya tindakan ini membutuhkan koneksi internet. Silahkan coba lagi nanti.</string>
+  <string name="new_wallpapers_available">%1$s wallpaper baru tersedia. Ketuk untuk memeriksa mereka!</string>
+  <string name="notifications_title">Pemberitahuan</string>
+  <string name="enable_notifications">Mengaktifkan pemberitahuan</string>
 </resources>
