@@ -16,135 +16,135 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="empty_section">Ничего не найдено</string>
-    <string name="loading_section">Загружаем контент...</string>
-    <string name="no_favorites">Для начала добавьте несколько обоев в избранное</string>
-    <string name="wallpapers">Обои</string>
-    <string name="collections">Коллекции</string>
-    <string name="x_wallpapers">Обои: %1$s</string>
-    <string name="all">Все</string>
-    <string name="favorites">Избранное</string>
-    <string name="favorite">Избранное</string>
-    <string name="added_to_favorites">В избранное добавлено: %1$s</string>
-    <string name="removed_from_favorites">%1$s удалено из Избранного.</string>
-    <string name="actions_dialog_content">Что бы вы хотели сделать с этими обоями?</string>
-    <string name="apply">Применить</string>
-    <string name="download">Загрузка</string>
-    <string name="info">Информация</string>
-    <string name="share">Поделиться</string>
-    <!-- Do NOT remove or change the %1$s (or with any other number) -->
-    <string name="share_text">Мои обои на сегодня %1$s от %2$s с %3$s.\nПопробуйте их сегодня с помощью %4$s</string>
-    <string name="permission_denied">Доступ к хранилищу был отключен</string>
-    <string name="permission_denied_completely">Доступ к хранилищу был отключен. Вы должны вручную включить доступ в настройках.</string>
-    <string name="permission_request">%1$s требуется доступ к хранилищу для сохранения и установки обоев</string>
-    <string name="allow">Разрешить</string>
-    <string name="downloading_wallpaper">Скачивается \'%1$s\'…</string>
-    <string name="download_successful">Обои успешно загружены в \'%1$s\'</string>
-    <string name="download_successful_short">Обои успешно загружены!</string>
-    <string name="open">Открыть</string>
-    <string name="file_exists">Обои уже загружены. Хотите снова скачать и заменить их?</string>
-    <string name="file_replace">Заменить</string>
-    <string name="file_create_new">Создать</string>
-    <string name="applying_wallpaper">Применяем \'%1$s\'</string>
-    <string name="apply_to">Установить на:</string>
-    <string name="home_screen">Домашний экран</string>
-    <string name="lock_screen">Экран блокировки</string>
-    <string name="home_lock_screen">Домашний экран и экран блокировки</string>
-    <string name="apply_with_other_app">Установить с другим приложением</string>
-    <string name="apply_successful">Обои успешно установлены на \'%1$s\'</string>
-    <string name="apply_successful_short">Обо успешно установлены</string>
-    <string name="wallpaper_details">Детали</string>
-    <string name="wallpaper_palette">Палитра</string>
-    <string name="copied_to_clipboard">Цвет скопирован в буфер обмена</string>
-    <string name="search">Поиск</string>
-    <string name="search_x">Поиск %1$s</string>
-    <string name="search_no_results">Ничего не найдено</string>
-    <string name="about">О программе</string>
-    <string name="refresh">Обновить</string>
-    <string name="translate">Перевод</string>
-    <string name="licenses">Лицензия</string>
-    <!-- Consider Frames an untranslatable word. It's the dashboard name -->
-    <string name="frames_dashboard">Frames Dashboard</string>
-    <string name="dev_contributions">Помощь в разработке</string>
-    <string name="ui_contributions">Помощь в интерфейсе</string>
-    <string name="dashboard_copyright">Я страстный и креативный разработчик Android приложений и я создал эту оболочку.</string>
-    <string name="sherry_description">Увлеченная женщина, которая никогда не устает учиться, креативный фотограф и человек, благодаря которому это случилось возможным.</string>
-    <string name="allan_description">Первый создатель набора иконок, сейчас также разработчик.\nЯ помогал с разработкой части панели управления.</string>
-    <string name="settings">Настройки</string>
-    <string name="ui_settings_title">Пользовательский интерфейс</string>
-    <string name="theme_setting_title">Тема приложения</string>
-    <string name="theme_setting_content">Выберите главную тему для приложения</string>
-    <!-- Light Theme -->
-    <string name="light_theme">Светлая</string>
-    <!-- Dark Theme -->
-    <string name="dark_theme">Темная</string>
-    <!-- Amoled Theme -->
-    <string name="amoled_theme">AMOLED</string>
-    <!-- Transparent Theme -->
-    <string name="transparent_theme">Прозрачная</string>
-    <!-- Automatic Light-Dark Theme -->
-    <string name="auto_dark">Автоматическая Светлая-Темная</string>
-    <!-- Automatic Light-Amoled Theme -->
-    <string name="auto_amoled">Автоматическая Светлая-Amoled</string>
-    <string name="navbar_color_setting_title">Цвет панели навигации</string>
-    <string name="navbar_color_setting_content">Цвет панели с главной темной темой</string>
-    <string name="wallpapers_columns_setting_title">Количество колонок</string>
-    <string name="wallpapers_columns_setting_content">Выберите количество колонок, в которых вы хотите видеть обои</string>
-    <string name="animations_setting_title">Включить анимацию</string>
-    <string name="animations_setting_content">Это может вызвать подтормаживания на некоторых устройствах.</string>
-    <string name="load_hi_res_pictures_title">Превью в полном разрешении</string>
-    <string name="load_hi_res_pictures_content">Загружать полноразмерные картинки в сетке</string>
-    <string name="deep_search_title">Включить глубокий поиск</string>
-    <string name="deep_search_content">Поиск по названию и коллекции</string>
-    <string name="storage_settings_title">Хранилище</string>
-    <string name="wallpapers_download_location_setting_title">Место для скачиваемых обоев</string>
-    <string name="wallpapers_download_location_setting_content">Изменить место для скачиваемых обоев. \nВ настоящее время это: %1$s</string>
-    <string name="create_folder">Создать папку</string>
-    <string name="choose_folder">Выбрать</string>
-    <string name="data_cache_setting_title">Очистить данные и кеш</string>
-    <string name="data_cache_setting_content">Это удалит кеш приложения и настройки. \nТекущий размер кеша: %1$s</string>
-    <string name="data_cache_confirmation">Вы уверены, что хотите удалить кеш и настройки?</string>
-    <string name="clear_favorites_setting_title">Очистить базу Избранного</string>
-    <string name="clear_favorites_setting_content">Очистить список избранных обоев</string>
-    <string name="clear_favorites_confirmation">Вы уверены, что хотите удалить избранное?</string>
-    <!-- License -->
-    <string name="license_valid_title">Лицензия действует</string>
-    <string name="license_valid_content">Спасибо за скачивание %1$s из магазина. Надеюсь вы получите удовольствие от использования!</string>
-    <string name="license_valid_snack">Лицензия подтверждена. Спасибо за загрузку %1$s. Наслаждайтесь!</string>
-    <string name="license_invalid_title">Ты не пройдешь!</string>
-    <string name="license_invalid_content">Извините, но у вас недействующая лицензия %1$s . Возможно это пиратское приложение.  %2$s. Если вы полагаете, что это ошибка, то попробуйте позднее. Или скачайте приложение из официального магазина.</string>
-    <string name="license_invalid_content_extra">Или обратите внимание на \'%1$s и удалите его</string>
-    <string name="error_title">Ошибка</string>
-    <string name="action_error_content">Извините, произошла непредвиденная ошибка.</string>
-    <string name="license_error_content">При проверке вашей лицензии произошла ошибка. Попробуйте позже.</string>
-    <string name="try_now">Попробовать сейчас</string>
-    <string name="donate">пожертвовать</string>
-    <string name="donate_success_title">Спасибо</string>
-    <string name="donate_success_content">Спасибо за ваше пожертвование. Мы очень ценим это и рады, что вам нравится %1$s.</string>
-    <string name="donate_error">Ошибка с кодом %1$s из-за %2$s</string>
-    <string name="donate_error_unknown">неизвестная причина</string>
-    <string name="loading">Загрузка</string>
-    <string name="close">Закрыть</string>
-    <!-- Muzei Settings -->
-    <string name="muzei_settings">Настройки Muzei</string>
-    <!-- Please use this character … -->
-    <string name="refresh_wallpapers_every">Обновить обои...</string>
-    <string name="every_x">Каждый %1$s</string>
-    <string name="minutes">Минут</string>
-    <string name="hours">Часов</string>
-    <string name="days">Дней</string>
-    <string name="refresh_only_on_wifi">Обновлять только при наличии Wi-Fi</string>
-    <string name="refresh_only_on_wifi_summary">Обновлять только когда устройство подключено к Wi-Fi сети.</string>
-    <string name="choose_collections_title">Выберите коллекцию</string>
-    <string name="choose_collections_summary">Выберите коллекцию откуда брать обои. Сейчас это %1$s</string>
-    <string name="muzei_not_connected_title">Нет подключения к интернету</string>
-    <string name="muzei_not_connected_content">Невозможно выбрать коллекцию, нужно подключение к интернету. Попробуйте позднее.</string>
-    <string name="sure_to_exit">Выход</string>
-    <string name="sure_to_exit_content">Сохранить настройки перед выходом?</string>
-    <string name="yes">Да</string>
-    <string name="no">Нет</string>
-    <string name="not_connected_content">Это действие требует подключения. Попробуйте позднее. </string>
-    <string name="new_wallpapers_available">Доступно %1$s новых обоев. Нажмите, чтобы проверить!</string>
-    <string name="notifications_title">Уведомления</string>
-    <string name="enable_notifications">Включить уведомления</string>
+  <string name="empty_section">Ничего не найдено</string>
+  <string name="loading_section">Загружаем контент...</string>
+  <string name="no_favorites">Для начала добавьте несколько обоев в избранное</string>
+  <string name="wallpapers">Обои</string>
+  <string name="collections">Коллекции</string>
+  <string name="x_wallpapers">Обои: %1$s</string>
+  <string name="all">Все</string>
+  <string name="favorites">Избранное</string>
+  <string name="favorite">Избранное</string>
+  <string name="added_to_favorites">В избранное добавлено: %1$s</string>
+  <string name="removed_from_favorites">%1$s удалено из Избранного.</string>
+  <string name="actions_dialog_content">Что бы вы хотели сделать с этими обоями?</string>
+  <string name="apply">Применить</string>
+  <string name="download">Загрузка</string>
+  <string name="info">Информация</string>
+  <string name="share">Поделиться</string>
+  <!-- Do NOT remove or change the %1$s (or with any other number) -->
+  <string name="share_text">Мои обои на сегодня %1$s от %2$s с %3$s.\nПопробуйте их сегодня с помощью %4$s</string>
+  <string name="permission_denied">Доступ к хранилищу был отключен</string>
+  <string name="permission_denied_completely">Доступ к хранилищу был отключен. Вы должны вручную включить доступ в настройках.</string>
+  <string name="permission_request">%1$s требуется доступ к хранилищу для сохранения и установки обоев</string>
+  <string name="allow">Разрешить</string>
+  <string name="downloading_wallpaper">Скачивается \'%1$s\'…</string>
+  <string name="download_successful">Обои успешно загружены в \'%1$s\'</string>
+  <string name="download_successful_short">Обои успешно загружены!</string>
+  <string name="open">Открыть</string>
+  <string name="file_exists">Обои уже загружены. Хотите снова скачать и заменить их?</string>
+  <string name="file_replace">Заменить</string>
+  <string name="file_create_new">Создать</string>
+  <string name="applying_wallpaper">Применяем \'%1$s\'</string>
+  <string name="apply_to">Установить на:</string>
+  <string name="home_screen">Домашний экран</string>
+  <string name="lock_screen">Экран блокировки</string>
+  <string name="home_lock_screen">Домашний экран и экран блокировки</string>
+  <string name="apply_with_other_app">Установить с другим приложением</string>
+  <string name="apply_successful">Обои успешно установлены на \'%1$s\'</string>
+  <string name="apply_successful_short">Обо успешно установлены</string>
+  <string name="wallpaper_details">Детали</string>
+  <string name="wallpaper_palette">Палитра</string>
+  <string name="copied_to_clipboard">Цвет скопирован в буфер обмена</string>
+  <string name="search">Поиск</string>
+  <string name="search_x">Поиск %1$s</string>
+  <string name="search_no_results">Ничего не найдено</string>
+  <string name="about">О программе</string>
+  <string name="refresh">Обновить</string>
+  <string name="translate">Перевод</string>
+  <string name="licenses">Лицензия</string>
+  <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+  <string name="frames_dashboard">Frames Dashboard</string>
+  <string name="dev_contributions">Помощь в разработке</string>
+  <string name="ui_contributions">Помощь в интерфейсе</string>
+  <string name="dashboard_copyright">Я страстный и креативный разработчик Android приложений и я создал эту оболочку.</string>
+  <string name="sherry_description">Увлеченная женщина, которая никогда не устает учиться, креативный фотограф и человек, благодаря которому это случилось возможным.</string>
+  <string name="allan_description">Первый создатель набора иконок, сейчас также разработчик.\nЯ помогал с разработкой части панели управления.</string>
+  <string name="settings">Настройки</string>
+  <string name="ui_settings_title">Пользовательский интерфейс</string>
+  <string name="theme_setting_title">Тема приложения</string>
+  <string name="theme_setting_content">Выберите главную тему для приложения</string>
+  <!-- Light Theme -->
+  <string name="light_theme">Светлая</string>
+  <!-- Dark Theme -->
+  <string name="dark_theme">Темная</string>
+  <!-- Amoled Theme -->
+  <string name="amoled_theme">AMOLED</string>
+  <!-- Transparent Theme -->
+  <string name="transparent_theme">Прозрачная</string>
+  <!-- Automatic Light-Dark Theme -->
+  <string name="auto_dark">Автоматическая Светлая-Темная</string>
+  <!-- Automatic Light-Amoled Theme -->
+  <string name="auto_amoled">Автоматическая Светлая-Amoled</string>
+  <string name="navbar_color_setting_title">Цвет панели навигации</string>
+  <string name="navbar_color_setting_content">Цвет панели с главной темной темой</string>
+  <string name="wallpapers_columns_setting_title">Количество колонок</string>
+  <string name="wallpapers_columns_setting_content">Выберите количество колонок, в которых вы хотите видеть обои</string>
+  <string name="animations_setting_title">Включить анимацию</string>
+  <string name="animations_setting_content">Это может вызвать подтормаживания на некоторых устройствах.</string>
+  <string name="load_hi_res_pictures_title">Превью в полном разрешении</string>
+  <string name="load_hi_res_pictures_content">Загружать полноразмерные картинки в сетке</string>
+  <string name="deep_search_title">Включить глубокий поиск</string>
+  <string name="deep_search_content">Поиск по названию и коллекции</string>
+  <string name="storage_settings_title">Хранилище</string>
+  <string name="wallpapers_download_location_setting_title">Место для скачиваемых обоев</string>
+  <string name="wallpapers_download_location_setting_content">Изменить место для скачиваемых обоев. \nВ настоящее время это: %1$s</string>
+  <string name="create_folder">Создать папку</string>
+  <string name="choose_folder">Выбрать</string>
+  <string name="data_cache_setting_title">Очистить данные и кеш</string>
+  <string name="data_cache_setting_content">Это удалит кеш приложения и настройки. \nТекущий размер кеша: %1$s</string>
+  <string name="data_cache_confirmation">Вы уверены, что хотите удалить кеш и настройки?</string>
+  <string name="clear_favorites_setting_title">Очистить базу Избранного</string>
+  <string name="clear_favorites_setting_content">Очистить список избранных обоев</string>
+  <string name="clear_favorites_confirmation">Вы уверены, что хотите удалить избранное?</string>
+  <!-- License -->
+  <string name="license_valid_title">Лицензия действует</string>
+  <string name="license_valid_content">Спасибо за скачивание %1$s из магазина. Надеюсь вы получите удовольствие от использования!</string>
+  <string name="license_valid_snack">Лицензия подтверждена. Спасибо за загрузку %1$s. Наслаждайтесь!</string>
+  <string name="license_invalid_title">Ты не пройдешь!</string>
+  <string name="license_invalid_content">Извините, но у вас недействующая лицензия %1$s . Возможно это пиратское приложение.  %2$s. Если вы полагаете, что это ошибка, то попробуйте позднее. Или скачайте приложение из официального магазина.</string>
+  <string name="license_invalid_content_extra">Или обратите внимание на \'%1$s и удалите его</string>
+  <string name="error_title">Ошибка</string>
+  <string name="action_error_content">Извините, произошла непредвиденная ошибка.</string>
+  <string name="license_error_content">При проверке вашей лицензии произошла ошибка. Попробуйте позже.</string>
+  <string name="try_now">Попробовать сейчас</string>
+  <string name="donate">пожертвовать</string>
+  <string name="donate_success_title">Спасибо</string>
+  <string name="donate_success_content">Спасибо за ваше пожертвование. Мы очень ценим это и рады, что вам нравится %1$s.</string>
+  <string name="donate_error">Ошибка с кодом %1$s из-за %2$s</string>
+  <string name="donate_error_unknown">неизвестная причина</string>
+  <string name="loading">Загрузка</string>
+  <string name="close">Закрыть</string>
+  <!-- Muzei Settings -->
+  <string name="muzei_settings">Настройки Muzei</string>
+  <!-- Please use this character … -->
+  <string name="refresh_wallpapers_every">Обновить обои...</string>
+  <string name="every_x">Каждый %1$s</string>
+  <string name="minutes">Минут</string>
+  <string name="hours">Часов</string>
+  <string name="days">Дней</string>
+  <string name="refresh_only_on_wifi">Обновлять только при наличии Wi-Fi</string>
+  <string name="refresh_only_on_wifi_summary">Обновлять только когда устройство подключено к Wi-Fi сети.</string>
+  <string name="choose_collections_title">Выберите коллекцию</string>
+  <string name="choose_collections_summary">Выберите коллекцию откуда брать обои. Сейчас это %1$s</string>
+  <string name="muzei_not_connected_title">Нет подключения к интернету</string>
+  <string name="muzei_not_connected_content">Невозможно выбрать коллекцию, нужно подключение к интернету. Попробуйте позднее.</string>
+  <string name="sure_to_exit">Выход</string>
+  <string name="sure_to_exit_content">Сохранить настройки перед выходом?</string>
+  <string name="yes">Да</string>
+  <string name="no">Нет</string>
+  <string name="not_connected_content">Это действие требует подключения. Попробуйте позднее. </string>
+  <string name="new_wallpapers_available">Доступно %1$s новых обоев. Нажмите, чтобы проверить!</string>
+  <string name="notifications_title">Уведомления</string>
+  <string name="enable_notifications">Включить уведомления</string>
 </resources>
