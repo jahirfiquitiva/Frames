@@ -48,7 +48,7 @@ class CollectionsViewModel : ListViewModel<ArrayList<Wallpaper>, Collection>() {
                             }
                         }
                         wallsList.add(param[index])
-                        collectionsMap.put(it, wallsList)
+                        collectionsMap[it] = wallsList
                     }
                 }
             }

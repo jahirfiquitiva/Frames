@@ -69,7 +69,7 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_credits)
         
-        registerCCLicense()
+        registerExtraLicenses()
         
         toolbar?.bindToActivity(this)
         supportActionBar?.title = getString(R.string.about)
@@ -136,14 +136,13 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
     
     open fun getTranslationSite(): String = "http://j.mp/FramesTranslations"
     
-    private fun registerCCLicense() {
+    private fun registerExtraLicenses() {
         val ccLicense = object : License() {
             override fun getName(): String =
                 "CreativeCommons Attribution-ShareAlike 4.0 International License"
             
-            override fun readSummaryTextFromResources(
-                context: Context
-                                                     ): String = readFullTextFromResources(context)
+            override fun readSummaryTextFromResources(context: Context): String =
+                readFullTextFromResources(context)
             
             override fun readFullTextFromResources(context: Context): String =
                 "\tLicensed under the CreativeCommons Attribution-ShareAlike\n\t4.0 " +
@@ -165,9 +164,8 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
         val eclLicense = object : License() {
             override fun getName(): String = "Educational Community License v2.0"
             
-            override fun readSummaryTextFromResources(
-                context: Context
-                                                     ): String = readFullTextFromResources(context)
+            override fun readSummaryTextFromResources(context: Context): String =
+                readFullTextFromResources(context)
             
             override fun readFullTextFromResources(context: Context): String =
                 "The Educational Community License version 2.0 (\"ECL\") consists of the " +

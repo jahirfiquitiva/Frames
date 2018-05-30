@@ -20,7 +20,9 @@ import android.graphics.Bitmap
 import android.util.DisplayMetrics
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 
-fun Bitmap.adjustToDeviceScreen(activity: Activity): Bitmap {
+fun Bitmap.adjustToDeviceScreen(activity: Activity?): Bitmap {
+    activity ?: return this
+    
     var flag = true
     
     val displayMetrics = DisplayMetrics()

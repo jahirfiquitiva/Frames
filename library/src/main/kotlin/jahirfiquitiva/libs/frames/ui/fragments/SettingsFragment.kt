@@ -39,9 +39,7 @@ import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.ui.activities.SettingsActivity
 import jahirfiquitiva.libs.frames.ui.fragments.base.PreferenceFragment
 import jahirfiquitiva.libs.kext.extensions.activity
-import jahirfiquitiva.libs.kext.extensions.actv
 import jahirfiquitiva.libs.kext.extensions.boolean
-import jahirfiquitiva.libs.kext.extensions.ctxt
 import jahirfiquitiva.libs.kext.extensions.getAppName
 import jahirfiquitiva.libs.kext.ui.activities.ThemedActivity
 import org.jetbrains.anko.doAsync
@@ -138,7 +136,7 @@ open class SettingsFragment : PreferenceFragment() {
             columns?.setOnPreferenceClickListener {
                 clearDialog()
                 val currentColumns = configs.columns - 1
-                dialog = ctxt.mdDialog {
+                dialog = context?.mdDialog {
                     title(R.string.wallpapers_columns_setting_title)
                     items("1", "2", "3", "4", "5")
                     itemsCallbackSingleChoice(currentColumns) { _, _, which, _ ->

@@ -136,7 +136,7 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
     }
     
     companion object {
-        private val TAG = "InfoBottomSheet"
+        private const val TAG = "InfoBottomSheet"
         
         fun build(details: ArrayList<WallpaperDetail>, palette: Palette?): InfoBottomSheet =
             InfoBottomSheet().apply {

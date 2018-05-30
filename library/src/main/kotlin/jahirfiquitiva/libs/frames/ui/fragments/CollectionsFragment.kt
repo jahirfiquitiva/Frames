@@ -202,12 +202,6 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
         if (data.size > 0) collsAdapter.setItems(data)
     }
     
-    fun forceCollectionsLoad() {
-        wallpapersModel.getData()?.let {
-            collectionsModel.loadData(ArrayList(it), true)
-        }
-    }
-    
     override fun autoStartLoad(): Boolean = true
     override fun fromCollectionActivity(): Boolean = false
     override fun fromFavorites(): Boolean = false

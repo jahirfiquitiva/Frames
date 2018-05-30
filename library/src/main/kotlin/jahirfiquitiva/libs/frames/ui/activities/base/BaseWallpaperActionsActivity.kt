@@ -126,7 +126,7 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
             val extension = it.url.substring(it.url.lastIndexOf("."))
             var correctExtension = getWallpaperExtension(extension)
             val fileName = it.name.formatCorrectly().replace(" ", "_")
-            if (toApply) correctExtension = ".temp" + correctExtension
+            if (toApply) correctExtension = "_temp$correctExtension"
             val dest = File(folder, fileName + correctExtension)
             if (dest.exists()) {
                 actionDialog = mdDialog {

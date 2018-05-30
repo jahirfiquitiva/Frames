@@ -71,9 +71,6 @@ data class Wallpaper(
         return name.equals(other.name, true) && url.equals(other.url, true)
     }
     
-    fun hasChangedFrom(other: Wallpaper?) =
-        other != null && (size != other.size || !dimensions.equals(other.dimensions, true))
-    
     override fun hashCode(): Int {
         var result = name.hashCode()
         result = 31 * result + author.hashCode()
@@ -114,6 +111,13 @@ data class Collection(
     override fun equals(other: Any?): Boolean {
         if (other !is Collection) return false
         return name.equals(other.name, true)
+    }
+    
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + wallpapers.hashCode()
+        result = 31 * result + (bestCover?.hashCode() ?: 0)
+        return result
     }
     
     override fun toString(): String = name

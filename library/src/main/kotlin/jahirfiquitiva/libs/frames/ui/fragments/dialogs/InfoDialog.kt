@@ -39,7 +39,6 @@ import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.ui.adapters.WallpaperInfoAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
 import jahirfiquitiva.libs.kext.extensions.actv
-import jahirfiquitiva.libs.kext.extensions.context
 import jahirfiquitiva.libs.kext.extensions.ctxt
 import jahirfiquitiva.libs.kext.extensions.isInHorizontalMode
 
@@ -108,7 +107,7 @@ class InfoDialog : DialogFragment() {
     }
     
     companion object {
-        private val TAG = "InfoDialog"
+        private const val TAG = "InfoDialog"
         
         fun build(details: ArrayList<WallpaperDetail>, palette: Palette?): InfoDialog =
             InfoDialog().apply {

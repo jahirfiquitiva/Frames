@@ -37,4 +37,9 @@ class FavoritesFragment : BaseWallpapersFragment() {
         fun create(hasChecker: Boolean): FavoritesFragment =
             FavoritesFragment().apply { this.hasChecker = hasChecker }
     }
+    
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser) reloadData(2)
+    }
 }

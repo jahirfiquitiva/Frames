@@ -18,7 +18,6 @@ package jahirfiquitiva.libs.frames.helpers.extensions
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -31,8 +30,8 @@ import ca.allanwang.kau.utils.showChangelog
 import com.afollestad.materialdialogs.MaterialDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
+import jahirfiquitiva.libs.kext.extensions.actv
 import jahirfiquitiva.libs.kext.extensions.cardBackgroundColor
-import jahirfiquitiva.libs.kext.extensions.ctxt
 import jahirfiquitiva.libs.kext.extensions.deleteEverything
 import jahirfiquitiva.libs.kext.extensions.drawable
 import jahirfiquitiva.libs.kext.extensions.extractColor
@@ -47,7 +46,7 @@ internal val Fragment.configs: FramesKonfigs
     get() = (activity as? ThemedActivity<FramesKonfigs>)?.configs
         ?: activity?.let { FramesKonfigs(it) }
         ?: context?.let { FramesKonfigs(it) }
-        ?: FramesKonfigs(ctxt)
+        ?: FramesKonfigs(actv)
 
 val Context.backgroundColor: Int
     @SuppressLint("PrivateResource")
@@ -66,19 +65,13 @@ val Context.tilesColor: Int
         } else cardBackgroundColor.darken(0.1F)
     }
 
-val Context.fastScrollThumbInactiveColor
-    get() = if (usesDarkTheme) Color.parseColor("#73ffffff") else Color.parseColor("#73000000")
-
 val Context.maxPreload
     get() = if (isLowRamDevice) 2 else 4
 
 val Context.maxPictureRes
     get() = if (isLowRamDevice) if (runsMinSDK) 30 else 20 else 40
 
-val Context.bestBitmapConfig: Bitmap.Config
-    get() = if (isLowRamDevice) Bitmap.Config.RGB_565 else Bitmap.Config.ARGB_8888
-
-val Context.runsMinSDK
+private val runsMinSDK
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
 
 fun Context.openWallpaper(uri: Uri) {

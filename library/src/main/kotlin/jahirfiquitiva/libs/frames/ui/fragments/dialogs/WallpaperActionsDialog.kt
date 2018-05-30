@@ -267,7 +267,7 @@ class WallpaperActionsDialog : DialogFragment() {
             
             val wm = WallpaperManager.getInstance(activity)
             val finalResource = try {
-                resource.adjustToDeviceScreen(actv)
+                resource.adjustToDeviceScreen(activity)
             } catch (ignored: Exception) {
                 resource
             }
@@ -317,13 +317,13 @@ class WallpaperActionsDialog : DialogFragment() {
     }
     
     companion object {
-        private val TAG = "icon_dialog"
-        private val WALLPAPER = "wallpaper"
-        private val TO_HOME_SCREEN = "to_home_screen"
-        private val TO_LOCK_SCREEN = "to_lock_screen"
-        private val TO_BOTH = "to_both"
-        private val TO_OTHER_APP = "to_other_app"
-        val TO_OTHER_APP_CODE = 73
+        private const val TAG = "icon_dialog"
+        private const val WALLPAPER = "wallpaper"
+        private const val TO_HOME_SCREEN = "to_home_screen"
+        private const val TO_LOCK_SCREEN = "to_lock_screen"
+        private const val TO_BOTH = "to_both"
+        private const val TO_OTHER_APP = "to_other_app"
+        const val TO_OTHER_APP_CODE = 73
         
         fun create(
             context: FragmentActivity,

@@ -184,22 +184,6 @@ abstract class PreferenceFragment : Fragment() {
         } catch (ignored: Exception) {
         }
     
-    fun addPreferencesFromIntent(intent: Intent) {
-        requirePreferenceManager()
-        try {
-            val m = PreferenceManager::class.java.getDeclaredMethod(
-                "inflateFromIntent",
-                Intent::class.java,
-                PreferenceScreen::class.java)
-            m.isAccessible = true
-            val screen = m.invoke(
-                preferenceManager, intent,
-                preferenceScreen) as? PreferenceScreen
-            preferenceScreen = screen
-        } catch (ignored: Exception) {
-        }
-    }
-    
     protected fun addPreferencesFromResource(resId: Int) {
         requirePreferenceManager()
         try {

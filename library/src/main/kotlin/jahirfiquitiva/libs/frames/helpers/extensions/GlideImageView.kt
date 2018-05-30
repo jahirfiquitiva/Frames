@@ -16,7 +16,6 @@
 package jahirfiquitiva.libs.frames.helpers.extensions
 
 import android.annotation.SuppressLint
-import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.bumptech.glide.Glide
@@ -30,16 +29,9 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
-import jahirfiquitiva.libs.kext.ui.graphics.ObservableColorMatrix
 
 fun ImageView.releaseFromGlide() {
     Glide.with(context).clear(this)
-}
-
-fun ImageView.setSaturation(saturation: Float) {
-    val matrix = ObservableColorMatrix()
-    matrix.setSaturation(saturation)
-    colorFilter = ColorMatrixColorFilter(matrix)
 }
 
 @SuppressLint("CheckResult")

@@ -43,6 +43,7 @@ import jahirfiquitiva.libs.frames.helpers.utils.ADW_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.APPLY_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.ICONS_APPLIER
+import jahirfiquitiva.libs.frames.helpers.utils.ICONS_PICKER
 import jahirfiquitiva.libs.frames.helpers.utils.IMAGE_PICKER
 import jahirfiquitiva.libs.frames.helpers.utils.MIN_TIME
 import jahirfiquitiva.libs.frames.helpers.utils.NOVA_ACTION
@@ -72,7 +73,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
             return intent?.let {
                 when (it.action) {
                     APPLY_ACTION -> ICONS_APPLIER
-                    ADW_ACTION, TURBO_ACTION, NOVA_ACTION,
+                    ADW_ACTION, TURBO_ACTION, NOVA_ACTION -> ICONS_PICKER
                     Intent.ACTION_PICK, Intent.ACTION_GET_CONTENT -> IMAGE_PICKER
                     Intent.ACTION_SET_WALLPAPER -> WALLS_PICKER
                     else -> field
