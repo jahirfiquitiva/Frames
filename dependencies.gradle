@@ -37,7 +37,6 @@ ext.versions = [
         permissions          : '1.0.0',
         materialDialogs      : '0.9.6.0',
         glide                : '4.7.1',
-        okhttp               : '3.10.0',
         kext                 : '72a70dd',
         sectionedRecyclerView: '7e9908b',
         rvFastScroll         : '09e2079',
@@ -66,8 +65,6 @@ ext.libraries = [
         // Material Dialogs
         dialogsCore          : 'com.afollestad.material-dialogs:core:' + versions.materialDialogs,
         dialogsCommons       : 'com.afollestad.material-dialogs:commons:' + versions.materialDialogs,
-        // OkHttp
-        okHttp               : 'com.squareup.okhttp3:okhttp:' + versions.okhttp,
         // Glide Image Loading
         glide                : 'com.github.bumptech.glide:glide:' + versions.glide,
         gliderv              : 'com.github.bumptech.glide:recyclerview-integration:' + versions.glide,

@@ -15,56 +15,69 @@
  */
 package jahirfiquitiva.libs.frames.helpers.utils
 
+import android.graphics.BitmapFactory
 import jahirfiquitiva.libs.frames.data.models.Dimension
 import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
-import jahirfiquitiva.libs.frames.helpers.extensions.toWallpaperInfo
-import jahirfiquitiva.libs.kext.extensions.hasContent
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import java.util.concurrent.TimeUnit
+import java.io.BufferedInputStream
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
 
 class FramesUrlRequests {
     fun requestJson(url: String): String {
+        val result = StringBuilder()
+        var urlConnection: HttpURLConnection? = null
         try {
-            val client = OkHttpClient.Builder()
-                .connectTimeout(15, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS)
-                .build()
-            val request = Request.Builder().url(url).build()
-            var response: Response? = null
-            var json = ""
-            try {
-                response = client.newCall(request).execute()
-                json = response?.body()?.string() ?: ""
-            } catch (ignored: Exception) {
+            urlConnection = URL(url).openConnection() as HttpURLConnection
+            urlConnection.connectTimeout = 20000
+            urlConnection.readTimeout = 20000
+            
+            urlConnection.connect()
+            
+            val ins = BufferedInputStream(urlConnection.inputStream)
+            val reader = BufferedReader(InputStreamReader(ins))
+            var line: String? = null
+            while ({ line = reader.readLine(); line }() != null) {
+                result.append(line)
             }
-            if (json.hasContent()) response?.close()
-            return json
-        } catch (ignored: Exception) {
+            ins.close()
+            reader.close()
+        } catch (e: Exception) {
+        } finally {
+            urlConnection?.disconnect()
         }
-        return ""
+        return result.toString()
     }
     
     fun requestFileInfo(url: String, onlySize: Boolean): WallpaperInfo {
+        var info = WallpaperInfo(0, Dimension(0, 0))
+        
+        var urlConnection: HttpURLConnection? = null
         try {
-            val client = OkHttpClient.Builder()
-                .connectTimeout(15, TimeUnit.SECONDS)
-                .readTimeout(15, TimeUnit.SECONDS)
-                .build()
-            val request = Request.Builder().url(url).build()
-            var response: Response? = null
-            var bytes: ByteArray? = null
-            try {
-                response = client.newCall(request).execute()
-                bytes = response?.body()?.bytes()
-            } catch (ignored: Exception) {
-            } finally {
-                response?.close()
+            urlConnection = URL(url).openConnection() as HttpURLConnection
+            urlConnection.connectTimeout = 15000
+            urlConnection.readTimeout = 15000
+            
+            urlConnection.connect()
+            
+            info = if (onlySize) {
+                WallpaperInfo(urlConnection.contentLength.toLong(), Dimension(0L, 0L))
+            } else {
+                val options = BitmapFactory.Options()
+                options.inJustDecodeBounds = true
+                val ins = urlConnection.inputStream
+                BitmapFactory.decodeStream(ins, null, options)
+                val size = urlConnection.connectTimeout.toLong()
+                ins.close()
+                WallpaperInfo(
+                    size, Dimension(options.outWidth.toLong(), options.outHeight.toLong()))
             }
-            if (bytes != null) return bytes.toWallpaperInfo(onlySize)
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
+        } finally {
+            urlConnection?.disconnect()
         }
-        return WallpaperInfo(0, Dimension(0, 0))
+        
+        return info
     }
 }

@@ -17,7 +17,7 @@ package jahirfiquitiva.libs.frames.helpers.extensions
 
 import java.io.File
 
-fun Long.toReadableByteCount(si: Boolean = false): String {
+fun Long.toReadableByteCount(si: Boolean = true): String {
     if (this <= 0L) return "-0"
     try {
         val unit = if (si) 1000 else 1024
