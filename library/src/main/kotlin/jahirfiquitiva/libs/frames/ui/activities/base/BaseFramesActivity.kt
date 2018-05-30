@@ -24,8 +24,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.widget.TextView
-import ca.allanwang.kau.utils.startLink
-import ca.allanwang.kau.xml.showChangelog
+import ca.allanwang.kau.utils.contentView
+import ca.allanwang.kau.utils.openLink
+import ca.allanwang.kau.utils.toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.TransactionDetails
@@ -36,7 +37,8 @@ import com.github.javiersantos.piracychecker.enums.PiracyCheckerError
 import com.github.javiersantos.piracychecker.enums.PirateApp
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
+import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
+import jahirfiquitiva.libs.frames.helpers.extensions.showChanges
 import jahirfiquitiva.libs.frames.helpers.utils.ADW_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.APPLY_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
@@ -49,15 +51,12 @@ import jahirfiquitiva.libs.frames.helpers.utils.TURBO_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.WALLS_PICKER
 import jahirfiquitiva.libs.frames.providers.viewmodels.IAPItem
 import jahirfiquitiva.libs.frames.providers.viewmodels.IAPViewModel
-import jahirfiquitiva.libs.kauextensions.extensions.buildSnackbar
-import jahirfiquitiva.libs.kauextensions.extensions.compliesWithMinTime
-import jahirfiquitiva.libs.kauextensions.extensions.getAppName
-import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.isUpdate
-import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
-import jahirfiquitiva.libs.kauextensions.extensions.showToast
-import jahirfiquitiva.libs.kauextensions.extensions.stringArray
-import org.jetbrains.anko.contentView
+import jahirfiquitiva.libs.kext.extensions.buildSnackbar
+import jahirfiquitiva.libs.kext.extensions.compliesWithMinTime
+import jahirfiquitiva.libs.kext.extensions.getAppName
+import jahirfiquitiva.libs.kext.extensions.hasContent
+import jahirfiquitiva.libs.kext.extensions.isUpdate
+import jahirfiquitiva.libs.kext.extensions.stringArray
 
 abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActivity<T>(),
                                                        BillingProcessor.IBillingHandler {
@@ -113,8 +112,8 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     
     internal fun initDonations() {
         if (donationsReady) return
-        if (donationsEnabled && stringArray(R.array.donation_items).isNotEmpty()
-                && BillingProcessor.isIabServiceAvailable(this)) {
+        if (donationsEnabled && stringArray(R.array.donation_items).orEmpty().isNotEmpty()
+            && BillingProcessor.isIabServiceAvailable(this)) {
             destroyBillingProcessor()
             getLicKey()?.let {
                 billingProcessor = BillingProcessor(this, it, this)
@@ -139,29 +138,29 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
             checker?.let {
                 with(it) {
                     callback(
-                            object : PiracyCheckerCallback() {
-                                override fun allow() = showLicensedSnack(update, force)
-                                
-                                override fun dontAllow(error: PiracyCheckerError, app: PirateApp?) =
-                                        showNotLicensedDialog(app)
-                                
-                                override fun onError(error: PiracyCheckerError) {
-                                    super.onError(error)
-                                    showLicenseErrorDialog()
-                                }
-                            })
+                        object : PiracyCheckerCallback() {
+                            override fun allow() = showLicensedSnack(update, force)
+                            
+                            override fun dontAllow(error: PiracyCheckerError, app: PirateApp?) =
+                                showNotLicensedDialog(app)
+                            
+                            override fun onError(error: PiracyCheckerError) {
+                                super.onError(error)
+                                showLicenseErrorDialog()
+                            }
+                        })
                     start()
                 }
             } ?: {
                 configs.functionalDashboard = true
-                if (update) showChangelog(R.xml.changelog, secondaryTextColor)
+                if (update) showChanges()
             }()
         }
     }
     
     fun getShortcut(): String {
         if (intent != null && intent.dataString != null &&
-                intent.dataString.contains("_shortcut")) {
+            intent.dataString.contains("_shortcut")) {
             return intent.dataString
         }
         return ""
@@ -200,10 +199,10 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         configs.functionalDashboard = true
         if (!update || force) {
             showSnackbar(
-                    getString(R.string.license_valid_snack, getAppName()),
-                    Snackbar.LENGTH_SHORT)
+                getString(R.string.license_valid_snack, getAppName()),
+                Snackbar.LENGTH_SHORT)
         } else {
-            showChangelog(R.xml.changelog, secondaryTextColor)
+            showChanges()
         }
     }
     
@@ -213,12 +212,12 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         val pirateAppName = pirateApp?.name ?: ""
         val content = if (pirateAppName.hasContent()) {
             getString(
-                    R.string.license_invalid_content, getAppName(),
-                    getString(R.string.license_invalid_content_extra, pirateAppName))
+                R.string.license_invalid_content, getAppName(),
+                getString(R.string.license_invalid_content_extra, pirateAppName))
         } else {
             getString(R.string.license_invalid_content, getAppName(), "~")
         }
-        dialog = buildMaterialDialog {
+        dialog = mdDialog {
             title(R.string.license_invalid_title)
             content(content)
             positiveText(android.R.string.ok)
@@ -229,7 +228,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
             }
             onNeutral { _, _ ->
                 configs.functionalDashboard = false
-                startLink(PLAY_STORE_LINK_PREFIX + packageName)
+                openLink(PLAY_STORE_LINK_PREFIX + packageName)
                 finish()
             }
         }
@@ -247,7 +246,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     internal fun showLicenseErrorDialog() {
         destroyDialog()
         configs.functionalDashboard = false
-        dialog = buildMaterialDialog {
+        dialog = mdDialog {
             title(R.string.error_title)
             content(R.string.license_error_content)
             positiveText(android.R.string.ok)
@@ -285,7 +284,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
                 val donationViewModel = ViewModelProviders.of(this).get(IAPViewModel::class.java)
                 donationViewModel.iapBillingProcessor = it
                 donationViewModel.observe(
-                        this, {
+                    this, {
                     if (it.size > 0) {
                         showDonationDialog(ArrayList(it))
                     } else {
@@ -294,12 +293,12 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
                     donationViewModel.destroy(this)
                 })
                 destroyDialog()
-                dialog = buildMaterialDialog {
+                dialog = mdDialog {
                     content(R.string.loading)
                     progress(true, 0)
                     cancelable(false)
                 }
-                donationViewModel.loadData(stringArray(R.array.donation_items), true)
+                donationViewModel.loadData(stringArray(R.array.donation_items) ?: arrayOf(""), true)
                 dialog?.show()
             }
         }
@@ -307,11 +306,11 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     
     private fun showDonationDialog(items: ArrayList<IAPItem>) {
         destroyDialog()
-        dialog = buildMaterialDialog {
+        dialog = mdDialog {
             title(R.string.donate)
             items(items)
             itemsCallbackSingleChoice(
-                    0, { _, _, which, _ ->
+                0, { _, _, which, _ ->
                 billingProcessor?.purchase(this@BaseFramesActivity, items[which].id)
                 true
             })
@@ -323,12 +322,12 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     
     private fun showDonationErrorDialog(error: Int, reason: String?) {
         destroyDialog()
-        dialog = buildMaterialDialog {
+        dialog = mdDialog {
             title(R.string.error_title)
             content(
-                    getString(
-                            R.string.donate_error, error.toString(),
-                            reason ?: getString(R.string.donate_error_unknown)))
+                getString(
+                    R.string.donate_error, error.toString(),
+                    reason ?: getString(R.string.donate_error_unknown)))
         }
         dialog?.show()
     }
@@ -337,7 +336,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         billingProcessor?.let {
             if (it.consumePurchase(productId)) {
                 destroyDialog()
-                dialog = buildMaterialDialog {
+                dialog = mdDialog {
                     title(R.string.donate_success_title)
                     content(getString(R.string.donate_success_content, getAppName()))
                     positiveText(R.string.close)
@@ -349,8 +348,8 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     
     override fun onBillingError(errorCode: Int, error: Throwable?) {
         showDonationErrorDialog(
-                errorCode,
-                error?.message ?: getString(R.string.donate_error_unknown))
+            errorCode,
+            error?.message ?: getString(R.string.donate_error_unknown))
         destroyBillingProcessor()
     }
     
@@ -394,16 +393,16 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     override fun onPurchaseHistoryRestored() {}
     
     override fun applyBitmapWallpaper(
-            toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
-            toOtherApp: Boolean
+        toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
+        toOtherApp: Boolean
                                      ) {
     }
     
     override fun showSnackbar(
-            text: String,
-            duration: Int,
-            defaultToToast: Boolean,
-            settings: Snackbar.() -> Unit
+        text: String,
+        duration: Int,
+        defaultToToast: Boolean,
+        settings: Snackbar.() -> Unit
                              ) {
         contentView?.let {
             val snack = it.buildSnackbar(text, duration, settings)
@@ -413,13 +412,13 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
             snackText.maxLines = 3
             
             snack.show()
-        } ?: { if (defaultToToast) showToast(text) }()
+        } ?: { if (defaultToToast) toast(text) }()
     }
     
     internal fun showWallpaperOptionsDialog(wallpaper: Wallpaper) {
         this.wallpaper = wallpaper
         destroyDialog()
-        dialog = buildMaterialDialog {
+        dialog = mdDialog {
             content(R.string.actions_dialog_content)
             positiveText(R.string.apply)
             onPositive { dialog, _ ->
@@ -428,7 +427,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
             }
             
             val actuallyComplies =
-                    getLicenseChecker()?.let { compliesWithMinTime(MIN_TIME) } ?: true
+                getLicenseChecker()?.let { compliesWithMinTime(MIN_TIME) } ?: true
             
             if (wallpaper.downloadable && actuallyComplies) {
                 negativeText(R.string.download)

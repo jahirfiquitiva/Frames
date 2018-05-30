@@ -29,11 +29,11 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SectionedHeaderViewHol
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.SimpleCreditViewHolder
 
 class CreditsAdapter(
-        @StringRes private val dashboardTitle: Int,
-        private val manager: RequestManager,
-        private val credits: ArrayList<Credit>
+    @StringRes private val dashboardTitle: Int,
+    private val manager: RequestManager,
+    private val credits: ArrayList<Credit>
                     ) :
-        SectionedRecyclerViewAdapter<SectionedViewHolder>() {
+    SectionedRecyclerViewAdapter<SectionedViewHolder>() {
     
     private val creatorCredits: ArrayList<Credit> by lazy {
         credits.jfilter { it.type == Credit.Type.CREATOR }
@@ -59,13 +59,13 @@ class CreditsAdapter(
     override fun getSectionCount(): Int = 4
     
     override fun getItemViewType(
-            section: Int, relativePosition: Int,
-            absolutePosition: Int
+        section: Int, relativePosition: Int,
+        absolutePosition: Int
                                 ): Int = section
     
     override fun onBindViewHolder(
-            holder: SectionedViewHolder?, section: Int, relativePosition: Int,
-            absolutePosition: Int
+        holder: SectionedViewHolder?, section: Int, relativePosition: Int,
+        absolutePosition: Int
                                  ) {
         holder?.let {
             if (it is DashboardCreditViewHolder) {
@@ -85,17 +85,17 @@ class CreditsAdapter(
     }
     
     override fun getItemCount(section: Int): Int =
-            when (section) {
-                0 -> creatorCredits.size
-                1 -> dashboardCredits.size
-                2 -> devCredits.size
-                3 -> uiCredits.size
-                else -> 0
-            }
+        when (section) {
+            0 -> creatorCredits.size
+            1 -> dashboardCredits.size
+            2 -> devCredits.size
+            3 -> uiCredits.size
+            else -> 0
+        }
     
     override fun onBindHeaderViewHolder(
-            holder: SectionedViewHolder?, section: Int,
-            expanded: Boolean
+        holder: SectionedViewHolder?, section: Int,
+        expanded: Boolean
                                        ) {
         (holder as? SectionedHeaderViewHolder)?.let {
             when (section) {
@@ -112,11 +112,11 @@ class CreditsAdapter(
     }
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectionedViewHolder =
-            when (viewType) {
-                0, 1 -> DashboardCreditViewHolder(parent.inflate(R.layout.item_credits))
-                2, 3 -> SimpleCreditViewHolder(parent.inflate(R.layout.item_credits))
-                else -> SectionedHeaderViewHolder(parent.inflate(R.layout.item_section_header))
-            }
+        when (viewType) {
+            0, 1 -> DashboardCreditViewHolder(parent.inflate(R.layout.item_credits))
+            2, 3 -> SimpleCreditViewHolder(parent.inflate(R.layout.item_credits))
+            else -> SectionedHeaderViewHolder(parent.inflate(R.layout.item_section_header))
+        }
     
     override fun onBindFooterViewHolder(holder: SectionedViewHolder?, section: Int) {}
 }

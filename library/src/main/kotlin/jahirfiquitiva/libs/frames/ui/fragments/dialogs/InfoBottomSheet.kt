@@ -35,15 +35,14 @@ import ca.allanwang.kau.utils.dpToPx
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.setPaddingTop
 import ca.allanwang.kau.utils.toHexString
+import ca.allanwang.kau.utils.toast
 import ca.allanwang.kau.utils.visible
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.ui.adapters.WallpaperInfoAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
-import jahirfiquitiva.libs.kauextensions.extensions.ctxt
-import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
-import jahirfiquitiva.libs.kauextensions.extensions.showToast
+import jahirfiquitiva.libs.kext.extensions.ctxt
+import jahirfiquitiva.libs.kext.extensions.isInHorizontalMode
 
-@Suppress("DEPRECATION")
 class InfoBottomSheet : BottomSheetDialogFragment() {
     
     private var recyclerView: RecyclerView? = null
@@ -81,15 +80,15 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
         recyclerView?.itemAnimator = DefaultItemAnimator()
         
         val layoutManager = GridLayoutManager(
-                ctxt, if (ctxt.isInHorizontalMode) 4 else 3,
-                GridLayoutManager.VERTICAL, false)
+            ctxt, if (ctxt.isInHorizontalMode) 4 else 3,
+            GridLayoutManager.VERTICAL, false)
         recyclerView?.layoutManager = layoutManager
         
         if (adapter == null) adapter = WallpaperInfoAdapter {
             if (it != 0) {
                 val clipboard = context?.getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager
                 clipboard?.primaryClip = ClipData.newPlainText("label", it.toHexString())
-                ctxt { it.showToast(R.string.copied_to_clipboard) }
+                context?.toast(R.string.copied_to_clipboard)
             }
         }
         adapter?.setLayoutManager(layoutManager)
@@ -140,18 +139,18 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
         private val TAG = "InfoBottomSheet"
         
         fun build(details: ArrayList<WallpaperDetail>, palette: Palette?): InfoBottomSheet =
-                InfoBottomSheet().apply {
-                    if (details.size > 0) {
-                        this.details.clear()
-                        this.details.addAll(details)
-                    }
-                    this.palette = palette
+            InfoBottomSheet().apply {
+                if (details.size > 0) {
+                    this.details.clear()
+                    this.details.addAll(details)
                 }
+                this.palette = palette
+            }
         
         fun show(
-                context: FragmentActivity, details: ArrayList<WallpaperDetail>,
-                palette: Palette?
+            context: FragmentActivity, details: ArrayList<WallpaperDetail>,
+            palette: Palette?
                 ) =
-                build(details, palette).show(context.supportFragmentManager, TAG)
+            build(details, palette).show(context.supportFragmentManager, TAG)
     }
 }

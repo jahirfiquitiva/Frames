@@ -22,19 +22,19 @@ import ca.allanwang.kau.utils.toHexString
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.robertlevonyan.views.chip.Chip
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
-import jahirfiquitiva.libs.kauextensions.extensions.bind
-import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
-import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
-import jahirfiquitiva.libs.kauextensions.ui.widgets.MaterialIconView
+import jahirfiquitiva.libs.kext.extensions.applyColorFilter
+import jahirfiquitiva.libs.kext.extensions.bind
+import jahirfiquitiva.libs.kext.extensions.drawable
+import jahirfiquitiva.libs.kext.extensions.getActiveIconsColorFor
+import jahirfiquitiva.libs.kext.extensions.getPrimaryTextColorFor
+import jahirfiquitiva.libs.kext.extensions.secondaryTextColor
+import jahirfiquitiva.libs.kext.ui.widgets.MaterialIconView
 
 class WallpaperInfoHolder(itemView: View) : SectionedViewHolder(itemView) {
     val icon: MaterialIconView? by bind(R.id.info_item_icon)
     val content: TextView? by bind(R.id.info_item_text)
     fun bind(detail: WallpaperDetail) = with(itemView) {
-        icon?.setImageDrawable(context.getDrawable(detail.icon))
+        icon?.setImageDrawable(context.drawable(detail.icon))
         content?.setTextColor(context.secondaryTextColor)
         content?.text = detail.value
     }
@@ -46,8 +46,8 @@ class WallpaperPaletteHolder(itemView: View) : SectionedViewHolder(itemView) {
         chip?.changeBackgroundColor(color)
         chip?.textColor = context.getPrimaryTextColorFor(color, 0.6F)
         chip?.chipText = color.toHexString()
-        val icon = context.getDrawable("ic_color_palette")
-                ?.applyColorFilter(context.getActiveIconsColorFor(color, 0.6F))
+        val icon = context.drawable("ic_color_palette")
+            ?.applyColorFilter(context.getActiveIconsColorFor(color, 0.6F))
         chip?.chipIcon = icon
         chip?.setOnChipClickListener { colorListener(color) }
     }
@@ -55,7 +55,7 @@ class WallpaperPaletteHolder(itemView: View) : SectionedViewHolder(itemView) {
 
 data class WallpaperDetail(val icon: String, val value: String) {
     override fun equals(other: Any?): Boolean =
-            other is WallpaperDetail && icon.equals(other.icon, true)
+        other is WallpaperDetail && icon.equals(other.icon, true)
     
     override fun hashCode(): Int {
         var result = icon.hashCode()

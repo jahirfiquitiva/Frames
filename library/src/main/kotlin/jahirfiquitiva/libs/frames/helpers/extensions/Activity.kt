@@ -16,11 +16,13 @@
 package jahirfiquitiva.libs.frames.helpers.extensions
 
 import android.app.SharedElementCallback
+import android.content.Context
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import com.afollestad.materialdialogs.MaterialDialog
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.kauextensions.extensions.bind
+import jahirfiquitiva.libs.kext.extensions.bind
 
 fun AppCompatActivity.framesPostponeEnterTransition(onTransitionEnd: () -> Unit = {}) {
     supportPostponeEnterTransition()
@@ -45,9 +47,9 @@ fun AppCompatActivity.framesPostponeEnterTransition(onTransitionEnd: () -> Unit 
         
         setEnterSharedElementCallback(object : SharedElementCallback() {
             override fun onSharedElementEnd(
-                    sharedElementNames: MutableList<String>?,
-                    sharedElements: MutableList<View>?,
-                    sharedElementSnapshots: MutableList<View>?
+                sharedElementNames: MutableList<String>?,
+                sharedElements: MutableList<View>?,
+                sharedElementSnapshots: MutableList<View>?
                                            ) {
                 super.onSharedElementEnd(sharedElementNames, sharedElements, sharedElementSnapshots)
                 onTransitionEnd()

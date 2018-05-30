@@ -36,6 +36,6 @@ class WallpapersFragment : BaseWallpapersFragment() {
     
     companion object {
         fun create(hasChecker: Boolean): WallpapersFragment =
-                WallpapersFragment().apply { this.hasChecker = hasChecker }
+            WallpapersFragment().apply { this.hasChecker = hasChecker }
     }
 }

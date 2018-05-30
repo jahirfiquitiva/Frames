@@ -29,16 +29,16 @@ import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
+import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.REQUEST_CODE
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsDialog
-import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
-import jahirfiquitiva.libs.kauextensions.extensions.getAppName
-import jahirfiquitiva.libs.kauextensions.extensions.getUri
-import jahirfiquitiva.libs.kauextensions.ui.activities.ActivityWFragments
+import jahirfiquitiva.libs.kext.extensions.formatCorrectly
+import jahirfiquitiva.libs.kext.extensions.getAppName
+import jahirfiquitiva.libs.kext.extensions.getUri
+import jahirfiquitiva.libs.kext.ui.activities.ActivityWFragments
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -107,8 +107,8 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
     }
     
     private fun showPermissionInformation(
-            explanation: String,
-            nonce: PermissionNonce
+        explanation: String,
+        nonce: PermissionNonce
                                          ) {
         showSnackbar(explanation, Snackbar.LENGTH_LONG) {
             setAction(R.string.allow) {
@@ -129,7 +129,7 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
             if (toApply) correctExtension = ".temp" + correctExtension
             val dest = File(folder, fileName + correctExtension)
             if (dest.exists()) {
-                actionDialog = buildMaterialDialog {
+                actionDialog = mdDialog {
                     content(R.string.file_exists)
                     negativeText(R.string.file_replace)
                     positiveText(R.string.file_create_new)
@@ -165,10 +165,10 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
         runOnUiThread {
             properlyCancelDialog()
             showSnackbar(
-                    getString(R.string.download_successful, dest.toString()),
-                    Snackbar.LENGTH_LONG) {
+                getString(R.string.download_successful, dest.toString()),
+                Snackbar.LENGTH_LONG) {
                 setAction(
-                        R.string.open, {
+                    R.string.open, {
                     dest.getUri(context)?.let { openWallpaper(it) }
                 })
             }
@@ -192,13 +192,13 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
     private fun showWallpaperApplyOptions(dest: File?) {
         properlyCancelDialog()
         val options = arrayListOf(
-                getString(R.string.home_screen),
-                getString(R.string.lock_screen),
-                getString(R.string.home_lock_screen))
+            getString(R.string.home_screen),
+            getString(R.string.lock_screen),
+            getString(R.string.home_lock_screen))
         if (isNetworkAvailable && dest != null)
             options.add(getString(R.string.apply_with_other_app))
         
-        actionDialog = buildMaterialDialog {
+        actionDialog = mdDialog {
             title(R.string.apply_to)
             items(options)
             itemsCallback { _, _, position, _ ->
@@ -207,8 +207,8 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
                 } else {
                     if (allowBitmapApply)
                         applyBitmapWallpaper(
-                                position == 0, position == 1, position == 2,
-                                position == 3)
+                            position == 0, position == 1, position == 2,
+                            position == 3)
                 }
             }
         }
@@ -216,38 +216,38 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
     }
     
     abstract fun applyBitmapWallpaper(
-            toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
-            toOtherApp: Boolean
+        toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
+        toOtherApp: Boolean
                                      )
     
     private fun applyWallpaper(
-            dest: File,
-            toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
-            toOtherApp: Boolean
+        dest: File,
+        toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
+        toOtherApp: Boolean
                               ) {
         wallpaper?.let {
             properlyCancelDialog()
             wallActions = WallpaperActionsDialog.create(
-                    this, it, dest, arrayOf(toHomeScreen, toLockScreen, toBoth, toOtherApp))
+                this, it, dest, arrayOf(toHomeScreen, toLockScreen, toBoth, toOtherApp))
             wallActions?.show(this)
         }
     }
     
     fun showWallpaperAppliedSnackbar(
-            toHomeScreen: Boolean, toLockScreen: Boolean,
-            toBoth: Boolean
+        toHomeScreen: Boolean, toLockScreen: Boolean,
+        toBoth: Boolean
                                     ) {
         properlyCancelDialog()
         showSnackbar(
+            getString(
+                R.string.apply_successful,
                 getString(
-                        R.string.apply_successful,
-                        getString(
-                                when {
-                                    toBoth -> R.string.home_lock_screen
-                                    toHomeScreen -> R.string.home_screen
-                                    toLockScreen -> R.string.lock_screen
-                                    else -> R.string.empty
-                                }).toLowerCase()), Snackbar.LENGTH_LONG)
+                    when {
+                        toBoth -> R.string.home_lock_screen
+                        toHomeScreen -> R.string.home_screen
+                        toLockScreen -> R.string.lock_screen
+                        else -> R.string.empty
+                    }).toLowerCase()), Snackbar.LENGTH_LONG)
     }
     
     private var file: File? = null
@@ -261,11 +261,11 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
                 setWall.putExtra("mimeType", "image/*")
                 setWall.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 startActivityForResult(
-                        Intent.createChooser(setWall, getString(R.string.apply_with_other_app)),
-                        WallpaperActionsDialog.TO_OTHER_APP_CODE)
+                    Intent.createChooser(setWall, getString(R.string.apply_with_other_app)),
+                    WallpaperActionsDialog.TO_OTHER_APP_CODE)
             } ?: dest.delete()
         } catch (e: Exception) {
-            FL.e { e.message }
+            FL.e(e.message)
         }
     }
     
@@ -276,14 +276,14 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
                 file?.delete()
                 file = null
             } catch (e: Exception) {
-                FL.e { e.message }
+                FL.e(e.message)
             }
         }
     }
     
     private fun showNotConnectedDialog() {
         properlyCancelDialog()
-        actionDialog = buildMaterialDialog {
+        actionDialog = mdDialog {
             title(R.string.muzei_not_connected_title)
             content(R.string.not_connected_content)
             positiveText(android.R.string.ok)
@@ -300,19 +300,19 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
     }
     
     private fun showSnackbar(
-            @StringRes text: Int,
-            duration: Int,
-            defaultToToast: Boolean = false,
-            settings: Snackbar.() -> Unit = {}
+        @StringRes text: Int,
+        duration: Int,
+        defaultToToast: Boolean = false,
+        settings: Snackbar.() -> Unit = {}
                             ) {
         showSnackbar(getString(text), duration, defaultToToast, settings)
     }
     
     abstract fun showSnackbar(
-            text: String,
-            duration: Int,
-            defaultToToast: Boolean = false,
-            settings: Snackbar.() -> Unit = {}
+        text: String,
+        duration: Int,
+        defaultToToast: Boolean = false,
+        settings: Snackbar.() -> Unit = {}
                              )
     
     override fun startActivityForResult(intent: Intent?, requestCode: Int) {

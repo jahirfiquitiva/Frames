@@ -32,17 +32,17 @@ import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.setPadding
 import ca.allanwang.kau.utils.setPaddingBottom
 import ca.allanwang.kau.utils.toHexString
+import ca.allanwang.kau.utils.toast
 import ca.allanwang.kau.utils.visible
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
+import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.ui.adapters.WallpaperInfoAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
-import jahirfiquitiva.libs.kauextensions.extensions.actv
-import jahirfiquitiva.libs.kauextensions.extensions.ctxt
-import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
-import jahirfiquitiva.libs.kauextensions.extensions.showToast
+import jahirfiquitiva.libs.kext.extensions.actv
+import jahirfiquitiva.libs.kext.extensions.context
+import jahirfiquitiva.libs.kext.extensions.ctxt
+import jahirfiquitiva.libs.kext.extensions.isInHorizontalMode
 
-@Suppress("DEPRECATION")
 class InfoDialog : DialogFragment() {
     
     private var recyclerView: RecyclerView? = null
@@ -53,7 +53,7 @@ class InfoDialog : DialogFragment() {
     private var palette: Palette? = null
     
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = actv.buildMaterialDialog {
+        val dialog = actv.mdDialog {
             customView(R.layout.info_dialog, false)
         }
         
@@ -69,16 +69,16 @@ class InfoDialog : DialogFragment() {
         recyclerView?.itemAnimator = DefaultItemAnimator()
         
         val layoutManager = GridLayoutManager(
-                ctxt, if (ctxt.isInHorizontalMode) 3 else 2,
-                GridLayoutManager.VERTICAL, false)
+            ctxt, if (ctxt.isInHorizontalMode) 3 else 2,
+            GridLayoutManager.VERTICAL, false)
         recyclerView?.layoutManager = layoutManager
         
         if (adapter == null) adapter = WallpaperInfoAdapter {
             if (it != 0) {
                 val clipboard =
-                        context?.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+                    context?.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
                 clipboard?.primaryClip = ClipData.newPlainText("label", it.toHexString())
-                ctxt { it.showToast(R.string.copied_to_clipboard) }
+                context?.toast(R.string.copied_to_clipboard)
             }
         }
         adapter?.setLayoutManager(layoutManager)
@@ -111,18 +111,18 @@ class InfoDialog : DialogFragment() {
         private val TAG = "InfoDialog"
         
         fun build(details: ArrayList<WallpaperDetail>, palette: Palette?): InfoDialog =
-                InfoDialog().apply {
-                    if (details.size > 0) {
-                        this.details.clear()
-                        this.details.addAll(details)
-                    }
-                    this.palette = palette
+            InfoDialog().apply {
+                if (details.size > 0) {
+                    this.details.clear()
+                    this.details.addAll(details)
                 }
+                this.palette = palette
+            }
         
         fun show(
-                context: FragmentActivity, details: ArrayList<WallpaperDetail>,
-                palette: Palette?
+            context: FragmentActivity, details: ArrayList<WallpaperDetail>,
+            palette: Palette?
                 ) =
-                build(details, palette).show(context.supportFragmentManager, TAG)
+            build(details, palette).show(context.supportFragmentManager, TAG)
     }
 }

@@ -21,7 +21,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <jahirfiquitiva.libs.kauextensions.ui.layouts.FixedElevationAppBarLayout
+    <jahirfiquitiva.libs.kext.ui.layouts.FixedElevationAppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             app:popupTheme="?attr/popupMenuStyle"
             app:layout_collapseMode="pin" />
 
-    </jahirfiquitiva.libs.kauextensions.ui.layouts.FixedElevationAppBarLayout>
+    </jahirfiquitiva.libs.kext.ui.layouts.FixedElevationAppBarLayout>
 
     <FrameLayout
         android:id="@+id/fragments_container"

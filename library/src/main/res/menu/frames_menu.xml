@@ -25,7 +25,7 @@
         android:icon="@drawable/ic_search"
         android:orderInCategory="100"
         app:showAsAction="always|collapseActionView"
-        app:actionViewClass="jahirfiquitiva.libs.kauextensions.ui.widgets.CustomSearchView"
+        app:actionViewClass="jahirfiquitiva.libs.kext.ui.widgets.CustomSearchView"
         tools:ignore="AppCompatResource" />
 
     <item
@@ -38,7 +38,7 @@
     <item
         android:id="@+id/changelog"
         android:icon="@drawable/ic_changes"
-        android:title="@string/kau_changelog"
+        android:title="@string/changelog"
         android:orderInCategory="300"
         app:showAsAction="never" />
 

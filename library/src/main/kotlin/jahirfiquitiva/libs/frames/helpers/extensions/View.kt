@@ -22,9 +22,9 @@ import android.view.View
 import android.widget.FrameLayout
 import ca.allanwang.kau.utils.dpToPx
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
-import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
-import jahirfiquitiva.libs.kauextensions.extensions.navigationBarHeight
+import jahirfiquitiva.libs.kext.extensions.currentRotation
+import jahirfiquitiva.libs.kext.extensions.isInPortraitMode
+import jahirfiquitiva.libs.kext.extensions.navigationBarHeight
 
 fun View.setNavBarMargins() {
     val params = layoutParams as? FrameLayout.LayoutParams ?: return

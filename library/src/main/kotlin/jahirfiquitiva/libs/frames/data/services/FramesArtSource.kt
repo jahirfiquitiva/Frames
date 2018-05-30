@@ -36,9 +36,9 @@ import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.PLAY_STORE_LINK_PREFIX
 import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
-import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
-import jahirfiquitiva.libs.kauextensions.extensions.getAppName
-import jahirfiquitiva.libs.kauextensions.extensions.hasContent
+import jahirfiquitiva.libs.kext.extensions.formatCorrectly
+import jahirfiquitiva.libs.kext.extensions.getAppName
+import jahirfiquitiva.libs.kext.extensions.hasContent
 import java.util.ArrayList
 import java.util.Random
 import java.util.concurrent.TimeUnit
@@ -75,7 +75,7 @@ open class FramesArtSource(name: String) : RemoteMuzeiArtSource(name), Lifecycle
         try {
             onTryUpdate(MuzeiArtSource.UPDATE_REASON_USER_NEXT)
         } catch (e: Exception) {
-            FL.e(null, { "Error updating Muzei: ${e.message}" })
+            FL.e("Error updating Muzei: ${e.message}")
         }
     }
     
@@ -93,10 +93,10 @@ open class FramesArtSource(name: String) : RemoteMuzeiArtSource(name), Lifecycle
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/plain"
             intent.putExtra(
-                    Intent.EXTRA_TEXT, getString(
-                    R.string.share_text, currentArtwork.title,
-                    currentArtwork.byline, getAppName(),
-                    PLAY_STORE_LINK_PREFIX + packageName))
+                Intent.EXTRA_TEXT, getString(
+                R.string.share_text, currentArtwork.title,
+                currentArtwork.byline, getAppName(),
+                PLAY_STORE_LINK_PREFIX + packageName))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
@@ -120,10 +120,10 @@ open class FramesArtSource(name: String) : RemoteMuzeiArtSource(name), Lifecycle
                     val realData = getValidWallpapersList(ArrayList(it))
                     if (configs.muzeiCollections.contains("favorites", true)) {
                         favsDB = Room.databaseBuilder(
-                                this@FramesArtSource,
-                                FavoritesDatabase::class.java,
-                                DATABASE_NAME)
-                                .fallbackToDestructiveMigration().build()
+                            this@FramesArtSource,
+                            FavoritesDatabase::class.java,
+                            DATABASE_NAME)
+                            .fallbackToDestructiveMigration().build()
                         favsVM = FavoritesViewModel()
                         favsVM?.extraObserve {
                             realData.addAll(getValidWallpapersList(ArrayList(it)))
@@ -143,7 +143,7 @@ open class FramesArtSource(name: String) : RemoteMuzeiArtSource(name), Lifecycle
             }
             wallsVM?.loadData(this, true)
         } catch (e: Exception) {
-            FL.e { e.message }
+            FL.e(e.message)
         }
     }
     
@@ -199,18 +199,18 @@ open class FramesArtSource(name: String) : RemoteMuzeiArtSource(name), Lifecycle
     private fun getRandomIndex(maxValue: Int): Int = try {
         Random().nextInt(maxValue)
     } catch (e: Exception) {
-        FL.e { e.message }
+        FL.e(e.message)
         0
     }
     
     private fun publishToMuzei(name: String, author: String, url: String) {
         publishArtwork(
-                Artwork.Builder().title(name).byline(author).imageUri(
-                        Uri.parse(url)).viewIntent(
-                        Intent(Intent.ACTION_VIEW, Uri.parse(url))).build())
+            Artwork.Builder().title(name).byline(author).imageUri(
+                Uri.parse(url)).viewIntent(
+                Intent(Intent.ACTION_VIEW, Uri.parse(url))).build())
         scheduleUpdate(
-                System.currentTimeMillis() + convertRefreshIntervalToMillis(
-                        configs.muzeiRefreshInterval))
+            System.currentTimeMillis() + convertRefreshIntervalToMillis(
+                configs.muzeiRefreshInterval))
         destroyViewModel()
     }
     

@@ -29,29 +29,28 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
-import ca.allanwang.kau.utils.boolean
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.isNetworkAvailable
 import com.afollestad.materialdialogs.MaterialDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.services.FramesArtSource
-import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
+import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.providers.viewmodels.CollectionsViewModel
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
-import jahirfiquitiva.libs.kauextensions.extensions.bind
-import jahirfiquitiva.libs.kauextensions.extensions.dividerColor
-import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
-import jahirfiquitiva.libs.kauextensions.extensions.primaryTextColor
-import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
-import jahirfiquitiva.libs.kauextensions.extensions.tint
-import jahirfiquitiva.libs.kauextensions.ui.activities.ThemedActivity
-import org.jetbrains.anko.collections.forEachWithIndex
+import jahirfiquitiva.libs.kext.extensions.bind
+import jahirfiquitiva.libs.kext.extensions.boolean
+import jahirfiquitiva.libs.kext.extensions.dividerColor
+import jahirfiquitiva.libs.kext.extensions.getActiveIconsColorFor
+import jahirfiquitiva.libs.kext.extensions.getPrimaryTextColorFor
+import jahirfiquitiva.libs.kext.extensions.getSecondaryTextColorFor
+import jahirfiquitiva.libs.kext.extensions.primaryColor
+import jahirfiquitiva.libs.kext.extensions.primaryTextColor
+import jahirfiquitiva.libs.kext.extensions.secondaryTextColor
+import jahirfiquitiva.libs.kext.extensions.tint
+import jahirfiquitiva.libs.kext.ui.activities.ThemedActivity
 import java.util.Locale
 
 class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
@@ -96,9 +95,9 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
         supportActionBar?.title = getString(R.string.muzei_settings)
         
         toolbar?.tint(
-                getPrimaryTextColorFor(primaryColor, 0.6F),
-                getSecondaryTextColorFor(primaryColor, 0.6F),
-                getActiveIconsColorFor(primaryColor, 0.6F))
+            getPrimaryTextColorFor(primaryColor, 0.6F),
+            getSecondaryTextColorFor(primaryColor, 0.6F),
+            getActiveIconsColorFor(primaryColor, 0.6F))
         
         val everyTitle: TextView? by bind(R.id.every_title)
         everyTitle?.setTextColor(primaryTextColor)
@@ -106,8 +105,8 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
         val everySummary: TextView? by bind(R.id.every_summary)
         everySummary?.setTextColor(secondaryTextColor)
         everySummary?.text = getString(
-                R.string.every_x, textFromProgress(
-                configs.muzeiRefreshInterval).toLowerCase(Locale.getDefault()))
+            R.string.every_x, textFromProgress(
+            configs.muzeiRefreshInterval).toLowerCase(Locale.getDefault()))
         
         seekBar?.progress = configs.muzeiRefreshInterval
         seekBar?.incrementProgressBy(SEEKBAR_STEPS)
@@ -150,24 +149,24 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
         }
         
         seekBar?.setOnSeekBarChangeListener(
-                object : SeekBar.OnSeekBarChangeListener {
-                    override fun onProgressChanged(
-                            seekBar: SeekBar?,
-                            progress: Int,
-                            fromUser: Boolean
-                                                  ) {
-                        val value = SEEKBAR_MIN_VALUE + (progress * SEEKBAR_STEPS)
-                        everySummary?.text = resources.getString(
-                                R.string.every_x,
-                                textFromProgress(value).toLowerCase(
-                                        Locale.getDefault()))
-                        saveChanges()
-                    }
-                    
-                    override fun onStartTrackingTouch(p0: SeekBar?) {}
-                    
-                    override fun onStopTrackingTouch(p0: SeekBar?) {}
-                })
+            object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                                              ) {
+                    val value = SEEKBAR_MIN_VALUE + (progress * SEEKBAR_STEPS)
+                    everySummary?.text = resources.getString(
+                        R.string.every_x,
+                        textFromProgress(value).toLowerCase(
+                            Locale.getDefault()))
+                    saveChanges()
+                }
+                
+                override fun onStartTrackingTouch(p0: SeekBar?) {}
+                
+                override fun onStopTrackingTouch(p0: SeekBar?) {}
+            })
         
     }
     
@@ -190,7 +189,7 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
     
     private fun showNotConnectedDialog() {
         destroyDialog()
-        dialog = buildMaterialDialog {
+        dialog = mdDialog {
             title(R.string.muzei_not_connected_title)
             content(R.string.muzei_not_connected_content)
             positiveText(android.R.string.ok)
@@ -200,7 +199,7 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
     
     private fun showChooseCollectionsDialog() {
         destroyDialog()
-        dialog = buildMaterialDialog {
+        dialog = mdDialog {
             content(R.string.loading)
             progress(true, 0)
             cancelable(false)
@@ -216,10 +215,10 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
         }
         
         wallsVM.observe(
-                this, {
+            this, {
             destroyDialog()
             collsVM.observe(
-                    this, {
+                this, {
                 destroyDialog()
                 val correct = ArrayList<Collection>()
                 correct.addAll(it.distinct())
@@ -236,24 +235,24 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
                 }
                 
                 destroyDialog()
-                dialog = buildMaterialDialog {
+                dialog = mdDialog {
                     title(R.string.choose_collections_title)
                     items(correct)
                     itemsCallbackMultiChoice(
-                            selectedIndexes,
-                            { _, _, text ->
-                                val sb = StringBuilder()
-                                text.forEachWithIndex { i, item ->
-                                    if (i > 0 && i < text.size)
-                                        sb.append(",")
-                                    sb.append(item)
-                                }
-                                selectedCollections = sb.toString()
-                                collsSummaryText?.text = getString(
-                                        R.string.choose_collections_summary, selectedCollections)
-                                saveChanges()
-                                true
-                            })
+                        selectedIndexes,
+                        { _, _, text ->
+                            val sb = StringBuilder()
+                            text.forEachIndexed { i, item ->
+                                if (i > 0 && i < text.size)
+                                    sb.append(",")
+                                sb.append(item)
+                            }
+                            selectedCollections = sb.toString()
+                            collsSummaryText?.text = getString(
+                                R.string.choose_collections_summary, selectedCollections)
+                            saveChanges()
+                            true
+                        })
                     positiveText(android.R.string.ok)
                     negativeText(android.R.string.cancel)
                 }

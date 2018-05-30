@@ -38,7 +38,7 @@ ext.versions = [
         materialDialogs      : '0.9.6.0',
         glide                : '4.7.1',
         okhttp               : '3.10.0',
-        kauExt               : '845effc',
+        kext                 : '72a70dd',
         sectionedRecyclerView: '7e9908b',
         rvFastScroll         : '09e2079',
         chips                : 'b036a10',
@@ -72,10 +72,10 @@ ext.libraries = [
         glide                : 'com.github.bumptech.glide:glide:' + versions.glide,
         gliderv              : 'com.github.bumptech.glide:recyclerview-integration:' + versions.glide,
         glideCompiler        : 'com.github.bumptech.glide:compiler:' + versions.glide,
-        // KAU Extensions
-        kauExt               : 'com.jahirfiquitiva.KAUExtensions:core:' + versions.kauExt,
-        archHelpers          : 'com.jahirfiquitiva.KAUExtensions:archhelpers:' + versions.kauExt + '@aar',
-        ziv                  : 'com.jahirfiquitiva.KAUExtensions:ziv:' + versions.kauExt,
+        // kext
+        kext                 : 'com.jahirfiquitiva.kext:core:' + versions.kext,
+        archHelpers          : 'com.jahirfiquitiva.kext:archhelpers:' + versions.kext + '@aar',
+        ziv                  : 'com.jahirfiquitiva.kext:ziv:' + versions.kext,
         // Sectioned RecyclerView
         sectionedRecyclerView: 'com.jahirfiquitiva:sectioned-recyclerview:' + versions.sectionedRecyclerView + '@aar',
         // RecyclerView FastScroll

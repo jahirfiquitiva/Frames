@@ -46,7 +46,7 @@
         <item name="md_neutral_color">@color/light_theme_dialogs_button_color</item>
         <item name="md_background_color">@color/light_theme_card_background</item>
 
-        <item name="isDark">false</item>
+        <item name="isDarkTheme">false</item>
     </style>
 
     <style name="Frames.Base.Dark" parent="Theme.AppCompat.NoActionBar">
@@ -71,7 +71,7 @@
         <item name="md_neutral_color">@color/dark_theme_dialogs_button_color</item>
         <item name="md_background_color">@color/dark_theme_card_background</item>
 
-        <item name="isDark">true</item>
+        <item name="isDarkTheme">true</item>
     </style>
 
     <style name="Frames.Base.Amoled" parent="Frames.Base.Dark">

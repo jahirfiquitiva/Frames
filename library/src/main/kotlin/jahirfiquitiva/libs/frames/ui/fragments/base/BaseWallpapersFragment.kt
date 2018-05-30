@@ -27,8 +27,6 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
-import ca.allanwang.kau.utils.dimenPixelSize
-import ca.allanwang.kau.utils.toBitmap
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
 import com.bumptech.glide.util.ViewPreloadSizeProvider
@@ -47,18 +45,20 @@ import jahirfiquitiva.libs.frames.ui.adapters.WallpapersAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
-import jahirfiquitiva.libs.kauextensions.extensions.accentColor
-import jahirfiquitiva.libs.kauextensions.extensions.actv
-import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
-import jahirfiquitiva.libs.kauextensions.extensions.ctxt
-import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
-import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
-import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
-import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
+import jahirfiquitiva.libs.kext.extensions.accentColor
+import jahirfiquitiva.libs.kext.extensions.activity
+import jahirfiquitiva.libs.kext.extensions.cardBackgroundColor
+import jahirfiquitiva.libs.kext.extensions.context
+import jahirfiquitiva.libs.kext.extensions.ctxt
+import jahirfiquitiva.libs.kext.extensions.dimenPixelSize
+import jahirfiquitiva.libs.kext.extensions.formatCorrectly
+import jahirfiquitiva.libs.kext.extensions.hasContent
+import jahirfiquitiva.libs.kext.extensions.isInHorizontalMode
+import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
+import jahirfiquitiva.libs.kext.extensions.toBitmap
+import jahirfiquitiva.libs.kext.ui.decorations.GridSpacingItemDecoration
 import java.io.FileOutputStream
 
-@Suppress("DEPRECATION")
 abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperHolder>() {
     
     var hasChecker = false
@@ -74,27 +74,27 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     
     val wallsAdapter: WallpapersAdapter by lazy {
         WallpapersAdapter(
-                context?.let { Glide.with(it) },
-                provider, fromFavorites(), showFavoritesIcon(),
-                object : FramesViewClickListener<Wallpaper, WallpaperHolder>() {
-                    override fun onSingleClick(item: Wallpaper, holder: WallpaperHolder) {
-                        onItemClicked(item, holder)
-                    }
-                    
-                    override fun onLongClick(item: Wallpaper) {
-                        super.onLongClick(item)
-                        (activity as? BaseFramesActivity<*>)?.showWallpaperOptionsDialog(item)
-                    }
-                    
-                    override fun onHeartClick(
-                            view: ImageView,
-                            item: Wallpaper,
-                            color: Int
-                                             ) {
-                        super.onHeartClick(view, item, color)
-                        onHeartClicked(view, item, color)
-                    }
-                })
+            context?.let { Glide.with(it) },
+            provider, fromFavorites(), showFavoritesIcon(),
+            object : FramesViewClickListener<Wallpaper, WallpaperHolder>() {
+                override fun onSingleClick(item: Wallpaper, holder: WallpaperHolder) {
+                    onItemClicked(item, holder)
+                }
+                
+                override fun onLongClick(item: Wallpaper) {
+                    super.onLongClick(item)
+                    (activity as? BaseFramesActivity<*>)?.showWallpaperOptionsDialog(item)
+                }
+                
+                override fun onHeartClick(
+                    view: ImageView,
+                    item: Wallpaper,
+                    color: Int
+                                         ) {
+                    super.onHeartClick(view, item, color)
+                    onHeartClicked(view, item, color)
+                }
+            })
     }
     
     private var spanCount = 0
@@ -116,7 +116,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 textView = content.findViewById(R.id.empty_text)
                 emptyView = content.findViewById(R.id.empty_view)
                 setEmptyImage(
-                        if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
+                    if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
                 setEmptyText(if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
                 loadingView = content.findViewById(R.id.loading_view)
                 setLoadingText(R.string.loading_section)
@@ -124,21 +124,21 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
                 setHasFixedSize(true)
                 
-                actv {
+                activity {
                     val preloader: RecyclerViewPreloader<Wallpaper> =
-                            RecyclerViewPreloader(it, wallsAdapter, provider, context.maxPreload)
+                        RecyclerViewPreloader(it, wallsAdapter, provider, context.maxPreload)
                     addOnScrollListener(preloader)
                 }
                 
                 addOnScrollListener(
-                        object : RecyclerView.OnScrollListener() {
-                            override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
-                                super.onScrolled(rv, dx, dy)
-                                if (!recyclerView.canScrollVertically(1)) {
-                                    recyclerView.post { wallsAdapter.allowMoreItemsLoad() }
-                                }
+                    object : RecyclerView.OnScrollListener() {
+                        override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
+                            super.onScrolled(rv, dx, dy)
+                            if (!recyclerView.canScrollVertically(1)) {
+                                recyclerView.post { wallsAdapter.allowMoreItemsLoad() }
                             }
-                        })
+                        }
+                    })
                 
                 setItemViewCacheSize(MAX_WALLPAPERS_LOAD)
                 isDrawingCacheEnabled = true
@@ -165,16 +165,16 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     }
     
     fun configureRVColumns() {
-        ctxt {
+        context {
             if (configs.columns != spanCount) {
                 recyclerView?.removeItemDecoration(spacingDecoration)
                 val columns = configs.columns
                 spanCount = if (it.isInHorizontalMode) (columns * 1.5).toInt() else columns
                 recyclerView?.layoutManager = GridLayoutManager(
-                        context, spanCount,
-                        GridLayoutManager.VERTICAL, false)
+                    context, spanCount,
+                    GridLayoutManager.VERTICAL, false)
                 spacingDecoration = GridSpacingItemDecoration(
-                        spanCount, it.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
+                    spanCount, it.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
                 recyclerView?.addItemDecoration(spacingDecoration)
             }
         }
@@ -183,7 +183,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     override fun getContentLayout(): Int = R.layout.section_with_swipe_refresh
     
     override fun onItemClicked(item: Wallpaper, holder: WallpaperHolder) =
-            onWallpaperClicked(item, holder)
+        onWallpaperClicked(item, holder)
     
     override fun loadDataFromViewModel() {
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
@@ -219,8 +219,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     
     override fun applyFilter(filter: String) {
         val list = ArrayList(
-                if (fromFavorites()) favoritesModel.getData().orEmpty()
-                else wallpapersModel.getData().orEmpty())
+            if (fromFavorites()) favoritesModel.getData().orEmpty()
+            else wallpapersModel.getData().orEmpty())
         
         if (filter.hasContent()) {
             recyclerView?.setEmptyImage(R.drawable.no_results)
@@ -228,9 +228,9 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             wallsAdapter.setItems(list.jfilter { filteredWallpaper(it, filter) })
         } else {
             recyclerView?.setEmptyImage(
-                    if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
+                if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
             recyclerView?.setEmptyText(
-                    if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
+                if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
             wallsAdapter.setItems(list)
         }
         scrollToTop()
@@ -239,10 +239,10 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     private fun filteredWallpaper(wallpaper: Wallpaper, filter: String): Boolean {
         return if (configs.deepSearchEnabled) {
             wallpaper.name.contains(filter, true) ||
-                    wallpaper.author.contains(filter, true) ||
-                    (!fromCollectionActivity() &&
-                            wallpaper.collections.formatCorrectly().replace("_", " ")
-                                    .contains(filter, true))
+                wallpaper.author.contains(filter, true) ||
+                (!fromCollectionActivity() &&
+                    wallpaper.collections.formatCorrectly().replace("_", " ")
+                        .contains(filter, true))
         } else {
             wallpaper.name.contains(filter, true)
         }
@@ -274,8 +274,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             try {
                 val filename = "thumb.png"
                 fos = activity?.openFileOutput(filename, Context.MODE_PRIVATE)
-                holder.img?.drawable?.toBitmap()?.compress(
-                        Bitmap.CompressFormat.JPEG, ctxt.maxPictureRes, fos)
+                holder.img?.drawable?.toBitmap()
+                    ?.compress(Bitmap.CompressFormat.JPEG, ctxt.maxPictureRes, fos)
                 intent.putExtra("image", filename)
             } catch (ignored: Exception) {
             } finally {
@@ -288,10 +288,10 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             val authorPair = Pair<View, String>(holder.author, authorTransition)
             val heartPair = Pair<View, String>(holder.heartIcon, heartTransition)
             val options =
-                    activity?.let {
-                        ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                it, imgPair, namePair, authorPair, heartPair)
-                    }
+                activity?.let {
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        it, imgPair, namePair, authorPair, heartPair)
+                }
             
             try {
                 startActivityForResult(intent, 10, options?.toBundle())

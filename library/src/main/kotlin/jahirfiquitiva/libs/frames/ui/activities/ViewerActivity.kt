@@ -43,15 +43,14 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
-import ca.allanwang.kau.utils.boolean
-import ca.allanwang.kau.utils.color
+import ca.allanwang.kau.utils.contentView
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.isNetworkAvailable
 import ca.allanwang.kau.utils.navigationBarColor
 import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.setMarginTop
 import ca.allanwang.kau.utils.tint
-import ca.allanwang.kau.utils.toBitmap
+import ca.allanwang.kau.utils.toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DecodeFormat
@@ -75,24 +74,25 @@ import jahirfiquitiva.libs.frames.ui.fragments.dialogs.InfoBottomSheet
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.InfoDialog
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsDialog
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
-import jahirfiquitiva.libs.kauextensions.extensions.SimpleAnimationListener
-import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
-import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
-import jahirfiquitiva.libs.kauextensions.extensions.bind
-import jahirfiquitiva.libs.kauextensions.extensions.buildSnackbar
-import jahirfiquitiva.libs.kauextensions.extensions.compliesWithMinTime
-import jahirfiquitiva.libs.kauextensions.extensions.currentRotation
-import jahirfiquitiva.libs.kauextensions.extensions.enableTranslucentStatusBar
-import jahirfiquitiva.libs.kauextensions.extensions.generatePalette
-import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
-import jahirfiquitiva.libs.kauextensions.extensions.getStatusBarHeight
-import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.isInPortraitMode
-import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
-import jahirfiquitiva.libs.kauextensions.extensions.navigationBarHeight
-import jahirfiquitiva.libs.kauextensions.extensions.showToast
+import jahirfiquitiva.libs.kext.extensions.SimpleAnimationListener
+import jahirfiquitiva.libs.kext.extensions.activeIconsColor
+import jahirfiquitiva.libs.kext.extensions.applyColorFilter
+import jahirfiquitiva.libs.kext.extensions.bind
+import jahirfiquitiva.libs.kext.extensions.boolean
+import jahirfiquitiva.libs.kext.extensions.buildSnackbar
+import jahirfiquitiva.libs.kext.extensions.color
+import jahirfiquitiva.libs.kext.extensions.compliesWithMinTime
+import jahirfiquitiva.libs.kext.extensions.currentRotation
+import jahirfiquitiva.libs.kext.extensions.drawable
+import jahirfiquitiva.libs.kext.extensions.enableTranslucentStatusBar
+import jahirfiquitiva.libs.kext.extensions.generatePalette
+import jahirfiquitiva.libs.kext.extensions.getStatusBarHeight
+import jahirfiquitiva.libs.kext.extensions.hasContent
+import jahirfiquitiva.libs.kext.extensions.isInPortraitMode
+import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
+import jahirfiquitiva.libs.kext.extensions.navigationBarHeight
+import jahirfiquitiva.libs.kext.extensions.toBitmap
 import jahirfiquitiva.libs.ziv.ZoomableImageView
-import org.jetbrains.anko.contentView
 import java.io.FileInputStream
 import java.util.ArrayList
 
@@ -163,7 +163,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         val toolbarSubtitle: TextView? by bind(R.id.toolbar_subtitle)
         ViewCompat.setTransitionName(toolbarTitle, intent?.getStringExtra("nameTransition") ?: "")
         ViewCompat.setTransitionName(
-                toolbarSubtitle, intent?.getStringExtra("authorTransition") ?: "")
+            toolbarSubtitle, intent?.getStringExtra("authorTransition") ?: "")
         toolbarTitle?.text = (wallpaper?.name ?: "").trim()
         wallpaper?.author?.let {
             if (it.trim().hasContent()) toolbarSubtitle?.text = it
@@ -196,10 +196,10 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         }
         
         if (showFavoritesButton) {
-            val favIcon = getDrawable(if (isInFavorites) "ic_heart" else "ic_heart_outline")
+            val favIcon = drawable(if (isInFavorites) "ic_heart" else "ic_heart_outline")
             val favImageView: ImageView? by bind(R.id.fav_button)
             ViewCompat.setTransitionName(
-                    favImageView, intent?.getStringExtra("favTransition") ?: "")
+                favImageView, intent?.getStringExtra("favTransition") ?: "")
             favImageView?.setImageDrawable(favIcon)
             findViewById<RelativeLayout>(R.id.fav_container).setOnClickListener {
                 doItemClick(FAVORITE_ACTION_ID)
@@ -214,9 +214,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         img?.setOnSingleTapListener { toggleSystemUI(); true }
         
         ViewCompat.setTransitionName(img, intent?.getStringExtra("imgTransition") ?: "")
+        setupWallpaper(wallpaper, true)
         startEnterTransition()
         
-        setupWallpaper(wallpaper)
         loadWallpaperDetails()
     }
     
@@ -224,6 +224,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         if (!transitioned) {
             supportStartPostponedEnterTransition()
             transitioned = true
+            setupWallpaper(wallpaper)
         }
     }
     
@@ -310,8 +311,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             }
             detailsVM?.destroy(this)
             detailsVM = null
-            postDelayed(
-                    100, {
+            postDelayed(100) {
                 val intent = Intent()
                 intent.putExtra("modified", hasModifiedFavs)
                 if (hasModifiedFavs) {
@@ -325,11 +325,11 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
                     finish()
                 }
                 overridePendingTransition(0, 0)
-            })
+            }
         }
     }
     
-    private fun setupWallpaper(wallpaper: Wallpaper?) {
+    private fun setupWallpaper(wallpaper: Wallpaper?, justStart: Boolean = false) {
         var bmp: Bitmap? = null
         val filename = intent?.getStringExtra("image") ?: ""
         if (filename.hasContent()) {
@@ -350,6 +350,11 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         }
         postPalette(drawable)
         
+        if (justStart) {
+            img?.setImageDrawable(drawable)
+            return
+        }
+        
         wallpaper?.let {
             val listener = object : GlideRequestCallback<Drawable>() {
                 override fun onLoadSucceed(resource: Drawable): Boolean {
@@ -366,36 +371,36 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             }
             
             val options = RequestOptions()
-                    .format(
-                            if (isLowRamDevice) DecodeFormat.PREFER_RGB_565
-                            else DecodeFormat.PREFER_ARGB_8888)
-                    .disallowHardwareConfig()
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .timeout(10000)
-                    .placeholder(drawable).error(drawable)
-                    .fitCenter()
+                .format(
+                    if (isLowRamDevice) DecodeFormat.PREFER_RGB_565
+                    else DecodeFormat.PREFER_ARGB_8888)
+                .disallowHardwareConfig()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .timeout(10000)
+                .placeholder(drawable).error(drawable)
+                .fitCenter()
             
             img?.let { img ->
                 if (it.thumbUrl.equals(it.url, true)) {
                     Glide.with(this)
-                            .load(it.url)
-                            .apply(options.priority(Priority.HIGH))
-                            .transition(withCrossFade(500))
-                            .listener(listener)
-                            .into(img)
+                        .load(it.url)
+                        .apply(options.priority(Priority.HIGH))
+                        .transition(withCrossFade(500))
+                        .listener(listener)
+                        .into(img)
                 } else {
                     val thumbnailRequest = Glide.with(this)
-                            .load(it.thumbUrl)
-                            .apply(options.priority(Priority.IMMEDIATE))
-                            .listener(listener)
+                        .load(it.thumbUrl)
+                        .apply(options.priority(Priority.IMMEDIATE))
+                        .listener(listener)
                     
                     Glide.with(this)
-                            .load(it.url)
-                            .apply(options.priority(Priority.HIGH))
-                            .thumbnail(thumbnailRequest)
-                            .transition(withCrossFade(500))
-                            .listener(listener)
-                            .into(img)
+                        .load(it.url)
+                        .apply(options.priority(Priority.HIGH))
+                        .thumbnail(thumbnailRequest)
+                        .transition(withCrossFade(500))
+                        .listener(listener)
+                        .into(img)
                 }
             }
         }
@@ -410,7 +415,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             palette = drw?.toBitmap()?.generatePalette()
             updateInfo()
         } catch (e: Exception) {
-            FL.e { e.message }
+            FL.e(e.message)
         }
     }
     
@@ -466,7 +471,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     private fun setupDetailsViewModel() {
         if (detailsVM == null) {
             detailsVM = ViewModelProviders.of(
-                    this@ViewerActivity).get(WallpaperInfoViewModel::class.java)
+                this@ViewerActivity).get(WallpaperInfoViewModel::class.java)
         }
         detailsVM?.observe(this, { postWallpaperInfo(it) })
     }
@@ -500,14 +505,14 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     }
     
     override fun applyBitmapWallpaper(
-            toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
-            toOtherApp: Boolean
+        toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
+        toOtherApp: Boolean
                                      ) {
         wallpaper?.let {
             properlyCancelDialog()
             wallActions = WallpaperActionsDialog.create(
-                    this, it, img?.drawable?.toBitmap(),
-                    arrayOf(toHomeScreen, toLockScreen, toBoth, toOtherApp))
+                this, it, img?.drawable?.toBitmap(),
+                arrayOf(toHomeScreen, toLockScreen, toBoth, toOtherApp))
             wallActions?.show(this)
         }
     }
@@ -515,66 +520,65 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     private fun toggleFavorite() = runOnUiThread {
         val favImageView: ImageView? by bind(R.id.fav_button)
         val scale = ScaleAnimation(
-                1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f)
+            1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f)
         scale.duration = ANIMATION_DURATION
         scale.interpolator = LinearInterpolator()
         scale.setAnimationListener(
-                object : SimpleAnimationListener() {
-                    override fun onEnd(animation: Animation) {
-                        super.onEnd(animation)
-                        favImageView?.setImageDrawable(
-                                this@ViewerActivity.getDrawable(
-                                        if (isInFavorites) "ic_heart_outline" else "ic_heart"))
-                        
-                        val nScale = ScaleAnimation(
-                                0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5f,
-                                Animation.RELATIVE_TO_SELF, 0.5f)
-                        nScale.duration = ANIMATION_DURATION
-                        nScale.interpolator = LinearInterpolator()
-                        nScale.setAnimationListener(
-                                object : SimpleAnimationListener() {
-                                    override fun onEnd(animation: Animation) {
-                                        super.onEnd(animation)
-                                        onToggleEnd()
-                                    }
-                                })
-                        favImageView?.startAnimation(nScale)
-                    }
-                })
+            object : SimpleAnimationListener() {
+                override fun onEnd(animation: Animation) {
+                    super.onEnd(animation)
+                    favImageView?.setImageDrawable(
+                        this@ViewerActivity.drawable(
+                            if (isInFavorites) "ic_heart_outline" else "ic_heart"))
+                    val nScale = ScaleAnimation(
+                        0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.5f)
+                    nScale.duration = ANIMATION_DURATION
+                    nScale.interpolator = LinearInterpolator()
+                    nScale.setAnimationListener(
+                        object : SimpleAnimationListener() {
+                            override fun onEnd(animation: Animation) {
+                                super.onEnd(animation)
+                                onToggleEnd()
+                            }
+                        })
+                    favImageView?.startAnimation(nScale)
+                }
+            })
         favImageView?.startAnimation(scale)
     }
     
     private fun onToggleEnd() {
         wallpaper?.let {
             showSnackbar(
-                    getString(
-                            if (isInFavorites) R.string.removed_from_favorites
-                            else R.string.added_to_favorites,
-                            it.name), Snackbar.LENGTH_SHORT)
+                getString(
+                    if (isInFavorites) R.string.removed_from_favorites
+                    else R.string.added_to_favorites,
+                    it.name), Snackbar.LENGTH_SHORT)
         }
         hasModifiedFavs = true
         isInFavorites = !isInFavorites
     }
     
     override fun showSnackbar(
-            text: String,
-            duration: Int,
-            defaultToToast: Boolean,
-            settings: Snackbar.() -> Unit
+        text: String,
+        duration: Int,
+        defaultToToast: Boolean,
+        settings: Snackbar.() -> Unit
                              ) {
         contentView?.let {
             val snack = it.buildSnackbar(text, duration, settings)
             val bottomBarWasVisible = visibleBottomBar
             
             snack.addCallback(
-                    object : Snackbar.Callback() {
-                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                            super.onDismissed(transientBottomBar, event)
-                            if (bottomBarWasVisible) changeBottomBarVisibility(true)
-                        }
-                        
-                    })
+                object : Snackbar.Callback() {
+                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                        super.onDismissed(transientBottomBar, event)
+                        if (bottomBarWasVisible) changeBottomBarVisibility(true)
+                    }
+                    
+                })
             
             var bottomNavBar = 0
             var sideNavBar = 0
@@ -593,9 +597,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             else if (currentRotation == 270) extraLeft = sideNavBar
             
             snack.view.setPadding(
-                    snack.view.paddingLeft + extraLeft, snack.view.paddingTop,
-                    snack.view.paddingRight + extraRight,
-                    snack.view.paddingBottom + bottomNavBar)
+                snack.view.paddingLeft + extraLeft, snack.view.paddingTop,
+                snack.view.paddingRight + extraRight,
+                snack.view.paddingBottom + bottomNavBar)
             
             val snackText = snack.view.findViewById<TextView>(R.id.snackbar_text)
             snackText.setTextColor(Color.WHITE)
@@ -603,7 +607,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             
             if (visibleBottomBar) changeBottomBarVisibility(false)
             snack.show()
-        } ?: { if (defaultToToast) showToast(text) }()
+        } ?: { if (defaultToToast) toast(text) }()
     }
     
     private fun toggleSystemUI() {
@@ -615,16 +619,16 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 window.decorView.systemUiVisibility = if (visible)
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 else
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                            View.SYSTEM_UI_FLAG_FULLSCREEN or
-                            View.SYSTEM_UI_FLAG_IMMERSIVE or
-                            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                        View.SYSTEM_UI_FLAG_FULLSCREEN or
+                        View.SYSTEM_UI_FLAG_IMMERSIVE or
+                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
             }
             changeBarsVisibility(visible)
             visibleSystemUI = visible
@@ -639,8 +643,8 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     private fun changeAppBarVisibility(show: Boolean) {
         val transY = (if (show) 0 else -(appbar?.height ?: 0)).toFloat()
         appbar?.animate()?.translationY(transY)
-                ?.setInterpolator(AccelerateDecelerateInterpolator())
-                ?.start()
+            ?.setInterpolator(AccelerateDecelerateInterpolator())
+            ?.start()
     }
     
     private fun changeBottomBarVisibility(show: Boolean) {
@@ -648,7 +652,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         visibleBottomBar = show
         val transY = (if (show) 0 else bottomBarParent.height + navigationBarHeight).toFloat()
         bottomBarParent.animate().translationY(transY)
-                .setInterpolator(AccelerateDecelerateInterpolator())
-                .start()
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .start()
     }
 }

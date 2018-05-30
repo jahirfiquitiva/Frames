@@ -16,14 +16,14 @@
 package jahirfiquitiva.libs.frames.providers.viewmodels
 
 import android.content.Context
-import ca.allanwang.kau.utils.boolean
 import jahirfiquitiva.libs.archhelpers.viewmodels.ListViewModel
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
-import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
+import jahirfiquitiva.libs.kext.extensions.boolean
+import jahirfiquitiva.libs.kext.extensions.formatCorrectly
+import jahirfiquitiva.libs.kext.extensions.hasContent
+import jahirfiquitiva.libs.kext.extensions.toTitleCase
 
 class CollectionsViewModel : ListViewModel<ArrayList<Wallpaper>, Collection>() {
     
@@ -70,8 +70,8 @@ class CollectionsViewModel : ListViewModel<ArrayList<Wallpaper>, Collection>() {
         collections.distinct()
         
         val importantCollectionsNames = arrayOf(
-                "all", "featured", "new", "wallpaper of the day",
-                "wallpaper of the week")
+            "all", "featured", "new", "wallpaper of the day",
+            "wallpaper of the week")
         val importantCollections = ArrayList<Collection>()
         
         importantCollectionsNames.forEach {
@@ -97,8 +97,8 @@ class CollectionsViewModel : ListViewModel<ArrayList<Wallpaper>, Collection>() {
     }
     
     private fun getBestCoverPicture(
-            usedNames: ArrayList<String>,
-            possibleWallpapers: ArrayList<Wallpaper>
+        usedNames: ArrayList<String>,
+        possibleWallpapers: ArrayList<Wallpaper>
                                    ): Wallpaper? {
         possibleWallpapers.forEach {
             val wasInTheList = usedNames.contains(it.name)

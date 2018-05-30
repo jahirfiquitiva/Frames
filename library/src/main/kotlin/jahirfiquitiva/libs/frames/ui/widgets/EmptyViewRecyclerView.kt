@@ -21,20 +21,20 @@ import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import ca.allanwang.kau.utils.drawable
 import ca.allanwang.kau.utils.gone
-import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.visible
 import ca.allanwang.kau.utils.visibleIf
-import jahirfiquitiva.libs.kauextensions.extensions.activeIconsColor
-import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
-import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
+import jahirfiquitiva.libs.kext.extensions.activeIconsColor
+import jahirfiquitiva.libs.kext.extensions.applyColorFilter
+import jahirfiquitiva.libs.kext.extensions.hasContent
+import jahirfiquitiva.libs.kext.extensions.postDelayed
+import jahirfiquitiva.libs.kext.extensions.secondaryTextColor
 
 open class EmptyViewRecyclerView : RecyclerView {
     
@@ -68,7 +68,7 @@ open class EmptyViewRecyclerView : RecyclerView {
                 updateEmptyState()
             } else {
                 throw UnsupportedOperationException(
-                        "Cannot set a Drawable in a View that is not ImageView")
+                    "Cannot set a Drawable in a View that is not ImageView")
             }
         }
     }
@@ -80,7 +80,7 @@ open class EmptyViewRecyclerView : RecyclerView {
                 updateEmptyState()
             } else {
                 throw UnsupportedOperationException(
-                        "Cannot set a Drawable in a View that is not ImageView")
+                    "Cannot set a Drawable in a View that is not ImageView")
             }
         }
     }
@@ -89,13 +89,13 @@ open class EmptyViewRecyclerView : RecyclerView {
         emptyView?.let {
             if (it is ImageView) {
                 try {
-                    it.setImageDrawable(context.drawable(res))
+                    it.setImageDrawable(ContextCompat.getDrawable(context, res))
                     updateEmptyState()
                 } catch (e: Exception) {
                 }
             } else {
                 throw UnsupportedOperationException(
-                        "Cannot set a Drawable in a View that is not ImageView")
+                    "Cannot set a Drawable in a View that is not ImageView")
             }
         }
     }
@@ -103,7 +103,7 @@ open class EmptyViewRecyclerView : RecyclerView {
     constructor(context: Context) : super(context)
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
     constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int)
-            : super(context, attributeSet, defStyleAttr)
+        : super(context, attributeSet, defStyleAttr)
     
     private fun setStateInternal() {
         state = if (adapter != null) {
@@ -133,7 +133,7 @@ open class EmptyViewRecyclerView : RecyclerView {
     }
     
     private val observer: RecyclerView.AdapterDataObserver = object :
-            RecyclerView.AdapterDataObserver() {
+        RecyclerView.AdapterDataObserver() {
         override fun onChanged() {
             super.onChanged()
             setStateInternal()

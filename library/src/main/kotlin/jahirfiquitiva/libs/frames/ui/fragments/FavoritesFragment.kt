@@ -35,6 +35,6 @@ class FavoritesFragment : BaseWallpapersFragment() {
     
     companion object {
         fun create(hasChecker: Boolean): FavoritesFragment =
-                FavoritesFragment().apply { this.hasChecker = hasChecker }
+            FavoritesFragment().apply { this.hasChecker = hasChecker }
     }
 }

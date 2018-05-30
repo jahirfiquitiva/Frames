@@ -32,15 +32,15 @@ import jahirfiquitiva.libs.frames.helpers.extensions.framesPostponeEnterTransiti
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersInCollectionFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
-import jahirfiquitiva.libs.kauextensions.extensions.bind
-import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
-import jahirfiquitiva.libs.kauextensions.extensions.setItemVisibility
-import jahirfiquitiva.libs.kauextensions.extensions.tint
-import jahirfiquitiva.libs.kauextensions.ui.activities.ActivityWFragments
-import jahirfiquitiva.libs.kauextensions.ui.widgets.CustomSearchView
+import jahirfiquitiva.libs.kext.extensions.bind
+import jahirfiquitiva.libs.kext.extensions.getActiveIconsColorFor
+import jahirfiquitiva.libs.kext.extensions.getPrimaryTextColorFor
+import jahirfiquitiva.libs.kext.extensions.getSecondaryTextColorFor
+import jahirfiquitiva.libs.kext.extensions.primaryColor
+import jahirfiquitiva.libs.kext.extensions.setItemVisibility
+import jahirfiquitiva.libs.kext.extensions.tint
+import jahirfiquitiva.libs.kext.ui.activities.ActivityWFragments
+import jahirfiquitiva.libs.kext.ui.widgets.CustomSearchView
 
 open class CollectionActivity : ActivityWFragments<FramesKonfigs>() {
     
@@ -86,9 +86,9 @@ open class CollectionActivity : ActivityWFragments<FramesKonfigs>() {
         val number = collection?.wallpapers?.size ?: 0
         if (number > 0) toolbar?.subtitle = getString(R.string.x_wallpapers, number.toString())
         toolbar?.tint(
-                getPrimaryTextColorFor(primaryColor, 0.6F),
-                getSecondaryTextColorFor(primaryColor, 0.6F),
-                getActiveIconsColorFor(primaryColor, 0.6F))
+            getPrimaryTextColorFor(primaryColor, 0.6F),
+            getSecondaryTextColorFor(primaryColor, 0.6F),
+            getActiveIconsColorFor(primaryColor, 0.6F))
         
         if (loadFragment) loadFragment(true)
     }
@@ -98,8 +98,8 @@ open class CollectionActivity : ActivityWFragments<FramesKonfigs>() {
             if (!fragmentLoaded || force) {
                 fragmentLoaded = true
                 frag = WallpapersInCollectionFragment.create(
-                        it, it.wallpapers,
-                        intent?.getBooleanExtra("checker", false) ?: false)
+                    it, it.wallpapers,
+                    intent?.getBooleanExtra("checker", false) ?: false)
                 frag?.let { changeFragment(it) }
             }
         }
@@ -141,9 +141,9 @@ open class CollectionActivity : ActivityWFragments<FramesKonfigs>() {
         }
         
         toolbar?.tint(
-                getPrimaryTextColorFor(primaryColor, 0.6F),
-                getSecondaryTextColorFor(primaryColor, 0.6F),
-                getActiveIconsColorFor(primaryColor, 0.6F))
+            getPrimaryTextColorFor(primaryColor, 0.6F),
+            getSecondaryTextColorFor(primaryColor, 0.6F),
+            getActiveIconsColorFor(primaryColor, 0.6F))
         return super.onCreateOptionsMenu(menu)
     }
     
@@ -160,8 +160,8 @@ open class CollectionActivity : ActivityWFragments<FramesKonfigs>() {
     private fun doSearch(filter: String = "") {
         try {
             synchronized(
-                    lock, {
-                postDelayed(200, { frag?.applyFilter(filter) })
+                lock, {
+                postDelayed(200) { frag?.applyFilter(filter) }
             })
         } catch (ignored: Exception) {
         }

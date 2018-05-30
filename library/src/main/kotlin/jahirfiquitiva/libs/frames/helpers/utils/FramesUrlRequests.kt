@@ -18,7 +18,7 @@ package jahirfiquitiva.libs.frames.helpers.utils
 import jahirfiquitiva.libs.frames.data.models.Dimension
 import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
 import jahirfiquitiva.libs.frames.helpers.extensions.toWallpaperInfo
-import jahirfiquitiva.libs.kauextensions.extensions.hasContent
+import jahirfiquitiva.libs.kext.extensions.hasContent
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -28,9 +28,9 @@ class FramesUrlRequests {
     fun requestJson(url: String): String {
         try {
             val client = OkHttpClient.Builder()
-                    .connectTimeout(15, TimeUnit.SECONDS)
-                    .readTimeout(20, TimeUnit.SECONDS)
-                    .build()
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .build()
             val request = Request.Builder().url(url).build()
             var response: Response? = null
             var json = ""
@@ -49,9 +49,9 @@ class FramesUrlRequests {
     fun requestFileInfo(url: String, onlySize: Boolean): WallpaperInfo {
         try {
             val client = OkHttpClient.Builder()
-                    .connectTimeout(15, TimeUnit.SECONDS)
-                    .readTimeout(15, TimeUnit.SECONDS)
-                    .build()
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .build()
             val request = Request.Builder().url(url).build()
             var response: Response? = null
             var bytes: ByteArray? = null

@@ -19,7 +19,7 @@ import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.jfilter
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
-import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
+import jahirfiquitiva.libs.kext.extensions.formatCorrectly
 
 class WallpapersInCollectionFragment : BaseWallpapersFragment() {
     
@@ -62,11 +62,11 @@ class WallpapersInCollectionFragment : BaseWallpapersFragment() {
     
     companion object {
         fun create(
-                collection: Collection,
-                wallpapers: ArrayList<Wallpaper>,
-                hasChecker: Boolean
+            collection: Collection,
+            wallpapers: ArrayList<Wallpaper>,
+            hasChecker: Boolean
                   ):
-                WallpapersInCollectionFragment {
+            WallpapersInCollectionFragment {
             return WallpapersInCollectionFragment().apply {
                 this.collection = collection
                 this.wallpapers.clear()

@@ -27,7 +27,6 @@ import android.view.animation.LinearInterpolator
 import android.view.animation.ScaleAnimation
 import android.widget.ImageView
 import android.widget.TextView
-import ca.allanwang.kau.utils.boolean
 import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
 import jahirfiquitiva.libs.archhelpers.ui.fragments.ViewModelFragment
 import jahirfiquitiva.libs.frames.R
@@ -38,15 +37,15 @@ import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
-import jahirfiquitiva.libs.kauextensions.extensions.SimpleAnimationListener
-import jahirfiquitiva.libs.kauextensions.extensions.actv
-import jahirfiquitiva.libs.kauextensions.extensions.applyColorFilter
-import jahirfiquitiva.libs.kauextensions.extensions.buildSnackbar
-import jahirfiquitiva.libs.kauextensions.extensions.ctxt
-import jahirfiquitiva.libs.kauextensions.extensions.withCtxt
+import jahirfiquitiva.libs.kext.extensions.SimpleAnimationListener
+import jahirfiquitiva.libs.kext.extensions.activity
+import jahirfiquitiva.libs.kext.extensions.applyColorFilter
+import jahirfiquitiva.libs.kext.extensions.boolean
+import jahirfiquitiva.libs.kext.extensions.buildSnackbar
+import jahirfiquitiva.libs.kext.extensions.context
 import org.jetbrains.anko.runOnUiThread
 
-@Suppress("NAME_SHADOWING", "DEPRECATION")
+@Suppress("NAME_SHADOWING")
 abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> : ViewModelFragment<T>() {
     
     companion object {
@@ -59,11 +58,11 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> : Vie
     internal var snack: Snackbar? = null
     
     private fun initDatabase() {
-        actv {
-            if (it.boolean(R.bool.isFrames) && database == null) {
+        activity {
+            if (boolean(R.bool.isFrames) && database == null) {
                 database = Room.databaseBuilder(
-                        it, FavoritesDatabase::class.java,
-                        DATABASE_NAME).fallbackToDestructiveMigration().build()
+                    it, FavoritesDatabase::class.java,
+                    DATABASE_NAME).fallbackToDestructiveMigration().build()
             }
         }
     }
@@ -89,63 +88,63 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> : Vie
     }
     
     internal fun onHeartClicked(heart: ImageView, item: Wallpaper, @ColorInt color: Int) =
-            animateHeartClick(heart, item, color, !isInFavorites(item))
+        animateHeartClick(heart, item, color, !isInFavorites(item))
     
     open fun doOnFavoritesChange(data: ArrayList<Wallpaper>) {}
     open fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {}
     
     internal fun getDatabase(): FavoritesDao? = database?.favoritesDao()
     
-    internal fun isInFavorites(item: Wallpaper): Boolean = favoritesModel.isInFavorites(item)
+    private fun isInFavorites(item: Wallpaper): Boolean = favoritesModel.isInFavorites(item)
     
     internal fun addToFavorites(item: Wallpaper) =
-            getDatabase()?.let {
-                favoritesModel.addToFavorites(it, item, { showErrorSnackbar() })
-            } ?: showErrorSnackbar()
+        getDatabase()?.let {
+            favoritesModel.addToFavorites(it, item, { showErrorSnackbar() })
+        } ?: showErrorSnackbar()
     
     internal fun removeFromFavorites(item: Wallpaper) =
-            getDatabase()?.let {
-                favoritesModel.removeFromFavorites(it, item, { showErrorSnackbar() })
-            } ?: showErrorSnackbar()
+        getDatabase()?.let {
+            favoritesModel.removeFromFavorites(it, item, { showErrorSnackbar() })
+        } ?: showErrorSnackbar()
     
     abstract fun onItemClicked(item: T, holder: VH)
     abstract fun fromCollectionActivity(): Boolean
     abstract fun fromFavorites(): Boolean
     
     private fun animateHeartClick(
-            heart: ImageView,
-            item: Wallpaper,
-            @ColorInt color: Int,
-            check: Boolean
+        heart: ImageView,
+        item: Wallpaper,
+        @ColorInt color: Int,
+        check: Boolean
                                  ) {
-        withCtxt {
-            runOnUiThread {
+        context {
+            it.runOnUiThread {
                 val scale = ScaleAnimation(
-                        1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5F,
-                        Animation.RELATIVE_TO_SELF, 0.5F)
+                    1F, 0F, 1F, 0F, Animation.RELATIVE_TO_SELF, 0.5F,
+                    Animation.RELATIVE_TO_SELF, 0.5F)
                 scale.duration = ANIMATION_DURATION
                 scale.interpolator = LinearInterpolator()
                 scale.setAnimationListener(
-                        object : SimpleAnimationListener() {
-                            override fun onEnd(animation: Animation) {
-                                super.onEnd(animation)
-                                heart.setImageDrawable(
-                                        ctxt.createHeartIcon(check)?.applyColorFilter(color))
-                                val nScale = ScaleAnimation(
-                                        0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5F,
-                                        Animation.RELATIVE_TO_SELF, 0.5F)
-                                nScale.duration = ANIMATION_DURATION
-                                nScale.interpolator = LinearInterpolator()
-                                nScale.setAnimationListener(
-                                        object : SimpleAnimationListener() {
-                                            override fun onEnd(animation: Animation) {
-                                                super.onEnd(animation)
-                                                postToFavorites(item, check)
-                                            }
-                                        })
-                                heart.startAnimation(nScale)
-                            }
-                        })
+                    object : SimpleAnimationListener() {
+                        override fun onEnd(animation: Animation) {
+                            super.onEnd(animation)
+                            heart.setImageDrawable(
+                                context?.createHeartIcon(check)?.applyColorFilter(color))
+                            val nScale = ScaleAnimation(
+                                0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5F,
+                                Animation.RELATIVE_TO_SELF, 0.5F)
+                            nScale.duration = ANIMATION_DURATION
+                            nScale.interpolator = LinearInterpolator()
+                            nScale.setAnimationListener(
+                                object : SimpleAnimationListener() {
+                                    override fun onEnd(animation: Animation) {
+                                        super.onEnd(animation)
+                                        postToFavorites(item, check)
+                                    }
+                                })
+                            heart.startAnimation(nScale)
+                        }
+                    })
                 heart.startAnimation(scale)
             }
         }
@@ -156,16 +155,16 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> : Vie
             if (check) addToFavorites(item) else removeFromFavorites(item)
             showFavsSnackbar(check, item.name)
         } catch (e: Exception) {
-            FL.e { e.message }
+            FL.e(e.message)
             showErrorSnackbar()
         }
     }
     
     private fun showFavsSnackbar(added: Boolean, name: String) {
         showSnackBar(
-                getString(
-                        if (added) R.string.added_to_favorites else R.string.removed_from_favorites,
-                        name))
+            getString(
+                if (added) R.string.added_to_favorites else R.string.removed_from_favorites,
+                name))
     }
     
     internal fun showErrorSnackbar() {

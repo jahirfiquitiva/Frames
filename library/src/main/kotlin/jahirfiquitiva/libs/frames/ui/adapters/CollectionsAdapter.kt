@@ -30,28 +30,28 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListene
 import java.util.Collections
 
 class CollectionsAdapter(
-        private val filledCollectionPreview: Boolean,
-        private val manager: RequestManager?,
-        private val provider: ViewPreloadSizeProvider<Wallpaper>,
-        private val listener: FramesViewClickListener<Collection, CollectionHolder>
+    private val filledCollectionPreview: Boolean,
+    private val manager: RequestManager?,
+    private val provider: ViewPreloadSizeProvider<Wallpaper>,
+    private val listener: FramesViewClickListener<Collection, CollectionHolder>
                         ) :
-        FramesListAdapter<Collection, CollectionHolder>(MAX_COLLECTIONS_LOAD),
-        ListPreloader.PreloadModelProvider<Wallpaper> {
+    FramesListAdapter<Collection, CollectionHolder>(MAX_COLLECTIONS_LOAD),
+    ListPreloader.PreloadModelProvider<Wallpaper> {
     
     override fun doBind(holder: CollectionHolder, position: Int, shouldAnimate: Boolean) =
-            holder.setItem(manager, provider, list[position], listener)
+        holder.setItem(manager, provider, list[position], listener)
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionHolder =
-            CollectionHolder(
-                    parent.inflate(
-                            if (filledCollectionPreview) R.layout.item_collection_filled
-                            else R.layout.item_collection))
+        CollectionHolder(
+            parent.inflate(
+                if (filledCollectionPreview) R.layout.item_collection_filled
+                else R.layout.item_collection))
     
     override fun getPreloadItems(position: Int): MutableList<Wallpaper> =
-            Collections.singletonList(list[position].bestCover)
+        Collections.singletonList(list[position].bestCover)
     
     override fun getPreloadRequestBuilder(item: Wallpaper): RequestBuilder<*>? =
-            manager?.load(item.thumbUrl)
+        manager?.load(item.thumbUrl)
     
     override fun getItemId(position: Int) = position.toLong()
     

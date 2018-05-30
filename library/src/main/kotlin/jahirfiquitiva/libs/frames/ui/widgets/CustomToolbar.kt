@@ -28,7 +28,7 @@ class CustomToolbar : Toolbar {
     constructor(context: Context) : super(context)
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
     constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int)
-            : super(context, attributeSet, defStyleAttr)
+        : super(context, attributeSet, defStyleAttr)
     
     fun bindToActivity(activity: AppCompatActivity, showBackArrow: Boolean = true) {
         activity.setSupportActionBar(this)
@@ -49,7 +49,7 @@ class CustomToolbar : Toolbar {
             val appBarLayoutParams = parentView?.layoutParams as? CoordinatorLayout.LayoutParams
             if (enable) {
                 params?.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
-                        AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+                    AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
                 appBarLayoutParams?.behavior = behavior
                 parentView?.layoutParams = appBarLayoutParams
             } else {

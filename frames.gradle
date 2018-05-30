@@ -34,8 +34,8 @@ dependencies {
     api libraries.gliderv, exclusions
     annotationProcessor libraries.glideCompiler
     kapt libraries.glideCompiler
-    // KAU Extensions
-    // api libraries.kauExt
+    // kext
+    // api libraries.kext
     api(libraries.archHelpers) {
         transitive = true
     }

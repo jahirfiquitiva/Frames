@@ -29,8 +29,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withC
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
-import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
-import jahirfiquitiva.libs.kauextensions.ui.graphics.ObservableColorMatrix
+import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
+import jahirfiquitiva.libs.kext.ui.graphics.ObservableColorMatrix
 
 fun ImageView.releaseFromGlide() {
     Glide.with(context).clear(this)
@@ -44,66 +44,66 @@ fun ImageView.setSaturation(saturation: Float) {
 
 @SuppressLint("CheckResult")
 fun ImageView.loadWallpaper(
-        requester: RequestManager?,
-        url: String,
-        thumbUrl: String,
-        hasFaded: Boolean,
-        listener: RequestListener<Drawable>?
+    requester: RequestManager?,
+    url: String,
+    thumbUrl: String,
+    hasFaded: Boolean,
+    listener: RequestListener<Drawable>?
                            ) {
     
     val manager = requester ?: Glide.with(context)
     val loadFullRes = FramesKonfigs(context).fullResGridPictures
     val baseOptions = RequestOptions()
-            .format(
-                    if (context.isLowRamDevice) DecodeFormat.PREFER_RGB_565
-                    else DecodeFormat.PREFER_ARGB_8888)
-            .disallowHardwareConfig()
+        .format(
+            if (context.isLowRamDevice) DecodeFormat.PREFER_RGB_565
+            else DecodeFormat.PREFER_ARGB_8888)
+        .disallowHardwareConfig()
     
     if (loadFullRes) {
         val placeholder: RequestBuilder<Drawable>? = if (!thumbUrl.equals(url, true)) {
             manager.load(thumbUrl)
-                    .apply(
-                            baseOptions
-                                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                                    .priority(Priority.IMMEDIATE))
-                    .transition(withCrossFade(if (hasFaded) 100 else 300))
-                    .listener(listener)
+                .apply(
+                    baseOptions
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                        .priority(Priority.IMMEDIATE))
+                .transition(withCrossFade(if (hasFaded) 100 else 300))
+                .listener(listener)
         } else null
         
         manager.load(url)
-                .apply(
-                        baseOptions
-                                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                                .priority(Priority.HIGH))
-                .transition(withCrossFade(if (hasFaded) 100 else 300))
-                .thumbnail(placeholder)
-                .listener(listener)
-                .into(this)
+            .apply(
+                baseOptions
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .priority(Priority.HIGH))
+            .transition(withCrossFade(if (hasFaded) 100 else 300))
+            .thumbnail(placeholder)
+            .listener(listener)
+            .into(this)
     } else {
         manager.load(thumbUrl)
-                .apply(
-                        baseOptions
-                                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                                .priority(Priority.IMMEDIATE))
-                .transition(withCrossFade(if (hasFaded) 100 else 300))
-                .listener(listener)
-                .into(this)
+            .apply(
+                baseOptions
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .priority(Priority.IMMEDIATE))
+            .transition(withCrossFade(if (hasFaded) 100 else 300))
+            .listener(listener)
+            .into(this)
     }
 }
 
 fun ImageView.loadAvatar(requester: RequestManager?, url: String) {
     val manager = requester ?: Glide.with(context)
     val baseOptions = RequestOptions()
-            .format(
-                    if (context.isLowRamDevice) DecodeFormat.PREFER_RGB_565
-                    else DecodeFormat.PREFER_ARGB_8888)
-            .disallowHardwareConfig()
+        .format(
+            if (context.isLowRamDevice) DecodeFormat.PREFER_RGB_565
+            else DecodeFormat.PREFER_ARGB_8888)
+        .disallowHardwareConfig()
     manager.load(url)
-            .apply(
-                    baseOptions
-                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                            .priority(Priority.HIGH)
-                            .circleCrop())
-            .transition(withCrossFade())
-            .into(this)
+        .apply(
+            baseOptions
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .priority(Priority.HIGH)
+                .circleCrop())
+        .transition(withCrossFade())
+        .into(this)
 }

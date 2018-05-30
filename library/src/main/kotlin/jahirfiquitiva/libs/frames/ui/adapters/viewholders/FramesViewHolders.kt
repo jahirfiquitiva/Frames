@@ -24,11 +24,10 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import ca.allanwang.kau.utils.boolean
-import ca.allanwang.kau.utils.drawable
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.visible
+import ca.allanwang.kau.utils.withAlpha
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.util.ViewPreloadSizeProvider
 import jahirfiquitiva.libs.frames.R
@@ -41,17 +40,18 @@ import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
 import jahirfiquitiva.libs.frames.helpers.extensions.tilesColor
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
-import jahirfiquitiva.libs.kauextensions.extensions.animateColorTransition
-import jahirfiquitiva.libs.kauextensions.extensions.animateSmoothly
-import jahirfiquitiva.libs.kauextensions.extensions.bestSwatch
-import jahirfiquitiva.libs.kauextensions.extensions.bind
-import jahirfiquitiva.libs.kauextensions.extensions.clearChildrenAnimations
-import jahirfiquitiva.libs.kauextensions.extensions.context
-import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.withAlpha
+import jahirfiquitiva.libs.kext.extensions.animateColorTransition
+import jahirfiquitiva.libs.kext.extensions.animateSmoothly
+import jahirfiquitiva.libs.kext.extensions.bestSwatch
+import jahirfiquitiva.libs.kext.extensions.bind
+import jahirfiquitiva.libs.kext.extensions.boolean
+import jahirfiquitiva.libs.kext.extensions.clearChildrenAnimations
+import jahirfiquitiva.libs.kext.extensions.context
+import jahirfiquitiva.libs.kext.extensions.drawable
+import jahirfiquitiva.libs.kext.extensions.getActiveIconsColorFor
+import jahirfiquitiva.libs.kext.extensions.getPrimaryTextColorFor
+import jahirfiquitiva.libs.kext.extensions.getSecondaryTextColorFor
+import jahirfiquitiva.libs.kext.extensions.hasContent
 
 const val DETAILS_OPACITY = 0.85F
 const val COLLECTION_DETAILS_OPACITY = 0.4F
@@ -72,8 +72,8 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
             whenFaded {
                 if (FramesKonfigs(context).animationsEnabled) {
                     animateSmoothly(
-                            context.backgroundColor, context.tilesColor,
-                            { setBackgroundColor(it) })
+                        context.backgroundColor, context.tilesColor,
+                        { setBackgroundColor(it) })
                 } else {
                     setBackgroundColor(context.tilesColor)
                 }
@@ -106,10 +106,10 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
     private val amount: TextView? by bind(R.id.collection_walls_number)
     
     fun setItem(
-            manager: RequestManager?,
-            provider: ViewPreloadSizeProvider<Wallpaper>,
-            collection: Collection,
-            listener: FramesViewClickListener<Collection, CollectionHolder>
+        manager: RequestManager?,
+        provider: ViewPreloadSizeProvider<Wallpaper>,
+        collection: Collection,
+        listener: FramesViewClickListener<Collection, CollectionHolder>
                ) {
         if (this.wallpaper != collection.bestCover) this.wallpaper = collection.bestCover
         with(itemView) {
@@ -136,7 +136,7 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                 img?.setImageDrawable(resource)
                 
                 whenFaded(
-                        { itemView.clearChildrenAnimations() }, {
+                    { itemView.clearChildrenAnimations() }, {
                     if (FramesKonfigs(context).animationsEnabled) {
                         img?.animateColorTransition { wallpaper?.hasFaded = true }
                     } else {
@@ -153,17 +153,16 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                     detailsBg?.background = null
                     
                     val opacity =
-                            if (context.boolean(R.bool.enable_filled_collection_preview))
-                                COLLECTION_DETAILS_OPACITY
-                            else DETAILS_OPACITY
+                        if (context.boolean(R.bool.enable_filled_collection_preview))
+                            COLLECTION_DETAILS_OPACITY
+                        else DETAILS_OPACITY
                     
                     detailsBg?.setBackgroundColor(color.withAlpha(opacity))
                     title?.setTextColor(context.getPrimaryTextColorFor(color))
                     amount?.setTextColor(context.getSecondaryTextColorFor(color))
                 } else {
                     detailsBg?.setBackgroundColor(Color.TRANSPARENT)
-                    detailsBg?.background =
-                            context.drawable(R.drawable.gradient, null)
+                    detailsBg?.background = context.drawable(R.drawable.gradient)
                 }
                 return true
             }
@@ -172,7 +171,7 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
 }
 
 class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
-        FramesWallpaperHolder(itemView) {
+    FramesWallpaperHolder(itemView) {
     
     private var shouldCheck = false
     
@@ -187,11 +186,11 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
     private val detailsBg: LinearLayout? by bind(R.id.wallpaper_details)
     
     fun setItem(
-            manager: RequestManager?,
-            provider: ViewPreloadSizeProvider<Wallpaper>,
-            wallpaper: Wallpaper,
-            check: Boolean,
-            listener: FramesViewClickListener<Wallpaper, WallpaperHolder>
+        manager: RequestManager?,
+        provider: ViewPreloadSizeProvider<Wallpaper>,
+        wallpaper: Wallpaper,
+        check: Boolean,
+        listener: FramesViewClickListener<Wallpaper, WallpaperHolder>
                ) {
         if (this.wallpaper != wallpaper) this.wallpaper = wallpaper
         with(itemView) {
@@ -241,14 +240,14 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                 img?.setImageDrawable(resource)
                 
                 whenFaded(
-                        { itemView.clearChildrenAnimations() },
-                        {
-                            if (FramesKonfigs(context).animationsEnabled) {
-                                img?.animateColorTransition { wallpaper?.hasFaded = true }
-                            } else {
-                                itemView.clearChildrenAnimations()
-                            }
-                        })
+                    { itemView.clearChildrenAnimations() },
+                    {
+                        if (FramesKonfigs(context).animationsEnabled) {
+                            img?.animateColorTransition { wallpaper?.hasFaded = true }
+                        } else {
+                            itemView.clearChildrenAnimations()
+                        }
+                    })
                 
                 if (context.boolean(R.bool.enable_colored_tiles)) {
                     val color = try {
@@ -263,10 +262,10 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                     if (showFavIcon) {
                         heartColor = context.getActiveIconsColorFor(color)
                         heartIcon?.setImageDrawable(
-                                context.createHeartIcon(shouldCheck)?.tint(heartColor))
+                            context.createHeartIcon(shouldCheck)?.tint(heartColor))
                     }
                 } else {
-                    detailsBg?.background = context.drawable(R.drawable.gradient, null)
+                    detailsBg?.background = context.drawable(R.drawable.gradient)
                 }
                 return true
             }

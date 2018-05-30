@@ -39,14 +39,14 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
-import jahirfiquitiva.libs.kauextensions.extensions.accentColor
-import jahirfiquitiva.libs.kauextensions.extensions.actv
-import jahirfiquitiva.libs.kauextensions.extensions.boolean
-import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
-import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.isInHorizontalMode
-import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
-import jahirfiquitiva.libs.kauextensions.ui.decorations.GridSpacingItemDecoration
+import jahirfiquitiva.libs.kext.extensions.accentColor
+import jahirfiquitiva.libs.kext.extensions.activity
+import jahirfiquitiva.libs.kext.extensions.boolean
+import jahirfiquitiva.libs.kext.extensions.cardBackgroundColor
+import jahirfiquitiva.libs.kext.extensions.hasContent
+import jahirfiquitiva.libs.kext.extensions.isInHorizontalMode
+import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
+import jahirfiquitiva.libs.kext.ui.decorations.GridSpacingItemDecoration
 
 class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     
@@ -62,13 +62,13 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     
     val collsAdapter: CollectionsAdapter by lazy {
         CollectionsAdapter(
-                boolean(R.bool.enable_filled_collection_preview),
-                context?.let { Glide.with(it) }, provider,
-                object : FramesViewClickListener<Collection, CollectionHolder>() {
-                    override fun onSingleClick(item: Collection, holder: CollectionHolder) {
-                        onItemClicked(item, false)
-                    }
-                })
+            boolean(R.bool.enable_filled_collection_preview),
+            context?.let { Glide.with(it) }, provider,
+            object : FramesViewClickListener<Collection, CollectionHolder>() {
+                override fun onSingleClick(item: Collection, holder: CollectionHolder) {
+                    onItemClicked(item, false)
+                }
+            })
     }
     
     override fun initUI(content: View) {
@@ -94,26 +94,26 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
                 setLoadingText(R.string.loading_section)
                 val spanCount = if (context.isInHorizontalMode) 2 else 1
                 layoutManager = GridLayoutManager(
-                        context, spanCount, GridLayoutManager.VERTICAL, false)
+                    context, spanCount, GridLayoutManager.VERTICAL, false)
                 addItemDecoration(GridSpacingItemDecoration(spanCount, 0, true))
                 itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
                 setHasFixedSize(true)
                 
-                actv {
+                activity {
                     val preloader: RecyclerViewPreloader<Wallpaper> =
-                            RecyclerViewPreloader(it, collsAdapter, provider, context.maxPreload)
+                        RecyclerViewPreloader(it, collsAdapter, provider, context.maxPreload)
                     addOnScrollListener(preloader)
                 }
                 
                 addOnScrollListener(
-                        object : RecyclerView.OnScrollListener() {
-                            override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
-                                super.onScrolled(rv, dx, dy)
-                                if (!recyclerView.canScrollVertically(1)) {
-                                    recyclerView.post { collsAdapter.allowMoreItemsLoad() }
-                                }
+                    object : RecyclerView.OnScrollListener() {
+                        override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
+                            super.onScrolled(rv, dx, dy)
+                            if (!recyclerView.canScrollVertically(1)) {
+                                recyclerView.post { collsAdapter.allowMoreItemsLoad() }
                             }
-                        })
+                        }
+                    })
                 
                 setItemViewCacheSize(MAX_COLLECTIONS_LOAD)
                 isDrawingCacheEnabled = true
@@ -138,15 +138,15 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     @SuppressLint("RestrictedApi")
     override fun onItemClicked(item: Collection, longClick: Boolean) {
         super.onItemClicked(item, longClick)
-        actv {
-            val intent = Intent(activity, CollectionActivity::class.java)
+        activity {
+            val intent = Intent(it, CollectionActivity::class.java)
             intent.putExtra("item", item)
             intent.putExtra("checker", hasChecker)
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(it)
             try {
-                it.startActivityForResult(intent, 11, options.toBundle())
+                startActivityForResult(intent, 11, options.toBundle())
             } catch (ignored: Exception) {
-                it.startActivityForResult(intent, 11)
+                startActivityForResult(intent, 11)
             }
         }
     }
@@ -219,6 +219,6 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     
     companion object {
         fun create(hasChecker: Boolean): CollectionsFragment =
-                CollectionsFragment().apply { this.hasChecker = hasChecker }
+            CollectionsFragment().apply { this.hasChecker = hasChecker }
     }
 }

@@ -26,7 +26,7 @@ class FavoritesViewModel : ListViewModel<FavoritesDao, Wallpaper>() {
     private var daoTask: QAsync<*, *>? = null
     
     override fun internalLoad(param: FavoritesDao): ArrayList<Wallpaper> =
-            ArrayList(param.getFavorites().distinct())
+        ArrayList(param.getFavorites().distinct())
     
     private fun cancelDaoTask() {
         daoTask?.cancel(true)
@@ -36,13 +36,13 @@ class FavoritesViewModel : ListViewModel<FavoritesDao, Wallpaper>() {
     fun forceUpdateFavorites(dao: FavoritesDao, items: List<Wallpaper>) {
         cancelDaoTask()
         daoTask = QAsync<FavoritesDao, Unit>(
-                WeakReference(dao),
-                object : QAsync.Callback<FavoritesDao, Unit>() {
-                    override fun doLoad(param: FavoritesDao): Unit? =
-                            internalForceUpdateFavorites(param, items)
-                    
-                    override fun onSuccess(result: Unit) {}
-                })
+            WeakReference(dao),
+            object : QAsync.Callback<FavoritesDao, Unit>() {
+                override fun doLoad(param: FavoritesDao): Unit? =
+                    internalForceUpdateFavorites(param, items)
+                
+                override fun onSuccess(result: Unit) {}
+            })
         daoTask?.execute()
     }
     
@@ -58,22 +58,22 @@ class FavoritesViewModel : ListViewModel<FavoritesDao, Wallpaper>() {
         if (isInFavorites(wallpaper)) return
         cancelDaoTask()
         daoTask = QAsync<Wallpaper, Unit>(
-                WeakReference(wallpaper),
-                object : QAsync.Callback<Wallpaper, Unit>() {
-                    override fun doLoad(param: Wallpaper) {
-                        val oldList = ArrayList(dao.getFavorites())
-                        if (!oldList.contains(param)) {
-                            oldList.add(param)
-                            forceUpdateFavorites(dao, oldList)
-                        }
+            WeakReference(wallpaper),
+            object : QAsync.Callback<Wallpaper, Unit>() {
+                override fun doLoad(param: Wallpaper) {
+                    val oldList = ArrayList(dao.getFavorites())
+                    if (!oldList.contains(param)) {
+                        oldList.add(param)
+                        forceUpdateFavorites(dao, oldList)
                     }
-                    
-                    override fun onSuccess(result: Unit) {}
-                    override fun onError(e: Exception?): Unit? {
-                        onFail()
-                        return super.onError(e)
-                    }
-                })
+                }
+                
+                override fun onSuccess(result: Unit) {}
+                override fun onError(e: Exception?): Unit? {
+                    onFail()
+                    return super.onError(e)
+                }
+            })
         daoTask?.execute()
     }
     
@@ -81,22 +81,22 @@ class FavoritesViewModel : ListViewModel<FavoritesDao, Wallpaper>() {
         if (!isInFavorites(wallpaper)) return
         cancelDaoTask()
         daoTask = QAsync<Wallpaper, Unit>(
-                WeakReference(wallpaper),
-                object : QAsync.Callback<Wallpaper, Unit>() {
-                    override fun doLoad(param: Wallpaper) {
-                        val oldList = ArrayList(dao.getFavorites())
-                        if (oldList.contains(param)) {
-                            oldList.remove(param)
-                            forceUpdateFavorites(dao, oldList)
-                        }
+            WeakReference(wallpaper),
+            object : QAsync.Callback<Wallpaper, Unit>() {
+                override fun doLoad(param: Wallpaper) {
+                    val oldList = ArrayList(dao.getFavorites())
+                    if (oldList.contains(param)) {
+                        oldList.remove(param)
+                        forceUpdateFavorites(dao, oldList)
                     }
-                    
-                    override fun onSuccess(result: Unit) {}
-                    override fun onError(e: Exception?): Unit? {
-                        onFail()
-                        return super.onError(e)
-                    }
-                })
+                }
+                
+                override fun onSuccess(result: Unit) {}
+                override fun onError(e: Exception?): Unit? {
+                    onFail()
+                    return super.onError(e)
+                }
+            })
         daoTask?.execute()
     }
 }

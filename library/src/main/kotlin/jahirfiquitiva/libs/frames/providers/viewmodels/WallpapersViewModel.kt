@@ -16,25 +16,25 @@
 package jahirfiquitiva.libs.frames.providers.viewmodels
 
 import android.content.Context
-import ca.allanwang.kau.utils.boolean
 import jahirfiquitiva.libs.archhelpers.viewmodels.ListViewModel
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.FramesUrlRequests
-import jahirfiquitiva.libs.kauextensions.extensions.formatCorrectly
-import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.string
-import jahirfiquitiva.libs.kauextensions.extensions.toTitleCase
+import jahirfiquitiva.libs.kext.extensions.boolean
+import jahirfiquitiva.libs.kext.extensions.formatCorrectly
+import jahirfiquitiva.libs.kext.extensions.hasContent
+import jahirfiquitiva.libs.kext.extensions.string
+import jahirfiquitiva.libs.kext.extensions.toTitleCase
 import org.json.JSONArray
 import org.json.JSONObject
 
 class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
     
     override fun internalLoad(param: Context): ArrayList<Wallpaper> =
-            loadWallpapers(
-                    param, FramesUrlRequests().requestJson(param.getString(R.string.json_url)))
+        loadWallpapers(
+            param, FramesUrlRequests().requestJson(param.getString(R.string.json_url)))
     
     private fun loadWallpapers(context: Context, serverResponse: String): ArrayList<Wallpaper> {
         val prevResponse = FramesKonfigs(context).backupJson
@@ -57,11 +57,11 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
         return try {
             parseResponseToJSON(response, context.boolean(R.bool.use_old_json_format))
         } catch (e: Exception) {
-            FL.e { e.message }
+            FL.e(e.message)
             try {
                 parseResponseToJSON(response, true)
             } catch (e2: Exception) {
-                FL.e { e2.message }
+                FL.e(e2.message)
                 JSONArray("[]")
             }
         }
@@ -105,11 +105,11 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
             val correctAuthor = author.formatCorrectly().replace("_", " ").toTitleCase()
             if (correctName.hasContent() && url.hasContent()) {
                 fWallpapers.add(
-                        Wallpaper(
-                                correctName, correctAuthor, collections,
-                                downloadable, url,
-                                if (thumbUrl.hasContent()) thumbUrl else url,
-                                size, dimensions, copyright))
+                    Wallpaper(
+                        correctName, correctAuthor, collections,
+                        downloadable, url,
+                        if (thumbUrl.hasContent()) thumbUrl else url,
+                        size, dimensions, copyright))
             }
         }
         fWallpapers.distinct()

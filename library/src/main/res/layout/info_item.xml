@@ -28,7 +28,7 @@
               android:layout_gravity="center_vertical"
               android:gravity="center_vertical">
 
-    <jahirfiquitiva.libs.kauextensions.ui.widgets.MaterialIconView
+    <jahirfiquitiva.libs.kext.ui.widgets.MaterialIconView
         android:id="@+id/info_item_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

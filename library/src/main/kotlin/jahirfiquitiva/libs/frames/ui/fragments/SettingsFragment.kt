@@ -18,12 +18,12 @@ package jahirfiquitiva.libs.frames.ui.fragments
 import android.Manifest
 import android.annotation.SuppressLint
 import android.arch.persistence.room.Room
+import android.os.Build
 import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceCategory
 import android.preference.SwitchPreference
 import android.support.design.widget.Snackbar
-import ca.allanwang.kau.utils.buildIsLollipopAndUp
 import ca.allanwang.kau.utils.snackbar
 import com.afollestad.materialdialogs.MaterialDialog
 import com.fondesa.kpermissions.extension.listeners
@@ -31,23 +31,21 @@ import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
-import jahirfiquitiva.libs.frames.helpers.extensions.buildMaterialDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.clearDataAndCache
 import jahirfiquitiva.libs.frames.helpers.extensions.configs
 import jahirfiquitiva.libs.frames.helpers.extensions.dataCacheSize
+import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.ui.activities.SettingsActivity
 import jahirfiquitiva.libs.frames.ui.fragments.base.PreferenceFragment
-import jahirfiquitiva.libs.kauextensions.extensions.actv
-import jahirfiquitiva.libs.kauextensions.extensions.boolean
-import jahirfiquitiva.libs.kauextensions.extensions.ctxt
-import jahirfiquitiva.libs.kauextensions.extensions.getAppName
-
-import jahirfiquitiva.libs.kauextensions.extensions.withActv
-import jahirfiquitiva.libs.kauextensions.ui.activities.ThemedActivity
+import jahirfiquitiva.libs.kext.extensions.activity
+import jahirfiquitiva.libs.kext.extensions.actv
+import jahirfiquitiva.libs.kext.extensions.boolean
+import jahirfiquitiva.libs.kext.extensions.ctxt
+import jahirfiquitiva.libs.kext.extensions.getAppName
+import jahirfiquitiva.libs.kext.ui.activities.ThemedActivity
 import org.jetbrains.anko.doAsync
 
-@Suppress("DEPRECATION")
 open class SettingsFragment : PreferenceFragment() {
     
     internal var database: FavoritesDatabase? = null
@@ -66,9 +64,11 @@ open class SettingsFragment : PreferenceFragment() {
         }
         request.listeners {
             onAccepted { whenAccepted() }
-            onDenied { withActv { snackbar(R.string.permission_denied, Snackbar.LENGTH_LONG) } }
+            onDenied { activity { it.snackbar(R.string.permission_denied, Snackbar.LENGTH_LONG) } }
             onPermanentlyDenied {
-                withActv { snackbar(R.string.permission_denied_completely, Snackbar.LENGTH_LONG) }
+                activity {
+                    it.snackbar(R.string.permission_denied_completely, Snackbar.LENGTH_LONG)
+                }
             }
             onShouldShowRationale { _, nonce -> showPermissionInformation(explanation, nonce) }
         }
@@ -83,11 +83,11 @@ open class SettingsFragment : PreferenceFragment() {
     }
     
     private fun initDatabase() {
-        actv {
+        activity {
             if (boolean(R.bool.isFrames) && database == null) {
                 database = Room.databaseBuilder(
-                        it, FavoritesDatabase::class.java,
-                        DATABASE_NAME).fallbackToDestructiveMigration().build()
+                    it, FavoritesDatabase::class.java,
+                    DATABASE_NAME).fallbackToDestructiveMigration().build()
             }
         }
     }
@@ -98,7 +98,7 @@ open class SettingsFragment : PreferenceFragment() {
         val uiPrefs = findPreference("ui_settings") as? PreferenceCategory
         val navbarPref = findPreference("color_navbar") as? SwitchPreference
         
-        if (!buildIsLollipopAndUp) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             uiPrefs?.removePreference(navbarPref)
         }
         
@@ -106,7 +106,7 @@ open class SettingsFragment : PreferenceFragment() {
         themePref?.setOnPreferenceClickListener {
             clearDialog()
             val currentTheme = configs.currentTheme
-            dialog = actv.buildMaterialDialog {
+            dialog = activity?.mdDialog {
                 title(R.string.theme_setting_title)
                 items(R.array.themes_options)
                 itemsCallbackSingleChoice(currentTheme) { _, _, which, _ ->
@@ -138,7 +138,7 @@ open class SettingsFragment : PreferenceFragment() {
             columns?.setOnPreferenceClickListener {
                 clearDialog()
                 val currentColumns = configs.columns - 1
-                dialog = ctxt.buildMaterialDialog {
+                dialog = ctxt.mdDialog {
                     title(R.string.wallpapers_columns_setting_title)
                     items("1", "2", "3", "4", "5")
                     itemsCallbackSingleChoice(currentColumns) { _, _, which, _ ->
@@ -192,10 +192,10 @@ open class SettingsFragment : PreferenceFragment() {
         }
         
         val clearData = findPreference("clear_data")
-        clearData?.summary = getString(R.string.data_cache_setting_content, actv.dataCacheSize)
+        clearData?.summary = getString(R.string.data_cache_setting_content, activity?.dataCacheSize)
         clearData?.setOnPreferenceClickListener {
             clearDialog()
-            dialog = activity?.buildMaterialDialog {
+            dialog = activity?.mdDialog {
                 title(R.string.data_cache_setting_title)
                 content(R.string.data_cache_confirmation)
                 positiveText(android.R.string.ok)
@@ -203,8 +203,8 @@ open class SettingsFragment : PreferenceFragment() {
                 onPositive { _, _ ->
                     activity?.clearDataAndCache()
                     clearData.summary = getString(
-                            R.string.data_cache_setting_content,
-                            actv.dataCacheSize)
+                        R.string.data_cache_setting_content,
+                        activity?.dataCacheSize)
                 }
             }
             dialog?.show()
@@ -215,7 +215,7 @@ open class SettingsFragment : PreferenceFragment() {
         if (boolean(R.bool.isFrames)) {
             clearDatabase?.setOnPreferenceClickListener {
                 clearDialog()
-                dialog = actv.buildMaterialDialog {
+                dialog = activity?.mdDialog {
                     title(R.string.clear_favorites_setting_title)
                     content(R.string.clear_favorites_confirmation)
                     positiveText(android.R.string.ok)
@@ -246,32 +246,32 @@ open class SettingsFragment : PreferenceFragment() {
     }
     
     fun requestPermission() {
-        requestStoragePermission(getString(R.string.permission_request, actv.getAppName())) {
+        requestStoragePermission(getString(R.string.permission_request, activity?.getAppName())) {
             (activity as? SettingsActivity)?.showLocationChooserDialog()
         }
     }
     
     private fun showPermissionInformation(explanation: String, nonce: PermissionNonce) {
-        withActv {
-            snackbar(explanation) {
+        activity {
+            it.snackbar(explanation) {
                 setAction(R.string.allow, {
                     dismiss()
                     nonce.use()
                 })
                 addCallback(
-                        object : Snackbar.Callback() {
-                            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                                super.onDismissed(transientBottomBar, event)
-                                requestPermission()
-                            }
-                        })
+                    object : Snackbar.Callback() {
+                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                            super.onDismissed(transientBottomBar, event)
+                            requestPermission()
+                        }
+                    })
             }
         }
     }
     
     fun updateDownloadLocation() {
         downloadLocation?.summary = getString(
-                R.string.wallpapers_download_location_setting_content, configs.downloadsFolder)
+            R.string.wallpapers_download_location_setting_content, configs.downloadsFolder)
     }
     
     fun clearDialog() {

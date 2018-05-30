@@ -27,25 +27,27 @@ import android.os.Environment
 import android.support.v4.app.Fragment
 import ca.allanwang.kau.utils.darken
 import ca.allanwang.kau.utils.lighten
+import ca.allanwang.kau.utils.showChangelog
 import com.afollestad.materialdialogs.MaterialDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
-import jahirfiquitiva.libs.kauextensions.extensions.cardBackgroundColor
-import jahirfiquitiva.libs.kauextensions.extensions.ctxt
-import jahirfiquitiva.libs.kauextensions.extensions.deleteEverything
-import jahirfiquitiva.libs.kauextensions.extensions.extractColor
-import jahirfiquitiva.libs.kauextensions.extensions.getDrawable
-import jahirfiquitiva.libs.kauextensions.extensions.isLowRamDevice
-import jahirfiquitiva.libs.kauextensions.extensions.usesDarkTheme
-import jahirfiquitiva.libs.kauextensions.ui.activities.ThemedActivity
+import jahirfiquitiva.libs.kext.extensions.cardBackgroundColor
+import jahirfiquitiva.libs.kext.extensions.ctxt
+import jahirfiquitiva.libs.kext.extensions.deleteEverything
+import jahirfiquitiva.libs.kext.extensions.drawable
+import jahirfiquitiva.libs.kext.extensions.extractColor
+import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
+import jahirfiquitiva.libs.kext.extensions.secondaryTextColor
+import jahirfiquitiva.libs.kext.extensions.usesDarkTheme
+import jahirfiquitiva.libs.kext.ui.activities.ThemedActivity
 import java.io.File
 
-@Suppress("DEPRECATION", "UNCHECKED_CAST")
+@Suppress("UNCHECKED_CAST")
 internal val Fragment.configs: FramesKonfigs
     get() = (activity as? ThemedActivity<FramesKonfigs>)?.configs
-            ?: activity?.let { FramesKonfigs(it) }
-            ?: context?.let { FramesKonfigs(it) }
-            ?: FramesKonfigs(ctxt)
+        ?: activity?.let { FramesKonfigs(it) }
+        ?: context?.let { FramesKonfigs(it) }
+        ?: FramesKonfigs(ctxt)
 
 val Context.backgroundColor: Int
     @SuppressLint("PrivateResource")
@@ -89,12 +91,16 @@ fun Context.openWallpaper(uri: Uri) {
 }
 
 fun Context.createHeartIcon(checked: Boolean): Drawable? =
-        getDrawable(if (checked) "ic_heart" else "ic_heart_outline")
+    drawable(if (checked) "ic_heart" else "ic_heart_outline")
 
-inline fun Context.buildMaterialDialog(action: MaterialDialog.Builder.() -> Unit = {}): MaterialDialog {
+inline fun Context.mdDialog(action: MaterialDialog.Builder.() -> Unit = {}): MaterialDialog {
     val builder = MaterialDialog.Builder(this)
     builder.action()
     return builder.build()
+}
+
+fun Context.showChanges() {
+    showChangelog(R.xml.changelog, R.string.changelog, R.string.dismiss, secondaryTextColor)
 }
 
 val Context.dataCacheSize: String
@@ -135,8 +141,8 @@ fun Context.clearDataAndCache() {
     }
     clearCache()
     FramesKonfigs(this).downloadsFolder = getString(
-            R.string.default_download_folder,
-            Environment.getExternalStorageDirectory().absolutePath)
+        R.string.default_download_folder,
+        Environment.getExternalStorageDirectory().absolutePath)
 }
 
 fun Context.clearCache() {

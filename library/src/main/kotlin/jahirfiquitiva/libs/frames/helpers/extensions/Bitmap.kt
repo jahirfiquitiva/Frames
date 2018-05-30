@@ -37,7 +37,7 @@ fun Bitmap.adjustToDeviceScreen(activity: Activity): Bitmap {
             if (scaledHeight > deviceHeight) scaledHeight = deviceHeight
             return Bitmap.createScaledBitmap(this, scaledWidth, scaledHeight, true)
         } catch (e: Exception) {
-            FL.e { e.message }
+            FL.e(e.message)
         }
     }
     
@@ -47,7 +47,7 @@ fun Bitmap.adjustToDeviceScreen(activity: Activity): Bitmap {
             if (scaledWidth > deviceWidth) scaledWidth = deviceWidth
             return Bitmap.createScaledBitmap(this, scaledWidth, deviceHeight, true)
         } catch (e: Exception) {
-            FL.e { e.message }
+            FL.e(e.message)
         }
     }
     

@@ -30,15 +30,15 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import java.util.Collections
 
 class WallpapersAdapter(
-        private val manager: RequestManager?,
-        private val provider: ViewPreloadSizeProvider<Wallpaper>,
-        private val fromFavorites: Boolean,
-        private val showFavIcon: Boolean,
-        private val listener: FramesViewClickListener<Wallpaper, WallpaperHolder>
+    private val manager: RequestManager?,
+    private val provider: ViewPreloadSizeProvider<Wallpaper>,
+    private val fromFavorites: Boolean,
+    private val showFavIcon: Boolean,
+    private val listener: FramesViewClickListener<Wallpaper, WallpaperHolder>
                        ) :
-        FramesListAdapter<Wallpaper, WallpaperHolder>(
-                if (fromFavorites) -1 else MAX_WALLPAPERS_LOAD),
-        ListPreloader.PreloadModelProvider<Wallpaper> {
+    FramesListAdapter<Wallpaper, WallpaperHolder>(
+        if (fromFavorites) -1 else MAX_WALLPAPERS_LOAD),
+    ListPreloader.PreloadModelProvider<Wallpaper> {
     
     var favorites = ArrayList<Wallpaper>()
         private set(value) {
@@ -60,22 +60,22 @@ class WallpapersAdapter(
     override fun doBind(holder: WallpaperHolder, position: Int, shouldAnimate: Boolean) {
         val item = list[position]
         holder.setItem(
-                manager, provider, item, fromFavorites || favorites.contains(item),
-                listener)
+            manager, provider, item, fromFavorites || favorites.contains(item),
+            listener)
     }
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallpaperHolder =
-            WallpaperHolder(parent.inflate(R.layout.item_wallpaper), showFavIcon)
+        WallpaperHolder(parent.inflate(R.layout.item_wallpaper), showFavIcon)
     
     override fun getPreloadItems(position: Int): MutableList<Wallpaper> =
-            Collections.singletonList(list[position])
+        Collections.singletonList(list[position])
     
     override fun getPreloadRequestBuilder(item: Wallpaper): RequestBuilder<*>? =
-            manager?.load(item.thumbUrl)
+        manager?.load(item.thumbUrl)
     
     private fun getModifiedItems(
-            oldList: ArrayList<Wallpaper>,
-            newList: ArrayList<Wallpaper>
+        oldList: ArrayList<Wallpaper>,
+        newList: ArrayList<Wallpaper>
                                 ): ArrayList<Wallpaper> {
         val modified = ArrayList<Wallpaper>()
         modified.addAll(oldList.jfilter { !newList.contains(it) && !modified.contains(it) })

@@ -19,25 +19,26 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.FrameLayout
+import ca.allanwang.kau.utils.openLink
 import ca.allanwang.kau.utils.snackbar
-import ca.allanwang.kau.utils.startLink
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.ui.fragments.SettingsFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
-import jahirfiquitiva.libs.kauextensions.extensions.bind
-import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
-import jahirfiquitiva.libs.kauextensions.extensions.setItemVisibility
-import jahirfiquitiva.libs.kauextensions.extensions.tint
-import jahirfiquitiva.libs.kauextensions.ui.activities.ActivityWFragments
+import jahirfiquitiva.libs.kext.extensions.bind
+import jahirfiquitiva.libs.kext.extensions.getActiveIconsColorFor
+import jahirfiquitiva.libs.kext.extensions.getPrimaryTextColorFor
+import jahirfiquitiva.libs.kext.extensions.getSecondaryTextColorFor
+import jahirfiquitiva.libs.kext.extensions.primaryColor
+import jahirfiquitiva.libs.kext.extensions.setItemVisibility
+import jahirfiquitiva.libs.kext.extensions.tint
+import jahirfiquitiva.libs.kext.ui.activities.ActivityWFragments
 import java.io.File
 
 open class SettingsActivity : ActivityWFragments<FramesKonfigs>(),
@@ -69,9 +70,9 @@ open class SettingsActivity : ActivityWFragments<FramesKonfigs>(),
         
         supportActionBar?.setTitle(R.string.settings)
         toolbar?.tint(
-                getPrimaryTextColorFor(primaryColor, 0.6F),
-                getSecondaryTextColorFor(primaryColor, 0.6F),
-                getActiveIconsColorFor(primaryColor, 0.6F))
+            getPrimaryTextColorFor(primaryColor, 0.6F),
+            getSecondaryTextColorFor(primaryColor, 0.6F),
+            getActiveIconsColorFor(primaryColor, 0.6F))
         
         val container: FrameLayout? by bind(fragmentsContainer())
         container?.let {
@@ -82,8 +83,8 @@ open class SettingsActivity : ActivityWFragments<FramesKonfigs>(),
     }
     
     override fun onRequestPermissionsResult(
-            requestCode: Int, permissions: Array<out String>,
-            grantResults: IntArray
+        requestCode: Int, permissions: Array<out String>,
+        grantResults: IntArray
                                            ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 42) {
@@ -99,9 +100,9 @@ open class SettingsActivity : ActivityWFragments<FramesKonfigs>(),
         menuInflater.inflate(R.menu.about_settings_menu, menu)
         menu?.setItemVisibility(R.id.licenses, false)
         toolbar?.tint(
-                getPrimaryTextColorFor(primaryColor, 0.6F),
-                getSecondaryTextColorFor(primaryColor, 0.6F),
-                getActiveIconsColorFor(primaryColor, 0.6F))
+            getPrimaryTextColorFor(primaryColor, 0.6F),
+            getSecondaryTextColorFor(primaryColor, 0.6F),
+            getActiveIconsColorFor(primaryColor, 0.6F))
         return super.onCreateOptionsMenu(menu)
     }
     
@@ -111,7 +112,7 @@ open class SettingsActivity : ActivityWFragments<FramesKonfigs>(),
                 android.R.id.home -> doFinish()
                 R.id.translate -> {
                     try {
-                        startLink(getTranslationSite())
+                        openLink(getTranslationSite())
                     } catch (ignored: Exception) {
                     }
                 }
@@ -132,10 +133,10 @@ open class SettingsActivity : ActivityWFragments<FramesKonfigs>(),
     fun showLocationChooserDialog() {
         clearDialog()
         locationChooserDialog = FolderChooserDialog.Builder(this)
-                .chooseButton(R.string.choose_folder)
-                .initialPath(configs.downloadsFolder)
-                .allowNewFolder(true, R.string.create_folder)
-                .build()
+            .chooseButton(R.string.choose_folder)
+            .initialPath(configs.downloadsFolder)
+            .allowNewFolder(true, R.string.create_folder)
+            .build()
         locationChooserDialog?.show(this)
     }
     

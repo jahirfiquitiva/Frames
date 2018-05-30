@@ -21,7 +21,7 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.DashboardCreditViewHol
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesWallpaperHolder
 
 abstract class FramesListAdapter<T, VH : RecyclerView.ViewHolder>(maxLoad: Int = -1) :
-        RecyclerViewListAdapter<T, VH>(maxLoad) {
+    RecyclerViewListAdapter<T, VH>(maxLoad) {
     override fun onViewRecycled(holder: VH) {
         if (holder is FramesWallpaperHolder) holder.unbind()
         else if (holder is DashboardCreditViewHolder) holder.unbind()

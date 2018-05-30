@@ -70,7 +70,7 @@
             android:textSize="14sp"
             tools:text="@string/dashboard_copyright" />
 
-        <jahirfiquitiva.libs.kauextensions.ui.layouts.SplitButtonsLayout
+        <jahirfiquitiva.libs.kext.ui.layouts.SplitButtonsLayout
             android:id="@+id/buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

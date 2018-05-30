@@ -15,6 +15,6 @@
  */
 package jahirfiquitiva.libs.frames.helpers.utils
 
-import ca.allanwang.kau.logging.KauLogger
+import jahirfiquitiva.libs.kext.helpers.Rec
 
-internal object FL : KauLogger("Frames")
+internal object FL : Rec("Frames")

@@ -22,12 +22,11 @@ import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.providers.viewmodels.CollectionsViewModel
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
-import jahirfiquitiva.libs.kauextensions.extensions.SafeAccess
-import jahirfiquitiva.libs.kauextensions.extensions.ctxt
+import jahirfiquitiva.libs.kext.extensions.SafeAccess
+import jahirfiquitiva.libs.kext.extensions.context
 
-@Suppress("DEPRECATION")
 abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
-        BaseDatabaseFragment<T, VH>() {
+    BaseDatabaseFragment<T, VH>() {
     
     internal val wallpapersModel: WallpapersViewModel by lazyViewModel()
     internal val collectionsModel: CollectionsViewModel by lazyViewModel()
@@ -44,7 +43,7 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
     
     override fun loadDataFromViewModel() {
         super.loadDataFromViewModel()
-        ctxt { if (!fromCollectionActivity()) wallpapersModel.loadData(it) }
+        context { if (!fromCollectionActivity()) wallpapersModel.loadData(it) }
     }
     
     override fun unregisterObservers() {
@@ -57,14 +56,14 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
     
     override fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
-        ctxt { if (!fromCollectionActivity) collectionsModel.loadWithContext(it, data) }
+        context { if (!fromCollectionActivity) collectionsModel.loadWithContext(it, data) }
     }
     
     abstract fun enableRefresh(enable: Boolean)
     
     open fun reloadData(section: Int) {
         when (section) {
-            0, 1 -> ctxt(object : SafeAccess<Context> {
+            0, 1 -> context(object : SafeAccess<Context> {
                 override fun ifNotNull(obj: Context) {
                     super.ifNotNull(obj)
                     wallpapersModel.loadData(obj, true)

@@ -24,20 +24,20 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
-import jahirfiquitiva.libs.kauextensions.extensions.getAppName
-import jahirfiquitiva.libs.kauextensions.extensions.hasContent
+import jahirfiquitiva.libs.kext.extensions.getAppName
+import jahirfiquitiva.libs.kext.extensions.hasContent
 
 class FramesNotificationPublisher(
-        private val id: Int,
-        private val context: Context?,
-        private val mainActivity: Class<*>?,
-        private val channel: String,
-        private val content: String,
-        private val data: Map<String, String>?
+    private val id: Int,
+    private val context: Context?,
+    private val mainActivity: Class<*>?,
+    private val channel: String,
+    private val content: String,
+    private val data: Map<String, String>?
                                  ) {
     
     private constructor(bldr: Builder) :
-            this(bldr.id, bldr.from, bldr.launch, bldr.channel, bldr.content, bldr.data)
+        this(bldr.id, bldr.from, bldr.launch, bldr.channel, bldr.content, bldr.data)
     
     fun post() {
         context?.let {
@@ -47,7 +47,7 @@ class FramesNotificationPublisher(
                 var postedNewWallsNotification = false
                 for (i in 0 until data.size) {
                     val dataValue = data.toString().replace("{", "").replace("}", "")
-                            .split(",")[i].split("=")
+                        .split(",")[i].split("=")
                     val key = dataValue[0]
                     val value = dataValue[1]
                     if (key.equals("new_walls", true)) {
@@ -70,20 +70,20 @@ class FramesNotificationPublisher(
     
     private fun internalPost(context: Context, content: String) {
         val notificationBuilder = NotificationCompat.Builder(context, channel)
-                .setSmallIcon(R.drawable.ic_notifications)
-                .setContentTitle(context.getAppName())
-                .setContentText(content)
-                .setAutoCancel(true)
-                .setOngoing(false)
-                .setColor(ContextCompat.getColor(context, R.color.notification_color))
+            .setSmallIcon(R.drawable.ic_notifications)
+            .setContentTitle(context.getAppName())
+            .setContentText(content)
+            .setAutoCancel(true)
+            .setOngoing(false)
+            .setColor(ContextCompat.getColor(context, R.color.notification_color))
         
         if (mainActivity != null) {
             val nIntent = Intent(context, mainActivity)
             nIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             
             val pendingIntent = PendingIntent.getActivity(
-                    context, 0, nIntent,
-                    PendingIntent.FLAG_ONE_SHOT)
+                context, 0, nIntent,
+                PendingIntent.FLAG_ONE_SHOT)
             notificationBuilder.setContentIntent(pendingIntent)
         }
         
@@ -93,7 +93,7 @@ class FramesNotificationPublisher(
         notificationBuilder.setVibrate(longArrayOf(500, 500))
         
         val notificationManager = context.getSystemService(
-                Context.NOTIFICATION_SERVICE) as? NotificationManager
+            Context.NOTIFICATION_SERVICE) as? NotificationManager
         notificationManager?.cancel(id)
         notificationManager?.notify(id, notificationBuilder.build())
     }

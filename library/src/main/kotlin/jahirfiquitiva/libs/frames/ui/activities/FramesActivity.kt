@@ -23,12 +23,11 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
-import ca.allanwang.kau.utils.boolean
 import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.tint
-import ca.allanwang.kau.xml.showChangelog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.helpers.extensions.showChanges
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
@@ -37,19 +36,19 @@ import jahirfiquitiva.libs.frames.ui.fragments.FavoritesFragment
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersFragment
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
-import jahirfiquitiva.libs.kauextensions.extensions.bind
-import jahirfiquitiva.libs.kauextensions.extensions.getActiveIconsColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getDisabledTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getInactiveIconsColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getPrimaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.getSecondaryTextColorFor
-import jahirfiquitiva.libs.kauextensions.extensions.hasContent
-import jahirfiquitiva.libs.kauextensions.extensions.primaryColor
-import jahirfiquitiva.libs.kauextensions.extensions.secondaryTextColor
-import jahirfiquitiva.libs.kauextensions.extensions.tint
-import jahirfiquitiva.libs.kauextensions.ui.fragments.adapters.FragmentsPagerAdapter
-import jahirfiquitiva.libs.kauextensions.ui.layouts.CustomTabLayout
-import jahirfiquitiva.libs.kauextensions.ui.widgets.CustomSearchView
+import jahirfiquitiva.libs.kext.extensions.bind
+import jahirfiquitiva.libs.kext.extensions.boolean
+import jahirfiquitiva.libs.kext.extensions.getActiveIconsColorFor
+import jahirfiquitiva.libs.kext.extensions.getDisabledTextColorFor
+import jahirfiquitiva.libs.kext.extensions.getInactiveIconsColorFor
+import jahirfiquitiva.libs.kext.extensions.getPrimaryTextColorFor
+import jahirfiquitiva.libs.kext.extensions.getSecondaryTextColorFor
+import jahirfiquitiva.libs.kext.extensions.hasContent
+import jahirfiquitiva.libs.kext.extensions.primaryColor
+import jahirfiquitiva.libs.kext.extensions.tint
+import jahirfiquitiva.libs.kext.ui.fragments.adapters.FragmentsPagerAdapter
+import jahirfiquitiva.libs.kext.ui.layouts.CustomTabLayout
+import jahirfiquitiva.libs.kext.ui.widgets.CustomSearchView
 
 abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>() {
     
@@ -79,21 +78,21 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>() {
         initPagerAdapter()
         
         tabs?.setTabTextColors(
-                getDisabledTextColorFor(primaryColor, 0.6F),
-                getPrimaryTextColorFor(primaryColor, 0.6F))
+            getDisabledTextColorFor(primaryColor, 0.6F),
+            getPrimaryTextColorFor(primaryColor, 0.6F))
         tabs?.setSelectedTabIndicatorColor(getPrimaryTextColorFor(primaryColor, 0.6F))
         
         buildTabs()
         
         tabs?.addOnTabSelectedListener(
-                object : TabLayout.ViewPagerOnTabSelectedListener(pager) {
-                    override fun onTabSelected(tab: TabLayout.Tab?) {
-                        tab?.let { navigateToSection(it.position) }
-                    }
-                    
-                    override fun onTabReselected(tab: TabLayout.Tab?) = scrollToTop()
-                    override fun onTabUnselected(tab: TabLayout.Tab?) {}
-                })
+            object : TabLayout.ViewPagerOnTabSelectedListener(pager) {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    tab?.let { navigateToSection(it.position) }
+                }
+                
+                override fun onTabReselected(tab: TabLayout.Tab?) = scrollToTop()
+                override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            })
         pager?.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
         
         pager?.offscreenPageLimit = tabs?.tabCount ?: 2
@@ -104,15 +103,15 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>() {
     private fun initPagerAdapter() {
         pager?.adapter = if (hasCollections) {
             FragmentsPagerAdapter(
-                    supportFragmentManager,
-                    CollectionsFragment.create(getLicenseChecker() != null),
-                    WallpapersFragment.create(getLicenseChecker() != null),
-                    FavoritesFragment.create(getLicenseChecker() != null))
+                supportFragmentManager,
+                CollectionsFragment.create(getLicenseChecker() != null),
+                WallpapersFragment.create(getLicenseChecker() != null),
+                FavoritesFragment.create(getLicenseChecker() != null))
         } else {
             FragmentsPagerAdapter(
-                    supportFragmentManager,
-                    WallpapersFragment.create(getLicenseChecker() != null),
-                    FavoritesFragment.create(getLicenseChecker() != null))
+                supportFragmentManager,
+                WallpapersFragment.create(getLicenseChecker() != null),
+                FavoritesFragment.create(getLicenseChecker() != null))
         }
     }
     
@@ -143,9 +142,9 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>() {
             
             if (showIcons && icon != 0)
                 iconDrawable = ContextCompat.getDrawable(this, icon)?.tint(
-                        if (i != (if (hasCollections) 0 else 1))
-                            getInactiveIconsColorFor(primaryColor, 0.6F)
-                        else getActiveIconsColorFor(primaryColor, 0.6F))
+                    if (i != (if (hasCollections) 0 else 1))
+                        getInactiveIconsColorFor(primaryColor, 0.6F)
+                    else getActiveIconsColorFor(primaryColor, 0.6F))
             
             val tab = tabs?.newTab()
             if (reallyShowTexts) {
@@ -169,15 +168,15 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>() {
             lastSection = position
             if (boolean(R.bool.show_icons_in_tabs)) {
                 tabs?.setTabsIconsColors(
-                        getInactiveIconsColorFor(primaryColor, 0.6F),
-                        getActiveIconsColorFor(primaryColor, 0.6F))
+                    getInactiveIconsColorFor(primaryColor, 0.6F),
+                    getActiveIconsColorFor(primaryColor, 0.6F))
             }
             searchItem?.collapseActionView()
             searchView?.let { search ->
                 tabs?.let {
                     val hint = it.getTabAt(it.selectedTabPosition)?.text.toString()
                     search.queryHint =
-                            getString(R.string.search_x, hint.toLowerCase())
+                        getString(R.string.search_x, hint.toLowerCase())
                 }
             }
             pager?.setCurrentItem(lastSection, true)
@@ -212,9 +211,9 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>() {
         }
         
         toolbar?.tint(
-                getPrimaryTextColorFor(primaryColor, 0.6F),
-                getSecondaryTextColorFor(primaryColor, 0.6F),
-                getActiveIconsColorFor(primaryColor, 0.6F))
+            getPrimaryTextColorFor(primaryColor, 0.6F),
+            getSecondaryTextColorFor(primaryColor, 0.6F),
+            getActiveIconsColorFor(primaryColor, 0.6F))
         return super.onCreateOptionsMenu(menu)
     }
     
@@ -222,10 +221,10 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>() {
         item?.let {
             when (it.itemId) {
                 R.id.refresh -> refreshContent()
-                R.id.changelog -> showChangelog(R.xml.changelog, secondaryTextColor)
+                R.id.changelog -> showChanges()
                 R.id.about -> startActivity(Intent(this, CreditsActivity::class.java))
                 R.id.settings -> startActivityForResult(
-                        Intent(this, SettingsActivity::class.java), 22)
+                    Intent(this, SettingsActivity::class.java), 22)
                 R.id.donate -> doDonation()
             }
         }
@@ -252,11 +251,11 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>() {
                         val nFavs = data.getSerializableExtra("nFavs") as? ArrayList<Wallpaper>
                         nFavs?.let { if (it.isNotEmpty()) setNewFavorites(it) }
                     } catch (e: Exception) {
-                        FL.e { e.message }
+                        FL.e(e.message)
                     }
                 }
             } catch (e: Exception) {
-                FL.e { e.message }
+                FL.e(e.message)
             }
         }
     }
@@ -299,7 +298,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>() {
                 try {
                     (it as? BaseFramesFragment<*, *>)?.enableRefresh(!filter.hasContent())
                     synchronized(
-                            lock, {
+                        lock, {
                         postDelayed(200) {
                             (it as? BaseFramesFragment<*, *>)?.applyFilter(filter)
                         }
@@ -317,7 +316,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>() {
             (it as? FragmentsPagerAdapter)?.getItem(lastSection)?.let {
                 try {
                     (it as? BaseFramesFragment<*, *>)?.reloadData(
-                            lastSection + if (hasCollections) 0 else 1)
+                        lastSection + if (hasCollections) 0 else 1)
                 } catch (ignored: Exception) {
                 }
             }
