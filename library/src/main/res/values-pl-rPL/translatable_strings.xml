@@ -67,6 +67,7 @@
   <string name="frames_dashboard">Aplikacja bazowa Frames</string>
   <string name="dev_contributions">Pomoc w rozwoju aplikacji</string>
   <string name="ui_contributions">Pomoc w projektowaniu UI</string>
+  <string name="dashboard_copyright">Jestem kreatywnym Android Developerem z pasją. Jestem twórcą aplikacji bazowej.</string>
   <string name="sherry_description">Ciągle ewoluująca kobieta, która nigdy nie ma dość nauki, kreatywny fotograf oraz osoba, która umożliwiła stworzenie tej aplikacji.</string>
   <string name="allan_description">Początkowo twórca paczek ikon, później twórca motywów, teraz także developer.\nPomogłem w rozwoju tej aplikacji.</string>
   <string name="settings">Ustawienia</string>
@@ -78,6 +79,7 @@
   <!-- Dark Theme -->
   <string name="dark_theme">Ciemny</string>
   <!-- Amoled Theme -->
+  <string name="amoled_theme">Amoled</string>
   <!-- Transparent Theme -->
   <string name="transparent_theme">Przeźroczysty</string>
   <!-- Automatic Light-Dark Theme -->
@@ -146,4 +148,6 @@ Obecnie wybrana kolekcja: %1$s</string>
   <string name="new_wallpapers_available">%1$s nowych tapet jest teraz dostępnych. Tapnij, aby je zobaczyć!</string>
   <string name="notifications_title">Powiadomienia</string>
   <string name="enable_notifications">Włącz powiadomienia</string>
+  <string name="changelog">Dziennik zmian</string>
+  <string name="dismiss">Odrzuć</string>
 </resources>
