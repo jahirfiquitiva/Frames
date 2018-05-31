@@ -223,7 +223,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
             searchView?.onExpand = { toolbar?.enableScroll(false) }
             searchView?.onCollapse = {
                 toolbar?.enableScroll(true)
-                doSearch()
+                doSearch(closed = true)
             }
             searchView?.onQueryChanged = { doSearch(it) }
             searchView?.onQuerySubmit = { doSearch(it) }
@@ -306,7 +306,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
     }
     
     private val lock by lazy { Any() }
-    private fun doSearch(filter: String = "") {
+    private fun doSearch(filter: String = "", closed: Boolean = false) {
         pager?.adapter?.let {
             (it as? FragmentsPagerAdapter)?.getItem(lastSection)?.let {
                 try {
@@ -314,7 +314,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
                     synchronized(
                         lock, {
                         postDelayed(150) {
-                            (it as? BaseFramesFragment<*, *>)?.applyFilter(filter)
+                            (it as? BaseFramesFragment<*, *>)?.applyFilter(filter, closed)
                         }
                     })
                 } catch (ignored: Exception) {

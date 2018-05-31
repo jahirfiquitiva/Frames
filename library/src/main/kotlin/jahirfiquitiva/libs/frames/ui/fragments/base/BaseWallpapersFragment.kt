@@ -221,7 +221,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         swipeToRefresh?.isRefreshing = false
     }
     
-    override fun applyFilter(filter: String) {
+    override fun applyFilter(filter: String, closed: Boolean) {
         val list = ArrayList(
             if (fromFavorites())
                 (activity as? FavsDbManager)?.getFavs() ?: wallpapersModel.getData().orEmpty()
@@ -238,7 +238,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
             wallsAdapter.setItems(list)
         }
-        scrollToTop()
+        if (!closed)
+            scrollToTop()
     }
     
     private fun filteredWallpaper(wallpaper: Wallpaper, filter: String): Boolean {

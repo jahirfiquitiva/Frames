@@ -182,7 +182,7 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
         swipeToRefresh?.isRefreshing = true
     }
     
-    override fun applyFilter(filter: String) {
+    override fun applyFilter(filter: String, closed: Boolean) {
         val list = ArrayList(collectionsModel.getData().orEmpty())
         if (list.isEmpty()) return
         
@@ -195,7 +195,8 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
             recyclerView?.setEmptyText(R.string.empty_section)
             collsAdapter.setItems(list)
         }
-        scrollToTop()
+        if (!closed)
+            scrollToTop()
     }
     
     override fun doOnFavoritesChange(data: ArrayList<Wallpaper>) {

@@ -79,6 +79,6 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
     }
     
     abstract fun enableRefresh(enable: Boolean)
-    abstract fun applyFilter(filter: String)
+    abstract fun applyFilter(filter: String, closed:Boolean)
     abstract fun scrollToTop()
 }

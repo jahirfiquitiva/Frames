@@ -162,8 +162,12 @@ class CollectionActivity : ActivityWFragments<FramesKonfigs>(), FavsDbManager {
             it.setItemVisibility(R.id.settings, false)
             
             val searchItem = it.findItem(R.id.search)
-            searchView = searchItem.actionView as? CustomSearchView
-            searchView?.onCollapse = { doSearch() }
+            searchView = searchItem?.actionView as? CustomSearchView
+            searchView?.onExpand = { toolbar?.enableScroll(false) }
+            searchView?.onCollapse = {
+                toolbar?.enableScroll(true)
+                doSearch(closed = true)
+            }
             searchView?.onQueryChanged = { doSearch(it) }
             searchView?.onQuerySubmit = { doSearch(it) }
             searchView?.bindToItem(searchItem)
@@ -191,10 +195,10 @@ class CollectionActivity : ActivityWFragments<FramesKonfigs>(), FavsDbManager {
     override fun onBackPressed() = doFinish()
     
     private val lock = Any()
-    private fun doSearch(filter: String = "") {
+    private fun doSearch(filter: String = "", closed: Boolean = false) {
         try {
             synchronized(lock) {
-                postDelayed(150) { frag?.applyFilter(filter) }
+                postDelayed(150) { frag?.applyFilter(filter, closed) }
             }
         } catch (ignored: Exception) {
         }
