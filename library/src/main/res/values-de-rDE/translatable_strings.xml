@@ -67,6 +67,7 @@
   <string name="frames_dashboard">Frames Dashboard</string>
   <string name="dev_contributions">Entwicklungshilfe</string>
   <string name="ui_contributions">UI-Hilfe</string>
+  <string name="dashboard_copyright">Ich bin ein leidenschaftlicher und kreativer Android-Entwickler und der Ersteller des Dashboards.</string>
   <string name="sherry_description">Eine sich stets weiterentwickelnde Frau, die nie müde wird zu lernen, kreative Fotografin und die Person, die dieses Dashboard möglich gemacht hat.</string>
   <string name="allan_description">Zuerst ein Icon Pack Designer, dann ein Themer, jetzt auch ein Entwickler.\nIch habe bei der Entwicklung des Dashboards geholfen.</string>
   <string name="settings">Einstellungen</string>
@@ -146,4 +147,6 @@
   <string name="new_wallpapers_available">%1$s neue Wallpaper verfügbar. Tippe, um sie dir anzusehen!</string>
   <string name="notifications_title">Benachrichtigungen</string>
   <string name="enable_notifications">Benachrichtigungen aktivieren</string>
+  <string name="changelog">Änderungsverlauf</string>
+  <string name="dismiss">Verwerfen</string>
 </resources>
