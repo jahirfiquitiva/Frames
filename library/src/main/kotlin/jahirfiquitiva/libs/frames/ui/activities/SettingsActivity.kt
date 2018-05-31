@@ -122,7 +122,7 @@ open class SettingsActivity : ActivityWFragments<FramesKonfigs>(),
         return super.onOptionsItemSelected(item)
     }
     
-    open fun getTranslationSite(): String = "http://j.mp/FramesTranslations"
+    open fun getTranslationSite(): String = "http://j.mp/Trnsl8Frames"
     
     override fun onBackPressed() {
         super.onBackPressed()

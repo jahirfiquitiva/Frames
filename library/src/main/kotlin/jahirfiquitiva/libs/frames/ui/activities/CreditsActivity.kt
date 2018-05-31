@@ -134,7 +134,7 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
         return super.onOptionsItemSelected(item)
     }
     
-    open fun getTranslationSite(): String = "http://j.mp/FramesTranslations"
+    open fun getTranslationSite(): String = "http://j.mp/Trnsl8Frames"
     
     private fun registerExtraLicenses() {
         val ccLicense = object : License() {
