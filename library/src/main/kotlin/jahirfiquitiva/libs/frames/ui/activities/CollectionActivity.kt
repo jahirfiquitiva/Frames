@@ -16,23 +16,34 @@
 package jahirfiquitiva.libs.frames.ui.activities
 
 import android.annotation.SuppressLint
+import android.arch.persistence.room.Room
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.FrameLayout
 import android.widget.TextView
+import ca.allanwang.kau.utils.contentView
 import ca.allanwang.kau.utils.postDelayed
+import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.helpers.extensions.framesPostponeEnterTransition
+import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
+import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
+import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
+import jahirfiquitiva.libs.frames.ui.activities.base.FavsDbManager
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersInCollectionFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.kext.extensions.bind
+import jahirfiquitiva.libs.kext.extensions.buildSnackbar
 import jahirfiquitiva.libs.kext.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kext.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kext.extensions.getSecondaryTextColorFor
@@ -41,8 +52,9 @@ import jahirfiquitiva.libs.kext.extensions.setItemVisibility
 import jahirfiquitiva.libs.kext.extensions.tint
 import jahirfiquitiva.libs.kext.ui.activities.ActivityWFragments
 import jahirfiquitiva.libs.kext.ui.widgets.CustomSearchView
+import org.jetbrains.anko.doAsync
 
-open class CollectionActivity : ActivityWFragments<FramesKonfigs>() {
+class CollectionActivity : ActivityWFragments<FramesKonfigs>(), FavsDbManager {
     
     override val configs: FramesKonfigs by lazy { FramesKonfigs(this) }
     override fun lightTheme(): Int = R.style.Frames_LightTheme
@@ -60,8 +72,13 @@ open class CollectionActivity : ActivityWFragments<FramesKonfigs>() {
     private val toolbar: CustomToolbar? by bind(R.id.toolbar)
     private var searchView: CustomSearchView? = null
     
-    override fun autoTintStatusBar(): Boolean = true
-    override fun autoTintNavigationBar(): Boolean = true
+    private var errorSnackbar: Snackbar? = null
+    
+    override val favsViewModel: FavoritesViewModel by lazyViewModel()
+    override val favsDB: FavoritesDatabase by lazy {
+        Room.databaseBuilder(this, FavoritesDatabase::class.java, DATABASE_NAME)
+            .fallbackToDestructiveMigration().build()
+    }
     
     @SuppressLint("MissingSuperCall", "InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +94,22 @@ open class CollectionActivity : ActivityWFragments<FramesKonfigs>() {
         container?.let { with(it) { setPadding(paddingLeft, paddingTop, paddingRight, 0) } }
         
         collection = intent?.getParcelableExtra("item")
+        
+        initContent(true)
+        
+        favsViewModel.observe(this) { notifyFavsToFrags(it) }
+        doAsync { favsViewModel.loadData(favsDB.favoritesDao(), true) }
+    }
+    
+    @SuppressLint("MissingSuperCall")
+    override fun onResume() {
+        super.onResume()
         initContent()
+    }
+    
+    override fun onDestroy() {
+        super.onDestroy()
+        favsViewModel.destroy(this)
     }
     
     private fun initContent(loadFragment: Boolean = false) {
@@ -101,6 +133,7 @@ open class CollectionActivity : ActivityWFragments<FramesKonfigs>() {
                     it, it.wallpapers,
                     intent?.getBooleanExtra("checker", false) ?: false)
                 frag?.let { changeFragment(it) }
+                doAsync { favsViewModel.loadData(favsDB.favoritesDao(), true) }
             }
         }
     }
@@ -148,8 +181,9 @@ open class CollectionActivity : ActivityWFragments<FramesKonfigs>() {
     }
     
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == android.R.id.home) {
-            doFinish()
+        when (item?.itemId) {
+            android.R.id.home -> doFinish()
+            R.id.refresh -> frag?.reloadData(1)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -159,10 +193,9 @@ open class CollectionActivity : ActivityWFragments<FramesKonfigs>() {
     private val lock = Any()
     private fun doSearch(filter: String = "") {
         try {
-            synchronized(
-                lock, {
-                postDelayed(200) { frag?.applyFilter(filter) }
-            })
+            synchronized(lock) {
+                postDelayed(150) { frag?.applyFilter(filter) }
+            }
         } catch (ignored: Exception) {
         }
     }
@@ -172,8 +205,9 @@ open class CollectionActivity : ActivityWFragments<FramesKonfigs>() {
             closing = true
             val intent = Intent()
             try {
-                intent.putExtra("nFavs", frag?.newFavs ?: ArrayList<Wallpaper>())
-            } catch (ignored: Exception) {
+                intent.putExtra("nFavs", ArrayList<Wallpaper>(frag?.newFavs.orEmpty()))
+            } catch (e: Exception) {
+                FL.e("Error", e)
             }
             setResult(11, intent)
             try {
@@ -197,9 +231,15 @@ open class CollectionActivity : ActivityWFragments<FramesKonfigs>() {
         }
     }
     
-    @SuppressLint("MissingSuperCall")
-    override fun onResume() {
-        super.onResume()
-        initContent()
+    override fun notifyFavsToFrags(favs: ArrayList<Wallpaper>) {
+        frag?.doOnFavoritesChange(favs)
+    }
+    
+    override fun showSnackbar(text: String) {
+        errorSnackbar?.dismiss()
+        errorSnackbar = null
+        errorSnackbar = contentView?.buildSnackbar(text)
+        errorSnackbar?.view?.findViewById<TextView>(R.id.snackbar_text)?.setTextColor(Color.WHITE)
+        errorSnackbar?.show()
     }
 }

@@ -16,12 +16,14 @@
 package jahirfiquitiva.libs.frames.ui.fragments.base
 
 import android.content.Context
+import android.support.annotation.CallSuper
 import android.support.v7.widget.RecyclerView
 import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.providers.viewmodels.CollectionsViewModel
 import jahirfiquitiva.libs.frames.providers.viewmodels.WallpapersViewModel
+import jahirfiquitiva.libs.frames.ui.activities.base.FavsDbManager
 import jahirfiquitiva.libs.kext.extensions.SafeAccess
 import jahirfiquitiva.libs.kext.extensions.context
 
@@ -31,8 +33,8 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
     internal val wallpapersModel: WallpapersViewModel by lazyViewModel()
     internal val collectionsModel: CollectionsViewModel by lazyViewModel()
     
+    @CallSuper
     override fun registerObservers() {
-        super.registerObservers()
         wallpapersModel.observe(this) {
             doOnWallpapersChange(ArrayList(it), fromCollectionActivity())
         }
@@ -41,13 +43,13 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
         }
     }
     
+    @CallSuper
     override fun loadDataFromViewModel() {
-        super.loadDataFromViewModel()
         context { if (!fromCollectionActivity()) wallpapersModel.loadData(it) }
     }
     
+    @CallSuper
     override fun unregisterObservers() {
-        super.unregisterObservers()
         wallpapersModel.destroy(this)
         collectionsModel.destroy(this)
     }
@@ -59,8 +61,6 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
         context { if (!fromCollectionActivity) collectionsModel.loadWithContext(it, data) }
     }
     
-    abstract fun enableRefresh(enable: Boolean)
-    
     open fun reloadData(section: Int) {
         when (section) {
             0, 1 -> context(object : SafeAccess<Context> {
@@ -71,13 +71,14 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
                 
                 override fun ifNull() {
                     super.ifNull()
-                    showErrorSnackbar()
+                    showErrorSnackBar()
                 }
             })
-            2 -> getDatabase()?.let { favoritesModel.loadData(it, true) } ?: showErrorSnackbar()
+            2 -> (activity as? FavsDbManager)?.reloadFavorites()
         }
     }
     
+    abstract fun enableRefresh(enable: Boolean)
     abstract fun applyFilter(filter: String)
     abstract fun scrollToTop()
 }

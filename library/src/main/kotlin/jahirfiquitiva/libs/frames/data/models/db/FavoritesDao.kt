@@ -25,7 +25,6 @@ import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 
 @Dao
 interface FavoritesDao {
-    
     @Query("SELECT * FROM $DATABASE_NAME")
     fun getFavorites(): List<Wallpaper>
     

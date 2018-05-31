@@ -17,7 +17,6 @@ package jahirfiquitiva.libs.frames.ui.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
@@ -32,8 +31,10 @@ import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.jfilter
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
+import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.MAX_COLLECTIONS_LOAD
 import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
+import jahirfiquitiva.libs.frames.ui.activities.base.FavsDbManager
 import jahirfiquitiva.libs.frames.ui.adapters.CollectionsAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
@@ -138,15 +139,26 @@ class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     @SuppressLint("RestrictedApi")
     override fun onItemClicked(item: Collection, longClick: Boolean) {
         super.onItemClicked(item, longClick)
-        activity {
-            val intent = Intent(it, CollectionActivity::class.java)
-            intent.putExtra("item", item)
-            intent.putExtra("checker", hasChecker)
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(it)
-            try {
-                startActivityForResult(intent, 11, options.toBundle())
-            } catch (ignored: Exception) {
-                startActivityForResult(intent, 11)
+        val intent = Intent(activity, CollectionActivity::class.java)
+        intent.putExtra("item", item)
+        intent.putExtra("checker", hasChecker)
+        startActivityForResult(intent, 11)
+    }
+    
+    @Suppress("UNCHECKED_CAST")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 11) {
+            data?.let {
+                try {
+                    val nFavs = it.getSerializableExtra("nFavs") as? ArrayList<Wallpaper>
+                    nFavs?.let {
+                        if (it.isNotEmpty())
+                            (activity as? FavsDbManager)?.setNewFavorites(it)
+                    }
+                } catch (e: Exception) {
+                    FL.e("Error", e)
+                }
             }
         }
     }

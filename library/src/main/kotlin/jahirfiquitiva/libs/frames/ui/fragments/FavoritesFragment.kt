@@ -19,13 +19,9 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
 
 class FavoritesFragment : BaseWallpapersFragment() {
-    
     override fun doOnFavoritesChange(data: ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
-        with(wallsAdapter) {
-            updateFavorites(data)
-            setItems(data)
-        }
+        wallsAdapter.setItems(data)
     }
     
     override fun autoStartLoad(): Boolean = true
@@ -36,10 +32,5 @@ class FavoritesFragment : BaseWallpapersFragment() {
     companion object {
         fun create(hasChecker: Boolean): FavoritesFragment =
             FavoritesFragment().apply { this.hasChecker = hasChecker }
-    }
-    
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser) reloadData(2)
     }
 }

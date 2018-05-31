@@ -27,7 +27,7 @@ class WallpapersInCollectionFragment : BaseWallpapersFragment() {
     private var wallpapers = ArrayList<Wallpaper>()
     private var firstFavsModification = true
     
-    var newFavs = ArrayList<Wallpaper>()
+    val newFavs = ArrayList<Wallpaper>()
     
     private fun getWallpapersInCollection(all: ArrayList<Wallpaper>): ArrayList<Wallpaper> {
         collection?.let {
@@ -40,8 +40,7 @@ class WallpapersInCollectionFragment : BaseWallpapersFragment() {
     }
     
     override fun doOnFavoritesChange(data: ArrayList<Wallpaper>) {
-        super.doOnFavoritesChange(data)
-        wallsAdapter.updateFavorites(getWallpapersInCollection(data))
+        super.doOnFavoritesChange(getWallpapersInCollection(data))
         if (!firstFavsModification) {
             newFavs.clear()
             newFavs.addAll(data)

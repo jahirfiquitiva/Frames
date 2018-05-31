@@ -26,7 +26,7 @@ class FavoritesViewModel : ListViewModel<FavoritesDao, Wallpaper>() {
     private var daoTask: QAsync<*, *>? = null
     
     override fun internalLoad(param: FavoritesDao): ArrayList<Wallpaper> =
-        ArrayList(param.getFavorites().distinct())
+        ArrayList(param.getFavorites().reversed().distinct())
     
     private fun cancelDaoTask() {
         daoTask?.cancel(true)
@@ -54,7 +54,11 @@ class FavoritesViewModel : ListViewModel<FavoritesDao, Wallpaper>() {
     
     fun isInFavorites(wallpaper: Wallpaper): Boolean = getData().orEmpty().contains(wallpaper)
     
-    fun addToFavorites(dao: FavoritesDao, wallpaper: Wallpaper, onFail: () -> Unit) {
+    fun addToFavorites(
+        dao: FavoritesDao,
+        wallpaper: Wallpaper,
+        onResult: (success: Boolean) -> Unit
+                      ) {
         if (isInFavorites(wallpaper)) return
         cancelDaoTask()
         daoTask = QAsync<Wallpaper, Unit>(
@@ -68,16 +72,23 @@ class FavoritesViewModel : ListViewModel<FavoritesDao, Wallpaper>() {
                     }
                 }
                 
-                override fun onSuccess(result: Unit) {}
+                override fun onSuccess(result: Unit) {
+                    onResult(true)
+                }
+                
                 override fun onError(e: Exception?): Unit? {
-                    onFail()
+                    onResult(false)
                     return super.onError(e)
                 }
             })
         daoTask?.execute()
     }
     
-    fun removeFromFavorites(dao: FavoritesDao, wallpaper: Wallpaper, onFail: () -> Unit) {
+    fun removeFromFavorites(
+        dao: FavoritesDao,
+        wallpaper: Wallpaper,
+        onResult: (success: Boolean) -> Unit
+                           ) {
         if (!isInFavorites(wallpaper)) return
         cancelDaoTask()
         daoTask = QAsync<Wallpaper, Unit>(
@@ -91,9 +102,12 @@ class FavoritesViewModel : ListViewModel<FavoritesDao, Wallpaper>() {
                     }
                 }
                 
-                override fun onSuccess(result: Unit) {}
+                override fun onSuccess(result: Unit) {
+                    onResult(true)
+                }
+                
                 override fun onError(e: Exception?): Unit? {
-                    onFail()
+                    onResult(false)
                     return super.onError(e)
                 }
             })

@@ -15,10 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.ui.fragments.base
 
-import android.arch.persistence.room.Room
 import android.graphics.Color
-import android.os.Bundle
-import android.support.annotation.CallSuper
 import android.support.annotation.ColorInt
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
@@ -27,20 +24,13 @@ import android.view.animation.LinearInterpolator
 import android.view.animation.ScaleAnimation
 import android.widget.ImageView
 import android.widget.TextView
-import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
 import jahirfiquitiva.libs.archhelpers.ui.fragments.ViewModelFragment
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.data.models.db.FavoritesDao
-import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
-import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
-import jahirfiquitiva.libs.frames.helpers.utils.FL
-import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
+import jahirfiquitiva.libs.frames.ui.activities.base.FavsDbManager
 import jahirfiquitiva.libs.kext.extensions.SimpleAnimationListener
-import jahirfiquitiva.libs.kext.extensions.activity
 import jahirfiquitiva.libs.kext.extensions.applyColorFilter
-import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.buildSnackbar
 import jahirfiquitiva.libs.kext.extensions.context
 import org.jetbrains.anko.runOnUiThread
@@ -52,64 +42,29 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> : Vie
         private const val ANIMATION_DURATION: Long = 150
     }
     
-    internal var database: FavoritesDatabase? = null
-    internal val favoritesModel: FavoritesViewModel by lazyViewModel()
-    
-    internal var snack: Snackbar? = null
-    
-    private fun initDatabase() {
-        activity {
-            if (boolean(R.bool.isFrames) && database == null) {
-                database = Room.databaseBuilder(
-                    it, FavoritesDatabase::class.java,
-                    DATABASE_NAME).fallbackToDestructiveMigration().build()
-            }
-        }
-    }
-    
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        initDatabase()
-    }
-    
-    override fun registerObservers() {
-        favoritesModel.observe(this) {
-            doOnFavoritesChange(ArrayList(it))
-        }
-    }
-    
-    override fun loadDataFromViewModel() {
-        getDatabase()?.let { favoritesModel.loadData(it, true) }
-    }
-    
-    @CallSuper
-    override fun unregisterObservers() {
-        favoritesModel.destroy(this)
-    }
-    
-    internal fun onHeartClicked(heart: ImageView, item: Wallpaper, @ColorInt color: Int) =
-        animateHeartClick(heart, item, color, !isInFavorites(item))
+    private var errorSnackbar: Snackbar? = null
     
     open fun doOnFavoritesChange(data: ArrayList<Wallpaper>) {}
     open fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {}
     
-    internal fun getDatabase(): FavoritesDao? = database?.favoritesDao()
-    
-    private fun isInFavorites(item: Wallpaper): Boolean = favoritesModel.isInFavorites(item)
-    
-    internal fun addToFavorites(item: Wallpaper) =
-        getDatabase()?.let {
-            favoritesModel.addToFavorites(it, item, { showErrorSnackbar() })
-        } ?: showErrorSnackbar()
-    
-    internal fun removeFromFavorites(item: Wallpaper) =
-        getDatabase()?.let {
-            favoritesModel.removeFromFavorites(it, item, { showErrorSnackbar() })
-        } ?: showErrorSnackbar()
-    
     abstract fun onItemClicked(item: T, holder: VH)
     abstract fun fromCollectionActivity(): Boolean
     abstract fun fromFavorites(): Boolean
+    
+    internal fun showErrorSnackBar() {
+        errorSnackbar?.dismiss()
+        errorSnackbar = null
+        errorSnackbar = view?.buildSnackbar(getString(R.string.action_error_content))
+        errorSnackbar?.view?.findViewById<TextView>(R.id.snackbar_text)?.setTextColor(Color.WHITE)
+        errorSnackbar?.show()
+    }
+    
+    internal fun onHeartClicked(heart: ImageView, item: Wallpaper, @ColorInt color: Int) =
+        activity?.let {
+            (it as? FavsDbManager)?.let {
+                animateHeartClick(heart, item, color, !it.isInFavs(item))
+            }
+        } ?: showErrorSnackBar()
     
     private fun animateHeartClick(
         heart: ImageView,
@@ -139,7 +94,9 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> : Vie
                                 object : SimpleAnimationListener() {
                                     override fun onEnd(animation: Animation) {
                                         super.onEnd(animation)
-                                        postToFavorites(item, check)
+                                        activity?.let {
+                                            (it as? FavsDbManager)?.updateToFavs(item, check, it)
+                                        } ?: showErrorSnackBar()
                                     }
                                 })
                             heart.startAnimation(nScale)
@@ -148,34 +105,5 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> : Vie
                 heart.startAnimation(scale)
             }
         }
-    }
-    
-    internal fun postToFavorites(item: Wallpaper, check: Boolean) {
-        try {
-            if (check) addToFavorites(item) else removeFromFavorites(item)
-            showFavsSnackbar(check, item.name)
-        } catch (e: Exception) {
-            FL.e(e.message)
-            showErrorSnackbar()
-        }
-    }
-    
-    private fun showFavsSnackbar(added: Boolean, name: String) {
-        showSnackBar(
-            getString(
-                if (added) R.string.added_to_favorites else R.string.removed_from_favorites,
-                name))
-    }
-    
-    internal fun showErrorSnackbar() {
-        showSnackBar(getString(R.string.action_error_content))
-    }
-    
-    private fun showSnackBar(text: String) {
-        snack?.dismiss()
-        snack = null
-        snack = view?.buildSnackbar(text, Snackbar.LENGTH_SHORT)
-        snack?.view?.findViewById<TextView>(R.id.snackbar_text)?.setTextColor(Color.WHITE)
-        snack?.show()
     }
 }

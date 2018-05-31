@@ -15,29 +15,40 @@
  */
 package jahirfiquitiva.libs.frames.ui.activities
 
+import android.arch.persistence.room.Room
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
+import ca.allanwang.kau.utils.contentView
 import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.tint
+import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.helpers.extensions.showChanges
-import jahirfiquitiva.libs.frames.helpers.utils.FL
+import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
+import jahirfiquitiva.libs.frames.providers.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
+import jahirfiquitiva.libs.frames.ui.activities.base.FavsDbManager
 import jahirfiquitiva.libs.frames.ui.fragments.CollectionsFragment
 import jahirfiquitiva.libs.frames.ui.fragments.FavoritesFragment
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersFragment
+import jahirfiquitiva.libs.frames.ui.fragments.base.BaseDatabaseFragment
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.kext.extensions.bind
 import jahirfiquitiva.libs.kext.extensions.boolean
+import jahirfiquitiva.libs.kext.extensions.buildSnackbar
 import jahirfiquitiva.libs.kext.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kext.extensions.getDisabledTextColorFor
 import jahirfiquitiva.libs.kext.extensions.getInactiveIconsColorFor
@@ -49,8 +60,9 @@ import jahirfiquitiva.libs.kext.extensions.tint
 import jahirfiquitiva.libs.kext.ui.fragments.adapters.FragmentsPagerAdapter
 import jahirfiquitiva.libs.kext.ui.layouts.CustomTabLayout
 import jahirfiquitiva.libs.kext.ui.widgets.CustomSearchView
+import org.jetbrains.anko.doAsync
 
-abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>() {
+abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManager {
     
     override val configs: FramesKonfigs by lazy { FramesKonfigs(this) }
     
@@ -60,6 +72,14 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>() {
     
     private var searchItem: MenuItem? = null
     private var searchView: CustomSearchView? = null
+    
+    private var errorSnackbar: Snackbar? = null
+    
+    override val favsViewModel: FavoritesViewModel by lazyViewModel()
+    override val favsDB: FavoritesDatabase by lazy {
+        Room.databaseBuilder(this, FavoritesDatabase::class.java, DATABASE_NAME)
+            .fallbackToDestructiveMigration().build()
+    }
     
     private var hasCollections = false
     private var lastSection = 0
@@ -98,6 +118,14 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>() {
         pager?.offscreenPageLimit = tabs?.tabCount ?: 2
         
         navigateToSection(lastSection, true)
+        
+        favsViewModel.observe(this) { notifyFavsToFrags(it) }
+        doAsync { favsViewModel.loadData(favsDB.favoritesDao(), true) }
+    }
+    
+    override fun onDestroy() {
+        super.onDestroy()
+        favsViewModel.destroy(this)
     }
     
     private fun initPagerAdapter() {
@@ -236,26 +264,12 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>() {
         if (!open) super.onBackPressed()
     }
     
-    @Suppress("UNCHECKED_CAST")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 22) {
             data?.let {
                 val cleared = it.getBooleanExtra("clearedFavs", false)
                 if (cleared) reloadFavorites()
-            }
-        } else if (requestCode == 11) {
-            try {
-                data?.let {
-                    try {
-                        val nFavs = data.getSerializableExtra("nFavs") as? ArrayList<Wallpaper>
-                        nFavs?.let { if (it.isNotEmpty()) setNewFavorites(it) }
-                    } catch (e: Exception) {
-                        FL.e(e.message)
-                    }
-                }
-            } catch (e: Exception) {
-                FL.e(e.message)
             }
         }
     }
@@ -299,7 +313,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>() {
                     (it as? BaseFramesFragment<*, *>)?.enableRefresh(!filter.hasContent())
                     synchronized(
                         lock, {
-                        postDelayed(200) {
+                        postDelayed(150) {
                             (it as? BaseFramesFragment<*, *>)?.applyFilter(filter)
                         }
                     })
@@ -323,29 +337,17 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>() {
         }
     }
     
-    private fun reloadFavorites() {
-        pager?.adapter?.let {
-            (it as? FragmentsPagerAdapter)?.getItem(lastSection)?.let {
-                try {
-                    (it as? BaseFramesFragment<*, *>)?.reloadData(2)
-                } catch (ignored: Exception) {
-                }
-            }
+    override fun notifyFavsToFrags(favs: ArrayList<Wallpaper>) {
+        (pager?.adapter as? FragmentsPagerAdapter)?.getFragments()?.forEach {
+            (it as? BaseDatabaseFragment<*, *>)?.doOnFavoritesChange(favs)
         }
     }
     
-    private fun setNewFavorites(list: ArrayList<Wallpaper>) {
-        pager?.adapter?.let {
-            (it as? FragmentsPagerAdapter)?.getItem(if (hasCollections) 2 else 1)?.let {
-                try {
-                    (it as? BaseFramesFragment<*, *>)?.let {
-                        with(it) {
-                            getDatabase()?.let { favoritesModel.forceUpdateFavorites(it, list) }
-                        }
-                    }
-                } catch (ignored: Exception) {
-                }
-            }
-        }
+    override fun showSnackbar(text: String) {
+        errorSnackbar?.dismiss()
+        errorSnackbar = null
+        errorSnackbar = contentView?.buildSnackbar(text)
+        errorSnackbar?.view?.findViewById<TextView>(R.id.snackbar_text)?.setTextColor(Color.WHITE)
+        errorSnackbar?.show()
     }
 }

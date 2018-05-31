@@ -27,6 +27,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
+import ca.allanwang.kau.utils.postDelayed
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
 import com.bumptech.glide.util.ViewPreloadSizeProvider
@@ -41,6 +42,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
 import jahirfiquitiva.libs.frames.helpers.utils.MAX_WALLPAPERS_LOAD
 import jahirfiquitiva.libs.frames.ui.activities.ViewerActivity
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
+import jahirfiquitiva.libs.frames.ui.activities.base.FavsDbManager
 import jahirfiquitiva.libs.frames.ui.adapters.WallpapersAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
@@ -152,6 +154,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         recyclerView?.let { fastScroller?.attachRecyclerView(it) }
         
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
+        
+        postDelayed(5) { loadDataFromViewModel() }
     }
     
     override fun scrollToTop() {
@@ -171,8 +175,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 val columns = configs.columns
                 spanCount = if (it.isInHorizontalMode) (columns * 1.5).toInt() else columns
                 recyclerView?.layoutManager = GridLayoutManager(
-                    context, spanCount,
-                    GridLayoutManager.VERTICAL, false)
+                    context, spanCount, GridLayoutManager.VERTICAL, false)
                 spacingDecoration = GridSpacingItemDecoration(
                     spanCount, it.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
                 recyclerView?.addItemDecoration(spacingDecoration)
@@ -209,6 +212,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     
     override fun doOnFavoritesChange(data: ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
+        wallsAdapter.updateFavorites(data)
         swipeToRefresh?.isRefreshing = false
     }
     
@@ -219,7 +223,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     
     override fun applyFilter(filter: String) {
         val list = ArrayList(
-            if (fromFavorites()) favoritesModel.getData().orEmpty()
+            if (fromFavorites())
+                (activity as? FavsDbManager)?.getFavs() ?: wallpapersModel.getData().orEmpty()
             else wallpapersModel.getData().orEmpty())
         
         if (filter.hasContent()) {
@@ -261,7 +266,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             
             with(intent) {
                 putExtra("wallpaper", wallpaper)
-                putExtra("inFavorites", favoritesModel.isInFavorites(wallpaper))
+                putExtra("inFavorites", (activity as? FavsDbManager)?.isInFavs(wallpaper) ?: false)
                 putExtra("showFavoritesButton", showFavoritesIcon())
                 putExtra("imgTransition", imgTransition)
                 putExtra("nameTransition", nameTransition)
@@ -310,10 +315,11 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 val item = it.getParcelableExtra<Wallpaper>("item")
                 val hasModifiedFavs = it.getBooleanExtra("modified", false)
                 val inFavs = it.getBooleanExtra("inFavorites", false)
-                item?.let {
+                item?.let { wall ->
                     if (hasModifiedFavs) {
-                        if (inFavs) addToFavorites(it)
-                        else removeFromFavorites(it)
+                        activity?.let {
+                            (it as? FavsDbManager)?.updateToFavs(wall, inFavs, it, false)
+                        } ?: showErrorSnackBar()
                     }
                 }
             }
