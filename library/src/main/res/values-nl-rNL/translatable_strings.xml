@@ -147,4 +147,6 @@
   <string name="new_wallpapers_available">%1$s nieuwe achtergronden beschikbaar. Tik om ze te checken!</string>
   <string name="notifications_title">Notificaties</string>
   <string name="enable_notifications">Schakel notificaties in</string>
+  <string name="changelog">Changelog</string>
+  <string name="dismiss">Negeren</string>
 </resources>
