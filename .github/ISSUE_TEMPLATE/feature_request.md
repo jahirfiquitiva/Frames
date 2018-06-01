@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD
 name: Feature Request
 about: Suggest an idea for this project
 
@@ -19,3 +20,21 @@ Any HTML comment will be stripped when the markdown is rendered, so you don't ne
 
 ### Additional context
 <!-- Add any other context or screenshots, videos, etc. about the feature request here. -->
+=======
+name: Feature request
+about: Suggest an idea for this project
+
+---
+
+**Is your feature request related to a problem? Please describe.**
+A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+
+**Describe the solution you'd like**
+A clear and concise description of what you want to happen.
+
+**Describe alternatives you've considered**
+A clear and concise description of any alternative solutions or features you've considered.
+
+**Additional context**
+Add any other context or screenshots about the feature request here.
+>>>>>>> d94c0801706a335a12ba3826234a185580f7a83b
