@@ -1,5 +1,4 @@
 ---
-<<<<<<< HEAD
 name: Feature Request
 about: Suggest an idea for this project
 
@@ -37,4 +36,3 @@ A clear and concise description of any alternative solutions or features you've 
 
 **Additional context**
 Add any other context or screenshots about the feature request here.
->>>>>>> d94c0801706a335a12ba3826234a185580f7a83b
