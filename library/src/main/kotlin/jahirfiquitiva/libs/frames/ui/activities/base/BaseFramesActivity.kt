@@ -50,8 +50,8 @@ import jahirfiquitiva.libs.frames.helpers.utils.NOVA_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.PLAY_STORE_LINK_PREFIX
 import jahirfiquitiva.libs.frames.helpers.utils.TURBO_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.WALLS_PICKER
-import jahirfiquitiva.libs.frames.providers.viewmodels.IAPItem
-import jahirfiquitiva.libs.frames.providers.viewmodels.IAPViewModel
+import jahirfiquitiva.libs.frames.viewmodels.IAPItem
+import jahirfiquitiva.libs.frames.viewmodels.IAPViewModel
 import jahirfiquitiva.libs.kext.extensions.buildSnackbar
 import jahirfiquitiva.libs.kext.extensions.compliesWithMinTime
 import jahirfiquitiva.libs.kext.extensions.getAppName

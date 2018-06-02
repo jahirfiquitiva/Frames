@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jahirfiquitiva.libs.frames.providers.viewmodels
+package jahirfiquitiva.libs.frames.viewmodels
 
 import com.anjlab.android.iab.v3.BillingProcessor
 import jahirfiquitiva.libs.archhelpers.viewmodels.ListViewModel

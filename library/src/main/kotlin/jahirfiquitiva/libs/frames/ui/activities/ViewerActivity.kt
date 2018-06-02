@@ -67,7 +67,7 @@ import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
 import jahirfiquitiva.libs.frames.helpers.utils.MIN_TIME
-import jahirfiquitiva.libs.frames.providers.viewmodels.WallpaperInfoViewModel
+import jahirfiquitiva.libs.frames.viewmodels.WallpaperInfoViewModel
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseWallpaperActionsActivity
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.InfoBottomSheet
