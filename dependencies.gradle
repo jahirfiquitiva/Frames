@@ -37,7 +37,7 @@ ext.versions = [
         permissions          : '1.0.0',
         materialDialogs      : '0.9.6.0',
         glide                : '4.7.1',
-        kext                 : 'be7984d',
+        kext                 : '76b5db9',
         sectionedRecyclerView: '7e9908b',
         rvFastScroll         : '09e2079',
         chips                : 'b036a10',
