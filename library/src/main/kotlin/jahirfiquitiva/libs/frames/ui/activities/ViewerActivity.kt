@@ -29,7 +29,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.Snackbar
-import android.support.v4.app.DialogFragment
 import android.support.v4.view.ViewCompat
 import android.support.v7.graphics.Palette
 import android.view.MenuItem
@@ -73,7 +72,6 @@ import jahirfiquitiva.libs.frames.helpers.utils.MIN_TIME
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseWallpaperActionsActivity
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.InfoBottomSheet
-import jahirfiquitiva.libs.frames.ui.fragments.dialogs.InfoDialog
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsDialog
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.frames.viewmodels.WallpaperInfoViewModel
@@ -81,7 +79,6 @@ import jahirfiquitiva.libs.kext.extensions.SimpleAnimationListener
 import jahirfiquitiva.libs.kext.extensions.activeIconsColor
 import jahirfiquitiva.libs.kext.extensions.applyColorFilter
 import jahirfiquitiva.libs.kext.extensions.bind
-import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.buildSnackbar
 import jahirfiquitiva.libs.kext.extensions.color
 import jahirfiquitiva.libs.kext.extensions.compliesWithMinTime
@@ -138,7 +135,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     private var visibleBottomBar = true
     
     private val detailsVM: WallpaperInfoViewModel by lazyViewModel()
-    private var infoDialog: DialogFragment? = null
+    private var infoDialog: InfoBottomSheet? = null
     private val details = ArrayList<WallpaperDetail>()
     private var palette: Palette? = null
     private var info: WallpaperInfo? = null
@@ -253,14 +250,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     
     private fun showInfoDialog() {
         dismissInfoDialog()
-        val showBottomSheet = boolean(R.bool.show_bottom_sheet)
-        infoDialog = if (showBottomSheet) InfoBottomSheet.build(details, palette)
-        else InfoDialog.build(details, palette)
-        
+        infoDialog = InfoBottomSheet.build(details, palette)
         loadExpensiveWallpaperDetails()
-        
-        if (showBottomSheet) (infoDialog as? InfoBottomSheet)?.show(this)
-        else (infoDialog as? InfoDialog)?.show(this)
+        (infoDialog as? InfoBottomSheet)?.show(this)
     }
     
     private fun dismissInfoDialog() {
@@ -427,12 +419,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     }
     
     private fun updateInfo() {
-        infoDialog?.let {
-            when (it) {
-                is InfoBottomSheet -> it.setDetailsAndPalette(details, palette)
-                is InfoDialog -> it.setDetailsAndPalette(details, palette)
-            }
-        }
+        infoDialog?.setDetailsAndPalette(details, palette)
     }
     
     private fun addToDetails(detail: WallpaperDetail) {
