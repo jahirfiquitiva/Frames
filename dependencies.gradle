@@ -25,8 +25,8 @@ ext.versions = [
         minSdk               : 16,
         targetSdk            : 27,
         buildTools           : '27.0.3',
-        versionCode          : 242,
-        versionName          : '2.4.2',
+        versionCode          : 243,
+        versionName          : '2.4.3',
         // Gradle Plugins
         gradle               : '3.1.2',
         kotlin               : '1.2.41',
