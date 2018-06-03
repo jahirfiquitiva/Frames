@@ -261,7 +261,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         if (!canClick) return
         try {
             val intent = Intent(activity, ViewerActivity::class.java)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                 val imgTransition = ViewCompat.getTransitionName(holder.img)
                 val nameTransition = ViewCompat.getTransitionName(holder.name)
                 val authorTransition = ViewCompat.getTransitionName(holder.author)
