@@ -85,7 +85,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     
     private var checker: PiracyChecker? = null
     private var donationsReady = false
-    internal var billingProcessor: BillingProcessor? = null
+    private var billingProcessor: BillingProcessor? = null
     
     override var wallpaper: Wallpaper? = null
     override val allowBitmapApply: Boolean = false
@@ -111,7 +111,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         pickerKey = savedInstanceState?.getInt("pickerKey") ?: 0
     }
     
-    internal fun initDonations() {
+    private fun initDonations() {
         if (donationsReady) return
         if (donationsEnabled && stringArray(R.array.donation_items).orEmpty().isNotEmpty()
             && BillingProcessor.isIabServiceAvailable(this)) {
@@ -372,7 +372,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         dialog = null
     }
     
-    fun destroyBillingProcessor() {
+    private fun destroyBillingProcessor() {
         billingProcessor?.release()
         billingProcessor = null
         donationsReady = false

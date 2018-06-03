@@ -40,7 +40,6 @@ import ca.allanwang.kau.utils.visible
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.ui.adapters.WallpaperInfoAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
-import jahirfiquitiva.libs.kext.extensions.ctxt
 import jahirfiquitiva.libs.kext.extensions.isInHorizontalMode
 
 class InfoBottomSheet : BottomSheetDialogFragment() {
@@ -80,7 +79,7 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
         recyclerView?.itemAnimator = DefaultItemAnimator()
         
         val layoutManager = GridLayoutManager(
-            ctxt, if (ctxt.isInHorizontalMode) 4 else 3,
+            context, if (context?.isInHorizontalMode == true) 4 else 3,
             GridLayoutManager.VERTICAL, false)
         recyclerView?.layoutManager = layoutManager
         

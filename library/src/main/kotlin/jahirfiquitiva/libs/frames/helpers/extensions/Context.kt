@@ -41,7 +41,7 @@ import jahirfiquitiva.libs.kext.extensions.usesDarkTheme
 import jahirfiquitiva.libs.kext.ui.activities.ThemedActivity
 import java.io.File
 
-@Suppress("UNCHECKED_CAST")
+@Suppress("UNCHECKED_CAST", "DEPRECATION")
 internal val Fragment.configs: FramesKonfigs
     get() = (activity as? ThemedActivity<FramesKonfigs>)?.configs
         ?: activity?.let { FramesKonfigs(it) }

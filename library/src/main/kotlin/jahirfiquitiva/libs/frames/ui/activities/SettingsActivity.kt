@@ -139,12 +139,12 @@ open class SettingsActivity : ActivityWFragments<FramesKonfigs>(),
         locationChooserDialog?.show(this)
     }
     
-    fun clearDialog() {
+    private fun clearDialog() {
         locationChooserDialog?.dismiss()
         locationChooserDialog = null
     }
     
-    fun doFinish() {
+    private fun doFinish() {
         val intent = Intent()
         intent.putExtra("clearedFavs", hasClearedFavs)
         setResult(22, intent)

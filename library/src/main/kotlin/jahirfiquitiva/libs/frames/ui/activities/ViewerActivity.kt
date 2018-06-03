@@ -252,14 +252,11 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         dismissInfoDialog()
         infoDialog = InfoBottomSheet.build(details, palette)
         loadExpensiveWallpaperDetails()
-        (infoDialog as? InfoBottomSheet)?.show(this)
+        infoDialog?.show(this)
     }
     
     private fun dismissInfoDialog() {
-        infoDialog?.let {
-            if (it is InfoBottomSheet) it.animateHide()
-            else it.dismiss()
-        }
+        infoDialog?.animateHide()
     }
     
     override fun onMultiWindowModeChanged(isInMultiWindowMode: Boolean, newConfig: Configuration?) {

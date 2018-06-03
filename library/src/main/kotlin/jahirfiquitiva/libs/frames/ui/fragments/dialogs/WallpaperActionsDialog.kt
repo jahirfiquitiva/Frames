@@ -43,6 +43,7 @@ import jahirfiquitiva.libs.kext.extensions.context
 import jahirfiquitiva.libs.kext.helpers.DownloadThread
 import java.io.File
 
+@Suppress("DEPRECATION")
 class WallpaperActionsDialog : DialogFragment() {
     
     private var wallpaper: Wallpaper? = null
@@ -68,8 +69,7 @@ class WallpaperActionsDialog : DialogFragment() {
         private set
     var downloadManager: DownloadManager? = null
         private set
-    var downloadId = 0L
-        private set
+    private var downloadId = 0L
     
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         if (destFile == null && destBitmap == null) {
@@ -172,7 +172,7 @@ class WallpaperActionsDialog : DialogFragment() {
     
     private fun buildApplyDialog(): MaterialDialog {
         val dialog = actv.mdDialog {
-            content(actv.getString(R.string.applying_wallpaper, wallpaper?.name))
+            content(getString(R.string.applying_wallpaper, wallpaper?.name))
             progress(true, 0)
         }
         thread?.start()

@@ -51,7 +51,6 @@ import jahirfiquitiva.libs.kext.extensions.accentColor
 import jahirfiquitiva.libs.kext.extensions.activity
 import jahirfiquitiva.libs.kext.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kext.extensions.context
-import jahirfiquitiva.libs.kext.extensions.ctxt
 import jahirfiquitiva.libs.kext.extensions.dimenPixelSize
 import jahirfiquitiva.libs.kext.extensions.formatCorrectly
 import jahirfiquitiva.libs.kext.extensions.hasContent
@@ -281,7 +280,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 val filename = "thumb.png"
                 fos = activity?.openFileOutput(filename, Context.MODE_PRIVATE)
                 holder.img?.drawable?.toBitmap()
-                    ?.compress(Bitmap.CompressFormat.JPEG, ctxt.maxPictureRes, fos)
+                    ?.compress(Bitmap.CompressFormat.JPEG, context?.maxPictureRes ?: 25, fos)
                 intent.putExtra("image", filename)
             } catch (ignored: Exception) {
             } finally {
