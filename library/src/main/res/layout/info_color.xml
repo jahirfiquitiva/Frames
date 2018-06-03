@@ -30,10 +30,9 @@
     android:gravity="center_vertical"
     tools:ignore="RtlSymmetry">
 
-    <com.robertlevonyan.views.chip.Chip
+    <com.jahirfiquitiva.chip.ChipView
         android:id="@+id/info_palette_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:foreground="?selectableItemBackground" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

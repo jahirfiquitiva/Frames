@@ -40,7 +40,7 @@ ext.versions = [
         kext                 : '76b5db9',
         sectionedRecyclerView: '7e9908b',
         rvFastScroll         : '09e2079',
-        chips                : 'b036a10',
+        chips                : '0.0.3',
         iaps                 : '1.0.44',
         muzeiApi             : '2.0',
         licensesDialog       : '1.8.3',
@@ -78,7 +78,7 @@ ext.libraries = [
         // RecyclerView FastScroll
         rvFastScroll         : 'com.jahirfiquitiva:recycler-fast-scroll:' + versions.rvFastScroll + '@aar',
         // Chips
-        chips                : 'com.jahirfiquitiva:materialChipView:' + versions.chips,
+        chips                : 'com.jahirfiquitiva:ChipView:' + versions.chips + '@aar',
         // In-App Purchases
         iaps                 : 'com.anjlab.android.iab.v3:library:' + versions.iaps,
         // Muzei API
