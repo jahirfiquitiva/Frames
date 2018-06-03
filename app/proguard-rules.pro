@@ -33,7 +33,12 @@
   **[] $VALUES;
   public *;
 }
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
 
+-keep public class android.app.ActivityTransitionCoordinator
 -keep class jahirfiquitiva.libs.frames.** { *; }
 -keep class jahirfiquitiva.libs.kext.** { *; }
 

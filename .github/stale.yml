@@ -3,6 +3,7 @@ daysUntilClose: 7
 
 exemptLabels:
   - "Status: Accepted"
+  - "Status: Pending"
 staleLabel: "Status: Stale"
 
 markComment: >
