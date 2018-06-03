@@ -49,7 +49,7 @@ import jahirfiquitiva.libs.kext.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
 import jahirfiquitiva.libs.kext.ui.decorations.GridSpacingItemDecoration
 
-class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
+internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
     
     private var hasChecker = false
     

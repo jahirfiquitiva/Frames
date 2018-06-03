@@ -21,7 +21,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.jfilter
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
 import jahirfiquitiva.libs.kext.extensions.formatCorrectly
 
-class WallpapersInCollectionFragment : BaseWallpapersFragment() {
+internal class WallpapersInCollectionFragment : BaseWallpapersFragment() {
     
     private var collection: Collection? = null
     private var wallpapers = ArrayList<Wallpaper>()

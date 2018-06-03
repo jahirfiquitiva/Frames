@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.kext.extensions.bind
+import jahirfiquitiva.libs.kext.extensions.boolean
 
 fun AppCompatActivity.framesPostponeEnterTransition(onTransitionEnd: () -> Unit = {}) {
     supportPostponeEnterTransition()
@@ -31,7 +32,8 @@ fun AppCompatActivity.framesPostponeEnterTransition(onTransitionEnd: () -> Unit 
         val actionBar: View? by decor.bind(R.id.action_bar_container)
         
         val viewsToExclude = arrayListOf(statusBar, navBar, actionBar).jfilter { it != null }
-        val extraViewsToExclude = arrayListOf(R.id.appbar, R.id.toolbar, R.id.tabs)
+        val extraViewsToExclude = arrayListOf(R.id.appbar, R.id.toolbar)
+        if (boolean(R.bool.isFrames)) extraViewsToExclude += R.id.tabs
         
         viewsToExclude.forEach { window.sharedElementEnterTransition?.excludeTarget(it, true) }
         extraViewsToExclude.forEach {
