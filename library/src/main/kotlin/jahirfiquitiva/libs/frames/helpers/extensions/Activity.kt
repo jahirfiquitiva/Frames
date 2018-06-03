@@ -22,41 +22,20 @@ import android.view.View
 import jahirfiquitiva.libs.frames.R
 
 fun AppCompatActivity.framesPostponeEnterTransition(onTransitionEnd: () -> Unit = {}) {
-    supportPostponeEnterTransition()
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+        supportPostponeEnterTransition()
         val decor = window?.decorView
         
-        val statusBar: View? = decor?.findViewById<View?>(android.R.id.statusBarBackground)
-        val navBar: View? = decor?.findViewById<View?>(android.R.id.navigationBarBackground)
-        val actionBar: View? = decor?.findViewById<View?>(R.id.action_bar_container)
+        val views = arrayListOf(
+            decor?.findViewById<View?>(android.R.id.statusBarBackground),
+            decor?.findViewById<View?>(android.R.id.navigationBarBackground),
+            decor?.findViewById<View?>(R.id.action_bar_container),
+            decor?.findViewById<View?>(R.id.appbar),
+            decor?.findViewById<View?>(R.id.toolbar),
+            decor?.findViewById<View?>(R.id.tabs))
         
-        val appbar: View? = decor?.findViewById<View?>(R.id.appbar)
-        val toolbar: View? = decor?.findViewById<View?>(R.id.toolbar)
-        val tabs: View? = decor?.findViewById<View?>(R.id.action_bar_container)
-        
-        val views = ArrayList<View>()
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            statusBar?.let { views.add(it) }
-            navBar?.let { views.add(it) }
-            actionBar?.let { views.add(it) }
-        }
-        appbar?.let { views.add(it) }
-        toolbar?.let { views.add(it) }
-        tabs?.let { views.add(it) }
-        
-        views.forEach { window?.sharedElementEnterTransition?.excludeTarget(it, true) }
-        
-        /*
-        viewsToExclude.forEach { window.sharedElementEnterTransition?.excludeTarget(it, true) }
-        extraViewsToExclude.forEach {
-            try {
-                findViewById<View?>(it)?.let {
-                    window.sharedElementEnterTransition?.excludeTarget(it, true)
-                }
-            } catch (ignored: Exception) {
-            }
-        }
-        */
+        views.jfilter { it != null }
+            .forEach { window?.sharedElementEnterTransition?.excludeTarget(it, true) }
         
         setEnterSharedElementCallback(object : SharedElementCallback() {
             override fun onSharedElementEnd(
@@ -68,5 +47,5 @@ fun AppCompatActivity.framesPostponeEnterTransition(onTransitionEnd: () -> Unit 
                 onTransitionEnd()
             }
         })
-    }
+    } else onTransitionEnd()
 }
