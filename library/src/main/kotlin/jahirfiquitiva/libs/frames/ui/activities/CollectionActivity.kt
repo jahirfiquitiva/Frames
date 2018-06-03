@@ -35,6 +35,7 @@ import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.helpers.extensions.framesPostponeEnterTransition
+import jahirfiquitiva.libs.frames.helpers.extensions.safeStartPostponedEnterTransition
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
@@ -86,7 +87,7 @@ class CollectionActivity : ActivityWFragments<FramesKonfigs>(), FavsDbManager {
         framesPostponeEnterTransition { loadFragment() }
         
         setContentView(R.layout.activity_collection_settings)
-        supportStartPostponedEnterTransition()
+        safeStartPostponedEnterTransition()
         
         toolbar?.bindToActivity(this)
         

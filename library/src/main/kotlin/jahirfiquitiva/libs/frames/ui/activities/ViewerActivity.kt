@@ -63,6 +63,7 @@ import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
 import jahirfiquitiva.libs.frames.helpers.extensions.framesPostponeEnterTransition
+import jahirfiquitiva.libs.frames.helpers.extensions.safeStartPostponedEnterTransition
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
 import jahirfiquitiva.libs.frames.helpers.utils.FL
@@ -226,7 +227,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     
     private fun startEnterTransition() {
         if (!transitioned) {
-            supportStartPostponedEnterTransition()
+            safeStartPostponedEnterTransition()
             transitioned = true
             setupWallpaper(wallpaper)
         }

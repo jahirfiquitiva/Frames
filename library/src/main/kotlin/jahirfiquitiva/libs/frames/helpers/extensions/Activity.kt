@@ -49,3 +49,8 @@ fun AppCompatActivity.framesPostponeEnterTransition(onTransitionEnd: () -> Unit 
         })
     } else onTransitionEnd()
 }
+
+fun AppCompatActivity.safeStartPostponedEnterTransition() {
+    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
+        supportStartPostponedEnterTransition()
+}
