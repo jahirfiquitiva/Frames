@@ -261,54 +261,57 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         if (!canClick) return
         try {
             val intent = Intent(activity, ViewerActivity::class.java)
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                val imgTransition = ViewCompat.getTransitionName(holder.img)
-                val nameTransition = ViewCompat.getTransitionName(holder.name)
-                val authorTransition = ViewCompat.getTransitionName(holder.author)
-                val heartTransition = ViewCompat.getTransitionName(holder.heartIcon)
+            
+            var options: ActivityOptionsCompat? = null
+            
+            with(intent) {
+                putExtra("wallpaper", wallpaper)
+                putExtra(
+                    "inFavorites", (activity as? FavsDbManager)?.isInFavs(wallpaper) ?: false)
+                putExtra("showFavoritesButton", showFavoritesIcon())
+                putExtra("checker", hasChecker)
                 
-                with(intent) {
-                    putExtra("wallpaper", wallpaper)
-                    putExtra(
-                        "inFavorites", (activity as? FavsDbManager)?.isInFavs(wallpaper) ?: false)
-                    putExtra("showFavoritesButton", showFavoritesIcon())
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                    val imgTransition = ViewCompat.getTransitionName(holder.img)
+                    val nameTransition = ViewCompat.getTransitionName(holder.name)
+                    val authorTransition = ViewCompat.getTransitionName(holder.author)
+                    val heartTransition = ViewCompat.getTransitionName(holder.heartIcon)
+                    
                     putExtra("imgTransition", imgTransition)
                     putExtra("nameTransition", nameTransition)
                     putExtra("authorTransition", authorTransition)
                     putExtra("favTransition", heartTransition)
-                    putExtra("checker", hasChecker)
+                    
+                    val imgPair = Pair<View, String>(holder.img, imgTransition)
+                    val namePair = Pair<View, String>(holder.name, nameTransition)
+                    val authorPair = Pair<View, String>(holder.author, authorTransition)
+                    val heartPair = Pair<View, String>(holder.heartIcon, heartTransition)
+                    
+                    options =
+                        activity?.let {
+                            ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                it, imgPair, namePair, authorPair, heartPair)
+                        }
                 }
-                
-                var fos: FileOutputStream? = null
-                try {
-                    val filename = "thumb.png"
-                    fos = activity?.openFileOutput(filename, Context.MODE_PRIVATE)
-                    holder.img?.drawable?.toBitmap()
-                        ?.compress(Bitmap.CompressFormat.JPEG, context?.maxPictureRes ?: 25, fos)
-                    intent.putExtra("image", filename)
-                } catch (ignored: Exception) {
-                } finally {
-                    fos?.flush()
-                    fos?.close()
-                }
-                
-                val imgPair = Pair<View, String>(holder.img, imgTransition)
-                val namePair = Pair<View, String>(holder.name, nameTransition)
-                val authorPair = Pair<View, String>(holder.author, authorTransition)
-                val heartPair = Pair<View, String>(holder.heartIcon, heartTransition)
-                val options =
-                    activity?.let {
-                        ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            it, imgPair, namePair, authorPair, heartPair)
-                    }
-                
-                try {
-                    startActivityForResult(intent, 10, options?.toBundle())
-                } catch (e: Exception) {
-                    FL.e("Error", e)
-                    startActivityForResult(intent, 10)
-                }
-            } else {
+            }
+            
+            var fos: FileOutputStream? = null
+            try {
+                val filename = "thumb.png"
+                fos = activity?.openFileOutput(filename, Context.MODE_PRIVATE)
+                holder.img?.drawable?.toBitmap()
+                    ?.compress(Bitmap.CompressFormat.JPEG, context?.maxPictureRes ?: 25, fos)
+                intent.putExtra("image", filename)
+            } catch (ignored: Exception) {
+            } finally {
+                fos?.flush()
+                fos?.close()
+            }
+            
+            try {
+                startActivityForResult(intent, 10, options?.toBundle())
+            } catch (e: Exception) {
+                FL.e("Error", e)
                 startActivityForResult(intent, 10)
             }
         } catch (e: Exception) {
