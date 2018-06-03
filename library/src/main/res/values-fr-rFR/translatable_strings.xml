@@ -38,14 +38,14 @@
   <string name="permission_denied_completely">Accès à la permission de stockage a été refusé. Vous devez l\'activer manuellement dans les Paramètres.</string>
   <string name="permission_request">%1$s nécessite l\'accès au stockage pour être capable d\'appliquer et de sauvegarder les fonds d\'écran</string>
   <string name="allow">Autoriser</string>
-  <string name="downloading_wallpaper">Téléchargement \'%1$s\'…</string>
+  <string name="downloading_wallpaper">Téléchargement \'%1$s\' …</string>
   <string name="download_successful">Fond d\'écran téléchargé avec succès pour \'%1$s\'</string>
   <string name="download_successful_short">Fond d\'écran téléchargé avec succès</string>
   <string name="open">Ouvrir</string>
   <string name="file_exists">Ce fond d\'écran a déjà été téléchargé. Voulez le télécharger pour le remplacer?</string>
   <string name="file_replace">Remplacer</string>
   <string name="file_create_new">Créer un nouveau</string>
-  <string name="applying_wallpaper">Application \'%1$s\'…</string>
+  <string name="applying_wallpaper">Application \'%1$s\' …</string>
   <string name="apply_to">Appliquer à:</string>
   <string name="home_screen">Ecran d\'accueil</string>
   <string name="lock_screen">Ecran de vérrouillage</string>
