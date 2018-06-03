@@ -111,10 +111,10 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     override var wallpaper: Wallpaper? = null
     override val allowBitmapApply: Boolean = true
     
-    override fun lightTheme(): Int = R.style.ViewerLightTheme
-    override fun darkTheme(): Int = R.style.ViewerDarkTheme
-    override fun amoledTheme(): Int = R.style.ViewerAmoledTheme
-    override fun transparentTheme(): Int = R.style.ViewerTransparentTheme
+    override fun lightTheme(): Int = R.style.Viewer_LightTheme
+    override fun darkTheme(): Int = R.style.Viewer_DarkTheme
+    override fun amoledTheme(): Int = R.style.Viewer_AmoledTheme
+    override fun transparentTheme(): Int = R.style.Viewer_TransparentTheme
     
     override fun autoTintStatusBar(): Boolean = false
     override fun autoTintNavigationBar(): Boolean = false

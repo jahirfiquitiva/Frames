@@ -57,10 +57,10 @@ import org.jetbrains.anko.doAsync
 class CollectionActivity : ActivityWFragments<FramesKonfigs>(), FavsDbManager {
     
     override val configs: FramesKonfigs by lazy { FramesKonfigs(this) }
-    override fun lightTheme(): Int = R.style.Frames_LightTheme
-    override fun darkTheme(): Int = R.style.Frames_DarkTheme
-    override fun transparentTheme(): Int = R.style.Frames_TransparentTheme
-    override fun amoledTheme(): Int = R.style.Frames_AmoledTheme
+    override fun lightTheme(): Int = R.style.LightTheme
+    override fun darkTheme(): Int = R.style.DarkTheme
+    override fun amoledTheme(): Int = R.style.AmoledTheme
+    override fun transparentTheme(): Int = R.style.TransparentTheme
     override fun fragmentsContainer(): Int = R.id.fragments_container
     
     private var fragmentLoaded = false

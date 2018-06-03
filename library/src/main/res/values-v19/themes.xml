@@ -16,20 +16,20 @@
   -->
 <resources>
 
-    <style name="ViewerLightTheme" parent="Frames.LightTheme">
+    <style name="Viewer.LightTheme" parent="LightTheme">
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
-    <style name="ViewerDarkTheme" parent="Frames.DarkTheme">
+    <style name="Viewer.DarkTheme" parent="DarkTheme">
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
-    <style name="ViewerAmoledTheme" parent="Frames.AmoledTheme">
+    <style name="Viewer.AmoledTheme" parent="AmoledTheme">
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
-    <style name="ViewerTransparentTheme" parent="Frames.TransparentTheme">
+    <style name="Viewer.TransparentTheme" parent="TransparentTheme">
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
-
+    
 </resources>
