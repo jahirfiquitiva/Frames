@@ -20,21 +20,33 @@ import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.kext.extensions.bind
-import jahirfiquitiva.libs.kext.extensions.boolean
 
 fun AppCompatActivity.framesPostponeEnterTransition(onTransitionEnd: () -> Unit = {}) {
     supportPostponeEnterTransition()
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        val decor = window.decorView
-        val statusBar: View? by decor.bind(android.R.id.statusBarBackground)
-        val navBar: View? by decor.bind(android.R.id.navigationBarBackground)
-        val actionBar: View? by decor.bind(R.id.action_bar_container)
+        val decor = window?.decorView
         
-        val viewsToExclude = arrayListOf(statusBar, navBar, actionBar).jfilter { it != null }
-        val extraViewsToExclude = arrayListOf(R.id.appbar, R.id.toolbar)
-        if (boolean(R.bool.isFrames)) extraViewsToExclude += R.id.tabs
+        val statusBar: View? = decor?.findViewById<View?>(android.R.id.statusBarBackground)
+        val navBar: View? = decor?.findViewById<View?>(android.R.id.navigationBarBackground)
+        val actionBar: View? = decor?.findViewById<View?>(R.id.action_bar_container)
         
+        val appbar: View? = decor?.findViewById<View?>(R.id.appbar)
+        val toolbar: View? = decor?.findViewById<View?>(R.id.toolbar)
+        val tabs: View? = decor?.findViewById<View?>(R.id.action_bar_container)
+        
+        val views = ArrayList<View>()
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            statusBar?.let { views.add(it) }
+            navBar?.let { views.add(it) }
+            actionBar?.let { views.add(it) }
+        }
+        appbar?.let { views.add(it) }
+        toolbar?.let { views.add(it) }
+        tabs?.let { views.add(it) }
+        
+        views.forEach { window?.sharedElementEnterTransition?.excludeTarget(it, true) }
+        
+        /*
         viewsToExclude.forEach { window.sharedElementEnterTransition?.excludeTarget(it, true) }
         extraViewsToExclude.forEach {
             try {
@@ -44,6 +56,7 @@ fun AppCompatActivity.framesPostponeEnterTransition(onTransitionEnd: () -> Unit 
             } catch (ignored: Exception) {
             }
         }
+        */
         
         setEnterSharedElementCallback(object : SharedElementCallback() {
             override fun onSharedElementEnd(
