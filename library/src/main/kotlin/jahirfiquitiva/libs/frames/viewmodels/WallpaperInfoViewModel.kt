@@ -18,12 +18,12 @@ package jahirfiquitiva.libs.frames.viewmodels
 import jahirfiquitiva.libs.archhelpers.viewmodels.ItemViewModel
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
-import jahirfiquitiva.libs.frames.helpers.utils.FramesUrlRequests
+import jahirfiquitiva.libs.frames.helpers.remote.FramesUrlRequests
 import jahirfiquitiva.libs.kext.extensions.hasContent
 
 class WallpaperInfoViewModel : ItemViewModel<Wallpaper, WallpaperInfo>() {
     override fun internalLoad(param: Wallpaper): WallpaperInfo =
-        FramesUrlRequests().requestFileInfo(param.url, param.dimensions.hasContent())
+        FramesUrlRequests.requestFileInfo(param.url, param.dimensions.hasContent())
     
     override fun isOldDataValid(): Boolean = getData()?.isValid == true
 }

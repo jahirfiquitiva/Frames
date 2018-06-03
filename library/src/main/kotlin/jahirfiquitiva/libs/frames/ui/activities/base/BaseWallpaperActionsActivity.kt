@@ -19,6 +19,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
@@ -191,10 +192,14 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
     
     private fun showWallpaperApplyOptions(dest: File?) {
         properlyCancelDialog()
-        val options = arrayListOf(
-            getString(R.string.home_screen),
-            getString(R.string.lock_screen),
-            getString(R.string.home_lock_screen))
+        val options = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            arrayListOf(
+                getString(R.string.home_screen),
+                getString(R.string.lock_screen),
+                getString(R.string.home_lock_screen))
+        } else {
+            arrayListOf(getString(R.string.home_lock_screen))
+        }
         if (isNetworkAvailable && dest != null)
             options.add(getString(R.string.apply_with_other_app))
         
@@ -202,13 +207,17 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
             title(R.string.apply_to)
             items(options)
             itemsCallback { _, _, position, _ ->
+                val rightPosition =
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) position + 2 else position
                 if (dest != null) {
-                    applyWallpaper(dest, position == 0, position == 1, position == 2, position == 3)
+                    applyWallpaper(
+                        dest, rightPosition == 0, rightPosition == 1, rightPosition == 2,
+                        rightPosition == 3)
                 } else {
                     if (allowBitmapApply)
                         applyBitmapWallpaper(
-                            position == 0, position == 1, position == 2,
-                            position == 3)
+                            rightPosition == 0, rightPosition == 1, rightPosition == 2,
+                            rightPosition == 3)
                 }
             }
         }

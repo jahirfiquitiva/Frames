@@ -40,7 +40,6 @@ import jahirfiquitiva.libs.frames.ui.activities.base.BaseWallpaperActionsActivit
 import jahirfiquitiva.libs.kext.extensions.activity
 import jahirfiquitiva.libs.kext.extensions.actv
 import jahirfiquitiva.libs.kext.extensions.context
-import jahirfiquitiva.libs.kext.extensions.string
 import jahirfiquitiva.libs.kext.helpers.DownloadThread
 import java.io.File
 
@@ -154,7 +153,7 @@ class WallpaperActionsDialog : DialogFragment() {
     private fun actuallyBuildDialog(): MaterialDialog {
         val dialog = actv.mdDialog {
             content(
-                string(
+                getString(
                     if (shouldApply && !toOtherApp) R.string.applying_wallpaper
                     else R.string.downloading_wallpaper,
                     wallpaper?.name.orEmpty()))

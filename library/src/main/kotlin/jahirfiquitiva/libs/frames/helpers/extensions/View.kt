@@ -26,8 +26,8 @@ import jahirfiquitiva.libs.kext.extensions.currentRotation
 import jahirfiquitiva.libs.kext.extensions.isInPortraitMode
 import jahirfiquitiva.libs.kext.extensions.navigationBarHeight
 
-fun View.setNavBarMargins() {
-    val params = layoutParams as? FrameLayout.LayoutParams ?: return
+fun View.setNavBarMargins(): View {
+    val params = layoutParams as? FrameLayout.LayoutParams ?: return this
     val left = if (this is FloatingActionButton) 16.dpToPx else 0
     var right = if (this is FloatingActionButton) 16.dpToPx else 0
     var bottom = if (this is FloatingActionButton) 16.dpToPx else 0
@@ -59,4 +59,5 @@ fun View.setNavBarMargins() {
     }
     layoutParams = params
     requestLayout()
+    return this
 }

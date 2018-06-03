@@ -19,9 +19,9 @@ import android.content.Context
 import jahirfiquitiva.libs.archhelpers.viewmodels.ListViewModel
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.helpers.remote.FramesUrlRequests
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
-import jahirfiquitiva.libs.frames.helpers.utils.FramesUrlRequests
 import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.formatCorrectly
 import jahirfiquitiva.libs.kext.extensions.hasContent
@@ -34,7 +34,7 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
     
     override fun internalLoad(param: Context): ArrayList<Wallpaper> =
         loadWallpapers(
-            param, FramesUrlRequests().requestJson(param.getString(R.string.json_url)))
+            param, FramesUrlRequests.requestJson(param.getString(R.string.json_url)))
     
     private fun loadWallpapers(context: Context, serverResponse: String): ArrayList<Wallpaper> {
         val prevResponse = FramesKonfigs(context).backupJson

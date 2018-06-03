@@ -13,28 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jahirfiquitiva.libs.frames.helpers.utils
+package jahirfiquitiva.libs.frames.helpers.remote
 
 import android.graphics.BitmapFactory
+import android.os.Build
 import jahirfiquitiva.libs.frames.data.models.Dimension
 import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
+import jahirfiquitiva.libs.frames.helpers.utils.FL
 import java.io.BufferedInputStream
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
+import javax.net.ssl.HttpsURLConnection
 
-class FramesUrlRequests {
+object FramesUrlRequests {
     fun requestJson(url: String): String {
+        
         val result = StringBuilder()
-        var urlConnection: HttpURLConnection? = null
+        val urlConnection: HttpURLConnection? = buildHttpUrlConnection(url)
+        urlConnection ?: return result.toString()
+        
         try {
-            urlConnection = URL(url).openConnection() as HttpURLConnection
-            urlConnection.connectTimeout = 20000
-            urlConnection.readTimeout = 20000
-            
-            urlConnection.connect()
-            
             val ins = BufferedInputStream(urlConnection.inputStream)
             val reader = BufferedReader(InputStreamReader(ins))
             var line: String? = null
@@ -44,23 +44,20 @@ class FramesUrlRequests {
             ins.close()
             reader.close()
         } catch (e: Exception) {
+            FL.e("Error", e)
         } finally {
-            urlConnection?.disconnect()
+            urlConnection.disconnect()
         }
         return result.toString()
     }
     
     fun requestFileInfo(url: String, onlySize: Boolean): WallpaperInfo {
-        var info = WallpaperInfo(0, Dimension(0, 0))
         
-        var urlConnection: HttpURLConnection? = null
+        var info = WallpaperInfo(0, Dimension(0, 0))
+        val urlConnection: HttpURLConnection? = buildHttpUrlConnection(url)
+        urlConnection ?: return info
+        
         try {
-            urlConnection = URL(url).openConnection() as HttpURLConnection
-            urlConnection.connectTimeout = 15000
-            urlConnection.readTimeout = 15000
-            
-            urlConnection.connect()
-            
             info = if (onlySize) {
                 WallpaperInfo(urlConnection.contentLength.toLong(), Dimension(0L, 0L))
             } else {
@@ -74,10 +71,24 @@ class FramesUrlRequests {
                     size, Dimension(options.outWidth.toLong(), options.outHeight.toLong()))
             }
         } catch (e: Exception) {
+            FL.e("Error", e)
         } finally {
-            urlConnection?.disconnect()
+            urlConnection.disconnect()
         }
-        
         return info
+    }
+    
+    private fun buildHttpUrlConnection(url: String): HttpURLConnection? {
+        return (if (url.matches("^(https?)://.*$".toRegex())) {
+            (URL(url).openConnection() as HttpsURLConnection).apply {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+                    sslSocketFactory = FramesSocketFactory()
+            }
+        } else {
+            URL(url).openConnection() as HttpURLConnection
+        }).apply {
+            connectTimeout = 20000
+            readTimeout = 20000
+        }
     }
 }

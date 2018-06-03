@@ -22,8 +22,8 @@
     android:layout_height="wrap_content"
     android:clipToPadding="false"
     android:clipChildren="false"
-    android:paddingLeft="@dimen/fabs_margin"
     android:paddingStart="@dimen/fabs_margin"
+    android:paddingLeft="@dimen/fabs_margin"
     android:paddingTop="@dimen/cards_small_margin"
     android:paddingBottom="@dimen/cards_margin"
     android:layout_gravity="center_vertical"
@@ -32,7 +32,7 @@
 
     <com.robertlevonyan.views.chip.Chip
         android:id="@+id/info_palette_color"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:foreground="?selectableItemBackground" />
 

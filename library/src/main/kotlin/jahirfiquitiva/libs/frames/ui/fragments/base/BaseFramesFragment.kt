@@ -21,9 +21,9 @@ import android.support.v7.widget.RecyclerView
 import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.ui.activities.base.FavsDbManager
 import jahirfiquitiva.libs.frames.viewmodels.CollectionsViewModel
 import jahirfiquitiva.libs.frames.viewmodels.WallpapersViewModel
-import jahirfiquitiva.libs.frames.ui.activities.base.FavsDbManager
 import jahirfiquitiva.libs.kext.extensions.SafeAccess
 import jahirfiquitiva.libs.kext.extensions.context
 
@@ -79,6 +79,6 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
     }
     
     abstract fun enableRefresh(enable: Boolean)
-    abstract fun applyFilter(filter: String, closed:Boolean)
+    abstract fun applyFilter(filter: String, closed: Boolean)
     abstract fun scrollToTop()
 }

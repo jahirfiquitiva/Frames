@@ -16,7 +16,6 @@
 package jahirfiquitiva.libs.frames.ui.activities
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -44,11 +43,14 @@ import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import ca.allanwang.kau.utils.contentView
+import ca.allanwang.kau.utils.dpToPx
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.isNetworkAvailable
 import ca.allanwang.kau.utils.navigationBarColor
 import ca.allanwang.kau.utils.postDelayed
+import ca.allanwang.kau.utils.setMarginBottom
 import ca.allanwang.kau.utils.setMarginTop
+import ca.allanwang.kau.utils.setPaddingBottom
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.toast
 import com.bumptech.glide.Glide
@@ -57,6 +59,7 @@ import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestOptions
+import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
@@ -67,13 +70,13 @@ import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
 import jahirfiquitiva.libs.frames.helpers.utils.MIN_TIME
-import jahirfiquitiva.libs.frames.viewmodels.WallpaperInfoViewModel
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseWallpaperActionsActivity
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.InfoBottomSheet
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.InfoDialog
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsDialog
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
+import jahirfiquitiva.libs.frames.viewmodels.WallpaperInfoViewModel
 import jahirfiquitiva.libs.kext.extensions.SimpleAnimationListener
 import jahirfiquitiva.libs.kext.extensions.activeIconsColor
 import jahirfiquitiva.libs.kext.extensions.applyColorFilter
@@ -134,9 +137,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     private var visibleSystemUI = true
     private var visibleBottomBar = true
     
+    private val detailsVM: WallpaperInfoViewModel by lazyViewModel()
     private var infoDialog: DialogFragment? = null
     private val details = ArrayList<WallpaperDetail>()
-    private var detailsVM: WallpaperInfoViewModel? = null
     private var palette: Palette? = null
     private var info: WallpaperInfo? = null
     
@@ -170,7 +173,10 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             else toolbarSubtitle?.gone()
         }
         
-        findViewById<View>(R.id.bottom_bar_container).setNavBarMargins()
+        findViewById<View>(R.id.bottom_bar_container).setNavBarMargins().apply {
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT && isInPortraitMode)
+                setPaddingBottom(50.dpToPx)
+        }
         
         setupProgressBarColors()
         
@@ -217,6 +223,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         setupWallpaper(wallpaper, true)
         startEnterTransition()
         
+        detailsVM.observe(this) { postWallpaperInfo(it) }
         loadWallpaperDetails()
     }
     
@@ -309,8 +316,8 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
                 img?.setZoom(1F)
             } catch (ignored: Exception) {
             }
-            detailsVM?.destroy(this)
-            detailsVM = null
+            detailsVM.destroy(this)
+            
             postDelayed(100) {
                 val intent = Intent()
                 intent.putExtra("modified", hasModifiedFavs)
@@ -463,17 +470,8 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
                 postWallpaperInfo(info)
                 return
             }
-            setupDetailsViewModel()
-            detailsVM?.loadData(it)
+            detailsVM.loadData(it)
         }
-    }
-    
-    private fun setupDetailsViewModel() {
-        if (detailsVM == null) {
-            detailsVM = ViewModelProviders.of(
-                this@ViewerActivity).get(WallpaperInfoViewModel::class.java)
-        }
-        detailsVM?.observe(this, { postWallpaperInfo(it) })
     }
     
     private fun postWallpaperInfo(it: WallpaperInfo?) {
@@ -600,6 +598,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
                 snack.view.paddingLeft + extraLeft, snack.view.paddingTop,
                 snack.view.paddingRight + extraRight,
                 snack.view.paddingBottom + bottomNavBar)
+            
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT && isInPortraitMode)
+                snack.view.setMarginBottom(50.dpToPx)
             
             val snackText = snack.view.findViewById<TextView>(R.id.snackbar_text)
             snackText.setTextColor(Color.WHITE)

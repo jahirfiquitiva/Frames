@@ -33,5 +33,8 @@ abstract class GlideRequestCallback<Type> : RequestListener<Type> {
     override fun onLoadFailed(
         e: GlideException?, model: Any?, target: Target<Type>?,
         isFirstResource: Boolean
-                             ): Boolean = onLoadFailed()
+                             ): Boolean {
+        FL.e("Glide Exception", e)
+        return onLoadFailed()
+    }
 }
