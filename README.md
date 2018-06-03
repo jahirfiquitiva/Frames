@@ -11,7 +11,7 @@ Frames
 
 A full-of-features, easy-to-customize, free and open source, light-weight, Android dashboard library to create wallpapers apps with almost-null effort.
 
-<a target="_blank" href="http://j.mp/FramesAPK">
+<a target="_blank" href="http://j.mp/DLFramesAPK">
 <img src="https://jahirfiquitiva.com/share/download_sample.svg?maxAge=432000" width="200"/>
 </a>
 
@@ -89,7 +89,7 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 - Works with Android 4.1 and newer.
 
 ## Help translating
-:page_facing_up: Help making Frames available in more languages. [Click here to go to the translation site](http://j.mp/FramesTranslations)
+:page_facing_up: Help making Frames available in more languages. [Click here to go to the translation site](http://j.mp/Trnsl8Frames)
 
 ## Changelog
 :radio_button: You can find it in the [Releases page](https://github.com/jahirfiquitiva/Frames/releases)
