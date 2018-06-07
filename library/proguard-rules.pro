@@ -23,7 +23,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class !android.support.v7.internal.view.menu**,** {*;}
+-keep class android.support.v7.view.menu** {*;}
 -keep class android.support.v7.graphics.** {*;}
 
 -keep public class * implements com.bumptech.glide.module.GlideModule
