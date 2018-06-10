@@ -147,4 +147,6 @@
   <string name="new_wallpapers_available">Доступно %1$s новых обоев. Нажмите, чтобы проверить!</string>
   <string name="notifications_title">Уведомления</string>
   <string name="enable_notifications">Включить уведомления</string>
+  <string name="changelog">Список изменений</string>
+  <string name="dismiss">Отменить</string>
 </resources>
