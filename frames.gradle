@@ -21,7 +21,6 @@ dependencies {
     }
     // Architecture Components
     api libraries.room, exclusions
-    annotationProcessor libraries.roomCompiler
     kapt libraries.roomCompiler
     // Permissions
     api libraries.permissions, exclusions
@@ -30,7 +29,6 @@ dependencies {
     // Glide Image Loading
     api libraries.glide, exclusions
     api libraries.gliderv, exclusions
-    annotationProcessor libraries.glideCompiler
     kapt libraries.glideCompiler
     // kext
     // api libraries.kext

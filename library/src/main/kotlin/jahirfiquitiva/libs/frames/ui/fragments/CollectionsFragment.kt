@@ -63,6 +63,7 @@ internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHo
     
     val collsAdapter: CollectionsAdapter by lazy {
         CollectionsAdapter(
+            context?.isLowRamDevice ?: true,
             boolean(R.bool.enable_filled_collection_preview),
             context?.let { Glide.with(it) }, provider,
             object : FramesViewClickListener<Collection, CollectionHolder>() {

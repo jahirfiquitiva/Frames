@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jahirfiquitiva.libs.frames.helpers.utils
+package jahirfiquitiva.libs.frames.helpers.glide
 
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import jahirfiquitiva.libs.frames.helpers.utils.FL
 
-abstract class GlideRequestCallback<Type> : RequestListener<Type> {
+abstract class FramesGlideCallback<Type> : RequestListener<Type> {
     abstract fun onLoadSucceed(resource: Type): Boolean
     open fun onLoadFailed(): Boolean = false
     

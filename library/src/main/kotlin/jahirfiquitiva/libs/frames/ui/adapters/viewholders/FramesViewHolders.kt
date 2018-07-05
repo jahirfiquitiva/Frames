@@ -33,19 +33,14 @@ import com.bumptech.glide.util.ViewPreloadSizeProvider
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.backgroundColor
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
-import jahirfiquitiva.libs.frames.helpers.extensions.loadWallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.releaseFromGlide
 import jahirfiquitiva.libs.frames.helpers.extensions.tilesColor
-import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
-import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
-import jahirfiquitiva.libs.kext.extensions.animateColorTransition
-import jahirfiquitiva.libs.kext.extensions.animateSmoothly
+import jahirfiquitiva.libs.frames.helpers.glide.FramesGlideCallback
+import jahirfiquitiva.libs.frames.helpers.glide.loadWallpaper
+import jahirfiquitiva.libs.frames.helpers.glide.releaseFromGlide
 import jahirfiquitiva.libs.kext.extensions.bestSwatch
 import jahirfiquitiva.libs.kext.extensions.bind
 import jahirfiquitiva.libs.kext.extensions.boolean
-import jahirfiquitiva.libs.kext.extensions.clearChildrenAnimations
 import jahirfiquitiva.libs.kext.extensions.context
 import jahirfiquitiva.libs.kext.extensions.drawable
 import jahirfiquitiva.libs.kext.extensions.getActiveIconsColorFor
@@ -65,35 +60,14 @@ abstract class FramesViewClickListener<in T, in VH> {
 abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     internal var wallpaper: Wallpaper? = null
     internal abstract val img: ImageView?
-    internal abstract fun getListener(): GlideRequestCallback<Drawable>
-    
-    internal fun animateLoad(view: View) {
-        with(view) {
-            whenFaded {
-                if (FramesKonfigs(context).animationsEnabled) {
-                    animateSmoothly(
-                        context.backgroundColor, context.tilesColor,
-                        { setBackgroundColor(it) })
-                } else {
-                    setBackgroundColor(context.tilesColor)
-                }
-            }
-        }
-    }
+    internal abstract fun getListener(): FramesGlideCallback<Drawable>
     
     internal fun loadImage(manager: RequestManager?, url: String, thumbUrl: String) {
-        val hasFaded = wallpaper?.hasFaded != false
-        img?.loadWallpaper(manager, url, thumbUrl, hasFaded, getListener())
+        img?.loadWallpaper(manager, url, thumbUrl, getListener())
     }
     
     fun unbind() {
         img?.releaseFromGlide()
-    }
-    
-    internal fun whenFaded(ifHasFaded: () -> Unit = {}, ifHasNotFaded: () -> Unit) {
-        val hasFaded = wallpaper?.hasFaded != false
-        if (!hasFaded) ifHasNotFaded()
-        else ifHasFaded()
     }
 }
 
@@ -113,7 +87,7 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                ) {
         if (this.wallpaper != collection.bestCover) this.wallpaper = collection.bestCover
         with(itemView) {
-            animateLoad(this)
+            itemView?.setBackgroundColor(context.tilesColor)
             detailsBg?.setBackgroundColor(context.tilesColor)
             val rightCover = collection.bestCover ?: collection.wallpapers.first()
             val url = rightCover.url
@@ -130,19 +104,10 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
         itemView.setOnClickListener { listener.onSingleClick(collection, this) }
     }
     
-    override fun getListener(): GlideRequestCallback<Drawable> {
-        return object : GlideRequestCallback<Drawable>() {
+    override fun getListener(): FramesGlideCallback<Drawable> {
+        return object : FramesGlideCallback<Drawable>() {
             override fun onLoadSucceed(resource: Drawable): Boolean {
                 img?.setImageDrawable(resource)
-                
-                whenFaded(
-                    { itemView.clearChildrenAnimations() }, {
-                    if (FramesKonfigs(context).animationsEnabled) {
-                        img?.animateColorTransition { wallpaper?.hasFaded = true }
-                    } else {
-                        itemView.clearChildrenAnimations()
-                    }
-                })
                 
                 if (context.boolean(R.bool.enable_colored_tiles)) {
                     val color = try {
@@ -194,6 +159,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                ) {
         if (this.wallpaper != wallpaper) this.wallpaper = wallpaper
         with(itemView) {
+            itemView?.setBackgroundColor(context.tilesColor)
             detailsBg?.setBackgroundColor(context.tilesColor)
             heartIcon?.setImageDrawable(null)
             heartIcon?.gone()
@@ -203,8 +169,6 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
             ViewCompat.setTransitionName(name, "name_transition_$adapterPosition")
             ViewCompat.setTransitionName(author, "author_transition_$adapterPosition")
             ViewCompat.setTransitionName(heartIcon, "fav_transition_$adapterPosition")
-            
-            animateLoad(this)
             
             val url = wallpaper.url
             val thumb = wallpaper.thumbUrl
@@ -234,20 +198,10 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
         itemView.setOnLongClickListener { listener.onLongClick(wallpaper);true }
     }
     
-    override fun getListener(): GlideRequestCallback<Drawable> {
-        return object : GlideRequestCallback<Drawable>() {
+    override fun getListener(): FramesGlideCallback<Drawable> {
+        return object : FramesGlideCallback<Drawable>() {
             override fun onLoadSucceed(resource: Drawable): Boolean {
                 img?.setImageDrawable(resource)
-                
-                whenFaded(
-                    { itemView.clearChildrenAnimations() },
-                    {
-                        if (FramesKonfigs(context).animationsEnabled) {
-                            img?.animateColorTransition { wallpaper?.hasFaded = true }
-                        } else {
-                            itemView.clearChildrenAnimations()
-                        }
-                    })
                 
                 if (context.boolean(R.bool.enable_colored_tiles)) {
                     val color = try {

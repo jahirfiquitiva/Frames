@@ -17,7 +17,6 @@ package jahirfiquitiva.libs.frames.data.models
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
@@ -29,25 +28,23 @@ import java.util.ArrayList
 @Entity(tableName = "FAVORITES")
 data class Wallpaper(
     @ColumnInfo(name = "NAME")
-    var name: String = "",
+    var name: String,
     @ColumnInfo(name = "AUTHOR")
-    var author: String = "",
+    var author: String,
     @ColumnInfo(name = "COLLECTIONS")
-    var collections: String = "",
+    var collections: String,
     @ColumnInfo(name = "DOWNLOADABLE")
-    var downloadable: Boolean = true,
+    var downloadable: Boolean,
     @ColumnInfo(name = "URL")
-    var url: String = "",
+    var url: String,
     @ColumnInfo(name = "THUMB_URL")
-    var thumbUrl: String = url,
+    var thumbUrl: String,
     @ColumnInfo(name = "SIZE")
-    var size: Long = 0,
+    var size: Long,
     @ColumnInfo(name = "DIMENSIONS")
-    var dimensions: String = "",
+    var dimensions: String,
     @ColumnInfo(name = "COPYRIGHT")
-    var copyright: String = "",
-    @Ignore
-    var hasFaded: Boolean = false,
+    var copyright: String,
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID")
     var id: Long = 0
@@ -63,7 +60,6 @@ data class Wallpaper(
         parcel.readLong(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readBoolean(),
         parcel.readLong())
     
     override fun equals(other: Any?): Boolean {
@@ -89,7 +85,6 @@ data class Wallpaper(
         parcel.writeLong(size)
         parcel.writeString(dimensions)
         parcel.writeString(copyright)
-        parcel.writeBoolean(hasFaded)
         parcel.writeLong(id)
     }
     

@@ -53,11 +53,6 @@ import ca.allanwang.kau.utils.setPaddingBottom
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.toast
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
-import com.bumptech.glide.request.RequestOptions
 import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
@@ -66,9 +61,10 @@ import jahirfiquitiva.libs.frames.helpers.extensions.framesPostponeEnterTransiti
 import jahirfiquitiva.libs.frames.helpers.extensions.safeStartPostponedEnterTransition
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
+import jahirfiquitiva.libs.frames.helpers.glide.FramesGlideCallback
+import jahirfiquitiva.libs.frames.helpers.glide.loadPic
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
-import jahirfiquitiva.libs.frames.helpers.utils.GlideRequestCallback
 import jahirfiquitiva.libs.frames.helpers.utils.MIN_TIME
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseWallpaperActionsActivity
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
@@ -353,7 +349,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         }
         
         wallpaper?.let {
-            val listener = object : GlideRequestCallback<Drawable>() {
+            val listener = object : FramesGlideCallback<Drawable>() {
                 override fun onLoadSucceed(resource: Drawable): Boolean {
                     img?.setImageDrawable(resource)
                     startEnterTransition()
@@ -367,37 +363,18 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
                 }
             }
             
-            val options = RequestOptions()
-                .format(
-                    if (isLowRamDevice) DecodeFormat.PREFER_RGB_565
-                    else DecodeFormat.PREFER_ARGB_8888)
-                .disallowHardwareConfig()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .timeout(10000)
-                .placeholder(drawable).error(drawable)
-                .fitCenter()
-            
             img?.let { img ->
+                val manager = Glide.with(this)
                 if (it.thumbUrl.equals(it.url, true)) {
-                    Glide.with(this)
-                        .load(it.url)
-                        .apply(options.priority(Priority.HIGH))
-                        .transition(withCrossFade(500))
-                        .listener(listener)
-                        .into(img)
+                    manager.loadPic(it.url, false, isLowRamDevice, listener, drawable, true)
+                        ?.into(img)
                 } else {
-                    val thumbnailRequest = Glide.with(this)
-                        .load(it.thumbUrl)
-                        .apply(options.priority(Priority.IMMEDIATE))
-                        .listener(listener)
-                    
-                    Glide.with(this)
-                        .load(it.url)
-                        .apply(options.priority(Priority.HIGH))
-                        .thumbnail(thumbnailRequest)
-                        .transition(withCrossFade(500))
-                        .listener(listener)
-                        .into(img)
+                    val thumbnailRequest =
+                        manager.loadPic(
+                            it.thumbUrl, true, isLowRamDevice, listener, drawable, true)
+                    manager.loadPic(it.url, false, isLowRamDevice, listener, drawable, true)
+                        ?.thumbnail(thumbnailRequest)
+                        ?.into(img)
                 }
             }
         }

@@ -24,12 +24,14 @@ import com.bumptech.glide.util.ViewPreloadSizeProvider
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.helpers.glide.loadPic
 import jahirfiquitiva.libs.frames.helpers.utils.MAX_COLLECTIONS_LOAD
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
 import java.util.Collections
 
 class CollectionsAdapter(
+    private val isLowRamDevice: Boolean,
     private val filledCollectionPreview: Boolean,
     private val manager: RequestManager?,
     private val provider: ViewPreloadSizeProvider<Wallpaper>,
@@ -51,7 +53,7 @@ class CollectionsAdapter(
         Collections.singletonList(list[position].bestCover)
     
     override fun getPreloadRequestBuilder(item: Wallpaper): RequestBuilder<*>? =
-        manager?.load(item.thumbUrl)
+        manager?.loadPic(item.thumbUrl, true, isLowRamDevice)
     
     override fun getItemId(position: Int) = position.toLong()
     

@@ -78,7 +78,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     val wallsAdapter: WallpapersAdapter by lazy {
         WallpapersAdapter(
             context?.let { Glide.with(it) },
-            provider, fromFavorites(), showFavoritesIcon(),
+            provider,
+            context?.isLowRamDevice ?: true, fromFavorites(), showFavoritesIcon(),
             object : FramesViewClickListener<Wallpaper, WallpaperHolder>() {
                 override fun onSingleClick(item: Wallpaper, holder: WallpaperHolder) {
                     onItemClicked(item, holder)
