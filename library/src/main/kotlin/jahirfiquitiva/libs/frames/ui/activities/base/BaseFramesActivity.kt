@@ -31,10 +31,13 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.TransactionDetails
 import com.github.javiersantos.piracychecker.PiracyChecker
+import com.github.javiersantos.piracychecker.allow
+import com.github.javiersantos.piracychecker.callback
+import com.github.javiersantos.piracychecker.doNotAllow
 import com.github.javiersantos.piracychecker.enums.InstallerID
-import com.github.javiersantos.piracychecker.enums.PiracyCheckerCallback
-import com.github.javiersantos.piracychecker.enums.PiracyCheckerError
 import com.github.javiersantos.piracychecker.enums.PirateApp
+import com.github.javiersantos.piracychecker.onError
+import com.github.javiersantos.piracychecker.piracyChecker
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
@@ -138,18 +141,13 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
             checker = getLicenseChecker()
             checker?.let {
                 with(it) {
-                    callback(
-                        object : PiracyCheckerCallback() {
-                            override fun allow() = showLicensedSnack(update, force)
-                            
-                            override fun dontAllow(error: PiracyCheckerError, app: PirateApp?) =
-                                showNotLicensedDialog(app)
-                            
-                            override fun onError(error: PiracyCheckerError) {
-                                super.onError(error)
-                                showLicenseErrorDialog()
-                            }
-                        })
+                    callback {
+                        allow { showLicensedSnack(update, force) }
+                        doNotAllow { _, app ->
+                            showNotLicensedDialog(app)
+                        }
+                        onError { showLicenseErrorDialog() }
+                    }
                     start()
                 }
             } ?: {
@@ -176,15 +174,13 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     // Not really needed to override
     open fun getLicenseChecker(): PiracyChecker? {
         destroyChecker() // Important
-        val prvChecker = PiracyChecker(this)
-        
         val licKey = getLicKey().orEmpty()
-        if (licKey.hasContent() && licKey.length > 50)
-            prvChecker.enableGooglePlayLicensing(licKey)
-        
-        prvChecker.apply {
+        return piracyChecker {
+            if (licKey.hasContent() && licKey.length > 50)
+                enableGooglePlayLicensing(licKey)
             enableInstallerId(InstallerID.GOOGLE_PLAY)
-            if (amazonInstallsEnabled()) enableInstallerId(InstallerID.AMAZON_APP_STORE)
+            if (amazonInstallsEnabled())
+                enableInstallerId(InstallerID.AMAZON_APP_STORE)
             enableUnauthorizedAppsCheck(checkLPF())
             enableStoresCheck(checkStores())
             enableDebugCheck(true)
@@ -192,7 +188,6 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
             enableFoldersCheck(false)
             enableAPKCheck(false)
         }
-        return prvChecker
     }
     
     internal fun showLicensedSnack(update: Boolean, force: Boolean = false) {

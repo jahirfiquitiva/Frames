@@ -44,7 +44,7 @@ ext.versions = [
         iaps                 : '1.0.44',
         muzeiApi             : '2.0',
         licensesDialog       : '1.8.3',
-        checker              : '1.2.3',
+        checker              : 'b007824',
         oneSignal            : '3.8.3'
 ]
 
