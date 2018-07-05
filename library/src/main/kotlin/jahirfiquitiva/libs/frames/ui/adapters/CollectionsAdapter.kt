@@ -56,8 +56,4 @@ class CollectionsAdapter(
         manager?.loadPic(item.thumbUrl, true, isLowRamDevice)
     
     override fun getItemId(position: Int) = position.toLong()
-    
-    init {
-        setHasStableIds(true)
-    }
 }

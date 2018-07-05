@@ -22,6 +22,7 @@ import android.util.Property
 
 /**
  * A delegate for creating a [Property] of `float` type.
+ * Credits: https://github.com/chrisbanes/tivi/
  */
 abstract class FloatProp<T>(val name: String) {
     abstract operator fun set(o: T, value: Float)

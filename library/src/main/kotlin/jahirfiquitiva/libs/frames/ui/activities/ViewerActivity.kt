@@ -61,7 +61,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.framesPostponeEnterTransiti
 import jahirfiquitiva.libs.frames.helpers.extensions.safeStartPostponedEnterTransition
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
-import jahirfiquitiva.libs.frames.helpers.glide.FramesGlideCallback
+import jahirfiquitiva.libs.frames.helpers.glide.FramesGlideListener
 import jahirfiquitiva.libs.frames.helpers.glide.loadPic
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
@@ -349,11 +349,11 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         }
         
         wallpaper?.let {
-            val listener = object : FramesGlideCallback<Drawable>() {
-                override fun onLoadSucceed(resource: Drawable): Boolean {
+            val listener = object : FramesGlideListener<Drawable>() {
+                override fun onLoadSucceed(resource: Drawable, model: Any?): Boolean {
+                    postPalette(resource)
                     img?.setImageDrawable(resource)
                     startEnterTransition()
-                    postPalette(resource)
                     return true
                 }
                 
@@ -366,13 +366,18 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             img?.let { img ->
                 val manager = Glide.with(this)
                 if (it.thumbUrl.equals(it.url, true)) {
-                    manager.loadPic(it.url, false, isLowRamDevice, listener, drawable, true)
+                    manager.loadPic(
+                        it.url, false, isLowRamDevice, listener, drawable, true,
+                        withSaturationTransition = false)
                         ?.into(img)
                 } else {
                     val thumbnailRequest =
                         manager.loadPic(
-                            it.thumbUrl, true, isLowRamDevice, listener, drawable, true)
-                    manager.loadPic(it.url, false, isLowRamDevice, listener, drawable, true)
+                            it.thumbUrl, true, isLowRamDevice, listener, drawable, true,
+                            withSaturationTransition = false)
+                    manager.loadPic(
+                        it.url, false, isLowRamDevice, listener, drawable, true,
+                        withSaturationTransition = false)
                         ?.thumbnail(thumbnailRequest)
                         ?.into(img)
                 }

@@ -86,8 +86,4 @@ class WallpapersAdapter(
     }
     
     override fun getItemId(position: Int) = position.toLong()
-    
-    init {
-        setHasStableIds(true)
-    }
 }

@@ -16,9 +16,9 @@
 package jahirfiquitiva.libs.frames.ui.adapters.viewholders
 
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
 import android.support.v4.view.ViewCompat
+import android.support.v7.graphics.Palette
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
@@ -35,7 +35,7 @@ import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.extensions.tilesColor
-import jahirfiquitiva.libs.frames.helpers.glide.FramesGlideCallback
+import jahirfiquitiva.libs.frames.helpers.glide.GlidePaletteListener
 import jahirfiquitiva.libs.frames.helpers.glide.loadWallpaper
 import jahirfiquitiva.libs.frames.helpers.glide.releaseFromGlide
 import jahirfiquitiva.libs.kext.extensions.bestSwatch
@@ -60,7 +60,7 @@ abstract class FramesViewClickListener<in T, in VH> {
 abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     internal var wallpaper: Wallpaper? = null
     internal abstract val img: ImageView?
-    internal abstract fun getListener(): FramesGlideCallback<Drawable>
+    internal abstract fun getListener(): GlidePaletteListener
     
     internal fun loadImage(manager: RequestManager?, url: String, thumbUrl: String) {
         img?.loadWallpaper(manager, url, thumbUrl, getListener())
@@ -104,18 +104,17 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
         itemView.setOnClickListener { listener.onSingleClick(collection, this) }
     }
     
-    override fun getListener(): FramesGlideCallback<Drawable> {
-        return object : FramesGlideCallback<Drawable>() {
-            override fun onLoadSucceed(resource: Drawable): Boolean {
-                img?.setImageDrawable(resource)
-                
+    override fun getListener(): GlidePaletteListener {
+        return object : GlidePaletteListener() {
+            override fun onPaletteReady(palette: Palette?) {
                 if (context.boolean(R.bool.enable_colored_tiles)) {
                     val color = try {
-                        resource.bestSwatch?.rgb ?: context.tilesColor
+                        palette?.bestSwatch?.rgb ?: context.tilesColor
                     } catch (e: Exception) {
                         context.tilesColor
                     }
                     detailsBg?.background = null
+                    itemView?.setBackgroundColor(color)
                     
                     val opacity =
                         if (context.boolean(R.bool.enable_filled_collection_preview))
@@ -129,7 +128,6 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
                     detailsBg?.setBackgroundColor(Color.TRANSPARENT)
                     detailsBg?.background = context.drawable(R.drawable.gradient)
                 }
-                return true
             }
         }
     }
@@ -198,17 +196,16 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
         itemView.setOnLongClickListener { listener.onLongClick(wallpaper);true }
     }
     
-    override fun getListener(): FramesGlideCallback<Drawable> {
-        return object : FramesGlideCallback<Drawable>() {
-            override fun onLoadSucceed(resource: Drawable): Boolean {
-                img?.setImageDrawable(resource)
-                
+    override fun getListener(): GlidePaletteListener {
+        return object : GlidePaletteListener() {
+            override fun onPaletteReady(palette: Palette?) {
                 if (context.boolean(R.bool.enable_colored_tiles)) {
                     val color = try {
-                        resource.bestSwatch?.rgb ?: context.tilesColor
+                        palette?.bestSwatch?.rgb ?: context.tilesColor
                     } catch (e: Exception) {
                         context.tilesColor
                     }
+                    itemView?.setBackgroundColor(color)
                     detailsBg?.background = null
                     detailsBg?.setBackgroundColor(color.withAlpha(DETAILS_OPACITY))
                     name?.setTextColor(context.getPrimaryTextColorFor(color))
@@ -221,7 +218,6 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                 } else {
                     detailsBg?.background = context.drawable(R.drawable.gradient)
                 }
-                return true
             }
         }
     }

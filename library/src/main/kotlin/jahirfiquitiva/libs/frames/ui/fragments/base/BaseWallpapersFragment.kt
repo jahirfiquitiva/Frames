@@ -25,7 +25,6 @@ import android.support.v4.view.ViewCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import ca.allanwang.kau.utils.postDelayed
@@ -49,6 +48,7 @@ import jahirfiquitiva.libs.frames.ui.adapters.WallpapersAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
+import jahirfiquitiva.libs.frames.ui.widgets.EndlessRecyclerViewScrollListener
 import jahirfiquitiva.libs.kext.extensions.accentColor
 import jahirfiquitiva.libs.kext.extensions.activity
 import jahirfiquitiva.libs.kext.extensions.cardBackgroundColor
@@ -135,12 +135,9 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 }
                 
                 addOnScrollListener(
-                    object : RecyclerView.OnScrollListener() {
-                        override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
-                            super.onScrolled(rv, dx, dy)
-                            if (!recyclerView.canScrollVertically(1)) {
-                                recyclerView.post { wallsAdapter.allowMoreItemsLoad() }
-                            }
+                    EndlessRecyclerViewScrollListener(layoutManager) { _, view ->
+                        if (userVisibleHint) {
+                            view.post { wallsAdapter.allowMoreItemsLoad() }
                         }
                     })
                 

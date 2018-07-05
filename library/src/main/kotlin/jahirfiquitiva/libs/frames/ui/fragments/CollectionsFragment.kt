@@ -20,7 +20,6 @@ import android.content.Intent
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
@@ -40,6 +39,7 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
+import jahirfiquitiva.libs.frames.ui.widgets.EndlessRecyclerViewScrollListener
 import jahirfiquitiva.libs.kext.extensions.accentColor
 import jahirfiquitiva.libs.kext.extensions.activity
 import jahirfiquitiva.libs.kext.extensions.boolean
@@ -108,12 +108,9 @@ internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHo
                 }
                 
                 addOnScrollListener(
-                    object : RecyclerView.OnScrollListener() {
-                        override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
-                            super.onScrolled(rv, dx, dy)
-                            if (!recyclerView.canScrollVertically(1)) {
-                                recyclerView.post { collsAdapter.allowMoreItemsLoad() }
-                            }
+                    EndlessRecyclerViewScrollListener(layoutManager) { _, view ->
+                        if (userVisibleHint) {
+                            view.post { collsAdapter.allowMoreItemsLoad() }
                         }
                     })
                 

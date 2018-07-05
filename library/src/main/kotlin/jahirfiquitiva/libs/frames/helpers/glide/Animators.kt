@@ -16,25 +16,42 @@
 package jahirfiquitiva.libs.frames.helpers.glide
 
 import android.animation.Animator
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.Drawable
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.view.View
 import jahirfiquitiva.libs.kext.extensions.SimpleAnimatorListener
+import kotlin.math.roundToLong
 
 /**
  * Credits: https://github.com/chrisbanes/tivi/
  */
+private val fastOutSlowInInterpolator = FastOutSlowInInterpolator()
+
 fun saturateDrawableAnimator(current: Drawable, view: View): Animator {
     view.setHasTransientState(true)
-    val cm = TiviColorMatrix()
-    val animator =
-        ObjectAnimator.ofFloat(cm, TiviColorMatrix.PROP_SATURATION, 0F, 1F)
-    animator.duration = 1000L
-    animator.interpolator = FastOutSlowInInterpolator()
-    animator.addUpdateListener { current.colorFilter = ColorMatrixColorFilter(cm) }
-    animator.addListener(object : SimpleAnimatorListener() {
+    val cm = ImageLoadingColorMatrix()
+    
+    val duration = 1500L
+    
+    val satAnim = ObjectAnimator.ofFloat(cm, ImageLoadingColorMatrix.PROP_SATURATION, 0f, 1f)
+    satAnim.duration = duration
+    satAnim.interpolator = fastOutSlowInInterpolator
+    satAnim.addUpdateListener { current.colorFilter = ColorMatrixColorFilter(cm) }
+    
+    val alphaAnim = ObjectAnimator.ofFloat(cm, ImageLoadingColorMatrix.PROP_ALPHA, 0f, 1f)
+    alphaAnim.duration = duration / 2
+    alphaAnim.interpolator = fastOutSlowInInterpolator
+    
+    val darkenAnim = ObjectAnimator.ofFloat(cm, ImageLoadingColorMatrix.PROP_DARKEN, 0f, 1f)
+    darkenAnim.duration = (duration * 0.75f).roundToLong()
+    darkenAnim.interpolator = fastOutSlowInInterpolator
+    
+    val set = AnimatorSet()
+    set.playTogether(satAnim, alphaAnim, darkenAnim)
+    set.addListener(object : SimpleAnimatorListener() {
         override fun onEnd(animator: Animator) {
             current.clearColorFilter()
             view.setHasTransientState(false)
@@ -44,5 +61,5 @@ fun saturateDrawableAnimator(current: Drawable, view: View): Animator {
             animation?.let { onEnd(it) }
         }
     })
-    return animator
+    return set
 }
