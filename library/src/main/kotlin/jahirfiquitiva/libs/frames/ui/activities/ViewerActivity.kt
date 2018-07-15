@@ -188,7 +188,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         
         val hasChecker = intent?.getBooleanExtra("checker", false) ?: false
         
-        if (downloadable && isNetworkAvailable) {
+        if (downloadable) {
             findViewById<RelativeLayout>(R.id.download_container).setOnClickListener {
                 if (isNetworkAvailable) {
                     val actuallyComplies = if (hasChecker) compliesWithMinTime(MIN_TIME) else true
