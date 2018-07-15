@@ -15,16 +15,10 @@
  */
 package jahirfiquitiva.libs.frames.ui.fragments.dialogs
 
-import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
-import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.BottomSheetDialogFragment
-import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.FragmentActivity
-import android.support.v4.app.FragmentManager
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
@@ -42,32 +36,15 @@ import jahirfiquitiva.libs.frames.ui.adapters.WallpaperInfoAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
 import jahirfiquitiva.libs.kext.extensions.isInHorizontalMode
 
-class InfoBottomSheet : BottomSheetDialogFragment() {
+class InfoBottomSheet : BaseBottomSheet() {
     
     private var recyclerView: RecyclerView? = null
     private var progress: ProgressBar? = null
     private var adapter: WallpaperInfoAdapter? = null
-    private var behavior: BottomSheetBehavior<*>? = null
     private val details = ArrayList<WallpaperDetail>()
     private var palette: Palette? = null
     
-    private val sheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
-        override fun onSlide(bottomSheet: View, slideOffset: Float) {
-            var correctAlpha = slideOffset + 1
-            if (correctAlpha < 0) correctAlpha = 0.0F
-            if (correctAlpha > 1) correctAlpha = 1.0F
-            bottomSheet.alpha = correctAlpha
-        }
-        
-        override fun onStateChanged(bottomSheet: View, newState: Int) {
-            if (newState == BottomSheetBehavior.STATE_HIDDEN) dismiss()
-        }
-    }
-    
-    @SuppressLint("RestrictedApi")
-    override fun setupDialog(dialog: Dialog?, style: Int) {
-        super.setupDialog(dialog, style)
-        
+    override fun getContentView(): View? {
         val detailView = View.inflate(context, R.layout.info_dialog, null)
         
         progress = detailView?.findViewById(R.id.loading_view)
@@ -94,15 +71,7 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
         adapter?.let { recyclerView?.adapter = it }
         setupAdapter()
         
-        dialog?.setContentView(detailView)
-        
-        val params = (detailView.parent as? View)?.layoutParams as? CoordinatorLayout.LayoutParams
-        val parentBehavior = params?.behavior
-        
-        if (parentBehavior != null && parentBehavior is BottomSheetBehavior<*>) {
-            behavior = parentBehavior
-            behavior?.setBottomSheetCallback(sheetCallback)
-        }
+        return detailView
     }
     
     fun setDetailsAndPalette(details: ArrayList<WallpaperDetail>, palette: Palette?) {
@@ -120,22 +89,10 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
         recyclerView?.visible()
     }
     
-    fun show(context: FragmentActivity) {
-        show(context.supportFragmentManager, TAG)
-    }
-    
-    override fun show(manager: FragmentManager?, tag: String?) {
-        super.show(manager, tag)
-        behavior?.state = BottomSheetBehavior.STATE_EXPANDED
-    }
-    
-    fun animateHide() {
-        behavior?.state = BottomSheetBehavior.STATE_COLLAPSED
-        behavior?.state = BottomSheetBehavior.STATE_HIDDEN
-    }
+    override fun shouldExpandOnShow(): Boolean = true
     
     companion object {
-        private const val TAG = "InfoBottomSheet"
+        const val TAG = "InfoBottomSheet"
         
         fun build(details: ArrayList<WallpaperDetail>, palette: Palette?): InfoBottomSheet =
             InfoBottomSheet().apply {

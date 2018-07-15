@@ -21,6 +21,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import ca.allanwang.kau.utils.isNetworkAvailable
@@ -300,7 +301,8 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
         actionDialog?.show()
     }
     
-    internal fun properlyCancelDialog() {
+    @CallSuper
+    internal open fun properlyCancelDialog() {
         wallActions?.stopActions()
         wallActions?.dismiss(this)
         wallActions = null

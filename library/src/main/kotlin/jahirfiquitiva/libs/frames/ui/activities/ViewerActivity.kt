@@ -52,15 +52,18 @@ import ca.allanwang.kau.utils.setMarginTop
 import ca.allanwang.kau.utils.setPaddingBottom
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.toast
+import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
 import jahirfiquitiva.libs.frames.helpers.extensions.framesPostponeEnterTransition
+import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.safeStartPostponedEnterTransition
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
+import jahirfiquitiva.libs.frames.helpers.extensions.toReadableTime
 import jahirfiquitiva.libs.frames.helpers.glide.FramesGlideListener
 import jahirfiquitiva.libs.frames.helpers.glide.loadPic
 import jahirfiquitiva.libs.frames.helpers.utils.FL
@@ -82,6 +85,7 @@ import jahirfiquitiva.libs.kext.extensions.compliesWithMinTime
 import jahirfiquitiva.libs.kext.extensions.currentRotation
 import jahirfiquitiva.libs.kext.extensions.drawable
 import jahirfiquitiva.libs.kext.extensions.enableTranslucentStatusBar
+import jahirfiquitiva.libs.kext.extensions.firstInstallTime
 import jahirfiquitiva.libs.kext.extensions.generatePalette
 import jahirfiquitiva.libs.kext.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.kext.extensions.hasContent
@@ -126,6 +130,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     private var hasModifiedFavs = false
     private var showFavoritesButton = false
     
+    private var loaded = false
     private var closing = false
     private var transitioned = false
     private var visibleSystemUI = true
@@ -136,6 +141,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     private val details = ArrayList<WallpaperDetail>()
     private var palette: Palette? = null
     private var info: WallpaperInfo? = null
+    private var dialog: MaterialDialog? = null
     
     @SuppressLint("MissingSuperCall", "InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -181,11 +187,33 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         val downloadable = wallpaper?.downloadable == true
         
         val hasChecker = intent?.getBooleanExtra("checker", false) ?: false
-        val actuallyComplies = if (hasChecker) compliesWithMinTime(MIN_TIME) else true
         
-        if (downloadable && isNetworkAvailable && actuallyComplies) {
+        if (downloadable && isNetworkAvailable) {
             findViewById<RelativeLayout>(R.id.download_container).setOnClickListener {
-                doItemClick(DOWNLOAD_ACTION_ID)
+                if (isNetworkAvailable) {
+                    val actuallyComplies = if (hasChecker) compliesWithMinTime(MIN_TIME) else true
+                    if (actuallyComplies) {
+                        doItemClick(DOWNLOAD_ACTION_ID)
+                    } else {
+                        val elapsedTime = System.currentTimeMillis() - firstInstallTime
+                        val timeLeft = MIN_TIME - elapsedTime
+                        val timeLeftText = timeLeft.toReadableTime()
+                        properlyCancelDialog()
+                        dialog = mdDialog {
+                            title(R.string.prevent_download_title)
+                            content(getString(R.string.prevent_download_content, timeLeftText))
+                            positiveText(android.R.string.ok)
+                        }
+                        dialog?.show()
+                    }
+                } else {
+                    properlyCancelDialog()
+                    dialog = mdDialog {
+                        content(R.string.not_connected_content)
+                        positiveText(android.R.string.ok)
+                    }
+                    dialog?.show()
+                }
             }
         } else {
             findViewById<RelativeLayout>(R.id.download_container).gone()
@@ -249,11 +277,11 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         dismissInfoDialog()
         infoDialog = InfoBottomSheet.build(details, palette)
         loadExpensiveWallpaperDetails()
-        infoDialog?.show(this)
+        infoDialog?.show(this, InfoBottomSheet.TAG)
     }
     
     private fun dismissInfoDialog() {
-        infoDialog?.animateHide()
+        infoDialog?.hide()
     }
     
     override fun onMultiWindowModeChanged(isInMultiWindowMode: Boolean, newConfig: Configuration?) {
@@ -270,9 +298,10 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
-        setSystemUIVisibility(savedInstanceState?.getBoolean(VISIBLE_SYSTEM_UI_KEY, true) != false)
-        this.closing = savedInstanceState?.getBoolean(CLOSING_KEY, false) == true
-        this.transitioned = savedInstanceState?.getBoolean(TRANSITIONED_KEY, false) == true
+        setSystemUIVisibility(savedInstanceState?.getBoolean(VISIBLE_SYSTEM_UI_KEY, true) ?: true)
+        this.closing = savedInstanceState?.getBoolean(CLOSING_KEY, false) ?: false
+        this.transitioned = savedInstanceState?.getBoolean(TRANSITIONED_KEY, false) ?: false
+        setupProgressBarColors()
     }
     
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -322,6 +351,12 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         }
     }
     
+    override fun properlyCancelDialog() {
+        super.properlyCancelDialog()
+        dialog?.dismiss()
+        dialog = null
+    }
+    
     private fun setupWallpaper(wallpaper: Wallpaper?, justStart: Boolean = false) {
         var bmp: Bitmap? = null
         val filename = intent?.getStringExtra("image") ?: ""
@@ -349,17 +384,15 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         }
         
         wallpaper?.let {
+            val thumbListener = object : FramesGlideListener<Drawable>() {
+                override fun onLoadSucceed(resource: Drawable, model: Any?) =
+                    doOnWallpaperLoad(resource)
+            }
+            
             val listener = object : FramesGlideListener<Drawable>() {
                 override fun onLoadSucceed(resource: Drawable, model: Any?): Boolean {
-                    postPalette(resource)
-                    img?.setImageDrawable(resource)
-                    startEnterTransition()
-                    return true
-                }
-                
-                override fun onLoadFailed(): Boolean {
-                    startEnterTransition()
-                    return super.onLoadFailed()
+                    loaded = true
+                    return doOnWallpaperLoad(resource)
                 }
             }
             
@@ -373,7 +406,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
                 } else {
                     val thumbnailRequest =
                         manager.loadPic(
-                            it.thumbUrl, true, isLowRamDevice, listener, drawable, true,
+                            it.thumbUrl, true, isLowRamDevice, thumbListener, drawable, true,
                             withSaturationTransition = false)
                     manager.loadPic(
                         it.url, false, isLowRamDevice, listener, drawable, true,
@@ -385,8 +418,21 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         }
     }
     
+    private fun doOnWallpaperLoad(resource: Drawable?): Boolean {
+        postPalette(resource)
+        img?.setImageDrawable(resource)
+        startEnterTransition()
+        return true
+    }
+    
     private fun setupProgressBarColors() {
-        loading?.indeterminateDrawable?.applyColorFilter(activeIconsColor)
+        try {
+            val color = palette?.dominantSwatch?.bodyTextColor ?: activeIconsColor
+            loading?.indeterminateDrawable?.applyColorFilter(color)
+            if (loaded) loading?.gone()
+        } catch (e: Exception) {
+            FL.e(e.message)
+        }
     }
     
     private fun postPalette(drw: Drawable?) {
@@ -396,6 +442,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         } catch (e: Exception) {
             FL.e(e.message)
         }
+        setupProgressBarColors()
     }
     
     private fun updateInfo() {
@@ -622,5 +669,10 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         bottomBarParent.animate().translationY(transY)
             .setInterpolator(AccelerateDecelerateInterpolator())
             .start()
+    }
+    
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        setupProgressBarColors()
     }
 }
