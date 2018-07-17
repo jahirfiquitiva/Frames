@@ -98,7 +98,7 @@
   <string name="deep_search_content">Поиск по названию и коллекции</string>
   <string name="storage_settings_title">Хранилище</string>
   <string name="wallpapers_download_location_setting_title">Место для загрузки обоев</string>
-  <string name="wallpapers_download_location_setting_content">Изменить место для скачиваемых обоев. \nВ настоящее время это: %1$s</string>
+  <string name="wallpapers_download_location_setting_content">Изменить место для загрузки обоев. \nВ настоящее время это: %1$s</string>
   <string name="create_folder">Создать папку</string>
   <string name="choose_folder">Выбрать</string>
   <string name="data_cache_setting_title">Очистить данные и кеш</string>
