@@ -51,7 +51,23 @@
   <string name="lock_screen">قفل الشاشة</string>
   <string name="home_lock_screen">الشاشة الرئيسية وقفل الشاشة</string>
   <string name="apply_with_other_app">تفعيل عن طريق تطبيق اخر</string>
+  <string name="apply_successful">تم تطبيق الخلفية بنجاح في \'%1$s</string>
+  <string name="apply_successful_short">تم تطبيق الخلفية بنجاح</string>
+  <string name="wallpaper_details">تفاصيل</string>
+  <string name="wallpaper_palette">لوح الألوان</string>
+  <string name="copied_to_clipboard">تم نسخ اللون الي الحافظة</string>
+  <string name="search">بحث</string>
+  <string name="search_x">البحث %1$s...</string>
+  <string name="search_no_results">لم يتم العثور على نتائج</string>
+  <string name="about">حول</string>
+  <string name="refresh">تحديث</string>
+  <string name="translate">ترجمة</string>
+  <string name="licenses">التراخيص</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+  <string name="frames_dashboard">لوحة الإطارات</string>
+  <string name="dev_contributions">مساعدة التطوير</string>
+  <string name="ui_contributions">تعليمات واجهة المستخدم</string>
+  <string name="dashboard_copyright">انا مطور اندرويد متحمس ومبدع والذي قام بانشاء لوحة المعلومات.</string>
   <!-- Light Theme -->
   <!-- Dark Theme -->
   <!-- Amoled Theme -->
@@ -60,5 +76,16 @@
   <!-- Automatic Light-Amoled Theme -->
   <!-- License -->
   <!-- Muzei Settings -->
+  <string name="muzei_settings">اعدادات Muzei</string>
   <!-- Please use this character … -->
+  <string name="refresh_wallpapers_every">تحديث خلفيات…</string>
+  <string name="every_x">كل %1$s</string>
+  <string name="minutes">دقائق</string>
+  <string name="hours">ساعات</string>
+  <string name="days">أيام</string>
+  <string name="refresh_only_on_wifi">تحديث عن طريق وأي فأي فقط</string>
+  <string name="refresh_only_on_wifi_summary">تحديث خلفيات فقط عند توصيل الجهاز بشبكة وأي فأي.</string>
+  <string name="choose_collections_title">اختر مجموعات</string>
+  <string name="choose_collections_summary">اختر مجموعات لتحصل منها علي خلفيات. المجموعات المختارة حاليا: %1$s</string>
+  <string name="muzei_not_connected_title">غير متصل بالإنترنت</string>
 </resources>
