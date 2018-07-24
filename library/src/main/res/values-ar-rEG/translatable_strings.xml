@@ -16,6 +16,17 @@
   ~ limitations under the License.
   -->
 <resources>
+  <string name="empty_section">لم يتم العثور علي اي شئ</string>
+  <string name="loading_section">يتم تحميل المحتوي...</string>
+  <string name="no_favorites">أضف بعض الخلفيات للمفضلة اولا</string>
+  <string name="wallpapers">خلفيات</string>
+  <string name="collections">مجموعات</string>
+  <string name="x_wallpapers">خلفيات %1$s</string>
+  <string name="all">الكل</string>
+  <string name="favorites">المفضلة</string>
+  <string name="favorite">المفضل</string>
+  <string name="added_to_favorites">قد تمت اضافتها الي المفضلة.</string>
+  <string name="removed_from_favorites">تمت ازالتها من المفضلة.</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <!-- Light Theme -->
