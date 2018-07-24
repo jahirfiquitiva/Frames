@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 // TODO: Remove comment marks to enable
-/*
-plugins {
-    id 'com.onesignal.androidsdk.onesignal-gradle-plugin' version '0.8.1'
+buildscript {
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/'}
+    }
+    dependencies {
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.11.0'
+    }
 }
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
-*/
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -94,7 +97,7 @@ android {
 dependencies {
     implementation project(path: ':library')
     // TODO: Remove comment marks to enable
-    // implementation libraries.oneSignal
+    implementation libraries.oneSignal
 }
 
 tasks.whenTaskAdded { task ->
