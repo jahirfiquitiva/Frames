@@ -15,8 +15,13 @@
  */
 // TODO: Remove comment marks to enable
 /*
-plugins {
-    id 'com.onesignal.androidsdk.onesignal-gradle-plugin' version '0.8.1'
+buildscript {
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/' }
+    }
+    dependencies {
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.11.0'
+    }
 }
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 */
@@ -51,8 +56,8 @@ android {
         applicationId "jahirfiquitiva.apps.frames.sample"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
-        versionCode 247
-        versionName '2.4.7'
+        versionCode 249
+        versionName '2.4.9'
         vectorDrawables.useSupportLibrary = true
         proguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
         consumerProguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
@@ -83,7 +88,7 @@ android {
 
 dependencies {
     // Frames
-    implementation('com.jahirfiquitiva:Frames:2.4.7@aar') {
+    implementation('com.jahirfiquitiva:Frames:2.4.9@aar') {
         transitive = true
     }
     // TODO: Remove comment marks to enable
