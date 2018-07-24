@@ -149,4 +149,6 @@
   <string name="enable_notifications">Habilitar notificaciones</string>
   <string name="changelog">Registro de cambios</string>
   <string name="dismiss">Descartar</string>
+  <string name="prevent_download_title">Descargas bloqueadas</string>
+  <string name="prevent_download_content">Por razones de seguridad, descargar fondos de pantalla no es posible durante las siguientes %1$s horas. Por favor, inténtalo más tarde.</string>
 </resources>
