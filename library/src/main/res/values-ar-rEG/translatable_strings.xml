@@ -17,7 +17,7 @@
   -->
 <resources>
   <string name="empty_section">لم يتم العثور علي اي شئ</string>
-  <string name="loading_section">يتم تحميل المحتوي...</string>
+  <string name="loading_section">يتم تحميل المحتوي…</string>
   <string name="no_favorites">أضف بعض الخلفيات للمفضلة اولا</string>
   <string name="wallpapers">خلفيات</string>
   <string name="collections">مجموعات</string>
@@ -88,4 +88,17 @@
   <string name="choose_collections_title">اختر مجموعات</string>
   <string name="choose_collections_summary">اختر مجموعات لتحصل منها علي خلفيات. المجموعات المختارة حاليا: %1$s</string>
   <string name="muzei_not_connected_title">غير متصل بالإنترنت</string>
+  <string name="muzei_not_connected_content">عذراً، لكي تكون قادراً على اختيار أو تغيير المجموعات التي تريد التطبيق ان يتخذ خلفيات منها، يجب أن تكون متصلاً بإنترنت. الرجاء المحاولة مرة أخرى لاحقاً.</string>
+  <string name="sure_to_exit">خروج</string>
+  <string name="sure_to_exit_content">هل تريد حفظ الإعدادات الخاصة بك قبل الخروج؟</string>
+  <string name="yes">نعم</string>
+  <string name="no">لا</string>
+  <string name="not_connected_content">لسوء الحظ أن هذا الإجراء يتطلب اتصال إنترنت. الرجاء المحاولة مرة أخرى لاحقاً.</string>
+  <string name="new_wallpapers_available">%1$s خلفيات جديدة متوفرة. انقر للتحقق منها!</string>
+  <string name="notifications_title">اشعارات</string>
+  <string name="enable_notifications">تمكين الاشعارات</string>
+  <string name="changelog">سجل التغيير</string>
+  <string name="dismiss">رفض</string>
+  <string name="prevent_download_title">تم غلق التنزيلات</string>
+  <string name="prevent_download_content">لأسباب أمنية، تحميل الخلفيات غير ممكن للساعات القادمة %1$s. الرجاء المحاولة مرة أخرى لاحقاً.</string>
 </resources>
