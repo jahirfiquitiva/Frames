@@ -33,7 +33,7 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 				message=$"*New ${repoName} update available now!*${ln}*Version:*${ln}${tab}${releaseName}${ln}*Changes:*${ln}${changes}${ln}"
 				btns=$"{\"inline_keyboard\":[[{\"text\":\"How To Update\",\"url\":\"https://github.com/${TRAVIS_REPO_SLUG}/wiki/How-to-update\"}],[{\"text\":\"Download sample\",\"url\":\"${url}\"}]]}"
 
-				printf "\n\nSending message: $teleMess"
+				printf "\n\nSending message to Telegram channel"
 				curl -g "https://api.telegram.org/bot${TEL_BOT_KEY}/sendMessage?chat_id=@JFsDashSupport&text=${message}&parse_mode=Markdown&reply_markup=${btns}"
 			else
 				printf "\n\nSkipping Telegram report because no file was uploaded"
