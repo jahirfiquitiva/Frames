@@ -149,4 +149,6 @@
   <string name="enable_notifications">Activer les notifications</string>
   <string name="changelog">Journal des modifications</string>
   <string name="dismiss">Ignorer</string>
+  <string name="prevent_download_title">Téléchargements verrouillés</string>
+  <string name="prevent_download_content">Pour des raisons de sécurité, le téléchargement de fonds d\'écran n\'est pas possible pendant les %1$s prochaines heures. Merci d\'essayer plus tard.</string>
 </resources>
