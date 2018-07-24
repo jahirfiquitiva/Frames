@@ -27,7 +27,30 @@
   <string name="favorite">المفضل</string>
   <string name="added_to_favorites">قد تمت اضافتها الي المفضلة.</string>
   <string name="removed_from_favorites">تمت ازالتها من المفضلة.</string>
+  <string name="actions_dialog_content">ماذا تحب ان تفعل مع هذه الخلفية ؟</string>
+  <string name="apply">تطبيق</string>
+  <string name="download">تحميل</string>
+  <string name="info">معلومات</string>
+  <string name="share">مشاركة</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
+  <string name="share_text">خلفيتي لهذا اليوم هي %1$s بواسطة %2$s، من %3$s. احصل عليها الان في %4$s</string>
+  <string name="permission_denied">تم رفض الوصول إلى إذن التخزين</string>
+  <string name="permission_denied_completely">تم رفض الوصول إلى إذن التخزين. سيكون عليك ان تمكنه يدوياً في الإعدادات.</string>
+  <string name="permission_request">يتطلب امكانية الوصول للذاكرة من اجل ان تكون قادرا على تطبيق وتنزيل الخلفيات</string>
+  <string name="allow">تسمح</string>
+  <string name="downloading_wallpaper">تحميل \'%1$s\'...</string>
+  <string name="download_successful">تم تحميل الخلفية بنجاح في \'%1$s\'</string>
+  <string name="download_successful_short">تم تحميل الخلفية بنجاح</string>
+  <string name="open">فتح</string>
+  <string name="file_exists">تم تحميل الخلفية بالفعل. هل تريد التحميل ليحل محله؟</string>
+  <string name="file_replace">استبدال</string>
+  <string name="file_create_new">إنشاء جديد</string>
+  <string name="applying_wallpaper">تطبيق \'%1$s\'...</string>
+  <string name="apply_to">تطبيق ل:</string>
+  <string name="home_screen">الشاشة الرئيسية</string>
+  <string name="lock_screen">قفل الشاشة</string>
+  <string name="home_lock_screen">الشاشة الرئيسية وقفل الشاشة</string>
+  <string name="apply_with_other_app">تفعيل عن طريق تطبيق اخر</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <!-- Light Theme -->
   <!-- Dark Theme -->
