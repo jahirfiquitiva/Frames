@@ -10,6 +10,9 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 		releaseNameOrg="$(echo "$tagInfo" | jq --raw-output ".tag_name")"
 		releaseName=$(echo $releaseNameOrg | cut -d "\"" -f 2)
 
+		ln=$"%0D%0A"
+        tab=$"%09"
+
 		changesOrg="$(echo "$tagInfo" | jq --raw-output ".body")"
 		changes=$(echo $changesOrg | cut -d "\"" -f 2)
 		changes=$(echo "${changes/'\r\n'/$ln}")
@@ -37,9 +40,6 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 			url=$"$url"
 			url=${url%$'\r\n'}
 			url=${url%$'\r'}
-
-			ln=$"%0D%0A"
-			tab=$"%09"
 
 			if [ ! -z "$url" -a "$url" != " " -a "$url" != "null" ]; then
 				printf "\nAPK url: $url"
