@@ -1,5 +1,5 @@
 printf "\n\nGetting tag information\n"
-tagInfo="$(curl https://api.github.com/repos/jahirfiquitiva/Blueprint/releases/latest)"
+tagInfo="$(curl https://api.github.com/repos/jahirfiquitiva/Frames/releases/latest)"
 releaseId="$(echo "$tagInfo" | jq ".id")"
 
 releaseNameOrg="$(echo "$tagInfo" | jq --raw-output ".tag_name")"
@@ -9,9 +9,8 @@ ln=$"%0D%0A"
 tab=$"%09"
 
 changes="$(echo "$tagInfo" | jq --raw-output ".body")"
-changes=$"$changes"
+changes=$(echo $changes | cut -d "\"" -f 2)
 changes=$(echo "${changes//\\r\\n/$ln}")
-changes=$(echo "$changes" | cut -d "\"" -f 2)
 # changes=$"$changes"
 # changes=${changes%$'\r\n'}
 # changes=${changes%$'\r'}
