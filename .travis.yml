@@ -22,7 +22,7 @@ before_install:
 jdk:
   - oraclejdk8
 
-script: if [[ "$TRAVIS_TAG" ]]; then ./gradlew clean :app:assembleRelease --stacktrace; else ./gradlew clean build --stacktrace; fi
+script: ./gradlew clean test --stacktrace
 
 branches:
   except:
@@ -55,5 +55,4 @@ cache:
     - "$HOME/.gradle/wrapper/"
 
 before_script:
-  - rm -rf $TRAVIS_BUILD_DIR/app/build/outputs
   - chmod +x gradlew
