@@ -16,6 +16,7 @@ android:
     - extra-android-m2repository
 
 before_install:
+  - chmod +x ./test.sh; ./test.sh
   - yes | sdkmanager "platforms;android-$ANDROID_API"
   - yes | sdkmanager "build-tools;$ANDROID_BUILD_TOOLS"
 
@@ -57,7 +58,6 @@ cache:
 before_script:
   - rm -rf $TRAVIS_BUILD_DIR/app/build/outputs
   - chmod +x gradlew
-  - chmod +x ./test.sh; ./test.sh
 
 after_success:
   - chmod +x ./publish_apk.sh; ./publish_apk.sh
