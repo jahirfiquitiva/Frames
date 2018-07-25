@@ -15,7 +15,7 @@ changes=$(echo "${changes/'\n'/$ln}")
 changes=$"$changes"
 changes=${changes%$'\r\n'}
 changes=${changes%$'\r'}
-changes=${changes::-6}
+changes=${changes%.*}
 
 urlText="$(echo "$tagInfo" | jq --raw-output ".assets[].browser_download_url")"
 url=$(echo $urlText | cut -d "\"" -f 2)
