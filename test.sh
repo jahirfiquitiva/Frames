@@ -16,6 +16,14 @@ changes=$"$changes"
 changes=${changes%$'\r\n'}
 changes=${changes%$'\r'}
 
+urlText="$(echo "$tagInfo" | jq --raw-output ".assets[].browser_download_url")"
+url=$(echo $urlText | cut -d "\"" -f 2)
+url=$(echo "${url/'\r\n'/$ln}")
+url=$(echo "${url/'\n'/$ln}")
+url=$"$url"
+url=${url%$'\r\n'}
+url=${url%$'\r'}
+
 message=$"*New ${repoName} update available now!*${ln}*Version:*${ln}${tab}${releaseName}${ln}*Changes:*${ln}${changes}${ln}"
 btns=$"{\"inline_keyboard\":[[{\"text\":\"How To Update\",\"url\":\"https://github.com/${TRAVIS_REPO_SLUG}/wiki/How-to-update\"}],[{\"text\":\"Download sample\",\"url\":\"${url}\"}]]}"
 
