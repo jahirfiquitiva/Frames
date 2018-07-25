@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 // TODO: Remove comment marks to enable
-/*
 buildscript {
     repositories {
         maven { url 'https://plugins.gradle.org/m2/' }
@@ -24,7 +23,6 @@ buildscript {
     }
 }
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
-*/
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -56,11 +54,9 @@ android {
 
     defaultConfig {
         // TODO: Remove comment marks to enable
-        /*
         manifestPlaceholders = [onesignal_app_id               : "abcd-1234-efgh-5678",
                                 // Project number pulled from dashboard, local value is ignored.
                                 onesignal_google_project_number: "1234567890"]
-                                */
 
         applicationId details.appGroup + "." + details.appId.toLowerCase() + ".sample"
         minSdkVersion versions.minSdk
@@ -99,7 +95,7 @@ android {
 dependencies {
     implementation project(path: ':library')
     // TODO: Remove comment marks to enable
-    // implementation libraries.oneSignal
+    implementation libraries.oneSignal
 }
 
 tasks.whenTaskAdded { task ->
