@@ -24,55 +24,14 @@ url=${url%$'\r\n'}
 url=${url%$'\r'}
 printf "Url: ${url}"
 
-message=$"*New ${repoName} update available now!*${ln}*Version:*${ln}${tab}${releaseName}${ln}*Changes:*${ln}${changes}"
+message=$"*New ${repoName} update available now!*${ln}*Version:*${ln}${tab}${releaseName}"
 btns=$"{\"inline_keyboard\":[[{\"text\":\"How To Update\",\"url\":\"https://github.com/${TRAVIS_REPO_SLUG}/wiki/How-to-update\"}],[{\"text\":\"Download sample\",\"url\":\"${url}\"}]]}"
 
 printf "\n\nSending message to Telegram channel\n\n"
-echo $message
-printf "\n\n"
-echo "$message"
-printf "\n\n"
-echo "Message: $message"
-printf "\n\n"
 echo "Message: ${message}"
 printf "\n\n"
 echo "Buttons: ${btns}"
 printf "\n\n"
-
-telegramUrl="https://api.telegram.org/bot${TEL_BOT_KEY}/sendMessage?chat_id=@JFsDashSupport&text=${message}&parse_mode=Markdown&reply_markup=${btns}"
-echo "$telegramUrl"
-printf "\n\n"
-curl -g "${telegramUrl}"
-
-printf "\n\n=======Changes==========\n\n"
-
-changes=$(echo "${changes/'\r\n'/$ln}")
-changes=$(echo "${changes/'\n'/$ln}")
-
-message=$"*New ${repoName} update available now!*${ln}*Version:*${ln}${tab}${releaseName}${ln}*Changes:*${ln}${changes}"
-
-telegramUrl="https://api.telegram.org/bot${TEL_BOT_KEY}/sendMessage?chat_id=@JFsDashSupport&text=${message}&parse_mode=Markdown&reply_markup=${btns}"
-echo "$telegramUrl"
-printf "\n\n"
-curl -g "${telegramUrl}"
-
-printf "\n\n=======Url==========\n\n"
-
-url=$(echo "${url/'\r\n'/$ln}")
-url=$(echo "${url/'\n'/$ln}")
-
-message=$"*New ${repoName} update available now!*${ln}*Version:*${ln}${tab}${releaseName}${ln}*Changes:*${ln}${oldChanges}"
-btns=$"{\"inline_keyboard\":[[{\"text\":\"How To Update\",\"url\":\"https://github.com/${TRAVIS_REPO_SLUG}/wiki/How-to-update\"}],[{\"text\":\"Download sample\",\"url\":\"${url}\"}]]}"
-
-telegramUrl="https://api.telegram.org/bot${TEL_BOT_KEY}/sendMessage?chat_id=@JFsDashSupport&text=${message}&parse_mode=Markdown&reply_markup=${btns}"
-echo "$telegramUrl"
-printf "\n\n"
-curl -g "${telegramUrl}"
-
-printf "\n\n=======Both==========\n\n"
-
-message=$"*New ${repoName} update available now!*${ln}*Version:*${ln}${tab}${releaseName}${ln}*Changes:*${ln}${oldChanges}"
-btns=$"{\"inline_keyboard\":[[{\"text\":\"How To Update\",\"url\":\"https://github.com/${TRAVIS_REPO_SLUG}/wiki/How-to-update\"}],[{\"text\":\"Download sample\",\"url\":\"${url}\"}]]}"
 
 telegramUrl="https://api.telegram.org/bot${TEL_BOT_KEY}/sendMessage?chat_id=@JFsDashSupport&text=${message}&parse_mode=Markdown&reply_markup=${btns}"
 echo "$telegramUrl"
