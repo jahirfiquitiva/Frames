@@ -15,6 +15,7 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 		changes=$(echo "${changes/'\r\n'/$ln}")
         changes=$(echo "${changes/'\n'/$ln}")
         changes=$"$changes"
+        changes=${changes%$'\r\n'}
         changes=${changes%$'\r'}
 
 		repoName=$(echo $TRAVIS_REPO_SLUG | cut -d / -f 2)
@@ -34,6 +35,7 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 			url=$(echo "${url/'\r\n'/$ln}")
             url=$(echo "${url/'\n'/$ln}")
 			url=$"$url"
+			url=${url%$'\r\n'}
 			url=${url%$'\r'}
 
 			ln=$"%0D%0A"
