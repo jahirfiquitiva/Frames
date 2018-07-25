@@ -10,6 +10,11 @@ tab=$"%09"
 
 changesOrg="$(echo "$tagInfo" | jq --raw-output ".body")"
 changes=$(echo $changesOrg | cut -d "\"" -f 2)
+# changes=$"$changes"
+# changes=${changes%$'\r\n'}
+# changes=${changes%$'\r'}
+# changes=${changes%.*}
+printf "Changes: ${changes}"
 
 urlText="$(echo "$tagInfo" | jq --raw-output ".assets[].browser_download_url")"
 url=$(echo $urlText | cut -d "\"" -f 2)
