@@ -150,4 +150,6 @@ Obecnie wybrana kolekcja: %1$s</string>
   <string name="enable_notifications">Włącz powiadomienia</string>
   <string name="changelog">Dziennik zmian</string>
   <string name="dismiss">Odrzuć</string>
+  <string name="prevent_download_title">Pobieranie zablokowane</string>
+  <string name="prevent_download_content">Dla bezpieczeństwa, pobieranie tapet nie jest możliwe przez kolejne %1$s godzin. Spróbuj ponownie później.</string>
 </resources>
