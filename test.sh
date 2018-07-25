@@ -6,10 +6,11 @@ releaseNameOrg="$(echo "$tagInfo" | jq --raw-output ".tag_name")"
 releaseName=$(echo $releaseNameOrg | cut -d "\"" -f 2)
 
 ln=$"%0D%0A"
-tab=$"%09"
 
 changes="$(echo "$tagInfo" | jq --raw-output ".body")"
 changes=$(echo $changes | cut -d "\"" -f 2)
+changes=$(echo "${changes//\"\r\n\"/$ln}")
+changes=$(echo "${changes//'\r\n'/$ln}")
 changes=$(echo "${changes//\\r\\n/$ln}")
 # changes=$"$changes"
 # changes=${changes%$'\r\n'}
@@ -24,7 +25,7 @@ url=${url%$'\r\n'}
 url=${url%$'\r'}
 printf "Url: ${url}"
 
-message=$"*New ${repoName} update available now!*${ln}*Version:*${ln}${tab}${releaseName}*Changes:*${ln}${changes}"
+message=$"*New ${repoName} update available now!*${ln}*Version:*${ln}${releaseName}${ln}*Changes:*${ln}${changes}"
 btns=$"{\"inline_keyboard\":[[{\"text\":\"How To Update\",\"url\":\"https://github.com/${TRAVIS_REPO_SLUG}/wiki/How-to-update\"}],[{\"text\":\"Download sample\",\"url\":\"${url}\"}]]}"
 
 printf "\n\nSending message to Telegram channel\n\n"
