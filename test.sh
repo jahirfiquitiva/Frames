@@ -9,9 +9,10 @@ ln=$"%0D%0A"
 tab=$"%09"
 
 changes="$(echo "$tagInfo" | jq --raw-output ".body")"
+changes=$"$changes"
 printf "\nChanges1: ${changes}\n"
 
-changes=$(echo "${changes//'\r\n'/$ln}")
+changes=$(echo "${changes//"\r\n"/$ln}")
 printf "\nChanges2: ${changes}\n"
 
 changes=$(echo "$changes" | cut -d "\"" -f 2)
