@@ -1,5 +1,5 @@
 printf "\n\nGetting tag information\n"
-tagInfo="$(curl https://api.github.com/repos/jahirfiquitiva/Blueprint/releases/tags/n.n.n)"
+tagInfo="$(curl https://api.github.com/repos/jahirfiquitiva/Blueprint/releases/latest)"
 releaseId="$(echo "$tagInfo" | jq ".id")"
 
 releaseNameOrg="$(echo "$tagInfo" | jq --raw-output ".tag_name")"
