@@ -6,10 +6,17 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 		printf "\n\nGetting tag information\n"
 		tagInfo="$(curl https://api.github.com/repos/${TRAVIS_REPO_SLUG}/releases/tags/${TRAVIS_TAG})"
 		releaseId="$(echo "$tagInfo" | jq ".id")"
+
 		releaseNameOrg="$(echo "$tagInfo" | jq --raw-output ".tag_name")"
 		releaseName=$(echo $releaseNameOrg | cut -d "\"" -f 2)
+
 		changesOrg="$(echo "$tagInfo" | jq --raw-output ".body")"
 		changes=$(echo $changesOrg | cut -d "\"" -f 2)
+		changes=$(echo "${changes/'\r\n'/$ln}")
+        changes=$(echo "${changes/'\n'/$ln}")
+        changes=$"$changes"
+        changes=${changes%$'\r'}
+
 		repoName=$(echo $TRAVIS_REPO_SLUG | cut -d / -f 2)
 
 		printf "\n"
@@ -24,8 +31,8 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 
 			urlText="$(echo "$upload" | jq --raw-output ".browser_download_url")"
 			url=$(echo $urlText | cut -d "\"" -f 2)
-			url=$"$url"
-			url=${url%$'\r'}
+			url=$(echo "${url/'\r\n'/$ln}")
+            url=$(echo "${url/'\n'/$ln}")
 			url=$"$url"
 			url=${url%$'\r'}
 
@@ -38,11 +45,15 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 				btns=$"{\"inline_keyboard\":[[{\"text\":\"How To Update\",\"url\":\"https://github.com/${TRAVIS_REPO_SLUG}/wiki/How-to-update\"}],[{\"text\":\"Download sample\",\"url\":\"${url}\"}]]}"
 
 				printf "\n\nSending message to Telegram channel\n"
-				printf "\n\nMessage: ${message}\n"
-				printf "\n\nButtons: ${btns}\n"
-				printf "\n\n"
+				echo "Message: ${message}"
+                printf "\n\n"
+                echo "Buttons: ${btns}"
+                printf "\n\n"
 
-				curl -g "https://api.telegram.org/bot${TEL_BOT_KEY}/sendMessage?chat_id=@JFsDashSupport&text=${message}&parse_mode=Markdown&reply_markup=${btns}"
+                telegramUrl="https://api.telegram.org/bot${TEL_BOT_KEY}/sendMessage?chat_id=@JFsDashSupport&text=${message}&parse_mode=Markdown&reply_markup=${btns}"
+                echo "Telegram url: ${telegramUrl}"
+                printf "\n\n"
+                curl -g "${telegramUrl}"
 			else
 				printf "\n\nSkipping Telegram report because no file was uploaded\n"
 			fi
