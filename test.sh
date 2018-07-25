@@ -31,6 +31,12 @@ btns=$"{\"inline_keyboard\":[[{\"text\":\"How To Update\",\"url\":\"https://gith
 printf "\n\nSending message to Telegram channel\n\n"
 echo $message
 printf "\n\n"
+echo "$message"
+printf "\n\n"
+echo "$message"
+printf "\n\n"
+echo "Message: ${message}"
+printf "\n\n"
 echo "Buttons: ${btns}"
 printf "\n\n"
 
