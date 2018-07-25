@@ -24,7 +24,9 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 
 			urlText="$(echo "$upload" | jq --raw-output ".browser_download_url")"
 			url=$(echo $urlText | cut -d "\"" -f 2)
-			url=${url}
+			url=$"$url"
+			url=${url%$'\r'}
+			url=$"$url"
 			url=${url%$'\r'}
 
 			ln=$"%0D%0A"
