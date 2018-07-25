@@ -15,6 +15,7 @@ changes=$(echo "${changes/'\n'/$ln}")
 changes=$"$changes"
 changes=${changes%$'\r\n'}
 changes=${changes%$'\r'}
+changes=${changes::-6}
 
 urlText="$(echo "$tagInfo" | jq --raw-output ".assets[].browser_download_url")"
 url=$(echo $urlText | cut -d "\"" -f 2)
@@ -28,12 +29,12 @@ message=$"*New ${repoName} update available now!*${ln}*Version:*${ln}${tab}${rel
 btns=$"{\"inline_keyboard\":[[{\"text\":\"How To Update\",\"url\":\"https://github.com/${TRAVIS_REPO_SLUG}/wiki/How-to-update\"}],[{\"text\":\"Download sample\",\"url\":\"${url}\"}]]}"
 
 printf "\n\nSending message to Telegram channel\n\n"
-echo "Message: ${message}"
+echo $message
 printf "\n\n"
 echo "Buttons: ${btns}"
 printf "\n\n"
 
 telegramUrl="https://api.telegram.org/bot${TEL_BOT_KEY}/sendMessage?chat_id=@JFsDashSupport&text=${message}&parse_mode=Markdown&reply_markup=${btns}"
-echo "Telegram url: ${telegramUrl}"
+echo $telegramUrl
 printf "\n\n"
 curl -g "${telegramUrl}"
