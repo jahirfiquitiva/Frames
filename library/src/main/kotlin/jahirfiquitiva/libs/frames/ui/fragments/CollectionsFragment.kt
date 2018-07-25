@@ -115,8 +115,6 @@ internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHo
                     })
                 
                 setItemViewCacheSize(MAX_COLLECTIONS_LOAD)
-                isDrawingCacheEnabled = true
-                drawingCacheQuality = View.DRAWING_CACHE_QUALITY_AUTO
                 
                 adapter = collsAdapter
             }

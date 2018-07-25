@@ -142,8 +142,6 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                     })
                 
                 setItemViewCacheSize(MAX_WALLPAPERS_LOAD)
-                isDrawingCacheEnabled = true
-                drawingCacheQuality = View.DRAWING_CACHE_QUALITY_AUTO
                 
                 adapter = wallsAdapter
             }
