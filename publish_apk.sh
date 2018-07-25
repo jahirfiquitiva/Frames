@@ -5,23 +5,21 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 		
 		printf "\n\nGetting tag information\n"
 		tagInfo="$(curl https://api.github.com/repos/${TRAVIS_REPO_SLUG}/releases/tags/${TRAVIS_TAG})"
-		releaseId="$(echo "$tagInfo" | jq ".id")"
+		releaseId="$(echo "$tagInfo" | jq --compact-output ".id")"
 
-		releaseNameOrg="$(echo "$tagInfo" | jq --raw-output ".tag_name")"
-		releaseName=$(echo $releaseNameOrg | cut -d "\"" -f 2)
+		releaseNameOrg="$(echo "$tagInfo" | jq --compact-output ".tag_name")"
+		releaseName=$(echo ${releaseNameOrg} | cut -d "\"" -f 2)
 
 		ln=$"%0D%0A"
         tab=$"%09"
 
-		changesOrg="$(echo "$tagInfo" | jq --raw-output ".body")"
-		changes=$(echo $changesOrg | cut -d "\"" -f 2)
-		changes=$(echo "${changes/'\r\n'/$ln}")
-        changes=$(echo "${changes/'\n'/$ln}")
-        changes=$"$changes"
-        changes=${changes%$'\r\n'}
-        changes=${changes%$'\r'}
+		changes="$(echo "$tagInfo" | jq --compact-output ".body")"
+        changes=$(echo ${changes} | cut -d "\"" -f 2)
+        changes=$(echo "${changes//\"\r\n\"/$ln}")
+        changes=$(echo "${changes//'\r\n'/$ln}")
+        changes=$(echo "${changes//\\r\\n/$ln}")
 
-		repoName=$(echo $TRAVIS_REPO_SLUG | cut -d / -f 2)
+		repoName=$(echo ${TRAVIS_REPO_SLUG} | cut -d / -f 2)
 
 		printf "\n"
 
@@ -33,17 +31,15 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 
 			printf "\n\nUpload Result: $upload\n"
 
-			urlText="$(echo "$upload" | jq --raw-output ".browser_download_url")"
-			url=$(echo $urlText | cut -d "\"" -f 2)
-			url=$(echo "${url/'\r\n'/$ln}")
-            url=$(echo "${url/'\n'/$ln}")
-			url=$"$url"
-			url=${url%$'\r\n'}
-			url=${url%$'\r'}
+			url="$(echo "$tagInfo" | jq --compact-output ".assets[].browser_download_url")"
+            url=$(echo ${url} | cut -d "\"" -f 2)
+            url=$(echo "${url//\"\r\n\"/$ln}")
+            url=$(echo "${url//'\r\n'/$ln}")
+            url=$(echo "${url//\\r\\n/$ln}")
 
 			if [ ! -z "$url" -a "$url" != " " -a "$url" != "null" ]; then
 				printf "\nAPK url: $url"
-				message=$"*New ${repoName} update available now!*${ln}*Version:*${ln}${tab}${releaseName}${ln}*Changes:*${ln}${changes}${ln}"
+				message=$"*New ${repoName} update available now!*${ln}*Version:*${ln}${tab}${releaseName}${ln}*Changes:*${ln}${changes}"
 				btns=$"{\"inline_keyboard\":[[{\"text\":\"How To Update\",\"url\":\"https://github.com/${TRAVIS_REPO_SLUG}/wiki/How-to-update\"}],[{\"text\":\"Download sample\",\"url\":\"${url}\"}]]}"
 
 				printf "\n\nSending message to Telegram channel\n"
