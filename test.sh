@@ -33,7 +33,7 @@ echo $message
 printf "\n\n"
 echo "$message"
 printf "\n\n"
-echo "$message"
+echo "Message: $message"
 printf "\n\n"
 echo "Message: ${message}"
 printf "\n\n"
