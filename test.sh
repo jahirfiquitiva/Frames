@@ -8,8 +8,8 @@ releaseName=$(echo $releaseNameOrg | cut -d "\"" -f 2)
 ln=$"%0D%0A"
 tab=$"%09"
 
-changesOrg="$(echo "$tagInfo" | jq --raw-output ".body")"
-changes=$(echo $changesOrg | cut -d "\"" -f 2)
+changes="$(echo "$tagInfo" | jq --raw-output ".body")"
+changes=$(echo "$changes" | cut -d "\"" -f 2)
 # changes=$"$changes"
 # changes=${changes%$'\r\n'}
 # changes=${changes%$'\r'}
