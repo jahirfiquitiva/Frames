@@ -9,17 +9,17 @@ ln=$"%0D%0A"
 tab=$"%09"
 
 changes="$(echo "$tagInfo" | jq --raw-output ".body")"
-printf "Changes1: ${changes}"
+printf "\nChanges1: ${changes}\n"
 
 changes=$(echo "${changes//'\r\n'/$ln}")
-printf "Changes2: ${changes}"
+printf "\nChanges2: ${changes}\n"
 
 changes=$(echo "$changes" | cut -d "\"" -f 2)
 # changes=$"$changes"
 # changes=${changes%$'\r\n'}
 # changes=${changes%$'\r'}
 # changes=${changes%.*}
-printf "Changes: ${changes}"
+printf "\nChanges3: ${changes}\n"
 
 urlText="$(echo "$tagInfo" | jq --raw-output ".assets[].browser_download_url")"
 url=$(echo $urlText | cut -d "\"" -f 2)
