@@ -25,8 +25,8 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 			urlText="$(echo "$upload" | jq --raw-output ".browser_download_url")"
 			url=$(echo $urlText | cut -d "\"" -f 2)
 
-			ln="%0D%0A"
-			tab="%09"
+			ln=$"%0D%0A"
+			tab=$"%09"
 
 			if [ ! -z "$url" -a "$url" != " " -a "$url" != "null" ]; then
 			    url=${url%$'\r'}
@@ -35,8 +35,8 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 				btns=$"{\"inline_keyboard\":[[{\"text\":\"How To Update\",\"url\":\"https://github.com/${TRAVIS_REPO_SLUG}/wiki/How-to-update\"}],[{\"text\":\"Download sample\",\"url\":\"${url}\"}]]}"
 
 				printf "\n\nSending message to Telegram channel"
-				printf "Message: ${message}"
-				printf "Buttons: ${btns}"
+				printf "\n\nMessage: ${message}"
+				printf "\n\nButtons: ${btns}"
 				curl -g "https://api.telegram.org/bot${TEL_BOT_KEY}/sendMessage?chat_id=@JFsDashSupport&text=${message}&parse_mode=Markdown&reply_markup=${btns}"
 			else
 				printf "\n\nSkipping Telegram report because no file was uploaded"
