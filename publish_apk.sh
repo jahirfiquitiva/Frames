@@ -31,7 +31,7 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 
 			printf "\n\nUpload Result: $upload\n"
 
-			url="$(echo "$tagInfo" | jq --compact-output ".assets[].browser_download_url")"
+			url="$(echo "$upload" | jq --compact-output ".browser_download_url")"
             url=$(echo ${url} | cut -d "\"" -f 2)
             url=$(echo "${url//\"\r\n\"/$ln}")
             url=$(echo "${url//'\r\n'/$ln}")
