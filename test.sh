@@ -7,7 +7,7 @@ releaseName=$(echo $releaseNameOrg | cut -d "\"" -f 2)
 
 ln=$"%0D%0A"
 
-changes="$(echo "$tagInfo" | jq --raw-output ".body")"
+changes="$(echo "$tagInfo" | jq --compact-output ".body")"
 changes=$(echo $changes | cut -d "\"" -f 2)
 changes=$(echo "${changes//\"\r\n\"/$ln}")
 changes=$(echo "${changes//'\r\n'/$ln}")
