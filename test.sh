@@ -10,12 +10,6 @@ tab=$"%09"
 
 changesOrg="$(echo "$tagInfo" | jq --raw-output ".body")"
 changes=$(echo $changesOrg | cut -d "\"" -f 2)
-changes=$"$changes"
-changes=${changes%$'\r\n'}
-changes=${changes%$'\r'}
-changes=${changes%.*}
-printf "Changes: ${changes}"
-oldChanges="$changes"
 
 urlText="$(echo "$tagInfo" | jq --raw-output ".assets[].browser_download_url")"
 url=$(echo $urlText | cut -d "\"" -f 2)
@@ -24,7 +18,7 @@ url=${url%$'\r\n'}
 url=${url%$'\r'}
 printf "Url: ${url}"
 
-message=$"*New ${repoName} update available now!*${ln}*Version:*${ln}${tab}${releaseName}"
+message=$"*New ${repoName} update available now!*${ln}*Version:*${ln}${tab}${releaseName}*Changes:*${ln}${changes}"
 btns=$"{\"inline_keyboard\":[[{\"text\":\"How To Update\",\"url\":\"https://github.com/${TRAVIS_REPO_SLUG}/wiki/How-to-update\"}],[{\"text\":\"Download sample\",\"url\":\"${url}\"}]]}"
 
 printf "\n\nSending message to Telegram channel\n\n"
@@ -37,3 +31,5 @@ telegramUrl="https://api.telegram.org/bot${TEL_BOT_KEY}/sendMessage?chat_id=@JFs
 echo "$telegramUrl"
 printf "\n\n"
 curl -g "${telegramUrl}"
+
+exit -1
