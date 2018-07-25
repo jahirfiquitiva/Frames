@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 printf "\n\nGetting tag information\n"
 tagInfo="$(curl https://api.github.com/repos/jahirfiquitiva/Frames/releases/latest)"
 releaseId="$(echo "$tagInfo" | jq ".id")"
