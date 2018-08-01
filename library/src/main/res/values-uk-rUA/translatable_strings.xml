@@ -22,11 +22,32 @@
   <string name="all">Усі</string>
   <string name="favorites">Улюблені</string>
   <string name="favorite">Улюблене</string>
+  <string name="actions_dialog_content">Що саме ви бажаєте зробити з цими шпалерами?</string>
   <string name="apply">Застосувати</string>
   <string name="download">Завантажити</string>
   <string name="info">Інформація</string>
   <string name="share">Поділитися</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
+  <string name="allow">Дозволити</string>
+  <string name="downloading_wallpaper">Завантаження \'%1$s\'…</string>
+  <string name="open">Відкрити</string>
+  <string name="file_replace">Замінити</string>
+  <string name="file_create_new">Створити</string>
+  <string name="applying_wallpaper">Застосовуємо \'%1$s\'…</string>
+  <string name="apply_to">Застосувати до:</string>
+  <string name="home_screen">Головний екран</string>
+  <string name="lock_screen">Екран блокування</string>
+  <string name="home_lock_screen">Головний екран та екран блокування</string>
+  <string name="wallpaper_details">Деталі</string>
+  <string name="wallpaper_palette">Палітра</string>
+  <string name="copied_to_clipboard">Колір скопійовано до буфера обміну</string>
+  <string name="search">Пошук</string>
+  <string name="search_x">Пошук %1$s…</string>
+  <string name="search_no_results">Результатів не знайдено</string>
+  <string name="about">Про програму</string>
+  <string name="refresh">Оновити</string>
+  <string name="translate">Переклад</string>
+  <string name="licenses">Ліцензія</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <!-- Light Theme -->
   <!-- Dark Theme -->
@@ -35,6 +56,8 @@
   <!-- Automatic Light-Dark Theme -->
   <!-- Automatic Light-Amoled Theme -->
   <!-- License -->
+  <string name="error_title">Помилка</string>
+  <string name="donate_success_title">Дякуємо</string>
   <!-- Muzei Settings -->
   <!-- Please use this character … -->
 </resources>
