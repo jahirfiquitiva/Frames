@@ -16,6 +16,16 @@
   ~ limitations under the License.
   -->
 <resources>
+  <string name="empty_section">Нічого не знайдено</string>
+  <string name="wallpapers">Шпалери</string>
+  <string name="collections">Колекції</string>
+  <string name="all">Усі</string>
+  <string name="favorites">Улюблені</string>
+  <string name="favorite">Улюблене</string>
+  <string name="apply">Застосувати</string>
+  <string name="download">Завантажити</string>
+  <string name="info">Інформація</string>
+  <string name="share">Поділитися</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <!-- Light Theme -->
