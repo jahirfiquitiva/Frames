@@ -16,7 +16,33 @@
   ~ limitations under the License.
   -->
 <resources>
+  <string name="empty_section">Nic nenalezeno</string>
+  <string name="loading_section">Načítání obsahu…</string>
+  <string name="no_favorites">Nejprve přidejte několik tapet do oblíbených</string>
+  <string name="wallpapers">Tapety</string>
+  <string name="collections">Sbírky</string>
+  <string name="x_wallpapers">%1$s tapety</string>
+  <string name="all">Vše</string>
+  <string name="favorites">Oblíbené</string>
+  <string name="actions_dialog_content">Co chcete udělat s touto tapetou?</string>
+  <string name="apply">Použít</string>
+  <string name="download">Stáhnout</string>
+  <string name="info">Informace</string>
+  <string name="share">Sdílet</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
+  <string name="permission_denied">Přístup k úložišti byl odepřen</string>
+  <string name="permission_denied_completely">Přístup k úložišti byl odepřen. Budete jej muset manuálně povolit v nastavení.</string>
+  <string name="allow">Povolit</string>
+  <string name="downloading_wallpaper">Stahování \'%1$s\'…</string>
+  <string name="download_successful">Tapeta úspěšně stažena do \'%1$s\'</string>
+  <string name="download_successful_short">Tapeta úspěšně stažena</string>
+  <string name="open">Otevřít</string>
+  <string name="file_exists">Tapeta je již stažená. Chcete tuto tapetu stáhnout a nahradit ji?</string>
+  <string name="file_replace">Nahradit</string>
+  <string name="file_create_new">Vytvořit nový</string>
+  <string name="home_screen">Domovská obrazovka</string>
+  <string name="lock_screen">Zamykací obrazovka</string>
+  <string name="home_lock_screen">Domovská a uzamykací obrazovka</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <!-- Light Theme -->
   <!-- Dark Theme -->
