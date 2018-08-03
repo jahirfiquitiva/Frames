@@ -42,6 +42,7 @@
   <string name="download_successful">Шпалери успішно завантажені до: \'%1$s\'</string>
   <string name="download_successful_short">Шпалери успішно завантажені</string>
   <string name="open">Відкрити</string>
+  <string name="file_exists">Шпалери вже завантажено. Завантажити ще раз та замінити?</string>
   <string name="file_replace">Замінити</string>
   <string name="file_create_new">Створити</string>
   <string name="applying_wallpaper">Застосовуємо \'%1$s\'…</string>
@@ -49,6 +50,7 @@
   <string name="home_screen">Головний екран</string>
   <string name="lock_screen">Екран блокування</string>
   <string name="home_lock_screen">Головний екран та екран блокування</string>
+  <string name="apply_successful">Шпалери успішно застосовані до: \'%1$s</string>
   <string name="apply_successful_short">Шпалери успішно застосовано</string>
   <string name="wallpaper_details">Деталі</string>
   <string name="wallpaper_palette">Палітра</string>
@@ -61,6 +63,7 @@
   <string name="translate">Переклад</string>
   <string name="licenses">Ліцензія</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+  <string name="dev_contributions">Допомога в розробці</string>
   <string name="ui_contributions">Допомога в інтерфейсі</string>
   <string name="settings">Налаштування</string>
   <string name="ui_settings_title">Інтерфейс</string>
