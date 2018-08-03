@@ -65,9 +65,11 @@
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <string name="dev_contributions">Допомога в розробці</string>
   <string name="ui_contributions">Допомога в інтерфейсі</string>
+  <string name="dashboard_copyright">Я - пристрасний та творчий Android-розробник і творець цієї оболонки.</string>
   <string name="settings">Налаштування</string>
   <string name="ui_settings_title">Інтерфейс</string>
   <string name="theme_setting_title">Тема додатка</string>
+  <string name="theme_setting_content">Оберіть основну тему для програми</string>
   <!-- Light Theme -->
   <string name="light_theme">Світла</string>
   <!-- Dark Theme -->
@@ -98,16 +100,24 @@
   <string name="clear_favorites_setting_content">Очистити список ваших улюблених шпалер</string>
   <!-- License -->
   <string name="license_valid_title">Ліцензія перевірена</string>
+  <string name="license_invalid_title">Ти не пройдеш!</string>
+  <string name="license_invalid_content">Вибачте, але ми виявили, що ваша ліцензія для %1$s не є дійсною. Можливо це тому, що ви використовуєте піратські програми. %2$s. Якщо ви думаєте, що це помилка - спробуйте ще раз пізніше. В іншому випадку завантажте додаток із перевіреного джерела.</string>
+  <string name="license_invalid_content_extra">Або зверніть увагу на \'%1$s\' і видаліть його</string>
   <string name="error_title">Помилка</string>
+  <string name="action_error_content">Вибачте, під час спроби завершити цю дію сталася непередбачувана помилка.</string>
+  <string name="license_error_content">Вибачте, сталася помилка під час спроби перевірити вашу ліцензію. Спробуйте ще раз пізніше.</string>
   <string name="try_now">Спробувати</string>
   <string name="donate">Підтримати</string>
   <string name="donate_success_title">Дякуємо</string>
+  <string name="donate_success_content">Ґречно дякую за вашу пожертву. Я дійсно ціную це, і я радий що вам сподобалася %1$s.</string>
+  <string name="donate_error">Непередбачувана помилка з кодом %1$s через %2$s</string>
   <string name="donate_error_unknown">невідомі причини</string>
   <string name="loading">Завантаження…</string>
   <string name="close">Закрити</string>
   <!-- Muzei Settings -->
   <string name="muzei_settings">Налаштування Muzei</string>
   <!-- Please use this character … -->
+  <string name="refresh_wallpapers_every">Оновити шпалери…</string>
   <string name="every_x">Кожні %1$s</string>
   <string name="minutes">Хвилин</string>
   <string name="hours">Годин</string>
