@@ -17,19 +17,30 @@
   -->
 <resources>
   <string name="empty_section">Нічого не знайдено</string>
+  <string name="loading_section">Завантаження вмісту…</string>
+  <string name="no_favorites">Спершу додайте кілька шпалер улюблених</string>
   <string name="wallpapers">Шпалери</string>
   <string name="collections">Колекції</string>
+  <string name="x_wallpapers">Шпалер: %1$s</string>
   <string name="all">Усі</string>
   <string name="favorites">Улюблені</string>
   <string name="favorite">Улюблене</string>
+  <string name="added_to_favorites">\'%1$s\' додано до улюблених.</string>
+  <string name="removed_from_favorites">\'%1$s\' видалено з улюблених.</string>
   <string name="actions_dialog_content">Що саме ви бажаєте зробити з цими шпалерами?</string>
   <string name="apply">Застосувати</string>
   <string name="download">Завантажити</string>
   <string name="info">Інформація</string>
   <string name="share">Поділитися</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
+  <string name="share_text">Мій шпалери на сьогодні %1$s від %2$s з %3$s.\nСпробуйте їх за допомогою %4$s</string>
+  <string name="permission_denied">Доступ до сховища був відкликаний</string>
+  <string name="permission_denied_completely">Доступ до сховища був відкликаний. Ви повинні вручну надати доступ у налаштуваннях.</string>
+  <string name="permission_request">%1$s потрібен доступ до сховища для того, щоб мати можливість застосовувати і зберегти шпалери</string>
   <string name="allow">Дозволити</string>
   <string name="downloading_wallpaper">Завантаження \'%1$s\'…</string>
+  <string name="download_successful">Шпалери успішно завантажені до: \'%1$s\'</string>
+  <string name="download_successful_short">Шпалери успішно завантажені</string>
   <string name="open">Відкрити</string>
   <string name="file_replace">Замінити</string>
   <string name="file_create_new">Створити</string>
@@ -50,12 +61,17 @@
   <string name="translate">Переклад</string>
   <string name="licenses">Ліцензія</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+  <string name="ui_contributions">Допомога в інтерфейсі</string>
   <!-- Light Theme -->
   <!-- Dark Theme -->
   <!-- Amoled Theme -->
   <!-- Transparent Theme -->
+  <string name="transparent_theme">Прозора</string>
   <!-- Automatic Light-Dark Theme -->
+  <string name="auto_dark">Автоматично: світло-темна</string>
   <!-- Automatic Light-Amoled Theme -->
+  <string name="auto_amoled">Автоматично: світло-Amoled</string>
+  <string name="navbar_color_setting_title">Колір панелі навігації</string>
   <string name="animations_setting_title">Увімкнути анімацію</string>
   <string name="deep_search_title">Увімкнути глибокий пошук</string>
   <string name="deep_search_content">Шукати за ім\'ям та колекцією</string>
