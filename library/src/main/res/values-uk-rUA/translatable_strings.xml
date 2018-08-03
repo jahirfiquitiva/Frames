@@ -122,7 +122,10 @@
   <string name="minutes">Хвилин</string>
   <string name="hours">Годин</string>
   <string name="days">Днів</string>
+  <string name="refresh_only_on_wifi">Оновлювати лише по WiFi</string>
+  <string name="refresh_only_on_wifi_summary">Оновлювати шпалери лише тоді, коли пристрій під\'єднаний до WiFi-мережі.</string>
   <string name="choose_collections_title">Оберіть колекцію</string>
+  <string name="choose_collections_summary">Оберіть колекцію, звідки брати шпалери. Зараз це: %1$s</string>
   <string name="muzei_not_connected_title">Немає підключення до інтернету</string>
   <string name="sure_to_exit">Вийти</string>
   <string name="sure_to_exit_content">Бажаєте зберегти ваші налаштування перед закриттям?</string>
