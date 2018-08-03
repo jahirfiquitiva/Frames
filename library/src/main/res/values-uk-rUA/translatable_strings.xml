@@ -62,9 +62,15 @@
   <string name="licenses">Ліцензія</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <string name="ui_contributions">Допомога в інтерфейсі</string>
+  <string name="settings">Налаштування</string>
+  <string name="ui_settings_title">Інтерфейс</string>
+  <string name="theme_setting_title">Тема додатка</string>
   <!-- Light Theme -->
+  <string name="light_theme">Світла</string>
   <!-- Dark Theme -->
+  <string name="dark_theme">Темна</string>
   <!-- Amoled Theme -->
+  <string name="amoled_theme">Amoled</string>
   <!-- Transparent Theme -->
   <string name="transparent_theme">Прозора</string>
   <!-- Automatic Light-Dark Theme -->
@@ -72,6 +78,9 @@
   <!-- Automatic Light-Amoled Theme -->
   <string name="auto_amoled">Автоматично: світло-Amoled</string>
   <string name="navbar_color_setting_title">Колір панелі навігації</string>
+  <string name="navbar_color_setting_content">Колір панелі навігації з головною темною темою</string>
+  <string name="wallpapers_columns_setting_title">Кількість стовпців</string>
+  <string name="wallpapers_columns_setting_content">Оберіть кількість стовпців, в яких ви хочете бачити шпалери</string>
   <string name="animations_setting_title">Увімкнути анімацію</string>
   <string name="deep_search_title">Увімкнути глибокий пошук</string>
   <string name="deep_search_content">Шукати за ім\'ям та колекцією</string>
@@ -81,9 +90,36 @@
   <string name="create_folder">Створити теку</string>
   <string name="choose_folder">Оберіть</string>
   <string name="data_cache_setting_title">Очистити дані програми та кеш</string>
+  <string name="data_cache_confirmation">Упевнені, що хочете видалити дані програми, кеш-пам\'ять та налаштування?</string>
+  <string name="clear_favorites_setting_title">Очистити базу даних \"Улюбленого\"</string>
+  <string name="clear_favorites_setting_content">Очистити список ваших улюблених шпалер</string>
   <!-- License -->
+  <string name="license_valid_title">Ліцензія перевірена</string>
   <string name="error_title">Помилка</string>
+  <string name="try_now">Спробувати</string>
+  <string name="donate">Підтримати</string>
   <string name="donate_success_title">Дякуємо</string>
+  <string name="donate_error_unknown">невідомі причини</string>
+  <string name="loading">Завантаження…</string>
+  <string name="close">Закрити</string>
   <!-- Muzei Settings -->
+  <string name="muzei_settings">Налаштування Muzei</string>
   <!-- Please use this character … -->
+  <string name="every_x">Кожні %1$s</string>
+  <string name="minutes">Хвилин</string>
+  <string name="hours">Годин</string>
+  <string name="days">Днів</string>
+  <string name="choose_collections_title">Оберіть колекцію</string>
+  <string name="muzei_not_connected_title">Немає підключення до інтернету</string>
+  <string name="sure_to_exit">Вийти</string>
+  <string name="sure_to_exit_content">Бажаєте зберегти ваші налаштування перед закриттям?</string>
+  <string name="yes">Так</string>
+  <string name="no">Ні</string>
+  <string name="not_connected_content">На жаль, ця дія потребує підключення до Інтернету. Будь ласка, спробуйте ще раз пізніше.</string>
+  <string name="notifications_title">Сповіщення</string>
+  <string name="enable_notifications">Увімкнути сповіщення</string>
+  <string name="changelog">Список змін</string>
+  <string name="dismiss">Відмінити</string>
+  <string name="prevent_download_title">Завантаження заблоковані</string>
+  <string name="prevent_download_content">З міркувань безпеки завантаження шпалер не можливе протягом наступних %1$s годин. Будь ласка, спробуйте ще раз пізніше.</string>
 </resources>
