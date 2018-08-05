@@ -50,6 +50,7 @@
   <string name="home_screen">Головний екран</string>
   <string name="lock_screen">Екран блокування</string>
   <string name="home_lock_screen">Головний екран та екран блокування</string>
+  <string name="apply_with_other_app">Встановити з іншим додатком</string>
   <string name="apply_successful">Шпалери успішно застосовані до: \'%1$s</string>
   <string name="apply_successful_short">Шпалери успішно застосовано</string>
   <string name="wallpaper_details">Деталі</string>
@@ -66,6 +67,7 @@
   <string name="dev_contributions">Допомога в розробці</string>
   <string name="ui_contributions">Допомога в інтерфейсі</string>
   <string name="dashboard_copyright">Я - пристрасний та творчий Android-розробник і творець цієї оболонки.</string>
+  <string name="sherry_description">Захоплена жінка, яка ніколи не втомлюється вчитися, креативний фотограф і людина, завдяки якій це стало можливим.</string>
   <string name="settings">Налаштування</string>
   <string name="ui_settings_title">Інтерфейс</string>
   <string name="theme_setting_title">Тема додатка</string>
@@ -87,6 +89,9 @@
   <string name="wallpapers_columns_setting_title">Кількість стовпців</string>
   <string name="wallpapers_columns_setting_content">Оберіть кількість стовпців, в яких ви хочете бачити шпалери</string>
   <string name="animations_setting_title">Увімкнути анімацію</string>
+  <string name="animations_setting_content">Це може викликати сповільнення роботи на деяких пристроях.</string>
+  <string name="load_hi_res_pictures_title">Перед перегляд в повному розширенні</string>
+  <string name="load_hi_res_pictures_content">Завантажувати повнорозмірні зображення в сітку</string>
   <string name="deep_search_title">Увімкнути глибокий пошук</string>
   <string name="deep_search_content">Шукати за ім\'ям та колекцією</string>
   <string name="storage_settings_title">Сховище</string>
@@ -95,9 +100,11 @@
   <string name="create_folder">Створити теку</string>
   <string name="choose_folder">Оберіть</string>
   <string name="data_cache_setting_title">Очистити дані програми та кеш</string>
+  <string name="data_cache_setting_content">Це очистить кеш програми, а також налаштування.\nПоточний розмір кеша: %1$s</string>
   <string name="data_cache_confirmation">Упевнені, що хочете видалити дані програми, кеш-пам\'ять та налаштування?</string>
   <string name="clear_favorites_setting_title">Очистити базу даних \"Улюбленого\"</string>
   <string name="clear_favorites_setting_content">Очистити список ваших улюблених шпалер</string>
+  <string name="clear_favorites_confirmation">Ви впевнені, що бажаєте видалити улюблені?</string>
   <!-- License -->
   <string name="license_valid_title">Ліцензія перевірена</string>
   <string name="license_invalid_title">Ти не пройдеш!</string>
