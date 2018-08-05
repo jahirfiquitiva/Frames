@@ -64,10 +64,12 @@
   <string name="translate">Переклад</string>
   <string name="licenses">Ліцензія</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+  <string name="frames_dashboard">Frames - панель керування</string>
   <string name="dev_contributions">Допомога в розробці</string>
   <string name="ui_contributions">Допомога в інтерфейсі</string>
   <string name="dashboard_copyright">Я - пристрасний та творчий Android-розробник і творець цієї оболонки.</string>
   <string name="sherry_description">Захоплена жінка, яка ніколи не втомлюється вчитися, креативний фотограф і людина, завдяки якій це стало можливим.</string>
+  <string name="allan_description">Перший творець набору значків, далі - темер, а зараз розробник.\n Я допомагав з розробкою частини панелі керування.</string>
   <string name="settings">Налаштування</string>
   <string name="ui_settings_title">Інтерфейс</string>
   <string name="theme_setting_title">Тема додатка</string>
@@ -106,7 +108,9 @@
   <string name="clear_favorites_setting_content">Очистити список ваших улюблених шпалер</string>
   <string name="clear_favorites_confirmation">Ви впевнені, що бажаєте видалити улюблені?</string>
   <!-- License -->
-  <string name="license_valid_title">Ліцензія перевірена</string>
+  <string name="license_valid_title">Ліцензія дійсна</string>
+  <string name="license_valid_content">Дякуємо за завантаження %1$s з перевіреного джерела. Насолоджуйтесь!</string>
+  <string name="license_valid_snack">Ліцензія дійсна. Дякуємо за завантаження %1$s. Насолоджуйтесь!</string>
   <string name="license_invalid_title">Ти не пройдеш!</string>
   <string name="license_invalid_content">Вибачте, але ми виявили, що ваша ліцензія для %1$s не є дійсною. Можливо це тому, що ви використовуєте піратські програми. %2$s. Якщо ви думаєте, що це помилка - спробуйте ще раз пізніше. В іншому випадку завантажте додаток із перевіреного джерела.</string>
   <string name="license_invalid_content_extra">Або зверніть увагу на \'%1$s\' і видаліть його</string>
@@ -134,11 +138,13 @@
   <string name="choose_collections_title">Оберіть колекцію</string>
   <string name="choose_collections_summary">Оберіть колекцію, звідки брати шпалери. Зараз це: %1$s</string>
   <string name="muzei_not_connected_title">Немає підключення до інтернету</string>
+  <string name="muzei_not_connected_content">Неможливо обрати колекцію, потрібне підключення до інтернету. Спробуйте пізніше.</string>
   <string name="sure_to_exit">Вийти</string>
   <string name="sure_to_exit_content">Бажаєте зберегти ваші налаштування перед закриттям?</string>
   <string name="yes">Так</string>
   <string name="no">Ні</string>
   <string name="not_connected_content">На жаль, ця дія потребує підключення до Інтернету. Будь ласка, спробуйте ще раз пізніше.</string>
+  <string name="new_wallpapers_available">Доступно нових шпалер: %1$s. Торкніться, щоб переглянути їх!</string>
   <string name="notifications_title">Сповіщення</string>
   <string name="enable_notifications">Увімкнути сповіщення</string>
   <string name="changelog">Список змін</string>
