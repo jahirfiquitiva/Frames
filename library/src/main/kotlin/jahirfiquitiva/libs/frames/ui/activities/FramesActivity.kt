@@ -22,7 +22,6 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
-import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
@@ -49,6 +48,7 @@ import jahirfiquitiva.libs.frames.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.kext.extensions.bind
 import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.buildSnackbar
+import jahirfiquitiva.libs.kext.extensions.drawable
 import jahirfiquitiva.libs.kext.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kext.extensions.getDisabledTextColorFor
 import jahirfiquitiva.libs.kext.extensions.getInactiveIconsColorFor
@@ -81,7 +81,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
             .fallbackToDestructiveMigration().build()
     }
     
-    private var hasCollections = false
+    private var hasCollections = true
     private var lastSection = 0
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,9 +98,13 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
         initPagerAdapter()
         
         tabs?.setTabTextColors(
-            getDisabledTextColorFor(primaryColor, 0.6F),
-            getPrimaryTextColorFor(primaryColor, 0.6F))
-        tabs?.setSelectedTabIndicatorColor(getPrimaryTextColorFor(primaryColor, 0.6F))
+            getDisabledTextColorFor(primaryColor), getPrimaryTextColorFor(primaryColor))
+        tabs?.setSelectedTabIndicatorColor(getPrimaryTextColorFor(primaryColor))
+        if (boolean(R.bool.show_icons_in_tabs)) {
+            tabs?.setTabsIconsColors(
+                getInactiveIconsColorFor(primaryColor),
+                getActiveIconsColorFor(primaryColor))
+        }
         
         buildTabs()
         
@@ -147,58 +151,64 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
         val showTexts = boolean(R.bool.show_texts_in_tabs)
         val showIcons = boolean(R.bool.show_icons_in_tabs)
         val reallyShowTexts = showTexts || (!showTexts && !showIcons)
+        val expectedTabCount = if (hasCollections) 3 else 2
         
         tabs?.removeAllTabs()
-        for (i in 0 until 3) {
-            if (i == 0 && !hasCollections) continue
+        for (i in 0 until expectedTabCount) {
             
-            val icon = when (i) {
-                0 -> R.drawable.ic_collections
-                1 -> R.drawable.ic_all_wallpapers
-                2 -> R.drawable.ic_heart
-                else -> 0
-            }
-            
-            val text = when (i) {
-                0 -> R.string.collections
-                1 -> R.string.all
-                2 -> R.string.favorites
+            val text = when (expectedTabCount - i) {
+                3 -> R.string.collections
+                2 -> R.string.all
+                1 -> R.string.favorites
                 else -> 0
             }
             
             var iconDrawable: Drawable? = null
             
-            if (showIcons && icon != 0)
-                iconDrawable = ContextCompat.getDrawable(this, icon)?.tint(
-                    if (i != (if (hasCollections) 0 else 1))
-                        getInactiveIconsColorFor(primaryColor, 0.6F)
-                    else getActiveIconsColorFor(primaryColor, 0.6F))
-            
-            val tab = tabs?.newTab()
-            if (reallyShowTexts) {
-                if (text != 0) tab?.setText(text)
-                if (showIcons && iconDrawable != null) {
-                    tab?.icon = iconDrawable
+            if (showIcons) {
+                val icon = when (expectedTabCount - i) {
+                    3 -> R.drawable.ic_collections
+                    2 -> R.drawable.ic_all_wallpapers
+                    1 -> R.drawable.ic_heart
+                    else -> 0
                 }
-            } else {
-                if (showIcons) {
-                    if (iconDrawable != null) tab?.icon = iconDrawable
-                } else {
-                    if (text != 0) tab?.setText(text)
+                
+                if (icon != 0) {
+                    iconDrawable = drawable(icon)?.tint(
+                        if (i == lastSection)
+                            getActiveIconsColorFor(primaryColor)
+                        else getInactiveIconsColorFor(primaryColor))
                 }
             }
-            tab?.let { tabs?.addTab(it) }
+            
+            if (iconDrawable != null || text != 0) {
+                val tab = tabs?.newTab()
+                if (reallyShowTexts) {
+                    if (text != 0) tab?.setText(text)
+                    if (showIcons && iconDrawable != null) {
+                        tab?.icon = iconDrawable
+                    }
+                } else {
+                    if (showIcons) {
+                        if (iconDrawable != null) tab?.icon = iconDrawable
+                    } else {
+                        if (text != 0) tab?.setText(text)
+                    }
+                }
+                if (i == lastSection) tab?.select()
+                tab?.let { tabs?.addTab(it) }
+            }
         }
     }
     
     private fun navigateToSection(position: Int, force: Boolean = false) {
         if (lastSection != position || force) {
-            lastSection = position
             if (boolean(R.bool.show_icons_in_tabs)) {
                 tabs?.setTabsIconsColors(
-                    getInactiveIconsColorFor(primaryColor, 0.6F),
-                    getActiveIconsColorFor(primaryColor, 0.6F))
+                    getInactiveIconsColorFor(primaryColor),
+                    getActiveIconsColorFor(primaryColor))
             }
+            lastSection = position
             searchItem?.collapseActionView()
             searchView?.let { search ->
                 tabs?.let {
@@ -234,14 +244,14 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
                 searchView?.queryHint = getString(R.string.search_x, hint.toLowerCase())
             }
             
-            searchView?.tint(getPrimaryTextColorFor(primaryColor, 0.6F))
-            it.tint(getActiveIconsColorFor(primaryColor, 0.6F))
+            searchView?.tint(getPrimaryTextColorFor(primaryColor))
+            it.tint(getActiveIconsColorFor(primaryColor))
         }
         
         toolbar?.tint(
-            getPrimaryTextColorFor(primaryColor, 0.6F),
-            getSecondaryTextColorFor(primaryColor, 0.6F),
-            getActiveIconsColorFor(primaryColor, 0.6F))
+            getPrimaryTextColorFor(primaryColor),
+            getSecondaryTextColorFor(primaryColor),
+            getActiveIconsColorFor(primaryColor))
         return super.onCreateOptionsMenu(menu)
     }
     
@@ -311,12 +321,11 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
             (it as? FragmentsPagerAdapter)?.getItem(lastSection)?.let {
                 try {
                     (it as? BaseFramesFragment<*, *>)?.enableRefresh(!filter.hasContent())
-                    synchronized(
-                        lock, {
+                    synchronized(lock) {
                         postDelayed(150) {
                             (it as? BaseFramesFragment<*, *>)?.applyFilter(filter, closed)
                         }
-                    })
+                    }
                 } catch (ignored: Exception) {
                     ignored.printStackTrace()
                 }

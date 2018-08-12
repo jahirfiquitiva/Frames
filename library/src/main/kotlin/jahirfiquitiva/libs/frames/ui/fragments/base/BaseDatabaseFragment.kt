@@ -94,9 +94,8 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> : Vie
                                 object : SimpleAnimationListener() {
                                     override fun onEnd(animation: Animation) {
                                         super.onEnd(animation)
-                                        activity?.let {
-                                            (it as? FavsDbManager)?.updateToFavs(item, check, it)
-                                        } ?: showErrorSnackBar()
+                                        (activity as? FavsDbManager)?.updateToFavs(item, check, it)
+                                            ?: showErrorSnackBar()
                                     }
                                 })
                             heart.startAnimation(nScale)

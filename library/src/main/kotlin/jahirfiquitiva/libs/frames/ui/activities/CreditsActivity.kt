@@ -106,9 +106,9 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.about_settings_menu, menu)
         toolbar?.tint(
-            getPrimaryTextColorFor(primaryColor, 0.6F),
-            getSecondaryTextColorFor(primaryColor, 0.6F),
-            getActiveIconsColorFor(primaryColor, 0.6F))
+            getPrimaryTextColorFor(primaryColor),
+            getSecondaryTextColorFor(primaryColor),
+            getActiveIconsColorFor(primaryColor))
         return super.onCreateOptionsMenu(menu)
     }
     

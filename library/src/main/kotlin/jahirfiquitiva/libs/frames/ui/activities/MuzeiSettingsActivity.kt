@@ -95,9 +95,9 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
         supportActionBar?.title = getString(R.string.muzei_settings)
         
         toolbar?.tint(
-            getPrimaryTextColorFor(primaryColor, 0.6F),
-            getSecondaryTextColorFor(primaryColor, 0.6F),
-            getActiveIconsColorFor(primaryColor, 0.6F))
+            getPrimaryTextColorFor(primaryColor),
+            getSecondaryTextColorFor(primaryColor),
+            getActiveIconsColorFor(primaryColor))
         
         val everyTitle: TextView? by bind(R.id.every_title)
         everyTitle?.setTextColor(primaryTextColor)
@@ -214,11 +214,9 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
         } catch (ignored: Exception) {
         }
         
-        wallsVM.observe(
-            this, {
+        wallsVM.observe(this) {
             destroyDialog()
-            collsVM.observe(
-                this, {
+            collsVM.observe(this) {
                 destroyDialog()
                 val correct = ArrayList<Collection>()
                 correct.addAll(it.distinct())
@@ -238,28 +236,27 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
                 dialog = mdDialog {
                     title(R.string.choose_collections_title)
                     items(correct)
-                    itemsCallbackMultiChoice(
-                        selectedIndexes,
-                        { _, _, text ->
-                            val sb = StringBuilder()
-                            text.forEachIndexed { i, item ->
-                                if (i > 0 && i < text.size)
-                                    sb.append(",")
-                                sb.append(item)
-                            }
-                            selectedCollections = sb.toString()
-                            collsSummaryText?.text = getString(
-                                R.string.choose_collections_summary, selectedCollections)
-                            saveChanges()
-                            true
-                        })
+                    itemsCallbackMultiChoice(selectedIndexes)
+                    { _, _, text ->
+                        val sb = StringBuilder()
+                        text.forEachIndexed { i, item ->
+                            if (i > 0 && i < text.size)
+                                sb.append(",")
+                            sb.append(item)
+                        }
+                        selectedCollections = sb.toString()
+                        collsSummaryText?.text = getString(
+                            R.string.choose_collections_summary, selectedCollections)
+                        saveChanges()
+                        true
+                    }
                     positiveText(android.R.string.ok)
                     negativeText(android.R.string.cancel)
                 }
                 dialog?.show()
-            })
+            }
             collsVM.loadWithContext(this, ArrayList(it))
-        })
+        }
         wallsVM.loadData(this)
         dialog?.show()
     }

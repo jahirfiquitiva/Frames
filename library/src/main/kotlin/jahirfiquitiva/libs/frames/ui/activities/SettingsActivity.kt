@@ -69,9 +69,9 @@ open class SettingsActivity : ActivityWFragments<FramesKonfigs>(),
         
         supportActionBar?.setTitle(R.string.settings)
         toolbar?.tint(
-            getPrimaryTextColorFor(primaryColor, 0.6F),
-            getSecondaryTextColorFor(primaryColor, 0.6F),
-            getActiveIconsColorFor(primaryColor, 0.6F))
+            getPrimaryTextColorFor(primaryColor),
+            getSecondaryTextColorFor(primaryColor),
+            getActiveIconsColorFor(primaryColor))
         
         val container: FrameLayout? by bind(fragmentsContainer())
         container?.let {
@@ -99,9 +99,9 @@ open class SettingsActivity : ActivityWFragments<FramesKonfigs>(),
         menuInflater.inflate(R.menu.about_settings_menu, menu)
         menu?.setItemVisibility(R.id.licenses, false)
         toolbar?.tint(
-            getPrimaryTextColorFor(primaryColor, 0.6F),
-            getSecondaryTextColorFor(primaryColor, 0.6F),
-            getActiveIconsColorFor(primaryColor, 0.6F))
+            getPrimaryTextColorFor(primaryColor),
+            getSecondaryTextColorFor(primaryColor),
+            getActiveIconsColorFor(primaryColor))
         return super.onCreateOptionsMenu(menu)
     }
     

@@ -56,10 +56,6 @@ fun saturateDrawableAnimator(current: Drawable, view: View): Animator {
             current.clearColorFilter()
             view.setHasTransientState(false)
         }
-        
-        override fun onAnimationCancel(animation: Animator?) {
-            animation?.let { onEnd(it) }
-        }
     })
     return set
 }

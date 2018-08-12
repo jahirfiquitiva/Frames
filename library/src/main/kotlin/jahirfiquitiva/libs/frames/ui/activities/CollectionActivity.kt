@@ -119,9 +119,9 @@ class CollectionActivity : ActivityWFragments<FramesKonfigs>(), FavsDbManager {
         val number = collection?.wallpapers?.size ?: 0
         if (number > 0) toolbar?.subtitle = getString(R.string.x_wallpapers, number.toString())
         toolbar?.tint(
-            getPrimaryTextColorFor(primaryColor, 0.6F),
-            getSecondaryTextColorFor(primaryColor, 0.6F),
-            getActiveIconsColorFor(primaryColor, 0.6F))
+            getPrimaryTextColorFor(primaryColor),
+            getSecondaryTextColorFor(primaryColor),
+            getActiveIconsColorFor(primaryColor))
         
         if (loadFragment) loadFragment(true)
     }
@@ -174,14 +174,14 @@ class CollectionActivity : ActivityWFragments<FramesKonfigs>(), FavsDbManager {
             searchView?.bindToItem(searchItem)
             searchView?.queryHint = getString(R.string.search_x, getString(R.string.wallpapers))
             
-            searchView?.tint(getPrimaryTextColorFor(primaryColor, 0.6F))
-            it.tint(getActiveIconsColorFor(primaryColor, 0.6F))
+            searchView?.tint(getPrimaryTextColorFor(primaryColor))
+            it.tint(getActiveIconsColorFor(primaryColor))
         }
         
         toolbar?.tint(
-            getPrimaryTextColorFor(primaryColor, 0.6F),
-            getSecondaryTextColorFor(primaryColor, 0.6F),
-            getActiveIconsColorFor(primaryColor, 0.6F))
+            getPrimaryTextColorFor(primaryColor),
+            getSecondaryTextColorFor(primaryColor),
+            getActiveIconsColorFor(primaryColor))
         return super.onCreateOptionsMenu(menu)
     }
     
