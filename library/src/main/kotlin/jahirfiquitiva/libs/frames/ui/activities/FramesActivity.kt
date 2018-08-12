@@ -111,7 +111,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
         tabs?.addOnTabSelectedListener(
             object : TabLayout.ViewPagerOnTabSelectedListener(pager) {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
-                    tab?.let { navigateToSection(it.position) }
+                    tab?.let { postDelayed(50) { navigateToSection(it.position) } }
                 }
                 
                 override fun onTabReselected(tab: TabLayout.Tab?) = scrollToTop()
