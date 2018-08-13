@@ -54,6 +54,8 @@
   <string name="apply_successful_short">Papel de parede aplicado com sucesso</string>
   <string name="wallpaper_details">Detalhes</string>
   <string name="wallpaper_palette">Cores</string>
+  <string name="copied_to_clipboard">Copiado para a área de transferência</string>
+  <string name="search">Pesquisar</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <!-- Light Theme -->
   <!-- Dark Theme -->
