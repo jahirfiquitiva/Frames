@@ -33,6 +33,8 @@
   <string name="info">Informação</string>
   <string name="share">Compartilhar</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
+  <string name="permission_denied">Foi negado acesso a permissão de armazenamento</string>
+  <string name="permission_denied_completely">A permissão de armazenamento o acesso foi negado. Você terá que habilitá-lo manualmente nas configurações.</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <!-- Light Theme -->
   <!-- Dark Theme -->
