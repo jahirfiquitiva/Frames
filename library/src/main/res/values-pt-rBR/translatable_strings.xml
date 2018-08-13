@@ -35,6 +35,25 @@
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
   <string name="permission_denied">Foi negado acesso a permissão de armazenamento</string>
   <string name="permission_denied_completely">A permissão de armazenamento o acesso foi negado. Você terá que habilitá-lo manualmente nas configurações.</string>
+  <string name="permission_request">%1$s requer acesso ao armazenamento para aplicar e salvar os papéis de parede</string>
+  <string name="allow">Permitir</string>
+  <string name="downloading_wallpaper">Baixando %1$s\u2026</string>
+  <string name="download_successful">Papel de parede baixado com sucesso para \'%1$s \'</string>
+  <string name="download_successful_short">Papel de parede baixado com sucesso</string>
+  <string name="open">Abrir</string>
+  <string name="file_exists">Papel de parede já está baixado. Você quer baixar e substituir?</string>
+  <string name="file_replace">Substituir</string>
+  <string name="file_create_new">Criar novo</string>
+  <string name="applying_wallpaper">Aplicando \'%1$s \'...</string>
+  <string name="apply_to">Aplicar para:</string>
+  <string name="home_screen">Tela principal</string>
+  <string name="lock_screen">Tela de Bloqueio</string>
+  <string name="home_lock_screen">Tela principal e Bloqueio</string>
+  <string name="apply_with_other_app">Aplicar com outro app</string>
+  <string name="apply_successful">Papel de parede aplicado com sucesso em %1$s</string>
+  <string name="apply_successful_short">Papel de parede aplicado com sucesso</string>
+  <string name="wallpaper_details">Detalhes</string>
+  <string name="wallpaper_palette">Cores</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <!-- Light Theme -->
   <!-- Dark Theme -->
