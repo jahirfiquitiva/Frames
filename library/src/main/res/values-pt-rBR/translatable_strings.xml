@@ -33,6 +33,7 @@
   <string name="info">Informação</string>
   <string name="share">Compartilhar</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
+  <string name="share_text">Meu papel de parede para hoje é %1$s por %2$s, de %3$s. \nBaixe agora no %4$s</string>
   <string name="permission_denied">Foi negado acesso a permissão de armazenamento</string>
   <string name="permission_denied_completely">A permissão de armazenamento o acesso foi negado. Você terá que habilitá-lo manualmente nas configurações.</string>
   <string name="permission_request">%1$s requer acesso ao armazenamento para aplicar e salvar os papéis de parede</string>
@@ -56,13 +57,50 @@
   <string name="wallpaper_palette">Cores</string>
   <string name="copied_to_clipboard">Copiado para a área de transferência</string>
   <string name="search">Pesquisar</string>
+  <string name="search_x">Pesquisar %1$s</string>
+  <string name="search_no_results">Nenhum resultado encontrado</string>
+  <string name="about">Sobre</string>
+  <string name="refresh">Atualizar</string>
+  <string name="translate">Traduzir</string>
+  <string name="licenses">Licenças</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+  <string name="frames_dashboard">Painel de wallpapers</string>
+  <string name="dev_contributions">Ajuda de desenvolvimento</string>
+  <string name="ui_contributions">Ajuda da interface do usuário</string>
+  <string name="dashboard_copyright">Eu sou um desenvolvedor Android apaixonado e criativo e o criador do painel de controle.</string>
+  <string name="sherry_description">Uma mulher sempre em evolução, que nunca se cansa de aprender, criativo fotógrafo e a pessoa que fez este painel possível.</string>
+  <string name="settings">Configurações</string>
+  <string name="ui_settings_title">Interface do Usuário</string>
+  <string name="theme_setting_title">Tema do App</string>
+  <string name="theme_setting_content">Escolher o tema principal para o app</string>
   <!-- Light Theme -->
+  <string name="light_theme">Claro</string>
   <!-- Dark Theme -->
+  <string name="dark_theme">Escuro</string>
   <!-- Amoled Theme -->
+  <string name="amoled_theme">Amoled</string>
   <!-- Transparent Theme -->
+  <string name="transparent_theme">Transparente</string>
   <!-- Automatic Light-Dark Theme -->
+  <string name="auto_dark">Automático claro-escuro</string>
   <!-- Automatic Light-Amoled Theme -->
+  <string name="auto_amoled">Automático Luz-Amoled</string>
+  <string name="navbar_color_setting_title">Barra de navegação colorida</string>
+  <string name="navbar_color_setting_content">Barra de navegação de cor com cor escura principal no app</string>
+  <string name="wallpapers_columns_setting_title">Colunas de papéis de parede</string>
+  <string name="wallpapers_columns_setting_content">Escolha a quantidade de colunas que você deseja ver para papéis de parede</string>
+  <string name="animations_setting_title">Permitir animações</string>
+  <string name="animations_setting_content">Isto pode causar lag em alguns dispositivos.</string>
+  <string name="load_hi_res_pictures_title">Visualizar em tela cheia</string>
+  <string name="load_hi_res_pictures_content">Carregar fotos de resolução completa na tela</string>
+  <string name="deep_search_title">Ativar busca no servidor</string>
+  <string name="deep_search_content">Pesquisar por nome e coleção</string>
+  <string name="storage_settings_title">Armazenamento</string>
+  <string name="wallpapers_download_location_setting_title">Papel de parede baixado</string>
+  <string name="wallpapers_download_location_setting_content">Alterar local para baixar papéis de parede. \nCurrent Localização: %1$s</string>
+  <string name="create_folder">Criar pasta</string>
+  <string name="choose_folder">Selecionar</string>
+  <string name="data_cache_setting_title">Limpar dados do app</string>
   <!-- License -->
   <!-- Muzei Settings -->
   <!-- Please use this character … -->
