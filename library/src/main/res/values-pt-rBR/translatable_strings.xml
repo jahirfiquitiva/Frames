@@ -101,7 +101,29 @@
   <string name="create_folder">Criar pasta</string>
   <string name="choose_folder">Selecionar</string>
   <string name="data_cache_setting_title">Limpar dados do app</string>
+  <string name="clear_favorites_setting_title">Apagar favoritos</string>
   <!-- License -->
+  <string name="license_valid_title">Licença válida</string>
+  <string name="error_title">Erro</string>
+  <string name="try_now">Tente novamente</string>
+  <string name="donate">Doar</string>
+  <string name="donate_success_title">Obrigado</string>
+  <string name="donate_success_content">Muito obrigado pela sua doação. Agradeço muito e fico feliz que você está gostando de %1$s.</string>
+  <string name="donate_error">Erro inesperado com código %1$s ocorreu devido a %2$s</string>
+  <string name="donate_error_unknown">razão desconhecida</string>
+  <string name="loading">Carregando…</string>
+  <string name="close">Fechar</string>
   <!-- Muzei Settings -->
   <!-- Please use this character … -->
+  <string name="minutes">Minutos</string>
+  <string name="hours">Horas</string>
+  <string name="days">Dias</string>
+  <string name="sure_to_exit">Sair</string>
+  <string name="yes">Sim</string>
+  <string name="no">Não</string>
+  <string name="notifications_title">Notificações</string>
+  <string name="enable_notifications">Ativar notificações</string>
+  <string name="changelog">Versão</string>
+  <string name="dismiss">Dispensar</string>
+  <string name="prevent_download_title">Downloads bloqueado</string>
 </resources>
