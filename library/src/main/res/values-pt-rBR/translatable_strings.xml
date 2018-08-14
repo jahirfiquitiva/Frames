@@ -114,10 +114,16 @@
   <string name="loading">Carregando…</string>
   <string name="close">Fechar</string>
   <!-- Muzei Settings -->
+  <string name="muzei_settings">Configurações do Muzei</string>
   <!-- Please use this character … -->
+  <string name="refresh_wallpapers_every">Atualizar wallpapers…</string>
+  <string name="every_x">A cada %1$s</string>
   <string name="minutes">Minutos</string>
   <string name="hours">Horas</string>
   <string name="days">Dias</string>
+  <string name="refresh_only_on_wifi">Atualizar apenas por Wifi</string>
+  <string name="refresh_only_on_wifi_summary">Atualize os papéis de parede somente quando o dispositivo estiver conectado a uma rede WiFi.</string>
+  <string name="choose_collections_title">Exibir coleções</string>
   <string name="sure_to_exit">Sair</string>
   <string name="yes">Sim</string>
   <string name="no">Não</string>
@@ -126,4 +132,5 @@
   <string name="changelog">Versão</string>
   <string name="dismiss">Dispensar</string>
   <string name="prevent_download_title">Downloads bloqueado</string>
+  <string name="prevent_download_content">Por razões de segurança, baixar papéis de parede não é possível nas próximas horas de %1$s. Por favor, tente novamente mais tarde.</string>
 </resources>
