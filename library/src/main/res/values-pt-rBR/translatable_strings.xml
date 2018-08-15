@@ -89,7 +89,7 @@
   <string name="navbar_color_setting_title">Barra de navegação colorida</string>
   <string name="navbar_color_setting_content">Barra de navegação de cor com cor escura principal no app</string>
   <string name="wallpapers_columns_setting_title">Colunas de papéis de parede</string>
-  <string name="wallpapers_columns_setting_content">Escolha a quantidade de colunas que você deseja ver para papéis de parede</string>
+  <string name="wallpapers_columns_setting_content">Escolha a quantidade de colunas que você deseja ver os papéis de parede</string>
   <string name="animations_setting_title">Permitir animações</string>
   <string name="animations_setting_content">Isto pode causar lag em alguns dispositivos.</string>
   <string name="load_hi_res_pictures_title">Visualizar em tela cheia</string>
@@ -103,7 +103,7 @@
   <string name="choose_folder">Selecionar</string>
   <string name="data_cache_setting_title">Limpar dados do app</string>
   <string name="data_cache_setting_content">Isto irá apagar os dados e configuração do aplicativo.\nTamanho do cache atual: %1$s</string>
-  <string name="data_cache_confirmation">Tem certeza de que deseja excluir os dados, cache e configurações?</string>
+  <string name="data_cache_confirmation">Tem certeza de que deseja excluir os dados, cache e configurações do aplicativo?</string>
   <string name="clear_favorites_setting_title">Apagar favoritos</string>
   <string name="clear_favorites_setting_content">Limpar sua lista de papéis de parede favoritos</string>
   <string name="clear_favorites_confirmation">Tem certeza de que deseja excluir os favoritos?</string>
