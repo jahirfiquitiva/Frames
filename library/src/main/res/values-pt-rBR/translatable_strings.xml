@@ -102,10 +102,20 @@
   <string name="create_folder">Criar pasta</string>
   <string name="choose_folder">Selecionar</string>
   <string name="data_cache_setting_title">Limpar dados do app</string>
+  <string name="data_cache_setting_content">Isto irá apagar os dados e configuração do aplicativo.\nTamanho do cache atual: %1$s</string>
+  <string name="data_cache_confirmation">Tem certeza de que deseja excluir os dados, cache e configurações?</string>
   <string name="clear_favorites_setting_title">Apagar favoritos</string>
+  <string name="clear_favorites_setting_content">Limpar sua lista de papéis de parede favoritos</string>
+  <string name="clear_favorites_confirmation">Tem certeza de que deseja excluir os favoritos?</string>
   <!-- License -->
   <string name="license_valid_title">Licença válida</string>
+  <string name="license_valid_content">Obrigado por baixar %1$s de uma loja de válido. Aproveite!</string>
+  <string name="license_valid_snack">Licença válida. Obrigado por baixar %1$s. Divirta-se!</string>
+  <string name="license_invalid_title">Isto não é válido!</string>
+  <string name="license_invalid_content">Desculpe, mas nós detectamos que sua licença para %1$s não é válida. Isso também pode ser porque você está usando apps pirata. %2$s. Se você acha que isso é um erro, por favor, tente novamente mais tarde. Caso contrário, faça o download do app na Play Store.</string>
+  <string name="license_invalid_content_extra">Ou especificamente: app \'%1$s\', então por favor desinstale</string>
   <string name="error_title">Erro</string>
+  <string name="action_error_content">Desculpe, um erro inesperado ocorreu durante a execução da operação solicitada.</string>
   <string name="try_now">Tente novamente</string>
   <string name="donate">Doar</string>
   <string name="donate_success_title">Obrigado</string>
@@ -125,9 +135,15 @@
   <string name="refresh_only_on_wifi">Atualizar apenas por Wifi</string>
   <string name="refresh_only_on_wifi_summary">Atualize os papéis de parede somente quando o dispositivo estiver conectado a uma rede WiFi.</string>
   <string name="choose_collections_title">Exibir coleções</string>
+  <string name="choose_collections_summary">Escolha as coleções para salvar os papéis de parede. Coleções atuais selecionada: %1$s</string>
+  <string name="muzei_not_connected_title">Sem conexão com a internet</string>
+  <string name="muzei_not_connected_content">Desculpe, mas para ser capaz de escolher ou alterar as coleções de papel de parede que você quer, você deve estar conectado à Internet. Por favor, tente novamente mais tarde.</string>
   <string name="sure_to_exit">Sair</string>
+  <string name="sure_to_exit_content">Deseja salvar suas alterações antes de fechar?</string>
   <string name="yes">Sim</string>
   <string name="no">Não</string>
+  <string name="not_connected_content">Infelizmente, essa ação requer conexão de Internet. Por favor, tente novamente mais tarde.</string>
+  <string name="new_wallpapers_available">%1$s novos papéis de parede disponíveis. Toque para vê-los!</string>
   <string name="notifications_title">Notificações</string>
   <string name="enable_notifications">Ativar notificações</string>
   <string name="changelog">Versão</string>
