@@ -116,6 +116,7 @@
   <string name="license_invalid_content_extra">Ou especificamente: app \'%1$s\', então por favor desinstale</string>
   <string name="error_title">Erro</string>
   <string name="action_error_content">Desculpe, um erro inesperado ocorreu durante a execução da operação solicitada.</string>
+  <string name="license_error_content">Desculpe, o ocorreu um erro ao verificar sua licença. Por favor, tente novamente mais tarde.</string>
   <string name="try_now">Tente novamente</string>
   <string name="donate">Doar</string>
   <string name="donate_success_title">Obrigado</string>
