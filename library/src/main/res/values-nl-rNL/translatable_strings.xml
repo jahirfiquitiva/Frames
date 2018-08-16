@@ -149,4 +149,6 @@
   <string name="enable_notifications">Schakel notificaties in</string>
   <string name="changelog">Changelog</string>
   <string name="dismiss">Negeren</string>
+  <string name="prevent_download_title">Downloads vergrendeld</string>
+  <string name="prevent_download_content">Om veiligheidsredenen is wallpapers downloaden is niet mogelijk voor de volgende %1$s uur. Probeer het later nog eens.</string>
 </resources>
