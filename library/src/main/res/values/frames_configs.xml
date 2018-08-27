@@ -72,6 +72,12 @@
     -->
     <bool name="show_texts_in_tabs">true</bool>
 
+    <!-- Use accent color in tabs
+    -       True means yes
+    -       False means no
+    -->
+    <bool name="accent_in_tabs">false</bool>
+
     <!--    These are your donation items. Only put their ids here -->
     <string-array name="donation_items">
     </string-array>

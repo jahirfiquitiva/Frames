@@ -29,7 +29,6 @@ import javax.net.ssl.HttpsURLConnection
 
 object FramesUrlRequests {
     fun requestJson(url: String): String {
-        
         val result = StringBuilder()
         val urlConnection: HttpURLConnection? = buildHttpUrlConnection(url)
         urlConnection ?: return result.toString()

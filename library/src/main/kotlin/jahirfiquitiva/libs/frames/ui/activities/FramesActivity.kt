@@ -45,6 +45,7 @@ import jahirfiquitiva.libs.frames.ui.fragments.base.BaseDatabaseFragment
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.frames.viewmodels.FavoritesViewModel
+import jahirfiquitiva.libs.kext.extensions.accentColor
 import jahirfiquitiva.libs.kext.extensions.bind
 import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.buildSnackbar
@@ -98,12 +99,17 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
         initPagerAdapter()
         
         tabs?.setTabTextColors(
-            getDisabledTextColorFor(primaryColor), getPrimaryTextColorFor(primaryColor))
-        tabs?.setSelectedTabIndicatorColor(getPrimaryTextColorFor(primaryColor))
+            getDisabledTextColorFor(primaryColor),
+            if (boolean(R.bool.accent_in_tabs)) accentColor
+            else getPrimaryTextColorFor(primaryColor))
+        tabs?.setSelectedTabIndicatorColor(
+            if (boolean(R.bool.accent_in_tabs)) accentColor
+            else getPrimaryTextColorFor(primaryColor))
         if (boolean(R.bool.show_icons_in_tabs)) {
             tabs?.setTabsIconsColors(
                 getInactiveIconsColorFor(primaryColor),
-                getActiveIconsColorFor(primaryColor))
+                if (boolean(R.bool.accent_in_tabs)) accentColor
+                else getActiveIconsColorFor(primaryColor))
         }
         
         buildTabs()
@@ -176,7 +182,8 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
                 if (icon != 0) {
                     iconDrawable = drawable(icon)?.tint(
                         if (i == lastSection)
-                            getActiveIconsColorFor(primaryColor)
+                            if (boolean(R.bool.accent_in_tabs)) accentColor
+                            else getActiveIconsColorFor(primaryColor)
                         else getInactiveIconsColorFor(primaryColor))
                 }
             }
@@ -206,7 +213,8 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
             if (boolean(R.bool.show_icons_in_tabs)) {
                 tabs?.setTabsIconsColors(
                     getInactiveIconsColorFor(primaryColor),
-                    getActiveIconsColorFor(primaryColor))
+                    if (boolean(R.bool.accent_in_tabs)) accentColor
+                    else getActiveIconsColorFor(primaryColor))
             }
             lastSection = position
             searchItem?.collapseActionView()

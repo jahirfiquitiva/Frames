@@ -43,7 +43,7 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
             val nResponse = safeParseResponseToJSON(context, serverResponse)
             val nResponseText = nResponse.toString()
             if (validPrevResponse && nResponseText == prevResponse) {
-                if (isOldDataValid()) ArrayList(getData())
+                if (isOldDataValid()) ArrayList(getData().orEmpty())
                 else parseListFromJson(context, nResponse)
             } else parseListFromJson(context, nResponse)
         } else {
