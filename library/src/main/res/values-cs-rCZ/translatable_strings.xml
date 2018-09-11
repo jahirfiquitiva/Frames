@@ -24,6 +24,7 @@
   <string name="x_wallpapers">%1$s tapety</string>
   <string name="all">Vše</string>
   <string name="favorites">Oblíbené</string>
+  <string name="favorite">Oblíbené</string>
   <string name="actions_dialog_content">Co chcete udělat s touto tapetou?</string>
   <string name="apply">Použít</string>
   <string name="download">Stáhnout</string>
@@ -40,6 +41,7 @@
   <string name="file_exists">Tapeta je již stažená. Chcete tuto tapetu stáhnout a nahradit ji?</string>
   <string name="file_replace">Nahradit</string>
   <string name="file_create_new">Vytvořit nový</string>
+  <string name="apply_to">Použij pro:</string>
   <string name="home_screen">Domovská obrazovka</string>
   <string name="lock_screen">Zamykací obrazovka</string>
   <string name="home_lock_screen">Domovská a uzamykací obrazovka</string>
