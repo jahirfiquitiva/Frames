@@ -50,6 +50,7 @@
   <string name="home_screen">主屏幕</string>
   <string name="lock_screen">锁屏</string>
   <string name="home_lock_screen">主屏幕和锁屏</string>
+  <string name="apply_with_other_app">与其他应用程序应用</string>
   <string name="apply_successful">壁纸已经成功应用到%1$s</string>
   <string name="apply_successful_short">壁纸应用成功</string>
   <string name="wallpaper_details">详细信息</string>
@@ -146,4 +147,8 @@
   <string name="new_wallpapers_available">%1$s 张可用的新墙纸。点此查看它们！</string>
   <string name="notifications_title">通知</string>
   <string name="enable_notifications">启用通知</string>
+  <string name="changelog">更新日志</string>
+  <string name="dismiss">忽略</string>
+  <string name="prevent_download_title">已锁定下载</string>
+  <string name="prevent_download_content">由于安全原因，接下来的 %1$s 个小时将无法下载壁纸。请稍后再试。</string>
 </resources>
