@@ -22,8 +22,10 @@ import android.os.Build
 import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceCategory
+import android.preference.PreferenceScreen
 import android.preference.SwitchPreference
 import android.support.design.widget.Snackbar
+import ca.allanwang.kau.utils.openLink
 import ca.allanwang.kau.utils.snackbar
 import com.afollestad.materialdialogs.MaterialDialog
 import com.fondesa.kpermissions.extension.listeners
@@ -41,6 +43,8 @@ import jahirfiquitiva.libs.frames.ui.fragments.base.PreferenceFragment
 import jahirfiquitiva.libs.kext.extensions.activity
 import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.getAppName
+import jahirfiquitiva.libs.kext.extensions.hasContent
+import jahirfiquitiva.libs.kext.extensions.string
 import jahirfiquitiva.libs.kext.ui.activities.ThemedActivity
 import org.jetbrains.anko.doAsync
 
@@ -241,6 +245,51 @@ open class SettingsFragment : PreferenceFragment() {
             }
             true
         }
+        
+        val privacyLink = try {
+            string(R.string.privacy_policy_link, "")
+        } catch (e: Exception) {
+            ""
+        }
+        
+        val termsLink = try {
+            string(R.string.terms_conditions_link, "")
+        } catch (e: Exception) {
+            ""
+        }
+        
+        val prefsScreen = findPreference("preferences") as? PreferenceScreen
+        val legalCategory = findPreference("legal") as? PreferenceCategory
+        
+        if (privacyLink.hasContent() || termsLink.hasContent()) {
+            val privacyPref = findPreference("privacy")
+            if (privacyLink.hasContent()) {
+                privacyPref?.setOnPreferenceClickListener {
+                    try {
+                        context?.openLink(privacyLink)
+                    } catch (e: Exception) {
+                    }
+                    true
+                }
+            } else {
+                legalCategory?.removePreference(privacyPref)
+            }
+            
+            val termsPref = findPreference("terms")
+            if (termsLink.hasContent()) {
+                termsPref?.setOnPreferenceClickListener {
+                    try {
+                        context?.openLink(termsLink)
+                    } catch (e: Exception) {
+                    }
+                    true
+                }
+            } else {
+                legalCategory?.removePreference(termsPref)
+            }
+        } else {
+            prefsScreen?.removePreference(legalCategory)
+        }
     }
     
     fun requestPermission() {
@@ -252,10 +301,10 @@ open class SettingsFragment : PreferenceFragment() {
     private fun showPermissionInformation(explanation: String, nonce: PermissionNonce) {
         activity {
             it.snackbar(explanation) {
-                setAction(R.string.allow, {
+                setAction(R.string.allow) {
                     dismiss()
                     nonce.use()
-                })
+                }
                 addCallback(
                     object : Snackbar.Callback() {
                         override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {

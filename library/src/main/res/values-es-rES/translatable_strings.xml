@@ -151,4 +151,7 @@
   <string name="dismiss">Descartar</string>
   <string name="prevent_download_title">Descargas bloqueadas</string>
   <string name="prevent_download_content">Por razones de seguridad, descargar fondos de pantalla no es posible durante las siguientes %1$s horas. Por favor, inténtalo más tarde.</string>
+  <string name="legal">Legal</string>
+  <string name="privacy_policy">Política de Privacidad</string>
+  <string name="terms_conditions">Términos y Condiciones</string>
 </resources>
