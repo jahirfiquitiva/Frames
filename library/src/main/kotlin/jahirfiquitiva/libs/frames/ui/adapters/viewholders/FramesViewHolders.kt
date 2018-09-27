@@ -47,6 +47,7 @@ import jahirfiquitiva.libs.kext.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kext.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kext.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kext.extensions.hasContent
+import jahirfiquitiva.libs.kext.extensions.notNull
 
 const val DETAILS_OPACITY = 0.85F
 const val COLLECTION_DETAILS_OPACITY = 0.4F
@@ -133,6 +134,12 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
     }
 }
 
+inline fun <reified T> T?.nn(what: (T) -> Unit) {
+    if (this != null) {
+        what(this)
+    }
+}
+
 class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
     FramesWallpaperHolder(itemView) {
     
@@ -156,17 +163,23 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
         listener: FramesViewClickListener<Wallpaper, WallpaperHolder>
                ) {
         if (this.wallpaper != wallpaper) this.wallpaper = wallpaper
+        
         with(itemView) {
-            itemView?.setBackgroundColor(context.tilesColor)
+            setBackgroundColor(context.tilesColor)
+            
             detailsBg?.setBackgroundColor(context.tilesColor)
             heartIcon?.setImageDrawable(null)
             heartIcon?.gone()
             if (shouldCheck != check) shouldCheck = check
             
-            ViewCompat.setTransitionName(img, "img_transition_$adapterPosition")
-            ViewCompat.setTransitionName(name, "name_transition_$adapterPosition")
-            ViewCompat.setTransitionName(author, "author_transition_$adapterPosition")
-            ViewCompat.setTransitionName(heartIcon, "fav_transition_$adapterPosition")
+            img.notNull { ViewCompat.setTransitionName(it, "img_transition_$adapterPosition") }
+            name.notNull { ViewCompat.setTransitionName(it, "name_transition_$adapterPosition") }
+            author.notNull {
+                ViewCompat.setTransitionName(it, "author_transition_$adapterPosition")
+            }
+            heartIcon.notNull {
+                ViewCompat.setTransitionName(it, "fav_transition_$adapterPosition")
+            }
             
             val url = wallpaper.url
             val thumb = wallpaper.thumbUrl

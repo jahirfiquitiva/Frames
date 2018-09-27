@@ -145,8 +145,10 @@ class CollectionActivity : ActivityWFragments<FramesKonfigs>(), FavsDbManager {
             val f = toolbar.javaClass.getDeclaredField("mTitleTextView")
             f.isAccessible = true
             title = f.get(toolbar) as? TextView
-            title?.text = collection?.name ?: ""
-            ViewCompat.setTransitionName(title, "title")
+            title?.let {
+                it.text = collection?.name ?: ""
+                ViewCompat.setTransitionName(it, "title")
+            }
         } catch (ignored: Exception) {
         } finally {
             toolbar.title = collection?.name ?: ""

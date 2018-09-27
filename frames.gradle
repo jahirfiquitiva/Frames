@@ -19,6 +19,8 @@ dependencies {
         exclude group: 'com.google.code'
         exclude group: 'org.jetbrains'
     }
+    // Kotlin
+    api libraries.kotlin
     // Architecture Components
     api libraries.room, exclusions
     kapt libraries.roomCompiler

@@ -92,6 +92,7 @@ import jahirfiquitiva.libs.kext.extensions.hasContent
 import jahirfiquitiva.libs.kext.extensions.isInPortraitMode
 import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
 import jahirfiquitiva.libs.kext.extensions.navigationBarHeight
+import jahirfiquitiva.libs.kext.extensions.notNull
 import jahirfiquitiva.libs.kext.extensions.toBitmap
 import jahirfiquitiva.libs.ziv.ZoomableImageView
 import java.io.FileInputStream
@@ -164,9 +165,12 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         
         val toolbarTitle: TextView? by bind(R.id.toolbar_title)
         val toolbarSubtitle: TextView? by bind(R.id.toolbar_subtitle)
-        ViewCompat.setTransitionName(toolbarTitle, intent?.getStringExtra("nameTransition") ?: "")
-        ViewCompat.setTransitionName(
-            toolbarSubtitle, intent?.getStringExtra("authorTransition") ?: "")
+        toolbarTitle.notNull {
+            ViewCompat.setTransitionName(it, intent?.getStringExtra("nameTransition") ?: "")
+        }
+        toolbarSubtitle.notNull {
+            ViewCompat.setTransitionName(it, intent?.getStringExtra("authorTransition") ?: "")
+        }
         toolbarTitle?.text = (wallpaper?.name ?: "").trim()
         wallpaper?.author?.let {
             if (it.trim().hasContent()) toolbarSubtitle?.text = it
@@ -226,8 +230,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         if (showFavoritesButton) {
             val favIcon = drawable(if (isInFavorites) "ic_heart" else "ic_heart_outline")
             val favImageView: ImageView? by bind(R.id.fav_button)
-            ViewCompat.setTransitionName(
-                favImageView, intent?.getStringExtra("favTransition") ?: "")
+            favImageView.notNull {
+                ViewCompat.setTransitionName(it, intent?.getStringExtra("favTransition") ?: "")
+            }
             favImageView?.setImageDrawable(favIcon)
             findViewById<RelativeLayout>(R.id.fav_container).setOnClickListener {
                 doItemClick(FAVORITE_ACTION_ID)
@@ -241,7 +246,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         img?.maxZoom = 2.5F
         img?.setOnSingleTapListener { toggleSystemUI(); true }
         
-        ViewCompat.setTransitionName(img, intent?.getStringExtra("imgTransition") ?: "")
+        img.notNull {
+            ViewCompat.setTransitionName(it, intent?.getStringExtra("imgTransition") ?: "")
+        }
         setupWallpaper(wallpaper, true)
         startEnterTransition()
         

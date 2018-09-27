@@ -102,7 +102,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     }
     
     private var spanCount = 0
-    private var spacingDecoration: GridSpacingItemDecoration? = null
+    private var spacingDecoration = GridSpacingItemDecoration(0, 0)
     
     override fun initUI(content: View) {
         swipeToRefresh = content.findViewById(R.id.swipe_to_refresh)
@@ -134,12 +134,14 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                     addOnScrollListener(preloader)
                 }
                 
-                addOnScrollListener(
-                    EndlessRecyclerViewScrollListener(layoutManager) { _, view ->
-                        if (userVisibleHint) {
-                            view.post { wallsAdapter.allowMoreItemsLoad() }
-                        }
-                    })
+                layoutManager?.let {
+                    addOnScrollListener(
+                        EndlessRecyclerViewScrollListener(it) { _, view ->
+                            if (userVisibleHint) {
+                                view.post { wallsAdapter.allowMoreItemsLoad() }
+                            }
+                        })
+                }
                 
                 setItemViewCacheSize(MAX_WALLPAPERS_LOAD)
                 
@@ -268,10 +270,12 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 putExtra("checker", hasChecker)
                 
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    val imgTransition = ViewCompat.getTransitionName(holder.img)
-                    val nameTransition = ViewCompat.getTransitionName(holder.name)
-                    val authorTransition = ViewCompat.getTransitionName(holder.author)
-                    val heartTransition = ViewCompat.getTransitionName(holder.heartIcon)
+                    val imgTransition = holder.img?.let { ViewCompat.getTransitionName(it) } ?: ""
+                    val nameTransition = holder.name?.let { ViewCompat.getTransitionName(it) } ?: ""
+                    val authorTransition =
+                        holder.author?.let { ViewCompat.getTransitionName(it) } ?: ""
+                    val heartTransition =
+                        holder.heartIcon?.let { ViewCompat.getTransitionName(it) } ?: ""
                     
                     putExtra("imgTransition", imgTransition)
                     putExtra("nameTransition", nameTransition)

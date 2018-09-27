@@ -22,6 +22,8 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 
     dependencies {
@@ -48,7 +50,7 @@ subprojects {
         resolutionStrategy {
             eachDependency {
                 if (requested.name == "kotlin-compiler-embeddable") {
-                    useVersion("1.2.30")
+                    useVersion("1.2.71")
                 }
             }
         }
