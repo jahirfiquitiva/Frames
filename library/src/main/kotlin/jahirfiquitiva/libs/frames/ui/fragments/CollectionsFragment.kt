@@ -47,6 +47,7 @@ import jahirfiquitiva.libs.kext.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kext.extensions.hasContent
 import jahirfiquitiva.libs.kext.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
+import jahirfiquitiva.libs.kext.extensions.notNull
 import jahirfiquitiva.libs.kext.ui.decorations.GridSpacingItemDecoration
 
 internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHolder>() {
@@ -102,17 +103,18 @@ internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHo
                 setHasFixedSize(true)
                 
                 activity {
-                    val preloader: RecyclerViewPreloader<Wallpaper> =
-                        RecyclerViewPreloader(it, collsAdapter, provider, context.maxPreload)
-                    addOnScrollListener(preloader)
+                    addOnScrollListener(
+                        RecyclerViewPreloader(it, collsAdapter, provider, context.maxPreload))
                 }
                 
-                addOnScrollListener(
-                    EndlessRecyclerViewScrollListener(layoutManager) { _, view ->
-                        if (userVisibleHint) {
-                            view.post { collsAdapter.allowMoreItemsLoad() }
-                        }
-                    })
+                layoutManager.notNull {
+                    addOnScrollListener(
+                        EndlessRecyclerViewScrollListener(it) { _, view ->
+                            if (userVisibleHint) {
+                                view.post { collsAdapter.allowMoreItemsLoad() }
+                            }
+                        })
+                }
                 
                 setItemViewCacheSize(MAX_COLLECTIONS_LOAD)
                 

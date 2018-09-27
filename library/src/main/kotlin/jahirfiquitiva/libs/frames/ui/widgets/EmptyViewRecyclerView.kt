@@ -81,7 +81,7 @@ open class EmptyViewRecyclerView : RecyclerView {
     
     private fun setStateInternal() {
         state = if (adapter != null) {
-            val items = adapter.itemCount
+            val items = adapter?.itemCount ?: 0
             if (items > 0) {
                 State.NORMAL
             } else {
