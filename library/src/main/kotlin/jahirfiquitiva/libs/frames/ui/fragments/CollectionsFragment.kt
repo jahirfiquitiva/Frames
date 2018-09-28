@@ -64,9 +64,8 @@ internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHo
     
     val collsAdapter: CollectionsAdapter by lazy {
         CollectionsAdapter(
-            context?.isLowRamDevice ?: true,
-            boolean(R.bool.enable_filled_collection_preview),
-            context?.let { Glide.with(it) }, provider,
+            context?.let { Glide.with(it) },
+            boolean(R.bool.enable_filled_collection_preview), provider,
             object : FramesViewClickListener<Collection, CollectionHolder>() {
                 override fun onSingleClick(item: Collection, holder: CollectionHolder) {
                     onItemClicked(item, false)

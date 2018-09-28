@@ -21,6 +21,7 @@ import com.bumptech.glide.ListPreloader
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.util.ViewPreloadSizeProvider
+import jahirfiquitiva.libs.archhelpers.ui.adapters.RecyclerViewListAdapter
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.jfilter
@@ -37,7 +38,7 @@ class WallpapersAdapter(
     private val showFavIcon: Boolean,
     private val listener: FramesViewClickListener<Wallpaper, WallpaperHolder>
                        ) :
-    FramesListAdapter<Wallpaper, WallpaperHolder>(
+    RecyclerViewListAdapter<Wallpaper, WallpaperHolder>(
         if (fromFavorites) -1 else MAX_WALLPAPERS_LOAD),
     ListPreloader.PreloadModelProvider<Wallpaper> {
     
@@ -82,6 +83,11 @@ class WallpapersAdapter(
         modified.addAll(oldList.jfilter { !newList.contains(it) && !modified.contains(it) })
         modified.addAll(newList.jfilter { !oldList.contains(it) && !modified.contains(it) })
         return ArrayList(modified.distinct())
+    }
+    
+    override fun onViewRecycled(holder: WallpaperHolder) {
+        holder.unbind()
+        super.onViewRecycled(holder)
     }
     
     override fun getItemId(position: Int) = position.toLong()

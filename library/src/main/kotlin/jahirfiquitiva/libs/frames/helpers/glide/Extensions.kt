@@ -123,6 +123,6 @@ fun ImageView.preloadPicture(
         ?.preload(gWidth, gHeight)
 }
 
-fun ImageView.releaseFromGlide() {
+fun ImageView.clearFromGlide() {
     Glide.with(this).clear(this)
 }

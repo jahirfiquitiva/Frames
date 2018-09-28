@@ -17,9 +17,12 @@ package jahirfiquitiva.libs.frames.helpers.glide
 
 import android.animation.Animator
 import android.animation.AnimatorSet
+import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.Drawable
+import android.support.annotation.ColorInt
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.view.View
 import jahirfiquitiva.libs.kext.extensions.SimpleAnimatorListener
@@ -57,4 +60,21 @@ fun saturateDrawableAnimator(current: Drawable, view: View): Animator {
         }
     })
     return set
+}
+
+fun smoothAnimator(
+    @ColorInt initialColor: Int,
+    @ColorInt finalColor: Int,
+    onUpdate: (Int) -> Unit
+                  ): ValueAnimator {
+    return ValueAnimator.ofObject(ArgbEvaluator(), initialColor, finalColor).apply {
+        addUpdateListener {
+            @Suppress("UNCHECKED_CAST")
+            onUpdate(it.animatedValue as Int)
+        }
+        duration = 1000
+        repeatMode = ValueAnimator.REVERSE
+        repeatCount = ValueAnimator.INFINITE
+        start()
+    }
 }

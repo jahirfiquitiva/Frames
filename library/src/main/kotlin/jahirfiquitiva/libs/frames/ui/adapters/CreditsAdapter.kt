@@ -79,11 +79,6 @@ class CreditsAdapter(
         }
     }
     
-    override fun onViewRecycled(holder: SectionedViewHolder) {
-        (holder as? DashboardCreditViewHolder)?.unbind()
-        super.onViewRecycled(holder)
-    }
-    
     override fun getItemCount(section: Int): Int =
         when (section) {
             0 -> creatorCredits.size

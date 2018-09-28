@@ -30,7 +30,6 @@ import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.bumptech.glide.RequestManager
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.glide.loadPicture
-import jahirfiquitiva.libs.frames.helpers.glide.releaseFromGlide
 import jahirfiquitiva.libs.kext.extensions.accentColor
 import jahirfiquitiva.libs.kext.extensions.activeIconsColor
 import jahirfiquitiva.libs.kext.extensions.bind
@@ -198,10 +197,6 @@ open class DashboardCreditViewHolder(itemView: View) : SectionedViewHolder(itemV
                 buttons?.gone()
             }
         }
-    }
-    
-    fun unbind() {
-        photo?.releaseFromGlide()
     }
 }
 

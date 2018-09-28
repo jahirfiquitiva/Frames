@@ -15,7 +15,8 @@
  */
 package jahirfiquitiva.libs.frames.ui.adapters.viewholders
 
-import android.graphics.Color
+import android.animation.ValueAnimator
+import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
 import android.support.v4.view.ViewCompat
 import android.support.v7.graphics.Palette
@@ -36,9 +37,10 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.extensions.tilesColor
 import jahirfiquitiva.libs.frames.helpers.glide.GlidePaletteListener
+import jahirfiquitiva.libs.frames.helpers.glide.clearFromGlide
 import jahirfiquitiva.libs.frames.helpers.glide.loadPicture
 import jahirfiquitiva.libs.frames.helpers.glide.preloadPicture
-import jahirfiquitiva.libs.frames.helpers.glide.releaseFromGlide
+import jahirfiquitiva.libs.frames.helpers.glide.smoothAnimator
 import jahirfiquitiva.libs.kext.extensions.bestSwatch
 import jahirfiquitiva.libs.kext.extensions.bind
 import jahirfiquitiva.libs.kext.extensions.boolean
@@ -48,6 +50,7 @@ import jahirfiquitiva.libs.kext.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kext.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kext.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kext.extensions.hasContent
+import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
 import jahirfiquitiva.libs.kext.extensions.notNull
 import org.jetbrains.anko.doAsync
 
@@ -63,14 +66,51 @@ abstract class FramesViewClickListener<in T, in VH> {
 abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     internal var wallpaper: Wallpaper? = null
     internal abstract val img: ImageView?
-    internal abstract fun getListener(): GlidePaletteListener
     
-    internal fun loadImage(manager: RequestManager?, url: String, thumbUrl: String) {
-        img?.loadPicture(manager, url, thumbUrl, listener = getListener())
+    private var animator: ValueAnimator? = null
+    private val listener: GlidePaletteListener by lazy {
+        object : GlidePaletteListener() {
+            override fun onLoadSucceed(resource: Drawable, model: Any?, isFirst: Boolean): Boolean {
+                stopLoading()
+                return super.onLoadSucceed(resource, model, isFirst)
+            }
+            
+            override fun onLoadFailed(): Boolean {
+                stopLoading()
+                return super.onLoadFailed()
+            }
+            
+            override fun onPaletteReady(palette: Palette?) {
+                stopLoading()
+                doWithPalette(palette)
+            }
+        }
     }
     
+    internal fun startLoading() {
+        if (context.isLowRamDevice) {
+            stopLoading()
+            return
+        }
+        animator = smoothAnimator(context.tilesColor.withAlpha(0.4F), context.tilesColor) {
+            itemView.setBackgroundColor(it)
+        }
+    }
+    
+    private fun stopLoading() {
+        animator?.cancel()
+        itemView.setBackgroundColor(context.tilesColor)
+    }
+    
+    internal fun loadImage(manager: RequestManager?, url: String, thumbUrl: String) {
+        img?.loadPicture(manager, url, thumbUrl, listener = listener)
+    }
+    
+    internal abstract fun doWithPalette(palette: Palette?)
+    
     fun unbind() {
-        img?.releaseFromGlide()
+        stopLoading()
+        img?.clearFromGlide()
     }
 }
 
@@ -88,14 +128,14 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
         collection: Collection,
         listener: FramesViewClickListener<Collection, CollectionHolder>
                ) {
+        detailsBg?.background = null
+        startLoading()
         if (this.wallpaper != collection.bestCover) this.wallpaper = collection.bestCover
         val rightCover = collection.bestCover ?: collection.wallpapers.first()
         val url = rightCover.url
         val thumb = rightCover.thumbUrl
         doAsync { img?.preloadPicture(manager, url, thumb) }
         with(itemView) {
-            itemView.setBackgroundColor(context.tilesColor)
-            detailsBg?.setBackgroundColor(context.tilesColor)
             val filled = context.boolean(R.bool.enable_filled_collection_preview)
             title?.text = if (filled) collection.name.toUpperCase() else collection.name
             title?.setTextColor(context.getPrimaryTextColorFor(context.tilesColor))
@@ -107,31 +147,26 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
         itemView.setOnClickListener { listener.onSingleClick(collection, this) }
     }
     
-    override fun getListener(): GlidePaletteListener {
-        return object : GlidePaletteListener() {
-            override fun onPaletteReady(palette: Palette?) {
-                if (context.boolean(R.bool.enable_colored_tiles)) {
-                    val color = try {
-                        palette?.bestSwatch?.rgb ?: context.tilesColor
-                    } catch (e: Exception) {
-                        context.tilesColor
-                    }
-                    detailsBg?.background = null
-                    itemView?.setBackgroundColor(color)
-                    
-                    val opacity =
-                        if (context.boolean(R.bool.enable_filled_collection_preview))
-                            COLLECTION_DETAILS_OPACITY
-                        else DETAILS_OPACITY
-                    
-                    detailsBg?.setBackgroundColor(color.withAlpha(opacity))
-                    title?.setTextColor(context.getPrimaryTextColorFor(color))
-                    amount?.setTextColor(context.getSecondaryTextColorFor(color))
-                } else {
-                    detailsBg?.setBackgroundColor(Color.TRANSPARENT)
-                    detailsBg?.background = context.drawable(R.drawable.gradient)
-                }
+    override fun doWithPalette(palette: Palette?) {
+        if (context.boolean(R.bool.enable_colored_tiles)) {
+            val color = try {
+                palette?.bestSwatch?.rgb ?: context.tilesColor
+            } catch (e: Exception) {
+                context.tilesColor
             }
+            itemView.setBackgroundColor(color.withAlpha(0.9F))
+            
+            val opacity =
+                if (context.boolean(R.bool.enable_filled_collection_preview))
+                    COLLECTION_DETAILS_OPACITY
+                else DETAILS_OPACITY
+            
+            detailsBg?.background = null
+            detailsBg?.setBackgroundColor(color.withAlpha(opacity))
+            title?.setTextColor(context.getPrimaryTextColorFor(color))
+            amount?.setTextColor(context.getSecondaryTextColorFor(color))
+        } else {
+            detailsBg?.background = context.drawable(R.drawable.gradient)
         }
     }
 }
@@ -158,12 +193,11 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
         check: Boolean,
         listener: FramesViewClickListener<Wallpaper, WallpaperHolder>
                ) {
+        detailsBg?.background = null
+        startLoading()
         if (this.wallpaper != wallpaper) this.wallpaper = wallpaper
         doAsync { img?.preloadPicture(manager, wallpaper.url, wallpaper.thumbUrl) }
         with(itemView) {
-            setBackgroundColor(context.tilesColor)
-            
-            detailsBg?.setBackgroundColor(context.tilesColor)
             heartIcon?.setImageDrawable(null)
             heartIcon?.gone()
             if (shouldCheck != check) shouldCheck = check
@@ -202,29 +236,24 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
         itemView.setOnLongClickListener { listener.onLongClick(wallpaper);true }
     }
     
-    override fun getListener(): GlidePaletteListener {
-        return object : GlidePaletteListener() {
-            override fun onPaletteReady(palette: Palette?) {
-                if (context.boolean(R.bool.enable_colored_tiles)) {
-                    val color = try {
-                        palette?.bestSwatch?.rgb ?: context.tilesColor
-                    } catch (e: Exception) {
-                        context.tilesColor
-                    }
-                    itemView?.setBackgroundColor(color)
-                    detailsBg?.background = null
-                    detailsBg?.setBackgroundColor(color.withAlpha(DETAILS_OPACITY))
-                    name?.setTextColor(context.getPrimaryTextColorFor(color))
-                    author?.setTextColor(context.getSecondaryTextColorFor(color))
-                    if (showFavIcon) {
-                        heartColor = context.getActiveIconsColorFor(color)
-                        heartIcon?.setImageDrawable(
-                            context.createHeartIcon(shouldCheck)?.tint(heartColor))
-                    }
-                } else {
-                    detailsBg?.background = context.drawable(R.drawable.gradient)
-                }
+    override fun doWithPalette(palette: Palette?) {
+        if (context.boolean(R.bool.enable_colored_tiles)) {
+            val color = try {
+                palette?.bestSwatch?.rgb ?: context.tilesColor
+            } catch (e: Exception) {
+                context.tilesColor
             }
+            itemView.setBackgroundColor(color.withAlpha(0.9F))
+            detailsBg?.background = null
+            detailsBg?.setBackgroundColor(color.withAlpha(DETAILS_OPACITY))
+            name?.setTextColor(context.getPrimaryTextColorFor(color))
+            author?.setTextColor(context.getSecondaryTextColorFor(color))
+            if (showFavIcon) {
+                heartColor = context.getActiveIconsColorFor(color)
+                heartIcon?.setImageDrawable(context.createHeartIcon(shouldCheck)?.tint(heartColor))
+            }
+        } else {
+            detailsBg?.background = context.drawable(R.drawable.gradient)
         }
     }
 }
