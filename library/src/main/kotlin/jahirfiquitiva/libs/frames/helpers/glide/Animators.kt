@@ -62,11 +62,11 @@ fun saturateDrawableAnimator(current: Drawable, view: View): Animator {
     return set
 }
 
-fun smoothAnimator(
+internal fun smoothAnimator(
     @ColorInt initialColor: Int,
     @ColorInt finalColor: Int,
     onUpdate: (Int) -> Unit
-                  ): ValueAnimator {
+                           ): ValueAnimator {
     return ValueAnimator.ofObject(ArgbEvaluator(), initialColor, finalColor).apply {
         addUpdateListener {
             @Suppress("UNCHECKED_CAST")
