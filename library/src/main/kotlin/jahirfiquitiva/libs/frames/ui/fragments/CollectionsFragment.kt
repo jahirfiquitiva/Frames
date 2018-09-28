@@ -97,7 +97,7 @@ internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHo
                 val spanCount = if (context.isInHorizontalMode) 2 else 1
                 layoutManager = GridLayoutManager(
                     context, spanCount, GridLayoutManager.VERTICAL, false)
-                addItemDecoration(GridSpacingItemDecoration(spanCount, 0, true))
+                addItemDecoration(GridSpacingItemDecoration(spanCount, 2, false))
                 itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
                 setHasFixedSize(true)
                 

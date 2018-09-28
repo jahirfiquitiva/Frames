@@ -77,8 +77,9 @@ data class Credit(
             Type.UI_CONTRIBUTION,
             "https://plus.google.com/+PatrykGoworowski")
         private val LUMIQ = Credit(
-            "Lumiq Creative", "https://goo.gl/UVRC7G", Type.UI_CONTRIBUTION,
-            "https://plus.google.com/+LumiqCreative")
+            "Lumiq Creative",
+            "https://raw.githubusercontent.com/lumiqcreative/lumiq-repo/master/logo-profile-2708-2.png",
+            Type.UI_CONTRIBUTION, "https://lumiqcreative.com/")
         private val KEVIN = Credit(
             "Kevin Aguilar", "https://goo.gl/mGuAM9", Type.UI_CONTRIBUTION,
             "http://kevaguilar.com/")
