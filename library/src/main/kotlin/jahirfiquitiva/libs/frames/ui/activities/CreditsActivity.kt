@@ -252,9 +252,9 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
             "https://github.com/AllanWang|https://plus.google.com/+AllanWPitchedApps|https://play.google.com/store/apps/dev?id=9057916668129524571"
         
         const val SHERRY_PHOTO_URL =
-            "https://pbs.twimg.com/profile_images/853258651326459904/yogDkP9p.jpg"
+            "https://s3-img.pixpa.com/com/large/37571/newdo-2-pw69wd.jpg"
         const val SHERRY_BUTTONS = "Website|Google+"
         const val SHERRY_LINKS =
-            "http://photography-by-sherry.com/home|https://plus.google.com/+SherrySabatine"
+            "http://www.ssabatinephotography.com/|https://plus.google.com/+SherrySabatine"
     }
 }
