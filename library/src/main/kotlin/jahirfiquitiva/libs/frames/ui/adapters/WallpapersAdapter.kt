@@ -33,7 +33,6 @@ import java.util.Collections
 class WallpapersAdapter(
     private val manager: RequestManager?,
     private val provider: ViewPreloadSizeProvider<Wallpaper>,
-    private val isLowRamDevice: Boolean,
     private val fromFavorites: Boolean,
     private val showFavIcon: Boolean,
     private val listener: FramesViewClickListener<Wallpaper, WallpaperHolder>

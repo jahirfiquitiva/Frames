@@ -27,6 +27,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.NoTransition
 import jahirfiquitiva.libs.frames.helpers.extensions.doOnLayout
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
@@ -57,19 +59,25 @@ fun RequestManager.loadPicture(
     
     if (fitCenter) options = options.optionalFitCenter()
     if (circular) options = options.optionalCircleCrop()
+    
+    val transition = if (context == null || context.isLowRamDevice) {
+        DrawableTransitionOptions.with { _, _ -> NoTransition<Drawable>() }
+    } else if (withTransition) {
+        DrawableTransitionOptions.with(SaturationTransitionFactory())
+    } else {
+        DrawableTransitionOptions.withCrossFade(750)
+    }
+    
     val thumbnailRequest: RequestBuilder<Drawable>? = if (finalUrl != thumbnail) {
         load(thumbnail)
             .apply(options.priority(Priority.IMMEDIATE))
-            .transition(
-                if ((context == null || context.isLowRamDevice) || !withTransition)
-                    DrawableTransitionOptions.withCrossFade(500)
-                else DrawableTransitionOptions.with(SaturationTransitionFactory()))
+            .transition(transition)
             .listener(listener)
     } else null
     
     return load(url)
         .apply(options.priority(if (forceNow) Priority.IMMEDIATE else Priority.HIGH))
-        .transition(DrawableTransitionOptions.withCrossFade(750))
+        .transition(transition)
         .listener(listener)
         .thumbnail(thumbnailRequest)
 }
@@ -93,6 +101,26 @@ fun ImageView.loadPicture(
                 withTransition, forceNow, listener)
             ?.into(this)
     }
+}
+
+fun ImageView.preloadPicture(
+    manager: RequestManager? = Glide.with(this),
+    url: String,
+    thumbnail: String = url
+                            ) {
+    var gWidth = width
+    if (gWidth <= 0) gWidth = measuredWidth
+    if (gWidth <= 0) gWidth = minimumWidth
+    if (gWidth <= 0) gWidth = Target.SIZE_ORIGINAL
+    
+    var gHeight = height
+    if (gHeight <= 0) gHeight = measuredHeight
+    if (gHeight <= 0) gHeight = minimumHeight
+    if (gHeight <= 0) gHeight = Target.SIZE_ORIGINAL
+    
+    manager
+        ?.loadPicture(url, thumbnail, drawable, withTransition = false, forceNow = true)
+        ?.preload(gWidth, gHeight)
 }
 
 fun ImageView.releaseFromGlide() {

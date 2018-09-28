@@ -37,6 +37,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.extensions.tilesColor
 import jahirfiquitiva.libs.frames.helpers.glide.GlidePaletteListener
 import jahirfiquitiva.libs.frames.helpers.glide.loadPicture
+import jahirfiquitiva.libs.frames.helpers.glide.preloadPicture
 import jahirfiquitiva.libs.frames.helpers.glide.releaseFromGlide
 import jahirfiquitiva.libs.kext.extensions.bestSwatch
 import jahirfiquitiva.libs.kext.extensions.bind
@@ -48,6 +49,7 @@ import jahirfiquitiva.libs.kext.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kext.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kext.extensions.hasContent
 import jahirfiquitiva.libs.kext.extensions.notNull
+import org.jetbrains.anko.doAsync
 
 const val DETAILS_OPACITY = 0.85F
 const val COLLECTION_DETAILS_OPACITY = 0.4F
@@ -87,13 +89,13 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
         listener: FramesViewClickListener<Collection, CollectionHolder>
                ) {
         if (this.wallpaper != collection.bestCover) this.wallpaper = collection.bestCover
+        val rightCover = collection.bestCover ?: collection.wallpapers.first()
+        val url = rightCover.url
+        val thumb = rightCover.thumbUrl
+        doAsync { img?.preloadPicture(manager, url, thumb) }
         with(itemView) {
-            itemView?.setBackgroundColor(context.tilesColor)
+            itemView.setBackgroundColor(context.tilesColor)
             detailsBg?.setBackgroundColor(context.tilesColor)
-            val rightCover = collection.bestCover ?: collection.wallpapers.first()
-            val url = rightCover.url
-            val thumb = rightCover.thumbUrl
-            
             val filled = context.boolean(R.bool.enable_filled_collection_preview)
             title?.text = if (filled) collection.name.toUpperCase() else collection.name
             title?.setTextColor(context.getPrimaryTextColorFor(context.tilesColor))
@@ -134,12 +136,6 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
     }
 }
 
-inline fun <reified T> T?.nn(what: (T) -> Unit) {
-    if (this != null) {
-        what(this)
-    }
-}
-
 class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
     FramesWallpaperHolder(itemView) {
     
@@ -163,7 +159,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
         listener: FramesViewClickListener<Wallpaper, WallpaperHolder>
                ) {
         if (this.wallpaper != wallpaper) this.wallpaper = wallpaper
-        
+        doAsync { img?.preloadPicture(manager, wallpaper.url, wallpaper.thumbUrl) }
         with(itemView) {
             setBackgroundColor(context.tilesColor)
             
@@ -180,9 +176,6 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
             heartIcon.notNull {
                 ViewCompat.setTransitionName(it, "fav_transition_$adapterPosition")
             }
-            
-            val url = wallpaper.url
-            val thumb = wallpaper.thumbUrl
             
             name?.text = wallpaper.name
             name?.setTextColor(context.getPrimaryTextColorFor(context.tilesColor))
@@ -202,7 +195,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                 }
             }
             
-            loadImage(manager, url, thumb)
+            loadImage(manager, wallpaper.url, wallpaper.thumbUrl)
             img?.let { provider.setView(it) }
         }
         itemView.setOnClickListener { listener.onSingleClick(wallpaper, this) }
