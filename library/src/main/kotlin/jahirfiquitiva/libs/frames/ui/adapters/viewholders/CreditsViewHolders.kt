@@ -29,7 +29,7 @@ import ca.allanwang.kau.utils.visible
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.bumptech.glide.RequestManager
 import jahirfiquitiva.libs.frames.R
-import jahirfiquitiva.libs.frames.helpers.glide.loadAvatar
+import jahirfiquitiva.libs.frames.helpers.glide.loadPicture
 import jahirfiquitiva.libs.frames.helpers.glide.releaseFromGlide
 import jahirfiquitiva.libs.kext.extensions.accentColor
 import jahirfiquitiva.libs.kext.extensions.activeIconsColor
@@ -156,7 +156,7 @@ open class DashboardCreditViewHolder(itemView: View) : SectionedViewHolder(itemV
         fillAvailableSpace: Boolean = true,
         shouldHideButtons: Boolean = false
                     ) {
-        photo?.loadAvatar(manager, credit.photo)
+        photo?.loadPicture(manager, credit.photo, circular = true)
         name?.setTextColor(context.primaryTextColor)
         name?.text = credit.name
         if (credit.description.hasContent()) {
@@ -168,12 +168,12 @@ open class DashboardCreditViewHolder(itemView: View) : SectionedViewHolder(itemV
         if (shouldHideButtons || credit.buttonsTitles.isEmpty()) {
             buttons?.gone()
             if (credit.link.hasContent()) {
-                itemView?.setOnClickListener { view -> view.context.openLink(credit.link) }
+                itemView.setOnClickListener { view -> view.context.openLink(credit.link) }
                 try {
                     val outValue = TypedValue()
                     context.theme.resolveAttribute(
                         android.R.attr.selectableItemBackground, outValue, true)
-                    itemView?.setBackgroundResource(outValue.resourceId)
+                    itemView.setBackgroundResource(outValue.resourceId)
                 } catch (ignored: Exception) {
                 }
             }

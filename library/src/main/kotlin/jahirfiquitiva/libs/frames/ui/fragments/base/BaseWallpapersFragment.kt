@@ -143,8 +143,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                         })
                 }
                 
-                setItemViewCacheSize(MAX_WALLPAPERS_LOAD)
-                
+                setItemViewCacheSize((MAX_WALLPAPERS_LOAD * 1.5).toInt())
                 adapter = wallsAdapter
             }
         }

@@ -15,7 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.helpers.glide
 
-import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.bumptech.glide.Glide
@@ -31,70 +31,70 @@ import jahirfiquitiva.libs.frames.helpers.extensions.doOnLayout
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
 
-fun RequestManager.loadPic(
+fun RequestManager.loadPicture(
     url: String,
-    now: Boolean = false,
-    lowRam: Boolean = true,
-    listener: RequestListener<Drawable>? = null,
+    thumbnail: String = url,
     placeholder: Drawable? = null,
+    context: Context? = null,
     fitCenter: Boolean = false,
-    circleCrop: Boolean = false,
-    withSaturationTransition: Boolean = true
-                          ): RequestBuilder<Drawable>? {
+    circular: Boolean = false,
+    withTransition: Boolean = true,
+    forceNow: Boolean = false,
+    listener: RequestListener<Drawable>? = null
+                              ): RequestBuilder<*>? {
+    val finalUrl =
+        context?.let { if (FramesKonfigs(it).fullResGridPictures) url else thumbnail } ?: thumbnail
     var options = RequestOptions()
-        .format(if (lowRam) DecodeFormat.PREFER_RGB_565 else DecodeFormat.PREFER_ARGB_8888)
+        .format(
+            if (context == null || context.isLowRamDevice) DecodeFormat.PREFER_RGB_565
+            else DecodeFormat.PREFER_ARGB_8888)
         .disallowHardwareConfig()
         .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-        .priority(if (now) Priority.IMMEDIATE else Priority.HIGH)
-        .timeout(10000)
+        .timeout(5000)
         .placeholder(placeholder)
         .fallback(placeholder)
         .error(placeholder)
     
     if (fitCenter) options = options.optionalFitCenter()
-    if (circleCrop) options = options.optionalCircleCrop()
+    if (circular) options = options.optionalCircleCrop()
+    val thumbnailRequest: RequestBuilder<Drawable>? = if (finalUrl != thumbnail) {
+        load(thumbnail)
+            .apply(options.priority(Priority.IMMEDIATE))
+            .transition(
+                if ((context == null || context.isLowRamDevice) || !withTransition)
+                    DrawableTransitionOptions.withCrossFade(500)
+                else DrawableTransitionOptions.with(SaturationTransitionFactory()))
+            .listener(listener)
+    } else null
     
     return load(url)
-        .apply(options)
-        .transition(
-            if (lowRam || !withSaturationTransition) DrawableTransitionOptions.withCrossFade(500)
-            else DrawableTransitionOptions.with(SaturationTransitionFactory()))
+        .apply(options.priority(if (forceNow) Priority.IMMEDIATE else Priority.HIGH))
+        .transition(DrawableTransitionOptions.withCrossFade(750))
         .listener(listener)
+        .thumbnail(thumbnailRequest)
+}
+
+fun ImageView.loadPicture(
+    manager: RequestManager? = Glide.with(this),
+    url: String,
+    thumbnail: String = url,
+    placeholder: Drawable? = null,
+    fitCenter: Boolean = false,
+    circular: Boolean = false,
+    withTransition: Boolean = true,
+    forceNow: Boolean = false,
+    listener: RequestListener<Drawable>? = null
+                         ) {
+    
+    doOnLayout {
+        manager
+            ?.loadPicture(
+                url, thumbnail, placeholder ?: drawable, context, fitCenter, circular,
+                withTransition, forceNow, listener)
+            ?.into(this)
+    }
 }
 
 fun ImageView.releaseFromGlide() {
     Glide.with(this).clear(this)
-}
-
-@SuppressLint("CheckResult")
-fun ImageView.loadWallpaper(
-    requester: RequestManager?,
-    url: String,
-    thumbUrl: String,
-    listener: RequestListener<Drawable>?
-                           ) {
-    val manager = requester ?: Glide.with(this)
-    val loadFullRes = FramesKonfigs(context).fullResGridPictures
-    val isLowRam = context.isLowRamDevice
-    
-    doOnLayout {
-        if (loadFullRes) {
-            val placeholder: RequestBuilder<Drawable>? = if (!thumbUrl.equals(url, true)) {
-                manager.loadPic(thumbUrl, true, isLowRam, listener)
-            } else null
-            
-            manager.loadPic(url, false, isLowRam, listener)
-                ?.thumbnail(placeholder)
-                ?.into(this)
-        } else {
-            manager.loadPic(thumbUrl, true, isLowRam, listener)?.into(this)
-        }
-    }
-}
-
-fun ImageView.loadAvatar(requester: RequestManager?, url: String) {
-    doOnLayout {
-        val manager = requester ?: Glide.with(this)
-        manager.loadPic(url, false, context.isLowRamDevice, null, null, false, true)?.into(this)
-    }
 }

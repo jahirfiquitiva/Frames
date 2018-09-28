@@ -64,8 +64,8 @@ import jahirfiquitiva.libs.frames.helpers.extensions.safeStartPostponedEnterTran
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableTime
-import jahirfiquitiva.libs.frames.helpers.glide.FramesGlideListener
-import jahirfiquitiva.libs.frames.helpers.glide.loadPic
+import jahirfiquitiva.libs.frames.helpers.glide.loadPicture
+import jahirfiquitiva.libs.frames.helpers.glide.quickListener
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.MIN_TIME
@@ -90,7 +90,6 @@ import jahirfiquitiva.libs.kext.extensions.generatePalette
 import jahirfiquitiva.libs.kext.extensions.getStatusBarHeight
 import jahirfiquitiva.libs.kext.extensions.hasContent
 import jahirfiquitiva.libs.kext.extensions.isInPortraitMode
-import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
 import jahirfiquitiva.libs.kext.extensions.navigationBarHeight
 import jahirfiquitiva.libs.kext.extensions.notNull
 import jahirfiquitiva.libs.kext.extensions.toBitmap
@@ -391,45 +390,23 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         }
         
         wallpaper?.let {
-            val thumbListener = object : FramesGlideListener<Drawable>() {
-                override fun onLoadSucceed(resource: Drawable, model: Any?) =
-                    doOnWallpaperLoad(resource)
-            }
-            
-            val listener = object : FramesGlideListener<Drawable>() {
-                override fun onLoadSucceed(resource: Drawable, model: Any?): Boolean {
+            img?.loadPicture(
+                Glide.with(this), it.url, it.thumbUrl, drawable, true, false, false, false,
+                quickListener { res ->
                     loaded = true
-                    return doOnWallpaperLoad(resource)
-                }
-            }
-            
-            img?.let { img ->
-                val manager = Glide.with(this)
-                if (it.thumbUrl.equals(it.url, true)) {
-                    manager.loadPic(
-                        it.url, false, isLowRamDevice, listener, drawable, true,
-                        withSaturationTransition = false)
-                        ?.into(img)
-                } else {
-                    val thumbnailRequest =
-                        manager.loadPic(
-                            it.thumbUrl, true, isLowRamDevice, thumbListener, drawable, true,
-                            withSaturationTransition = false)
-                    manager.loadPic(
-                        it.url, false, isLowRamDevice, listener, drawable, true,
-                        withSaturationTransition = false)
-                        ?.thumbnail(thumbnailRequest)
-                        ?.into(img)
-                }
-            }
+                    doOnWallpaperLoad(res)
+                })
         }
     }
     
-    private fun doOnWallpaperLoad(resource: Drawable?): Boolean {
+    private fun doOnWallpaperLoad(resource: Drawable?): Boolean = try {
         postPalette(resource)
         img?.setImageDrawable(resource)
         startEnterTransition()
-        return true
+        true
+    } catch (e: Exception) {
+        FL.e(e.message, e)
+        false
     }
     
     private fun setupProgressBarColors() {
@@ -438,7 +415,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             loading?.indeterminateDrawable?.applyColorFilter(color)
             if (loaded) loading?.gone()
         } catch (e: Exception) {
-            FL.e(e.message)
+            FL.e(e.message, e)
         }
     }
     
@@ -447,7 +424,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             palette = drw?.toBitmap()?.generatePalette()
             updateInfo()
         } catch (e: Exception) {
-            FL.e(e.message)
+            FL.e(e.message, e)
         }
         setupProgressBarColors()
     }

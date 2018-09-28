@@ -116,8 +116,7 @@ internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHo
                         })
                 }
                 
-                setItemViewCacheSize(MAX_COLLECTIONS_LOAD)
-                
+                setItemViewCacheSize((MAX_COLLECTIONS_LOAD * 1.5).toInt())
                 adapter = collsAdapter
             }
         }

@@ -25,15 +25,23 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 
+inline fun <reified T> quickListener(crossinline what: (T) -> Boolean): FramesGlideListener<T> {
+    return object : FramesGlideListener<T>() {
+        override fun onLoadSucceed(resource: T, model: Any?, isFirst: Boolean): Boolean {
+            return what(resource)
+        }
+    }
+}
+
 abstract class FramesGlideListener<Type> : RequestListener<Type> {
-    abstract fun onLoadSucceed(resource: Type, model: Any?): Boolean
+    abstract fun onLoadSucceed(resource: Type, model: Any?, isFirst: Boolean): Boolean
     open fun onLoadFailed(): Boolean = false
     
     override fun onResourceReady(
         resource: Type, model: Any?, target: Target<Type>?,
         dataSource: DataSource?, isFirstResource: Boolean
                                 ): Boolean =
-        onLoadSucceed(resource, model)
+        onLoadSucceed(resource, model, isFirstResource)
     
     override fun onLoadFailed(
         e: GlideException?, model: Any?, target: Target<Type>?,
@@ -55,7 +63,7 @@ abstract class GlidePaletteListener : FramesGlideListener<Drawable>() {
     }
     
     @Suppress("SENSELESS_COMPARISON")
-    override fun onLoadSucceed(resource: Drawable, model: Any?): Boolean {
+    override fun onLoadSucceed(resource: Drawable, model: Any?, isFirst: Boolean): Boolean {
         // First check the cache
         synchronized(cacheLock) {
             val cached = model?.let { cache[it] }
@@ -71,7 +79,7 @@ abstract class GlidePaletteListener : FramesGlideListener<Drawable>() {
             val bitmap = resource.bitmap
             Palette.Builder(bitmap)
                 .clearTargets()
-                .maximumColorCount(4)
+                .maximumColorCount(8)
                 .setRegion(0, Math.round(bitmap.height * 0.9f), bitmap.width, bitmap.height)
                 .generate { palette ->
                     synchronized(cacheLock) {

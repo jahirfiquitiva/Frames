@@ -36,7 +36,7 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.extensions.tilesColor
 import jahirfiquitiva.libs.frames.helpers.glide.GlidePaletteListener
-import jahirfiquitiva.libs.frames.helpers.glide.loadWallpaper
+import jahirfiquitiva.libs.frames.helpers.glide.loadPicture
 import jahirfiquitiva.libs.frames.helpers.glide.releaseFromGlide
 import jahirfiquitiva.libs.kext.extensions.bestSwatch
 import jahirfiquitiva.libs.kext.extensions.bind
@@ -64,7 +64,7 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
     internal abstract fun getListener(): GlidePaletteListener
     
     internal fun loadImage(manager: RequestManager?, url: String, thumbUrl: String) {
-        img?.loadWallpaper(manager, url, thumbUrl, getListener())
+        img?.loadPicture(manager, url, thumbUrl, listener = getListener())
     }
     
     fun unbind() {
