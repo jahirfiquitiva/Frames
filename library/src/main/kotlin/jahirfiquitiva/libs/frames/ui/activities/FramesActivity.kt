@@ -57,6 +57,7 @@ import jahirfiquitiva.libs.kext.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kext.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kext.extensions.hasContent
 import jahirfiquitiva.libs.kext.extensions.primaryColor
+import jahirfiquitiva.libs.kext.extensions.string
 import jahirfiquitiva.libs.kext.extensions.tint
 import jahirfiquitiva.libs.kext.ui.fragments.adapters.FragmentsPagerAdapter
 import jahirfiquitiva.libs.kext.ui.layouts.CustomTabLayout
@@ -218,14 +219,24 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
             }
             lastSection = position
             searchItem?.collapseActionView()
-            searchView?.let { search ->
-                tabs?.let {
-                    val hint = it.getTabAt(it.selectedTabPosition)?.text.toString()
-                    search.queryHint =
-                        getString(R.string.search_x, hint.toLowerCase())
+            updateSearchHint()
+            pager?.setCurrentItem(lastSection, true)
+        }
+    }
+    
+    private fun updateSearchHint() {
+        tabs?.let {
+            var hint = (it.getTabAt(it.selectedTabPosition)?.text ?: "").toString()
+            if (!hint.hasContent()) {
+                val expectedTabCount = if (hasCollections) 3 else 2
+                hint = when (expectedTabCount - it.selectedTabPosition) {
+                    3 -> string(R.string.collections)
+                    2 -> string(R.string.all)
+                    1 -> string(R.string.favorites)
+                    else -> ""
                 }
             }
-            pager?.setCurrentItem(lastSection, true)
+            searchView?.queryHint = getString(R.string.search_x, hint.toLowerCase())
         }
     }
     
@@ -246,12 +257,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
             searchView?.onQueryChanged = { doSearch(it) }
             searchView?.onQuerySubmit = { doSearch(it) }
             searchView?.bindToItem(searchItem)
-            
-            tabs?.let {
-                val hint = it.getTabAt(it.selectedTabPosition)?.text.toString()
-                searchView?.queryHint = getString(R.string.search_x, hint.toLowerCase())
-            }
-            
+            updateSearchHint()
             searchView?.tint(getPrimaryTextColorFor(primaryColor))
             it.tint(getActiveIconsColorFor(primaryColor))
         }

@@ -279,15 +279,14 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
             if (it.isInitialized) {
                 val donationViewModel = ViewModelProviders.of(this).get(IAPViewModel::class.java)
                 donationViewModel.iapBillingProcessor = it
-                donationViewModel.observe(
-                    this, {
+                donationViewModel.observe(this) {
                     if (it.size > 0) {
                         showDonationDialog(ArrayList(it))
                     } else {
                         showDonationErrorDialog(0, null)
                     }
                     donationViewModel.destroy(this)
-                })
+                }
                 destroyDialog()
                 dialog = mdDialog {
                     content(R.string.loading)
@@ -305,11 +304,10 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         dialog = mdDialog {
             title(R.string.donate)
             items(items)
-            itemsCallbackSingleChoice(
-                0, { _, _, which, _ ->
+            itemsCallbackSingleChoice(0) { _, _, which, _ ->
                 billingProcessor?.purchase(this@BaseFramesActivity, items[which].id)
                 true
-            })
+            }
             negativeText(android.R.string.cancel)
             positiveText(R.string.donate)
         }
