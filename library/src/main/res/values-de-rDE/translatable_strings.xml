@@ -149,4 +149,7 @@
   <string name="enable_notifications">Benachrichtigungen aktivieren</string>
   <string name="changelog">Änderungsverlauf</string>
   <string name="dismiss">Verwerfen</string>
+  <string name="prevent_download_title">Downloads gesperrt</string>
+  <string name="legal">Rechtliches</string>
+  <string name="terms_conditions">Allgemeine Geschäftsbedingungen</string>
 </resources>
