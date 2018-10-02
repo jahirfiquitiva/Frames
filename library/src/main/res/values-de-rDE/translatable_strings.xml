@@ -150,6 +150,8 @@
   <string name="changelog">Änderungsverlauf</string>
   <string name="dismiss">Verwerfen</string>
   <string name="prevent_download_title">Downloads gesperrt</string>
+  <string name="prevent_download_content">Um illegale Downloads zu vermeiden, ist es die nächsten %1$s Stunden nicht möglich, Hintergrundbilder herunterzuladen. Bitte versuche es später erneut.</string>
   <string name="legal">Rechtliches</string>
+  <string name="privacy_policy">Datenschutzrichtlinie</string>
   <string name="terms_conditions">Allgemeine Geschäftsbedingungen</string>
 </resources>
