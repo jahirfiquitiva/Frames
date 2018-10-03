@@ -16,6 +16,7 @@
 package jahirfiquitiva.libs.frames.ui.adapters.viewholders
 
 import android.animation.ValueAnimator
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
 import android.support.v4.view.ViewCompat
@@ -66,6 +67,9 @@ abstract class FramesViewClickListener<in T, in VH> {
 abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     internal var wallpaper: Wallpaper? = null
     internal abstract val img: ImageView?
+    
+    internal val gradPrimText: Int by lazy { Color.parseColor("#ffffffff") }
+    internal val gradSecText: Int by lazy { Color.parseColor("#b3ffffff") }
     
     private var animator: ValueAnimator? = null
     private val listener: GlidePaletteListener by lazy {
@@ -128,6 +132,7 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
         collection: Collection,
         listener: FramesViewClickListener<Collection, CollectionHolder>
                ) {
+        itemView.background = null
         detailsBg?.background = null
         startLoading()
         if (this.wallpaper != collection.bestCover) this.wallpaper = collection.bestCover
@@ -154,19 +159,23 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
             } catch (e: Exception) {
                 context.tilesColor
             }
-            itemView.setBackgroundColor(color.withAlpha(0.9F))
             
             val opacity =
                 if (context.boolean(R.bool.enable_filled_collection_preview))
                     COLLECTION_DETAILS_OPACITY
                 else DETAILS_OPACITY
             
+            itemView.setBackgroundColor(color)
             detailsBg?.background = null
             detailsBg?.setBackgroundColor(color.withAlpha(opacity))
             title?.setTextColor(context.getPrimaryTextColorFor(color))
             amount?.setTextColor(context.getSecondaryTextColorFor(color))
         } else {
+            itemView.setBackgroundColor(context.tilesColor)
+            detailsBg?.setBackgroundColor(0)
             detailsBg?.background = context.drawable(R.drawable.gradient)
+            title?.setTextColor(gradPrimText)
+            amount?.setTextColor(gradSecText)
         }
     }
 }
@@ -243,7 +252,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
             } catch (e: Exception) {
                 context.tilesColor
             }
-            itemView.setBackgroundColor(color.withAlpha(0.9F))
+            itemView.setBackgroundColor(color)
             detailsBg?.background = null
             detailsBg?.setBackgroundColor(color.withAlpha(DETAILS_OPACITY))
             name?.setTextColor(context.getPrimaryTextColorFor(color))
@@ -253,7 +262,15 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
                 heartIcon?.setImageDrawable(context.createHeartIcon(shouldCheck)?.tint(heartColor))
             }
         } else {
+            itemView.setBackgroundColor(context.tilesColor)
+            detailsBg?.setBackgroundColor(0)
             detailsBg?.background = context.drawable(R.drawable.gradient)
+            name?.setTextColor(gradPrimText)
+            author?.setTextColor(gradSecText)
+            if (showFavIcon) {
+                heartIcon?.setImageDrawable(
+                    context.createHeartIcon(shouldCheck)?.tint(gradPrimText))
+            }
         }
     }
 }

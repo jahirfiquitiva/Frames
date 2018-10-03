@@ -19,13 +19,13 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialog
-import android.support.design.widget.BottomSheetDialogFragment
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.FragmentActivity
 import android.view.View
 import ca.allanwang.kau.utils.postDelayed
+import jahirfiquitiva.libs.kext.ui.fragments.RoundedBottomSheetDialogFragment
 
-open class BaseBottomSheet : BottomSheetDialogFragment() {
+open class BaseBottomSheet : RoundedBottomSheetDialogFragment() {
     private var behavior: BottomSheetBehavior<*>? = null
     private val sheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {

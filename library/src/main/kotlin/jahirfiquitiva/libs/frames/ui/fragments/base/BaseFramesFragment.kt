@@ -18,7 +18,7 @@ package jahirfiquitiva.libs.frames.ui.fragments.base
 import android.content.Context
 import android.support.annotation.CallSuper
 import android.support.v7.widget.RecyclerView
-import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
+import jahirfiquitiva.libs.archhelpers.extensions.getViewModel
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.activities.base.FavsDbManager
@@ -30,35 +30,34 @@ import jahirfiquitiva.libs.kext.extensions.context
 abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
     BaseDatabaseFragment<T, VH>() {
     
-    internal val wallpapersModel: WallpapersViewModel by lazyViewModel()
-    internal val collectionsModel: CollectionsViewModel by lazyViewModel()
+    internal var wallpapersModel: WallpapersViewModel? = null
+    internal var collectionsModel: CollectionsViewModel? = null
+    
+    override fun initViewModels() {
+        wallpapersModel = getViewModel()
+        collectionsModel = getViewModel()
+    }
     
     @CallSuper
     override fun registerObservers() {
-        wallpapersModel.observe(this) {
+        wallpapersModel?.observe(this) {
             doOnWallpapersChange(ArrayList(it), fromCollectionActivity())
         }
-        collectionsModel.observe(this) {
+        collectionsModel?.observe(this) {
             doOnCollectionsChange(ArrayList(it))
         }
     }
     
     @CallSuper
     override fun loadDataFromViewModel() {
-        context { if (!fromCollectionActivity()) wallpapersModel.loadData(it) }
-    }
-    
-    @CallSuper
-    override fun unregisterObservers() {
-        wallpapersModel.destroy(this)
-        collectionsModel.destroy(this)
+        context { if (!fromCollectionActivity()) wallpapersModel?.loadData(it) }
     }
     
     open fun doOnCollectionsChange(data: ArrayList<Collection>) {}
     
     override fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
-        context { if (!fromCollectionActivity) collectionsModel.loadWithContext(it, data) }
+        context { if (!fromCollectionActivity) collectionsModel?.loadWithContext(it, data) }
     }
     
     open fun reloadData(section: Int) {
@@ -66,7 +65,7 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
             0, 1 -> context(object : SafeAccess<Context> {
                 override fun ifNotNull(obj: Context) {
                     super.ifNotNull(obj)
-                    wallpapersModel.loadData(obj, true)
+                    wallpapersModel?.loadData(obj, true)
                 }
                 
                 override fun ifNull() {

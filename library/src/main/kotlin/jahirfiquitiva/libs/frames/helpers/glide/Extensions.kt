@@ -42,44 +42,49 @@ fun RequestManager.loadPicture(
     circular: Boolean = false,
     withTransition: Boolean = true,
     forceNow: Boolean = false,
+    preload: Boolean = false,
     listener: RequestListener<Drawable>? = null
                               ): RequestBuilder<*>? {
-    val finalUrl =
-        context?.let { if (FramesKonfigs(it).fullResGridPictures) url else thumbnail } ?: thumbnail
-    var options = RequestOptions()
-        .format(
-            if (context == null || context.isLowRamDevice) DecodeFormat.PREFER_RGB_565
-            else DecodeFormat.PREFER_ARGB_8888)
-        .disallowHardwareConfig()
-        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-        .timeout(5000)
-        .placeholder(placeholder)
-        .fallback(placeholder)
-        .error(placeholder)
-    
-    if (fitCenter) options = options.optionalFitCenter()
-    if (circular) options = options.optionalCircleCrop()
-    
-    val transition = if (context == null || context.isLowRamDevice) {
-        DrawableTransitionOptions.with { _, _ -> NoTransition<Drawable>() }
-    } else if (withTransition) {
-        DrawableTransitionOptions.with(SaturationTransitionFactory())
-    } else {
-        DrawableTransitionOptions.withCrossFade(750)
+    return try {
+        val finalUrl =
+            context?.let { if (FramesKonfigs(it).fullResGridPictures) url else thumbnail }
+                ?: thumbnail
+        var options = RequestOptions()
+            .format(
+                if (context == null || context.isLowRamDevice) DecodeFormat.PREFER_RGB_565
+                else DecodeFormat.PREFER_ARGB_8888)
+            .disallowHardwareConfig()
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+            .timeout(5000)
+            .placeholder(placeholder)
+            .fallback(placeholder)
+            .error(placeholder)
+        
+        if (fitCenter) options = options.optionalFitCenter()
+        if (circular) options = options.optionalCircleCrop()
+        
+        val transition = if (context == null || context.isLowRamDevice) {
+            DrawableTransitionOptions.with { _, _ -> NoTransition<Drawable>() }
+        } else if (withTransition) {
+            DrawableTransitionOptions.with(SaturationTransitionFactory())
+        } else {
+            DrawableTransitionOptions.withCrossFade(750)
+        }
+        
+        val thumbnailRequest: RequestBuilder<Drawable>? = if (finalUrl != thumbnail) {
+            load(thumbnail).apply(options.priority(Priority.IMMEDIATE))
+        } else null
+        
+        val request: RequestBuilder<Drawable>? = load(url)
+            .apply(options.priority(if (forceNow) Priority.IMMEDIATE else Priority.HIGH))
+            .thumbnail(
+                if (preload) thumbnailRequest
+                else thumbnailRequest?.transition(transition)?.listener(listener))
+        
+        if (preload) request else request?.transition(transition)?.listener(listener)
+    } catch (e: Exception) {
+        null
     }
-    
-    val thumbnailRequest: RequestBuilder<Drawable>? = if (finalUrl != thumbnail) {
-        load(thumbnail)
-            .apply(options.priority(Priority.IMMEDIATE))
-            .transition(transition)
-            .listener(listener)
-    } else null
-    
-    return load(url)
-        .apply(options.priority(if (forceNow) Priority.IMMEDIATE else Priority.HIGH))
-        .transition(transition)
-        .listener(listener)
-        .thumbnail(thumbnailRequest)
 }
 
 fun ImageView.loadPicture(
@@ -98,7 +103,7 @@ fun ImageView.loadPicture(
         manager
             ?.loadPicture(
                 url, thumbnail, placeholder ?: drawable, context, fitCenter, circular,
-                withTransition, forceNow, listener)
+                withTransition, forceNow, false, listener)
             ?.into(this)
     }
 }
@@ -119,7 +124,8 @@ fun ImageView.preloadPicture(
     if (gHeight <= 0) gHeight = Target.SIZE_ORIGINAL
     
     manager
-        ?.loadPicture(url, thumbnail, drawable, withTransition = false, forceNow = true)
+        ?.loadPicture(
+            url, thumbnail, drawable, withTransition = false, forceNow = true, preload = true)
         ?.preload(gWidth, gHeight)
 }
 

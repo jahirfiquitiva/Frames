@@ -108,11 +108,6 @@ class CollectionActivity : ActivityWFragments<FramesKonfigs>(), FavsDbManager {
         initContent()
     }
     
-    override fun onDestroy() {
-        super.onDestroy()
-        favsViewModel.destroy(this)
-    }
-    
     private fun initContent(loadFragment: Boolean = false) {
         toolbar?.let { setupToolbarTitle(it) }
         

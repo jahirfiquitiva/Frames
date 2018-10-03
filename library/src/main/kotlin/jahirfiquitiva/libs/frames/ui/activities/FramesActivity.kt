@@ -38,9 +38,6 @@ import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.ui.activities.base.FavsDbManager
-import jahirfiquitiva.libs.frames.ui.fragments.CollectionsFragment
-import jahirfiquitiva.libs.frames.ui.fragments.FavoritesFragment
-import jahirfiquitiva.libs.frames.ui.fragments.WallpapersFragment
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseDatabaseFragment
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
@@ -59,7 +56,6 @@ import jahirfiquitiva.libs.kext.extensions.hasContent
 import jahirfiquitiva.libs.kext.extensions.primaryColor
 import jahirfiquitiva.libs.kext.extensions.string
 import jahirfiquitiva.libs.kext.extensions.tint
-import jahirfiquitiva.libs.kext.ui.fragments.adapters.FragmentsPagerAdapter
 import jahirfiquitiva.libs.kext.ui.layouts.CustomTabLayout
 import jahirfiquitiva.libs.kext.ui.widgets.CustomSearchView
 import org.jetbrains.anko.doAsync
@@ -70,6 +66,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
     
     private val toolbar: CustomToolbar? by bind(R.id.toolbar)
     private val pager: ViewPager? by bind(R.id.pager)
+    private var pagerAdapter: FramesSectionsAdapter? = null
     private val tabs: CustomTabLayout? by bind(R.id.tabs)
     
     private var searchItem: MenuItem? = null
@@ -134,24 +131,10 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
         doAsync { favsViewModel.loadData(favsDB.favoritesDao(), true) }
     }
     
-    override fun onDestroy() {
-        super.onDestroy()
-        favsViewModel.destroy(this)
-    }
-    
     private fun initPagerAdapter() {
-        pager?.adapter = if (hasCollections) {
-            FragmentsPagerAdapter(
-                supportFragmentManager,
-                CollectionsFragment.create(getLicenseChecker() != null),
-                WallpapersFragment.create(getLicenseChecker() != null),
-                FavoritesFragment.create(getLicenseChecker() != null))
-        } else {
-            FragmentsPagerAdapter(
-                supportFragmentManager,
-                WallpapersFragment.create(getLicenseChecker() != null),
-                FavoritesFragment.create(getLicenseChecker() != null))
-        }
+        pagerAdapter = FramesSectionsAdapter(
+            supportFragmentManager, getLicenseChecker() != null, hasCollections)
+        pager?.adapter = pagerAdapter
     }
     
     private fun buildTabs() {
@@ -319,30 +302,26 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
     }
     
     private fun scrollToTop() {
-        pager?.adapter?.let {
-            (it as? FragmentsPagerAdapter)?.getItem(lastSection)?.let {
-                try {
-                    (it as? BaseFramesFragment<*, *>)?.scrollToTop()
-                } catch (ignored: Exception) {
-                }
+        pagerAdapter?.get(lastSection)?.let {
+            try {
+                (it as? BaseFramesFragment<*, *>)?.scrollToTop()
+            } catch (ignored: Exception) {
             }
         }
     }
     
     private val lock by lazy { Any() }
     private fun doSearch(filter: String = "", closed: Boolean = false) {
-        pager?.adapter?.let {
-            (it as? FragmentsPagerAdapter)?.getItem(lastSection)?.let {
-                try {
-                    (it as? BaseFramesFragment<*, *>)?.enableRefresh(!filter.hasContent())
-                    synchronized(lock) {
-                        postDelayed(150) {
-                            (it as? BaseFramesFragment<*, *>)?.applyFilter(filter, closed)
-                        }
+        pagerAdapter?.get(lastSection)?.let {
+            try {
+                (it as? BaseFramesFragment<*, *>)?.enableRefresh(!filter.hasContent())
+                synchronized(lock) {
+                    postDelayed(150) {
+                        (it as? BaseFramesFragment<*, *>)?.applyFilter(filter, closed)
                     }
-                } catch (ignored: Exception) {
-                    ignored.printStackTrace()
                 }
+            } catch (ignored: Exception) {
+                ignored.printStackTrace()
             }
         }
     }
@@ -350,7 +329,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
     private fun refreshContent() {
         val adapt = pager?.adapter
         adapt?.let {
-            (it as? FragmentsPagerAdapter)?.getItem(lastSection)?.let {
+            pagerAdapter?.get(lastSection)?.let {
                 try {
                     (it as? BaseFramesFragment<*, *>)?.reloadData(
                         lastSection + if (hasCollections) 0 else 1)
@@ -361,7 +340,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
     }
     
     override fun notifyFavsToFrags(favs: ArrayList<Wallpaper>) {
-        (pager?.adapter as? FragmentsPagerAdapter)?.getFragments()?.forEach {
+        pagerAdapter?.forEach { _, it ->
             (it as? BaseDatabaseFragment<*, *>)?.doOnFavoritesChange(favs)
         }
     }

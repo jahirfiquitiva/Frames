@@ -27,7 +27,6 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import android.widget.ImageView
-import ca.allanwang.kau.utils.postDelayed
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
 import com.bumptech.glide.util.ViewPreloadSizeProvider
@@ -149,10 +148,6 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         
         fastScroller?.attachSwipeRefreshLayout(swipeToRefresh)
         recyclerView?.let { fastScroller?.attachRecyclerView(it) }
-        
-        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
-        
-        postDelayed(5) { loadDataFromViewModel() }
     }
     
     override fun scrollToTop() {
@@ -221,8 +216,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     override fun applyFilter(filter: String, closed: Boolean) {
         val list = ArrayList(
             if (fromFavorites())
-                (activity as? FavsDbManager)?.getFavs() ?: wallpapersModel.getData().orEmpty()
-            else wallpapersModel.getData().orEmpty())
+                (activity as? FavsDbManager)?.getFavs() ?: wallpapersModel?.getData().orEmpty()
+            else wallpapersModel?.getData().orEmpty())
         
         if (filter.hasContent()) {
             recyclerView?.setEmptyImage(R.drawable.no_results)
@@ -342,4 +337,6 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         super.setUserVisibleHint(isVisibleToUser)
         if (isVisibleToUser && !allowReloadAfterVisibleToUser()) recyclerView?.updateEmptyState()
     }
+    
+    override fun autoStartLoad(): Boolean = true
 }

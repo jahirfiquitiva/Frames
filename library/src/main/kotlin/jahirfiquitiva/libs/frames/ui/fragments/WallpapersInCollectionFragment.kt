@@ -56,7 +56,7 @@ internal class WallpapersInCollectionFragment : BaseWallpapersFragment() {
     
     override fun loadDataFromViewModel() {
         super.loadDataFromViewModel()
-        wallpapersModel.postResult(wallpapers)
+        wallpapersModel?.postResult(wallpapers)
     }
     
     companion object {

@@ -122,8 +122,6 @@ internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHo
         
         fastScroller?.attachSwipeRefreshLayout(swipeToRefresh)
         recyclerView?.let { fastScroller?.attachRecyclerView(it) }
-        
-        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
     }
     
     override fun getContentLayout(): Int = R.layout.section_with_swipe_refresh
@@ -179,9 +177,7 @@ internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHo
     }
     
     override fun applyFilter(filter: String, closed: Boolean) {
-        val list = ArrayList(collectionsModel.getData().orEmpty())
-        if (list.isEmpty()) return
-        
+        val list = ArrayList(collectionsModel?.getData().orEmpty())
         if (filter.hasContent()) {
             recyclerView?.setEmptyImage(R.drawable.no_results)
             recyclerView?.setEmptyText(R.string.search_no_results)
@@ -208,7 +204,7 @@ internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHo
     override fun doOnCollectionsChange(data: ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
         swipeToRefresh?.isRefreshing = false
-        if (data.size > 0) collsAdapter.setItems(data)
+        collsAdapter.setItems(data)
     }
     
     override fun autoStartLoad(): Boolean = true
