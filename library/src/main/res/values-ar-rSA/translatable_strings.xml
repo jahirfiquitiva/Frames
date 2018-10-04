@@ -17,6 +17,7 @@
   -->
 <resources>
   <string name="empty_section">Nothing found</string>
+  <string name="loading_section">Loading content…</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <!-- Light Theme -->
