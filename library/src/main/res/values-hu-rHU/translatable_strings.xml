@@ -16,6 +16,10 @@
   ~ limitations under the License.
   -->
 <resources>
+  <string name="empty_section">Nincs találat</string>
+  <string name="loading_section">Tartalom betöltése…</string>
+  <string name="no_favorites">Először adj pár képet a kedvencekhez</string>
+  <string name="wallpapers">Háttérképek</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <!-- Light Theme -->
