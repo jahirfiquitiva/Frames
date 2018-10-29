@@ -33,7 +33,40 @@
   <string name="share">Megosztás</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
   <string name="share_text">A háttérképem mára: %1$s (%2$s) - %3$s.\n Te is letöltheted innen: (%4$s)</string>
+  <string name="permission_denied">A hozzáférés a tárolóhoz megtagadva</string>
+  <string name="permission_denied_completely">A hozzáférés a tárolóhoz megtagadva. Manuálisan engedélyezned kell a Beállításokban.</string>
+  <string name="permission_request">%1$s hozzáférést igényel a háttértárhoz, hogy letölthessen és beállíthasson háttérképeket</string>
+  <string name="allow">Engedélyezés</string>
+  <string name="downloading_wallpaper">%1$s letöltése…</string>
+  <string name="download_successful">A \'%1$s\' sikeresen letöltve</string>
+  <string name="download_successful_short">A háttérkép sikeresen letöltve</string>
+  <string name="open">Megnyitás</string>
+  <string name="file_exists">A háttérkép már letöltve. Szeretnéd lecserélni?</string>
+  <string name="file_replace">Csere</string>
+  <string name="file_create_new">Új létrehozása</string>
+  <string name="applying_wallpaper">%1$s alkalmazása…</string>
+  <string name="apply_to">Alkalmazás a következőre:</string>
+  <string name="home_screen">Kezdőképernyő</string>
+  <string name="lock_screen">Lezárt képernyő</string>
+  <string name="home_lock_screen">Kezdő és lezárt képernyő</string>
+  <string name="apply_with_other_app">Beállítás más alkalmazással</string>
+  <string name="apply_successful">A háttérkép sikeresen beállítva: %1$s</string>
+  <string name="apply_successful_short">A háttérkép sikeresen beállítva</string>
+  <string name="wallpaper_details">Részletek</string>
+  <string name="wallpaper_palette">Paletta</string>
+  <string name="copied_to_clipboard">Szín vágólapra másolva</string>
+  <string name="search">Keresés</string>
+  <string name="search_x">%1$s keresése…</string>
+  <string name="search_no_results">Nincs találat</string>
+  <string name="about">Névjegy</string>
+  <string name="refresh">Frissítés</string>
+  <string name="translate">Fordítás</string>
+  <string name="licenses">Licenszek</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+  <string name="dev_contributions">Hozzájárulás a fejlesztéshez</string>
+  <string name="ui_contributions">Hozzájárulás a felület fejlesztéséhez</string>
+  <string name="settings">Beállítások</string>
+  <string name="ui_settings_title">Felhasználói felület</string>
   <!-- Light Theme -->
   <!-- Dark Theme -->
   <!-- Amoled Theme -->
@@ -41,6 +74,10 @@
   <!-- Automatic Light-Dark Theme -->
   <!-- Automatic Light-Amoled Theme -->
   <!-- License -->
+  <string name="close">Bezár</string>
   <!-- Muzei Settings -->
+  <string name="muzei_settings">Muzei beállítások</string>
   <!-- Please use this character … -->
+  <string name="refresh_wallpapers_every">Háttérképek frissítése…</string>
+  <string name="every_x">Minden %1$s</string>
 </resources>
