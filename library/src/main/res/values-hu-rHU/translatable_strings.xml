@@ -67,17 +67,52 @@
   <string name="ui_contributions">Hozzájárulás a felület fejlesztéséhez</string>
   <string name="settings">Beállítások</string>
   <string name="ui_settings_title">Felhasználói felület</string>
+  <string name="theme_setting_title">Alkalmazás témája</string>
   <!-- Light Theme -->
+  <string name="light_theme">Világos</string>
   <!-- Dark Theme -->
+  <string name="dark_theme">Sötét</string>
   <!-- Amoled Theme -->
   <!-- Transparent Theme -->
+  <string name="transparent_theme">Átlátszó</string>
   <!-- Automatic Light-Dark Theme -->
   <!-- Automatic Light-Amoled Theme -->
+  <string name="navbar_color_setting_title">Színes navigációs sáv</string>
+  <string name="animations_setting_title">Animációk engedélyezése</string>
+  <string name="load_hi_res_pictures_title">Teljes méretű előnézet</string>
+  <string name="load_hi_res_pictures_content">A teljes méretű képek betöltése az előnézetben</string>
+  <string name="storage_settings_title">Tárhely</string>
+  <string name="create_folder">Mappa létrehozása</string>
+  <string name="choose_folder">Választ</string>
   <!-- License -->
+  <string name="error_title">Hiba</string>
+  <string name="donate">Támogatás</string>
+  <string name="donate_success_title">Köszönjük</string>
+  <string name="loading">Betöltés…</string>
   <string name="close">Bezár</string>
   <!-- Muzei Settings -->
   <string name="muzei_settings">Muzei beállítások</string>
   <!-- Please use this character … -->
   <string name="refresh_wallpapers_every">Háttérképek frissítése…</string>
   <string name="every_x">Minden %1$s</string>
+  <string name="minutes">Perc</string>
+  <string name="hours">Óra</string>
+  <string name="days">Nap</string>
+  <string name="refresh_only_on_wifi">Frissítés csak WiFin keresztül</string>
+  <string name="refresh_only_on_wifi_summary">A háttérképek frissítése csak WiFi kapcsolaton keresztül.</string>
+  <string name="choose_collections_title">Gyűjtemények kiválasztása</string>
+  <string name="choose_collections_summary">Válaszz egy gyűjteményt a háttérképekhez. Jelenleg választott: %1$s</string>
+  <string name="muzei_not_connected_title">Nincs internet kapcsolat</string>
+  <string name="muzei_not_connected_content">Ahhoz, hogy változtathass gyűjteményt, csatlakozva kell lenned az internetre. Próbáld újra később.</string>
+  <string name="sure_to_exit">Kilépés</string>
+  <string name="sure_to_exit_content">Szeretné menteni a módosításokat mielőtt kilép?</string>
+  <string name="yes">Igen</string>
+  <string name="no">Nem</string>
+  <string name="notifications_title">Értesítések</string>
+  <string name="enable_notifications">Értesítések engedélyezése</string>
+  <string name="changelog">Változtatások</string>
+  <string name="dismiss">Elvet</string>
+  <string name="legal">Jogi információk</string>
+  <string name="privacy_policy">Adatvédelem</string>
+  <string name="terms_conditions">Felhasználási feltételek</string>
 </resources>
