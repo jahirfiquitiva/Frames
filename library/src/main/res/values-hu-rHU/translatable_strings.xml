@@ -20,7 +20,19 @@
   <string name="loading_section">Tartalom betöltése…</string>
   <string name="no_favorites">Először adj pár képet a kedvencekhez</string>
   <string name="wallpapers">Háttérképek</string>
+  <string name="collections">Gyűjtemények</string>
+  <string name="all">Mind</string>
+  <string name="favorites">Kedvencek</string>
+  <string name="favorite">Kedvenc</string>
+  <string name="added_to_favorites">%1$s hozzáadva a kedvencekhez.</string>
+  <string name="removed_from_favorites">%1$s eltávolítva a kedvencek közül.</string>
+  <string name="actions_dialog_content">Mit szeretnél tenni ezzel a képpel?</string>
+  <string name="apply">Alkalmaz</string>
+  <string name="download">Letöltés</string>
+  <string name="info">Információ</string>
+  <string name="share">Megosztás</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
+  <string name="share_text">A háttérképem mára: %1$s (%2$s) - %3$s.\n Te is letöltheted innen: (%4$s)</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
   <!-- Light Theme -->
   <!-- Dark Theme -->
