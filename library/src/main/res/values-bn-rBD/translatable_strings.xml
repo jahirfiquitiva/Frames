@@ -46,17 +46,28 @@
   <string name="file_replace">পরিবর্তন করুন</string>
   <string name="file_create_new">নতুন বানান</string>
   <string name="applying_wallpaper">প্রয়োগ করা হচ্ছে \'%1$s\'…</string>
+  <string name="apply_to">প্রয়োগ করুন :</string>
+  <string name="home_screen">হোম স্ক্রীনে</string>
+  <string name="lock_screen">লক্ স্ক্রিনে</string>
+  <string name="home_lock_screen">হোম এবং লক্ স্ক্রিনে</string>
   <string name="apply_with_other_app">আরেকটি প্রোগ্রাম এর সাথে ব্যবহার করুন</string>
+  <string name="apply_successful">ওয়ালপেপার সফলভাবে প্রয়োগ হয়েছে %1$s</string>
+  <string name="apply_successful_short">ওয়ালপেপার সফলভাবে প্রয়োগ হয়েছে</string>
   <string name="wallpaper_details">বিস্তারিত</string>
+  <string name="wallpaper_palette">প্যালেট</string>
   <string name="copied_to_clipboard">ক্লিপবোর্ডে রঙ অনুলিপি করা হয়েছে</string>
   <string name="search">অনুসন্ধান</string>
+  <string name="search_x">অনুসন্ধান করুন %1$s…</string>
   <string name="search_no_results">কোন ফলাফল পাওয়া যায়নি</string>
   <string name="about">সম্বন্ধে</string>
+  <string name="refresh">রিফ্রেশ</string>
   <string name="translate">অনুবাদ</string>
   <string name="licenses">লাইসেন্স</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+  <string name="frames_dashboard">ফ্রেমস্ ড্যাশবোর্ড</string>
   <string name="dev_contributions">ডেভেলপমেন্ট সাহায্য</string>
   <string name="ui_contributions">UI সহায়তা</string>
+  <string name="dashboard_copyright">আমি হচ্ছি কামুক এবং সৃজনশীল অ্যান্ড্রয়েড ডেভলপার এবং এই ড্যাশবোর্ডের স্রষ্টা ।</string>
   <!-- Light Theme -->
   <!-- Dark Theme -->
   <!-- Amoled Theme -->
