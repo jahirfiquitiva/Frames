@@ -120,6 +120,18 @@
   <string name="try_now">এখনি চেষ্টা করুন</string>
   <string name="donate">দান করুন</string>
   <string name="donate_success_title">ধন্যবাদ !</string>
+  <string name="donate_success_content">আপনার দানের জন্য ধন্যবাদ। আমি সত্যিই এটি গ্রহণ করব ও আমি খুশি হয়েছি তুমি %1$s উপভোগ করছ ।</string>
+  <string name="donate_error">%1$s কোডে একটি অপ্রত্যাশিত ত্রুটি ঘটে গেল, %2$s -এর জন্যে</string>
+  <string name="donate_error_unknown">অজানা কারণ</string>
+  <string name="loading">লোড হচ্ছে…</string>
+  <string name="close">বন্ধ করুন</string>
   <!-- Muzei Settings -->
+  <string name="muzei_settings">Muzei সেটিংস</string>
   <!-- Please use this character … -->
+  <string name="refresh_wallpapers_every">ওয়ালপেপার রিফ্রেশ করুন…</string>
+  <string name="every_x">প্রতি %1$s</string>
+  <string name="minutes">মিনিট</string>
+  <string name="hours">ঘন্টা</string>
+  <string name="days">দিন</string>
+  <string name="refresh_only_on_wifi">শুধুমাত্র ওয়াইফাই থেকে রিফ্রেশ করুন</string>
 </resources>
