@@ -26,10 +26,15 @@
   <string name="favorites">পছন্দগুলি</string>
   <string name="favorite">পছন্দ</string>
   <string name="added_to_favorites">\'%1$s\' ফেভারিটে যোগ করা হয়েছে।</string>
+  <string name="removed_from_favorites">\'%1$s\' কে পছন্দ সমূহ থেকে বের করা হয়েছে ।</string>
   <string name="actions_dialog_content">আপনি এই ওয়ালপেপার সঙ্গে কি করতে চান?</string>
+  <string name="apply">প্রয়োগ করুন</string>
   <string name="download">নামান</string>
   <string name="info">তথ্য</string>
+  <string name="share">শেয়ার করুন</string>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
+  <string name="share_text">আমার আজকের ওয়ালপেপার হল %1$s, %2$s -র দ্বারা, %3$s থেকে । \n এখনই এটা নিয়ে নিন %4$s থেকে ।</string>
+  <string name="permission_denied">স্টোরেজের অনুমতি খারিজ করা হয়েছে</string>
   <string name="allow">অনুমতি দিন</string>
   <string name="download_successful_short">চিত্র নামানো সম্পন্ন হয়েছে</string>
   <string name="open">খুলুন</string>
