@@ -17,13 +17,26 @@
   -->
 <resources>
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
+  <string name="about">সম্বন্ধে</string>
+  <string name="refresh">রিফ্রেশ</string>
+  <string name="translate">অনুবাদ</string>
+  <string name="licenses">লাইসেন্স</string>
   <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+  <string name="frames_dashboard">ফ্রেমস্ ড্যাশবোর্ড</string>
+  <string name="dev_contributions">ডেভেলপমেন্ট সাহায্য</string>
+  <string name="ui_contributions">UI সহায়তা</string>
+  <string name="dashboard_copyright">আমি হচ্ছি কামুক এবং সৃজনশীল অ্যান্ড্রয়েড ডেভলপার এবং এই ড্যাশবোর্ডের স্রষ্টা ।</string>
   <!-- Light Theme -->
   <!-- Dark Theme -->
   <!-- Amoled Theme -->
+  <string name="amoled_theme">এমোলেড</string>
   <!-- Transparent Theme -->
+  <string name="transparent_theme">স্বচ্ছ</string>
   <!-- Automatic Light-Dark Theme -->
+  <string name="auto_dark">স্বয়ংক্রিয় উজ্জ্বল-গাঢ়</string>
   <!-- Automatic Light-Amoled Theme -->
+  <string name="auto_amoled">স্বয়ংক্রিয় উজ্জ্বল-এমোলেড</string>
+  <string name="navbar_color_setting_title">রঙিন নেভিগেশন বার</string>
   <!-- License -->
   <!-- Muzei Settings -->
   <!-- Please use this character … -->
