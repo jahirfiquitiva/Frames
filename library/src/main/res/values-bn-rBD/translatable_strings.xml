@@ -50,13 +50,13 @@
   <string name="home_screen">হোম স্ক্রীনে</string>
   <string name="lock_screen">লক্ স্ক্রিনে</string>
   <string name="home_lock_screen">হোম এবং লক্ স্ক্রিনে</string>
-  <string name="apply_with_other_app">আরেকটি প্রোগ্রাম এর সাথে ব্যবহার করুন</string>
+  <string name="apply_with_other_app">অন্যান্য অ্যাপের দ্বারা প্রয়োগ করুন</string>
   <string name="apply_successful">ওয়ালপেপার সফলভাবে প্রয়োগ হয়েছে %1$s</string>
   <string name="apply_successful_short">ওয়ালপেপার সফলভাবে প্রয়োগ হয়েছে</string>
-  <string name="wallpaper_details">বিস্তারিত</string>
+  <string name="wallpaper_details">বিস্তারিত বিবরণ</string>
   <string name="wallpaper_palette">প্যালেট</string>
-  <string name="copied_to_clipboard">ক্লিপবোর্ডে রঙ অনুলিপি করা হয়েছে</string>
-  <string name="search">অনুসন্ধান</string>
+  <string name="copied_to_clipboard">ক্লিপবোর্ডে রঙ কপি করা হয়েছে</string>
+  <string name="search">অনুসন্ধান করুন</string>
   <string name="search_x">অনুসন্ধান করুন %1$s…</string>
   <string name="search_no_results">কোন ফলাফল পাওয়া যায়নি</string>
   <string name="about">সম্বন্ধে</string>
@@ -134,4 +134,8 @@
   <string name="hours">ঘন্টা</string>
   <string name="days">দিন</string>
   <string name="refresh_only_on_wifi">শুধুমাত্র ওয়াইফাই থেকে রিফ্রেশ করুন</string>
+  <string name="refresh_only_on_wifi_summary">শুধু তখনই ওয়ালপেপার রিফ্রেশ করুন যখন আপনার ডিভাইস Wi-Fi নেটওয়ার্কের সঙ্গে যুক্ত ।</string>
+  <string name="choose_collections_title">সংগ্রহ নির্বাচন করুন</string>
+  <string name="choose_collections_summary">সংগ্রহ নির্বাচন করুন যেখানে থেকে ওয়ালপেপার নিতে হবে । এখন নির্বাচিত আছে: %1$s</string>
+  <string name="muzei_not_connected_title">আপনি ইন্টারনেটের সাথে সংযুক্ত নন</string>
 </resources>
