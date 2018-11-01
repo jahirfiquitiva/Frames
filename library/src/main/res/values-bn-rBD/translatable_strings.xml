@@ -102,7 +102,24 @@
   <string name="create_folder">ফোল্ডার তৈরি করুন</string>
   <string name="choose_folder">নির্বাচন করুন</string>
   <string name="data_cache_setting_title">অ্যাপ ডাটা এবং ক্যাশ পরিষ্কার করুন</string>
+  <string name="data_cache_setting_content">এটি অ্যাপ ক্যাশ এবং পছন্দ সমূহ মুছে দিবে ।\nএখন ক্যাশ এর পরিমাণ: %1$s</string>
+  <string name="data_cache_confirmation">আপনি কি নিশ্চিত যে আপনি সেটিংস, অ্যাপ ডাটা ও ক্যাশ মুছে ফেলতে চান?</string>
+  <string name="clear_favorites_setting_title">পছন্দ সমূহ মুছে ফেলুন</string>
+  <string name="clear_favorites_setting_content">আপনার পছন্দের ওয়ালপেপারের তালিকা মুছে ফেলুন</string>
+  <string name="clear_favorites_confirmation">আপনি কি নিশ্চিত যে আপনি পছন্দ সমূহ গুলো মুছে ফেলতে চান?</string>
   <!-- License -->
+  <string name="license_valid_title">লাইসেন্স বৈধ</string>
+  <string name="license_valid_content">%1$s বৈধ স্টোর থেকে ডাউনলোড করার জন্য ধন্যবাদ। উপভোগ করুন!</string>
+  <string name="license_valid_snack">লাইসেন্স বৈধ। %1$s ডাউনলোড করার জন্য ধন্যবাদ। উপভোগ করুন!</string>
+  <string name="license_invalid_title">আপনি পেরোতে পারবেন না!</string>
+  <string name="license_invalid_content">দুঃখিত, কিন্তু আমরা শনাক্ত করেছি আপনার %1$s এর লাইসেন্স বৈধ নয়। এটা হতে পারে আপনি পাইরেটেড অ্যাপ ব্যবহার করছেন । %2$s । যদি আপনি মনে করেন এটা ত্রুটি, অনুগ্রহ করে পরে আবার চেষ্টা করুন। অন্যরা, দয়া করে অ্যাপ বৈধ স্টোর থেকে ডাউনলোড করুন ।</string>
+  <string name="license_invalid_content_extra">কিংবা বিশেষ: \'%1$s\' অ্যাপ, তাই অনুগ্রহ করে আন ইনস্টল করুন</string>
+  <string name="error_title">ত্রুটি</string>
+  <string name="action_error_content">দুঃখিত, এই কাজটি সম্পন্ন করার সময় একটি অপ্রত্যাশিত ত্রুটি সংঘটিত হয়েছে ।</string>
+  <string name="license_error_content">দুঃখিত, একটি ত্রুটি হল আপনার লাইসেন্স পরীক্ষা করার সময় । অনুগ্রহ করে পরে আবার চেষ্টা করুন ।</string>
+  <string name="try_now">এখনি চেষ্টা করুন</string>
+  <string name="donate">দান করুন</string>
+  <string name="donate_success_title">ধন্যবাদ !</string>
   <!-- Muzei Settings -->
   <!-- Please use this character … -->
 </resources>
