@@ -35,11 +35,17 @@
   <!-- Do NOT remove or change the %1$s (or with any other number) -->
   <string name="share_text">আমার আজকের ওয়ালপেপার হল %1$s, %2$s -র দ্বারা, %3$s থেকে । \n এখনই এটা নিয়ে নিন %4$s থেকে ।</string>
   <string name="permission_denied">স্টোরেজের অনুমতি খারিজ করা হয়েছে</string>
+  <string name="permission_denied_completely">স্টোরেজের অনুমতি খারিজ করা হয়েছে । আপনাকে নিজে সেটিংসে গিয়ে সক্রিয় করতে হবে ।</string>
+  <string name="permission_request">%1$s এর স্টোরেজ ব্যবহার করার অনুমতি প্রয়োজন ওয়ালপেপার প্রয়োগ ও সেভ করার জন্য</string>
   <string name="allow">অনুমতি দিন</string>
+  <string name="downloading_wallpaper">ডাউনলোড করা হচ্ছে \'%1$s\'…</string>
+  <string name="download_successful">ওয়ালপেপার সফলভাবে ডাউনলোড করা হয়েছে \'%1$s\' তে</string>
   <string name="download_successful_short">চিত্র নামানো সম্পন্ন হয়েছে</string>
   <string name="open">খুলুন</string>
+  <string name="file_exists">ওয়ালপেপার ডাউনলোড হয়ে আছে । আপনি কি এটাকে প্রতিস্থাপন করতে চান ডাউনলোড করে ?</string>
   <string name="file_replace">পরিবর্তন করুন</string>
   <string name="file_create_new">নতুন বানান</string>
+  <string name="applying_wallpaper">প্রয়োগ করা হচ্ছে \'%1$s\'…</string>
   <string name="apply_with_other_app">আরেকটি প্রোগ্রাম এর সাথে ব্যবহার করুন</string>
   <string name="wallpaper_details">বিস্তারিত</string>
   <string name="copied_to_clipboard">ক্লিপবোর্ডে রঙ অনুলিপি করা হয়েছে</string>
