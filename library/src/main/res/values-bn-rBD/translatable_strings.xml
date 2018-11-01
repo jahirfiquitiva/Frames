@@ -77,7 +77,9 @@
   <!-- Light Theme -->
   <string name="light_theme">উজ্জ্বল</string>
   <!-- Dark Theme -->
+  <string name="dark_theme">গাঢ়</string>
   <!-- Amoled Theme -->
+  <string name="amoled_theme">এমোলেড</string>
   <!-- Transparent Theme -->
   <!-- Automatic Light-Dark Theme -->
   <!-- Automatic Light-Amoled Theme -->
