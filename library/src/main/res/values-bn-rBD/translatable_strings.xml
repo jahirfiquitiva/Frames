@@ -87,7 +87,7 @@
   <!-- Automatic Light-Amoled Theme -->
   <string name="auto_amoled">স্বয়ংক্রিয় উজ্জ্বল-এমোলেড</string>
   <string name="navbar_color_setting_title">রঙিন নেভিগেশন বার</string>
-  <string name="navbar_color_setting_content">অ্যাপ্লিকেশন এর প্রাথমিক গাঢ় রঙ নেভিগেশন বার-এ ব্যবহার করুন</string>
+  <string name="navbar_color_setting_content">অ্যাপ্লিকেশন এর প্রাথমিক গাঢ় রঙ নেভিগেশন বার-এর রঙ হিসেবে ব্যবহার করুন</string>
   <string name="wallpapers_columns_setting_title">ওয়ালপেপার স্তম্ভ</string>
   <string name="wallpapers_columns_setting_content">যে পরিমাণ ওয়ালপেপারের স্তম্ভ দেখতে চান নির্বাচন করুন</string>
   <string name="animations_setting_title">এনিমেশন সক্রিয় করুন</string>
