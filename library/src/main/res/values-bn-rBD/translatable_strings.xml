@@ -95,6 +95,13 @@
   <string name="load_hi_res_pictures_title">পূর্ণ রেজোলিউশন প্রাকদর্শন</string>
   <string name="load_hi_res_pictures_content">পূর্ণ রেজোলিউশন ছবি গরাদে লোড করুন</string>
   <string name="deep_search_title">গভীর অনুসন্ধান সক্রিয় করুন</string>
+  <string name="deep_search_content">সংগ্রহে এবং নামেও সন্ধান করুন</string>
+  <string name="storage_settings_title">স্টোরেজ</string>
+  <string name="wallpapers_download_location_setting_title">যেখানে ওয়ালপেপার ডাউনলোড হবে</string>
+  <string name="wallpapers_download_location_setting_content">ওয়ালপেপার ডাউনলোড করার স্থান পরিবর্তন করুন ।\nবর্তমান স্থান:%1$s</string>
+  <string name="create_folder">ফোল্ডার তৈরি করুন</string>
+  <string name="choose_folder">নির্বাচন করুন</string>
+  <string name="data_cache_setting_title">অ্যাপ ডাটা এবং ক্যাশ পরিষ্কার করুন</string>
   <!-- License -->
   <!-- Muzei Settings -->
   <!-- Please use this character … -->
