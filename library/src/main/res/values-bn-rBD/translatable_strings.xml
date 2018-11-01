@@ -138,4 +138,20 @@
   <string name="choose_collections_title">সংগ্রহ নির্বাচন করুন</string>
   <string name="choose_collections_summary">সংগ্রহ নির্বাচন করুন যেখানে থেকে ওয়ালপেপার নিতে হবে । এখন নির্বাচিত আছে: %1$s</string>
   <string name="muzei_not_connected_title">আপনি ইন্টারনেটের সাথে সংযুক্ত নন</string>
+  <string name="muzei_not_connected_content">দুঃখিত, আপনি কোন সংগ্রহ থেকে ওয়ালপেপার নিবেন সেটা নির্বাচন করার জন্যে ইন্টারনেটের সঙ্গে যুক্ত থাকা আবশ্যক । দয়া করে পরে আবার চেষ্টা করবেন ।</string>
+  <string name="sure_to_exit">প্রস্থান করুন</string>
+  <string name="sure_to_exit_content">আপনি কি বের হওয়ার পূর্বে আপনার সেটিংস সমূহ সংরক্ষণ করতে চান ?</string>
+  <string name="yes">হ্যাঁ</string>
+  <string name="no">না</string>
+  <string name="not_connected_content">দুর্ভাগ্যজনকভাবে এই কাজটি করার জন্যে ইন্টারনেট সংযোগের প্রয়োজন । অনুগ্রহ করে পরে আবার চেষ্টা করুন ।</string>
+  <string name="new_wallpapers_available">%1$s নতুন ওয়ালপেপার পাওয়া যাবে । তাদের খুঁজে বের করতে ট্যাপ করুন ।</string>
+  <string name="notifications_title">নোটিফিকেশন</string>
+  <string name="enable_notifications">নোটিফিকেশন সক্রিয় করুন</string>
+  <string name="changelog">পরিবর্তনসূচী</string>
+  <string name="dismiss">বাতিল করুন</string>
+  <string name="prevent_download_title">ডাউনলোড সমূহ বদ্ধ</string>
+  <string name="prevent_download_content">নিরাপত্তার কারণে, ওয়ালপেপার ডাউনলোড পরের %1$s ঘণ্টার জন্য সম্ভব নয় । অনুগ্রহ করে পরে আবার চেষ্টা করুন ।</string>
+  <string name="legal">আইনগত</string>
+  <string name="privacy_policy">প্রাইভেসি পলিসি</string>
+  <string name="terms_conditions">নিয়মাবলী এবং শর্তাবলী</string>
 </resources>
