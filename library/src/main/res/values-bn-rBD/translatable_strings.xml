@@ -68,7 +68,14 @@
   <string name="dev_contributions">ডেভেলপমেন্ট সাহায্য</string>
   <string name="ui_contributions">UI সহায়তা</string>
   <string name="dashboard_copyright">আমি হচ্ছি কামুক এবং সৃজনশীল অ্যান্ড্রয়েড ডেভলপার এবং এই ড্যাশবোর্ডের স্রষ্টা ।</string>
+  <string name="sherry_description">একটি সর্বকালের বিকাশকারী মহিলা যিনি শেখাতে ক্লান্ত হন না সৃষ্টিশীল ফটোগ্রাফার এবং যিনি এই ড্যাশবোর্ডটিকে সম্ভবপর করে তুলেছেন ।</string>
+  <string name="allan_description">প্রথম একজন আইকন প্যাক নির্মাতা, তারপরে একজন থিমার এখন একটি ডেভলপার । \n আমি এই ড্যাশবোর্ডের বিকাশের অংশে সহায়তা করেছি ।</string>
+  <string name="settings">সেটিংস</string>
+  <string name="ui_settings_title">ব্যবহারকারী ইন্টারফেস</string>
+  <string name="theme_setting_title">অ্যাপ থিম</string>
+  <string name="theme_setting_content">অ্যাপের জন্য মূল থিম নির্বাচন করুন</string>
   <!-- Light Theme -->
+  <string name="light_theme">উজ্জ্বল</string>
   <!-- Dark Theme -->
   <!-- Amoled Theme -->
   <!-- Transparent Theme -->
