@@ -105,20 +105,20 @@
     <string name="data_cache_confirmation">Uygulama verilerini, önbelleği ve ayarları silmek istediğinizden emin misiniz?</string>
     <string name="clear_favorites_setting_title">Favoriler veritabanını temizle</string>
     <string name="clear_favorites_setting_content">Favori duvar kağıtları listesini temizle</string>
-    <string name="clear_favorites_confirmation">Seçtiğin dosyaları silmek istediğinden emin misin?</string>
+    <string name="clear_favorites_confirmation">Favoriler veritabanını silmek istediğinizden emin misiniz?</string>
     <!-- License -->
     <string name="license_valid_title">Lisans geçerli</string>
     <string name="license_valid_content">Geçerli bir mağazadan %1$s indirdiğiniz için teşekkür ederiz. Tadını çıkarın!</string>
-    <string name="license_valid_snack">Lisans geçerli. İndirdiğiniz için teşekkürler %1$s. İyi eğlenceler!</string>
+    <string name="license_valid_snack">Lisansınız geçerli. %1$s uygulamasını indirdiğiniz için teşekkürler. Tadını çıkarın!</string>
     <string name="license_invalid_title">Giremezsin!</string>
     <string name="error_title">Hata</string>
     <string name="action_error_content">Maalesef, bu işlemi tamamlamaya çalışırken beklenmeyen bir hata oluştu.</string>
     <string name="license_error_content">Maalesef lisansınızı kontrol ederken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.</string>
-    <string name="try_now">Şimdi dene</string>
-    <string name="donate">Bağış yap</string>
+    <string name="try_now">Şimdi deneyin</string>
+    <string name="donate">Bağış yapın</string>
     <string name="donate_success_title">Teşekkürler</string>
     <string name="donate_success_content">Bağışınız için çok teşekkür ederim. Bunu gerçekten takdir ediyorum ve %1$s uygulamasından memnun olduğunuza sevindim.</string>
-    <string name="donate_error_unknown">bilinmeyen sebeplerden dolayı</string>
+    <string name="donate_error_unknown">bilinmeyen sebepler</string>
     <string name="loading">Yükleniyor…</string>
     <string name="close">Kapat</string>
     <!-- Muzei Settings -->
@@ -128,11 +128,11 @@
     <string name="every_x">Her %1$s</string>
     <string name="minutes">Dakika</string>
     <string name="hours">Saat</string>
-    <string name="days">Günler</string>
-    <string name="refresh_only_on_wifi">Sadece Wifi yenile</string>
-    <string name="refresh_only_on_wifi_summary">Duvar kağıtları sadece Wifi ağına bağlandığında yenilenir.</string>
-    <string name="choose_collections_title">Koleksiyon seç</string>
-    <string name="choose_collections_summary">Duvar kağıdı almak için koleksiyonundan seç. Geçerli sayılan koleksiyonlar: %1$s</string>
+    <string name="days">Gün</string>
+    <string name="refresh_only_on_wifi">Sadece WiFi\'de yenile</string>
+    <string name="refresh_only_on_wifi_summary">Duvar kağıtlarını yalnızca cihaz bir WiFi ağına bağlı olduğunda yenile.</string>
+    <string name="choose_collections_title">Koleksiyonlar seçin</string>
+    <string name="choose_collections_summary">Duvar kağıtları almak için koleksiyonlar seçin. Mevcut seçili koleksiyonlar: %1$s</string>
     <string name="muzei_not_connected_title">İnternet bağlantısı yok</string>
     <string name="muzei_not_connected_content">Üzgünüz, ancak uygulamanın almasını istediğiniz duvar kağıdı koleksiyonlarını seçebilmeniz veya değiştirebilmeniz için İnternet\'e bağlı olmanız gerekir. Lütfen daha sonra tekrar deneyiniz.</string>
     <string name="sure_to_exit">Çıkış</string>
