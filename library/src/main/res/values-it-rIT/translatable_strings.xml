@@ -33,23 +33,23 @@
     <string name="info">Informazioni</string>
     <string name="share">Condividi</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
-    <string name="share_text">Il mio sfondo per oggi è %1$s di %2$s, da %3$s. Prendilo ora su %4$s</string>
+    <string name="share_text">Il mio sfondo di oggi è %1$s di %2$s, da %3$s.\nLo puoi trovare ora su %4$s</string>
     <string name="permission_denied">L\'autorizzazione per l\'accesso all\'archiviazione è stato negato</string>
     <string name="permission_denied_completely">L\'autorizzazione per l\'accesso all\'archiviazione è stato negato. Dovrai attivarlo manualmente in Impostazioni.</string>
     <string name="permission_request">%1$s richiede l\'accesso all\'archiviazione per poter applicare e scaricare gli sfondi</string>
     <string name="allow">Permetti</string>
-    <string name="downloading_wallpaper">Scaricamento \'%1$s\'...</string>
-    <string name="download_successful">Sfondo scaricato con successo \'%1$s\'</string>
+    <string name="downloading_wallpaper">Scaricando \'%1$s\'…</string>
+    <string name="download_successful">Sfondo scaricato con successo in \'%1$s\'</string>
     <string name="download_successful_short">Sfondo scaricato con successo</string>
     <string name="open">Apri</string>
-    <string name="file_exists">Lo sfondo è già stato scaricato. Vuoi scaricare per sostituirlo?</string>
+    <string name="file_exists">Lo sfondo è già stato scaricato. Vuoi scaricare questo per sostituirlo?</string>
     <string name="file_replace">Sostituisci</string>
     <string name="file_create_new">Crea nuovo</string>
-    <string name="applying_wallpaper">Applicando \'%1$s\'...</string>
+    <string name="applying_wallpaper">Applicando \'%1$s\'…</string>
     <string name="apply_to">Applica a:</string>
     <string name="home_screen">Schermata Home</string>
     <string name="lock_screen">Schermata di blocco</string>
-    <string name="home_lock_screen">Home e lock screen</string>
+    <string name="home_lock_screen">Schermata home e di blocco</string>
     <string name="apply_with_other_app">Applica con un\' altra app</string>
     <string name="apply_successful">Sfondo applicato con successo a %1$s</string>
     <string name="apply_successful_short">Sfondo applicato con successo</string>
@@ -57,7 +57,7 @@
     <string name="wallpaper_palette">Tavolozza</string>
     <string name="copied_to_clipboard">Colore copiato negli appunti</string>
     <string name="search">Cerca</string>
-    <string name="search_x">Cerca %1$s...</string>
+    <string name="search_x">Cerca %1$s…</string>
     <string name="search_no_results">Nessun risultato trovato</string>
     <string name="about">Info</string>
     <string name="refresh">Aggiorna</string>
@@ -67,7 +67,7 @@
     <string name="frames_dashboard">Dashboard Frames</string>
     <string name="dev_contributions">Aiuta lo sviluppo</string>
     <string name="ui_contributions">Aiuto UI</string>
-    <string name="dashboard_copyright">Io sono un appassionato e creativo sviluppatore Android e il creatore di questa dashboard.</string>
+    <string name="dashboard_copyright">Io sono uno sviluppatore Android appassionato e creativo e sono il creatore di questa dashboard.</string>
     <string name="sherry_description">Una donna in continua evoluzione che non si stanca mai di imparare, fotografa creativa e la persona che ha reso possibile questo cruscotto.</string>
     <string name="allan_description">Prima un creatore di pacchetti di icone, poi di temi, ora anche uno sviluppatore. Ho contribuito allo sviluppo di questa dashboard.</string>
     <string name="settings">Impostazioni</string>
