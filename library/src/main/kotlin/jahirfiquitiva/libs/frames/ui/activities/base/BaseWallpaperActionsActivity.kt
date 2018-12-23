@@ -124,7 +124,7 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
     private fun checkIfFileExists(toApply: Boolean) {
         wallpaper?.let {
             properlyCancelDialog()
-            val folder = File(configs.downloadsFolder)
+            val folder = File(prefs.downloadsFolder)
             folder.mkdirs()
             val extension = it.url.substring(it.url.lastIndexOf("."))
             var correctExtension = getWallpaperExtension(extension)

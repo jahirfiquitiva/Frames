@@ -117,7 +117,7 @@ data class Collection(
     
     override fun toString(): String = name
     
-    constructor(parcel: Parcel) : this(parcel.readString()) {
+    constructor(parcel: Parcel) : this(parcel.readString().orEmpty()) {
         parcel.readTypedList(wallpapers, Wallpaper.CREATOR)
     }
     

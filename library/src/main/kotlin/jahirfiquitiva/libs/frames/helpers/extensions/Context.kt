@@ -109,7 +109,7 @@ val Context.dataCacheSize: String
         }
         
         try {
-            externalCacheDir.listFiles().forEach {
+            externalCacheDir?.listFiles()?.forEach {
                 extCache += if (it.isDirectory) it.dirSize else it.length()
             }
         } catch (ignored: Exception) {
