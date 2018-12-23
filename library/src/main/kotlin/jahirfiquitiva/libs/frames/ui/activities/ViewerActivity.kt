@@ -502,7 +502,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     }
     
     override fun applyBitmapWallpaper(
-        toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
+        toHomeScreen: Boolean,
+        toLockScreen: Boolean,
+        toBoth: Boolean,
         toOtherApp: Boolean
                                      ) {
         wallpaper?.let {

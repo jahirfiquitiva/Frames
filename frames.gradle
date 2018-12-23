@@ -47,7 +47,7 @@ dependencies {
     // Chips
     implementation libraries.chips, exclusions
     // In-App Purchases
-    implementation libraries.iaps, exclusions
+    api libraries.iaps, exclusions
     // Muzei API
     api libraries.muzeiApi, exclusions
     // Licenses Dialog
