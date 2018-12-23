@@ -171,11 +171,7 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
     }
     
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        item?.let {
-            if (it.itemId == android.R.id.home) {
-                doFinish()
-            }
-        }
+        if (item?.itemId == android.R.id.home) doFinish()
         return super.onOptionsItemSelected(item)
     }
     
