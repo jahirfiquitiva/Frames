@@ -15,141 +15,141 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources>
-  <string name="empty_section">Nic nie znaleziono</string>
-  <string name="loading_section">Ładowanie zawartości...</string>
-  <string name="no_favorites">Dodaj najpierw jakieś tapety do ulubionych</string>
-  <string name="wallpapers">Tapety</string>
-  <string name="collections">Kolekcje</string>
-  <string name="x_wallpapers">%1$s tapet</string>
-  <string name="all">Wszystkie</string>
-  <string name="favorites">Ulubione</string>
-  <string name="favorite">Ulubiona</string>
-  <string name="added_to_favorites">\'%1$s\' została dodana do ulubionych.</string>
-  <string name="removed_from_favorites">\'%1$s\' została usunięta z ulubionych.</string>
-  <string name="actions_dialog_content">Co chcesz zrobić z tą tapetą?</string>
-  <string name="apply">Ustaw</string>
-  <string name="download">Pobierz</string>
-  <string name="info">Informacje</string>
-  <string name="share">Udostępnij</string>
-  <!-- Do NOT remove or change the %1$s (or with any other number) -->
-  <string name="share_text">Moją tapetą na dziś jest %1$s, stworzona przez %2$s, z %3$s. Pobierz ją teraz z %4$s</string>
-  <string name="permission_denied">Dostęp do pamięci wewnętrznej został odrzucony</string>
-  <string name="permission_denied_completely">Dostęp do pamięci wewnętrznej został odrzucony. Będziesz musiał go nadać manualnie w Ustawieniach.</string>
-  <string name="permission_request">%1$s wymaga dostępu do pamięci wewnętrznej w celu ustawiania oraz zapisywania tapet</string>
-  <string name="allow">Zezwól</string>
-  <string name="downloading_wallpaper">Pobieranie \'%1$s\'</string>
-  <string name="download_successful">Pomyślnie pobrano tapetę do \'%1$s\'</string>
-  <string name="download_successful_short">Tapeta została pobrana pomyślnie</string>
-  <string name="open">Otwórz</string>
-  <string name="file_exists">Tapeta została już pobrana. Czy chcesz ją pobrać ponownie w celu zastąpienia poprzedniej?</string>
-  <string name="file_replace">Zamień</string>
-  <string name="file_create_new">Utwórz nowy</string>
-  <string name="applying_wallpaper">Ustawianie \'%1$s\'</string>
-  <string name="apply_to">Ustaw na:</string>
-  <string name="home_screen">Ekran domowy</string>
-  <string name="lock_screen">Ekran blokady</string>
-  <string name="home_lock_screen">Ekran domowy i blokady</string>
-  <string name="apply_with_other_app">Ustaw za pomocą innej aplikacji</string>
-  <string name="apply_successful">Tapeta ustawiona pomyślnie na %1$s</string>
-  <string name="apply_successful_short">Tapeta została ustawiona pomyślnie</string>
-  <string name="wallpaper_details">Szczegóły</string>
-  <string name="wallpaper_palette">Paleta barw</string>
-  <string name="copied_to_clipboard">Skopiowano kolor do schowka</string>
-  <string name="search">Szukaj</string>
-  <string name="search_x">Wyszukaj %1$s...</string>
-  <string name="search_no_results">Brak wyników</string>
-  <string name="about">O aplikacji</string>
-  <string name="refresh">Odśwież</string>
-  <string name="translate">Przetłumacz</string>
-  <string name="licenses">Licencje</string>
-  <!-- Consider Frames an untranslatable word. It's the dashboard name -->
-  <string name="frames_dashboard">Aplikacja bazowa Frames</string>
-  <string name="dev_contributions">Pomoc w rozwoju aplikacji</string>
-  <string name="ui_contributions">Pomoc w projektowaniu UI</string>
-  <string name="dashboard_copyright">Jestem kreatywnym Android Developerem z pasją. Jestem twórcą aplikacji bazowej.</string>
-  <string name="sherry_description">Ciągle ewoluująca kobieta, która nigdy nie ma dość nauki, kreatywny fotograf oraz osoba, która umożliwiła stworzenie tej aplikacji.</string>
-  <string name="allan_description">Początkowo twórca paczek ikon, później twórca motywów, teraz także developer.\nPomogłem w rozwoju tej aplikacji.</string>
-  <string name="settings">Ustawienia</string>
-  <string name="ui_settings_title">Interfejs Użytkownika</string>
-  <string name="theme_setting_title">Motyw</string>
-  <string name="theme_setting_content">Wybierz motyw aplikacji</string>
-  <!-- Light Theme -->
-  <string name="light_theme">Jasny</string>
-  <!-- Dark Theme -->
-  <string name="dark_theme">Ciemny</string>
-  <!-- Amoled Theme -->
-  <string name="amoled_theme">Amoled</string>
-  <!-- Transparent Theme -->
-  <string name="transparent_theme">Przeźroczysty</string>
-  <!-- Automatic Light-Dark Theme -->
-  <string name="auto_dark">Auto jasny-ciemny</string>
-  <!-- Automatic Light-Amoled Theme -->
-  <string name="auto_amoled">Auto jasny-amoled</string>
-  <string name="navbar_color_setting_title">Kolorowy pasek nawigacji</string>
-  <string name="navbar_color_setting_content">Nałóż główny kolor aplikacji na pasek nawigacji</string>
-  <string name="wallpapers_columns_setting_title">Kolumny tapet</string>
-  <string name="wallpapers_columns_setting_content">Wybierz ilość kolumn wyświetlanych tapet</string>
-  <string name="animations_setting_title">Włącz animacje</string>
-  <string name="animations_setting_content">Mogą one powodować spadek wydajności.</string>
-  <string name="load_hi_res_pictures_title">Podgląd w pełnej rozdzielczości</string>
-  <string name="load_hi_res_pictures_content">Ładuj obrazki w pełnej rozdzielczości w widoku siatki</string>
-  <string name="deep_search_title">Włącz głębokie przeszukiwanie</string>
-  <string name="deep_search_content">Szukaj po nazwie oraz kolekcji</string>
-  <string name="storage_settings_title">Pamięć</string>
-  <string name="wallpapers_download_location_setting_title">Lokalizacja zapisu tapet</string>
-  <string name="wallpapers_download_location_setting_content">Zmień lokalizację zapisu pobieranych tapet.\nObecna lokalizacja: %1$s</string>
-  <string name="create_folder">Utwórz folder</string>
-  <string name="choose_folder">Wybierz</string>
-  <string name="data_cache_setting_title">Wyczyść dane oraz cache aplikacji</string>
-  <string name="data_cache_setting_content">Ta operacja usunie pamięć podręczną aplikacji oraz jej ustawienia.\nObecny rozmiar pamięci podręcznej: %1$s</string>
-  <string name="data_cache_confirmation">Czy na pewno chcesz usunąć dane aplikacji, pamięć podręczną oraz jej ustawienia?</string>
-  <string name="clear_favorites_setting_title">Wyczyść listę ulubionych tapet</string>
-  <string name="clear_favorites_setting_content">Wyczyść listę swoich ulubionych tapet</string>
-  <string name="clear_favorites_confirmation">Czy na pewno chcesz usunąć listę ulubionych tapet?</string>
-  <!-- License -->
-  <string name="license_valid_title">Ważna licencja</string>
-  <string name="license_valid_content">Dziękujemy za pobranie %1$s z legalnego źródła. Miłego używania!</string>
-  <string name="license_valid_snack">Licencja potwierdzona. Dziękujemy za pobranie %1$s. Mamy nadzieję, że aplikacja ci się spodoba!</string>
-  <string name="license_invalid_title">Nie przejdziesz!</string>
-  <string name="license_invalid_content">Przepraszamy, ale wykryliśmy, że twoja licencja dla %1$s jest nieważna. Może być to spowodowane używaniem pirackich aplikacji. %2$s. Jeśli uważasz to za błąd, prosimy spróbować ponownie. W przeciwnym razie pobierz aplikację z legalnego źródła. </string>
-  <string name="license_invalid_content_extra">Lub dokładnie: \'%1$s\', więc prosimy ją odinstalować</string>
-  <string name="error_title">Błąd</string>
-  <string name="action_error_content">Przepraszamy, wystąpił nieoczekiwany błąd podczas próby ukończenia tej akcji.</string>
-  <string name="license_error_content">Przepraszamy, ale wystąpił błąd podczas sprawdzania licencji. Prosimy spróbować ponownie.</string>
-  <string name="try_now">Spróbuj teraz</string>
-  <string name="donate">Dotacja</string>
-  <string name="donate_success_title">Dziękujemy</string>
-  <string name="donate_success_content">Niezmiernie dziękujemy za twoją dotację. Naprawdę to doceniamy oraz cieszymy się, że podoba ci się %1$s.</string>
-  <string name="donate_error">Wystąpił niespodziewany błąd z kodem %1$s z powodu %2$s</string>
-  <string name="donate_error_unknown">nieznane przyczyny</string>
-  <string name="loading">Ładowanie...</string>
-  <string name="close">Zamknij</string>
-  <!-- Muzei Settings -->
-  <string name="muzei_settings">Ustawienia Muzei</string>
-  <!-- Please use this character … -->
-  <string name="refresh_wallpapers_every">Odśwież tapety...</string>
-  <string name="every_x">Co %1$s</string>
-  <string name="minutes">Minut</string>
-  <string name="hours">Godzin</string>
-  <string name="days">Dni</string>
-  <string name="refresh_only_on_wifi">Odświeżaj tylko z włączonym WiFi.</string>
-  <string name="refresh_only_on_wifi_summary">Odświeżaj tapety tylko gdy urządzenie jest połączone z siecią WiFi.</string>
-  <string name="choose_collections_title">Wybierz kolekcje</string>
-  <string name="choose_collections_summary">Wybierz kolekcję, z której będą pobierane tapety.
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="empty_section">Nic nie znaleziono</string>
+    <string name="loading_section">Ładowanie zawartości...</string>
+    <string name="no_favorites">Dodaj najpierw jakieś tapety do ulubionych</string>
+    <string name="wallpapers">Tapety</string>
+    <string name="collections">Kolekcje</string>
+    <string name="x_wallpapers">%1$s tapet</string>
+    <string name="all">Wszystkie</string>
+    <string name="favorites">Ulubione</string>
+    <string name="favorite">Ulubiona</string>
+    <string name="added_to_favorites">\'%1$s\' została dodana do ulubionych.</string>
+    <string name="removed_from_favorites">\'%1$s\' została usunięta z ulubionych.</string>
+    <string name="actions_dialog_content">Co chcesz zrobić z tą tapetą?</string>
+    <string name="apply">Ustaw</string>
+    <string name="download">Pobierz</string>
+    <string name="info">Informacje</string>
+    <string name="share">Udostępnij</string>
+    <!-- Do NOT remove or change the %1$s (or with any other number) -->
+    <string name="share_text">Moją tapetą na dziś jest %1$s, stworzona przez %2$s, z %3$s. Pobierz ją teraz z %4$s</string>
+    <string name="permission_denied">Dostęp do pamięci wewnętrznej został odrzucony</string>
+    <string name="permission_denied_completely">Dostęp do pamięci wewnętrznej został odrzucony. Będziesz musiał go nadać manualnie w Ustawieniach.</string>
+    <string name="permission_request">%1$s wymaga dostępu do pamięci wewnętrznej w celu ustawiania oraz zapisywania tapet</string>
+    <string name="allow">Zezwól</string>
+    <string name="downloading_wallpaper">Pobieranie \'%1$s\'</string>
+    <string name="download_successful">Pomyślnie pobrano tapetę do \'%1$s\'</string>
+    <string name="download_successful_short">Tapeta została pobrana pomyślnie</string>
+    <string name="open">Otwórz</string>
+    <string name="file_exists">Tapeta została już pobrana. Czy chcesz ją pobrać ponownie w celu zastąpienia poprzedniej?</string>
+    <string name="file_replace">Zamień</string>
+    <string name="file_create_new">Utwórz nowy</string>
+    <string name="applying_wallpaper">Ustawianie \'%1$s\'</string>
+    <string name="apply_to">Ustaw na:</string>
+    <string name="home_screen">Ekran domowy</string>
+    <string name="lock_screen">Ekran blokady</string>
+    <string name="home_lock_screen">Ekran domowy i blokady</string>
+    <string name="apply_with_other_app">Ustaw za pomocą innej aplikacji</string>
+    <string name="apply_successful">Tapeta ustawiona pomyślnie na %1$s</string>
+    <string name="apply_successful_short">Tapeta została ustawiona pomyślnie</string>
+    <string name="wallpaper_details">Szczegóły</string>
+    <string name="wallpaper_palette">Paleta barw</string>
+    <string name="copied_to_clipboard">Skopiowano kolor do schowka</string>
+    <string name="search">Szukaj</string>
+    <string name="search_x">Wyszukaj %1$s...</string>
+    <string name="search_no_results">Brak wyników</string>
+    <string name="about">O aplikacji</string>
+    <string name="refresh">Odśwież</string>
+    <string name="translate">Przetłumacz</string>
+    <string name="licenses">Licencje</string>
+    <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+    <string name="frames_dashboard">Aplikacja bazowa Frames</string>
+    <string name="dev_contributions">Pomoc w rozwoju aplikacji</string>
+    <string name="ui_contributions">Pomoc w projektowaniu UI</string>
+    <string name="dashboard_copyright">Jestem kreatywnym Android Developerem z pasją. Jestem twórcą aplikacji bazowej.</string>
+    <string name="sherry_description">Ciągle ewoluująca kobieta, która nigdy nie ma dość nauki, kreatywny fotograf oraz osoba, która umożliwiła stworzenie tej aplikacji.</string>
+    <string name="allan_description">Początkowo twórca paczek ikon, później twórca motywów, teraz także developer.\nPomogłem w rozwoju tej aplikacji.</string>
+    <string name="settings">Ustawienia</string>
+    <string name="ui_settings_title">Interfejs Użytkownika</string>
+    <string name="theme_setting_title">Motyw</string>
+    <string name="theme_setting_content">Wybierz motyw aplikacji</string>
+    <!-- Light Theme -->
+    <string name="light_theme">Jasny</string>
+    <!-- Dark Theme -->
+    <string name="dark_theme">Ciemny</string>
+    <!-- Amoled Theme -->
+    <string name="amoled_theme">Amoled</string>
+    <!-- Transparent Theme -->
+    <string name="transparent_theme">Przeźroczysty</string>
+    <!-- Automatic Light-Dark Theme -->
+    <string name="auto_dark">Auto jasny-ciemny</string>
+    <!-- Automatic Light-Amoled Theme -->
+    <string name="auto_amoled">Auto jasny-amoled</string>
+    <string name="navbar_color_setting_title">Kolorowy pasek nawigacji</string>
+    <string name="navbar_color_setting_content">Nałóż główny kolor aplikacji na pasek nawigacji</string>
+    <string name="wallpapers_columns_setting_title">Kolumny tapet</string>
+    <string name="wallpapers_columns_setting_content">Wybierz ilość kolumn wyświetlanych tapet</string>
+    <string name="animations_setting_title">Włącz animacje</string>
+    <string name="animations_setting_content">Mogą one powodować spadek wydajności.</string>
+    <string name="load_hi_res_pictures_title">Podgląd w pełnej rozdzielczości</string>
+    <string name="load_hi_res_pictures_content">Ładuj obrazki w pełnej rozdzielczości w widoku siatki</string>
+    <string name="deep_search_title">Włącz głębokie przeszukiwanie</string>
+    <string name="deep_search_content">Szukaj po nazwie oraz kolekcji</string>
+    <string name="storage_settings_title">Pamięć</string>
+    <string name="wallpapers_download_location_setting_title">Lokalizacja zapisu tapet</string>
+    <string name="wallpapers_download_location_setting_content">Zmień lokalizację zapisu pobieranych tapet.\nObecna lokalizacja: %1$s</string>
+    <string name="create_folder">Utwórz folder</string>
+    <string name="choose_folder">Wybierz</string>
+    <string name="data_cache_setting_title">Wyczyść dane oraz cache aplikacji</string>
+    <string name="data_cache_setting_content">Ta operacja usunie pamięć podręczną aplikacji oraz jej ustawienia.\nObecny rozmiar pamięci podręcznej: %1$s</string>
+    <string name="data_cache_confirmation">Czy na pewno chcesz usunąć dane aplikacji, pamięć podręczną oraz jej ustawienia?</string>
+    <string name="clear_favorites_setting_title">Wyczyść listę ulubionych tapet</string>
+    <string name="clear_favorites_setting_content">Wyczyść listę swoich ulubionych tapet</string>
+    <string name="clear_favorites_confirmation">Czy na pewno chcesz usunąć listę ulubionych tapet?</string>
+    <!-- License -->
+    <string name="license_valid_title">Ważna licencja</string>
+    <string name="license_valid_content">Dziękujemy za pobranie %1$s z legalnego źródła. Miłego używania!</string>
+    <string name="license_valid_snack">Licencja potwierdzona. Dziękujemy za pobranie %1$s. Mamy nadzieję, że aplikacja ci się spodoba!</string>
+    <string name="license_invalid_title">Nie przejdziesz!</string>
+    <string name="license_invalid_content">Przepraszamy, ale wykryliśmy, że twoja licencja dla %1$s jest nieważna. Może być to spowodowane używaniem pirackich aplikacji. %2$s. Jeśli uważasz to za błąd, prosimy spróbować ponownie. W przeciwnym razie pobierz aplikację z legalnego źródła. </string>
+    <string name="license_invalid_content_extra">Lub dokładnie: \'%1$s\', więc prosimy ją odinstalować</string>
+    <string name="error_title">Błąd</string>
+    <string name="action_error_content">Przepraszamy, wystąpił nieoczekiwany błąd podczas próby ukończenia tej akcji.</string>
+    <string name="license_error_content">Przepraszamy, ale wystąpił błąd podczas sprawdzania licencji. Prosimy spróbować ponownie.</string>
+    <string name="try_now">Spróbuj teraz</string>
+    <string name="donate">Dotacja</string>
+    <string name="donate_success_title">Dziękujemy</string>
+    <string name="donate_success_content">Niezmiernie dziękujemy za twoją dotację. Naprawdę to doceniamy oraz cieszymy się, że podoba ci się %1$s.</string>
+    <string name="donate_error">Wystąpił niespodziewany błąd z kodem %1$s z powodu %2$s</string>
+    <string name="donate_error_unknown">nieznane przyczyny</string>
+    <string name="loading">Ładowanie...</string>
+    <string name="close">Zamknij</string>
+    <!-- Muzei Settings -->
+    <string name="muzei_settings">Ustawienia Muzei</string>
+    <!-- Please use this character … -->
+    <string name="refresh_wallpapers_every">Odśwież tapety...</string>
+    <string name="every_x">Co %1$s</string>
+    <string name="minutes">Minut</string>
+    <string name="hours">Godzin</string>
+    <string name="days">Dni</string>
+    <string name="refresh_only_on_wifi">Odświeżaj tylko z włączonym WiFi.</string>
+    <string name="refresh_only_on_wifi_summary">Odświeżaj tapety tylko gdy urządzenie jest połączone z siecią WiFi.</string>
+    <string name="choose_collections_title">Wybierz kolekcje</string>
+    <string name="choose_collections_summary">Wybierz kolekcję, z której będą pobierane tapety.
 Obecnie wybrana kolekcja: %1$s</string>
-  <string name="muzei_not_connected_title">Brak połączenia z internetem</string>
-  <string name="muzei_not_connected_content">Przepraszamy, ale do wybierania lub zmieniania kolekcji, z których chcesz pobierać tapety wymagane jest połączenie z internetem. Prosimy spróbować później.</string>
-  <string name="sure_to_exit">Wyjście</string>
-  <string name="sure_to_exit_content">Czy chcesz zapisać ustawienia przed wyjściem?</string>
-  <string name="yes">Tak</string>
-  <string name="no">Nie</string>
-  <string name="not_connected_content">Niestety, ta akcja wymaga połączenia z Internetem. Prosimy spróbować później.</string>
-  <string name="new_wallpapers_available">%1$s nowych tapet jest teraz dostępnych. Tapnij, aby je zobaczyć!</string>
-  <string name="notifications_title">Powiadomienia</string>
-  <string name="enable_notifications">Włącz powiadomienia</string>
-  <string name="changelog">Dziennik zmian</string>
-  <string name="dismiss">Odrzuć</string>
-  <string name="prevent_download_title">Pobieranie zablokowane</string>
-  <string name="prevent_download_content">Dla bezpieczeństwa, pobieranie tapet nie jest możliwe przez kolejne %1$s godzin. Spróbuj ponownie później.</string>
+    <string name="muzei_not_connected_title">Brak połączenia z internetem</string>
+    <string name="muzei_not_connected_content">Przepraszamy, ale do wybierania lub zmieniania kolekcji, z których chcesz pobierać tapety wymagane jest połączenie z internetem. Prosimy spróbować później.</string>
+    <string name="sure_to_exit">Wyjście</string>
+    <string name="sure_to_exit_content">Czy chcesz zapisać ustawienia przed wyjściem?</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="not_connected_content">Niestety, ta akcja wymaga połączenia z Internetem. Prosimy spróbować później.</string>
+    <string name="new_wallpapers_available">%1$s nowych tapet jest teraz dostępnych. Tapnij, aby je zobaczyć!</string>
+    <string name="notifications_title">Powiadomienia</string>
+    <string name="enable_notifications">Włącz powiadomienia</string>
+    <string name="changelog">Dziennik zmian</string>
+    <string name="dismiss">Odrzuć</string>
+    <string name="prevent_download_title">Pobieranie zablokowane</string>
+    <string name="prevent_download_content">Dla bezpieczeństwa, pobieranie tapet nie jest możliwe przez kolejne %1$s godzin. Spróbuj ponownie później.</string>
 </resources>
