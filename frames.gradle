@@ -24,6 +24,7 @@ dependencies {
     // Architecture Components
     implementation libraries.room, exclusions
     kapt libraries.roomCompiler
+    implementation libraries.worker, exclusions
     // Permissions
     implementation libraries.permissions, exclusions
     // Material Dialogs

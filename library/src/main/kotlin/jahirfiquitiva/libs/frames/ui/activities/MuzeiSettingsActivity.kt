@@ -34,7 +34,7 @@ import ca.allanwang.kau.utils.isNetworkAvailable
 import com.afollestad.materialdialogs.MaterialDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
-import jahirfiquitiva.libs.frames.data.services.FramesArtSource
+import jahirfiquitiva.libs.frames.data.services.FramesArtProvider
 import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
@@ -270,9 +270,12 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
             collsVM.destroy(this)
         } catch (ignored: Exception) {
         }
-        val intent = Intent(this, FramesArtSource::class.java)
-        intent.putExtra("restart", true)
-        startService(intent)
+        try {
+            val intent = Intent(this, FramesArtProvider::class.java)
+            intent.putExtra("restart", true)
+            startService(intent)
+        } catch (e: Exception) {
+        }
         try {
             supportFinishAfterTransition()
         } catch (e: Exception) {

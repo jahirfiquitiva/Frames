@@ -34,6 +34,7 @@ ext.versions = [
         // Dependencies
         supportLibs          : '28.0.0',
         room                 : '2.0.0',
+        worker               : '1.0.0-beta01',
         permissions          : '1.0.0',
         materialDialogs      : '2.0.0-rc4',
         glide                : '4.8.0',
@@ -42,7 +43,7 @@ ext.versions = [
         rvFastScroll         : '67cdb7e',
         chips                : '0.1.1',
         iaps                 : '1.0.44',
-        muzeiApi             : '2.0',
+        muzeiApi             : '3.1.0',
         licensesDialog       : '1.8.3',
         checker              : '1.2.4',
         oneSignal            : '3.10.5'
@@ -60,6 +61,8 @@ ext.libraries = [
         // Architecture Components
         room                 : 'androidx.room:room-runtime:' + versions.room,
         roomCompiler         : 'androidx.room:room-compiler:' + versions.room,
+        // Worker
+        worker               : 'android.arch.work:work-runtime-ktx:' + versions.worker,
         // Permissions
         permissions          : 'com.github.fondesa:kpermissions:' + versions.permissions,
         // Material Dialogs
