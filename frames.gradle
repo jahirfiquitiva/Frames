@@ -22,37 +22,37 @@ dependencies {
     // Kotlin
     api libraries.kotlin
     // Architecture Components
-    implementation libraries.room, exclusions
+    api libraries.room, exclusions
     kapt libraries.roomCompiler
-    implementation libraries.worker, exclusions
+    api libraries.worker, exclusions
     // Permissions
-    implementation libraries.permissions, exclusions
+    api libraries.permissions, exclusions
     // Material Dialogs
-    implementation libraries.dialogsCore, exclusions
-    implementation libraries.dialogsCommons, exclusions
+    api libraries.dialogsCore, exclusions
+    api libraries.dialogsCommons, exclusions
     // Glide Image Loading
-    implementation libraries.glide, exclusions
-    implementation libraries.gliderv, exclusions
-    implementation libraries.glideWebp, exclusions
+    api libraries.glide, exclusions
+    api libraries.gliderv, exclusions
+    api libraries.glideWebp, exclusions
     kapt libraries.glideCompiler
     // kext
     // api libraries.kext
     api(libraries.archHelpers) {
         transitive = true
     }
-    implementation libraries.ziv, exclusions
+    api libraries.ziv, exclusions
     // Sectioned RecyclerView
-    implementation libraries.sectionedRecyclerView, exclusions
+    api libraries.sectionedRecyclerView, exclusions
     // RecyclerView FastScroll
-    implementation libraries.rvFastScroll, exclusions
+    api libraries.rvFastScroll, exclusions
     // Chips
-    implementation libraries.chips, exclusions
+    api libraries.chips, exclusions
     // In-App Purchases
     api libraries.iaps, exclusions
     // Muzei API
     api libraries.muzeiApi, exclusions
     // Licenses Dialog
-    implementation libraries.licenses, exclusions
+    api libraries.licenses, exclusions
     // License Checker
     api libraries.checker, exclusions
 }
