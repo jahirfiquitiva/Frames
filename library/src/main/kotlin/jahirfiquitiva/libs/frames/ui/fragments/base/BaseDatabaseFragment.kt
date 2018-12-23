@@ -16,15 +16,14 @@
 package jahirfiquitiva.libs.frames.ui.fragments.base
 
 import android.graphics.Color
-import android.support.annotation.ColorInt
-import android.support.design.widget.Snackbar
-import android.support.v7.widget.RecyclerView
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.ScaleAnimation
 import android.widget.ImageView
 import android.widget.TextView
-import jahirfiquitiva.libs.archhelpers.ui.fragments.ViewModelFragment
+import androidx.annotation.ColorInt
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
@@ -33,6 +32,7 @@ import jahirfiquitiva.libs.kext.extensions.SimpleAnimationListener
 import jahirfiquitiva.libs.kext.extensions.applyColorFilter
 import jahirfiquitiva.libs.kext.extensions.buildSnackbar
 import jahirfiquitiva.libs.kext.extensions.context
+import jahirfiquitiva.libs.kext.ui.fragments.ViewModelFragment
 import org.jetbrains.anko.runOnUiThread
 
 @Suppress("NAME_SHADOWING")

@@ -27,6 +27,7 @@ dependencies {
     // Permissions
     api libraries.permissions, exclusions
     // Material Dialogs
+    api libraries.dialogsCore, exclusions
     api libraries.dialogsCommons, exclusions
     // Glide Image Loading
     api libraries.glide, exclusions

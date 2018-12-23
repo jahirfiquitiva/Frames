@@ -15,8 +15,8 @@
  */
 package jahirfiquitiva.libs.frames.ui.adapters
 
-import android.support.v7.graphics.Palette
 import android.view.ViewGroup
+import androidx.palette.graphics.Palette
 import ca.allanwang.kau.utils.inflate
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder

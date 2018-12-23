@@ -21,14 +21,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.CallSuper
-import android.support.annotation.StringRes
-import android.support.design.widget.Snackbar
+import androidx.annotation.CallSuper
+import androidx.annotation.StringRes
 import ca.allanwang.kau.utils.isNetworkAvailable
 import com.afollestad.materialdialogs.MaterialDialog
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce
+import com.google.android.material.snackbar.Snackbar
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
@@ -40,6 +40,7 @@ import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsDialog
 import jahirfiquitiva.libs.kext.extensions.formatCorrectly
 import jahirfiquitiva.libs.kext.extensions.getAppName
 import jahirfiquitiva.libs.kext.extensions.getUri
+import jahirfiquitiva.libs.kext.extensions.items
 import jahirfiquitiva.libs.kext.ui.activities.ActivityWFragments
 import java.io.File
 import java.text.SimpleDateFormat
@@ -132,16 +133,14 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
             val dest = File(folder, fileName + correctExtension)
             if (dest.exists()) {
                 actionDialog = mdDialog {
-                    content(R.string.file_exists)
-                    negativeText(R.string.file_replace)
-                    positiveText(R.string.file_create_new)
-                    onPositive { _, _ ->
+                    message(R.string.file_exists)
+                    positiveButton(R.string.file_create_new) {
                         val time = getCurrentTimeStamp().formatCorrectly().replace(" ", "_")
                         val newDest = File(folder, fileName + "_" + time + correctExtension)
                         if (toApply) showWallpaperApplyOptions(newDest)
                         else startDownload(newDest)
                     }
-                    onNegative { _, _ ->
+                    negativeButton(R.string.file_replace) {
                         if (toApply) showWallpaperApplyOptions(dest)
                         else startDownload(dest)
                     }
@@ -167,12 +166,8 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
         runOnUiThread {
             properlyCancelDialog()
             showSnackbar(
-                getString(R.string.download_successful, dest.toString()),
-                Snackbar.LENGTH_LONG) {
-                setAction(
-                    R.string.open, {
-                    dest.getUri(context)?.let { openWallpaper(it) }
-                })
+                getString(R.string.download_successful, dest.toString()), Snackbar.LENGTH_LONG) {
+                setAction(R.string.open) { dest.getUri(context)?.let { openWallpaper(it) } }
             }
         }
     }
@@ -206,10 +201,9 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
         
         actionDialog = mdDialog {
             title(R.string.apply_to)
-            items(options)
-            itemsCallback { _, _, position, _ ->
+            items(options) { _, index, _ ->
                 val rightPosition =
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) position + 2 else position
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) index + 2 else index
                 if (dest != null) {
                     applyWallpaper(
                         dest, rightPosition == 0, rightPosition == 1, rightPosition == 2,
@@ -295,8 +289,8 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
         properlyCancelDialog()
         actionDialog = mdDialog {
             title(R.string.muzei_not_connected_title)
-            content(R.string.not_connected_content)
-            positiveText(android.R.string.ok)
+            message(R.string.not_connected_content)
+            positiveButton(android.R.string.ok)
         }
         actionDialog?.show()
     }

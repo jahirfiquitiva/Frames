@@ -25,8 +25,8 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentActivity
 import ca.allanwang.kau.utils.snackbar
 import ca.allanwang.kau.utils.toast
 import com.afollestad.materialdialogs.MaterialDialog
@@ -75,11 +75,9 @@ class WallpaperActionsDialog : DialogFragment() {
         if (destFile == null && destBitmap == null) {
             return actv.mdDialog {
                 title(R.string.error_title)
-                content(R.string.action_error_content)
-                positiveText(android.R.string.ok)
-                onPositive { dialog, _ ->
-                    dialog.dismiss()
-                    activity { dismiss(it) }
+                message(R.string.action_error_content)
+                positiveButton(android.R.string.ok) {
+                    it.dismiss()
                 }
             }
         }
@@ -126,7 +124,6 @@ class WallpaperActionsDialog : DialogFragment() {
                                     dialog?.let {
                                         it.setCancelable(progress > 0)
                                         it.setCanceledOnTouchOutside(progress > 0)
-                                        (it as? MaterialDialog)?.setProgress(progress)
                                     }
                                 }
                                 
@@ -152,19 +149,17 @@ class WallpaperActionsDialog : DialogFragment() {
     
     private fun actuallyBuildDialog(): MaterialDialog {
         val dialog = actv.mdDialog {
-            content(
-                getString(
+            message(
+                text = getString(
                     if (shouldApply && !toOtherApp) R.string.applying_wallpaper
                     else R.string.downloading_wallpaper,
                     wallpaper?.name.orEmpty()))
-            progress(false, 100)
-            positiveText(android.R.string.cancel)
-            cancelable(false)
-            canceledOnTouchOutside(false)
-            onPositive { _, _ ->
+            positiveButton(android.R.string.cancel) {
                 stopActions()
-                activity { dismiss(it) }
+                it.dismiss()
             }
+            cancelable(false)
+            cancelOnTouchOutside(false)
         }
         thread?.start()
         return dialog
@@ -172,8 +167,7 @@ class WallpaperActionsDialog : DialogFragment() {
     
     private fun buildApplyDialog(): MaterialDialog {
         val dialog = actv.mdDialog {
-            content(getString(R.string.applying_wallpaper, wallpaper?.name))
-            progress(true, 0)
+            message(text = getString(R.string.applying_wallpaper, wallpaper?.name))
         }
         thread?.start()
         return dialog
@@ -204,11 +198,9 @@ class WallpaperActionsDialog : DialogFragment() {
                     activity {
                         it.mdDialog {
                             title(R.string.error_title)
-                            content(R.string.action_error_content)
-                            positiveText(android.R.string.ok)
-                            onPositive { dialog, _ ->
-                                dialog.dismiss()
-                                activity { dismiss(it) }
+                            message(R.string.action_error_content)
+                            positiveButton(android.R.string.ok) {
+                                it.dismiss()
                             }
                         }
                     }

@@ -18,14 +18,14 @@ package jahirfiquitiva.libs.frames.ui.adapters.viewholders
 import android.animation.ValueAnimator
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.support.annotation.ColorInt
-import android.support.v4.view.ViewCompat
-import android.support.v7.graphics.Palette
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.ColorInt
+import androidx.core.view.ViewCompat
+import androidx.palette.graphics.Palette
+import androidx.recyclerview.widget.RecyclerView
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.visible
@@ -38,9 +38,7 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.createHeartIcon
 import jahirfiquitiva.libs.frames.helpers.extensions.tilesColor
 import jahirfiquitiva.libs.frames.helpers.glide.GlidePaletteListener
-import jahirfiquitiva.libs.frames.helpers.glide.clearFromGlide
 import jahirfiquitiva.libs.frames.helpers.glide.loadPicture
-import jahirfiquitiva.libs.frames.helpers.glide.preloadPicture
 import jahirfiquitiva.libs.frames.helpers.glide.smoothAnimator
 import jahirfiquitiva.libs.kext.extensions.bestSwatch
 import jahirfiquitiva.libs.kext.extensions.bind
@@ -53,9 +51,8 @@ import jahirfiquitiva.libs.kext.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kext.extensions.hasContent
 import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
 import jahirfiquitiva.libs.kext.extensions.notNull
-import org.jetbrains.anko.doAsync
 
-const val DETAILS_OPACITY = 0.85F
+const val DETAILS_OPACITY = 0.8F
 const val COLLECTION_DETAILS_OPACITY = 0.4F
 
 abstract class FramesViewClickListener<in T, in VH> {
@@ -114,7 +111,7 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
     
     fun unbind() {
         stopLoading()
-        img?.clearFromGlide()
+        img?.setImageDrawable(null)
     }
 }
 
@@ -139,7 +136,6 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
         val rightCover = collection.bestCover ?: collection.wallpapers.first()
         val url = rightCover.url
         val thumb = rightCover.thumbUrl
-        doAsync { img?.preloadPicture(manager, url, thumb) }
         with(itemView) {
             val filled = context.boolean(R.bool.enable_filled_collection_preview)
             title?.text = if (filled) collection.name.toUpperCase() else collection.name
@@ -205,7 +201,6 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
         detailsBg?.background = null
         startLoading()
         if (this.wallpaper != wallpaper) this.wallpaper = wallpaper
-        doAsync { img?.preloadPicture(manager, wallpaper.url, wallpaper.thumbUrl) }
         with(itemView) {
             heartIcon?.setImageDrawable(null)
             heartIcon?.gone()

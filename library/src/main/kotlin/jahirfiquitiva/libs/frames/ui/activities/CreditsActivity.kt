@@ -18,12 +18,13 @@ package jahirfiquitiva.libs.frames.ui.activities
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.StringRes
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ca.allanwang.kau.utils.openLink
 import com.bumptech.glide.Glide
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
@@ -51,7 +52,7 @@ import jahirfiquitiva.libs.kext.ui.activities.ThemedActivity
 
 open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
     
-    override val configs: FramesKonfigs by lazy { FramesKonfigs(this) }
+    override val prefs: FramesKonfigs by lazy { FramesKonfigs(this) }
     override fun lightTheme(): Int = R.style.LightTheme
     override fun darkTheme(): Int = R.style.DarkTheme
     override fun amoledTheme(): Int = R.style.AmoledTheme
@@ -80,9 +81,8 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
         recyclerView?.itemAnimator = DefaultItemAnimator()
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
         
-        val layoutManager = GridLayoutManager(
-            this, if (isInHorizontalMode) 2 else 1,
-            GridLayoutManager.VERTICAL, false)
+        val layoutManager =
+            GridLayoutManager(this, if (isInHorizontalMode) 2 else 1, RecyclerView.VERTICAL, false)
         recyclerView?.layoutManager = layoutManager
         
         val adapter = CreditsAdapter(getDashboardTitle(), Glide.with(this), buildCreditsList())
@@ -242,9 +242,8 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
     private companion object {
         const val JAHIR_PHOTO_URL =
             "https://github.com/jahirfiquitiva/Website-Resources/raw/master/myself/me-square-white.png"
-        const val JAHIR_BUTTONS = "Website|Support|Google+"
-        const val JAHIR_LINKS =
-            "https://jahirfiquitiva.com/|https://jahirfiquitiva.com/donate/|https://www.google.com/+JahirFiquitivaR"
+        const val JAHIR_BUTTONS = "Website|Twitter"
+        const val JAHIR_LINKS = "https://jahir.xyz/|https://jahir.xyz/twitter/"
         
         const val ALLAN_PHOTO_URL = "https://avatars0.githubusercontent.com/u/6251823?v=4&s=400"
         const val ALLAN_BUTTONS = "GitHub|Google+|Play Store"

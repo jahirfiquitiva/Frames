@@ -16,14 +16,13 @@
 package jahirfiquitiva.libs.frames.ui.activities.base
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.OnLifecycleEvent
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.widget.TextView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ViewModelProviders
 import ca.allanwang.kau.utils.contentView
 import ca.allanwang.kau.utils.openLink
 import ca.allanwang.kau.utils.toast
@@ -38,6 +37,7 @@ import com.github.javiersantos.piracychecker.enums.InstallerID
 import com.github.javiersantos.piracychecker.enums.PirateApp
 import com.github.javiersantos.piracychecker.onError
 import com.github.javiersantos.piracychecker.piracyChecker
+import com.google.android.material.snackbar.Snackbar
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
@@ -60,6 +60,7 @@ import jahirfiquitiva.libs.kext.extensions.compliesWithMinTime
 import jahirfiquitiva.libs.kext.extensions.getAppName
 import jahirfiquitiva.libs.kext.extensions.hasContent
 import jahirfiquitiva.libs.kext.extensions.isUpdate
+import jahirfiquitiva.libs.kext.extensions.itemsSingleChoice
 import jahirfiquitiva.libs.kext.extensions.stringArray
 
 abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActivity<T>(),
@@ -137,7 +138,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     
     private fun startLicenseCheck(force: Boolean = false) {
         val update = isUpdate
-        if (update || !configs.functionalDashboard || force) {
+        if (update || !prefs.functionalDashboard || force) {
             checker = getLicenseChecker()
             checker?.let {
                 with(it) {
@@ -151,7 +152,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
                     start()
                 }
             } ?: {
-                configs.functionalDashboard = true
+                prefs.functionalDashboard = true
                 if (update) showChanges()
             }()
         }
@@ -159,8 +160,8 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     
     fun getShortcut(): String {
         if (intent != null && intent.dataString != null &&
-            intent.dataString.contains("_shortcut")) {
-            return intent.dataString
+            intent.dataString.orEmpty().contains("_shortcut")) {
+            return intent.dataString.orEmpty()
         }
         return ""
     }
@@ -192,7 +193,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     
     internal fun showLicensedSnack(update: Boolean, force: Boolean = false) {
         destroyDialog()
-        configs.functionalDashboard = true
+        prefs.functionalDashboard = true
         if (!update || force) {
             showSnackbar(
                 getString(R.string.license_valid_snack, getAppName()),
@@ -204,7 +205,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     
     internal fun showNotLicensedDialog(pirateApp: PirateApp?) {
         destroyDialog()
-        configs.functionalDashboard = false
+        prefs.functionalDashboard = false
         val pirateAppName = pirateApp?.name ?: ""
         val content = if (pirateAppName.hasContent()) {
             getString(
@@ -215,25 +216,23 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         }
         dialog = mdDialog {
             title(R.string.license_invalid_title)
-            content(content)
-            positiveText(android.R.string.ok)
-            neutralText(R.string.download)
-            onPositive { _, _ ->
-                configs.functionalDashboard = false
+            message(text = content)
+            positiveButton(android.R.string.ok) {
+                prefs.functionalDashboard = false
                 finish()
             }
-            onNeutral { _, _ ->
-                configs.functionalDashboard = false
+            negativeButton(R.string.download) {
+                prefs.functionalDashboard = false
                 openLink(PLAY_STORE_LINK_PREFIX + packageName)
                 finish()
             }
         }
         dialog?.setOnDismissListener {
-            configs.functionalDashboard = false
+            prefs.functionalDashboard = false
             finish()
         }
         dialog?.setOnCancelListener {
-            configs.functionalDashboard = false
+            prefs.functionalDashboard = false
             finish()
         }
         dialog?.show()
@@ -241,27 +240,25 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     
     internal fun showLicenseErrorDialog() {
         destroyDialog()
-        configs.functionalDashboard = false
+        prefs.functionalDashboard = false
         dialog = mdDialog {
             title(R.string.error_title)
-            content(R.string.license_error_content)
-            positiveText(android.R.string.ok)
-            neutralText(R.string.try_now)
-            onPositive { _, _ ->
-                configs.functionalDashboard = false
+            message(R.string.license_error_content)
+            positiveButton(android.R.string.ok) {
+                prefs.functionalDashboard = false
                 finish()
             }
-            onNeutral { _, _ ->
-                configs.functionalDashboard = false
+            negativeButton(R.string.try_now) {
+                prefs.functionalDashboard = false
                 startLicenseCheck(true)
             }
         }
         dialog?.setOnDismissListener {
-            configs.functionalDashboard = false
+            prefs.functionalDashboard = false
             finish()
         }
         dialog?.setOnCancelListener {
-            configs.functionalDashboard = false
+            prefs.functionalDashboard = false
             finish()
         }
         dialog?.show()
@@ -289,9 +286,9 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
                 }
                 destroyDialog()
                 dialog = mdDialog {
-                    content(R.string.loading)
-                    progress(true, 0)
+                    message(R.string.loading)
                     cancelable(false)
+                    cancelOnTouchOutside(false)
                 }
                 donationViewModel.loadData(stringArray(R.array.donation_items) ?: arrayOf(""), true)
                 dialog?.show()
@@ -303,13 +300,11 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         destroyDialog()
         dialog = mdDialog {
             title(R.string.donate)
-            items(items)
-            itemsCallbackSingleChoice(0) { _, _, which, _ ->
+            itemsSingleChoice(items) { _, which, _ ->
                 billingProcessor?.purchase(this@BaseFramesActivity, items[which].id)
-                true
             }
-            negativeText(android.R.string.cancel)
-            positiveText(R.string.donate)
+            negativeButton(android.R.string.cancel)
+            positiveButton(R.string.donate)
         }
         dialog?.show()
     }
@@ -318,8 +313,8 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         destroyDialog()
         dialog = mdDialog {
             title(R.string.error_title)
-            content(
-                getString(
+            message(
+                text = getString(
                     R.string.donate_error, error.toString(),
                     reason ?: getString(R.string.donate_error_unknown)))
         }
@@ -332,8 +327,8 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
                 destroyDialog()
                 dialog = mdDialog {
                     title(R.string.donate_success_title)
-                    content(getString(R.string.donate_success_content, getAppName()))
-                    positiveText(R.string.close)
+                    message(text = getString(R.string.donate_success_content, getAppName()))
+                    positiveButton(R.string.close)
                 }
                 dialog?.show()
             }
@@ -342,8 +337,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     
     override fun onBillingError(errorCode: Int, error: Throwable?) {
         showDonationErrorDialog(
-            errorCode,
-            error?.message ?: getString(R.string.donate_error_unknown))
+            errorCode, error?.message ?: getString(R.string.donate_error_unknown))
         destroyBillingProcessor()
     }
     
@@ -413,10 +407,9 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         this.wallpaper = wallpaper
         destroyDialog()
         dialog = mdDialog {
-            content(R.string.actions_dialog_content)
-            positiveText(R.string.apply)
-            onPositive { dialog, _ ->
-                dialog.dismiss()
+            message(R.string.actions_dialog_content)
+            positiveButton(R.string.apply) {
+                it.dismiss()
                 doItemClick(APPLY_ACTION_ID)
             }
             
@@ -424,9 +417,8 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
                 getLicenseChecker()?.let { compliesWithMinTime(MIN_TIME) } ?: true
             
             if (wallpaper.downloadable && actuallyComplies) {
-                negativeText(R.string.download)
-                onNegative { dialog, _ ->
-                    dialog.dismiss()
+                negativeButton(R.string.download) {
+                    it.dismiss()
                     doItemClick(DOWNLOAD_ACTION_ID)
                 }
             }

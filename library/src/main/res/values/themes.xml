@@ -47,12 +47,10 @@
         <item name="cardBackgroundColor">@color/light_theme_card_background</item>
 
         <!-- Material Dialogs specific values -->
-        <item name="md_title_color">#de000000</item>
-        <item name="md_content_color">#8a000000</item>
-        <item name="md_positive_color">@color/light_theme_dialogs_button_color</item>
-        <item name="md_negative_color">@color/light_theme_dialogs_button_color</item>
-        <item name="md_neutral_color">@color/light_theme_dialogs_button_color</item>
+        <item name="md_color_title">#de000000</item>
+        <item name="md_color_content">#8a000000</item>
         <item name="md_background_color">@color/light_theme_card_background</item>
+        <item name="md_corner_radius">@dimen/dialogs_corner_radius</item>
 
         <item name="isDarkTheme">false</item>
     </style>
@@ -72,12 +70,10 @@
         <item name="cardBackgroundColor">@color/dark_theme_card_background</item>
 
         <!-- Material Dialogs specific values -->
-        <item name="md_title_color">@android:color/white</item>
-        <item name="md_content_color">#b3ffffff</item>
-        <item name="md_positive_color">@color/dark_theme_dialogs_button_color</item>
-        <item name="md_negative_color">@color/dark_theme_dialogs_button_color</item>
-        <item name="md_neutral_color">@color/dark_theme_dialogs_button_color</item>
+        <item name="md_color_title">@android:color/white</item>
+        <item name="md_color_content">#b3ffffff</item>
         <item name="md_background_color">@color/dark_theme_card_background</item>
+        <item name="md_corner_radius">@dimen/dialogs_corner_radius</item>
 
         <item name="isDarkTheme">true</item>
     </style>

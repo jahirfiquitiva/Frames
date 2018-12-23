@@ -23,13 +23,10 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.NoTransition
-import jahirfiquitiva.libs.frames.helpers.extensions.doOnLayout
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
 
@@ -41,8 +38,6 @@ fun RequestManager.loadPicture(
     fitCenter: Boolean = false,
     circular: Boolean = false,
     withTransition: Boolean = true,
-    forceNow: Boolean = false,
-    preload: Boolean = false,
     listener: RequestListener<Drawable>? = null
                               ): RequestBuilder<*>? {
     return try {
@@ -54,8 +49,7 @@ fun RequestManager.loadPicture(
                 if (context == null || context.isLowRamDevice) DecodeFormat.PREFER_RGB_565
                 else DecodeFormat.PREFER_ARGB_8888)
             .disallowHardwareConfig()
-            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-            .timeout(5000)
+            .timeout(10000)
             .placeholder(placeholder)
             .fallback(placeholder)
             .error(placeholder)
@@ -72,16 +66,13 @@ fun RequestManager.loadPicture(
         }
         
         val thumbnailRequest: RequestBuilder<Drawable>? = if (finalUrl != thumbnail) {
-            load(thumbnail).apply(options.priority(Priority.IMMEDIATE))
+            load(thumbnail).apply(options.priority(Priority.HIGH))
         } else null
         
         val request: RequestBuilder<Drawable>? = load(url)
-            .apply(options.priority(if (forceNow) Priority.IMMEDIATE else Priority.HIGH))
-            .thumbnail(
-                if (preload) thumbnailRequest
-                else thumbnailRequest?.transition(transition)?.listener(listener))
-        
-        if (preload) request else request?.transition(transition)?.listener(listener)
+            .apply(options)
+            .thumbnail(thumbnailRequest?.transition(transition)?.listener(listener))
+        request?.transition(transition)?.listener(listener)
     } catch (e: Exception) {
         null
     }
@@ -95,40 +86,12 @@ fun ImageView.loadPicture(
     fitCenter: Boolean = false,
     circular: Boolean = false,
     withTransition: Boolean = true,
-    forceNow: Boolean = false,
     listener: RequestListener<Drawable>? = null
                          ) {
     
-    doOnLayout {
-        manager
-            ?.loadPicture(
-                url, thumbnail, placeholder ?: drawable, context, fitCenter, circular,
-                withTransition, forceNow, false, listener)
-            ?.into(this)
-    }
-}
-
-fun ImageView.preloadPicture(
-    manager: RequestManager? = Glide.with(this),
-    url: String,
-    thumbnail: String = url
-                            ) {
-    var gWidth = width
-    if (gWidth <= 0) gWidth = measuredWidth
-    if (gWidth <= 0) gWidth = minimumWidth
-    if (gWidth <= 0) gWidth = Target.SIZE_ORIGINAL
-    
-    var gHeight = height
-    if (gHeight <= 0) gHeight = measuredHeight
-    if (gHeight <= 0) gHeight = minimumHeight
-    if (gHeight <= 0) gHeight = Target.SIZE_ORIGINAL
-    
     manager
         ?.loadPicture(
-            url, thumbnail, drawable, withTransition = false, forceNow = true, preload = true)
-        ?.preload(gWidth, gHeight)
-}
-
-fun ImageView.clearFromGlide() {
-    Glide.with(this).clear(this)
+            url, thumbnail, placeholder ?: drawable, context, fitCenter, circular,
+            withTransition, listener)
+        ?.into(this)
 }

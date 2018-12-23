@@ -23,7 +23,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import ca.allanwang.kau.utils.darken
 import ca.allanwang.kau.utils.lighten
 import ca.allanwang.kau.utils.showChangelog
@@ -86,10 +86,10 @@ fun Context.openWallpaper(uri: Uri) {
 fun Context.createHeartIcon(checked: Boolean): Drawable? =
     drawable(if (checked) "ic_heart" else "ic_heart_outline")
 
-inline fun Context.mdDialog(action: MaterialDialog.Builder.() -> Unit = {}): MaterialDialog {
-    val builder = MaterialDialog.Builder(this)
+inline fun Context.mdDialog(action: MaterialDialog.() -> Unit = {}): MaterialDialog {
+    val builder = MaterialDialog(this)
     builder.action()
-    return builder.build()
+    return builder
 }
 
 fun Context.showChanges() {

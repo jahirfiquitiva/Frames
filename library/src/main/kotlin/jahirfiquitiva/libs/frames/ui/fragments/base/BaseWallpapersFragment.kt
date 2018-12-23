@@ -19,14 +19,15 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.util.Pair
-import android.support.v4.view.ViewCompat
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import android.widget.ImageView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
+import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
 import com.bumptech.glide.util.ViewPreloadSizeProvider
@@ -123,7 +124,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 loadingView = content.findViewById(R.id.loading_view)
                 setLoadingText(R.string.loading_section)
                 configureRVColumns()
-                itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
+                itemAnimator =
+                    if (context.isLowRamDevice) null else DefaultItemAnimator()
                 setHasFixedSize(true)
                 
                 activity {
@@ -146,7 +148,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             }
         }
         
-        fastScroller?.attachSwipeRefreshLayout(swipeToRefresh)
+        swipeToRefresh?.let { fastScroller?.attachSwipeRefreshLayout(it) }
         recyclerView?.let { fastScroller?.attachRecyclerView(it) }
     }
     
@@ -166,8 +168,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 recyclerView?.removeItemDecoration(spacingDecoration)
                 val columns = configs.columns
                 spanCount = if (it.isInHorizontalMode) (columns * 1.5).toInt() else columns
-                recyclerView?.layoutManager = GridLayoutManager(
-                    context, spanCount, GridLayoutManager.VERTICAL, false)
+                recyclerView?.layoutManager =
+                    GridLayoutManager(context, spanCount, RecyclerView.VERTICAL, false)
                 spacingDecoration = GridSpacingItemDecoration(
                     spanCount, it.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
                 recyclerView?.addItemDecoration(spacingDecoration)

@@ -29,7 +29,7 @@
 
     <!-- Privacy Policy link or url -->
     <string name="privacy_policy_link">""</string>
-    
+
     <!-- Terms and Conditions link or url -->
     <string name="terms_conditions_link">""</string>
 </resources>

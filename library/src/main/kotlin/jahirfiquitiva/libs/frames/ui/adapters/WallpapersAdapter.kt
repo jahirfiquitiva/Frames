@@ -21,7 +21,6 @@ import com.bumptech.glide.ListPreloader
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.util.ViewPreloadSizeProvider
-import jahirfiquitiva.libs.archhelpers.ui.adapters.RecyclerViewListAdapter
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.jfilter
@@ -29,6 +28,7 @@ import jahirfiquitiva.libs.frames.helpers.glide.loadPicture
 import jahirfiquitiva.libs.frames.helpers.utils.MAX_WALLPAPERS_LOAD
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
+import jahirfiquitiva.libs.kext.ui.adapters.RecyclerViewListAdapter
 import java.util.Collections
 
 class WallpapersAdapter(
@@ -73,7 +73,7 @@ class WallpapersAdapter(
         Collections.singletonList(list[position])
     
     override fun getPreloadRequestBuilder(item: Wallpaper): RequestBuilder<*>? =
-        manager?.loadPicture(item.thumbUrl, item.thumbUrl, withTransition = false, forceNow = true)
+        manager?.loadPicture(item.thumbUrl, item.thumbUrl, withTransition = false)
     
     private fun getModifiedItems(
         oldList: ArrayList<Wallpaper>,

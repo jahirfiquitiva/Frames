@@ -17,20 +17,21 @@ package jahirfiquitiva.libs.frames.ui.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.arch.persistence.room.Room
 import android.os.Build
 import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceCategory
 import android.preference.PreferenceScreen
 import android.preference.SwitchPreference
-import android.support.design.widget.Snackbar
+import androidx.room.Room
 import ca.allanwang.kau.utils.openLink
 import ca.allanwang.kau.utils.snackbar
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce
+import com.google.android.material.snackbar.Snackbar
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.helpers.extensions.clearDataAndCache
@@ -44,6 +45,7 @@ import jahirfiquitiva.libs.kext.extensions.activity
 import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.getAppName
 import jahirfiquitiva.libs.kext.extensions.hasContent
+import jahirfiquitiva.libs.kext.extensions.itemsSingleChoice
 import jahirfiquitiva.libs.kext.extensions.string
 import jahirfiquitiva.libs.kext.ui.activities.ThemedActivity
 import org.jetbrains.anko.doAsync
@@ -110,16 +112,15 @@ open class SettingsFragment : PreferenceFragment() {
             val currentTheme = configs.currentTheme
             dialog = activity?.mdDialog {
                 title(R.string.theme_setting_title)
-                items(R.array.themes_options)
-                itemsCallbackSingleChoice(currentTheme) { _, _, which, _ ->
-                    if (which != currentTheme) {
-                        configs.currentTheme = which
+                listItemsSingleChoice(
+                    R.array.themes_options, initialSelection = currentTheme) { _, index, _ ->
+                    if (index != currentTheme) {
+                        configs.currentTheme = index
                         (activity as? ThemedActivity<*>)?.onThemeChanged()
                     }
-                    true
                 }
-                positiveText(android.R.string.ok)
-                negativeText(android.R.string.cancel)
+                positiveButton(android.R.string.ok)
+                negativeButton(android.R.string.cancel)
             }
             dialog?.show()
             false
@@ -142,14 +143,11 @@ open class SettingsFragment : PreferenceFragment() {
                 val currentColumns = configs.columns - 1
                 dialog = context?.mdDialog {
                     title(R.string.wallpapers_columns_setting_title)
-                    items("1", "2", "3", "4", "5")
-                    itemsCallbackSingleChoice(currentColumns) { _, _, which, _ ->
-                        if (which != currentColumns)
-                            configs.columns = which + 1
-                        true
+                    itemsSingleChoice(arrayOf(1, 2, 3, 4, 5), currentColumns) { _, which, _ ->
+                        if (which != currentColumns) configs.columns = which + 1
                     }
-                    positiveText(android.R.string.ok)
-                    negativeText(android.R.string.cancel)
+                    positiveButton(android.R.string.ok)
+                    negativeButton(android.R.string.cancel)
                 }
                 dialog?.show()
                 false
@@ -199,10 +197,9 @@ open class SettingsFragment : PreferenceFragment() {
             clearDialog()
             dialog = activity?.mdDialog {
                 title(R.string.data_cache_setting_title)
-                content(R.string.data_cache_confirmation)
-                positiveText(android.R.string.ok)
-                negativeText(android.R.string.cancel)
-                onPositive { _, _ ->
+                message(R.string.data_cache_confirmation)
+                negativeButton(android.R.string.cancel)
+                positiveButton(android.R.string.ok) {
                     activity?.clearDataAndCache()
                     clearData.summary = getString(
                         R.string.data_cache_setting_content,
@@ -219,10 +216,9 @@ open class SettingsFragment : PreferenceFragment() {
                 clearDialog()
                 dialog = activity?.mdDialog {
                     title(R.string.clear_favorites_setting_title)
-                    content(R.string.clear_favorites_confirmation)
-                    positiveText(android.R.string.ok)
-                    negativeText(android.R.string.cancel)
-                    onPositive { _, _ ->
+                    message(R.string.clear_favorites_confirmation)
+                    negativeButton(android.R.string.cancel)
+                    positiveButton(android.R.string.ok) {
                         doAsync {
                             database?.favoritesDao()?.nukeFavorites()
                             (activity as? SettingsActivity)?.hasClearedFavs = true

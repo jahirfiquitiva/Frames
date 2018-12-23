@@ -15,8 +15,8 @@
  */
 package jahirfiquitiva.libs.frames.data.models.db
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 
 // TODO: Be sure to increment update if one changes Wallpaper class structure

@@ -17,11 +17,11 @@ package jahirfiquitiva.libs.frames.helpers.extensions
 
 import android.app.Activity
 import android.os.Build
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.view.ViewCompat
 import android.view.View
 import android.widget.FrameLayout
+import androidx.core.view.ViewCompat
 import ca.allanwang.kau.utils.dpToPx
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.kext.extensions.currentRotation
 import jahirfiquitiva.libs.kext.extensions.isInPortraitMode

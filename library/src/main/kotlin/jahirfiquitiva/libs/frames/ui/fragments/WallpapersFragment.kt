@@ -21,7 +21,8 @@ import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
 internal class WallpapersFragment : BaseWallpapersFragment() {
     override fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
-        wallsAdapter.setItems(ArrayList(data.subList(0, Math.min(data.size, 5000))))
+        val correctItems = ArrayList(data.subList(0, Math.min(data.size, 5000)))
+        if (correctItems.isNotEmpty()) wallsAdapter.setItems(correctItems)
     }
     
     override fun autoStartLoad(): Boolean = true

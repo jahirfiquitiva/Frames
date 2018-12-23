@@ -15,9 +15,9 @@
  */
 package jahirfiquitiva.libs.frames.data.services
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LifecycleRegistry
-import android.arch.persistence.room.Room
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
+import androidx.room.Room
 import android.content.Intent
 import android.net.Uri
 import ca.allanwang.kau.utils.isNetworkAvailable

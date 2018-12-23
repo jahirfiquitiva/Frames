@@ -17,13 +17,14 @@ package jahirfiquitiva.libs.frames.helpers.glide
 
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.support.v7.graphics.Palette
 import android.util.LruCache
+import androidx.palette.graphics.Palette
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import jahirfiquitiva.libs.frames.helpers.utils.FL
+import jahirfiquitiva.libs.kext.helpers.Rec
 
 inline fun <reified T> quickListener(crossinline what: (T) -> Boolean): FramesGlideListener<T> {
     return object : FramesGlideListener<T>() {
@@ -64,37 +65,42 @@ abstract class GlidePaletteListener : FramesGlideListener<Drawable>() {
     
     @Suppress("SENSELESS_COMPARISON")
     override fun onLoadSucceed(resource: Drawable, model: Any?, isFirst: Boolean): Boolean {
-        // First check the cache
-        synchronized(cacheLock) {
-            val cached = model?.let { cache[it] }
-            if (cached != null) {
-                // If the cache has a result now, use it
-                onPaletteReady(cached)
-                // We don't want to handle updating the target
-                return false
+        try {
+            // First check the cache
+            synchronized(cacheLock) {
+                val cached = model?.let { cache[it] }
+                if (cached != null) {
+                    // If the cache has a result now, use it
+                    onPaletteReady(cached)
+                    // We don't want to handle updating the target
+                    return false
+                }
             }
-        }
-        
-        if (resource is BitmapDrawable) {
-            val bitmap = resource.bitmap
-            Palette.Builder(bitmap)
-                .clearTargets()
-                .maximumColorCount(8)
-                .setRegion(0, Math.round(bitmap.height * 0.9f), bitmap.width, bitmap.height)
-                .generate { palette ->
-                    synchronized(cacheLock) {
-                        val cached = model?.let { cache[it] }
-                        if (cached != null) {
-                            // If the cache has a result now, just return it to maintain equality
-                            onPaletteReady(cached)
-                        } else if (palette != null) {
-                            // Else we'll save the newly generated one
-                            cache.put(model, palette)
-                            // Now invoke the listener
-                            onPaletteReady(palette)
+            
+            if (resource is BitmapDrawable) {
+                val bitmap = resource.bitmap
+                Palette.Builder(bitmap)
+                    .clearTargets()
+                    .maximumColorCount(8)
+                    .setRegion(0, Math.round(bitmap.height * 0.9F), bitmap.width, bitmap.height)
+                    .generate { palette ->
+                        synchronized(cacheLock) {
+                            val cached = model?.let { cache[it] }
+                            if (cached != null) {
+                                // If the cache has a result now, just return it to maintain equality
+                                onPaletteReady(cached)
+                            } else if (palette != null) {
+                                // Else we'll save the newly generated one
+                                cache.put(model, palette)
+                                // Now invoke the listener
+                                onPaletteReady(palette)
+                            }
                         }
                     }
-                }
+            }
+        } catch (e: Exception) {
+            Rec().e(e.message, e)
+            onPaletteReady(null)
         }
         
         // We don't want to handle updating the target

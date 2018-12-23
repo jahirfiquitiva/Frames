@@ -17,12 +17,13 @@ package jahirfiquitiva.libs.frames.ui.fragments.dialogs
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.BottomSheetDialog
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.app.FragmentActivity
 import android.view.View
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.FragmentActivity
 import ca.allanwang.kau.utils.postDelayed
+import com.google.android.material.R
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import jahirfiquitiva.libs.kext.ui.fragments.RoundedBottomSheetDialogFragment
 
 open class BaseBottomSheet : RoundedBottomSheetDialogFragment() {
@@ -45,9 +46,10 @@ open class BaseBottomSheet : RoundedBottomSheetDialogFragment() {
         super.setupDialog(dialog, style)
         
         val content = getContentView()
-        dialog?.setContentView(content)
+        content?.let { dialog?.setContentView(it) }
         
-        val params = (content?.parent as? View)?.layoutParams as? CoordinatorLayout.LayoutParams
+        val params =
+            (content?.parent as? View)?.layoutParams as? CoordinatorLayout.LayoutParams
         val parentBehavior = params?.behavior
         
         if (parentBehavior != null && parentBehavior is BottomSheetBehavior<*>) {
@@ -66,7 +68,8 @@ open class BaseBottomSheet : RoundedBottomSheetDialogFragment() {
         behavior?.state = BottomSheetBehavior.STATE_EXPANDED
         (dialog as? BottomSheetDialog)?.let {
             try {
-                val sheet = it.findViewById<View>(android.support.design.R.id.design_bottom_sheet)
+                val sheet = it.findViewById<View>(
+                    R.id.design_bottom_sheet)
                 BottomSheetBehavior.from(sheet)?.state = BottomSheetBehavior.STATE_EXPANDED
             } catch (e: Exception) {
             }

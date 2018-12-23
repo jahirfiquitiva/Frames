@@ -16,19 +16,19 @@
 package jahirfiquitiva.libs.frames.ui.activities
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.OnLifecycleEvent
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.support.v7.widget.AppCompatCheckBox
-import android.support.v7.widget.AppCompatSeekBar
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatCheckBox
+import androidx.appcompat.widget.AppCompatSeekBar
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ViewModelProviders
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.isNetworkAvailable
 import com.afollestad.materialdialogs.MaterialDialog
@@ -46,6 +46,7 @@ import jahirfiquitiva.libs.kext.extensions.dividerColor
 import jahirfiquitiva.libs.kext.extensions.getActiveIconsColorFor
 import jahirfiquitiva.libs.kext.extensions.getPrimaryTextColorFor
 import jahirfiquitiva.libs.kext.extensions.getSecondaryTextColorFor
+import jahirfiquitiva.libs.kext.extensions.itemsMultiChoice
 import jahirfiquitiva.libs.kext.extensions.primaryColor
 import jahirfiquitiva.libs.kext.extensions.primaryTextColor
 import jahirfiquitiva.libs.kext.extensions.secondaryTextColor
@@ -60,7 +61,7 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
         private const val SEEKBAR_MIN_VALUE = 0
     }
     
-    override val configs: FramesKonfigs by lazy { FramesKonfigs(this) }
+    override val prefs: FramesKonfigs by lazy { FramesKonfigs(this) }
     override fun lightTheme(): Int = R.style.LightTheme
     override fun darkTheme(): Int = R.style.DarkTheme
     override fun amoledTheme(): Int = R.style.AmoledTheme
@@ -88,7 +89,7 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_muzei_settings)
         
-        selectedCollections = configs.muzeiCollections
+        selectedCollections = prefs.muzeiCollections
         
         val toolbar by bind<CustomToolbar>(R.id.toolbar)
         toolbar?.bindToActivity(this)
@@ -106,9 +107,9 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
         everySummary?.setTextColor(secondaryTextColor)
         everySummary?.text = getString(
             R.string.every_x, textFromProgress(
-            configs.muzeiRefreshInterval).toLowerCase(Locale.getDefault()))
+            prefs.muzeiRefreshInterval).toLowerCase(Locale.getDefault()))
         
-        seekBar?.progress = configs.muzeiRefreshInterval
+        seekBar?.progress = prefs.muzeiRefreshInterval
         seekBar?.incrementProgressBy(SEEKBAR_STEPS)
         seekBar?.max = (SEEKBAR_MAX_VALUE - SEEKBAR_MIN_VALUE) / SEEKBAR_STEPS
         
@@ -124,7 +125,7 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
         findViewById<TextView>(R.id.wifi_only_title).setTextColor(primaryTextColor)
         findViewById<TextView>(R.id.wifi_only_summary).setTextColor(secondaryTextColor)
         
-        checkBox?.isChecked = configs.refreshMuzeiOnWiFiOnly
+        checkBox?.isChecked = prefs.refreshMuzeiOnWiFiOnly
         
         findViewById<LinearLayout>(R.id.wifi_only).setOnClickListener {
             checkBox?.toggle()
@@ -182,17 +183,17 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
     override fun onBackPressed() = doFinish()
     
     private fun saveChanges() {
-        configs.muzeiRefreshInterval = seekBar?.progress ?: 10
-        configs.refreshMuzeiOnWiFiOnly = checkBox?.isChecked ?: false
-        configs.muzeiCollections = selectedCollections
+        prefs.muzeiRefreshInterval = seekBar?.progress ?: 10
+        prefs.refreshMuzeiOnWiFiOnly = checkBox?.isChecked ?: false
+        prefs.muzeiCollections = selectedCollections
     }
     
     private fun showNotConnectedDialog() {
         destroyDialog()
         dialog = mdDialog {
             title(R.string.muzei_not_connected_title)
-            content(R.string.muzei_not_connected_content)
-            positiveText(android.R.string.ok)
+            message(R.string.muzei_not_connected_content)
+            positiveButton(android.R.string.ok)
         }
         dialog?.show()
     }
@@ -200,11 +201,10 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
     private fun showChooseCollectionsDialog() {
         destroyDialog()
         dialog = mdDialog {
-            content(R.string.loading)
-            progress(true, 0)
+            message(R.string.loading)
             cancelable(false)
+            cancelOnTouchOutside(false)
         }
-        
         try {
             wallsVM.destroy(this)
         } catch (ignored: Exception) {
@@ -235,23 +235,21 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
                 destroyDialog()
                 dialog = mdDialog {
                     title(R.string.choose_collections_title)
-                    items(correct)
-                    itemsCallbackMultiChoice(selectedIndexes)
-                    { _, _, text ->
+                    itemsMultiChoice(
+                        correct,
+                        initialSelection = selectedIndexes.toIntArray()) { _, _, items ->
                         val sb = StringBuilder()
-                        text.forEachIndexed { i, item ->
-                            if (i > 0 && i < text.size)
-                                sb.append(",")
+                        items.forEachIndexed { i, item ->
+                            if (i > 0 && i < items.size) sb.append(",")
                             sb.append(item)
                         }
                         selectedCollections = sb.toString()
                         collsSummaryText?.text = getString(
                             R.string.choose_collections_summary, selectedCollections)
                         saveChanges()
-                        true
                     }
-                    positiveText(android.R.string.ok)
-                    negativeText(android.R.string.cancel)
+                    positiveButton(android.R.string.ok)
+                    negativeButton(android.R.string.cancel)
                 }
                 dialog?.show()
             }

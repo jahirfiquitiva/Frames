@@ -20,11 +20,11 @@ import android.os.Environment
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.isInHorizontalMode
-import jahirfiquitiva.libs.kext.helpers.Konfigurations
+import jahirfiquitiva.libs.kext.helpers.Prefs
 
-open class FramesKonfigs(private val cntxt: Context) : Konfigurations("jfdb_confs", cntxt) {
+open class FramesKonfigs(private val cntxt: Context) : Prefs("jfdb_confs", cntxt) {
     var backupJson: String
-        get() = prefs.getString(BACKUP_JSON, "[]")
+        get() = prefs.getString(BACKUP_JSON, "[]") ?: "[]"
         set(value) = prefsEditor.putString(BACKUP_JSON, value).apply()
     
     var columns: Int
@@ -37,6 +37,7 @@ open class FramesKonfigs(private val cntxt: Context) : Konfigurations("jfdb_conf
             cntxt.getString(
                 R.string.default_download_folder,
                 Environment.getExternalStorageDirectory().absolutePath))
+            ?: Environment.getExternalStorageDirectory().absolutePath
         set(value) = prefsEditor.putString(DOWNLOADS_FOLDER, value).apply()
     
     var fullResGridPictures: Boolean
@@ -65,6 +66,6 @@ open class FramesKonfigs(private val cntxt: Context) : Konfigurations("jfdb_conf
         set(value) = prefsEditor.putInt(MUZEI_REFRESH_INTERVAL, value).apply()
     
     var muzeiCollections: String
-        get() = prefs.getString(MUZEI_COLLECTIONS, "")
+        get() = prefs.getString(MUZEI_COLLECTIONS, "").orEmpty()
         set(value) = prefsEditor.putString(MUZEI_COLLECTIONS, value).apply()
 }

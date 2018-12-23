@@ -16,19 +16,19 @@
 package jahirfiquitiva.libs.frames.ui.activities
 
 import android.annotation.SuppressLint
-import android.arch.persistence.room.Room
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.view.ViewCompat
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.ViewCompat
+import androidx.room.Room
 import ca.allanwang.kau.utils.contentView
 import ca.allanwang.kau.utils.postDelayed
+import com.google.android.material.snackbar.Snackbar
 import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
@@ -57,7 +57,7 @@ import org.jetbrains.anko.doAsync
 
 class CollectionActivity : ActivityWFragments<FramesKonfigs>(), FavsDbManager {
     
-    override val configs: FramesKonfigs by lazy { FramesKonfigs(this) }
+    override val prefs: FramesKonfigs by lazy { FramesKonfigs(this) }
     override fun lightTheme(): Int = R.style.LightTheme
     override fun darkTheme(): Int = R.style.DarkTheme
     override fun amoledTheme(): Int = R.style.AmoledTheme

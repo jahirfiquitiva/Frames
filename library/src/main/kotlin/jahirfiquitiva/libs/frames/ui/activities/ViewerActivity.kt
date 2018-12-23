@@ -27,10 +27,6 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.Snackbar
-import android.support.v4.view.ViewCompat
-import android.support.v7.graphics.Palette
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -41,6 +37,8 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.view.ViewCompat
+import androidx.palette.graphics.Palette
 import ca.allanwang.kau.utils.contentView
 import ca.allanwang.kau.utils.dpToPx
 import ca.allanwang.kau.utils.gone
@@ -54,6 +52,8 @@ import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.snackbar.Snackbar
 import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
@@ -107,7 +107,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         private const val VISIBLE_SYSTEM_UI_KEY = "visible_system_ui"
     }
     
-    override val configs: FramesKonfigs by lazy { FramesKonfigs(this) }
+    override val prefs: FramesKonfigs by lazy { FramesKonfigs(this) }
     
     override var wallpaper: Wallpaper? = null
     override val allowBitmapApply: Boolean = true
@@ -204,16 +204,17 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
                         properlyCancelDialog()
                         dialog = mdDialog {
                             title(R.string.prevent_download_title)
-                            content(getString(R.string.prevent_download_content, timeLeftText))
-                            positiveText(android.R.string.ok)
+                            message(
+                                text = getString(R.string.prevent_download_content, timeLeftText))
+                            positiveButton(android.R.string.ok)
                         }
                         dialog?.show()
                     }
                 } else {
                     properlyCancelDialog()
                     dialog = mdDialog {
-                        content(R.string.not_connected_content)
-                        positiveText(android.R.string.ok)
+                        message(R.string.not_connected_content)
+                        positiveButton(android.R.string.ok)
                     }
                     dialog?.show()
                 }
@@ -391,7 +392,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         
         wallpaper?.let {
             img?.loadPicture(
-                Glide.with(this), it.url, it.thumbUrl, drawable, true, false, false, false,
+                Glide.with(this), it.url, it.thumbUrl, drawable, true, false, false,
                 quickListener { res ->
                     loaded = true
                     doOnWallpaperLoad(res)
