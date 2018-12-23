@@ -15,16 +15,143 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources>
-  <!-- Do NOT remove or change the %1$s (or with any other number) -->
-  <!-- Consider Frames an untranslatable word. It's the dashboard name -->
-  <!-- Light Theme -->
-  <!-- Dark Theme -->
-  <!-- Amoled Theme -->
-  <!-- Transparent Theme -->
-  <!-- Automatic Light-Dark Theme -->
-  <!-- Automatic Light-Amoled Theme -->
-  <!-- License -->
-  <!-- Muzei Settings -->
-  <!-- Please use this character … -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="empty_section">কিছুই পাওয়া যায়নি </string>
+    <string name="loading_section">বিষয়বস্তু লোড করা হচ্ছে…</string>
+    <string name="no_favorites">প্রথমে কিছু চিত্র পছন্দের তালিকায় রাখুন</string>
+    <string name="wallpapers">ওয়ালপেপার</string>
+    <string name="collections">সংগ্রহগুলি</string>
+    <string name="x_wallpapers">%1$s চিত্রগুলি</string>
+    <string name="all">সবকিছু</string>
+    <string name="favorites">পছন্দগুলি</string>
+    <string name="favorite">প্রিয়</string>
+    <string name="added_to_favorites">\'%1$s\' ফেভারিটে যোগ করা হয়েছে।</string>
+    <string name="removed_from_favorites">\'%1$s\' কে প্রিয় সমূহ থেকে বের করা হয়েছে ।</string>
+    <string name="actions_dialog_content">আপনি এই ওয়ালপেপার সঙ্গে কি করতে চান?</string>
+    <string name="apply">প্রয়োগ করুন</string>
+    <string name="download">ডাউনলোড</string>
+    <string name="info">তথ্য</string>
+    <string name="share">শেয়ার করুন</string>
+    <!-- Do NOT remove or change the %1$s (or with any other number) -->
+    <string name="share_text">আমার আজকের ওয়ালপেপার হল %1$s, %2$s -র দ্বারা, %3$s থেকে । \n এখনই এটা নিয়ে নিন %4$s থেকে ।</string>
+    <string name="permission_denied">স্টোরেজের অনুমতি খারিজ করা হয়েছে</string>
+    <string name="permission_denied_completely">স্টোরেজের অনুমতি খারিজ করা হয়েছে । আপনাকে নিজে সেটিংসে গিয়ে সক্রিয় করতে হবে ।</string>
+    <string name="permission_request">%1$s এর স্টোরেজ ব্যবহার করার অনুমতি প্রয়োজন ওয়ালপেপার প্রয়োগ ও সেভ করার জন্য</string>
+    <string name="allow">অনুমতি দিন</string>
+    <string name="downloading_wallpaper">ডাউনলোড করা হচ্ছে \'%1$s\'…</string>
+    <string name="download_successful">ওয়ালপেপার সফলভাবে ডাউনলোড করা হয়েছে \'%1$s\' তে</string>
+    <string name="download_successful_short">ওয়ালপেপার সফলভাবে ডাউনলোড হয়েছে </string>
+    <string name="open">খুলুন</string>
+    <string name="file_exists">ওয়ালপেপার ডাউনলোড হয়ে আছে । আপনি কি এটাকে প্রতিস্থাপন করতে চান ডাউনলোড করে ?</string>
+    <string name="file_replace">প্রতিস্থাপন করুন</string>
+    <string name="file_create_new">নতুন বানান</string>
+    <string name="applying_wallpaper">প্রয়োগ করা হচ্ছে \'%1$s\'…</string>
+    <string name="apply_to">প্রয়োগ করুন :</string>
+    <string name="home_screen">হোম স্ক্রীনে</string>
+    <string name="lock_screen">লক্ স্ক্রিনে</string>
+    <string name="home_lock_screen">হোম এবং লক্ স্ক্রিনে</string>
+    <string name="apply_with_other_app">অন্যান্য অ্যাপের দ্বারা প্রয়োগ করুন</string>
+    <string name="apply_successful">ওয়ালপেপার সফলভাবে প্রয়োগ হয়েছে %1$s</string>
+    <string name="apply_successful_short">ওয়ালপেপার সফলভাবে প্রয়োগ হয়েছে</string>
+    <string name="wallpaper_details">বিস্তারিত বিবরণ</string>
+    <string name="wallpaper_palette">প্যালেট</string>
+    <string name="copied_to_clipboard">ক্লিপবোর্ডে রঙ কপি করা হয়েছে</string>
+    <string name="search">অনুসন্ধান করুন</string>
+    <string name="search_x">অনুসন্ধান করুন %1$s…</string>
+    <string name="search_no_results">কোন ফলাফল পাওয়া যায়নি</string>
+    <string name="about">সম্বন্ধে</string>
+    <string name="refresh">রিফ্রেশ</string>
+    <string name="translate">অনুবাদ</string>
+    <string name="licenses">লাইসেন্স</string>
+    <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+    <string name="frames_dashboard">ফ্রেমস্ ড্যাশবোর্ড</string>
+    <string name="dev_contributions">ডেভেলপমেন্ট সাহায্য</string>
+    <string name="ui_contributions">UI সহায়তা</string>
+    <string name="dashboard_copyright">আমি হচ্ছি কামুক এবং সৃজনশীল অ্যান্ড্রয়েড ডেভলপার এবং এই ড্যাশবোর্ডের স্রষ্টা ।</string>
+    <string name="sherry_description">একটি সর্বকালের বিকাশকারী মহিলা যিনি শেখাতে ক্লান্ত হন না সৃষ্টিশীল ফটোগ্রাফার এবং যিনি এই ড্যাশবোর্ডটিকে সম্ভবপর করে তুলেছেন ।</string>
+    <string name="allan_description">প্রথম একজন আইকন প্যাক নির্মাতা, তারপরে একজন থিমার এখন একটি ডেভলপার । \n আমি এই ড্যাশবোর্ডের বিকাশের অংশে সহায়তা করেছি ।</string>
+    <string name="settings">সেটিংস</string>
+    <string name="ui_settings_title">ব্যবহারকারী ইন্টারফেস</string>
+    <string name="theme_setting_title">অ্যাপ থিম</string>
+    <string name="theme_setting_content">অ্যাপের জন্য মূল থিম নির্বাচন করুন</string>
+    <!-- Light Theme -->
+    <string name="light_theme">উজ্জ্বল</string>
+    <!-- Dark Theme -->
+    <string name="dark_theme">গাঢ়</string>
+    <!-- Amoled Theme -->
+    <string name="amoled_theme">এমোলেড</string>
+    <!-- Transparent Theme -->
+    <string name="transparent_theme">স্বচ্ছ</string>
+    <!-- Automatic Light-Dark Theme -->
+    <string name="auto_dark">স্বয়ংক্রিয় উজ্জ্বল-গাঢ়</string>
+    <!-- Automatic Light-Amoled Theme -->
+    <string name="auto_amoled">স্বয়ংক্রিয় উজ্জ্বল-এমোলেড</string>
+    <string name="navbar_color_setting_title">রঙিন নেভিগেশন বার</string>
+    <string name="navbar_color_setting_content">অ্যাপ্লিকেশন এর প্রাথমিক গাঢ় রঙ নেভিগেশন বার-এর রঙ হিসেবে ব্যবহার করুন</string>
+    <string name="wallpapers_columns_setting_title">ওয়ালপেপার স্তম্ভ</string>
+    <string name="wallpapers_columns_setting_content">যে পরিমাণ ওয়ালপেপারের স্তম্ভ দেখতে চান নির্বাচন করুন</string>
+    <string name="animations_setting_title">এনিমেশন সক্রিয় করুন</string>
+    <string name="animations_setting_content">কিছু ডিভাইসে এটা ত্রুটি সৃষ্টি করতে পারে ।</string>
+    <string name="load_hi_res_pictures_title">পূর্ণ রেজোলিউশন প্রাকদর্শন</string>
+    <string name="load_hi_res_pictures_content">পূর্ণ রেজোলিউশন ছবি গরাদে লোড করুন</string>
+    <string name="deep_search_title">গভীর অনুসন্ধান সক্রিয় করুন</string>
+    <string name="deep_search_content">সংগ্রহ এবং নামের দ্বারা সন্ধান করুন</string>
+    <string name="storage_settings_title">স্টোরেজ</string>
+    <string name="wallpapers_download_location_setting_title">যেখানে ওয়ালপেপার ডাউনলোড হবে</string>
+    <string name="wallpapers_download_location_setting_content">ওয়ালপেপার ডাউনলোড করার স্থান পরিবর্তন করুন ।\nবর্তমান স্থান:%1$s</string>
+    <string name="create_folder">ফোল্ডার তৈরি করুন</string>
+    <string name="choose_folder">নির্বাচন করুন</string>
+    <string name="data_cache_setting_title">অ্যাপ ডাটা এবং ক্যাশ পরিষ্কার করুন</string>
+    <string name="data_cache_setting_content">এটি অ্যাপ ক্যাশ এবং পছন্দ সমূহ মুছে দিবে ।\nএখন ক্যাশ এর পরিমাণ: %1$s</string>
+    <string name="data_cache_confirmation">আপনি কি নিশ্চিত যে আপনি সেটিংস, অ্যাপ ডাটা ও ক্যাশ মুছে ফেলতে চান?</string>
+    <string name="clear_favorites_setting_title">পছন্দ সমূহ মুছে ফেলুন</string>
+    <string name="clear_favorites_setting_content">আপনার পছন্দের ওয়ালপেপারের তালিকা মুছে ফেলুন</string>
+    <string name="clear_favorites_confirmation">আপনি কি নিশ্চিত যে আপনি পছন্দ সমূহ গুলো মুছে ফেলতে চান?</string>
+    <!-- License -->
+    <string name="license_valid_title">লাইসেন্স বৈধ</string>
+    <string name="license_valid_content">%1$s বৈধ স্টোর থেকে ডাউনলোড করার জন্য ধন্যবাদ। উপভোগ করুন!</string>
+    <string name="license_valid_snack">লাইসেন্স বৈধ। %1$s ডাউনলোড করার জন্য ধন্যবাদ। উপভোগ করুন!</string>
+    <string name="license_invalid_title">আপনি পেরোতে পারবেন না!</string>
+    <string name="license_invalid_content">দুঃখিত, কিন্তু আমরা শনাক্ত করেছি আপনার %1$s এর লাইসেন্স বৈধ নয়। এটা হতে পারে আপনি পাইরেটেড অ্যাপ ব্যবহার করছেন । %2$s । যদি আপনি মনে করেন এটা ত্রুটি, অনুগ্রহ করে পরে আবার চেষ্টা করুন। অন্যরা, দয়া করে অ্যাপ বৈধ স্টোর থেকে ডাউনলোড করুন ।</string>
+    <string name="license_invalid_content_extra">কিংবা বিশেষ: \'%1$s\' অ্যাপ, তাই অনুগ্রহ করে আন ইনস্টল করুন</string>
+    <string name="error_title">ত্রুটি</string>
+    <string name="action_error_content">দুঃখিত, এই কাজটি সম্পন্ন করার সময় একটি অপ্রত্যাশিত ত্রুটি সংঘটিত হয়েছে ।</string>
+    <string name="license_error_content">দুঃখিত, একটি ত্রুটি হল আপনার লাইসেন্স পরীক্ষা করার সময় । অনুগ্রহ করে পরে আবার চেষ্টা করুন ।</string>
+    <string name="try_now">এখনি চেষ্টা করুন</string>
+    <string name="donate">দান করুন</string>
+    <string name="donate_success_title">ধন্যবাদ !</string>
+    <string name="donate_success_content">আপনার দানের জন্য ধন্যবাদ। আমি সত্যিই এটি গ্রহণ করব ও আমি খুশি হয়েছি তুমি %1$s উপভোগ করছ ।</string>
+    <string name="donate_error">%1$s কোডে একটি অপ্রত্যাশিত ত্রুটি ঘটে গেল, %2$s -এর জন্যে</string>
+    <string name="donate_error_unknown">অজানা কারণ</string>
+    <string name="loading">লোড হচ্ছে…</string>
+    <string name="close">বন্ধ করুন</string>
+    <!-- Muzei Settings -->
+    <string name="muzei_settings">Muzei সেটিংস</string>
+    <!-- Please use this character … -->
+    <string name="refresh_wallpapers_every">ওয়ালপেপার রিফ্রেশ করুন…</string>
+    <string name="every_x">প্রতি %1$s</string>
+    <string name="minutes">মিনিট</string>
+    <string name="hours">ঘন্টা</string>
+    <string name="days">দিন</string>
+    <string name="refresh_only_on_wifi">শুধুমাত্র ওয়াইফাই থেকে রিফ্রেশ করুন</string>
+    <string name="refresh_only_on_wifi_summary">শুধু তখনই ওয়ালপেপার রিফ্রেশ করুন যখন আপনার ডিভাইস Wi-Fi নেটওয়ার্কের সঙ্গে যুক্ত ।</string>
+    <string name="choose_collections_title">সংগ্রহ নির্বাচন করুন</string>
+    <string name="choose_collections_summary">সংগ্রহ নির্বাচন করুন যেখানে থেকে ওয়ালপেপার নিতে হবে । এখন নির্বাচিত আছে: %1$s</string>
+    <string name="muzei_not_connected_title">আপনি ইন্টারনেটের সাথে সংযুক্ত নন</string>
+    <string name="muzei_not_connected_content">দুঃখিত, আপনি কোন সংগ্রহ থেকে ওয়ালপেপার নিবেন সেটা নির্বাচন করার জন্যে ইন্টারনেটের সঙ্গে যুক্ত থাকা আবশ্যক । দয়া করে পরে আবার চেষ্টা করবেন ।</string>
+    <string name="sure_to_exit">প্রস্থান করুন</string>
+    <string name="sure_to_exit_content">আপনি কি বের হওয়ার পূর্বে আপনার সেটিংস সমূহ সংরক্ষণ করতে চান ?</string>
+    <string name="yes">হ্যাঁ</string>
+    <string name="no">না</string>
+    <string name="not_connected_content">দুর্ভাগ্যজনকভাবে এই কাজটি করার জন্যে ইন্টারনেট সংযোগের প্রয়োজন । অনুগ্রহ করে পরে আবার চেষ্টা করুন ।</string>
+    <string name="new_wallpapers_available">%1$s নতুন ওয়ালপেপার পাওয়া যাবে । তাদের খুঁজে বের করতে ট্যাপ করুন ।</string>
+    <string name="notifications_title">নোটিফিকেশন</string>
+    <string name="enable_notifications">নোটিফিকেশন সক্রিয় করুন</string>
+    <string name="changelog">পরিবর্তনসূচী</string>
+    <string name="dismiss">বাতিল করুন</string>
+    <string name="prevent_download_title">ডাউনলোড সমূহ বদ্ধ</string>
+    <string name="prevent_download_content">নিরাপত্তার কারণে, ওয়ালপেপার ডাউনলোড পরের %1$s ঘণ্টার জন্য সম্ভব নয় । অনুগ্রহ করে পরে আবার চেষ্টা করুন ।</string>
+    <string name="legal">আইনগত</string>
+    <string name="privacy_policy">প্রাইভেসি পলিসি</string>
+    <string name="terms_conditions">নিয়মাবলী এবং শর্তাবলী</string>
 </resources>
