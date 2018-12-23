@@ -15,16 +15,18 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources>
-  <!-- Do NOT remove or change the %1$s (or with any other number) -->
-  <!-- Consider Frames an untranslatable word. It's the dashboard name -->
-  <!-- Light Theme -->
-  <!-- Dark Theme -->
-  <!-- Amoled Theme -->
-  <!-- Transparent Theme -->
-  <!-- Automatic Light-Dark Theme -->
-  <!-- Automatic Light-Amoled Theme -->
-  <!-- License -->
-  <!-- Muzei Settings -->
-  <!-- Please use this character … -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="empty_section">Nothing found</string>
+    <string name="loading_section">Tải nội dung...</string>
+    <!-- Do NOT remove or change the %1$s (or with any other number) -->
+    <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+    <!-- Light Theme -->
+    <!-- Dark Theme -->
+    <!-- Amoled Theme -->
+    <!-- Transparent Theme -->
+    <!-- Automatic Light-Dark Theme -->
+    <!-- Automatic Light-Amoled Theme -->
+    <!-- License -->
+    <!-- Muzei Settings -->
+    <!-- Please use this character … -->
 </resources>
