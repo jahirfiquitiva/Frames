@@ -31,4 +31,8 @@
     <!-- Credits photo size -->
     <dimen name="photo_size">72dp</dimen>
     <bool name="isTablet">false</bool>
+    <!-- Corners Radius -->
+    <dimen name="cards_corner_radius">4dp</dimen>
+    <dimen name="dialogs_corner_radius">8dp</dimen>
+    <dimen name="bottom_sheet_corner_radius">16dp</dimen>
 </resources>

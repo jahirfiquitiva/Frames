@@ -18,13 +18,13 @@ package jahirfiquitiva.libs.frames.ui.fragments.dialogs
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
-import android.support.v4.app.FragmentActivity
-import android.support.v7.graphics.Palette
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ProgressBar
+import androidx.fragment.app.FragmentActivity
+import androidx.palette.graphics.Palette
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ca.allanwang.kau.utils.dpToPx
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.setPaddingTop
@@ -57,7 +57,7 @@ class InfoBottomSheet : BaseBottomSheet() {
         
         val layoutManager = GridLayoutManager(
             context, if (context?.isInHorizontalMode == true) 4 else 3,
-            GridLayoutManager.VERTICAL, false)
+            RecyclerView.VERTICAL, false)
         recyclerView?.layoutManager = layoutManager
         
         if (adapter == null) adapter = WallpaperInfoAdapter {
@@ -74,7 +74,10 @@ class InfoBottomSheet : BaseBottomSheet() {
         return detailView
     }
     
-    fun setDetailsAndPalette(details: ArrayList<WallpaperDetail>, palette: Palette?) {
+    fun setDetailsAndPalette(
+        details: ArrayList<WallpaperDetail>,
+        palette: Palette?
+                            ) {
         if (details.size > 0) {
             this.details.clear()
             this.details.addAll(details)
@@ -94,7 +97,10 @@ class InfoBottomSheet : BaseBottomSheet() {
     companion object {
         const val TAG = "InfoBottomSheet"
         
-        fun build(details: ArrayList<WallpaperDetail>, palette: Palette?): InfoBottomSheet =
+        fun build(
+            details: ArrayList<WallpaperDetail>,
+            palette: Palette?
+                 ): InfoBottomSheet =
             InfoBottomSheet().apply {
                 if (details.size > 0) {
                     this.details.clear()
@@ -104,7 +110,8 @@ class InfoBottomSheet : BaseBottomSheet() {
             }
         
         fun show(
-            context: FragmentActivity, details: ArrayList<WallpaperDetail>,
+            context: FragmentActivity,
+            details: ArrayList<WallpaperDetail>,
             palette: Palette?
                 ) =
             build(details, palette).show(context.supportFragmentManager, TAG)

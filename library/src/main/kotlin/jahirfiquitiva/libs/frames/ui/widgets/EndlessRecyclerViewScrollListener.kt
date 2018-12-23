@@ -15,17 +15,17 @@
  */
 package jahirfiquitiva.libs.frames.ui.widgets
 
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 class EndlessRecyclerViewScrollListener(
     private val layoutManager: RecyclerView.LayoutManager,
     private val loadMore: (totalItemsCount: Int, view: RecyclerView) -> Unit
                                        ) : RecyclerView.OnScrollListener() {
     
-    private var loadMoreThreshold = 2
+    private var loadMoreThreshold = 4
     private var previousItemCount = 0
     private var loading = true
     
@@ -63,25 +63,23 @@ class EndlessRecyclerViewScrollListener(
                 // get maximum element within the list
                 lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions)
             }
-            is GridLayoutManager -> lastVisibleItemPosition =
-                layoutManager.findLastVisibleItemPosition()
-            is LinearLayoutManager -> lastVisibleItemPosition =
-                layoutManager.findLastVisibleItemPosition()
+            is GridLayoutManager ->
+                lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+            is LinearLayoutManager ->
+                lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
         }
         
         if (itemCount < previousItemCount) {
             previousItemCount = itemCount
-            if (itemCount == 0) {
-                loading = true
-            }
+            if (itemCount == 0) loading = true
         }
         
-        if (loading && itemCount > previousItemCount) {
+        if (loading && (itemCount > previousItemCount)) {
             loading = false
             previousItemCount = itemCount
         }
         
-        if (!loading && lastVisibleItemPosition + loadMoreThreshold > itemCount) {
+        if (!loading && (lastVisibleItemPosition + loadMoreThreshold) > itemCount) {
             loadMore(itemCount, view)
             loading = true
         }

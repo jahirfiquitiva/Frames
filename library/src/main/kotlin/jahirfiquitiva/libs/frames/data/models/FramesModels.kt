@@ -15,11 +15,11 @@
  */
 package jahirfiquitiva.libs.frames.data.models
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
 import jahirfiquitiva.libs.kext.extensions.readBoolean
 import jahirfiquitiva.libs.kext.extensions.writeBoolean
@@ -51,15 +51,15 @@ data class Wallpaper(
                     ) : Parcelable {
     
     constructor(parcel: Parcel) : this(
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
+        parcel.readString().orEmpty(),
+        parcel.readString().orEmpty(),
+        parcel.readString().orEmpty(),
         parcel.readBoolean(),
-        parcel.readString(),
-        parcel.readString(),
+        parcel.readString().orEmpty(),
+        parcel.readString().orEmpty(),
         parcel.readLong(),
-        parcel.readString(),
-        parcel.readString(),
+        parcel.readString().orEmpty(),
+        parcel.readString().orEmpty(),
         parcel.readLong())
     
     override fun equals(other: Any?): Boolean {
@@ -117,7 +117,7 @@ data class Collection(
     
     override fun toString(): String = name
     
-    constructor(parcel: Parcel) : this(parcel.readString()) {
+    constructor(parcel: Parcel) : this(parcel.readString().orEmpty()) {
         parcel.readTypedList(wallpapers, Wallpaper.CREATOR)
     }
     

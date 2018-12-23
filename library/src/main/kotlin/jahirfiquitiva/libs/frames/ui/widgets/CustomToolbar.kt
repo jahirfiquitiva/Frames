@@ -16,12 +16,12 @@
 package jahirfiquitiva.libs.frames.ui.widgets
 
 import android.content.Context
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
+import com.google.android.material.appbar.AppBarLayout
 import jahirfiquitiva.libs.frames.R
 
 class CustomToolbar : Toolbar {

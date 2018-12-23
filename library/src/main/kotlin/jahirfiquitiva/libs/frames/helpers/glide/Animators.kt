@@ -22,9 +22,9 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.Drawable
-import android.support.annotation.ColorInt
-import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.view.View
+import androidx.annotation.ColorInt
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import jahirfiquitiva.libs.kext.extensions.SimpleAnimatorListener
 import kotlin.math.roundToLong
 
@@ -72,7 +72,7 @@ internal fun smoothAnimator(
             @Suppress("UNCHECKED_CAST")
             onUpdate(it.animatedValue as Int)
         }
-        duration = 1000
+        duration = 750
         repeatMode = ValueAnimator.REVERSE
         repeatCount = ValueAnimator.INFINITE
         start()

@@ -17,10 +17,11 @@ package jahirfiquitiva.libs.frames.ui.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.GridLayoutManager
 import android.view.View
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
 import com.bumptech.glide.util.ViewPreloadSizeProvider
@@ -95,8 +96,7 @@ internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHo
                 loadingView = content.findViewById(R.id.loading_view)
                 setLoadingText(R.string.loading_section)
                 val spanCount = if (context.isInHorizontalMode) 2 else 1
-                layoutManager = GridLayoutManager(
-                    context, spanCount, GridLayoutManager.VERTICAL, false)
+                layoutManager = GridLayoutManager(context, spanCount, RecyclerView.VERTICAL, false)
                 addItemDecoration(GridSpacingItemDecoration(spanCount, 2, false))
                 itemAnimator = if (context.isLowRamDevice) null else DefaultItemAnimator()
                 setHasFixedSize(true)
@@ -120,7 +120,7 @@ internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHo
             }
         }
         
-        fastScroller?.attachSwipeRefreshLayout(swipeToRefresh)
+        swipeToRefresh?.let { fastScroller?.attachSwipeRefreshLayout(it) }
         recyclerView?.let { fastScroller?.attachRecyclerView(it) }
     }
     
@@ -204,7 +204,7 @@ internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHo
     override fun doOnCollectionsChange(data: ArrayList<Collection>) {
         super.doOnCollectionsChange(data)
         swipeToRefresh?.isRefreshing = false
-        collsAdapter.setItems(data)
+        if (data.isNotEmpty()) collsAdapter.setItems(data)
     }
     
     override fun autoStartLoad(): Boolean = true

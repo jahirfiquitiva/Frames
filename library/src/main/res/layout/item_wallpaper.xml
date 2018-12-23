@@ -56,7 +56,10 @@
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:clipToPadding="false"
-            android:clipChildren="false">
+            android:clipChildren="false"
+            android:paddingEnd="@dimen/cards_margin"
+            android:paddingRight="@dimen/cards_margin"
+            tools:ignore="RtlSymmetry">
 
             <TextView
                 android:id="@+id/wallpaper_name"

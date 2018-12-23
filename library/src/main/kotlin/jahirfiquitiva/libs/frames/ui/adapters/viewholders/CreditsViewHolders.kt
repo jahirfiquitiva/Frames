@@ -15,13 +15,13 @@
  */
 package jahirfiquitiva.libs.frames.ui.adapters.viewholders
 
-import android.support.annotation.StringRes
-import android.support.v7.widget.AppCompatButton
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.StringRes
+import androidx.appcompat.widget.AppCompatButton
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.openLink
 import ca.allanwang.kau.utils.tint
@@ -139,8 +139,7 @@ class SectionedHeaderViewHolder(itemView: View) : SectionedViewHolder(itemView) 
             icon?.animate()?.rotation(if (expanded) 180F else 0F)
                 ?.setDuration(SECTION_ICON_ANIMATION_DURATION)?.start()
         } else icon?.gone()
-        
-        itemView?.setOnClickListener { listener() }
+        itemView.setOnClickListener { listener() }
     }
 }
 

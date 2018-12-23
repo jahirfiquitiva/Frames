@@ -13,7 +13,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="empty_section">Nothing found</string>
     <string name="loading_section">Loading content…</string>
     <string name="no_favorites">Add some wallpapers to favorites first</string>

@@ -15,20 +15,20 @@
  */
 package jahirfiquitiva.libs.frames.ui.activities
 
-import android.arch.persistence.room.Room
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import androidx.room.Room
+import androidx.viewpager.widget.ViewPager
 import ca.allanwang.kau.utils.contentView
 import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.tint
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
 import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
@@ -62,7 +62,7 @@ import org.jetbrains.anko.doAsync
 
 abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManager {
     
-    override val configs: FramesKonfigs by lazy { FramesKonfigs(this) }
+    override val prefs: FramesKonfigs by lazy { FramesKonfigs(this) }
     
     private val toolbar: CustomToolbar? by bind(R.id.toolbar)
     private val pager: ViewPager? by bind(R.id.pager)
@@ -121,7 +121,8 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
                 override fun onTabReselected(tab: TabLayout.Tab?) = scrollToTop()
                 override fun onTabUnselected(tab: TabLayout.Tab?) {}
             })
-        pager?.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+        pager?.addOnPageChangeListener(
+            TabLayout.TabLayoutOnPageChangeListener(tabs))
         
         pager?.offscreenPageLimit = tabs?.tabCount ?: 2
         

@@ -16,7 +16,7 @@
 package jahirfiquitiva.libs.frames.ui.activities.base
 
 import android.content.Context
-import android.support.annotation.CallSuper
+import androidx.annotation.CallSuper
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase

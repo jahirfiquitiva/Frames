@@ -15,7 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.ui.adapters.viewholders
 
-import android.support.annotation.ColorInt
+import androidx.annotation.ColorInt
 import android.view.View
 import android.widget.TextView
 import ca.allanwang.kau.utils.tint

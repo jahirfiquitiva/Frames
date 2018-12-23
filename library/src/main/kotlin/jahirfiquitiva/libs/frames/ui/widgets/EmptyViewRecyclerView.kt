@@ -17,14 +17,14 @@ package jahirfiquitiva.libs.frames.ui.widgets
 
 import android.content.Context
 import android.graphics.drawable.Animatable
-import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.visible
 import ca.allanwang.kau.utils.visibleIf
@@ -106,38 +106,38 @@ open class EmptyViewRecyclerView : RecyclerView {
         visibleIf(state == State.NORMAL)
     }
     
-    private val observer: RecyclerView.AdapterDataObserver = object :
-        RecyclerView.AdapterDataObserver() {
-        override fun onChanged() {
-            super.onChanged()
-            setStateInternal()
+    private val observer: RecyclerView.AdapterDataObserver =
+        object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                super.onChanged()
+                setStateInternal()
+            }
+            
+            override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+                super.onItemRangeChanged(positionStart, itemCount)
+                setStateInternal()
+            }
+            
+            override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+                super.onItemRangeChanged(positionStart, itemCount, payload)
+                setStateInternal()
+            }
+            
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                super.onItemRangeInserted(positionStart, itemCount)
+                setStateInternal()
+            }
+            
+            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+                super.onItemRangeRemoved(positionStart, itemCount)
+                setStateInternal()
+            }
+            
+            override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+                super.onItemRangeMoved(fromPosition, toPosition, itemCount)
+                setStateInternal()
+            }
         }
-        
-        override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
-            super.onItemRangeChanged(positionStart, itemCount)
-            setStateInternal()
-        }
-        
-        override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
-            super.onItemRangeChanged(positionStart, itemCount, payload)
-            setStateInternal()
-        }
-        
-        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-            super.onItemRangeInserted(positionStart, itemCount)
-            setStateInternal()
-        }
-        
-        override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-            super.onItemRangeRemoved(positionStart, itemCount)
-            setStateInternal()
-        }
-        
-        override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
-            super.onItemRangeMoved(fromPosition, toPosition, itemCount)
-            setStateInternal()
-        }
-    }
     
     override fun setAdapter(adapter: Adapter<*>?) {
         val oldAdapter = getAdapter()

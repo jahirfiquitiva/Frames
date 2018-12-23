@@ -51,7 +51,9 @@ internal class WallpapersInCollectionFragment : BaseWallpapersFragment() {
     
     override fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
-        wallsAdapter.setItems(getWallpapersInCollection(data))
+        getWallpapersInCollection(data).let {
+            if (it.isNotEmpty()) wallsAdapter.setItems(it)
+        }
     }
     
     override fun loadDataFromViewModel() {

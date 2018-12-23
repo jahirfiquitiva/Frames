@@ -21,7 +21,6 @@ import com.bumptech.glide.ListPreloader
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.util.ViewPreloadSizeProvider
-import jahirfiquitiva.libs.archhelpers.ui.adapters.RecyclerViewListAdapter
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
@@ -29,6 +28,7 @@ import jahirfiquitiva.libs.frames.helpers.glide.loadPicture
 import jahirfiquitiva.libs.frames.helpers.utils.MAX_COLLECTIONS_LOAD
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.CollectionHolder
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListener
+import jahirfiquitiva.libs.kext.ui.adapters.RecyclerViewListAdapter
 import java.util.Collections
 
 class CollectionsAdapter(
@@ -53,7 +53,7 @@ class CollectionsAdapter(
         Collections.singletonList(list[position].bestCover)
     
     override fun getPreloadRequestBuilder(item: Wallpaper): RequestBuilder<*>? =
-        manager?.loadPicture(item.thumbUrl, item.thumbUrl, withTransition = false, forceNow = true)
+        manager?.loadPicture(item.thumbUrl, item.thumbUrl, withTransition = false)
     
     override fun onViewRecycled(holder: CollectionHolder) {
         holder.unbind()
