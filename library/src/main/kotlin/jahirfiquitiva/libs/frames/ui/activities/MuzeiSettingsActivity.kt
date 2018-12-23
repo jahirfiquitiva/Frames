@@ -22,10 +22,8 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
-import androidx.appcompat.widget.AppCompatSeekBar
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModelProviders
@@ -52,7 +50,6 @@ import jahirfiquitiva.libs.kext.extensions.primaryTextColor
 import jahirfiquitiva.libs.kext.extensions.secondaryTextColor
 import jahirfiquitiva.libs.kext.extensions.tint
 import jahirfiquitiva.libs.kext.ui.activities.ThemedActivity
-import java.util.Locale
 
 class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
     companion object {
@@ -73,8 +70,8 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
     private var selectedCollections = ""
     private var dialog: MaterialDialog? = null
     
+    // private val seekBar: AppCompatSeekBar? by bind(R.id.every_seekbar)
     private val collsSummaryText: TextView? by bind(R.id.choose_collections_summary)
-    private val seekBar: AppCompatSeekBar? by bind(R.id.every_seekbar)
     private val checkBox: AppCompatCheckBox? by bind(R.id.wifi_checkbox)
     
     private val wallsVM: WallpapersViewModel by lazy {
@@ -100,6 +97,9 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
             getSecondaryTextColorFor(primaryColor),
             getActiveIconsColorFor(primaryColor))
         
+        val isFramesApp = boolean(R.bool.isFrames)
+        
+        /*
         val everyTitle: TextView? by bind(R.id.every_title)
         everyTitle?.setTextColor(primaryTextColor)
         
@@ -113,9 +113,29 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
         seekBar?.incrementProgressBy(SEEKBAR_STEPS)
         seekBar?.max = (SEEKBAR_MAX_VALUE - SEEKBAR_MIN_VALUE) / SEEKBAR_STEPS
         
-        val isFramesApp = boolean(R.bool.isFrames)
+        seekBar?.setOnSeekBarChangeListener(
+            object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                                              ) {
+                    val value = SEEKBAR_MIN_VALUE + (progress * SEEKBAR_STEPS)
+                    everySummary?.text = resources.getString(
+                        R.string.every_x,
+                        textFromProgress(value).toLowerCase(
+                            Locale.getDefault()))
+                    saveChanges()
+                }
+                
+                override fun onStartTrackingTouch(p0: SeekBar?) {}
+                
+                override fun onStopTrackingTouch(p0: SeekBar?) {}
+            })
         
         findViewById<View>(R.id.divider).background = ColorDrawable(dividerColor)
+        */
+        
         if (isFramesApp) {
             findViewById<View>(R.id.other_divider).background = ColorDrawable(dividerColor)
         } else {
@@ -148,27 +168,6 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
         } else {
             findViewById<LinearLayout>(R.id.choose_collections).gone()
         }
-        
-        seekBar?.setOnSeekBarChangeListener(
-            object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(
-                    seekBar: SeekBar?,
-                    progress: Int,
-                    fromUser: Boolean
-                                              ) {
-                    val value = SEEKBAR_MIN_VALUE + (progress * SEEKBAR_STEPS)
-                    everySummary?.text = resources.getString(
-                        R.string.every_x,
-                        textFromProgress(value).toLowerCase(
-                            Locale.getDefault()))
-                    saveChanges()
-                }
-                
-                override fun onStartTrackingTouch(p0: SeekBar?) {}
-                
-                override fun onStopTrackingTouch(p0: SeekBar?) {}
-            })
-        
     }
     
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -183,7 +182,7 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
     override fun onBackPressed() = doFinish()
     
     private fun saveChanges() {
-        prefs.muzeiRefreshInterval = seekBar?.progress ?: 10
+        prefs.muzeiRefreshInterval = 10 // seekBar?.progress ?: 10
         prefs.refreshMuzeiOnWiFiOnly = checkBox?.isChecked ?: false
         prefs.muzeiCollections = selectedCollections
     }
@@ -237,7 +236,8 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
                     title(R.string.choose_collections_title)
                     itemsMultiChoice(
                         correct,
-                        initialSelection = selectedIndexes.toIntArray()) { _, _, items ->
+                        initialSelection = selectedIndexes.toIntArray(),
+                        allowEmptySelection = true) { _, _, items ->
                         val sb = StringBuilder()
                         items.forEachIndexed { i, item ->
                             if (i > 0 && i < items.size) sb.append(",")

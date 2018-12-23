@@ -52,6 +52,7 @@
             android:orientation="vertical"
             android:weightSum="1">
 
+            <!--
             <TextView
                 android:id="@+id/every_title"
                 android:layout_width="match_parent"
@@ -82,6 +83,7 @@
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp" />
+            -->
 
             <LinearLayout
                 android:id="@+id/wifi_only"

@@ -82,16 +82,16 @@ class FramesArtWorker(context: Context, workerParams: WorkerParameters) :
                         favsVM?.extraObserve {
                             realData.addAll(getValidWallpapersList(ArrayList(it)))
                             realData.distinct()
-                            if (realData.isNotEmpty()) chooseRandomWallpaperAndPost(realData)
+                            if (realData.isNotEmpty()) postWallpapers(realData)
                         }
                         val dao = favsDB?.favoritesDao()
                         if (dao != null) {
                             favsVM?.loadData(dao, true)
                         } else {
-                            if (realData.isNotEmpty()) chooseRandomWallpaperAndPost(realData)
+                            if (realData.isNotEmpty()) postWallpapers(realData)
                         }
                     } else {
-                        if (realData.isNotEmpty()) chooseRandomWallpaperAndPost(realData)
+                        if (realData.isNotEmpty()) postWallpapers(realData)
                     }
                 }
             }
@@ -102,18 +102,18 @@ class FramesArtWorker(context: Context, workerParams: WorkerParameters) :
         }
     }
     
-    private fun chooseRandomWallpaperAndPost(list: ArrayList<Wallpaper>) {
-        val photos = getValidWallpapersList(list)
+    private fun postWallpapers(wallpapers: ArrayList<Wallpaper>) {
         val providerClient = ProviderContract.getProviderClient(applicationContext, client)
-        providerClient.addArtwork(photos.map { photo ->
+        providerClient.addArtwork(wallpapers.map { wallpaper ->
             Artwork().apply {
-                token = photo.url
-                title = photo.name
-                byline = photo.author
-                attribution = if (photo.copyright.hasContent()) photo.copyright else photo.author
-                persistentUri = Uri.parse(photo.url)
-                webUri = Uri.parse(photo.url)
-                metadata = photo.url
+                token = wallpaper.url
+                title = wallpaper.name
+                byline = wallpaper.author
+                attribution =
+                    if (wallpaper.copyright.hasContent()) wallpaper.copyright else wallpaper.author
+                persistentUri = Uri.parse(wallpaper.url)
+                webUri = Uri.parse(wallpaper.url)
+                metadata = wallpaper.url
             }
         })
         destroyViewModel()
