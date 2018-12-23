@@ -29,7 +29,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/MySplashScreen">
+        android:theme="@style/MySplashScreen"
+        android:networkSecurityConfig="@xml/network_security_config"
+        tools:ignore="UnusedAttribute">
 
         <!-- OneSignal Notifications Service -->
         <!-- TODO: Remove comment marks to enable
@@ -86,14 +88,17 @@
         </activity>
 
         <!-- Muzei Service -->
-        <service
+        <provider
             android:name=".MuzeiService"
+            android:authorities="${applicationId}.muzei"
             android:label="@string/app_name"
             android:description="@string/app_description"
             android:icon="@drawable/ic_muzei_icon"
+            android:exported="true"
+            android:permission="com.google.android.apps.muzei.api.ACCESS_PROVIDER"
             tools:ignore="ExportedService">
             <intent-filter>
-                <action android:name="com.google.android.apps.muzei.api.MuzeiArtSource" />
+                <action android:name="com.google.android.apps.muzei.api.MuzeiArtProvider" />
             </intent-filter>
 
             <meta-data
@@ -102,11 +107,11 @@
             <meta-data
                 android:name="settingsActivity"
                 android:value="jahirfiquitiva.libs.frames.ui.activities.MuzeiSettingsActivity" />
-        </service>
+        </provider>
 
         <!-- Required for files access !!! DO NOT REMOVE !!! -->
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
