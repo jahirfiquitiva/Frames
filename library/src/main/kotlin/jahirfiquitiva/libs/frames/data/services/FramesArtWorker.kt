@@ -35,22 +35,7 @@ import jahirfiquitiva.libs.kext.extensions.hasContent
 import java.lang.ref.WeakReference
 
 @SuppressLint("NewApi")
-class FramesArtWorker() : LifecycleOwner {
-    
-    companion object {
-        /*
-        internal fun enqueueLoad() {
-            val workManager = WorkManager.getInstance()
-            workManager.enqueue(
-                OneTimeWorkRequestBuilder<FramesArtWorker>()
-                    .setConstraints(
-                        Constraints.Builder()
-                            .setRequiredNetworkType(NetworkType.CONNECTED)
-                            .build())
-                    .build())
-        }
-        */
-    }
+class FramesArtWorker : LifecycleOwner {
     
     private var task: QAsync<*, *>? = null
     
