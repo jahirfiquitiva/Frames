@@ -31,7 +31,6 @@ import javax.net.ssl.X509TrustManager
 internal class FramesSocketFactory : SSLSocketFactory() {
     
     private val acceptsAllTrustManager = object : X509TrustManager {
-        
         override fun getAcceptedIssuers(): Array<X509Certificate>? = null
         
         @SuppressLint("TrustAllX509TrustManager")

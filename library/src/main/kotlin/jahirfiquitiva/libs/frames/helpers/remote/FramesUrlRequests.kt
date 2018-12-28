@@ -32,7 +32,6 @@ object FramesUrlRequests {
         val result = StringBuilder()
         val urlConnection: HttpURLConnection? = buildHttpUrlConnection(url)
         urlConnection ?: return result.toString()
-        
         try {
             val ins = BufferedInputStream(urlConnection.inputStream)
             val reader = BufferedReader(InputStreamReader(ins))
@@ -50,11 +49,9 @@ object FramesUrlRequests {
     }
     
     fun requestFileInfo(url: String, onlySize: Boolean): WallpaperInfo {
-        
         var info = WallpaperInfo(0, Dimension(0, 0))
         val urlConnection: HttpURLConnection? = buildHttpUrlConnection(url)
         urlConnection ?: return info
-        
         try {
             info = if (onlySize) {
                 WallpaperInfo(urlConnection.contentLength.toLong(), Dimension(0L, 0L))
@@ -69,7 +66,6 @@ object FramesUrlRequests {
                     size, Dimension(options.outWidth.toLong(), options.outHeight.toLong()))
             }
         } catch (e: Exception) {
-            FL.e("Error", e)
         } finally {
             urlConnection.disconnect()
         }
