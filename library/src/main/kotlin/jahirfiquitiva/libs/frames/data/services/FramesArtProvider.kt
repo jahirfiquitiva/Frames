@@ -34,14 +34,16 @@ open class FramesArtProvider : MuzeiArtProvider() {
         private const val SHARE_COMMAND_ID = 2
     }
     
-    private val configs: FramesKonfigs by lazy { FramesKonfigs(context!!) }
+    private val worker: FramesArtWorker by lazy { FramesArtWorker() }
     
     override fun onLoadRequested(initial: Boolean) {
-        if (configs.functionalDashboard && context?.isNetworkAvailable == true) {
+        val configs = context?.let { FramesKonfigs(it) }
+        if (configs?.functionalDashboard == true && context?.isNetworkAvailable == true) {
             if (configs.refreshMuzeiOnWiFiOnly) {
-                if (context?.isWifiConnected == true) FramesArtWorker.enqueueLoad()
+                if (context?.isWifiConnected == true)
+                    worker.loadWallpapers(context)
             } else {
-                FramesArtWorker.enqueueLoad()
+                worker.loadWallpapers(context)
             }
         }
     }
@@ -65,5 +67,10 @@ open class FramesArtProvider : MuzeiArtProvider() {
                 context.startActivity(intent)
             }
         }
+    }
+    
+    override fun onLowMemory() {
+        super.onLowMemory()
+        worker.destroy()
     }
 }

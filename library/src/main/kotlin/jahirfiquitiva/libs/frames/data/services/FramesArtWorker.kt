@@ -21,30 +21,24 @@ import android.net.Uri
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.room.Room
-import androidx.work.Constraints
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.Worker
-import androidx.work.WorkerParameters
 import com.google.android.apps.muzei.api.provider.Artwork
 import com.google.android.apps.muzei.api.provider.ProviderContract
+import jahirfiquitiva.libs.archhelpers.tasks.QAsync
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
-import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.frames.viewmodels.WallpapersViewModel
 import jahirfiquitiva.libs.kext.extensions.formatCorrectly
 import jahirfiquitiva.libs.kext.extensions.hasContent
-import java.util.Random
+import java.lang.ref.WeakReference
 
 @SuppressLint("NewApi")
-class FramesArtWorker(context: Context, workerParams: WorkerParameters) :
-    Worker(context, workerParams), LifecycleOwner {
+class FramesArtWorker() : LifecycleOwner {
     
     companion object {
+        /*
         internal fun enqueueLoad() {
             val workManager = WorkManager.getInstance()
             workManager.enqueue(
@@ -55,10 +49,10 @@ class FramesArtWorker(context: Context, workerParams: WorkerParameters) :
                             .build())
                     .build())
         }
+        */
     }
     
-    private val configs: FramesKonfigs by lazy { FramesKonfigs(context) }
-    private val client: String by lazy { "${context.packageName}.muzei" }
+    private var task: QAsync<*, *>? = null
     
     private val lcRegistry = LifecycleRegistry(this)
     override fun getLifecycle(): LifecycleRegistry = lcRegistry
@@ -67,43 +61,71 @@ class FramesArtWorker(context: Context, workerParams: WorkerParameters) :
     private var favsDB: FavoritesDatabase? = null
     private var favsVM: FavoritesViewModel? = null
     
-    override fun doWork(): Result {
+    fun loadWallpapers(context: Context?) {
+        context ?: return
+        task?.cancel(true)
+        task = null
+        task = QAsync<Context, Unit>(
+            WeakReference(context),
+            object : QAsync.Callback<Context, Unit>() {
+                override fun doLoad(param: Context): Unit? = doWork(param)
+                override fun onSuccess(result: Unit) {}
+            })
+        task?.execute()
+    }
+    
+    fun destroy() {
+        destroyViewModel()
+    }
+    
+    private fun doWork(context: Context) {
         try {
-            wallsVM = WallpapersViewModel()
-            wallsVM?.extraObserve {
-                if (it.isNotEmpty()) {
-                    val realData = getValidWallpapersList(ArrayList(it))
-                    if (configs.muzeiCollections.contains("favorites", true)) {
-                        favsDB =
-                            Room.databaseBuilder(
-                                applicationContext, FavoritesDatabase::class.java, DATABASE_NAME)
-                                .fallbackToDestructiveMigration().build()
-                        favsVM = FavoritesViewModel()
-                        favsVM?.extraObserve {
-                            realData.addAll(getValidWallpapersList(ArrayList(it)))
-                            realData.distinct()
-                            if (realData.isNotEmpty()) postWallpapers(realData)
-                        }
-                        val dao = favsDB?.favoritesDao()
-                        if (dao != null) {
-                            favsVM?.loadData(dao, true)
+            wallsVM?.cancelTask()
+            favsVM?.cancelTask()
+            if (wallsVM == null) {
+                wallsVM = WallpapersViewModel()
+                wallsVM?.extraObserve {
+                    if (it.isNotEmpty()) {
+                        val configs = FramesKonfigs(context)
+                        val realData =
+                            getValidWallpapersList(configs.muzeiCollections, ArrayList(it))
+                        if (configs.muzeiCollections.contains("favorites", true)) {
+                            if (favsDB == null) {
+                                favsDB =
+                                    Room.databaseBuilder(
+                                        context, FavoritesDatabase::class.java, DATABASE_NAME)
+                                        .fallbackToDestructiveMigration().build()
+                            }
+                            if (favsVM == null) {
+                                favsVM = FavoritesViewModel()
+                                favsVM?.extraObserve {
+                                    realData.addAll(
+                                        getValidWallpapersList(
+                                            configs.muzeiCollections, ArrayList(it)))
+                                    realData.distinct()
+                                    if (realData.isNotEmpty()) postWallpapers(context, realData)
+                                }
+                            }
+                            val dao = favsDB?.favoritesDao()
+                            if (dao != null) {
+                                favsVM?.loadData(dao, true)
+                            } else {
+                                if (realData.isNotEmpty()) postWallpapers(context, realData)
+                            }
                         } else {
-                            if (realData.isNotEmpty()) postWallpapers(realData)
+                            if (realData.isNotEmpty()) postWallpapers(context, realData)
                         }
-                    } else {
-                        if (realData.isNotEmpty()) postWallpapers(realData)
                     }
                 }
             }
-            wallsVM?.loadData(applicationContext, true)
-            return Result.success()
+            wallsVM?.loadData(context, true)
         } catch (e: Exception) {
-            return Result.failure()
         }
     }
     
-    private fun postWallpapers(wallpapers: ArrayList<Wallpaper>) {
-        val providerClient = ProviderContract.getProviderClient(applicationContext, client)
+    private fun postWallpapers(context: Context, wallpapers: ArrayList<Wallpaper>) {
+        val client: String by lazy { "${context.packageName}.muzei" }
+        val providerClient = ProviderContract.getProviderClient(context, client)
         providerClient.addArtwork(wallpapers.map { wallpaper ->
             Artwork().apply {
                 token = wallpaper.url
@@ -116,19 +138,21 @@ class FramesArtWorker(context: Context, workerParams: WorkerParameters) :
                 metadata = wallpaper.url
             }
         })
-        destroyViewModel()
     }
     
-    private fun getValidWallpapersList(original: ArrayList<Wallpaper>): ArrayList<Wallpaper> {
-        val newList = java.util.ArrayList<Wallpaper>()
-        original.forEach { if (validWallpaper(it)) newList.add(it) }
+    private fun getValidWallpapersList(
+        muzeiCollections: String,
+        original: ArrayList<Wallpaper>
+                                      ): ArrayList<Wallpaper> {
+        val newList = ArrayList<Wallpaper>()
+        original.forEach { if (validWallpaper(muzeiCollections, it)) newList.add(it) }
         newList.distinct()
         return newList
     }
     
-    private fun validWallpaper(item: Wallpaper): Boolean {
+    private fun validWallpaper(muzeiCollections: String, item: Wallpaper): Boolean {
         val collections = item.collections.split("[,|]".toRegex())
-        val selected = configs.muzeiCollections.split("[,|]".toRegex())
+        val selected = muzeiCollections.split("[,|]".toRegex())
         if (collections.isEmpty() || selected.isEmpty()) return true
         for (collection in collections) {
             val correct = collection.formatCorrectly().replace("_", " ")
@@ -138,13 +162,6 @@ class FramesArtWorker(context: Context, workerParams: WorkerParameters) :
             }
         }
         return false
-    }
-    
-    private fun getRandomIndex(maxValue: Int): Int = try {
-        Random().nextInt(maxValue)
-    } catch (e: Exception) {
-        FL.e(e.message)
-        0
     }
     
     private fun destroyViewModel() {

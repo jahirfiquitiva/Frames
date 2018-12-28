@@ -21,10 +21,10 @@ dependencies {
     }
     // Kotlin
     api libraries.kotlin
+    api libraries.coroutines
     // Architecture Components
     api libraries.room, exclusions
     kapt libraries.roomCompiler
-    api libraries.worker, exclusions
     // Permissions
     api libraries.permissions, exclusions
     // Material Dialogs

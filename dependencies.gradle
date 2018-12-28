@@ -30,15 +30,15 @@ ext.versions = [
         // Gradle Plugins
         gradle               : '3.2.1',
         kotlin               : '1.3.11',
+        coroutines           : '1.1.0',
         libs                 : '2.1',
         // Dependencies
         supportLibs          : '28.0.0',
         room                 : '2.0.0',
-        worker               : '1.0.0-beta01',
         permissions          : '1.0.0',
-        materialDialogs      : '2.0.0-rc4',
+        materialDialogs      : '2.0.0-rc5',
         glide                : '4.8.0',
-        kext                 : 'eda167d',
+        kext                 : '722bd76',
         sectionedRecyclerView: 'ab5709a',
         rvFastScroll         : '67cdb7e',
         chips                : '0.1.1',
@@ -58,11 +58,10 @@ ext.gradlePlugins = [
 ext.libraries = [
         // Kotlin
         kotlin               : 'org.jetbrains.kotlin:kotlin-stdlib:' + versions.kotlin,
+        coroutines           : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:' + versions.coroutines,
         // Architecture Components
         room                 : 'androidx.room:room-runtime:' + versions.room,
         roomCompiler         : 'androidx.room:room-compiler:' + versions.room,
-        // Worker
-        worker               : 'android.arch.work:work-runtime-ktx:' + versions.worker,
         // Permissions
         permissions          : 'com.github.fondesa:kpermissions:' + versions.permissions,
         // Material Dialogs

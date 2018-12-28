@@ -43,7 +43,6 @@ object FramesUrlRequests {
             ins.close()
             reader.close()
         } catch (e: Exception) {
-            FL.e("Error", e)
         } finally {
             urlConnection.disconnect()
         }
