@@ -75,13 +75,12 @@ class FramesArtWorker() : LifecycleOwner {
     }
     
     fun destroy() {
-        destroyViewModel()
+        destroyViewModel(true)
     }
     
     private fun doWork(context: Context) {
         try {
-            wallsVM?.cancelTask()
-            favsVM?.cancelTask()
+            destroyViewModel()
             if (wallsVM == null) {
                 wallsVM = WallpapersViewModel()
                 wallsVM?.extraObserve {
@@ -138,6 +137,7 @@ class FramesArtWorker() : LifecycleOwner {
                 metadata = wallpaper.url
             }
         })
+        destroyViewModel()
     }
     
     private fun getValidWallpapersList(
@@ -164,12 +164,14 @@ class FramesArtWorker() : LifecycleOwner {
         return false
     }
     
-    private fun destroyViewModel() {
+    private fun destroyViewModel(makeNull: Boolean = false) {
         wallsVM?.destroy(this)
-        wallsVM = null
         favsVM?.destroy(this)
-        favsVM = null
         favsDB?.close()
-        favsDB = null
+        if (makeNull) {
+            wallsVM = null
+            favsVM = null
+            favsDB = null
+        }
     }
 }
