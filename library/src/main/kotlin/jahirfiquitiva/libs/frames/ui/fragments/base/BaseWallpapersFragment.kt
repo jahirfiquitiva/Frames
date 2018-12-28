@@ -19,6 +19,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
@@ -129,6 +130,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 setHasFixedSize(true)
                 
                 activity {
+                    Log.e("Frames","Created preloader")
                     val preloader: RecyclerViewPreloader<Wallpaper> =
                         RecyclerViewPreloader(it, wallsAdapter, provider, context.maxPreload)
                     addOnScrollListener(preloader)
