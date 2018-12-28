@@ -20,7 +20,6 @@ import android.os.Build
 import android.util.Log
 import jahirfiquitiva.libs.frames.data.models.Dimension
 import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
-import jahirfiquitiva.libs.frames.helpers.utils.FL
 import java.io.BufferedInputStream
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -44,7 +43,6 @@ object FramesUrlRequests {
             reader.close()
         } catch (e: Exception) {
             Log.e("Error", e.message)
-            FL.e("Error", e)
         } finally {
             urlConnection.disconnect()
         }
@@ -69,6 +67,7 @@ object FramesUrlRequests {
                     size, Dimension(options.outWidth.toLong(), options.outHeight.toLong()))
             }
         } catch (e: Exception) {
+            Log.e("Error", e.message)
         } finally {
             urlConnection.disconnect()
         }
