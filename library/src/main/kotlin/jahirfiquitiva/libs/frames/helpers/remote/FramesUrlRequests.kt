@@ -17,6 +17,7 @@ package jahirfiquitiva.libs.frames.helpers.remote
 
 import android.graphics.BitmapFactory
 import android.os.Build
+import android.util.Log
 import jahirfiquitiva.libs.frames.data.models.Dimension
 import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
 import jahirfiquitiva.libs.frames.helpers.utils.FL
@@ -42,6 +43,8 @@ object FramesUrlRequests {
             ins.close()
             reader.close()
         } catch (e: Exception) {
+            Log.e("Error", e.message)
+            FL.e("Error", e)
         } finally {
             urlConnection.disconnect()
         }
