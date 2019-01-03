@@ -151,4 +151,7 @@
     <string name="dismiss">忽略</string>
     <string name="prevent_download_title">已锁定下载</string>
     <string name="prevent_download_content">由于安全原因，接下来的 %1$s 个小时将无法下载壁纸。请稍后再试。</string>
+    <string name="legal">法律条款</string>
+    <string name="privacy_policy">隐私政策</string>
+    <string name="terms_conditions">使用条款</string>
 </resources>
