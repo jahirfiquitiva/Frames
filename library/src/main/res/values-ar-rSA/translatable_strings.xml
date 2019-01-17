@@ -92,7 +92,27 @@
     <string name="load_hi_res_pictures_title">معاينات كامل القرار</string>
     <string name="load_hi_res_pictures_content">تحميل الصور بالدقة الكاملة في الشبكة</string>
     <string name="deep_search_title">تمكين البحث العميق</string>
+    <string name="deep_search_content">البحث حسب الاسم و الجمع</string>
+    <string name="storage_settings_title">التخزين</string>
+    <string name="wallpapers_download_location_setting_title">موقع تحميل الخلفيات</string>
+    <string name="wallpapers_download_location_setting_content">تغيير موقع تحميل خلفيات.\nالموقع الحالي: %1$s</string>
+    <string name="create_folder">إنشاء مجلد</string>
+    <string name="choose_folder">اختيار</string>
+    <string name="data_cache_setting_title">حذف بيانات التطبيق والكاش</string>
+    <string name="data_cache_setting_content">سيؤدي هذا إلى حذف ذاكرة التخزين المؤقت للتطبيق، والأفضليات. حجم ذاكرة التخزين المؤقت الحالي\n: %1$s</string>
+    <string name="data_cache_confirmation">هل أنت متأكد من أنك تريد حذف بيانات التطبيق، ذاكرة التخزين المؤقت وإعدادات؟</string>
+    <string name="clear_favorites_setting_title">مسح قاعدة بيانات المفضله</string>
+    <string name="clear_favorites_setting_content">مسح قائمة الخلفيات المفضلة الخاصة بك</string>
+    <string name="clear_favorites_confirmation">هل أنت متأكد من أنك تريد حذف قاعدة البيانات المفضلة؟</string>
     <!-- License -->
+    <string name="error_title">خطأ</string>
+    <string name="try_now">جرّب الآن</string>
+    <string name="donate">التبرع</string>
+    <string name="donate_success_title">شكرا لك</string>
+    <string name="donate_success_content">شكرا جزيلا للتبرع. أقدر عليه، وأنا سعيد لأنك تتمتع %1$s.</string>
+    <string name="donate_error">حدث خطأ غير متوقع مع رمز %1$s سبب %2$s</string>
+    <string name="donate_error_unknown">أسباب غير معروفة</string>
+    <string name="loading">تحميل…</string>
     <!-- Muzei Settings -->
     <!-- Please use this character … -->
     <string name="refresh_wallpapers_every">تحديث خلفيات…</string>
