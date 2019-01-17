@@ -16,8 +16,57 @@
   ~ limitations under the License.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="empty_section">Nothing found</string>
+    <string name="loading_section">Loading content…</string>
+    <string name="no_favorites">اضافة بعض الخلفيات الى المفضلة الاولى</string>
+    <string name="wallpapers">الخلفيات</string>
+    <string name="collections">المختارات</string>
+    <string name="x_wallpapers">%1$s خلفيات شاشة</string>
+    <string name="all">الكل</string>
+    <string name="favorites">المفضلة</string>
+    <string name="favorite">المفضلة</string>
+    <string name="added_to_favorites">وقد أضيفت \'%1$s\' إلى المفضلة.</string>
+    <string name="removed_from_favorites">تم إزالة من المفضلة \'%1$s\'.</string>
+    <string name="actions_dialog_content">ماذا تريد أن تفعل مع هذه الصورة؟</string>
+    <string name="apply">تطبيق</string>
+    <string name="download">تحميل</string>
+    <string name="info">معلومات</string>
+    <string name="share">مشاركة</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
+    <string name="share_text">جدران بلدي لهذا اليوم هو %1$s ، %2$sمن %3$s.\nالحصول عليه الآن في %4$s</string>
+    <string name="permission_denied">تم رفض الوصول</string>
+    <string name="permission_denied_completely">تم رفض الوصول إلى اذن التخزين سيكون لديك لتمكينه يدوياً في الإعدادات.</string>
+    <string name="permission_request">%1$s يتطلب الوصول إلى التخزين من أجل أن تكون قادرة على تطبيق وإنقاذ خلفيات</string>
+    <string name="allow">السماح</string>
+    <string name="downloading_wallpaper">جارٍ تنزيل %1$s…</string>
+    <string name="download_successful">خلفية تحميلها بنجاح إلى \'%1$s\'</string>
+    <string name="download_successful_short">تم تعيبن الخلفية بنجاح</string>
+    <string name="open">فتح</string>
+    <string name="file_exists">يتم بالفعل تحميل خلفية. هل تريد تحميل ليحل محله؟</string>
+    <string name="file_replace">إستبدال</string>
+    <string name="file_create_new">إنشاء جديد</string>
+    <string name="applying_wallpaper">تطبيق \'%1$s\'…</string>
+    <string name="apply_to">تطبيق على:</string>
+    <string name="home_screen">الشاشة الرئيسية</string>
+    <string name="lock_screen">قفل الشاشة</string>
+    <string name="home_lock_screen">الشاشة الرئيسية وشاشة التأمين</string>
+    <string name="apply_with_other_app">تطبيق مع التطبيقات الأخرى</string>
+    <string name="apply_successful">تم تطبيق الخلفيه بنجاح %1$s</string>
+    <string name="apply_successful_short">تم تطبيق الخلفيه بنجاح</string>
+    <string name="wallpaper_details">التفاصيل</string>
+    <string name="wallpaper_palette">لوحة الألوان</string>
+    <string name="copied_to_clipboard">نُسِخَ إلى الحافظة</string>
+    <string name="search">البحث</string>
+    <string name="search_x">البحث في %1$s عن…</string>
+    <string name="search_no_results">لم يتم العثور على نتائج</string>
+    <string name="about">حول</string>
+    <string name="refresh">تحديث</string>
+    <string name="translate">ترجمة</string>
+    <string name="licenses">الترخيص</string>
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+    <string name="frames_dashboard">لوحة الإطارات</string>
+    <string name="dev_contributions">مساعدة التنمية</string>
+    <string name="ui_contributions">تعليمات واجهة المستخدم</string>
     <!-- Light Theme -->
     <!-- Dark Theme -->
     <!-- Amoled Theme -->
@@ -27,4 +76,5 @@
     <!-- License -->
     <!-- Muzei Settings -->
     <!-- Please use this character … -->
+    <string name="refresh_wallpapers_every">تحديث خلفيات…</string>
 </resources>
