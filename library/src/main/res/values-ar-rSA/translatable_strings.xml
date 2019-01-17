@@ -16,9 +16,9 @@
   ~ limitations under the License.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="empty_section">Nothing found</string>
-    <string name="loading_section">Loading content…</string>
-    <string name="no_favorites">اضافة بعض الخلفيات الى المفضلة الاولى</string>
+    <string name="empty_section">لم يتم العثور على شيء</string>
+    <string name="loading_section">تحميل المحتوى…</string>
+    <string name="no_favorites">إضافة بعض خلفيات للمفضلة أولاً</string>
     <string name="wallpapers">الخلفيات</string>
     <string name="collections">المختارات</string>
     <string name="x_wallpapers">%1$s خلفيات شاشة</string>
@@ -67,14 +67,58 @@
     <string name="frames_dashboard">لوحة الإطارات</string>
     <string name="dev_contributions">مساعدة التنمية</string>
     <string name="ui_contributions">تعليمات واجهة المستخدم</string>
+    <string name="settings">الاعدادات</string>
+    <string name="ui_settings_title">واجهة المستخدم</string>
+    <string name="theme_setting_title">موضوع التطبيق</string>
+    <string name="theme_setting_content">اختر الموضوع الرئيسي للتطبيق</string>
     <!-- Light Theme -->
+    <string name="light_theme">فاتح</string>
     <!-- Dark Theme -->
+    <string name="dark_theme">داكن</string>
     <!-- Amoled Theme -->
+    <string name="amoled_theme">شاشة لمس</string>
     <!-- Transparent Theme -->
+    <string name="transparent_theme">شفّاف</string>
     <!-- Automatic Light-Dark Theme -->
+    <string name="auto_dark">الضوء التلقائي--الظلام</string>
     <!-- Automatic Light-Amoled Theme -->
+    <string name="auto_amoled">الضوء التلقائي-شاشة لمس</string>
+    <string name="navbar_color_setting_title">شريط التنقل ملون</string>
+    <string name="navbar_color_setting_content">لون شريط التنقل مع اللون الداكن الأساسي للتطبيق</string>
+    <string name="wallpapers_columns_setting_title">خلفيات الأعمدة</string>
+    <string name="wallpapers_columns_setting_content">اختر مقدار الأعمدة التي تريد مشاهدتها لخلفيات</string>
+    <string name="animations_setting_title">تمكين الرسوم المتحركة</string>
+    <string name="animations_setting_content">قد يتسبب هذا بالتأخير في بعض الأجهزة.</string>
+    <string name="load_hi_res_pictures_title">معاينات كامل القرار</string>
+    <string name="load_hi_res_pictures_content">تحميل الصور بالدقة الكاملة في الشبكة</string>
+    <string name="deep_search_title">تمكين البحث العميق</string>
     <!-- License -->
     <!-- Muzei Settings -->
     <!-- Please use this character … -->
     <string name="refresh_wallpapers_every">تحديث خلفيات…</string>
+    <string name="every_x">كل %1$s</string>
+    <string name="minutes">دقيقة</string>
+    <string name="hours">ساعات</string>
+    <string name="days">أيام</string>
+    <string name="refresh_only_on_wifi">تحديث على وأي فأي فقط</string>
+    <string name="refresh_only_on_wifi_summary">تحديث خلفيات فقط عند توصيل الجهاز بشبكة وأي فأي.</string>
+    <string name="choose_collections_title">اختر مجموعات</string>
+    <string name="choose_collections_summary">اختر المجموعات تتخذ من خلفيات. الحالي تحديد المجموعات: %1$s</string>
+    <string name="muzei_not_connected_title">غير متصل بالإنترنت</string>
+    <string name="muzei_not_connected_content">عذراً، لكي تكون قادراً على اختيار أو تغيير المجموعات التي تريد التطبيق لاتخاذ خلفيات من، يجب أن تكون متصلاً بإنترنت. الرجاء المحاولة مرة أخرى لاحقاً.</string>
+    <string name="sure_to_exit">خروج</string>
+    <string name="sure_to_exit_content">هل تريد حفظ الإعدادات الخاصة بك قبل الخروج؟</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="not_connected_content">ولسوء الحظ أن هذا الإجراء يتطلب اتصال إنترنت. الرجاء المحاولة مرة أخرى لاحقاً.</string>
+    <string name="new_wallpapers_available">%1$s خلفيات جديدة متوفرة. انقر للتحقق منها!</string>
+    <string name="notifications_title">الإشعارات</string>
+    <string name="enable_notifications">تفعيل الإشعارات</string>
+    <string name="changelog">سِجل التغييرات</string>
+    <string name="dismiss">تجاهل</string>
+    <string name="prevent_download_title">التنزيلات مؤمن</string>
+    <string name="prevent_download_content">لأسباب أمنية، تحميل خلفيات غير ممكن للساعات القادمة %1$s. الرجاء المحاولة مرة أخرى لاحقاً.</string>
+    <string name="legal">القانونية</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="terms_conditions">الشروط والأحكام</string>
 </resources>
