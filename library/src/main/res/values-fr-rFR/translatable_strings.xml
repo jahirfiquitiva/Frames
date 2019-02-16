@@ -67,9 +67,9 @@
     <string name="frames_dashboard">Frames Tableau de Bord</string>
     <string name="dev_contributions">Aide au développement</string>
     <string name="ui_contributions">Aide pour l\'interface Utilisateur</string>
-    <string name="dashboard_copyright">Je suis un développeur Android créactif, passionné et le créateur de ce tableau de bord.</string>
+    <string name="dashboard_copyright">Je suis un développeur Android créatif, passionné et le créateur de ce tableau de bord.</string>
     <string name="sherry_description">Une femme en constante évolution qui ne se fatigue jamais d\'apprendre, photographe créative et la personne qui a rendu ce tableau de bord possible.</string>
-    <string name="allan_description">D\'abord, un créateur de pack d\'icônes, puis un créateur de thème, et maintenant aussi un développeur.\nJ\'ai contribué à une partie du développement de ce tableau de bord.</string>
+    <string name="allan_description">D\'abord, un créateur de pack d\'icônes, puis un créateur de thème, et maintenant un développeur.\nJ\'ai contribué à une partie du développement de ce tableau de bord.</string>
     <string name="settings">Paramètres</string>
     <string name="ui_settings_title">Interface Utilisateur</string>
     <string name="theme_setting_title">Thème de l\'application</string>
@@ -113,7 +113,7 @@
     <string name="license_valid_snack">Licence valide. Merci d\'avoir téléchargé %1$s. Profitez-en!</string>
     <string name="license_invalid_title">Vous ne passerez pas!</string>
     <string name="license_invalid_content">Désolé, mais nous avons détecté que votre licence pour %1$s n\'est pas valide. Cela arrive si vous utilisez une application piraté. %2$s. Si vous pensez que cela est une erreur, merci de réessayer plus tard. Autrement, merci de télécharger l\'application d\'un store officiel.</string>
-    <string name="license_invalid_content_extra">Ou specifiquement: \'%1$s\' application, merci de la désinstaller</string>
+    <string name="license_invalid_content_extra">Ou spécifiquement: \'%1$s\' application, merci de la désinstaller</string>
     <string name="error_title">Erreur</string>
     <string name="action_error_content">Désolé, une erreur inattendue s\'est produite lors de l\'exécution de cette action.</string>
     <string name="license_error_content">Désolé, une erreur a été détecté dans la vérification de votre licence. Merci de réessayer plus tard.</string>
