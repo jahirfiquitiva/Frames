@@ -16,15 +16,15 @@
   ~ limitations under the License.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="empty_section">Tidak ada yang ditemukan</string>
-    <string name="loading_section">Memuat konten…</string>
-    <string name="no_favorites">Menambahkan beberapa wallpaper ke favorit terlebih dahulu</string>
-    <string name="wallpapers">Wallpaper</string>
-    <string name="collections">Koleksi</string>
-    <string name="x_wallpapers">%1$s wallpaper</string>
-    <string name="all">Semua</string>
-    <string name="favorites">Favorit</string>
-    <string name="favorite">Favorit</string>
+    <string name="empty_section">Nothing found</string>
+    <string name="loading_section">Loading content…</string>
+    <string name="no_favorites">Add some wallpapers to favorites first</string>
+    <string name="wallpapers">Wallpapers</string>
+    <string name="collections">Collections</string>
+    <string name="x_wallpapers">%1$s wallpapers</string>
+    <string name="all">All</string>
+    <string name="favorites">Favorites</string>
+    <string name="favorite">Favorite</string>
     <string name="added_to_favorites">%1$s sudah ditambahkan ke favorit.</string>
     <string name="removed_from_favorites">%1$s sudah dihapus dari favorit.</string>
     <string name="actions_dialog_content">Apa yang ingin anda lakukan dengan wallpaper ini?</string>
@@ -147,4 +147,11 @@
     <string name="new_wallpapers_available">%1$s wallpaper baru tersedia. Ketuk untuk memeriksa mereka!</string>
     <string name="notifications_title">Pemberitahuan</string>
     <string name="enable_notifications">Mengaktifkan pemberitahuan</string>
+    <string name="changelog">Changelog</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="prevent_download_title">Downloads locked</string>
+    <string name="prevent_download_content">For security reasons, downloading wallpapers isn\'t possible for the next %1$s hours. Please try again later.</string>
+    <string name="legal">Legal</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_conditions">Terms and Conditions</string>
 </resources>
