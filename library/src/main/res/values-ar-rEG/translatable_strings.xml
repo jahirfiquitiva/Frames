@@ -68,6 +68,8 @@
     <string name="dev_contributions">مساعدة التطوير</string>
     <string name="ui_contributions">تعليمات واجهة المستخدم</string>
     <string name="dashboard_copyright">انا مطور اندرويد متحمس ومبدع والذي قام بانشاء لوحة المعلومات.</string>
+    <string name="sherry_description">An ever evolving woman who never tires of learning, creative photographer and the person who made this dashboard possible.</string>
+    <string name="settings">إعدادات</string>
     <!-- Light Theme -->
     <!-- Dark Theme -->
     <!-- Amoled Theme -->
