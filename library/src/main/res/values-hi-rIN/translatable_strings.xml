@@ -22,11 +22,11 @@
     <string name="wallpapers">वॉलपेपर्स</string>
     <string name="collections">कलेक्शन</string>
     <string name="x_wallpapers">%1$s वॉलपेपर्स</string>
-    <string name="all">सब</string>
+    <string name="all">सभी</string>
     <string name="favorites">फेवरेट्स</string>
     <string name="favorite">फेवरेट</string>
     <string name="added_to_favorites">\'%1$s\' फेवरेट्स में जोड़ दिया गया है</string>
-    <string name="removed_from_favorites">\'%1$s\' फेवरेट्स से निकाल दिया गया है</string>
+    <string name="removed_from_favorites">\'%1$s\' फेवरेट्स से हटा दिया गया है</string>
     <string name="actions_dialog_content">आप इस वॉलपेपर के साथ क्या करना चाहते हैं?</string>
     <string name="apply">अप्लाई</string>
     <string name="download">डाउनलोड</string>
@@ -148,4 +148,11 @@
     <string name="new_wallpapers_available">%1$s नए वॉलपेपर्स उपलब्ध हैं। उन्हें चेक करने के लिए टैप करें!</string>
     <string name="notifications_title">नोटिफिकेशंस</string>
     <string name="enable_notifications">नोटिफिकेशंस सक्षम करें</string>
+    <string name="changelog">बदलावलॉग</string>
+    <string name="dismiss">खारिज</string>
+    <string name="prevent_download_title">डाउनलोड बंद</string>
+    <string name="prevent_download_content">सुरक्षा कारणों से, वॉलपेपर डाउनलोड करना अगले %1$s घंटों के लिए संभव नहीं है। बाद में पुन: प्रयास करें।</string>
+    <string name="legal">कानूनी</string>
+    <string name="privacy_policy">गोपनीयता नीति</string>
+    <string name="terms_conditions">नियम और शर्तें</string>
 </resources>
