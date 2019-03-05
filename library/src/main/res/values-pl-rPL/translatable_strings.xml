@@ -152,4 +152,7 @@ Obecnie wybrana kolekcja: %1$s</string>
     <string name="dismiss">Odrzuć</string>
     <string name="prevent_download_title">Pobieranie zablokowane</string>
     <string name="prevent_download_content">Dla bezpieczeństwa, pobieranie tapet nie jest możliwe przez kolejne %1$s godzin. Spróbuj ponownie później.</string>
+    <string name="legal">Legal</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_conditions">Regulamin</string>
 </resources>
