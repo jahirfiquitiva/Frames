@@ -18,6 +18,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="empty_section">Nothing found</string>
     <string name="loading_section">Tải nội dung...</string>
+    <string name="no_favorites">Thêm một số hình nền yêu thích đầu tiên</string>
     <string name="wallpapers">Wallpapers</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
