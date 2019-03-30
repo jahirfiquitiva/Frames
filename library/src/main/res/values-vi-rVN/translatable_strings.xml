@@ -16,10 +16,10 @@
   ~ limitations under the License.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="empty_section">Nothing found</string>
+    <string name="empty_section">Không có kết quả!</string>
     <string name="loading_section">Tải nội dung...</string>
     <string name="no_favorites">Thêm một số hình nền yêu thích đầu tiên</string>
-    <string name="wallpapers">Wallpapers</string>
+    <string name="wallpapers">Hình nền</string>
     <string name="collections">Các bộ sưu tập</string>
     <string name="x_wallpapers">%1$s hình nền</string>
     <string name="all">Tất cả</string>
@@ -82,4 +82,19 @@
     <string name="every_x">Mỗi %1</string>
     <string name="minutes">phút</string>
     <string name="hours">Giờ</string>
+    <string name="days">Ngày</string>
+    <string name="refresh_only_on_wifi">Chỉ làm mới Wifi</string>
+    <string name="muzei_not_connected_title">Không được kết nối
+với internet</string>
+    <string name="sure_to_exit">Thoát</string>
+    <string name="sure_to_exit_content">Bạn có muốn lưu các thay đổi của mình trước khi đóng không?</string>
+    <string name="yes">Có</string>
+    <string name="no">Không</string>
+    <string name="notifications_title">Thông báo</string>
+    <string name="enable_notifications">Bật thông báo</string>
+    <string name="changelog">Thay đổi</string>
+    <string name="dismiss">Bỏ qua</string>
+    <string name="legal">Pháp lý</string>
+    <string name="privacy_policy">Chính sách bảo mật</string>
+    <string name="terms_conditions">Điều khoản và điều kiện</string>
 </resources>
