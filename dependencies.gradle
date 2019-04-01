@@ -41,7 +41,7 @@ ext.versions = [
         kext                 : '52c384e',
         sectionedRecyclerView: 'ab5709a',
         rvFastScroll         : '67cdb7e',
-        chips                : '0.1.2',
+        chips                : '0.1.1',
         iaps                 : '1.0.44',
         muzeiApi             : '3.1.0',
         licensesDialog       : '2.0.0',

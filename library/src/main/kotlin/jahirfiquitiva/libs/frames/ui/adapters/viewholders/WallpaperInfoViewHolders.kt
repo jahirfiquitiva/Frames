@@ -15,9 +15,9 @@
  */
 package jahirfiquitiva.libs.frames.ui.adapters.viewholders
 
-import androidx.annotation.ColorInt
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.toHexString
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
