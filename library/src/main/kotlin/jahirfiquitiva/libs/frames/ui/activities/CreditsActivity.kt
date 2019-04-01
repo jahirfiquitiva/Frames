@@ -246,14 +246,13 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
         const val JAHIR_LINKS = "https://jahir.xyz/|https://jahir.xyz/twitter/"
         
         const val ALLAN_PHOTO_URL = "https://avatars0.githubusercontent.com/u/6251823?v=4&s=400"
-        const val ALLAN_BUTTONS = "GitHub|Google+|Play Store"
-        const val ALLAN_LINKS =
-            "https://github.com/AllanWang|https://plus.google.com/+AllanWPitchedApps|https://play.google.com/store/apps/dev?id=9057916668129524571"
+        const val ALLAN_BUTTONS = "Website|GitHub"
+        const val ALLAN_LINKS = "https://www.allanwang.ca/|https://github.com/AllanWang"
         
         const val SHERRY_PHOTO_URL =
             "https://s3-img.pixpa.com/com/large/37571/newdo-2-pw69wd.jpg"
-        const val SHERRY_BUTTONS = "Website|Google+"
+        const val SHERRY_BUTTONS = "Website|Instagram"
         const val SHERRY_LINKS =
-            "http://www.ssabatinephotography.com/|https://plus.google.com/+SherrySabatine"
+            "http://www.ssabatinephotography.com/|https://www.instagram.com/sherry._.sabatine/"
     }
 }

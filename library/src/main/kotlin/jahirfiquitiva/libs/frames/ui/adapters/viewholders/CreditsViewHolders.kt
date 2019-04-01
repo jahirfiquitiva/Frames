@@ -56,14 +56,14 @@ data class Credit(
     companion object {
         private val JAMES = Credit(
             "James Fenn", "https://goo.gl/6Wc5rK", Type.DEV_CONTRIBUTION,
-            "https://plus.google.com/+JamesFennJAFFA2157")
+            "https://jfenn.me/")
         private val MAX = Credit(
             "Maximilian Keppeler", "https://goo.gl/2qUEtS",
             Type.DEV_CONTRIBUTION,
-            "https://plus.google.com/+MaxKeppeler")
+            "https://twitter.com/maxKeppeler")
         private val SASI = Credit(
             "Sasi Kanth", "https://goo.gl/wvxim8", Type.DEV_CONTRIBUTION,
-            "https://plus.google.com/+Sasikanth")
+            "https://twitter.com/its_sasikanth")
         private val ALEX = Credit(
             "Alexandre Piveteau", "https://goo.gl/ZkJNnV",
             Type.DEV_CONTRIBUTION,
@@ -75,20 +75,20 @@ data class Credit(
         private val PATRYK = Credit(
             "Patryk Goworowski", "https://goo.gl/9ccZcA",
             Type.UI_CONTRIBUTION,
-            "https://plus.google.com/+PatrykGoworowski")
+            "https://twitter.com/pgoworowski")
         private val LUMIQ = Credit(
             "Lumiq Creative",
-            "https://raw.githubusercontent.com/lumiqcreative/lumiq-repo/master/logo-profile-2708-2.png",
+            "https://raw.githubusercontent.com/lumiqcreative/resources/master/brand_resources/profile_picture.png",
             Type.UI_CONTRIBUTION, "https://lumiqcreative.com/")
         private val KEVIN = Credit(
             "Kevin Aguilar", "https://goo.gl/mGuAM9", Type.UI_CONTRIBUTION,
-            "http://kevaguilar.com/")
+            "https://twitter.com/kevttob")
         private val EDUARDO = Credit(
             "Eduardo Pratti", "https://goo.gl/TSKB7s",
-            Type.UI_CONTRIBUTION, "https://plus.google.com/+EduardoPratti")
+            Type.UI_CONTRIBUTION, "https://pratti.design/")
         private val ANTHONY = Credit(
             "Anthony Nguyen", "https://goo.gl/zxiBQE",
-            Type.UI_CONTRIBUTION, "https://plus.google.com/+AHNguyen")
+            Type.UI_CONTRIBUTION, "https://twitter.com/link6155")
         
         val EXTRA_CREDITS = arrayListOf(
             JAMES, MAX, SASI, ALEX, LUKAS,
