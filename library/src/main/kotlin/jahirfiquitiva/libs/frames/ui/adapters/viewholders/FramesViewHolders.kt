@@ -23,6 +23,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.annotation.StringRes
 import androidx.core.view.ViewCompat
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
@@ -51,6 +52,7 @@ import jahirfiquitiva.libs.kext.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kext.extensions.hasContent
 import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
 import jahirfiquitiva.libs.kext.extensions.notNull
+import jahirfiquitiva.libs.kext.extensions.string
 
 const val DETAILS_OPACITY = 0.8F
 const val COLLECTION_DETAILS_OPACITY = 0.4F
@@ -64,9 +66,14 @@ abstract class FramesViewClickListener<in T, in VH> {
 abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     internal var wallpaper: Wallpaper? = null
     internal abstract val img: ImageView?
+    internal abstract val placeholderName: String
+    
+    internal abstract fun doWithPalette(palette: Palette? = null)
     
     internal val gradPrimText: Int by lazy { Color.parseColor("#ffffffff") }
     internal val gradSecText: Int by lazy { Color.parseColor("#b3ffffff") }
+    
+    private val placeholderDrawable: Drawable? by lazy { context.drawable(placeholderName) }
     
     private var animator: ValueAnimator? = null
     private val listener: GlidePaletteListener by lazy {
@@ -89,8 +96,10 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
     }
     
     internal fun startLoading() {
-        if (context.isLowRamDevice) {
+        val hasPlaceholder = placeholderDrawable != null
+        if (context.isLowRamDevice || hasPlaceholder) {
             stopLoading()
+            if (hasPlaceholder) doWithPalette()
             return
         }
         animator = smoothAnimator(context.tilesColor.withAlpha(0.4F), context.tilesColor) {
@@ -104,10 +113,9 @@ abstract class FramesWallpaperHolder(itemView: View) : RecyclerView.ViewHolder(i
     }
     
     internal fun loadImage(manager: RequestManager?, url: String, thumbUrl: String) {
-        img?.loadPicture(manager, url, thumbUrl, listener = listener)
+        img?.loadPicture(
+            manager, url, thumbUrl, placeholder = placeholderDrawable, listener = listener)
     }
-    
-    internal abstract fun doWithPalette(palette: Palette?)
     
     fun unbind() {
         stopLoading()
@@ -174,6 +182,8 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
             amount?.setTextColor(gradSecText)
         }
     }
+    
+    override val placeholderName: String = string(R.string.collections_placeholder)
 }
 
 class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
@@ -268,4 +278,6 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
             }
         }
     }
+    
+    override val placeholderName: String = string(R.string.walls_placeholder)
 }
