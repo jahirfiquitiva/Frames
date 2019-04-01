@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.jahirfiquitiva.kext:archhelpers:34d89ec@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ca48233b0e7a0d4a569ddaeb782b7c81/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ca48233b0e7a0d4a569ddaeb782b7c81/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jahirfiquitiva.kext/archhelpers/34d89ec/b2982961db8c55788c69fa09481dac1f18a8d137/archhelpers-34d89ec-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

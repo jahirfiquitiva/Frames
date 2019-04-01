@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.google.android.apps.muzei:muzei-api:3.1.0@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a6db3244315e81deb0d9747bbee175bb/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a6db3244315e81deb0d9747bbee175bb/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a6db3244315e81deb0d9747bbee175bb/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.apps.muzei/muzei-api/3.1.0/71d1df5d651f30cdfd5b1a9d9220eb222ad8f7fb/muzei-api-3.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
