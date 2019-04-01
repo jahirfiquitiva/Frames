@@ -68,10 +68,15 @@ open class SettingsFragment : PreferenceFragment() {
         }
         request.listeners {
             onAccepted { whenAccepted() }
-            onDenied { activity { it.snackbar(R.string.permission_denied, Snackbar.LENGTH_LONG) } }
+            onDenied {
+                activity {
+                    it.snackbar(R.string.permission_denied, duration = Snackbar.LENGTH_LONG)
+                }
+            }
             onPermanentlyDenied {
                 activity {
-                    it.snackbar(R.string.permission_denied_completely, Snackbar.LENGTH_LONG)
+                    it.snackbar(
+                        R.string.permission_denied_completely, duration = Snackbar.LENGTH_LONG)
                 }
             }
             onShouldShowRationale { _, nonce -> showPermissionInformation(explanation, nonce) }
