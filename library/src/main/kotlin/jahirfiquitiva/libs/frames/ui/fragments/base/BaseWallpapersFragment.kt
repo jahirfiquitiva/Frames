@@ -49,6 +49,7 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.FramesViewClickListene
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.frames.ui.widgets.EndlessRecyclerViewScrollListener
+import jahirfiquitiva.libs.frames.ui.widgets.FeaturedWallSpacingItemDecoration
 import jahirfiquitiva.libs.kext.extensions.accentColor
 import jahirfiquitiva.libs.kext.extensions.activity
 import jahirfiquitiva.libs.kext.extensions.cardBackgroundColor
@@ -101,7 +102,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     }
     
     private var spanCount = 0
-    private var spacingDecoration = GridSpacingItemDecoration(0, 0)
+    private var spacingDecoration: GridSpacingItemDecoration = GridSpacingItemDecoration(0, 0)
     
     override fun initUI(content: View) {
         swipeToRefresh = content.findViewById(R.id.swipe_to_refresh)
@@ -161,16 +162,29 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         canClick = true
     }
     
-    fun configureRVColumns() {
+    fun configureRVColumns(force: Boolean = false) {
         context {
-            if (configs.columns != spanCount) {
+            if (configs.columns != spanCount || force) {
                 recyclerView?.removeItemDecoration(spacingDecoration)
                 val columns = configs.columns
                 spanCount = if (it.isInHorizontalMode) (columns * 1.5).toInt() else columns
-                recyclerView?.layoutManager =
+                val layoutManager =
                     GridLayoutManager(context, spanCount, RecyclerView.VERTICAL, false)
-                spacingDecoration = GridSpacingItemDecoration(
-                    spanCount, it.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
+                val hasFeaturedWall = wallpapersModel?.getData().orEmpty().any { it.featured }
+                if (!fromFavorites()) {
+                    layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                        override fun getSpanSize(position: Int): Int =
+                            if (position == 0 && hasFeaturedWall) spanCount else 1
+                    }
+                }
+                recyclerView?.layoutManager = layoutManager
+                spacingDecoration = if (hasFeaturedWall) {
+                    FeaturedWallSpacingItemDecoration(
+                        spanCount, it.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
+                } else {
+                    GridSpacingItemDecoration(
+                        spanCount, it.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
+                }
                 recyclerView?.addItemDecoration(spacingDecoration)
             }
         }
@@ -211,6 +225,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     
     override fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {
         super.doOnWallpapersChange(data, fromCollectionActivity)
+        configureRVColumns(true)
         swipeToRefresh?.isRefreshing = false
     }
     

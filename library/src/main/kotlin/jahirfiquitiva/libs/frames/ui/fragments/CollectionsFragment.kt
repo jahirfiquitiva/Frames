@@ -33,7 +33,6 @@ import jahirfiquitiva.libs.frames.helpers.extensions.configs
 import jahirfiquitiva.libs.frames.helpers.extensions.jfilter
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
 import jahirfiquitiva.libs.frames.helpers.utils.FL
-import jahirfiquitiva.libs.frames.helpers.utils.MAX_COLLECTIONS_LOAD
 import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
 import jahirfiquitiva.libs.frames.ui.activities.base.FavsDbManager
 import jahirfiquitiva.libs.frames.ui.adapters.CollectionsAdapter
@@ -46,7 +45,6 @@ import jahirfiquitiva.libs.kext.extensions.accentColor
 import jahirfiquitiva.libs.kext.extensions.activity
 import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.cardBackgroundColor
-import jahirfiquitiva.libs.kext.extensions.formatCorrectly
 import jahirfiquitiva.libs.kext.extensions.hasContent
 import jahirfiquitiva.libs.kext.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kext.extensions.isLowRamDevice

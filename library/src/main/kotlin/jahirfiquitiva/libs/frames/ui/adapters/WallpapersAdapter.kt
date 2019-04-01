@@ -42,6 +42,11 @@ class WallpapersAdapter(
         if (fromFavorites) -1 else MAX_WALLPAPERS_LOAD),
     ListPreloader.PreloadModelProvider<Wallpaper> {
     
+    companion object {
+        private const val FEATURED_WALL = 0
+        private const val NORMAL_WALL = 1
+    }
+    
     var favorites = ArrayList<Wallpaper>()
         private set(value) {
             field.clear()
@@ -67,7 +72,11 @@ class WallpapersAdapter(
     }
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallpaperHolder =
-        WallpaperHolder(parent.inflate(R.layout.item_wallpaper), showFavIcon)
+        WallpaperHolder(
+            parent.inflate(
+                if (viewType == FEATURED_WALL) R.layout.item_wallpaper_feat
+                else R.layout.item_wallpaper),
+            showFavIcon)
     
     override fun getPreloadItems(position: Int): MutableList<Wallpaper> =
         Collections.singletonList(list[position])
@@ -91,4 +100,11 @@ class WallpapersAdapter(
     }
     
     override fun getItemId(position: Int) = position.toLong()
+    
+    override fun getItemViewType(position: Int): Int {
+        return if (fromFavorites) NORMAL_WALL else {
+            val hasFeaturedWall = list.any { it.featured }
+            if (position == 0 && hasFeaturedWall) FEATURED_WALL else NORMAL_WALL
+        }
+    }
 }

@@ -89,6 +89,7 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
     private fun parseListFromJson(context: Context, json: JSONArray): ArrayList<Wallpaper> {
         FramesKonfigs(context).backupJson = json.toString()
         val fWallpapers = ArrayList<Wallpaper>()
+        var featuredAdded = false
         for (index in 0..json.length()) {
             if (json.isNull(index)) continue
             val obj = json.getJSONObject(index)
@@ -103,13 +104,19 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
             val copyright = obj.string("copyright")
             val correctName = name.formatCorrectly().replace("_", " ")
             val correctAuthor = author.formatCorrectly().replace("_", " ").toTitleCase()
+            val featured = isWallpaperFeatured(obj)
             if (correctName.hasContent() && url.hasContent()) {
-                fWallpapers.add(
-                    Wallpaper(
-                        correctName, correctAuthor, collections,
-                        downloadable, url,
-                        if (thumbUrl.hasContent()) thumbUrl else url,
-                        size, dimensions, copyright))
+                val newWall = Wallpaper(
+                    correctName, correctAuthor, collections,
+                    downloadable, url,
+                    if (thumbUrl.hasContent()) thumbUrl else url,
+                    size, dimensions, copyright, featured)
+                if (featured && !featuredAdded) {
+                    fWallpapers.add(0, newWall)
+                    featuredAdded = true
+                } else {
+                    fWallpapers.add(newWall)
+                }
             }
         }
         fWallpapers.distinct()
@@ -137,6 +144,16 @@ class WallpapersViewModel : ListViewModel<Context, Wallpaper>() {
             (obj.getString("downloadable") ?: "true").equals("true", true)
         } catch (ignored: Exception) {
             true
+        }
+    }
+    
+    private fun isWallpaperFeatured(obj: JSONObject): Boolean = try {
+        obj.getBoolean("featured")
+    } catch (ignored: Exception) {
+        try {
+            (obj.getString("featured") ?: "true").equals("true", false)
+        } catch (ignored: Exception) {
+            false
         }
     }
     

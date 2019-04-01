@@ -45,6 +45,8 @@ data class Wallpaper(
     var dimensions: String,
     @ColumnInfo(name = "COPYRIGHT")
     var copyright: String,
+    @ColumnInfo(name = "FEATURED")
+    var featured: Boolean,
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID")
     var id: Long = 0
@@ -60,6 +62,7 @@ data class Wallpaper(
         parcel.readLong(),
         parcel.readString().orEmpty(),
         parcel.readString().orEmpty(),
+        parcel.readBoolean(),
         parcel.readLong())
     
     override fun equals(other: Any?): Boolean {
@@ -85,6 +88,7 @@ data class Wallpaper(
         parcel.writeLong(size)
         parcel.writeString(dimensions)
         parcel.writeString(copyright)
+        parcel.writeBoolean(featured)
         parcel.writeLong(id)
     }
     
