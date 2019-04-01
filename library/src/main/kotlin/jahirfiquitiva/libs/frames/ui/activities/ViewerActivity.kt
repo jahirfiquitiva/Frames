@@ -567,7 +567,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         settings: Snackbar.() -> Unit
                              ) {
         contentView?.let {
-            val snack = it.buildSnackbar(text, duration, settings)
+            val snack = it.buildSnackbar(text, duration = duration, builder = settings)
             val bottomBarWasVisible = visibleBottomBar
             
             snack.addCallback(
@@ -576,7 +576,6 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
                         super.onDismissed(transientBottomBar, event)
                         if (bottomBarWasVisible) changeBottomBarVisibility(true)
                     }
-                    
                 })
             
             var bottomNavBar = 0
