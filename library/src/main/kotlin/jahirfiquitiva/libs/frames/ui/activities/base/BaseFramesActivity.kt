@@ -182,12 +182,9 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
             enableInstallerId(InstallerID.GOOGLE_PLAY)
             if (amazonInstallsEnabled())
                 enableInstallerId(InstallerID.AMAZON_APP_STORE)
-            enableUnauthorizedAppsCheck(checkLPF())
-            enableStoresCheck(checkStores())
-            enableDebugCheck(true)
-            enableEmulatorCheck(false)
-            enableFoldersCheck(false)
-            enableAPKCheck(false)
+            if (checkLPF()) enableUnauthorizedAppsCheck()
+            if (checkStores()) enableStoresCheck()
+            enableDebugCheck()
         }
     }
     
@@ -393,12 +390,10 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         settings: Snackbar.() -> Unit
                              ) {
         contentView?.let {
-            val snack = it.buildSnackbar(text, duration, settings)
-            
+            val snack = it.buildSnackbar(text, duration = duration, builder = settings)
             val snackText = snack.view.findViewById<TextView>(R.id.snackbar_text)
             snackText.setTextColor(Color.WHITE)
             snackText.maxLines = 3
-            
             snack.show()
         } ?: { if (defaultToToast) toast(text) }()
     }
