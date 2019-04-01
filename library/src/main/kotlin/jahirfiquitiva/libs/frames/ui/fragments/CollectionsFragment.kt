@@ -29,6 +29,7 @@ import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.helpers.extensions.configs
 import jahirfiquitiva.libs.frames.helpers.extensions.jfilter
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
 import jahirfiquitiva.libs.frames.helpers.utils.FL
@@ -45,6 +46,7 @@ import jahirfiquitiva.libs.kext.extensions.accentColor
 import jahirfiquitiva.libs.kext.extensions.activity
 import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.cardBackgroundColor
+import jahirfiquitiva.libs.kext.extensions.formatCorrectly
 import jahirfiquitiva.libs.kext.extensions.hasContent
 import jahirfiquitiva.libs.kext.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
@@ -115,7 +117,7 @@ internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHo
                         })
                 }
                 
-                setItemViewCacheSize((MAX_COLLECTIONS_LOAD * 1.5).toInt())
+                // setItemViewCacheSize((MAX_COLLECTIONS_LOAD * 1.5).toInt())
                 adapter = collsAdapter
             }
         }
@@ -181,14 +183,22 @@ internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHo
         if (filter.hasContent()) {
             recyclerView?.setEmptyImage(R.drawable.no_results)
             recyclerView?.setEmptyText(R.string.search_no_results)
-            collsAdapter.setItems(list.jfilter { it.name.contains(filter, true) })
+            collsAdapter.setItems(
+                list.jfilter {
+                    it.name.contains(filter, true) ||
+                        if (configs.deepSearchEnabled) {
+                            it.wallpapers.any { wall ->
+                                wall.name.contains(filter, true) ||
+                                    wall.author.contains(filter, true)
+                            }
+                        } else true
+                })
         } else {
             recyclerView?.setEmptyImage(R.drawable.empty_section)
             recyclerView?.setEmptyText(R.string.empty_section)
             collsAdapter.setItems(list)
         }
-        if (!closed)
-            scrollToTop()
+        if (!closed) scrollToTop()
     }
     
     override fun doOnFavoritesChange(data: ArrayList<Wallpaper>) {

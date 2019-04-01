@@ -41,6 +41,6 @@ const val WALLS_PICKER = 3
 const val ICONS_APPLIER = 4
 
 const val MAX_WALLPAPERS_LOAD = 20
-const val MAX_COLLECTIONS_LOAD = 10
+const val MAX_COLLECTIONS_LOAD = 0
 
 internal const val MIN_TIME: Long = 3 * 60 * 60000
