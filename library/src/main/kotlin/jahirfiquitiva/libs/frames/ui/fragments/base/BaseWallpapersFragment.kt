@@ -15,13 +15,18 @@
  */
 package jahirfiquitiva.libs.frames.ui.fragments.base
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
+import android.os.Bundle
+import android.transition.Transition
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.app.SharedElementCallback
 import androidx.core.util.Pair
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -35,12 +40,16 @@ import com.pluscubed.recyclerfastscroll.RecyclerFastScroller
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
+import jahirfiquitiva.libs.frames.helpers.extensions.concatSharedElements
 import jahirfiquitiva.libs.frames.helpers.extensions.configs
+import jahirfiquitiva.libs.frames.helpers.extensions.framesPostponeEnterTransition
 import jahirfiquitiva.libs.frames.helpers.extensions.jfilter
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPictureRes
 import jahirfiquitiva.libs.frames.helpers.extensions.maxPreload
+import jahirfiquitiva.libs.frames.helpers.extensions.safeStartPostponedEnterTransition
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.MAX_WALLPAPERS_LOAD
+import jahirfiquitiva.libs.frames.helpers.utils.TransitionCallback
 import jahirfiquitiva.libs.frames.ui.activities.ViewerActivity
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.ui.activities.base.FavsDbManager
@@ -50,6 +59,7 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperHolder
 import jahirfiquitiva.libs.frames.ui.widgets.EmptyViewRecyclerView
 import jahirfiquitiva.libs.frames.ui.widgets.EndlessRecyclerViewScrollListener
 import jahirfiquitiva.libs.frames.ui.widgets.FeaturedWallSpacingItemDecoration
+import jahirfiquitiva.libs.frames.ui.widgets.WallpaperSharedElementCallback
 import jahirfiquitiva.libs.kext.extensions.accentColor
 import jahirfiquitiva.libs.kext.extensions.activity
 import jahirfiquitiva.libs.kext.extensions.cardBackgroundColor
@@ -71,6 +81,13 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     var fastScroller: RecyclerFastScroller? = null
         private set
     private var swipeToRefresh: SwipeRefreshLayout? = null
+    
+    private var rvLayoutManager: GridLayoutManager? = null
+    private var currentWallPosition: Int = 0
+    
+    private val wallElementsCallback: WallpaperSharedElementCallback by lazy {
+        WallpaperSharedElementCallback()
+    }
     
     private val provider: ViewPreloadSizeProvider<Wallpaper> by lazy {
         ViewPreloadSizeProvider<Wallpaper>()
@@ -134,15 +151,6 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                         RecyclerViewPreloader(it, wallsAdapter, provider, context.maxPreload))
                 }
                 
-                layoutManager?.let {
-                    addOnScrollListener(
-                        EndlessRecyclerViewScrollListener(it) { _, view ->
-                            if (userVisibleHint) {
-                                view.post { wallsAdapter.allowMoreItemsLoad() }
-                            }
-                        })
-                }
-                
                 setItemViewCacheSize((MAX_WALLPAPERS_LOAD * 1.5).toInt())
                 adapter = wallsAdapter
             }
@@ -153,7 +161,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     }
     
     override fun scrollToTop() {
-        recyclerView?.post { recyclerView?.scrollToPosition(0) }
+        recyclerView?.post { recyclerView?.smoothScrollToPosition(0) }
     }
     
     override fun onResume() {
@@ -168,16 +176,24 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 recyclerView?.removeItemDecoration(spacingDecoration)
                 val columns = configs.columns
                 spanCount = if (it.isInHorizontalMode) (columns * 1.5).toInt() else columns
-                val layoutManager =
+                rvLayoutManager =
                     GridLayoutManager(context, spanCount, RecyclerView.VERTICAL, false)
                 val hasFeaturedWall = wallpapersModel?.getData().orEmpty().any { it.featured }
                 if (!fromFavorites()) {
-                    layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                    rvLayoutManager?.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                         override fun getSpanSize(position: Int): Int =
                             if (position == 0 && hasFeaturedWall) spanCount else 1
                     }
                 }
-                recyclerView?.layoutManager = layoutManager
+                rvLayoutManager?.let {
+                    recyclerView?.addOnScrollListener(
+                        EndlessRecyclerViewScrollListener(it) { _, view ->
+                            if (userVisibleHint) {
+                                view.post { wallsAdapter.allowMoreItemsLoad() }
+                            }
+                        })
+                }
+                recyclerView?.layoutManager = rvLayoutManager
                 spacingDecoration = if (hasFeaturedWall) {
                     FeaturedWallSpacingItemDecoration(
                         spanCount, it.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
@@ -268,10 +284,14 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         if (!canClick) return
         try {
             val intent = Intent(activity, ViewerActivity::class.java)
-            
             var options: ActivityOptionsCompat? = null
+            currentWallPosition = holder.adapterPosition
             
             with(intent) {
+                putParcelableArrayListExtra(
+                    "wallpapers", ArrayList(wallpapersModel?.getData().orEmpty()))
+                putExtra(ViewerActivity.CURRENT_WALL_POSITION, holder.adapterPosition)
+                
                 putExtra("wallpaper", wallpaper)
                 putExtra(
                     "inFavorites", (activity as? FavsDbManager)?.isInFavs(wallpaper) ?: false)
@@ -279,28 +299,29 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 putExtra("checker", hasChecker)
                 
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    val imgTransition = holder.img?.let { ViewCompat.getTransitionName(it) } ?: ""
-                    val nameTransition = holder.name?.let { ViewCompat.getTransitionName(it) } ?: ""
+                    val imgTransition = holder.img?.let { ViewCompat.getTransitionName(it) }
+                        ?: "img_transition_${holder.adapterPosition}"
+                    val nameTransition = holder.name?.let { ViewCompat.getTransitionName(it) }
+                        ?: "name_transition_${holder.adapterPosition}"
                     val authorTransition =
-                        holder.author?.let { ViewCompat.getTransitionName(it) } ?: ""
+                        holder.author?.let { ViewCompat.getTransitionName(it) }
+                            ?: "author_transition_${holder.adapterPosition}"
                     val heartTransition =
-                        holder.heartIcon?.let { ViewCompat.getTransitionName(it) } ?: ""
-                    
-                    putExtra("imgTransition", imgTransition)
-                    putExtra("nameTransition", nameTransition)
-                    putExtra("authorTransition", authorTransition)
-                    putExtra("favTransition", heartTransition)
+                        holder.heartIcon?.let { ViewCompat.getTransitionName(it) }
+                            ?: "fav_transition_${holder.adapterPosition}"
                     
                     val imgPair = Pair<View, String>(holder.img, imgTransition)
                     val namePair = Pair<View, String>(holder.name, nameTransition)
                     val authorPair = Pair<View, String>(holder.author, authorTransition)
                     val heartPair = Pair<View, String>(holder.heartIcon, heartTransition)
                     
-                    options =
-                        activity?.let {
-                            ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                it, imgPair, namePair, authorPair, heartPair)
-                        }
+                    val sharedElements =
+                        activity?.concatSharedElements(imgPair, namePair, authorPair, heartPair)
+                            ?: arrayOfNulls(0)
+                    
+                    options = activity?.let {
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(it, *sharedElements)
+                    }
                 }
             }
             
@@ -336,6 +357,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 val item = it.getParcelableExtra<Wallpaper>("item")
                 val hasModifiedFavs = it.getBooleanExtra("modified", false)
                 val inFavs = it.getBooleanExtra("inFavorites", false)
+                onActivityReenter(resultCode, data)
                 item?.let { wall ->
                     if (hasModifiedFavs) {
                         activity?.let {
@@ -347,6 +369,48 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         }
     }
     
+    fun onActivityReenter(resultCode: Int, data: Intent?) {
+        if (resultCode != 10) return
+        
+        val position = data?.getIntExtra(ViewerActivity.CURRENT_WALL_POSITION, currentWallPosition)
+            ?: currentWallPosition
+        if (position != RecyclerView.NO_POSITION) currentWallPosition = position
+        
+        val scrollToPosition: () -> Unit = { recyclerView?.scrollToPosition(currentWallPosition) }
+        scrollToPosition()
+        
+        activity?.setExitSharedElementCallback(wallElementsCallback)
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity?.window?.sharedElementExitTransition?.addListener(object : TransitionCallback() {
+                override fun onTransitionEnd(transition: Transition?) = removeCallback()
+                override fun onTransitionCancel(transition: Transition?) = removeCallback()
+                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                private fun removeCallback() {
+                    activity?.window?.sharedElementExitTransition?.removeListener(this)
+                    activity?.setExitSharedElementCallback(null as SharedElementCallback?)
+                }
+            })
+        }
+        
+        activity?.framesPostponeEnterTransition(scrollToPosition, scrollToPosition)
+        recyclerView?.viewTreeObserver
+            ?.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+                override fun onPreDraw(): Boolean {
+                    recyclerView?.viewTreeObserver?.removeOnPreDrawListener(this)
+                    val holder =
+                        recyclerView?.findViewHolderForAdapterPosition(
+                            position) as? WallpaperHolder?
+                    holder?.let {
+                        wallElementsCallback.setSharedElementViews(
+                            it.img, it.name, it.author, it.heartIcon)
+                    }
+                    activity?.safeStartPostponedEnterTransition()
+                    return true
+                }
+            })
+    }
+    
     abstract fun showFavoritesIcon(): Boolean
     
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -355,4 +419,15 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     }
     
     override fun autoStartLoad(): Boolean = true
+    
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("current_wall", currentWallPosition)
+        super.onSaveInstanceState(outState)
+    }
+    
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        currentWallPosition =
+            savedInstanceState?.getInt("current_wall", currentWallPosition) ?: currentWallPosition
+    }
 }

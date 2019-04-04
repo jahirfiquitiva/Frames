@@ -40,6 +40,36 @@
 
     <include layout="@layout/viewer_bottom_bar" />
 
+    <jahirfiquitiva.libs.kext.ui.widgets.SquaredImageView
+        android:id="@+id/go_previous"
+        android:layout_width="@dimen/viewer_arrow_size"
+        android:layout_height="@dimen/viewer_arrow_size"
+        android:minHeight="@dimen/viewer_arrow_size"
+        android:padding="@dimen/viewer_arrow_padding"
+        android:layout_marginStart="@dimen/viewer_arrow_margin"
+        android:layout_marginLeft="@dimen/viewer_arrow_margin"
+        android:layout_gravity="center_vertical|start"
+        android:background="@drawable/ic_go_bg"
+        android:scaleType="center"
+        android:foreground="?actionBarItemBackground"
+        app:srcCompat="@drawable/ic_go_previous"
+        tools:ignore="UnusedAttribute" />
+
+    <jahirfiquitiva.libs.kext.ui.widgets.SquaredImageView
+        android:id="@+id/go_next"
+        android:layout_width="@dimen/viewer_arrow_size"
+        android:layout_height="@dimen/viewer_arrow_size"
+        android:minHeight="@dimen/viewer_arrow_size"
+        android:padding="@dimen/viewer_arrow_padding"
+        android:layout_marginEnd="@dimen/viewer_arrow_margin"
+        android:layout_marginRight="@dimen/viewer_arrow_margin"
+        android:layout_gravity="center_vertical|end"
+        android:background="@drawable/ic_go_bg"
+        android:scaleType="center"
+        android:foreground="?actionBarItemBackground"
+        app:srcCompat="@drawable/ic_go_next"
+        tools:ignore="UnusedAttribute" />
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"

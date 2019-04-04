@@ -23,7 +23,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
-import androidx.annotation.StringRes
 import androidx.core.view.ViewCompat
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView

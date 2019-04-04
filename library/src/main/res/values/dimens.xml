@@ -35,4 +35,8 @@
     <dimen name="cards_corner_radius">4dp</dimen>
     <dimen name="dialogs_corner_radius">8dp</dimen>
     <dimen name="bottom_sheet_corner_radius">16dp</dimen>
+    <!-- Viewer arrows -->
+    <dimen name="viewer_arrow_size">48dp</dimen>
+    <dimen name="viewer_arrow_margin">16dp</dimen>
+    <dimen name="viewer_arrow_padding">0dp</dimen>
 </resources>

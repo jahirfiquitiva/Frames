@@ -50,8 +50,11 @@ import ca.allanwang.kau.utils.setMarginTop
 import ca.allanwang.kau.utils.setPaddingBottom
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.toast
+import ca.allanwang.kau.utils.visible
+import ca.allanwang.kau.utils.visibleIf
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
@@ -105,6 +108,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         private const val CLOSING_KEY = "closing"
         private const val TRANSITIONED_KEY = "transitioned"
         private const val VISIBLE_SYSTEM_UI_KEY = "visible_system_ui"
+        const val CURRENT_WALL_POSITION = "curr_wall_pos"
     }
     
     override val prefs: FramesKonfigs by lazy { FramesKonfigs(this) }
@@ -125,6 +129,8 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     private val bottomBar: View? by bind(R.id.bottom_bar)
     private val img: ZoomableImageView? by bind(R.id.wallpaper)
     private val loading: ProgressBar? by bind(R.id.loading)
+    private val previousWallBtn: ImageView? by bind(R.id.go_previous)
+    private val nextWallBtn: ImageView? by bind(R.id.go_next)
     
     private var isInFavorites = false
     private var hasModifiedFavs = false
@@ -135,6 +141,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     private var transitioned = false
     private var visibleSystemUI = true
     private var visibleBottomBar = true
+    private var currentWallPosition = 0
+    
+    private var wallpapersList = ArrayList<Wallpaper>()
     
     private val detailsVM: WallpaperInfoViewModel by lazyViewModel()
     private var infoDialog: InfoBottomSheet? = null
@@ -142,6 +151,8 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     private var palette: Palette? = null
     private var info: WallpaperInfo? = null
     private var dialog: MaterialDialog? = null
+    
+    private val glideManager: RequestManager by lazy { Glide.with(this) }
     
     @SuppressLint("MissingSuperCall", "InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -153,42 +164,113 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         setContentView(R.layout.activity_viewer)
         framesPostponeEnterTransition()
         
-        wallpaper = intent?.getParcelableExtra("wallpaper")
+        currentWallPosition = savedInstanceState?.getInt(CURRENT_WALL_POSITION) ?: {
+            intent?.getIntExtra(CURRENT_WALL_POSITION, 0) ?: 0
+        }()
         
-        isInFavorites = intent?.getBooleanExtra("inFavorites", false) == true
-        showFavoritesButton = intent?.getBooleanExtra("showFavoritesButton", false) == true
+        intent?.getParcelableArrayListExtra<Wallpaper>("wallpapers")?.let {
+            wallpapersList.clear()
+            wallpapersList.addAll(it)
+        }
+        
+        previousWallBtn?.setOnClickListener { goToWallpaper(-1) }
+        nextWallBtn?.setOnClickListener { goToWallpaper(1) }
         
         toolbar?.setMarginTop(getStatusBarHeight(true))
         toolbar?.bindToActivity(this)
         toolbar?.tint(color(android.R.color.white), false)
-        
-        val toolbarTitle: TextView? by bind(R.id.toolbar_title)
-        val toolbarSubtitle: TextView? by bind(R.id.toolbar_subtitle)
-        toolbarTitle.notNull {
-            ViewCompat.setTransitionName(it, intent?.getStringExtra("nameTransition") ?: "")
-        }
-        toolbarSubtitle.notNull {
-            ViewCompat.setTransitionName(it, intent?.getStringExtra("authorTransition") ?: "")
-        }
-        toolbarTitle?.text = (wallpaper?.name ?: "").trim()
-        wallpaper?.author?.let {
-            if (it.trim().hasContent()) toolbarSubtitle?.text = it
-            else toolbarSubtitle?.gone()
-        }
         
         findViewById<View>(R.id.bottom_bar_container).setNavBarMargins().apply {
             if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT && isInPortraitMode)
                 setPaddingBottom(50.dpToPx)
         }
         
-        setupProgressBarColors()
+        findViewById<RelativeLayout>(R.id.apply_container).setOnClickListener {
+            doItemClick(APPLY_ACTION_ID)
+        }
         
         findViewById<RelativeLayout>(R.id.info_container).setOnClickListener {
             showInfoDialog()
         }
         
-        val downloadable = wallpaper?.downloadable == true
+        img?.enableScaleBeyondLimits(false)
+        img?.minZoom = 1F
+        img?.maxZoom = 2.5F
+        img?.setOnSingleTapListener { toggleSystemUI(); true }
         
+        detailsVM.observe(this) { postWallpaperInfo(it) }
+        
+        goToWallpaper(0, true)
+    }
+    
+    private fun startEnterTransition() {
+        if (!transitioned) {
+            safeStartPostponedEnterTransition()
+            transitioned = true
+            setupWallpaper(wallpaper)
+        }
+    }
+    
+    @SuppressLint("MissingSuperCall")
+    override fun onResume() {
+        super.onResume()
+        dismissInfoDialog()
+        findViewById<View>(R.id.bottom_bar_container).setNavBarMargins()
+        setupProgressBarColors()
+        loadWallpaperDetails()
+    }
+    
+    override fun doItemClick(actionId: Int) {
+        when (actionId) {
+            FAVORITE_ACTION_ID -> toggleFavorite()
+            else -> super.doItemClick(actionId)
+        }
+    }
+    
+    private fun goToWallpaper(extra: Int, force: Boolean = false) {
+        var newPosition = currentWallPosition + extra
+        if (newPosition < 0) newPosition = 0
+        if (newPosition > wallpapersList.size - 1) newPosition = wallpapersList.size - 1
+        if (newPosition == currentWallPosition && !force) return
+        currentWallPosition = newPosition
+        try {
+            wallpaper = wallpapersList[currentWallPosition]
+        } catch (e: Exception) {
+        }
+        initWallpaperSetup()
+        if (extra != 0) {
+            img?.animate()
+                ?.alpha(0.25F)
+                ?.setDuration(250)
+                ?.setInterpolator(AccelerateDecelerateInterpolator())
+                ?.start()
+            setupWallpaper(wallpaper, original = false)
+        }
+    }
+    
+    private fun initWallpaperSetup() {
+        isInFavorites = intent?.getBooleanExtra("inFavorites", false) == true
+        showFavoritesButton = intent?.getBooleanExtra("showFavoritesButton", false) == true
+        
+        setupProgressBarColors()
+        
+        val toolbarTitle: TextView? by bind(R.id.toolbar_title)
+        val toolbarSubtitle: TextView? by bind(R.id.toolbar_subtitle)
+        toolbarTitle?.text = (wallpaper?.name ?: "").trim()
+        wallpaper?.author?.let {
+            if (it.trim().hasContent()) toolbarSubtitle?.text = it
+            else toolbarSubtitle?.gone()
+        }
+        
+        val imgTransitionName = "img_transition_$currentWallPosition"
+        val nameTransitionName = "name_transition_$currentWallPosition"
+        val authorTransitionName = "author_transition_$currentWallPosition"
+        
+        toolbarTitle.notNull { ViewCompat.setTransitionName(it, nameTransitionName) }
+        toolbarSubtitle.notNull { ViewCompat.setTransitionName(it, authorTransitionName) }
+        img.notNull { ViewCompat.setTransitionName(it, imgTransitionName) }
+        
+        val downloadable = wallpaper?.downloadable == true
         val hasChecker = intent?.getBooleanExtra("checker", false) ?: false
         
         if (downloadable) {
@@ -223,16 +305,11 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             findViewById<RelativeLayout>(R.id.download_container).gone()
         }
         
-        findViewById<RelativeLayout>(R.id.apply_container).setOnClickListener {
-            doItemClick(APPLY_ACTION_ID)
-        }
-        
         if (showFavoritesButton) {
             val favIcon = drawable(if (isInFavorites) "ic_heart" else "ic_heart_outline")
             val favImageView: ImageView? by bind(R.id.fav_button)
-            favImageView.notNull {
-                ViewCompat.setTransitionName(it, intent?.getStringExtra("favTransition") ?: "")
-            }
+            val favTransitionName = "fav_transition_$currentWallPosition"
+            favImageView.notNull { ViewCompat.setTransitionName(it, favTransitionName) }
             favImageView?.setImageDrawable(favIcon)
             findViewById<RelativeLayout>(R.id.fav_container).setOnClickListener {
                 doItemClick(FAVORITE_ACTION_ID)
@@ -241,43 +318,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             findViewById<RelativeLayout>(R.id.fav_container).gone()
         }
         
-        img?.enableScaleBeyondLimits(false)
-        img?.minZoom = 1F
-        img?.maxZoom = 2.5F
-        img?.setOnSingleTapListener { toggleSystemUI(); true }
-        
-        img.notNull {
-            ViewCompat.setTransitionName(it, intent?.getStringExtra("imgTransition") ?: "")
-        }
         setupWallpaper(wallpaper, true)
         startEnterTransition()
-        
-        detailsVM.observe(this) { postWallpaperInfo(it) }
         loadWallpaperDetails()
-    }
-    
-    private fun startEnterTransition() {
-        if (!transitioned) {
-            safeStartPostponedEnterTransition()
-            transitioned = true
-            setupWallpaper(wallpaper)
-        }
-    }
-    
-    @SuppressLint("MissingSuperCall")
-    override fun onResume() {
-        super.onResume()
-        dismissInfoDialog()
-        findViewById<View>(R.id.bottom_bar_container).setNavBarMargins()
-        setupProgressBarColors()
-        loadWallpaperDetails()
-    }
-    
-    override fun doItemClick(actionId: Int) {
-        when (actionId) {
-            FAVORITE_ACTION_ID -> toggleFavorite()
-            else -> super.doItemClick(actionId)
-        }
     }
     
     private fun showInfoDialog() {
@@ -301,6 +344,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         outState?.putBoolean(CLOSING_KEY, closing)
         outState?.putBoolean(TRANSITIONED_KEY, transitioned)
         outState?.putBoolean(VISIBLE_SYSTEM_UI_KEY, visibleSystemUI)
+        outState?.putInt(CURRENT_WALL_POSITION, currentWallPosition)
     }
     
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
@@ -340,14 +384,18 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             }
             detailsVM.destroy(this)
             
-            postDelayed(100) {
-                val intent = Intent()
-                intent.putExtra("modified", hasModifiedFavs)
+            val intent = Intent()
+            with(intent) {
+                putExtra("modified", hasModifiedFavs)
+                putExtra(CURRENT_WALL_POSITION, currentWallPosition)
                 if (hasModifiedFavs) {
-                    intent.putExtra("item", wallpaper)
-                    intent.putExtra("inFavorites", isInFavorites)
+                    putExtra("item", wallpaper)
+                    putExtra("inFavorites", isInFavorites)
                 }
-                setResult(10, intent)
+            }
+            setSystemUIVisibility(false, withSystemBars = false)
+            setResult(10, intent)
+            postDelayed(100) {
                 try {
                     supportFinishAfterTransition()
                 } catch (e: Exception) {
@@ -364,7 +412,11 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         dialog = null
     }
     
-    private fun setupWallpaper(wallpaper: Wallpaper?, justStart: Boolean = false) {
+    private fun setupWallpaper(
+        wallpaper: Wallpaper?,
+        justStart: Boolean = false,
+        original: Boolean = true
+                              ) {
         var bmp: Bitmap? = null
         val filename = intent?.getStringExtra("image") ?: ""
         if (filename.hasContent()) {
@@ -378,10 +430,11 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             }
         }
         
-        val drawable = if (bmp != null) {
+        val drawable = if (bmp != null && original) {
             BitmapDrawable(resources, bmp)
         } else {
-            ColorDrawable(Color.TRANSPARENT)
+            palette?.dominantSwatch?.rgb?.let { ColorDrawable(it) }
+                ?: ColorDrawable(Color.TRANSPARENT)
         }
         postPalette(drawable)
         
@@ -392,7 +445,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         
         wallpaper?.let {
             img?.loadPicture(
-                Glide.with(this), it.url, it.thumbUrl, drawable, true, false, false,
+                glideManager, it.url, it.thumbUrl, drawable, true, false, false,
                 quickListener { res ->
                     loaded = true
                     doOnWallpaperLoad(res)
@@ -401,8 +454,11 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     }
     
     private fun doOnWallpaperLoad(resource: Drawable?): Boolean = try {
-        postPalette(resource)
         img?.setImageDrawable(resource)
+        img?.animate()?.alpha(1F)?.setDuration(250)
+            ?.setInterpolator(AccelerateDecelerateInterpolator())
+            ?.start()
+        postPalette(resource)
         startEnterTransition()
         true
     } catch (e: Exception) {
@@ -615,9 +671,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         setSystemUIVisibility(!visibleSystemUI)
     }
     
-    private fun setSystemUIVisibility(visible: Boolean) {
+    private fun setSystemUIVisibility(visible: Boolean, withSystemBars: Boolean = true) {
         Handler().post {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && withSystemBars) {
                 window.decorView.systemUiVisibility = if (visible)
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                         View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
@@ -638,6 +694,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     
     private fun changeBarsVisibility(show: Boolean) {
         changeAppBarVisibility(show)
+        changeGoBtnsVisibility(show)
         changeBottomBarVisibility(show)
     }
     
@@ -645,6 +702,21 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         val transY = (if (show) 0 else -(appbar?.height ?: 0)).toFloat()
         appbar?.animate()?.translationY(transY)
             ?.setInterpolator(AccelerateDecelerateInterpolator())
+            ?.start()
+    }
+    
+    private fun changeGoBtnsVisibility(show: Boolean) {
+        previousWallBtn?.animate()
+            ?.alpha(if (show) 1F else 0F)
+            ?.setInterpolator(AccelerateDecelerateInterpolator())
+            ?.withStartAction { previousWallBtn?.visible() }
+            ?.withEndAction { previousWallBtn?.visibleIf(show) }
+            ?.start()
+        nextWallBtn?.animate()
+            ?.alpha(if (show) 1F else 0F)
+            ?.setInterpolator(AccelerateDecelerateInterpolator())
+            ?.withStartAction { nextWallBtn?.visible() }
+            ?.withEndAction { nextWallBtn?.visibleIf(show) }
             ?.start()
     }
     

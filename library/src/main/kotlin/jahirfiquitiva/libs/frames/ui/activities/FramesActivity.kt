@@ -18,6 +18,7 @@ package jahirfiquitiva.libs.frames.ui.activities
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -40,6 +41,7 @@ import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.ui.activities.base.FavsDbManager
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseDatabaseFragment
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseFramesFragment
+import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.frames.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.kext.extensions.accentColor
@@ -273,13 +275,28 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
     }
     
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 22) {
-            data?.let {
+        when {
+            requestCode == 22 -> data?.let {
                 val cleared = it.getBooleanExtra("clearedFavs", false)
                 if (cleared) reloadFavorites()
             }
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
+                ((getCurrentFragment() as? BaseWallpapersFragment)
+                    ?: (pagerAdapter?.get(lastSection) as? BaseWallpapersFragment))
+                    ?.onActivityReenter(resultCode, data)
+                    ?: super.onActivityResult(requestCode, resultCode, data)
+            }
+            else -> super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+    
+    override fun onActivityReenter(resultCode: Int, data: Intent?) {
+        if (resultCode == 10) {
+            ((getCurrentFragment() as? BaseWallpapersFragment)
+                ?: (pagerAdapter?.get(lastSection) as? BaseWallpapersFragment))
+                ?.onActivityReenter(resultCode, data)
+                ?: super.onActivityReenter(resultCode, data)
+        } else super.onActivityReenter(resultCode, data)
     }
     
     override fun onPause() {

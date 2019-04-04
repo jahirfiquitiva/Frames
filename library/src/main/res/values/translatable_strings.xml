@@ -62,6 +62,8 @@
     <string name="apply_successful">Wallpaper applied successfully to %1$s</string>
     <string name="apply_successful_short">Wallpaper applied successfully</string>
 
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
     <string name="wallpaper_details">Details</string>
     <string name="wallpaper_palette">Palette</string>
     <string name="copied_to_clipboard">Copied color to clipboard</string>

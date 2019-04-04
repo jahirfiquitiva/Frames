@@ -17,25 +17,22 @@ package jahirfiquitiva.libs.frames.helpers.extensions
 
 import android.app.SharedElementCallback
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import androidx.core.util.Pair
+import androidx.core.view.ViewCompat
+import androidx.fragment.app.FragmentActivity
 import jahirfiquitiva.libs.frames.R
 
-fun AppCompatActivity.framesPostponeEnterTransition(onTransitionEnd: () -> Unit = {}) {
+fun FragmentActivity.framesPostponeEnterTransition(
+    onTransitionEnd: () -> Unit = {},
+    onTransitionStart: () -> Unit = {}
+                                                  ) {
     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
         supportPostponeEnterTransition()
-        val decor = window?.decorView
         
-        val views = arrayListOf(
-            decor?.findViewById<View?>(android.R.id.statusBarBackground),
-            decor?.findViewById<View?>(android.R.id.navigationBarBackground),
-            decor?.findViewById<View?>(R.id.action_bar_container),
-            decor?.findViewById<View?>(R.id.appbar),
-            decor?.findViewById<View?>(R.id.toolbar),
-            decor?.findViewById<View?>(R.id.tabs))
-        
-        views.jfilter { it != null }
-            .forEach { window?.sharedElementEnterTransition?.excludeTarget(it, true) }
+        concatSharedElements().forEach {
+            window?.sharedElementEnterTransition?.excludeTarget(it?.first, true)
+        }
         
         setEnterSharedElementCallback(object : SharedElementCallback() {
             override fun onSharedElementEnd(
@@ -46,11 +43,48 @@ fun AppCompatActivity.framesPostponeEnterTransition(onTransitionEnd: () -> Unit 
                 super.onSharedElementEnd(sharedElementNames, sharedElements, sharedElementSnapshots)
                 onTransitionEnd()
             }
+            
+            override fun onSharedElementStart(
+                sharedElementNames: MutableList<String>?,
+                sharedElements: MutableList<View>?,
+                sharedElementSnapshots: MutableList<View>?
+                                             ) {
+                super.onSharedElementStart(
+                    sharedElementNames, sharedElements, sharedElementSnapshots)
+                onTransitionStart()
+            }
         })
     } else onTransitionEnd()
 }
 
-fun AppCompatActivity.safeStartPostponedEnterTransition() {
+fun FragmentActivity.safeStartPostponedEnterTransition() {
     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
         supportStartPostponedEnterTransition()
+}
+
+fun FragmentActivity.concatSharedElements(vararg activitySharedElements: Pair<View, String>):
+    Array<Pair<View, String>?> {
+    
+    val sharedElements = ArrayList<Pair<View, String>>()
+    sharedElements.addAll(activitySharedElements)
+    
+    val decor = window?.decorView ?: return arrayOfNulls(sharedElements.size)
+    
+    val views = arrayListOf(
+        decor.findViewById<View?>(R.id.action_bar_container),
+        decor.findViewById<View?>(R.id.appbar),
+        decor.findViewById<View?>(R.id.toolbar),
+        decor.findViewById<View?>(R.id.tabs))
+    
+    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+        views.add(decor.findViewById<View?>(android.R.id.statusBarBackground))
+        views.add(decor.findViewById<View?>(android.R.id.navigationBarBackground))
+    }
+    
+    views.jfilter { it != null }
+        .forEach {
+            it?.let { sharedElements.add(Pair(it, ViewCompat.getTransitionName(it) ?: "")) }
+        }
+    
+    return sharedElements.toTypedArray()
 }
