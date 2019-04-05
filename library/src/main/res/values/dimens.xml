@@ -41,5 +41,5 @@
     <dimen name="viewer_arrow_padding">0dp</dimen>
 
     <dimen name="md_dialog_max_width" tools:ignore="PrivateResource">318dp</dimen>
-    <dimen name="md_action_button_frame_padding_neutral" tools:ignore="PrivateResource">18dp</dimen>
+    <dimen name="md_action_button_frame_padding_neutral" tools:ignore="PrivateResource">16dp</dimen>
 </resources>
