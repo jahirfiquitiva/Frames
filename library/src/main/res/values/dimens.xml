@@ -14,7 +14,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Splash screen dimens -->
     <dimen name="splash_logo_bottom">16dp</dimen>
     <dimen name="splash_brand_bottom">48dp</dimen>
@@ -39,4 +39,7 @@
     <dimen name="viewer_arrow_size">48dp</dimen>
     <dimen name="viewer_arrow_margin">16dp</dimen>
     <dimen name="viewer_arrow_padding">0dp</dimen>
+
+    <dimen name="md_dialog_max_width" tools:ignore="PrivateResource">356dp</dimen>
+    <dimen name="md_action_button_frame_padding_neutral" tools:ignore="PrivateResource">18dp</dimen>
 </resources>
