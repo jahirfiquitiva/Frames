@@ -80,7 +80,7 @@
     <!-- Transparent Theme -->
     <string name="transparent_theme">شفّاف</string>
     <!-- Automatic Light-Dark Theme -->
-    <string name="auto_dark">الضوء التلقائي--الظلام</string>
+    <string name="auto_dark">الضوء التلقائي—الظلام</string>
     <!-- Automatic Light-Amoled Theme -->
     <string name="auto_amoled">الضوء التلقائي-شاشة لمس</string>
     <string name="navbar_color_setting_title">شريط التنقل ملون</string>
