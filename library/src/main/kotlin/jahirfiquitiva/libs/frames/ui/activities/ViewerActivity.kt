@@ -243,10 +243,10 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         loadWallpaperDetails()
     }
     
-    override fun doItemClick(actionId: Int) {
+    override fun doItemClick(actionId: Int, customAction: Int) {
         when (actionId) {
             FAVORITE_ACTION_ID -> toggleFavorite()
-            else -> super.doItemClick(actionId)
+            else -> super.doItemClick(actionId, customAction)
         }
     }
     

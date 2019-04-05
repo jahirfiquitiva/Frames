@@ -139,6 +139,7 @@ class SectionedHeaderViewHolder(itemView: View) : SectionedViewHolder(itemView) 
             icon?.animate()?.rotation(if (expanded) 180F else 0F)
                 ?.setDuration(SECTION_ICON_ANIMATION_DURATION)?.start()
         } else icon?.gone()
+        
         itemView.setOnClickListener { listener() }
     }
 }

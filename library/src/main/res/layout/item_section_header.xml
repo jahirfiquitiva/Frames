@@ -34,9 +34,8 @@
     <LinearLayout
         android:id="@+id/section_title_container"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:minHeight="48dp"
-        android:maxHeight="48dp"
+        android:layout_height="?listPreferredItemHeightSmall"
+        android:minHeight="?listPreferredItemHeightSmall"
         android:paddingStart="@dimen/fabs_margin"
         android:paddingLeft="@dimen/fabs_margin"
         android:paddingEnd="@dimen/fabs_margin"

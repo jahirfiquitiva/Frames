@@ -58,7 +58,7 @@ const val COLLECTION_DETAILS_OPACITY = 0.4F
 
 abstract class FramesViewClickListener<in T, in VH> {
     abstract fun onSingleClick(item: T, holder: VH)
-    open fun onLongClick(item: T) {}
+    open fun onLongClick(item: T, holder: VH) {}
     open fun onHeartClick(view: ImageView, item: T, @ColorInt color: Int) {}
 }
 
@@ -246,7 +246,7 @@ class WallpaperHolder(itemView: View, private val showFavIcon: Boolean) :
             img?.let { provider.setView(it) }
         }
         itemView.setOnClickListener { listener.onSingleClick(wallpaper, this) }
-        itemView.setOnLongClickListener { listener.onLongClick(wallpaper);true }
+        itemView.setOnLongClickListener { listener.onLongClick(wallpaper, this);true }
     }
     
     override fun doWithPalette(palette: Palette?) {

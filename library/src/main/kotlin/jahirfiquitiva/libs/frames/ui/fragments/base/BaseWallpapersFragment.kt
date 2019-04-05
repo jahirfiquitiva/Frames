@@ -102,8 +102,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                     onItemClicked(item, holder)
                 }
                 
-                override fun onLongClick(item: Wallpaper) {
-                    super.onLongClick(item)
+                override fun onLongClick(item: Wallpaper, holder: WallpaperHolder) {
+                    super.onLongClick(item, holder)
                     (activity as? BaseFramesActivity<*>)?.showWallpaperOptionsDialog(item)
                 }
                 

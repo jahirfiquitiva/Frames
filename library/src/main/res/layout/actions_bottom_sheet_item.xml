@@ -14,32 +14,33 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:minHeight="?listPreferredItemHeightSmall"
+    android:paddingTop="@dimen/cards_margin"
+    android:paddingBottom="@dimen/cards_margin"
+    android:paddingStart="@dimen/fabs_margin"
+    android:paddingEnd="@dimen/fabs_margin"
+    android:gravity="center_vertical"
+    android:background="?selectableItemBackground">
 
-    <ProgressBar
-        android:id="@+id/loading_view"
-        style="?android:progressBarStyleLarge"
+    <ImageView
+        android:id="@+id/option_icon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:visibility="visible" />
+        android:layout_height="match_parent"
+        tools:src="@drawable/ic_apply_wallpaper"
+        tools:ignore="ContentDescription" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/info_rv"
+    <TextView
+        android:id="@+id/option_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingRight="@dimen/fabs_margin"
-        android:paddingEnd="@dimen/fabs_margin"
-        android:paddingBottom="@dimen/fabs_margin"
-        android:clipToPadding="false"
-        android:clipChildren="false"
-        android:overScrollMode="ifContentScrolls"
-        android:splitMotionEvents="false"
-        tools:ignore="RtlSymmetry" />
+        android:layout_marginLeft="@dimen/fabs_margin"
+        android:layout_marginStart="@dimen/fabs_margin"
+        tools:text="Apply wallpaper" />
 
-</FrameLayout>
+</LinearLayout>

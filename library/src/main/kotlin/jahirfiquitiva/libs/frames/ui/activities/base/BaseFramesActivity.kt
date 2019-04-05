@@ -53,8 +53,10 @@ import jahirfiquitiva.libs.frames.helpers.utils.NOVA_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.PLAY_STORE_LINK_PREFIX
 import jahirfiquitiva.libs.frames.helpers.utils.TURBO_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.WALLS_PICKER
+import jahirfiquitiva.libs.frames.ui.fragments.dialogs.QuickActionsBottomSheet
 import jahirfiquitiva.libs.frames.viewmodels.IAPItem
 import jahirfiquitiva.libs.frames.viewmodels.IAPViewModel
+import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.buildSnackbar
 import jahirfiquitiva.libs.kext.extensions.compliesWithMinTime
 import jahirfiquitiva.libs.kext.extensions.getAppName
@@ -401,23 +403,9 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     internal fun showWallpaperOptionsDialog(wallpaper: Wallpaper) {
         this.wallpaper = wallpaper
         destroyDialog()
-        dialog = mdDialog {
-            message(R.string.actions_dialog_content)
-            positiveButton(R.string.apply) {
-                it.dismiss()
-                doItemClick(APPLY_ACTION_ID)
-            }
-            
-            val actuallyComplies =
-                getLicenseChecker()?.let { compliesWithMinTime(MIN_TIME) } ?: true
-            
-            if (wallpaper.downloadable && actuallyComplies) {
-                negativeButton(R.string.download) {
-                    it.dismiss()
-                    doItemClick(DOWNLOAD_ACTION_ID)
-                }
-            }
-        }
-        dialog?.show()
+        val actuallyComplies = getLicenseChecker()?.let {
+            compliesWithMinTime(MIN_TIME) || boolean(R.bool.immediate_download)
+        } ?: true
+        QuickActionsBottomSheet.show(this, wallpaper, wallpaper.downloadable && actuallyComplies)
     }
 }

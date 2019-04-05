@@ -33,8 +33,6 @@
         android:id="@+id/info_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingRight="@dimen/fabs_margin"
-        android:paddingEnd="@dimen/fabs_margin"
         android:paddingBottom="@dimen/fabs_margin"
         android:clipToPadding="false"
         android:clipChildren="false"

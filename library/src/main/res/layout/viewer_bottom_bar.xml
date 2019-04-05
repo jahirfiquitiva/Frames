@@ -14,13 +14,14 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/bottom_bar_container"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_gravity="bottom"
-              android:background="@android:color/transparent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_bar_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="@android:color/transparent">
 
     <LinearLayout
         android:id="@+id/bottom_bar"
@@ -29,10 +30,7 @@
         android:background="@drawable/gradient"
         android:baselineAligned="false"
         android:orientation="horizontal"
-        android:paddingTop="@dimen/cards_margin"
-        android:paddingBottom="@dimen/cards_margin"
-        android:paddingEnd="@dimen/cards_margin"
-        android:paddingStart="@dimen/cards_margin">
+        android:padding="@dimen/cards_margin">
 
         <RelativeLayout
             android:id="@+id/info_container"

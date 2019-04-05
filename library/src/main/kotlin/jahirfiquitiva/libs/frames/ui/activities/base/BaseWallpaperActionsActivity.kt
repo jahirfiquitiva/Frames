@@ -36,11 +36,11 @@ import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.REQUEST_CODE
+import jahirfiquitiva.libs.frames.ui.fragments.dialogs.QuickActionsBottomSheet
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsDialog
 import jahirfiquitiva.libs.kext.extensions.formatCorrectly
 import jahirfiquitiva.libs.kext.extensions.getAppName
 import jahirfiquitiva.libs.kext.extensions.getUri
-import jahirfiquitiva.libs.kext.extensions.items
 import jahirfiquitiva.libs.kext.ui.activities.ActivityWFragments
 import java.io.File
 import java.text.SimpleDateFormat
@@ -74,10 +74,10 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
         }
     }
     
-    open fun doItemClick(actionId: Int) {
+    open fun doItemClick(actionId: Int, customAction: Int = -1) {
         when (actionId) {
-            DOWNLOAD_ACTION_ID -> downloadWallpaper(false)
-            APPLY_ACTION_ID -> downloadWallpaper(true)
+            DOWNLOAD_ACTION_ID -> downloadWallpaper(false, customAction)
+            APPLY_ACTION_ID -> downloadWallpaper(true, customAction)
         }
     }
     
@@ -98,13 +98,13 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
     }
     
     @SuppressLint("NewApi")
-    private fun downloadWallpaper(toApply: Boolean) {
+    private fun downloadWallpaper(toApply: Boolean, customAction: Int = -1) {
         if (isNetworkAvailable) {
             requestStoragePermission(getString(R.string.permission_request, getAppName())) {
-                checkIfFileExists(toApply)
+                checkIfFileExists(toApply, customAction)
             }
         } else {
-            if (toApply && allowBitmapApply) showWallpaperApplyOptions(null)
+            if (toApply && allowBitmapApply) showWallpaperApplyOptions(null, customAction)
             else showNotConnectedDialog()
         }
     }
@@ -121,7 +121,7 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
         }
     }
     
-    private fun checkIfFileExists(toApply: Boolean) {
+    private fun checkIfFileExists(toApply: Boolean, customAction: Int) {
         wallpaper?.let {
             properlyCancelDialog()
             val folder = File(prefs.downloadsFolder)
@@ -132,22 +132,31 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
             if (toApply) correctExtension = "_temp$correctExtension"
             val dest = File(folder, fileName + correctExtension)
             if (dest.exists()) {
-                actionDialog = mdDialog {
-                    message(R.string.file_exists)
-                    positiveButton(R.string.file_create_new) {
-                        val time = getCurrentTimeStamp().formatCorrectly().replace(" ", "_")
-                        val newDest = File(folder, fileName + "_" + time + correctExtension)
-                        if (toApply) showWallpaperApplyOptions(newDest)
-                        else startDownload(newDest)
+                if (toApply) {
+                    if (customAction == 3) {
+                        applyForOption(
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) 1 else 3, dest)
+                    } else {
+                        showWallpaperApplyOptions(dest, customAction)
                     }
-                    negativeButton(R.string.file_replace) {
-                        if (toApply) showWallpaperApplyOptions(dest)
-                        else startDownload(dest)
+                } else {
+                    actionDialog = mdDialog {
+                        message(R.string.file_exists)
+                        positiveButton(R.string.file_create_new) {
+                            val time = getCurrentTimeStamp().formatCorrectly().replace(" ", "_")
+                            val newDest = File(folder, fileName + "_" + time + correctExtension)
+                            if (toApply) showWallpaperApplyOptions(newDest, customAction)
+                            else startDownload(newDest)
+                        }
+                        negativeButton(R.string.file_replace) {
+                            if (toApply) showWallpaperApplyOptions(dest, customAction)
+                            else startDownload(dest)
+                        }
                     }
+                    actionDialog?.show()
                 }
-                actionDialog?.show()
             } else {
-                if (toApply) showWallpaperApplyOptions(dest)
+                if (toApply) showWallpaperApplyOptions(dest, customAction)
                 else startDownload(dest)
             }
         }
@@ -186,37 +195,28 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
         return ".png"
     }
     
-    private fun showWallpaperApplyOptions(dest: File?) {
+    private fun showWallpaperApplyOptions(dest: File?, customAction: Int = -1) {
         properlyCancelDialog()
-        val options = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            arrayListOf(
-                getString(R.string.home_screen),
-                getString(R.string.lock_screen),
-                getString(R.string.home_lock_screen))
+        if (customAction < 0) {
+            QuickActionsBottomSheet.show(this, wallpaper, false, dest != null)
         } else {
-            arrayListOf(getString(R.string.home_lock_screen))
+            applyForOption(customAction, dest)
         }
-        if (isNetworkAvailable && dest != null)
-            options.add(getString(R.string.apply_with_other_app))
-        
-        actionDialog = mdDialog {
-            title(R.string.apply_to)
-            items(options) { _, index, _ ->
-                val rightPosition =
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) index + 2 else index
-                if (dest != null) {
-                    applyWallpaper(
-                        dest, rightPosition == 0, rightPosition == 1, rightPosition == 2,
-                        rightPosition == 3)
-                } else {
-                    if (allowBitmapApply)
-                        applyBitmapWallpaper(
-                            rightPosition == 0, rightPosition == 1, rightPosition == 2,
-                            rightPosition == 3)
-                }
-            }
+    }
+    
+    private fun applyForOption(index: Int, dest: File? = null) {
+        val rightPosition =
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) index + 2 else index
+        if (dest != null) {
+            applyWallpaper(
+                dest, rightPosition == 0, rightPosition == 1, rightPosition == 2,
+                rightPosition == 3)
+        } else {
+            if (allowBitmapApply)
+                applyBitmapWallpaper(
+                    rightPosition == 0, rightPosition == 1, rightPosition == 2,
+                    rightPosition == 3)
         }
-        actionDialog?.show()
     }
     
     abstract fun applyBitmapWallpaper(
