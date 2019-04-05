@@ -30,10 +30,10 @@ import androidx.lifecycle.ViewModelProviders
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.isNetworkAvailable
 import com.afollestad.materialdialogs.MaterialDialog
+import jahirfiquitiva.libs.archhelpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.services.FramesArtProvider
-import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
 import jahirfiquitiva.libs.frames.viewmodels.CollectionsViewModel

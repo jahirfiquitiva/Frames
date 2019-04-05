@@ -29,9 +29,9 @@ import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce
 import com.google.android.material.snackbar.Snackbar
+import jahirfiquitiva.libs.archhelpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs

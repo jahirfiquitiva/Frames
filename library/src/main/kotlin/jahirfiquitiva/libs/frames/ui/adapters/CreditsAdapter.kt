@@ -15,8 +15,8 @@
  */
 package jahirfiquitiva.libs.frames.ui.adapters
 
-import androidx.annotation.StringRes
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import ca.allanwang.kau.utils.inflate
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder

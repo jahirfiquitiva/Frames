@@ -30,10 +30,10 @@ import androidx.fragment.app.FragmentActivity
 import ca.allanwang.kau.utils.snackbar
 import ca.allanwang.kau.utils.toast
 import com.afollestad.materialdialogs.MaterialDialog
+import jahirfiquitiva.libs.archhelpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.helpers.extensions.adjustToDeviceScreen
-import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseWallpaperActionsActivity

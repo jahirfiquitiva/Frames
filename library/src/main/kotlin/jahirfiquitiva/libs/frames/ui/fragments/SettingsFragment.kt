@@ -32,12 +32,12 @@ import com.fondesa.kpermissions.extension.listeners
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce
 import com.google.android.material.snackbar.Snackbar
+import jahirfiquitiva.libs.archhelpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.helpers.extensions.clearDataAndCache
 import jahirfiquitiva.libs.frames.helpers.extensions.configs
 import jahirfiquitiva.libs.frames.helpers.extensions.dataCacheSize
-import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.ui.activities.SettingsActivity
 import jahirfiquitiva.libs.frames.ui.fragments.base.PreferenceFragment
@@ -146,7 +146,7 @@ open class SettingsFragment : PreferenceFragment() {
             columns?.setOnPreferenceClickListener {
                 clearDialog()
                 val currentColumns = configs.columns - 1
-                dialog = context?.mdDialog {
+                dialog = activity?.mdDialog {
                     title(R.string.wallpapers_columns_setting_title)
                     itemsSingleChoice(arrayOf(1, 2, 3, 4, 5), currentColumns) { _, which, _ ->
                         if (which != currentColumns) configs.columns = which + 1

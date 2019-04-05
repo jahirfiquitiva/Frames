@@ -27,7 +27,6 @@ import androidx.fragment.app.Fragment
 import ca.allanwang.kau.utils.darken
 import ca.allanwang.kau.utils.lighten
 import ca.allanwang.kau.utils.showChangelog
-import com.afollestad.materialdialogs.MaterialDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.kext.extensions.actv
@@ -85,12 +84,6 @@ fun Context.openWallpaper(uri: Uri) {
 
 fun Context.createHeartIcon(checked: Boolean): Drawable? =
     drawable(if (checked) "ic_heart" else "ic_heart_outline")
-
-inline fun Context.mdDialog(action: MaterialDialog.() -> Unit = {}): MaterialDialog {
-    val builder = MaterialDialog(this)
-    builder.action()
-    return builder
-}
 
 fun Context.showChanges() {
     showChangelog(R.xml.changelog, R.string.changelog, R.string.dismiss, secondaryTextColor)

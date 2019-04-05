@@ -59,13 +59,13 @@ import com.bumptech.glide.RequestManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
+import jahirfiquitiva.libs.archhelpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.helpers.extensions.framesPostponeEnterTransition
-import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.safeStartPostponedEnterTransition
 import jahirfiquitiva.libs.frames.helpers.extensions.setNavBarMargins
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount

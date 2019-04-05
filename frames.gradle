@@ -30,6 +30,7 @@ dependencies {
     // Material Dialogs
     api libraries.dialogsCore, exclusions
     api libraries.dialogsCommons, exclusions
+    api libraries.dialogsLifecycle, exclusions
     // Glide Image Loading
     api libraries.glide, exclusions
     api libraries.gliderv, exclusions

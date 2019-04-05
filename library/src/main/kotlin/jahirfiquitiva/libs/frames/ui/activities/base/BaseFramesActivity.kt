@@ -38,9 +38,9 @@ import com.github.javiersantos.piracychecker.enums.PirateApp
 import com.github.javiersantos.piracychecker.onError
 import com.github.javiersantos.piracychecker.piracyChecker
 import com.google.android.material.snackbar.Snackbar
+import jahirfiquitiva.libs.archhelpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.showChanges
 import jahirfiquitiva.libs.frames.helpers.utils.ADW_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.APPLY_ACTION

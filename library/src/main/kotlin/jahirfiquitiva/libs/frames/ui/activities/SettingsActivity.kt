@@ -19,13 +19,17 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Environment
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import ca.allanwang.kau.utils.openLink
 import ca.allanwang.kau.utils.snackbar
+import ca.allanwang.kau.utils.toast
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.files.folderChooser
+import jahirfiquitiva.libs.archhelpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.ui.fragments.SettingsFragment
@@ -38,6 +42,7 @@ import jahirfiquitiva.libs.kext.extensions.primaryColor
 import jahirfiquitiva.libs.kext.extensions.setItemVisibility
 import jahirfiquitiva.libs.kext.extensions.tint
 import jahirfiquitiva.libs.kext.ui.activities.ActivityWFragments
+import java.io.File
 
 open class SettingsActivity : ActivityWFragments<FramesKonfigs>() {
     
@@ -128,27 +133,27 @@ open class SettingsActivity : ActivityWFragments<FramesKonfigs>() {
     }
     
     fun showLocationChooserDialog() {
-        return
-        // TODO Fix
-        /*
         clearDialog()
-        locationChooserDialog = mdDialog {
-            folderChooser(
-                initialDirectory = try {
-                    File(prefs.downloadsFolder)
-                } catch (e: Exception) {
-                    Environment.getExternalStorageDirectory()
-                },
-                allowFolderCreation = true,
-                folderCreationLabel = R.string.create_folder) { dialog, folder ->
-                prefs.downloadsFolder = folder.absolutePath
-                (fragment as? SettingsFragment)?.updateDownloadLocation()
-                dialog.dismiss()
+        try {
+            locationChooserDialog = mdDialog {
+                folderChooser(
+                    initialDirectory = try {
+                        File(prefs.downloadsFolder)
+                    } catch (e: Exception) {
+                        Environment.getExternalStorageDirectory()
+                    },
+                    allowFolderCreation = true,
+                    folderCreationLabel = R.string.create_folder) { dialog, folder ->
+                    prefs.downloadsFolder = folder.absolutePath
+                    (fragment as? SettingsFragment)?.updateDownloadLocation()
+                    dialog.dismiss()
+                }
+                positiveButton(R.string.choose_folder)
             }
-            positiveButton(R.string.choose_folder)
+            locationChooserDialog?.show()
+        } catch (e: Exception) {
+            toast(R.string.error_title)
         }
-        locationChooserDialog?.show()
-        */
     }
     
     private fun clearDialog() {
