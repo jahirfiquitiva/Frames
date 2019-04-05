@@ -26,7 +26,7 @@
     <!-- Light Theme -->
     <color name="light_theme_primary_dark">#039BE5</color>
     <color name="light_theme_primary">#29B6F6</color>
-    <color name="light_theme_accent">#69F0AE</color>
+    <color name="light_theme_accent">#01A3A4</color>
     <color name="light_theme_background">#fafafa</color>
     <color name="light_theme_card_background">#ffffff</color>
     <color name="light_theme_dialogs_button_color">@color/light_theme_accent</color>
