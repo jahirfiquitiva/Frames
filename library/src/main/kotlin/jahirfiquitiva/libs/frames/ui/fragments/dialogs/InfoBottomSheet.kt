@@ -18,6 +18,7 @@ package jahirfiquitiva.libs.frames.ui.fragments.dialogs
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
+import android.content.Intent
 import android.view.View
 import android.widget.ProgressBar
 import androidx.fragment.app.FragmentActivity
@@ -32,6 +33,9 @@ import ca.allanwang.kau.utils.toHexString
 import ca.allanwang.kau.utils.toast
 import ca.allanwang.kau.utils.visible
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.data.models.Collection
+import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
+import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.ui.adapters.WallpaperInfoAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
 import jahirfiquitiva.libs.kext.extensions.isInHorizontalMode
@@ -41,6 +45,8 @@ class InfoBottomSheet : BaseBottomSheet() {
     private var recyclerView: RecyclerView? = null
     private var progress: ProgressBar? = null
     private var adapter: WallpaperInfoAdapter? = null
+    
+    private val collections = ArrayList<Collection>()
     private val details = ArrayList<WallpaperDetail>()
     private var palette: Palette? = null
     
@@ -60,10 +66,20 @@ class InfoBottomSheet : BaseBottomSheet() {
             RecyclerView.VERTICAL, false)
         recyclerView?.layoutManager = layoutManager
         
-        if (adapter == null) adapter = WallpaperInfoAdapter {
-            if (it != 0) {
+        if (adapter == null) adapter = WallpaperInfoAdapter { forCollection, indexOrColor ->
+            if (forCollection) {
+                collections.getOrNull(indexOrColor)?.let {
+                    val intent = Intent(activity, CollectionActivity::class.java)
+                    intent.putExtra("fromViewer", true)
+                    intent.putExtra("item", it)
+                    intent.putExtra(
+                        "checker",
+                        (activity as? BaseFramesActivity<*>)?.getLicenseChecker() != null)
+                    activity?.startActivityForResult(intent, 12)
+                }
+            } else {
                 val clipboard = context?.getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager
-                clipboard?.primaryClip = ClipData.newPlainText("label", it.toHexString())
+                clipboard?.primaryClip = ClipData.newPlainText("label", indexOrColor.toHexString())
                 context?.toast(R.string.copied_to_clipboard)
             }
         }
@@ -74,10 +90,15 @@ class InfoBottomSheet : BaseBottomSheet() {
         return detailView
     }
     
-    fun setDetailsAndPalette(
+    fun setDetails(
+        collections: ArrayList<Collection>,
         details: ArrayList<WallpaperDetail>,
         palette: Palette?
-                            ) {
+                  ) {
+        if (collections.size > 0) {
+            this.collections.clear()
+            this.collections.addAll(collections)
+        }
         if (details.size > 0) {
             this.details.clear()
             this.details.addAll(details)
@@ -87,7 +108,7 @@ class InfoBottomSheet : BaseBottomSheet() {
     }
     
     private fun setupAdapter() {
-        adapter?.setDetailsAndPalette(details, palette)
+        adapter?.setDetails(collections, details, palette)
         progress?.gone()
         recyclerView?.visible()
     }
@@ -98,10 +119,15 @@ class InfoBottomSheet : BaseBottomSheet() {
         const val TAG = "InfoBottomSheet"
         
         fun build(
+            collections: ArrayList<Collection>,
             details: ArrayList<WallpaperDetail>,
             palette: Palette?
                  ): InfoBottomSheet =
             InfoBottomSheet().apply {
+                if (collections.size > 0) {
+                    this.collections.clear()
+                    this.collections.addAll(collections)
+                }
                 if (details.size > 0) {
                     this.details.clear()
                     this.details.addAll(details)
@@ -111,9 +137,10 @@ class InfoBottomSheet : BaseBottomSheet() {
         
         fun show(
             context: FragmentActivity,
+            collections: ArrayList<Collection>,
             details: ArrayList<WallpaperDetail>,
             palette: Palette?
                 ) =
-            build(details, palette).show(context.supportFragmentManager, TAG)
+            build(collections, details, palette).show(context.supportFragmentManager, TAG)
     }
 }

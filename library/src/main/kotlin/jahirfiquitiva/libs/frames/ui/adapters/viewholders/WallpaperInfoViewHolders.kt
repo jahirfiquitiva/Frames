@@ -23,6 +23,7 @@ import ca.allanwang.kau.utils.toHexString
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import com.jahirfiquitiva.chip.ChipView
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.kext.extensions.bind
 import jahirfiquitiva.libs.kext.extensions.drawable
 import jahirfiquitiva.libs.kext.extensions.getActiveIconsColorFor
@@ -43,14 +44,32 @@ class WallpaperInfoHolder(itemView: View) : SectionedViewHolder(itemView) {
 class WallpaperPaletteHolder(itemView: View) : SectionedViewHolder(itemView) {
     private val chip: ChipView? by bind(R.id.info_palette_color)
     
-    fun bindChip(@ColorInt color: Int, colorListener: (Int) -> Unit = {}) = with(itemView) {
+    fun bindChip(
+        @ColorInt
+        color: Int, listener: (forCollection: Boolean, color: Int) -> Unit = { _, _ -> }
+                ) = with(itemView) {
         chip?.setBackgroundColor(color)
         chip?.setTextColor(context.getPrimaryTextColorFor(color))
         chip?.text = color.toHexString()
         val icon = context.drawable("ic_color_palette")?.tint(context.getActiveIconsColorFor(color))
         chip?.setIcon(icon)
-        chip?.setOnClickListener { colorListener(color) }
+        chip?.setOnClickListener { listener(false, color) }
     }
+    
+    fun bindChip(
+        collection: Collection,
+        @ColorInt chipColor: Int,
+        listener: (forCollection: Boolean, index: Int) -> Unit = { _, _ -> }
+                ) =
+        with(itemView) {
+            chip?.setBackgroundColor(chipColor)
+            chip?.setTextColor(context.getPrimaryTextColorFor(chipColor))
+            chip?.text = collection.name
+            val icon =
+                context.drawable("ic_collections")?.tint(context.getActiveIconsColorFor(chipColor))
+            chip?.setIcon(icon)
+            chip?.setOnClickListener { listener(true, relativePosition.relativePos()) }
+        }
 }
 
 data class WallpaperDetail(val icon: String, val value: String) {

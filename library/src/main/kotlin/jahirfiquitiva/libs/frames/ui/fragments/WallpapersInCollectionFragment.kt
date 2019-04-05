@@ -26,6 +26,7 @@ internal class WallpapersInCollectionFragment : BaseWallpapersFragment() {
     private var collection: Collection? = null
     private var wallpapers = ArrayList<Wallpaper>()
     private var firstFavsModification = true
+    private var fromViewer = false
     
     val newFavs = ArrayList<Wallpaper>()
     
@@ -65,7 +66,8 @@ internal class WallpapersInCollectionFragment : BaseWallpapersFragment() {
         fun create(
             collection: Collection,
             wallpapers: ArrayList<Wallpaper>,
-            hasChecker: Boolean
+            hasChecker: Boolean,
+            fromViewer: Boolean = false
                   ):
             WallpapersInCollectionFragment {
             return WallpapersInCollectionFragment().apply {
@@ -73,10 +75,12 @@ internal class WallpapersInCollectionFragment : BaseWallpapersFragment() {
                 this.wallpapers.clear()
                 this.wallpapers.addAll(wallpapers)
                 this.hasChecker = hasChecker
+                this.fromViewer = fromViewer
             }
         }
     }
     
+    override fun canOpenWall(): Boolean = !fromViewer
     override fun autoStartLoad(): Boolean = true
     override fun fromCollectionActivity(): Boolean = true
     override fun fromFavorites(): Boolean = false

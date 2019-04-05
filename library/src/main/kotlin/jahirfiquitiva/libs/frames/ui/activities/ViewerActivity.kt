@@ -60,6 +60,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
 import jahirfiquitiva.libs.frames.R
+import jahirfiquitiva.libs.frames.data.models.Collection
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
 import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
@@ -151,6 +152,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     private var currentWallPosition = 0
     
     private var wallpapersList = ArrayList<Wallpaper>()
+    private var collectionsList = ArrayList<Collection>()
     
     private val detailsVM: WallpaperInfoViewModel by lazyViewModel()
     private var infoDialog: InfoBottomSheet? = null
@@ -184,6 +186,11 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         intent?.getParcelableArrayListExtra<Wallpaper>("wallpapers")?.let {
             wallpapersList.clear()
             wallpapersList.addAll(it)
+        }
+        
+        intent?.getParcelableArrayListExtra<Collection>("collections")?.let {
+            collectionsList.clear()
+            collectionsList.addAll(it)
         }
         
         previousWallBtn?.setOnClickListener { goToWallpaper(-1) }
@@ -351,9 +358,21 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         loadWallpaperDetails()
     }
     
+    private fun getCurrentWallpaperCollections(): ArrayList<Collection> {
+        val wallColls =
+            (wallpapersList.getOrNull(currentWallPosition) ?: wallpaper)?.collections.orEmpty()
+                .split("[,|]".toRegex())
+        val actualCollections = ArrayList<Collection>()
+        wallColls.forEach { coll ->
+            collectionsList.firstOrNull { it.name.equals(coll, true) }
+                ?.let { actualCollections.add(it) }
+        }
+        return ArrayList(actualCollections.distinct())
+    }
+    
     private fun showInfoDialog() {
         dismissInfoDialog()
-        infoDialog = InfoBottomSheet.build(details, palette)
+        infoDialog = InfoBottomSheet.build(getCurrentWallpaperCollections(), details, palette)
         loadExpensiveWallpaperDetails()
         infoDialog?.show(this, InfoBottomSheet.TAG)
     }
@@ -400,6 +419,15 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         super.onDestroy()
         properlyCancelDialog()
         transitioned = false
+    }
+    
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        FL.d("Request code: $requestCode")
+        FL.d("Result code: $resultCode")
+        if (requestCode == 12) {
+            hasModifiedFavs = true
+            favsViewModel.loadData(favsDB.favoritesDao(), true)
+        } else super.onActivityResult(requestCode, resultCode, data)
     }
     
     private fun doFinish() {
@@ -515,7 +543,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     }
     
     private fun updateInfo() {
-        infoDialog?.setDetailsAndPalette(details, palette)
+        infoDialog?.setDetails(getCurrentWallpaperCollections(), details, palette)
     }
     
     private fun addToDetails(detail: WallpaperDetail) {

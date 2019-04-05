@@ -39,6 +39,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.safeStartPostponedEnterTran
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
+import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.ui.activities.base.FavsDbManager
 import jahirfiquitiva.libs.frames.ui.fragments.WallpapersInCollectionFragment
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
@@ -51,19 +52,16 @@ import jahirfiquitiva.libs.kext.extensions.getSecondaryTextColorFor
 import jahirfiquitiva.libs.kext.extensions.primaryColor
 import jahirfiquitiva.libs.kext.extensions.setItemVisibility
 import jahirfiquitiva.libs.kext.extensions.tint
-import jahirfiquitiva.libs.kext.ui.activities.ActivityWFragments
 import jahirfiquitiva.libs.kext.ui.widgets.CustomSearchView
 import org.jetbrains.anko.doAsync
 
-class CollectionActivity : ActivityWFragments<FramesKonfigs>(), FavsDbManager {
+class CollectionActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManager {
     
     override val prefs: FramesKonfigs by lazy { FramesKonfigs(this) }
-    override fun lightTheme(): Int = R.style.LightTheme
-    override fun darkTheme(): Int = R.style.DarkTheme
-    override fun amoledTheme(): Int = R.style.AmoledTheme
-    override fun transparentTheme(): Int = R.style.TransparentTheme
     override fun fragmentsContainer(): Int = R.id.fragments_container
+    override fun getLicKey(): String? = null
     
+    private var fromViewer = false
     private var fragmentLoaded = false
     private var closing = false
     private var collection: Collection? = null
@@ -90,6 +88,8 @@ class CollectionActivity : ActivityWFragments<FramesKonfigs>(), FavsDbManager {
         safeStartPostponedEnterTransition()
         
         toolbar?.bindToActivity(this)
+        
+        fromViewer = intent?.getBooleanExtra("fromViewer", false) ?: false
         
         val container: FrameLayout? by bind(fragmentsContainer())
         container?.let { with(it) { setPadding(paddingLeft, paddingTop, paddingRight, 0) } }
@@ -127,7 +127,8 @@ class CollectionActivity : ActivityWFragments<FramesKonfigs>(), FavsDbManager {
                 fragmentLoaded = true
                 frag = WallpapersInCollectionFragment.create(
                     it, it.wallpapers,
-                    intent?.getBooleanExtra("checker", false) ?: false)
+                    intent?.getBooleanExtra("checker", false) ?: false,
+                    fromViewer)
                 frag?.let { changeFragment(it) }
                 doAsync { favsViewModel.loadData(favsDB.favoritesDao(), true) }
             }
@@ -222,11 +223,13 @@ class CollectionActivity : ActivityWFragments<FramesKonfigs>(), FavsDbManager {
     
     override fun onSaveInstanceState(outState: Bundle?) {
         outState?.putParcelable("item", collection)
+        outState?.putBoolean("fromViewer", fromViewer)
         super.onSaveInstanceState(outState)
     }
     
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
+        fromViewer = savedInstanceState?.getBoolean("fromViewer", fromViewer) ?: fromViewer
         savedInstanceState?.let {
             collection = it.getParcelable("item")
             initContent(true)

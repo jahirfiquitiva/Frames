@@ -281,7 +281,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     private var canClick = true
     
     private fun onWallpaperClicked(wallpaper: Wallpaper, holder: WallpaperHolder) {
-        if (!canClick) return
+        if (!canClick || !canOpenWall()) return
         try {
             val intent = Intent(activity, ViewerActivity::class.java)
             var options: ActivityOptionsCompat? = null
@@ -290,6 +290,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             with(intent) {
                 putParcelableArrayListExtra(
                     "wallpapers", ArrayList(wallpapersModel?.getData().orEmpty()))
+                putParcelableArrayListExtra(
+                    "collections", ArrayList(collectionsModel?.getData().orEmpty()))
                 putExtra(ViewerActivity.CURRENT_WALL_POSITION, holder.adapterPosition)
                 
                 putExtra("wallpaper", wallpaper)
@@ -401,6 +403,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             })
     }
     
+    open fun canOpenWall(): Boolean = true
     abstract fun showFavoritesIcon(): Boolean
     
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
