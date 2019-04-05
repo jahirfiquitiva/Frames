@@ -52,6 +52,8 @@
         <item name="md_background_color">@color/light_theme_card_background</item>
         <item name="md_corner_radius">@dimen/dialogs_corner_radius</item>
         <item name="md_color_widget">@color/light_theme_accent</item>
+        <item name="md_color_button_text">@color/light_theme_accent</item>
+        <item name="md_divider_color">#1F000000</item>
 
         <item name="isDarkTheme">false</item>
     </style>
@@ -76,6 +78,8 @@
         <item name="md_background_color">@color/dark_theme_card_background</item>
         <item name="md_corner_radius">@dimen/dialogs_corner_radius</item>
         <item name="md_color_widget">@color/dark_theme_accent</item>
+        <item name="md_color_button_text">@color/dark_theme_accent</item>
+        <item name="md_divider_color">#1FFFFFFF</item>
 
         <item name="isDarkTheme">true</item>
     </style>
