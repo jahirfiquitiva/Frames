@@ -86,6 +86,7 @@ import jahirfiquitiva.libs.kext.extensions.SimpleAnimationListener
 import jahirfiquitiva.libs.kext.extensions.activeIconsColor
 import jahirfiquitiva.libs.kext.extensions.applyColorFilter
 import jahirfiquitiva.libs.kext.extensions.bind
+import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.buildSnackbar
 import jahirfiquitiva.libs.kext.extensions.color
 import jahirfiquitiva.libs.kext.extensions.compliesWithMinTime
@@ -301,7 +302,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         if (downloadable) {
             findViewById<RelativeLayout>(R.id.download_container).setOnClickListener {
                 if (isNetworkAvailable) {
-                    val actuallyComplies = if (hasChecker) compliesWithMinTime(MIN_TIME) else true
+                    val actuallyComplies = if (hasChecker)
+                        compliesWithMinTime(MIN_TIME) || boolean(R.bool.immediate_download)
+                    else true
                     if (actuallyComplies) {
                         doItemClick(DOWNLOAD_ACTION_ID)
                     } else {
