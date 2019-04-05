@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import ca.allanwang.kau.utils.postDelayed
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader
 import com.bumptech.glide.util.ViewPreloadSizeProvider
@@ -63,7 +64,6 @@ import jahirfiquitiva.libs.frames.ui.widgets.WallpaperSharedElementCallback
 import jahirfiquitiva.libs.kext.extensions.accentColor
 import jahirfiquitiva.libs.kext.extensions.activity
 import jahirfiquitiva.libs.kext.extensions.cardBackgroundColor
-import jahirfiquitiva.libs.kext.extensions.context
 import jahirfiquitiva.libs.kext.extensions.dimenPixelSize
 import jahirfiquitiva.libs.kext.extensions.formatCorrectly
 import jahirfiquitiva.libs.kext.extensions.hasContent
@@ -96,7 +96,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     val wallsAdapter: WallpapersAdapter by lazy {
         WallpapersAdapter(
             context?.let { Glide.with(it) },
-            provider, fromFavorites(), showFavoritesIcon(),
+            provider, fromFavorites(), fromCollectionActivity(), showFavoritesIcon(),
             object : FramesViewClickListener<Wallpaper, WallpaperHolder>() {
                 override fun onSingleClick(item: Wallpaper, holder: WallpaperHolder) {
                     onItemClicked(item, holder)
@@ -171,39 +171,43 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     }
     
     fun configureRVColumns(force: Boolean = false) {
-        context {
-            if (configs.columns != spanCount || force) {
-                recyclerView?.removeItemDecoration(spacingDecoration)
-                val columns = configs.columns
-                spanCount = if (it.isInHorizontalMode) (columns * 1.5).toInt() else columns
-                rvLayoutManager =
-                    GridLayoutManager(context, spanCount, RecyclerView.VERTICAL, false)
-                val hasFeaturedWall = wallpapersModel?.getData().orEmpty().any { it.featured }
-                if (!fromFavorites()) {
-                    rvLayoutManager?.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                        override fun getSpanSize(position: Int): Int =
-                            if (position == 0 && hasFeaturedWall) spanCount else 1
-                    }
-                }
-                rvLayoutManager?.let {
-                    recyclerView?.addOnScrollListener(
-                        EndlessRecyclerViewScrollListener(it) { _, view ->
-                            if (userVisibleHint) {
-                                view.post { wallsAdapter.allowMoreItemsLoad() }
-                            }
-                        })
-                }
-                recyclerView?.layoutManager = rvLayoutManager
-                spacingDecoration = if (hasFeaturedWall && !fromFavorites()) {
-                    FeaturedWallSpacingItemDecoration(
-                        spanCount, it.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
-                } else {
-                    GridSpacingItemDecoration(
-                        spanCount, it.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
-                }
-                recyclerView?.addItemDecoration(spacingDecoration)
-            }
+        if (configs.columns != spanCount || force) {
+            postDelayed(10) { internalConfigureRVColumns() }
         }
+    }
+    
+    private fun internalConfigureRVColumns() {
+        val it = context ?: return
+        recyclerView?.removeItemDecoration(spacingDecoration)
+        recyclerView?.layoutManager = null
+        val columns = configs.columns
+        spanCount = if (it.isInHorizontalMode) (columns * 1.5).toInt() else columns
+        rvLayoutManager =
+            GridLayoutManager(context, spanCount, RecyclerView.VERTICAL, false)
+        val hasFeaturedWall = wallpapersModel?.getData().orEmpty().any { it.featured }
+        val canShowFeatured =
+            hasFeaturedWall && !fromFavorites() && !fromCollectionActivity()
+        rvLayoutManager?.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int =
+                if (position == 0 && canShowFeatured) spanCount else 1
+        }
+        rvLayoutManager?.let {
+            recyclerView?.addOnScrollListener(
+                EndlessRecyclerViewScrollListener(it) { _, view ->
+                    if (userVisibleHint) {
+                        view.post { wallsAdapter.allowMoreItemsLoad() }
+                    }
+                })
+        }
+        recyclerView?.layoutManager = rvLayoutManager
+        spacingDecoration = if (canShowFeatured) {
+            FeaturedWallSpacingItemDecoration(
+                spanCount, it.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
+        } else {
+            GridSpacingItemDecoration(
+                spanCount, it.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
+        }
+        recyclerView?.addItemDecoration(spacingDecoration)
     }
     
     override fun getContentLayout(): Int = R.layout.section_with_swipe_refresh

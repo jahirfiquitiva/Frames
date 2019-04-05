@@ -35,6 +35,7 @@ class WallpapersAdapter(
     private val manager: RequestManager?,
     private val provider: ViewPreloadSizeProvider<Wallpaper>,
     private val fromFavorites: Boolean,
+    private val fromCollectionActivity: Boolean,
     private val showFavIcon: Boolean,
     private val listener: FramesViewClickListener<Wallpaper, WallpaperHolder>
                        ) :
@@ -104,7 +105,8 @@ class WallpapersAdapter(
     override fun getItemViewType(position: Int): Int {
         return if (fromFavorites) NORMAL_WALL else {
             val hasFeaturedWall = list.any { it.featured }
-            if (position == 0 && hasFeaturedWall) FEATURED_WALL else NORMAL_WALL
+            val canShowFeatured = hasFeaturedWall && !fromFavorites && !fromCollectionActivity
+            if (position == 0 && canShowFeatured) FEATURED_WALL else NORMAL_WALL
         }
     }
 }
