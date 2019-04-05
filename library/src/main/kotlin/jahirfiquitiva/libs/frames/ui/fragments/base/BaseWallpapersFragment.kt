@@ -194,7 +194,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                         })
                 }
                 recyclerView?.layoutManager = rvLayoutManager
-                spacingDecoration = if (hasFeaturedWall) {
+                spacingDecoration = if (hasFeaturedWall && !fromFavorites()) {
                     FeaturedWallSpacingItemDecoration(
                         spanCount, it.dimenPixelSize(R.dimen.wallpapers_grid_spacing))
                 } else {
