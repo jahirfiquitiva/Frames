@@ -353,19 +353,9 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == 10) {
-            data?.let {
-                val item = it.getParcelableExtra<Wallpaper>("item")
-                val hasModifiedFavs = it.getBooleanExtra("modified", false)
-                val inFavs = it.getBooleanExtra("inFavorites", false)
-                onActivityReenter(resultCode, data)
-                item?.let { wall ->
-                    if (hasModifiedFavs) {
-                        activity?.let {
-                            (it as? FavsDbManager)?.updateToFavs(wall, inFavs, it, false)
-                        } ?: showErrorSnackBar()
-                    }
-                }
-            }
+            onActivityReenter(resultCode, data)
+            val hasModifiedFavs = data?.getBooleanExtra("modified", false) ?: false
+            if (hasModifiedFavs) (activity as? FavsDbManager)?.reloadFavorites()
         }
     }
     

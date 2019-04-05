@@ -18,7 +18,6 @@ package jahirfiquitiva.libs.frames.ui.activities
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -275,18 +274,16 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
     }
     
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when {
-            requestCode == 22 -> data?.let {
+        if (requestCode == 22) {
+            data?.let {
                 val cleared = it.getBooleanExtra("clearedFavs", false)
                 if (cleared) reloadFavorites()
             }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
-                ((getCurrentFragment() as? BaseWallpapersFragment)
-                    ?: (pagerAdapter?.get(lastSection) as? BaseWallpapersFragment))
-                    ?.onActivityReenter(resultCode, data)
-                    ?: super.onActivityResult(requestCode, resultCode, data)
-            }
-            else -> super.onActivityResult(requestCode, resultCode, data)
+        } else {
+            ((getCurrentFragment() as? BaseWallpapersFragment)
+                ?: (pagerAdapter?.get(lastSection) as? BaseWallpapersFragment))
+                ?.onActivityResult(requestCode, resultCode, data)
+                ?: super.onActivityResult(requestCode, resultCode, data)
         }
     }
     

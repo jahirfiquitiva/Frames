@@ -306,8 +306,8 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
     
     private fun showSnackbar(
         @StringRes text: Int,
-        duration: Int,
-        defaultToToast: Boolean = false,
+        duration: Int = Snackbar.LENGTH_SHORT,
+        defaultToToast: Boolean = true,
         settings: Snackbar.() -> Unit = {}
                             ) {
         showSnackbar(getString(text), duration, defaultToToast, settings)
@@ -315,8 +315,8 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
     
     abstract fun showSnackbar(
         text: String,
-        duration: Int,
-        defaultToToast: Boolean = false,
+        duration: Int = Snackbar.LENGTH_SHORT,
+        defaultToToast: Boolean = true,
         settings: Snackbar.() -> Unit = {}
                              )
     

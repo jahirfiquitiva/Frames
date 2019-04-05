@@ -39,6 +39,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.palette.graphics.Palette
+import androidx.room.Room
 import ca.allanwang.kau.utils.contentView
 import ca.allanwang.kau.utils.dpToPx
 import ca.allanwang.kau.utils.gone
@@ -61,6 +62,7 @@ import jahirfiquitiva.libs.archhelpers.extensions.lazyViewModel
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.data.models.WallpaperInfo
+import jahirfiquitiva.libs.frames.data.models.db.FavoritesDatabase
 import jahirfiquitiva.libs.frames.helpers.extensions.framesPostponeEnterTransition
 import jahirfiquitiva.libs.frames.helpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.helpers.extensions.safeStartPostponedEnterTransition
@@ -69,6 +71,7 @@ import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableTime
 import jahirfiquitiva.libs.frames.helpers.glide.loadPicture
 import jahirfiquitiva.libs.frames.helpers.glide.quickListener
+import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.MIN_TIME
@@ -77,6 +80,7 @@ import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.InfoBottomSheet
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.WallpaperActionsDialog
 import jahirfiquitiva.libs.frames.ui.widgets.CustomToolbar
+import jahirfiquitiva.libs.frames.viewmodels.FavoritesViewModel
 import jahirfiquitiva.libs.frames.viewmodels.WallpaperInfoViewModel
 import jahirfiquitiva.libs.kext.extensions.SimpleAnimationListener
 import jahirfiquitiva.libs.kext.extensions.activeIconsColor
@@ -95,8 +99,10 @@ import jahirfiquitiva.libs.kext.extensions.hasContent
 import jahirfiquitiva.libs.kext.extensions.isInPortraitMode
 import jahirfiquitiva.libs.kext.extensions.navigationBarHeight
 import jahirfiquitiva.libs.kext.extensions.notNull
+import jahirfiquitiva.libs.kext.extensions.string
 import jahirfiquitiva.libs.kext.extensions.toBitmap
 import jahirfiquitiva.libs.ziv.ZoomableImageView
+import org.jetbrains.anko.doAsync
 import java.io.FileInputStream
 import java.util.ArrayList
 
@@ -154,6 +160,12 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     
     private val glideManager: RequestManager by lazy { Glide.with(this) }
     
+    val favsViewModel: FavoritesViewModel by lazyViewModel()
+    val favsDB: FavoritesDatabase by lazy {
+        Room.databaseBuilder(this, FavoritesDatabase::class.java, DATABASE_NAME)
+            .fallbackToDestructiveMigration().build()
+    }
+    
     @SuppressLint("MissingSuperCall", "InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -175,6 +187,16 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         
         previousWallBtn?.setOnClickListener { goToWallpaper(-1) }
         nextWallBtn?.setOnClickListener { goToWallpaper(1) }
+        
+        favsViewModel.observe(this) { data ->
+            wallpaper?.let {
+                isInFavorites = data.any { it == wallpaper }
+                val favIcon = drawable(if (isInFavorites) "ic_heart" else "ic_heart_outline")
+                val favImageView: ImageView? by bind(R.id.fav_button)
+                favImageView?.setImageDrawable(favIcon)
+            }
+        }
+        doAsync { favsViewModel.loadData(favsDB.favoritesDao(), true) }
         
         toolbar?.setMarginTop(getStatusBarHeight(true))
         toolbar?.bindToActivity(this)
@@ -250,6 +272,9 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     
     private fun initWallpaperSetup() {
         isInFavorites = intent?.getBooleanExtra("inFavorites", false) == true
+        if (!isInFavorites)
+            isInFavorites = favsViewModel.getData().orEmpty().any { it == wallpaper }
+        
         showFavoritesButton = intent?.getBooleanExtra("showFavoritesButton", false) == true
         
         setupProgressBarColors()
@@ -585,7 +610,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
                     super.onEnd(animation)
                     favImageView?.setImageDrawable(
                         this@ViewerActivity.drawable(
-                            if (isInFavorites) "ic_heart_outline" else "ic_heart"))
+                            if (isInFavorites) "ic_heart" else "ic_heart_outline"))
                     val nScale = ScaleAnimation(
                         0F, 1F, 0F, 1F, Animation.RELATIVE_TO_SELF, 0.5f,
                         Animation.RELATIVE_TO_SELF, 0.5f)
@@ -601,19 +626,29 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
                     favImageView?.startAnimation(nScale)
                 }
             })
-        favImageView?.startAnimation(scale)
+        wallpaper?.let { wall ->
+            val onSuccess: (success: Boolean) -> Unit = {
+                if (it) {
+                    hasModifiedFavs = true
+                    favImageView?.startAnimation(scale)
+                } else showSnackbar(string(R.string.action_error_content))
+            }
+            if (isInFavorites) {
+                favsViewModel.removeFromFavorites(favsDB.favoritesDao(), wall, onSuccess)
+            } else {
+                favsViewModel.addToFavorites(favsDB.favoritesDao(), wall, onSuccess)
+            }
+        }
     }
     
     private fun onToggleEnd() {
         wallpaper?.let {
             showSnackbar(
                 getString(
-                    if (isInFavorites) R.string.removed_from_favorites
+                    if (!isInFavorites) R.string.removed_from_favorites
                     else R.string.added_to_favorites,
                     it.name), Snackbar.LENGTH_SHORT)
         }
-        hasModifiedFavs = true
-        isInFavorites = !isInFavorites
     }
     
     override fun showSnackbar(
