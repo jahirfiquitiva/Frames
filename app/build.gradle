@@ -56,8 +56,8 @@ android {
         applicationId "jahirfiquitiva.apps.frames.sample"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
-        versionCode 261
-        versionName '2.6.1'
+        versionCode 263
+        versionName '2.6.3'
         vectorDrawables.useSupportLibrary = true
         proguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
         consumerProguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
@@ -84,11 +84,16 @@ android {
         pickFirst 'META-INF/library_debug.kotlin_module'
         pickFirst 'META-INF/library_release.kotlin_module'
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     // Frames
-    implementation('com.jahirfiquitiva:Frames:2.6.1@aar') {
+    implementation('com.jahirfiquitiva:Frames:2.6.3@aar') {
         transitive = true
     }
     // TODO: Remove comment marks to enable
