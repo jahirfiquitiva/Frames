@@ -53,6 +53,8 @@
     <string name="apply_with_other_app">Appliquer avec une autre application</string>
     <string name="apply_successful">Fond d\'écran appliqué avec succès pour %1$s</string>
     <string name="apply_successful_short">Fond d\'écran appliqué avec succès</string>
+    <string name="previous">Précédent</string>
+    <string name="next">Suivant</string>
     <string name="wallpaper_details">Détails</string>
     <string name="wallpaper_palette">Palette</string>
     <string name="copied_to_clipboard">Copier la couleur vers le presse-papier</string>
