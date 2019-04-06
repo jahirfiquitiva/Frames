@@ -53,6 +53,8 @@
     <string name="apply_with_other_app">অন্যান্য অ্যাপের দ্বারা প্রয়োগ করুন</string>
     <string name="apply_successful">ওয়ালপেপার সফলভাবে প্রয়োগ হয়েছে %1$s</string>
     <string name="apply_successful_short">ওয়ালপেপার সফলভাবে প্রয়োগ হয়েছে</string>
+    <string name="previous">পূর্ববর্তী</string>
+    <string name="next">পরবর্তী</string>
     <string name="wallpaper_details">বিস্তারিত বিবরণ</string>
     <string name="wallpaper_palette">প্যালেট</string>
     <string name="copied_to_clipboard">ক্লিপবোর্ডে রঙ কপি করা হয়েছে</string>
