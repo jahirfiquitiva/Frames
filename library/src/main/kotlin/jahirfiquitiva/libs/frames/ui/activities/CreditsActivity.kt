@@ -243,7 +243,7 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
         const val JAHIR_PHOTO_URL =
             "https://github.com/jahirfiquitiva/Website-Resources/raw/master/myself/me-square-white.png"
         const val JAHIR_BUTTONS = "Website|Twitter"
-        const val JAHIR_LINKS = "https://jahir.xyz/|https://jahir.xyz/twitter/"
+        const val JAHIR_LINKS = "https://jahir.xyz/|https://jahir.xyz/twitter"
         
         const val ALLAN_PHOTO_URL = "https://avatars0.githubusercontent.com/u/6251823?v=4&s=400"
         const val ALLAN_BUTTONS = "Website|GitHub"
