@@ -63,7 +63,6 @@ import jahirfiquitiva.libs.frames.ui.widgets.FeaturedWallSpacingItemDecoration
 import jahirfiquitiva.libs.frames.ui.widgets.WallpaperSharedElementCallback
 import jahirfiquitiva.libs.kext.extensions.accentColor
 import jahirfiquitiva.libs.kext.extensions.activity
-import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kext.extensions.dimenPixelSize
 import jahirfiquitiva.libs.kext.extensions.formatCorrectly
@@ -75,6 +74,10 @@ import jahirfiquitiva.libs.kext.ui.decorations.GridSpacingItemDecoration
 import java.io.FileOutputStream
 
 abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperHolder>() {
+    
+    companion object {
+        private const val MAX_WALLPAPERS_TO_SHARE = 250
+    }
     
     var hasChecker = false
     var recyclerView: EmptyViewRecyclerView? = null
@@ -100,7 +103,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             provider, fromFavorites(), fromCollectionActivity(), showFavoritesIcon(),
             object : FramesViewClickListener<Wallpaper, WallpaperHolder>() {
                 override fun onSingleClick(item: Wallpaper, holder: WallpaperHolder) {
-                    onItemClicked(item, holder)
+                    if (canOpenWall()) onItemClicked(item, holder)
+                    else onLongClick(item, holder)
                 }
                 
                 override fun onLongClick(item: Wallpaper, holder: WallpaperHolder) {
@@ -293,13 +297,21 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             currentWallPosition = holder.adapterPosition
             
             with(intent) {
-                if (boolean(R.bool.isFrames))
-                    putParcelableArrayListExtra(
-                        "collections", ArrayList(collectionsModel?.getData().orEmpty()))
+                /*
+                if (boolean(R.bool.isFrames)) {
+                    val collectionsList = ArrayList(collectionsModel?.getData().orEmpty())
+                    if (collectionsList.size <= 10) {
+                        putParcelableArrayListExtra("collections", collectionsList)
+                    }
+                }
+                */
                 
-                putParcelableArrayListExtra(
-                    "wallpapers", ArrayList(wallpapersModel?.getData().orEmpty()))
-                putExtra(ViewerActivity.CURRENT_WALL_POSITION, holder.adapterPosition)
+                val okWallpapers = buildWallpapersForViewer(holder.adapterPosition)
+                putParcelableArrayListExtra("wallpapers", okWallpapers.second)
+                val actualCurrentPosition = okWallpapers.first?.first ?: 0
+                val positionDifference = okWallpapers.first?.second ?: 0
+                putExtra(ViewerActivity.CURRENT_WALL_POSITION, actualCurrentPosition)
+                putExtra(ViewerActivity.POSITION_DIFF, positionDifference)
                 
                 putExtra("wallpaper", wallpaper)
                 putExtra(
@@ -357,6 +369,18 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             FL.e("Error", e)
             canClick = true
         }
+    }
+    
+    private fun buildWallpapersForViewer(fromIndex: Int): Pair<Pair<Int, Int>, ArrayList<Wallpaper>> {
+        val initialWallpapers = ArrayList(wallpapersModel?.getData().orEmpty())
+        var startIndex = fromIndex - MAX_WALLPAPERS_TO_SHARE
+        if (startIndex < 0) startIndex = 0
+        var endIndex = fromIndex + MAX_WALLPAPERS_TO_SHARE
+        if (endIndex > initialWallpapers.size - 1) endIndex = initialWallpapers.size - 1
+        val newIndex = fromIndex - startIndex
+        return Pair(
+            Pair(newIndex, startIndex),
+            ArrayList(initialWallpapers.subList(startIndex, endIndex + 1)))
     }
     
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -50,7 +50,7 @@ abstract class BaseFramesFragment<in T, in VH : RecyclerView.ViewHolder> :
     
     @CallSuper
     override fun loadDataFromViewModel() {
-        context { if (!fromCollectionActivity()) wallpapersModel?.loadData(it) }
+        if (!fromCollectionActivity()) context { wallpapersModel?.loadData(it) }
     }
     
     open fun doOnCollectionsChange(data: ArrayList<Collection>) {}

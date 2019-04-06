@@ -117,6 +117,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         private const val TRANSITIONED_KEY = "transitioned"
         private const val VISIBLE_SYSTEM_UI_KEY = "visible_system_ui"
         const val CURRENT_WALL_POSITION = "curr_wall_pos"
+        const val POSITION_DIFF = "pos_diff"
     }
     
     override val prefs: FramesKonfigs by lazy { FramesKonfigs(this) }
@@ -150,6 +151,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     private var visibleSystemUI = true
     private var visibleBottomBar = true
     private var currentWallPosition = 0
+    private var wallPositionDifference = 0
     
     private var wallpapersList = ArrayList<Wallpaper>()
     private var collectionsList = ArrayList<Collection>()
@@ -181,6 +183,10 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         
         currentWallPosition = savedInstanceState?.getInt(CURRENT_WALL_POSITION) ?: {
             intent?.getIntExtra(CURRENT_WALL_POSITION, 0) ?: 0
+        }()
+        
+        wallPositionDifference = savedInstanceState?.getInt(POSITION_DIFF) ?: {
+            intent?.getIntExtra(POSITION_DIFF, 0) ?: 0
         }()
         
         intent?.getParcelableArrayListExtra<Wallpaper>("wallpapers")?.let {
@@ -392,6 +398,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         outState?.putBoolean(TRANSITIONED_KEY, transitioned)
         outState?.putBoolean(VISIBLE_SYSTEM_UI_KEY, visibleSystemUI)
         outState?.putInt(CURRENT_WALL_POSITION, currentWallPosition)
+        outState?.putInt(POSITION_DIFF, wallPositionDifference)
     }
     
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
@@ -399,6 +406,10 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         setSystemUIVisibility(savedInstanceState?.getBoolean(VISIBLE_SYSTEM_UI_KEY, true) ?: true)
         this.closing = savedInstanceState?.getBoolean(CLOSING_KEY, false) ?: false
         this.transitioned = savedInstanceState?.getBoolean(TRANSITIONED_KEY, false) ?: false
+        currentWallPosition = savedInstanceState?.getInt(CURRENT_WALL_POSITION, currentWallPosition)
+            ?: currentWallPosition
+        wallPositionDifference = savedInstanceState?.getInt(POSITION_DIFF, wallPositionDifference)
+            ?: wallPositionDifference
         setupProgressBarColors()
     }
     
@@ -422,8 +433,6 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     }
     
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        FL.d("Request code: $requestCode")
-        FL.d("Result code: $resultCode")
         if (requestCode == 12) {
             hasModifiedFavs = true
             favsViewModel.loadData(favsDB.favoritesDao(), true)
@@ -443,7 +452,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             val intent = Intent()
             with(intent) {
                 putExtra("modified", hasModifiedFavs)
-                putExtra(CURRENT_WALL_POSITION, currentWallPosition)
+                putExtra(CURRENT_WALL_POSITION, currentWallPosition + wallPositionDifference)
                 if (hasModifiedFavs) {
                     putExtra("item", wallpaper)
                     putExtra("inFavorites", isInFavorites)
