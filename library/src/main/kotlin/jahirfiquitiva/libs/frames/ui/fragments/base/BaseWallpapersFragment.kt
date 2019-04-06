@@ -63,6 +63,7 @@ import jahirfiquitiva.libs.frames.ui.widgets.FeaturedWallSpacingItemDecoration
 import jahirfiquitiva.libs.frames.ui.widgets.WallpaperSharedElementCallback
 import jahirfiquitiva.libs.kext.extensions.accentColor
 import jahirfiquitiva.libs.kext.extensions.activity
+import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.cardBackgroundColor
 import jahirfiquitiva.libs.kext.extensions.dimenPixelSize
 import jahirfiquitiva.libs.kext.extensions.formatCorrectly
@@ -292,10 +293,12 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             currentWallPosition = holder.adapterPosition
             
             with(intent) {
+                if (boolean(R.bool.isFrames))
+                    putParcelableArrayListExtra(
+                        "collections", ArrayList(collectionsModel?.getData().orEmpty()))
+                
                 putParcelableArrayListExtra(
                     "wallpapers", ArrayList(wallpapersModel?.getData().orEmpty()))
-                putParcelableArrayListExtra(
-                    "collections", ArrayList(collectionsModel?.getData().orEmpty()))
                 putExtra(ViewerActivity.CURRENT_WALL_POSITION, holder.adapterPosition)
                 
                 putExtra("wallpaper", wallpaper)

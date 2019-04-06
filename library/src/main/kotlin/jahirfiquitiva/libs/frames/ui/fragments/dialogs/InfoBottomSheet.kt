@@ -38,6 +38,7 @@ import jahirfiquitiva.libs.frames.ui.activities.CollectionActivity
 import jahirfiquitiva.libs.frames.ui.activities.base.BaseFramesActivity
 import jahirfiquitiva.libs.frames.ui.adapters.WallpaperInfoAdapter
 import jahirfiquitiva.libs.frames.ui.adapters.viewholders.WallpaperDetail
+import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.isInHorizontalMode
 
 class InfoBottomSheet : BaseBottomSheet() {
@@ -67,7 +68,7 @@ class InfoBottomSheet : BaseBottomSheet() {
         recyclerView?.layoutManager = layoutManager
         
         if (adapter == null) adapter = WallpaperInfoAdapter { forCollection, indexOrColor ->
-            if (forCollection) {
+            if (forCollection && boolean(R.bool.isFrames)) {
                 collections.getOrNull(indexOrColor)?.let {
                     val intent = Intent(activity, CollectionActivity::class.java)
                     intent.putExtra("fromViewer", true)
