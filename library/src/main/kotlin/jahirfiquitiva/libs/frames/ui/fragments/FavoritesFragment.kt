@@ -19,10 +19,17 @@ import jahirfiquitiva.libs.frames.data.models.Wallpaper
 import jahirfiquitiva.libs.frames.ui.fragments.base.BaseWallpapersFragment
 
 internal class FavoritesFragment : BaseWallpapersFragment() {
+    
+    private val actualFavorites = ArrayList<Wallpaper>()
+    
     override fun doOnFavoritesChange(data: ArrayList<Wallpaper>) {
         super.doOnFavoritesChange(data)
+        actualFavorites.clear()
+        actualFavorites.addAll(data)
         wallsAdapter.setItems(data)
     }
+    
+    override fun getWallpapersForViewer(): ArrayList<Wallpaper> = ArrayList(actualFavorites)
     
     override fun autoStartLoad(): Boolean = true
     override fun fromCollectionActivity(): Boolean = false

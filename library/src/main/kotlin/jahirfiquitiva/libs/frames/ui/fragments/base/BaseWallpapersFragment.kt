@@ -372,7 +372,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     }
     
     private fun buildWallpapersForViewer(fromIndex: Int): Pair<Pair<Int, Int>, ArrayList<Wallpaper>> {
-        val initialWallpapers = ArrayList(wallpapersModel?.getData().orEmpty())
+        val initialWallpapers = getWallpapersForViewer()
         var startIndex = fromIndex - MAX_WALLPAPERS_TO_SHARE
         if (startIndex < 0) startIndex = 0
         var endIndex = fromIndex + MAX_WALLPAPERS_TO_SHARE
@@ -382,6 +382,9 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             Pair(newIndex, startIndex),
             ArrayList(initialWallpapers.subList(startIndex, endIndex + 1)))
     }
+    
+    open fun getWallpapersForViewer(): ArrayList<Wallpaper> =
+        ArrayList(wallpapersModel?.getData().orEmpty())
     
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

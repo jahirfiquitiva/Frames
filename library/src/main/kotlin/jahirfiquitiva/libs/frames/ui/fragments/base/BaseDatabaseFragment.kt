@@ -48,7 +48,6 @@ abstract class BaseDatabaseFragment<in T, in VH : RecyclerView.ViewHolder> : Vie
     open fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {}
     
     abstract fun onItemClicked(item: T, holder: VH)
-    open fun onItemLongClicked(item: T, holder: VH) {}
     abstract fun fromCollectionActivity(): Boolean
     abstract fun fromFavorites(): Boolean
     

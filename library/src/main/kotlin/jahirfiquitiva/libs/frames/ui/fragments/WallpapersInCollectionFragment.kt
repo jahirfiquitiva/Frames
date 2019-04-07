@@ -62,6 +62,8 @@ internal class WallpapersInCollectionFragment : BaseWallpapersFragment() {
         wallpapersModel?.postResult(wallpapers)
     }
     
+    override fun getWallpapersForViewer(): ArrayList<Wallpaper> = ArrayList(wallpapers)
+    
     companion object {
         fun create(
             collection: Collection,
