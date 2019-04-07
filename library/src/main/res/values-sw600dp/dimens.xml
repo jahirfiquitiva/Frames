@@ -14,12 +14,14 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Splash screen dimens -->
     <dimen name="splash_logo_bottom">24dp</dimen>
     <dimen name="splash_brand_bottom">56dp</dimen>
     <bool name="isTablet">true</bool>
 
+    <!--
     <dimen name="md_dialog_max_width" tools:ignore="MissingDefaultResource,PrivateResource">375dp
     </dimen>
+    -->
 </resources>
