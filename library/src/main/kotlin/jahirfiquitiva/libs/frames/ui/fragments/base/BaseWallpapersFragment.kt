@@ -76,7 +76,7 @@ import java.io.FileOutputStream
 abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperHolder>() {
     
     companion object {
-        private const val MAX_WALLPAPERS_TO_SHARE = 250
+        private const val MAX_WALLPAPERS_TO_SHARE = 300
     }
     
     var hasChecker = false
@@ -158,6 +158,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 
                 setItemViewCacheSize((MAX_WALLPAPERS_LOAD * 1.5).toInt())
                 adapter = wallsAdapter
+                state = EmptyViewRecyclerView.State.LOADING
             }
         }
         
@@ -249,6 +250,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     }
     
     override fun doOnWallpapersChange(data: ArrayList<Wallpaper>, fromCollectionActivity: Boolean) {
+        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
         super.doOnWallpapersChange(data, fromCollectionActivity)
         configureRVColumns(true)
         swipeToRefresh?.isRefreshing = false
