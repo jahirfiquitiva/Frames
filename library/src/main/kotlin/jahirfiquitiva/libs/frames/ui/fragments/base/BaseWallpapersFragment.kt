@@ -88,6 +88,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     
     private var rvLayoutManager: GridLayoutManager? = null
     private var currentWallPosition: Int = 0
+    private var searching: Boolean = false
     
     private val wallElementsCallback: WallpaperSharedElementCallback by lazy {
         WallpaperSharedElementCallback()
@@ -192,7 +193,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
             GridLayoutManager(context, spanCount, RecyclerView.VERTICAL, false)
         val hasFeaturedWall = wallpapersModel?.getData().orEmpty().any { it.featured }
         val canShowFeatured =
-            hasFeaturedWall && !fromFavorites() && !fromCollectionActivity()
+            hasFeaturedWall && !fromFavorites() && !fromCollectionActivity() && !searching
         rvLayoutManager?.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int =
                 if (position == 0 && canShowFeatured) spanCount else 1
@@ -257,11 +258,14 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     }
     
     override fun applyFilter(filter: String, closed: Boolean) {
+        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
         val list = ArrayList(
             if (fromFavorites())
                 (activity as? FavsDbManager)?.getFavs() ?: wallpapersModel?.getData().orEmpty()
             else wallpapersModel?.getData().orEmpty())
-        
+        searching = filter.hasContent()
+        wallsAdapter.searching = searching
+        configureRVColumns(true)
         if (filter.hasContent()) {
             recyclerView?.setEmptyImage(R.drawable.no_results)
             recyclerView?.setEmptyText(R.string.search_no_results)
@@ -273,8 +277,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
             wallsAdapter.setItems(list)
         }
-        if (!closed)
-            scrollToTop()
+        if (!closed) scrollToTop()
     }
     
     private fun filteredWallpaper(wallpaper: Wallpaper, filter: String): Boolean {
@@ -308,12 +311,18 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 }
                 */
                 
-                val okWallpapers = buildWallpapersForViewer(holder.adapterPosition)
-                putParcelableArrayListExtra("wallpapers", okWallpapers.second)
-                val actualCurrentPosition = okWallpapers.first?.first ?: 0
-                val positionDifference = okWallpapers.first?.second ?: 0
-                putExtra(ViewerActivity.CURRENT_WALL_POSITION, actualCurrentPosition)
-                putExtra(ViewerActivity.POSITION_DIFF, positionDifference)
+                if (!searching) {
+                    val okWallpapers = buildWallpapersForViewer(holder.adapterPosition)
+                    putParcelableArrayListExtra("wallpapers", okWallpapers.second)
+                    val actualCurrentPosition = okWallpapers.first?.first ?: 0
+                    val positionDifference = okWallpapers.first?.second ?: 0
+                    putExtra(ViewerActivity.CURRENT_WALL_POSITION, actualCurrentPosition)
+                    putExtra(ViewerActivity.POSITION_DIFF, positionDifference)
+                } else {
+                    putParcelableArrayListExtra("wallpapers", arrayListOf(wallpaper))
+                    putExtra(ViewerActivity.CURRENT_WALL_POSITION, 0)
+                    putExtra(ViewerActivity.POSITION_DIFF, 0)
+                }
                 
                 putExtra("wallpaper", wallpaper)
                 putExtra(

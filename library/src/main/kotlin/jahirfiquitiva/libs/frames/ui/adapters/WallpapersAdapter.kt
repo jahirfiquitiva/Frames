@@ -54,6 +54,8 @@ class WallpapersAdapter(
             field.addAll(value)
         }
     
+    internal var searching: Boolean = false
+    
     fun updateFavorites(newFavs: ArrayList<Wallpaper>) {
         if (fromFavorites) {
             favorites = newFavs
@@ -105,7 +107,8 @@ class WallpapersAdapter(
     override fun getItemViewType(position: Int): Int {
         return if (fromFavorites) NORMAL_WALL else {
             val hasFeaturedWall = list.any { it.featured }
-            val canShowFeatured = hasFeaturedWall && !fromFavorites && !fromCollectionActivity
+            val canShowFeatured =
+                hasFeaturedWall && !fromFavorites && !fromCollectionActivity && !searching
             if (position == 0 && canShowFeatured) FEATURED_WALL else NORMAL_WALL
         }
     }

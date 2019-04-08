@@ -51,7 +51,6 @@ import ca.allanwang.kau.utils.setMarginTop
 import ca.allanwang.kau.utils.setPaddingBottom
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.toast
-import ca.allanwang.kau.utils.visible
 import ca.allanwang.kau.utils.visibleIf
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
@@ -192,6 +191,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         intent?.getParcelableArrayListExtra<Wallpaper>("wallpapers")?.let {
             wallpapersList.clear()
             wallpapersList.addAll(it)
+            changeGoBtnsVisibility(true)
         }
         
         intent?.getParcelableArrayListExtra<Collection>("collections")?.let {
@@ -270,7 +270,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         if (newPosition == currentWallPosition && !force) return
         currentWallPosition = newPosition
         try {
-            wallpaper = wallpapersList[currentWallPosition]
+            wallpaper = wallpapersList.getOrNull(currentWallPosition)
         } catch (e: Exception) {
         }
         initWallpaperSetup()
@@ -359,6 +359,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             findViewById<RelativeLayout>(R.id.fav_container).gone()
         }
         
+        changeGoBtnsVisibility(visibleSystemUI)
         setupWallpaper(wallpaper, true)
         startEnterTransition()
         loadWallpaperDetails()
@@ -782,17 +783,32 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     
     private fun changeGoBtnsVisibility(show: Boolean) {
         previousWallBtn?.animate()
-            ?.alpha(if (show) 1F else 0F)
+            ?.alpha(if (show && wallpapersList.size > 1 && currentWallPosition > 0) 1F else 0F)
             ?.setInterpolator(AccelerateDecelerateInterpolator())
-            ?.withStartAction { previousWallBtn?.visible() }
-            ?.withEndAction { previousWallBtn?.visibleIf(show) }
+            ?.withStartAction { updateGoPreviousBtnVisibility(true) }
+            ?.withEndAction { updateGoPreviousBtnVisibility(show) }
             ?.start()
         nextWallBtn?.animate()
-            ?.alpha(if (show) 1F else 0F)
+            ?.alpha(
+                if (show && wallpapersList.size > 1 && currentWallPosition < wallpapersList.size - 1) 1F
+                else 0F)
             ?.setInterpolator(AccelerateDecelerateInterpolator())
-            ?.withStartAction { nextWallBtn?.visible() }
-            ?.withEndAction { nextWallBtn?.visibleIf(show) }
+            ?.withStartAction { updateGoNextBtnVisibility(true) }
+            ?.withEndAction { updateGoNextBtnVisibility(show) }
             ?.start()
+    }
+    
+    private fun updateGoPreviousBtnVisibility(show: Boolean) {
+        if (show) {
+            previousWallBtn?.visibleIf(wallpapersList.size > 1 && currentWallPosition > 0)
+        } else previousWallBtn?.gone()
+    }
+    
+    private fun updateGoNextBtnVisibility(show: Boolean) {
+        if (show) {
+            nextWallBtn?.visibleIf(
+                wallpapersList.size > 1 && currentWallPosition < wallpapersList.size - 1)
+        } else nextWallBtn?.gone()
     }
     
     private fun changeBottomBarVisibility(show: Boolean) {
