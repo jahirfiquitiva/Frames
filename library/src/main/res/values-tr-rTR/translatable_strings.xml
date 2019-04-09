@@ -52,6 +52,8 @@
     <string name="apply_with_other_app">Diğer uygulamayla uygula</string>
     <string name="apply_successful">Duvar kağıdı başarıyla uygulandı %1$s</string>
     <string name="apply_successful_short">Duvar kağıdı başarıyla uygulandı</string>
+    <string name="previous">Önceki</string>
+    <string name="next">Sonraki</string>
     <string name="wallpaper_details">Ayrıntılar</string>
     <string name="wallpaper_palette">Palet</string>
     <string name="copied_to_clipboard">Rengi panoya kopyaladı</string>
@@ -111,6 +113,7 @@
     <string name="license_valid_content">Geçerli bir mağazadan %1$s indirdiğiniz için teşekkür ederiz. Tadını çıkarın!</string>
     <string name="license_valid_snack">Lisansınız geçerli. %1$s uygulamasını indirdiğiniz için teşekkürler. Tadını çıkarın!</string>
     <string name="license_invalid_title">Giremezsin!</string>
+    <string name="license_invalid_content">Maalesef, %1$s lisansınızın geçerli olmadığını tespit ettik. Bunun nedeni de korsan uygulamaları kullanıyor olmanız olabilir. %2$s. Bunun bir hata olduğunu düşünüyorsanız, lütfen daha sonra tekrar deneyin. Aksi takdirde, lütfen uygulamayı geçerli bir mağazadan indirin.</string>
     <string name="error_title">Hata</string>
     <string name="action_error_content">Maalesef, bu işlemi tamamlamaya çalışırken beklenmeyen bir hata oluştu.</string>
     <string name="license_error_content">Maalesef lisansınızı kontrol ederken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.</string>
