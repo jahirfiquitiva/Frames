@@ -18,6 +18,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="empty_section">العثور على أي شيء</string>
     <string name="loading_section">تحميل المحتوى…</string>
+    <string name="no_favorites">أضف بعض الخلفيات إلى قائمة المفضلة أولا</string>
+    <string name="wallpapers">خلفيات</string>
+    <string name="collections">تجميعات</string>
+    <string name="x_wallpapers">خلفيات%1$s</string>
+    <string name="all">الكل</string>
+    <string name="favorites">قائمة المفضلة</string>
+    <string name="favorite">مفضلة</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
     <!-- Light Theme -->
