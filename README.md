@@ -11,7 +11,7 @@ Frames
 
 A full-of-features, easy-to-customize, free and open source, light-weight, Android dashboard library to create wallpapers apps with almost-null effort.
 
-<a target="_blank" href="http://j.mp/DLFramesAPK">
+<a target="_blank" href="https://github.com/jahirfiquitiva/Frames/releases/latest">
 <img src="https://jahirfiquitiva.com/share/download_sample.svg?maxAge=432000" width="200"/>
 </a>
 
@@ -26,7 +26,6 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 
 [![Follow on GitHub](https://img.shields.io/github/followers/jahirfiquitiva.svg?style=social&label=Follow)](https://github.com/jahirfiquitiva)
 [![Twitter Follow](https://img.shields.io/twitter/follow/jahirfiquitiva.svg?style=social)](https://twitter.com/jahirfiquitiva)
-[![Google+](https://img.shields.io/badge/Follow-Google%2B-ea4335.svg)](https://plus.google.com/+JahirFiquitivaR)
 
 ---
 
@@ -121,7 +120,7 @@ where `{latest version}` corresponds to published version in   [![JitPack](https
 :page_with_curl: Everything you need to know can be found in the **[Wiki Docs](https://github.com/jahirfiquitiva/Frames/wiki/)**
 
 ## Still need help :question:
-Just join our community and make a post. We'll help you as soon as possible. [![Google+ Community](https://img.shields.io/badge/Google%2B-Community-ea4335.svg)](https://plus.google.com/communities/117748118619432374563)
+Just join our community and make a post. We'll help you as soon as possible. [![Telegram Chat](https://img.shields.io/badge/Telegram-Chat-0088cc.svg)](https://t.me/JFsDashSupport)
 
 ---
 
@@ -131,7 +130,6 @@ Just join our community and make a post. We'll help you as soon as possible. [![
 
 [![Follow on GitHub](https://img.shields.io/github/followers/jahirfiquitiva.svg?style=social&label=Follow)](https://github.com/jahirfiquitiva)
 [![Twitter Follow](https://img.shields.io/twitter/follow/jahirfiquitiva.svg?style=social)](https://twitter.com/jahirfiquitiva)
-[![Google+](https://img.shields.io/badge/Follow-Google%2B-ea4335.svg)](https://plus.google.com/+JahirFiquitivaR)
 
 If you found this app/library helpful and want to thank me, you can:
 
@@ -143,19 +141,19 @@ If you found this app/library helpful and want to thank me, you can:
 
 ## Special thanks 🙌
 
-- [Sherry Sabatine](https://plus.google.com/+SherrySabatine) 💵
+- [Sherry Sabatine](http://www.ssabatinephotography.com/) 💵
 - [Allan Wang](https://www.allanwang.ca/) 💻
 - [James Fenn](https://theandroidmaster.github.io/) 🔌
-- [Maximilian Keppeler](https://plus.google.com/+MaxKeppeler) 🔌
-- [Sasi Kanth](https://plus.google.com/+Sasikanth) 🔌
+- [Maximilian Keppeler](https://twitter.com/maxKeppeler) 🔌
+- [Sasi Kanth](https://twitter.com/its_sasikanth) 🔌
 - [Alexandre Piveteau](https://github.com/alexandrepiveteau) 💻
 - [Lukas Koller](https://github.com/kollerlukas) 🔌
-- [Patryk Goworowski](https://plus.google.com/+PatrykGoworowski) 🎨
-- [Lumiq Creative](https://plus.google.com/+LumiqCreative) 🎨
+- [Patryk Goworowski](https://twitter.com/pgoworowski) 🎨
+- [Lumiq Creative](https://lumiqcreative.com/) 🎨
 - [Jackson Hayes](https://jacksonhayes.xyz/) 📖
-- [Kevin Aguilar](http://kevaguilar.com/) 🎨
-- [Eduardo Pratti](https://plus.google.com/+EduardoPratti) 🎨
-- [Anthony Nguyen](https://plus.google.com/+AHNguyen) 🎨
+- [Kevin Aguilar](https://twitter.com/kevttob) 🎨
+- [Eduardo Pratti](https://pratti.design/) 🎨
+- [Anthony Nguyen](https://twitter.com/link6155) 🎨
 
 ---
 
@@ -163,7 +161,7 @@ If you found this app/library helpful and want to thank me, you can:
 
 This app is shared under the CreativeCommons Attribution-ShareAlike license.
 
-	Copyright © 2018 Jahir Fiquitiva
+	Copyright © 2019 Jahir Fiquitiva
 
 	Licensed under the CreativeCommons Attribution-ShareAlike 
 	4.0 International License. You may not use this file except in compliance 
