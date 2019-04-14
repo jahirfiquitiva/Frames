@@ -37,8 +37,17 @@
     <string name="permission_denied_completely">ストレージへのアクセスが拒否されました。設定で有効にする必要があります。</string>
     <string name="allow">許可</string>
     <string name="downloading_wallpaper">%1$s をダウンロードしています...</string>
-    <string name="download_successful">壁紙は、%1$s にダウンロードされました。</string>
+    <string name="download_successful">壁紙は、%1$s へダウンロードされました。</string>
     <string name="download_successful_short">壁紙のダウンロードが完了しました。</string>
+    <string name="open">開く</string>
+    <string name="file_replace">置き換え</string>
+    <string name="file_create_new">新規作成</string>
+    <string name="applying_wallpaper">%1$s を適用しています...</string>
+    <string name="apply_to">どこに適用しますか？：</string>
+    <string name="home_screen">ホーム画面</string>
+    <string name="lock_screen">ロック画面</string>
+    <string name="home_lock_screen">ホーム画面とロック画面</string>
+    <string name="apply_with_other_app">他のアプリで適用する</string>
     <string name="search_x">सर्च %1$s…</string>
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
     <!-- Light Theme -->
