@@ -21,6 +21,17 @@
     <string name="no_favorites">Add some wallpapers to favorites first</string>
     <string name="wallpapers">Wallpapers</string>
     <string name="collections">Collections</string>
+    <string name="x_wallpapers">%1$s個の壁紙</string>
+    <string name="all">全て</string>
+    <string name="favorites">お気に入り</string>
+    <string name="favorite">お気に入り</string>
+    <string name="added_to_favorites">%1$s はお気に入りに追加されました。</string>
+    <string name="removed_from_favorites">%1$s はお気に入りから削除されました。</string>
+    <string name="actions_dialog_content">この壁紙を使用しますか？</string>
+    <string name="apply">適用</string>
+    <string name="download">ダウンロード</string>
+    <string name="info">情報</string>
+    <string name="share">共有</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
     <string name="search_x">सर्च %1$s…</string>
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
