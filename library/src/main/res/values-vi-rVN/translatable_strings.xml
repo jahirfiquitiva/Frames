@@ -153,6 +153,7 @@ với internet</string>
     <string name="changelog">Thay đổi</string>
     <string name="dismiss">Bỏ qua</string>
     <string name="prevent_download_title">Tải về bị khóa</string>
+    <string name="prevent_download_content">Vì lý do bảo mật, tải hình nền là không thể cho %1$s giờ tới. Xin vui lòng thử lại sau.</string>
     <string name="legal">Pháp lý</string>
     <string name="privacy_policy">Chính sách bảo mật</string>
     <string name="terms_conditions">Điều khoản và điều kiện</string>
