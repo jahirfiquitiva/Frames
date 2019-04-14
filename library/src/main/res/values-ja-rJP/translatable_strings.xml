@@ -33,6 +33,12 @@
     <string name="info">情報</string>
     <string name="share">共有</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
+    <string name="permission_denied">ストレージへのアクセスが拒否されました。</string>
+    <string name="permission_denied_completely">ストレージへのアクセスが拒否されました。設定で有効にする必要があります。</string>
+    <string name="allow">許可</string>
+    <string name="downloading_wallpaper">%1$s をダウンロードしています...</string>
+    <string name="download_successful">壁紙は、%1$s にダウンロードされました。</string>
+    <string name="download_successful_short">壁紙のダウンロードが完了しました。</string>
     <string name="search_x">सर्च %1$s…</string>
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
     <!-- Light Theme -->
