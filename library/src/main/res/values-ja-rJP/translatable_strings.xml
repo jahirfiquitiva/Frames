@@ -48,6 +48,10 @@
     <string name="lock_screen">ロック画面</string>
     <string name="home_lock_screen">ホーム画面とロック画面</string>
     <string name="apply_with_other_app">他のアプリで適用する</string>
+    <string name="previous">前へ</string>
+    <string name="next">次へ</string>
+    <string name="wallpaper_details">詳細</string>
+    <string name="wallpaper_palette">パレット</string>
     <string name="search_x">सर्च %1$s…</string>
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
     <!-- Light Theme -->
