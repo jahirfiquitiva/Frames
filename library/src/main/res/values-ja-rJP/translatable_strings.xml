@@ -66,6 +66,10 @@
     <string name="dev_contributions">開発のヘルプ</string>
     <string name="ui_contributions">UIのヘルプ</string>
     <string name="dashboard_copyright">私は情熱的でクリエイティブなAndroid開発者であり、ダッシュボードの作成者です。</string>
+    <string name="sherry_description">学習に飽きることなく、そして進化を続ける女性、クリエイティブな写真家、そしてこのダッシュボードを可能にした人物。</string>
+    <string name="allan_description">最初はアイコンパックの作成者、そして次にテーマー、そして今は開発者でもあります。\n私はこのダッシュボードの開発の一部を手伝ってきました。</string>
+    <string name="settings">設定</string>
+    <string name="ui_settings_title">ユーザーインターフェイス</string>
     <!-- Light Theme -->
     <string name="light_theme">Light</string>
     <!-- Dark Theme -->
@@ -77,4 +81,10 @@
     <!-- License -->
     <!-- Muzei Settings -->
     <!-- Please use this character … -->
+    <string name="every_x">%1$sごと</string>
+    <string name="minutes">分</string>
+    <string name="hours">時間</string>
+    <string name="days">日</string>
+    <string name="refresh_only_on_wifi">Wi-Fiの時だけリフレッシュします。</string>
+    <string name="refresh_only_on_wifi_summary">デバイスがWi-Fiに接続されている場合にのみ、壁紙をリフレッシュします。</string>
 </resources>
