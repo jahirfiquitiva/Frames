@@ -52,7 +52,14 @@
     <string name="next">次へ</string>
     <string name="wallpaper_details">詳細</string>
     <string name="wallpaper_palette">パレット</string>
+    <string name="copied_to_clipboard">色がクリップボードにコピーされました。</string>
+    <string name="search">検索</string>
     <string name="search_x">सर्च %1$s…</string>
+    <string name="search_no_results">一致する結果が見つかりませんでした。</string>
+    <string name="about">私達について</string>
+    <string name="refresh">更新</string>
+    <string name="translate">翻訳</string>
+    <string name="licenses">ライセンス</string>
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
     <!-- Light Theme -->
     <string name="light_theme">Light</string>
