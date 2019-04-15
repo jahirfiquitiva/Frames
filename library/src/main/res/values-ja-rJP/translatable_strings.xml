@@ -48,6 +48,7 @@
     <string name="lock_screen">ロック画面</string>
     <string name="home_lock_screen">ホーム画面とロック画面</string>
     <string name="apply_with_other_app">他のアプリで適用する</string>
+    <string name="apply_successful_short">壁紙は正常に適用されました。</string>
     <string name="previous">前へ</string>
     <string name="next">次へ</string>
     <string name="wallpaper_details">詳細</string>
@@ -61,6 +62,10 @@
     <string name="translate">翻訳</string>
     <string name="licenses">ライセンス</string>
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+    <string name="frames_dashboard">Frames Dashboard</string>
+    <string name="dev_contributions">開発のヘルプ</string>
+    <string name="ui_contributions">UIのヘルプ</string>
+    <string name="dashboard_copyright">私は情熱的でクリエイティブなAndroid開発者であり、ダッシュボードの作成者です。</string>
     <!-- Light Theme -->
     <string name="light_theme">Light</string>
     <!-- Dark Theme -->
