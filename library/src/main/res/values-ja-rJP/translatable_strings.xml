@@ -87,4 +87,5 @@
     <string name="days">日</string>
     <string name="refresh_only_on_wifi">Wi-Fiの時だけリフレッシュします。</string>
     <string name="refresh_only_on_wifi_summary">デバイスがWi-Fiに接続されている場合にのみ、壁紙をリフレッシュします。</string>
+    <string name="choose_collections_title">コレクションを選択します。</string>
 </resources>
