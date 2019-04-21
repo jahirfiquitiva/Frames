@@ -38,14 +38,14 @@
     <string name="permission_denied_completely">تم رفض الوصول إلى إذن التخزين. سيكون عليك ان تمكنه يدوياً في الإعدادات.</string>
     <string name="permission_request">يتطلب امكانية الوصول للذاكرة من اجل ان تكون قادرا على تطبيق وتنزيل الخلفيات</string>
     <string name="allow">تسمح</string>
-    <string name="downloading_wallpaper">تحميل \'%1$s\'…</string>
+    <string name="downloading_wallpaper">تحميل \'%1$s\'...</string>
     <string name="download_successful">تم تحميل الخلفية بنجاح في \'%1$s\'</string>
     <string name="download_successful_short">تم تحميل الخلفية بنجاح</string>
     <string name="open">فتح</string>
     <string name="file_exists">تم تحميل الخلفية بالفعل. هل تريد التحميل ليحل محله؟</string>
     <string name="file_replace">استبدال</string>
     <string name="file_create_new">إنشاء جديد</string>
-    <string name="applying_wallpaper">تطبيق \'%1$s\'…</string>
+    <string name="applying_wallpaper">تطبيق \'%1$s\'...</string>
     <string name="apply_to">تطبيق ل:</string>
     <string name="home_screen">الشاشة الرئيسية</string>
     <string name="lock_screen">قفل الشاشة</string>
@@ -53,11 +53,13 @@
     <string name="apply_with_other_app">تفعيل عن طريق تطبيق اخر</string>
     <string name="apply_successful">تم تطبيق الخلفية بنجاح في \'%1$s</string>
     <string name="apply_successful_short">تم تطبيق الخلفية بنجاح</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
     <string name="wallpaper_details">تفاصيل</string>
     <string name="wallpaper_palette">لوح الألوان</string>
     <string name="copied_to_clipboard">تم نسخ اللون الي الحافظة</string>
     <string name="search">بحث</string>
-    <string name="search_x">البحث %1$s…</string>
+    <string name="search_x">البحث %1$s...</string>
     <string name="search_no_results">لم يتم العثور على نتائج</string>
     <string name="about">حول</string>
     <string name="refresh">تحديث</string>
@@ -69,12 +71,21 @@
     <string name="ui_contributions">تعليمات واجهة المستخدم</string>
     <string name="dashboard_copyright">انا مطور اندرويد متحمس ومبدع والذي قام بانشاء لوحة المعلومات.</string>
     <string name="sherry_description">An ever evolving woman who never tires of learning, creative photographer and the person who made this dashboard possible.</string>
+    <string name="allan_description">First an icon pack creator, then a themer, now also a developer.\nI have helped with part of this dashboard\'s development.</string>
     <string name="settings">إعدادات</string>
+    <string name="ui_settings_title">User Interface</string>
+    <string name="theme_setting_title">App theme</string>
+    <string name="theme_setting_content">Choose the main theme for the app</string>
     <!-- Light Theme -->
+    <string name="light_theme">Light</string>
     <!-- Dark Theme -->
+    <string name="dark_theme">داكن</string>
     <!-- Amoled Theme -->
+    <string name="amoled_theme">شاشة لمس</string>
     <!-- Transparent Theme -->
+    <string name="transparent_theme">Transparent Jjj</string>
     <!-- Automatic Light-Dark Theme -->
+    <string name="auto_dark">Hhhghhguhvhvvhjbbjjj</string>
     <!-- Automatic Light-Amoled Theme -->
     <!-- License -->
     <!-- Muzei Settings -->
