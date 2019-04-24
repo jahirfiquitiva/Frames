@@ -16,8 +16,8 @@
   ~ limitations under the License.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="empty_section">Nothing found</string>
-    <string name="loading_section">Loading content…</string>
+    <string name="empty_section">Tidak ditemukan</string>
+    <string name="loading_section">Bagian pemuatan…</string>
     <string name="no_favorites">Add some wallpapers to favorites first</string>
     <string name="wallpapers">Wallpapers</string>
     <string name="collections">Collections</string>
@@ -53,6 +53,8 @@
     <string name="apply_with_other_app">Terapkan dengan aplikasi lain</string>
     <string name="apply_successful">Wallpaper berhasil diterapkan untuk %1$s</string>
     <string name="apply_successful_short">Wallpaper berhasil diterapkan</string>
+    <string name="previous">Sebelum</string>
+    <string name="next">Lanjut</string>
     <string name="wallpaper_details">Rincian</string>
     <string name="wallpaper_palette">Palet</string>
     <string name="copied_to_clipboard">Warna disalin ke clipboard</string>
