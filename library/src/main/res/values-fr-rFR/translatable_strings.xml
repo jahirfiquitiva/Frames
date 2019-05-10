@@ -17,8 +17,8 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="empty_section">Aucun(s) résultat(s)</string>
-    <string name="loading_section">Chargement du contenu...</string>
-    <string name="no_favorites">Ajoutez d\'abord quelques fonds d\'écran aux favoris</string>
+    <string name="loading_section">Loading content…</string>
+    <string name="no_favorites">Add some wallpapers to favorites first</string>
     <string name="wallpapers">Fonds d\'écran</string>
     <string name="collections">Collections</string>
     <string name="x_wallpapers">%1$s fonds d\'écran</string>
