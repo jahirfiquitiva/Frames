@@ -87,6 +87,7 @@
     <!-- Automatic Light-Dark Theme -->
     <string name="auto_dark">Hhhghhguhvhvvhjbbjjj</string>
     <!-- Automatic Light-Amoled Theme -->
+    <string name="auto_amoled">الضوء التلقائي-شاشة لمس</string>
     <!-- License -->
     <!-- Muzei Settings -->
     <string name="muzei_settings">اعدادات Muzei</string>
