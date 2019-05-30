@@ -16,6 +16,17 @@
   ~ limitations under the License.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="empty_section">Mitään ei löytynyt</string>
+    <string name="loading_section">Lataa sisältöä…</string>
+    <string name="no_favorites">Lisää taustakuvia suosikkeihin ensin</string>
+    <string name="wallpapers">Taustakuvat</string>
+    <string name="collections">Kokoelmat</string>
+    <string name="x_wallpapers">%1$s taustakuvaa</string>
+    <string name="all">Kaikki</string>
+    <string name="favorites">Suosikit</string>
+    <string name="favorite">Suosikki</string>
+    <string name="added_to_favorites">\'%1$s\' lisättiin suosikkeihin.</string>
+    <string name="removed_from_favorites">\'%1$s\' poistettiin suosikeista.</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
     <!-- Light Theme -->
