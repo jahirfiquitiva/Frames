@@ -105,7 +105,26 @@
     <string name="choose_folder">Valitse</string>
     <string name="data_cache_setting_title">Tyhjennä sovelluksen tiedot ja välimuisti</string>
     <string name="data_cache_setting_content">Tämä tyhjentää sovelluksen välimuistin ja asetukset.\nNykyisen välimuistin koko: %1$s</string>
+    <string name="data_cache_confirmation">Oletko varma että haluat poistaa kaikki sovelluksen tiedot, välimuistin ja asetukset?</string>
+    <string name="clear_favorites_setting_title">Tyhjennä suosikkitietokanta</string>
+    <string name="clear_favorites_setting_content">Tyhjennä suosikkiluettelo</string>
+    <string name="clear_favorites_confirmation">Oletko varma, että haluat tyhjentää suosikkitietokantasi?</string>
     <!-- License -->
+    <string name="license_valid_title">Lisenssi aito</string>
+    <string name="license_valid_content">Kiitos, että latasit %1$s oikeasta kaupasta. Nauti!</string>
+    <string name="license_valid_snack">Lisennsi aito. Kiitos kun latasit %1$s. Nauti!</string>
+    <string name="license_invalid_title">You shall not pass!</string>
+    <string name="license_invalid_content">Pahoittelut, mutta huomasimme että lisenssisi %1$s ei ole aito. Tämä voi johtua siitä, että piratoit sovelluksia. %2$s. Jos olet sitä mieltä, että tämä on virhe, yritä myöhemmin uudelleen. Muutoin, lataa sovellus oikeasta kaupasta.</string>
+    <string name="license_invalid_content_extra">Tai tarkemmin: \'%1$s\' sovellus, joten poistaisitko sen</string>
+    <string name="error_title">Virhe</string>
+    <string name="action_error_content">Pahoittelut, sattui odottamaton virhe.</string>
+    <string name="license_error_content">Pahoittelut, lisenssin tarkastuksessa sattui virhe. Yritä myöhemmin uudelleen.</string>
+    <string name="try_now">Kokeile nyt</string>
+    <string name="donate">Lahjoita</string>
+    <string name="donate_success_title">Kiitos</string>
+    <string name="donate_success_content">Suuri kiitos lahjoituksestasi. Arvostan sitä ja olen iloinen että nautit %1$s.</string>
+    <string name="donate_error">Odottamaton virhekoodi %1$s sattui syystä %2$s</string>
+    <string name="donate_error_unknown">tuntemattomat syyt</string>
     <string name="loading">Ladataan…</string>
     <string name="close">Sulje</string>
     <!-- Muzei Settings -->
