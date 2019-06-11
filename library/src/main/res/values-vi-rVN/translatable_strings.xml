@@ -124,7 +124,7 @@
     <string name="donate_success_title">Cảm ơn</string>
     <string name="donate_success_content">Cảm ơn bạn rất nhiều cho tiền của bạn. Tôi thực sự đánh giá cao nó, và tôi vui mừng bạn đang thưởng thức %1$s.</string>
     <string name="donate_error">Lỗi bất ngờ với mã %1$s xảy ra do %2$s</string>
-    <string name="donate_error_unknown">unknown reasons</string>
+    <string name="donate_error_unknown">không rõ lý do</string>
     <string name="loading">Đang tải…</string>
     <string name="close">Đóng</string>
     <!-- Muzei Settings -->
