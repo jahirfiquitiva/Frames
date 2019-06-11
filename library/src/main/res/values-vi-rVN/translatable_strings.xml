@@ -16,11 +16,11 @@
   ~ limitations under the License.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="empty_section">Không có kết quả!</string>
+    <string name="empty_section">Không tìm thấy kết quả</string>
     <string name="loading_section">Tải nội dung...</string>
-    <string name="no_favorites">Thêm một số hình nền yêu thích đầu tiên</string>
+    <string name="no_favorites">Thêm một số hình nền yêu thích</string>
     <string name="wallpapers">Hình nền</string>
-    <string name="collections">Các bộ sưu tập</string>
+    <string name="collections">Bộ sưu tập</string>
     <string name="x_wallpapers">%1$s hình nền</string>
     <string name="all">Tất cả</string>
     <string name="favorites">Yêu thích</string>
@@ -85,9 +85,9 @@
     <!-- Transparent Theme -->
     <string name="transparent_theme">Trong suốt</string>
     <!-- Automatic Light-Dark Theme -->
-    <string name="auto_dark">Tự động ánh sáng-tối</string>
+    <string name="auto_dark">Chủ đề Sáng-Tối tự động</string>
     <!-- Automatic Light-Amoled Theme -->
-    <string name="auto_amoled">Ánh sáng tự động-Amoled</string>
+    <string name="auto_amoled">Chủ đề Sáng-Amoled tự động</string>
     <string name="navbar_color_setting_title">Màu thanh điều hướng</string>
     <string name="navbar_color_setting_content">Thanh điều hướng màu với màu tối chính của ứng dụng</string>
     <string name="wallpapers_columns_setting_title">Hình nền cột</string>
