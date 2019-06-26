@@ -16,24 +16,129 @@
   ~ limitations under the License.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="empty_section">العثور على أي شيء</string>
+    <string name="empty_section">لم يتم العثور على شيء</string>
     <string name="loading_section">تحميل المحتوى…</string>
-    <string name="no_favorites">أضف بعض الخلفيات إلى قائمة المفضلة أولا</string>
-    <string name="wallpapers">خلفيات</string>
-    <string name="collections">تجميعات</string>
-    <string name="x_wallpapers">خلفيات%1$s</string>
+    <string name="no_favorites">إضافة بعض خلفيات للمفضلة أولاً</string>
+    <string name="wallpapers">الخلفيات</string>
+    <string name="collections">المختارات</string>
+    <string name="x_wallpapers">%1$s خلفيات شاشة</string>
     <string name="all">الكل</string>
-    <string name="favorites">قائمة المفضلة</string>
-    <string name="favorite">مفضلة</string>
+    <string name="favorites">المفضلة</string>
+    <string name="favorite">المفضلة</string>
+    <string name="added_to_favorites">وقد أضيفت \'%1$s\' إلى المفضلة.</string>
+    <string name="removed_from_favorites">تم إزالة من المفضلة \'%1$s\'.</string>
+    <string name="actions_dialog_content">ماذا تريد أن تفعل مع هذه الصورة؟</string>
+    <string name="apply">تطبيق</string>
+    <string name="download">تحميل</string>
+    <string name="info">معلومات</string>
+    <string name="share">مشاركة</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
+    <string name="share_text">جدران بلدي لهذا اليوم هو %1$s ، %2$sمن %3$s.\nالحصول عليه الآن في %4$s</string>
+    <string name="permission_denied">تم رفض الوصول</string>
+    <string name="permission_denied_completely">تم رفض الوصول إلى اذن التخزين سيكون لديك لتمكينه يدوياً في الإعدادات.</string>
+    <string name="permission_request">%1$s يتطلب الوصول إلى التخزين من أجل أن تكون قادرة على تطبيق وإنقاذ خلفيات</string>
+    <string name="allow">السماح</string>
+    <string name="downloading_wallpaper">جارٍ تنزيل %1$s…</string>
+    <string name="download_successful">خلفية تحميلها بنجاح إلى \'%1$s\'</string>
+    <string name="download_successful_short">تم تعيبن الخلفية بنجاح</string>
+    <string name="open">فتح</string>
+    <string name="file_exists">يتم بالفعل تحميل خلفية. هل تريد تحميل ليحل محله؟</string>
+    <string name="file_replace">إستبدال</string>
+    <string name="file_create_new">إنشاء جديد</string>
+    <string name="applying_wallpaper">تطبيق \'%1$s\'…</string>
+    <string name="apply_to">تطبيق على:</string>
+    <string name="home_screen">الشاشة الرئيسية</string>
+    <string name="lock_screen">قفل الشاشة</string>
+    <string name="home_lock_screen">الشاشة الرئيسية وشاشة التأمين</string>
+    <string name="apply_with_other_app">تطبيق مع التطبيقات الأخرى</string>
+    <string name="apply_successful">تم تطبيق الخلفيه بنجاح %1$s</string>
+    <string name="apply_successful_short">تم تطبيق الخلفيه بنجاح</string>
+    <string name="wallpaper_details">التفاصيل</string>
+    <string name="wallpaper_palette">لوحة الألوان</string>
+    <string name="copied_to_clipboard">نُسِخَ إلى الحافظة</string>
+    <string name="search">البحث</string>
+    <string name="search_x">البحث في %1$s عن…</string>
+    <string name="search_no_results">لم يتم العثور على نتائج</string>
+    <string name="about">حول</string>
+    <string name="refresh">تحديث</string>
+    <string name="translate">ترجمة</string>
+    <string name="licenses">الترخيص</string>
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+    <string name="frames_dashboard">لوحة الإطارات</string>
+    <string name="dev_contributions">مساعدة التنمية</string>
+    <string name="ui_contributions">تعليمات واجهة المستخدم</string>
+    <string name="settings">الاعدادات</string>
+    <string name="ui_settings_title">واجهة المستخدم</string>
+    <string name="theme_setting_title">موضوع التطبيق</string>
+    <string name="theme_setting_content">اختر الموضوع الرئيسي للتطبيق</string>
     <!-- Light Theme -->
+    <string name="light_theme">فاتح</string>
     <!-- Dark Theme -->
+    <string name="dark_theme">داكن</string>
     <!-- Amoled Theme -->
+    <string name="amoled_theme">شاشة لمس</string>
     <!-- Transparent Theme -->
+    <string name="transparent_theme">شفّاف</string>
     <!-- Automatic Light-Dark Theme -->
+    <string name="auto_dark">الضوء التلقائي--الظلام</string>
     <!-- Automatic Light-Amoled Theme -->
+    <string name="auto_amoled">الضوء التلقائي-شاشة لمس</string>
+    <string name="navbar_color_setting_title">شريط التنقل ملون</string>
+    <string name="navbar_color_setting_content">لون شريط التنقل مع اللون الداكن الأساسي للتطبيق</string>
+    <string name="wallpapers_columns_setting_title">خلفيات الأعمدة</string>
+    <string name="wallpapers_columns_setting_content">اختر مقدار الأعمدة التي تريد مشاهدتها لخلفيات</string>
+    <string name="animations_setting_title">تمكين الرسوم المتحركة</string>
+    <string name="animations_setting_content">قد يتسبب هذا بالتأخير في بعض الأجهزة.</string>
+    <string name="load_hi_res_pictures_title">معاينات كامل القرار</string>
+    <string name="load_hi_res_pictures_content">تحميل الصور بالدقة الكاملة في الشبكة</string>
+    <string name="deep_search_title">تمكين البحث العميق</string>
+    <string name="deep_search_content">البحث حسب الاسم و الجمع</string>
+    <string name="storage_settings_title">التخزين</string>
+    <string name="wallpapers_download_location_setting_title">موقع تحميل الخلفيات</string>
+    <string name="wallpapers_download_location_setting_content">تغيير موقع تحميل خلفيات.\nالموقع الحالي: %1$s</string>
+    <string name="create_folder">إنشاء مجلد</string>
+    <string name="choose_folder">اختيار</string>
+    <string name="data_cache_setting_title">حذف بيانات التطبيق والكاش</string>
+    <string name="data_cache_setting_content">سيؤدي هذا إلى حذف ذاكرة التخزين المؤقت للتطبيق، والأفضليات. حجم ذاكرة التخزين المؤقت الحالي\n: %1$s</string>
+    <string name="data_cache_confirmation">هل أنت متأكد من أنك تريد حذف بيانات التطبيق، ذاكرة التخزين المؤقت وإعدادات؟</string>
+    <string name="clear_favorites_setting_title">مسح قاعدة بيانات المفضله</string>
+    <string name="clear_favorites_setting_content">مسح قائمة الخلفيات المفضلة الخاصة بك</string>
+    <string name="clear_favorites_confirmation">هل أنت متأكد من أنك تريد حذف قاعدة البيانات المفضلة؟</string>
     <!-- License -->
+    <string name="error_title">خطأ</string>
+    <string name="try_now">جرّب الآن</string>
+    <string name="donate">التبرع</string>
+    <string name="donate_success_title">شكرا لك</string>
+    <string name="donate_success_content">شكرا جزيلا للتبرع. أقدر عليه، وأنا سعيد لأنك تتمتع %1$s.</string>
+    <string name="donate_error">حدث خطأ غير متوقع مع رمز %1$s سبب %2$s</string>
+    <string name="donate_error_unknown">أسباب غير معروفة</string>
+    <string name="loading">تحميل…</string>
     <!-- Muzei Settings -->
     <!-- Please use this character … -->
+    <string name="refresh_wallpapers_every">تحديث خلفيات…</string>
+    <string name="every_x">كل %1$s</string>
+    <string name="minutes">دقيقة</string>
+    <string name="hours">ساعات</string>
+    <string name="days">أيام</string>
+    <string name="refresh_only_on_wifi">تحديث على وأي فأي فقط</string>
+    <string name="refresh_only_on_wifi_summary">تحديث خلفيات فقط عند توصيل الجهاز بشبكة وأي فأي.</string>
+    <string name="choose_collections_title">اختر مجموعات</string>
+    <string name="choose_collections_summary">اختر المجموعات تتخذ من خلفيات. الحالي تحديد المجموعات: %1$s</string>
+    <string name="muzei_not_connected_title">غير متصل بالإنترنت</string>
+    <string name="muzei_not_connected_content">عذراً، لكي تكون قادراً على اختيار أو تغيير المجموعات التي تريد التطبيق لاتخاذ خلفيات من، يجب أن تكون متصلاً بإنترنت. الرجاء المحاولة مرة أخرى لاحقاً.</string>
+    <string name="sure_to_exit">خروج</string>
+    <string name="sure_to_exit_content">هل تريد حفظ الإعدادات الخاصة بك قبل الخروج؟</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="not_connected_content">ولسوء الحظ أن هذا الإجراء يتطلب اتصال إنترنت. الرجاء المحاولة مرة أخرى لاحقاً.</string>
+    <string name="new_wallpapers_available">%1$s خلفيات جديدة متوفرة. انقر للتحقق منها!</string>
+    <string name="notifications_title">الإشعارات</string>
+    <string name="enable_notifications">تفعيل الإشعارات</string>
+    <string name="changelog">سِجل التغييرات</string>
+    <string name="dismiss">تجاهل</string>
+    <string name="prevent_download_title">التنزيلات مؤمن</string>
+    <string name="prevent_download_content">لأسباب أمنية، تحميل خلفيات غير ممكن للساعات القادمة %1$s. الرجاء المحاولة مرة أخرى لاحقاً.</string>
+    <string name="legal">القانونية</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="terms_conditions">الشروط والأحكام</string>
 </resources>
