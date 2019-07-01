@@ -16,6 +16,9 @@
   ~ limitations under the License.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="x_wallpapers">%1$s fondos de pantalla</string>
+    <string name="all">Όλες</string>
+    <string name="favorites">αγαπημένο</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
     <!-- Light Theme -->
