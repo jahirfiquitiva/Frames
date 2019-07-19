@@ -53,6 +53,8 @@
     <string name="apply_with_other_app">以其他應用程式套用</string>
     <string name="apply_successful">已成功設定桌布至%1$s</string>
     <string name="apply_successful_short">已成功設定桌布</string>
+    <string name="previous">上一個</string>
+    <string name="next">下一個</string>
     <string name="wallpaper_details">詳情</string>
     <string name="wallpaper_palette">調色盤</string>
     <string name="copied_to_clipboard">複製顏色</string>
@@ -64,6 +66,7 @@
     <string name="translate">翻譯</string>
     <string name="licenses">許可認證</string>
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+    <string name="frames_dashboard">Frames 控制台</string>
     <string name="dev_contributions">開發幫助</string>
     <string name="ui_contributions">UI設計幫助</string>
     <string name="sherry_description">一個不斷進步，活到老學到老的人。</string>
@@ -88,6 +91,12 @@
     <string name="navbar_color_setting_content">應用基礎顏色導航欄</string>
     <string name="wallpapers_columns_setting_title">壁紙行數</string>
     <string name="wallpapers_columns_setting_content">選擇壁紙行數</string>
+    <string name="animations_setting_title">啟用動畫</string>
+    <string name="animations_setting_content">可能於部分裝置存在效能問題</string>
+    <string name="load_hi_res_pictures_title">高解析度預覽</string>
+    <string name="load_hi_res_pictures_content">顯示高解析度預覽圖</string>
+    <string name="deep_search_title">啟用深度搜尋</string>
+    <string name="deep_search_content">透過名稱及類別名搜尋</string>
     <string name="storage_settings_title">存儲</string>
     <string name="wallpapers_download_location_setting_title">壁紙下載路徑</string>
     <string name="wallpapers_download_location_setting_content">改變壁紙下載路徑。 \n當前路徑:%1$s</string>
@@ -134,4 +143,12 @@
     <string name="sure_to_exit_content">在你退出之前你想保存你的設置嗎？</string>
     <string name="yes">是的</string>
     <string name="no">不</string>
+    <string name="notifications_title">通知</string>
+    <string name="enable_notifications">啟用通知</string>
+    <string name="changelog">變更記錄</string>
+    <string name="dismiss">取消</string>
+    <string name="prevent_download_title">已封鎖下載</string>
+    <string name="legal">合法</string>
+    <string name="privacy_policy">隱私權條款</string>
+    <string name="terms_conditions">服務條款</string>
 </resources>
