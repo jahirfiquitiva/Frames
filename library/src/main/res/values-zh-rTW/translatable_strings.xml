@@ -106,7 +106,7 @@
     <string name="data_cache_setting_content">這將會清除緩存和設置。 \n當前緩存：%1$s</string>
     <string name="data_cache_confirmation">確定清除應用數據、緩存和設置？</string>
     <string name="clear_favorites_setting_title">清除收藏數據</string>
-    <string name="clear_favorites_setting_content">清除你的壁紙收藏列表</string>
+    <string name="clear_favorites_setting_content">清除桌布收藏列表</string>
     <string name="clear_favorites_confirmation">你確定要清除你的收藏數據嗎？</string>
     <!-- License -->
     <string name="license_valid_title">許可有效</string>
@@ -128,17 +128,17 @@
     <!-- Muzei Settings -->
     <string name="muzei_settings">Muzei設置</string>
     <!-- Please use this character … -->
-    <string name="refresh_wallpapers_every">壁紙刷新...</string>
+    <string name="refresh_wallpapers_every">重新載入桌布…</string>
     <string name="every_x">每一個%1$s</string>
     <string name="minutes">分鐘</string>
     <string name="hours">小時</string>
     <string name="days">天</string>
     <string name="refresh_only_on_wifi">僅在Wifi環境下刷新</string>
-    <string name="refresh_only_on_wifi_summary">設備僅在Wifi環境下進行壁紙刷新。</string>
+    <string name="refresh_only_on_wifi_summary">僅在 Wi-Fi 環境下重新載入桌布</string>
     <string name="choose_collections_title">選擇收藏集</string>
-    <string name="choose_collections_summary">選擇壁紙收藏集。當前選中的收藏集：%1$s</string>
+    <string name="choose_collections_summary">選擇桌布收藏集。目前選取的收藏集：%1$s</string>
     <string name="muzei_not_connected_title">無網絡連接</string>
-    <string name="muzei_not_connected_content">對不起，您無法選擇壁紙的收藏集，您必須連接到網絡，請稍後再試。</string>
+    <string name="muzei_not_connected_content">很抱歉，您必須連接到網路才可進行此操作，請稍後再試。</string>
     <string name="sure_to_exit">退出</string>
     <string name="sure_to_exit_content">在你退出之前你想保存你的設置嗎？</string>
     <string name="yes">是的</string>
