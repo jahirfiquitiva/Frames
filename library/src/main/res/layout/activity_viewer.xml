@@ -14,61 +14,12 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/viewerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <jahirfiquitiva.libs.ziv.ZoomableImageView
-        android:id="@+id/wallpaper"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
-
-    <ProgressBar
-        android:id="@+id/loading"
-        style="?android:progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:clickable="false"
-        android:focusable="false" />
-
-    <include layout="@layout/viewer_bottom_bar" />
-
-    <jahirfiquitiva.libs.kext.ui.widgets.SquaredImageView
-        android:id="@+id/go_previous"
-        android:layout_width="@dimen/viewer_arrow_size"
-        android:layout_height="@dimen/viewer_arrow_size"
-        android:minHeight="@dimen/viewer_arrow_size"
-        android:padding="@dimen/viewer_arrow_padding"
-        android:layout_marginStart="@dimen/viewer_arrow_margin"
-        android:layout_marginLeft="@dimen/viewer_arrow_margin"
-        android:layout_gravity="center_vertical|start"
-        android:background="@drawable/ic_go_bg"
-        android:scaleType="center"
-        android:foreground="?actionBarItemBackground"
-        app:srcCompat="@drawable/ic_go_previous"
-        tools:ignore="UnusedAttribute" />
-
-    <jahirfiquitiva.libs.kext.ui.widgets.SquaredImageView
-        android:id="@+id/go_next"
-        android:layout_width="@dimen/viewer_arrow_size"
-        android:layout_height="@dimen/viewer_arrow_size"
-        android:minHeight="@dimen/viewer_arrow_size"
-        android:padding="@dimen/viewer_arrow_padding"
-        android:layout_marginEnd="@dimen/viewer_arrow_margin"
-        android:layout_marginRight="@dimen/viewer_arrow_margin"
-        android:layout_gravity="center_vertical|end"
-        android:background="@drawable/ic_go_bg"
-        android:scaleType="center"
-        android:foreground="?actionBarItemBackground"
-        app:srcCompat="@drawable/ic_go_next"
-        tools:ignore="UnusedAttribute" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -117,4 +68,59 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-</FrameLayout>
+    <FrameLayout
+        android:id="@+id/viewerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <jahirfiquitiva.libs.ziv.ZoomableImageView
+            android:id="@+id/wallpaper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <ProgressBar
+            android:id="@+id/loading"
+            style="?android:progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:clickable="false"
+            android:focusable="false" />
+
+        <include layout="@layout/viewer_bottom_bar" />
+
+        <jahirfiquitiva.libs.kext.ui.widgets.SquaredImageView
+            android:id="@+id/go_previous"
+            android:layout_width="@dimen/viewer_arrow_size"
+            android:layout_height="@dimen/viewer_arrow_size"
+            android:minHeight="@dimen/viewer_arrow_size"
+            android:padding="@dimen/viewer_arrow_padding"
+            android:layout_marginStart="@dimen/viewer_arrow_margin"
+            android:layout_marginLeft="@dimen/viewer_arrow_margin"
+            android:layout_gravity="center_vertical|start"
+            android:background="@drawable/ic_go_bg"
+            android:scaleType="center"
+            android:foreground="?actionBarItemBackground"
+            app:srcCompat="@drawable/ic_go_previous"
+            tools:ignore="UnusedAttribute" />
+
+        <jahirfiquitiva.libs.kext.ui.widgets.SquaredImageView
+            android:id="@+id/go_next"
+            android:layout_width="@dimen/viewer_arrow_size"
+            android:layout_height="@dimen/viewer_arrow_size"
+            android:minHeight="@dimen/viewer_arrow_size"
+            android:padding="@dimen/viewer_arrow_padding"
+            android:layout_marginEnd="@dimen/viewer_arrow_margin"
+            android:layout_marginRight="@dimen/viewer_arrow_margin"
+            android:layout_gravity="center_vertical|end"
+            android:background="@drawable/ic_go_bg"
+            android:scaleType="center"
+            android:foreground="?actionBarItemBackground"
+            app:srcCompat="@drawable/ic_go_next"
+            tools:ignore="UnusedAttribute" />
+
+    </FrameLayout>
+
+</RelativeLayout>

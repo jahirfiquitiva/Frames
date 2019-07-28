@@ -29,6 +29,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
@@ -44,7 +45,6 @@ import ca.allanwang.kau.utils.contentView
 import ca.allanwang.kau.utils.dpToPx
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.isNetworkAvailable
-import ca.allanwang.kau.utils.navigationBarColor
 import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.setMarginBottom
 import ca.allanwang.kau.utils.setMarginTop
@@ -175,7 +175,10 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         super.onCreate(savedInstanceState)
         
         enableTranslucentStatusBar()
-        navigationBarColor = Color.parseColor("#66000000")
+        // navigationBarColor = Color.parseColor("#66000000")
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
+            WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
         
         setContentView(R.layout.activity_viewer)
         framesPostponeEnterTransition()
