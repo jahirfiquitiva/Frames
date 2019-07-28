@@ -40,7 +40,7 @@ ext.versions = [
         glide                : '4.9.0',
         kext                 : '50cfd9b',
         sectionedRecyclerView: 'ab5709a',
-        rvFastScroll         : '2f23ae1',
+        rvFastScroll         : '67cdb7e',
         chips                : '0.1.1',
         iaps                 : '1.1.0',
         muzeiApi             : '3.1.0',
