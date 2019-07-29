@@ -21,9 +21,55 @@
     <string name="no_favorites">Add some wallpapers to favorites first</string>
     <string name="wallpapers">Wallpapers</string>
     <string name="collections">Collections</string>
+    <string name="x_wallpapers">%1$s個の壁紙</string>
+    <string name="all">全て</string>
+    <string name="favorites">お気に入り</string>
+    <string name="favorite">お気に入り</string>
+    <string name="added_to_favorites">%1$s はお気に入りに追加されました。</string>
+    <string name="removed_from_favorites">%1$s はお気に入りから削除されました。</string>
+    <string name="actions_dialog_content">この壁紙を使用しますか？</string>
+    <string name="apply">適用</string>
+    <string name="download">ダウンロード</string>
+    <string name="info">情報</string>
+    <string name="share">共有</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
+    <string name="permission_denied">ストレージへのアクセスが拒否されました。</string>
+    <string name="permission_denied_completely">ストレージへのアクセスが拒否されました。設定で有効にする必要があります。</string>
+    <string name="allow">許可</string>
+    <string name="downloading_wallpaper">%1$s をダウンロードしています...</string>
+    <string name="download_successful">壁紙は、%1$s へダウンロードされました。</string>
+    <string name="download_successful_short">壁紙のダウンロードが完了しました。</string>
+    <string name="open">開く</string>
+    <string name="file_replace">置き換え</string>
+    <string name="file_create_new">新規作成</string>
+    <string name="applying_wallpaper">%1$s を適用しています...</string>
+    <string name="apply_to">どこに適用しますか？：</string>
+    <string name="home_screen">ホーム画面</string>
+    <string name="lock_screen">ロック画面</string>
+    <string name="home_lock_screen">ホーム画面とロック画面</string>
+    <string name="apply_with_other_app">他のアプリで適用する</string>
+    <string name="apply_successful_short">壁紙は正常に適用されました。</string>
+    <string name="previous">前へ</string>
+    <string name="next">次へ</string>
+    <string name="wallpaper_details">詳細</string>
+    <string name="wallpaper_palette">パレット</string>
+    <string name="copied_to_clipboard">色がクリップボードにコピーされました。</string>
+    <string name="search">検索</string>
     <string name="search_x">सर्च %1$s…</string>
+    <string name="search_no_results">一致する結果が見つかりませんでした。</string>
+    <string name="about">私達について</string>
+    <string name="refresh">更新</string>
+    <string name="translate">翻訳</string>
+    <string name="licenses">ライセンス</string>
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+    <string name="frames_dashboard">Frames Dashboard</string>
+    <string name="dev_contributions">開発のヘルプ</string>
+    <string name="ui_contributions">UIのヘルプ</string>
+    <string name="dashboard_copyright">私は情熱的でクリエイティブなAndroid開発者であり、ダッシュボードの作成者です。</string>
+    <string name="sherry_description">学習に飽きることなく、そして進化を続ける女性、クリエイティブな写真家、そしてこのダッシュボードを可能にした人物。</string>
+    <string name="allan_description">最初はアイコンパックの作成者、そして次にテーマー、そして今は開発者でもあります。\n私はこのダッシュボードの開発の一部を手伝ってきました。</string>
+    <string name="settings">設定</string>
+    <string name="ui_settings_title">ユーザーインターフェイス</string>
     <!-- Light Theme -->
     <string name="light_theme">Light</string>
     <!-- Dark Theme -->
@@ -35,4 +81,11 @@
     <!-- License -->
     <!-- Muzei Settings -->
     <!-- Please use this character … -->
+    <string name="every_x">%1$sごと</string>
+    <string name="minutes">分</string>
+    <string name="hours">時間</string>
+    <string name="days">日</string>
+    <string name="refresh_only_on_wifi">Wi-Fiの時だけリフレッシュします。</string>
+    <string name="refresh_only_on_wifi_summary">デバイスがWi-Fiに接続されている場合にのみ、壁紙をリフレッシュします。</string>
+    <string name="choose_collections_title">コレクションを選択します。</string>
 </resources>

@@ -53,6 +53,8 @@
     <string name="apply_with_other_app">Anvend med andre apps</string>
     <string name="apply_successful">Baggrund anvendt til %1$s</string>
     <string name="apply_successful_short">Baggrund anvendt med succes</string>
+    <string name="previous">Tidligere</string>
+    <string name="next">Næste</string>
     <string name="wallpaper_details">Detaljer</string>
     <string name="wallpaper_palette">Palette</string>
     <string name="copied_to_clipboard">Farve kopiret til udklipsholder</string>
@@ -148,4 +150,11 @@ Prøv igen senere.</string>
     <string name="new_wallpapers_available">%1$s nye baggrund tilgængelige. Tryk for at se dem!</string>
     <string name="notifications_title">Notifikationer</string>
     <string name="enable_notifications">Aktivere notifikationer</string>
+    <string name="changelog">Ændringslog</string>
+    <string name="dismiss">Afvis</string>
+    <string name="prevent_download_title">Downloads låst</string>
+    <string name="prevent_download_content">Af sikkerhedsmæssige årsager, downloadning af wallpapers er ikke mulig for de næste %1$s timer. Prøv igen senere.</string>
+    <string name="legal">Lovlig</string>
+    <string name="privacy_policy">Privatpolitik</string>
+    <string name="terms_conditions">Vilkår og betingelser</string>
 </resources>
