@@ -53,6 +53,8 @@
     <string name="apply_with_other_app">Applica con un\' altra app</string>
     <string name="apply_successful">Sfondo applicato con successo a %1$s</string>
     <string name="apply_successful_short">Sfondo applicato con successo</string>
+    <string name="previous">Precedente</string>
+    <string name="next">Successivo</string>
     <string name="wallpaper_details">Dettagli</string>
     <string name="wallpaper_palette">Tavolozza</string>
     <string name="copied_to_clipboard">Colore copiato negli appunti</string>
