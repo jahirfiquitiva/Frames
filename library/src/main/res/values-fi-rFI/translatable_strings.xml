@@ -16,15 +16,144 @@
   ~ limitations under the License.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="empty_section">Mitään ei löytynyt</string>
+    <string name="loading_section">Lataa sisältöä…</string>
+    <string name="no_favorites">Lisää taustakuvia suosikkeihin ensin</string>
+    <string name="wallpapers">Taustakuvat</string>
+    <string name="collections">Kokoelmat</string>
+    <string name="x_wallpapers">%1$s taustakuvaa</string>
+    <string name="all">Kaikki</string>
+    <string name="favorites">Suosikit</string>
+    <string name="favorite">Suosikki</string>
+    <string name="added_to_favorites">\'%1$s\' lisättiin suosikkeihin.</string>
+    <string name="removed_from_favorites">\'%1$s\' poistettiin suosikeista.</string>
+    <string name="actions_dialog_content">Mitä haluaisit tehdä tällä taustakuvalla?</string>
+    <string name="apply">Käytä</string>
+    <string name="download">Lataa</string>
+    <string name="info">Tiedot</string>
+    <string name="share">Jaa</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
+    <string name="share_text">Taustakuvani on tänään %1$s, tehnyt %2$s, lähteestä %3$s\nHae se nyt %4$s</string>
+    <string name="permission_denied">Pääsy tallennustilaan evättiin</string>
+    <string name="permission_denied_completely">Pääsy tallennustilaan evättiin. Sinun täytyy aktivoida se asetuksista.</string>
+    <string name="permission_request">%1$s tarvitsee pääsyn tallennustilaan tallenttaksensa ja asettaaksensa taustakuvia</string>
+    <string name="allow">Salli</string>
+    <string name="downloading_wallpaper">Ladataan \'%1$s\'…</string>
+    <string name="download_successful">Taustakuva ladattu onnistuneesti kohteeseen \'%1$s\'</string>
+    <string name="download_successful_short">Taustakuva ladattu onnistuneesti</string>
+    <string name="open">Avaa</string>
+    <string name="file_exists">Taustakuva on jo ladattu. Haluatko ladata ja korvata sen?</string>
+    <string name="file_replace">Korvaa</string>
+    <string name="file_create_new">Luo uusi</string>
+    <string name="applying_wallpaper">Asetetaan \'%1$s\'…</string>
+    <string name="apply_to">Aseta kohteeseen:</string>
+    <string name="home_screen">Kotinäyttö</string>
+    <string name="lock_screen">Lukitusnäyttö</string>
+    <string name="home_lock_screen">Koti- ja lukitusnäytöt</string>
+    <string name="apply_with_other_app">Aseta toisella sovelluksella</string>
+    <string name="apply_successful">Taustakuva asetettu onnistuneesti kohteeseen %1$s</string>
+    <string name="apply_successful_short">Taustakuva asetettu onnistuneesti</string>
+    <string name="previous">Edellinen</string>
+    <string name="next">Seuraava</string>
+    <string name="wallpaper_details">Tiedot</string>
+    <string name="wallpaper_palette">Paletti</string>
+    <string name="copied_to_clipboard">Väri kopioitu leikepöydälle</string>
+    <string name="search">Etsi</string>
+    <string name="search_x">Etsi %1$s…</string>
+    <string name="search_no_results">Ei hakutuloksia</string>
+    <string name="about">Tietoja</string>
+    <string name="refresh">Päivitä</string>
+    <string name="translate">Käännä</string>
+    <string name="licenses">Lisenssit</string>
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
+    <string name="frames_dashboard">Frames -ohjauspaneeli</string>
+    <string name="dev_contributions">Kehityksen avustajat</string>
+    <string name="ui_contributions">Käyttöliittymän avustukset</string>
+    <string name="dashboard_copyright">Olen intohimoinen ja luova Android-kehittäjä sekä tämän hallintapaneelin luoja.</string>
+    <string name="sherry_description">Kehittyvä nainen, joka ei saa koskaan tarpeeksensa oppimisesta, luova valokuvaaja ja ihminen, joka teki tämän hallintapaneelin mahdolliseksi.</string>
+    <string name="allan_description">Ensiksi kuvakepakettisuunnittelija, sitte teemasuunnittelija ja nyt myös kehittäjä.\nAutoin tekemään osan tästä hallintapaneelista.</string>
+    <string name="settings">Asetukset</string>
+    <string name="ui_settings_title">Käyttöliittymä</string>
+    <string name="theme_setting_title">Sovelluksen teema</string>
+    <string name="theme_setting_content">Valitse sovelluksen pääteema</string>
     <!-- Light Theme -->
+    <string name="light_theme">Vaalea</string>
     <!-- Dark Theme -->
+    <string name="dark_theme">Tumma</string>
     <!-- Amoled Theme -->
+    <string name="amoled_theme">Amoled</string>
     <!-- Transparent Theme -->
+    <string name="transparent_theme">Läpinäkyvä</string>
     <!-- Automatic Light-Dark Theme -->
+    <string name="auto_dark">Automaattinen vaalea-tumma</string>
     <!-- Automatic Light-Amoled Theme -->
+    <string name="auto_amoled">Automaattinen vaalea-amoled</string>
+    <string name="navbar_color_setting_title">Värjää navigointipalkki</string>
+    <string name="navbar_color_setting_content">Värjää navigointipalkki sovelluksen päävärillä</string>
+    <string name="wallpapers_columns_setting_title">Taustakuvakolumnit</string>
+    <string name="wallpapers_columns_setting_content">Valitse, kuinka monta kolumnia haluat nähdä taustakuvia</string>
+    <string name="animations_setting_title">Ota animaatiot käyttöön</string>
+    <string name="animations_setting_content">Tämä voi aiheuttaa hidastelua joillain laitteilla.</string>
+    <string name="load_hi_res_pictures_title">Täyden resoluution esikatselut</string>
+    <string name="load_hi_res_pictures_content">Lataa täyden resoluution kuvat ruudukkoon</string>
+    <string name="deep_search_title">Ota syvä haku käyttöön</string>
+    <string name="deep_search_content">Etsi nimellä ja kokoelmalla</string>
+    <string name="storage_settings_title">Tallennustila</string>
+    <string name="wallpapers_download_location_setting_title">Taustakuvin lataussijainti</string>
+    <string name="wallpapers_download_location_setting_content">Valitse taustakuvien lataussijainti.\nNykyinen sijainti: %1$s</string>
+    <string name="create_folder">Luo kansio</string>
+    <string name="choose_folder">Valitse</string>
+    <string name="data_cache_setting_title">Tyhjennä sovelluksen tiedot ja välimuisti</string>
+    <string name="data_cache_setting_content">Tämä tyhjentää sovelluksen välimuistin ja asetukset.\nNykyisen välimuistin koko: %1$s</string>
+    <string name="data_cache_confirmation">Oletko varma että haluat poistaa kaikki sovelluksen tiedot, välimuistin ja asetukset?</string>
+    <string name="clear_favorites_setting_title">Tyhjennä suosikkitietokanta</string>
+    <string name="clear_favorites_setting_content">Tyhjennä suosikkiluettelo</string>
+    <string name="clear_favorites_confirmation">Oletko varma, että haluat tyhjentää suosikkitietokantasi?</string>
     <!-- License -->
+    <string name="license_valid_title">Lisenssi aito</string>
+    <string name="license_valid_content">Kiitos, että latasit %1$s oikeasta kaupasta. Nauti!</string>
+    <string name="license_valid_snack">Lisennsi aito. Kiitos kun latasit %1$s. Nauti!</string>
+    <string name="license_invalid_title">You shall not pass!</string>
+    <string name="license_invalid_content">Pahoittelut, mutta huomasimme että lisenssisi %1$s ei ole aito. Tämä voi johtua siitä, että piratoit sovelluksia. %2$s. Jos olet sitä mieltä, että tämä on virhe, yritä myöhemmin uudelleen. Muutoin, lataa sovellus oikeasta kaupasta.</string>
+    <string name="license_invalid_content_extra">Tai tarkemmin: \'%1$s\' sovellus, joten poistaisitko sen</string>
+    <string name="error_title">Virhe</string>
+    <string name="action_error_content">Pahoittelut, sattui odottamaton virhe.</string>
+    <string name="license_error_content">Pahoittelut, lisenssin tarkastuksessa sattui virhe. Yritä myöhemmin uudelleen.</string>
+    <string name="try_now">Kokeile nyt</string>
+    <string name="donate">Lahjoita</string>
+    <string name="donate_success_title">Kiitos</string>
+    <string name="donate_success_content">Suuri kiitos lahjoituksestasi. Arvostan sitä ja olen iloinen että nautit %1$s.</string>
+    <string name="donate_error">Odottamaton virhekoodi %1$s sattui syystä %2$s</string>
+    <string name="donate_error_unknown">tuntemattomat syyt</string>
+    <string name="loading">Ladataan…</string>
+    <string name="close">Sulje</string>
     <!-- Muzei Settings -->
+    <string name="muzei_settings">Muzei-asetukset</string>
     <!-- Please use this character … -->
+    <string name="refresh_wallpapers_every">Päivitä taustakuvat…</string>
+    <string name="every_x">Joka %1$s</string>
+    <string name="minutes">Minuuttia</string>
+    <string name="hours">Tuntia</string>
+    <string name="days">Päivää</string>
+    <string name="refresh_only_on_wifi">Päivitä vain WiF-yhteydellä</string>
+    <string name="refresh_only_on_wifi_summary">Päivitä taustakuvat vain, kun laite on yhteydessä WiFi-verkkoon.</string>
+    <string name="choose_collections_title">Valitse kokoelmat</string>
+    <string name="choose_collections_summary">Valitse kokoelma, josta taustakuvat otetaan. Nykyinen valinta: %1$s</string>
+    <string name="muzei_not_connected_title">Ei Internet-yhteyttä</string>
+    <string name="muzei_not_connected_content">Pahoittelut, mutta jotta voit valita tai vaihtaa kokoelmaa josta sovellus ottaa taustakuvat, sinun täytyy olla yhteydessä internettiin. Yritä uudelleen myöhemmin.</string>
+    <string name="sure_to_exit">Poistu</string>
+    <string name="sure_to_exit_content">Haluatko tallentaa muutokset ennen poistumista?</string>
+    <string name="yes">Kyllä</string>
+    <string name="no">Ei</string>
+    <string name="not_connected_content">Valitettavasti tämä toiminto vaatii internetyhteyden. Yritä myöhemmin uudelleen.</string>
+    <string name="new_wallpapers_available">%1$s uutta taustakuvaa saatavilla. Napauta katsoaksesi niitä!</string>
+    <string name="notifications_title">Ilmoitukset</string>
+    <string name="enable_notifications">Kytke ilmoitukset päälle</string>
+    <string name="changelog">Päivityshistoria</string>
+    <string name="dismiss">Hylkää</string>
+    <string name="prevent_download_title">Lataus lukittu</string>
+    <string name="prevent_download_content">Tietoturvasyistä taustakuvien lataaminen seuraavan %1$s tunnin ajan ei ole mahdollista. Yritä myöhemmin uudelleen.</string>
+    <string name="legal">Oikeudelliset tiedot</string>
+    <string name="privacy_policy">Tietosuojakäytäntö</string>
+    <string name="terms_conditions">Käyttöehdot</string>
 </resources>
