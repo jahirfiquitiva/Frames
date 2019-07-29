@@ -18,7 +18,25 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="empty_section">العثور على أي شيء</string>
     <string name="loading_section">تحميل المحتوى…</string>
+    <string name="no_favorites">أضف بعض الخلفيات إلى قائمة المفضلة أولا</string>
+    <string name="wallpapers">خلفيات</string>
+    <string name="collections">تجميعات</string>
+    <string name="x_wallpapers">خلفيات%1$s</string>
+    <string name="all">الكل</string>
+    <string name="favorites">قائمة المفضلة</string>
+    <string name="favorite">مفضلة</string>
+    <string name="added_to_favorites">\'%1$s\' has been added to favorites.</string>
+    <string name="removed_from_favorites">تم إزالة من المفضلة \'%1$s\'.</string>
+    <string name="actions_dialog_content">What would you like to do with this wallpaper?</string>
+    <string name="apply">Apply</string>
+    <string name="download">Download</string>
+    <string name="info">Information</string>
+    <string name="share">Share</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
+    <string name="share_text">My wallpaper for today is %1$s by %2$s, from %3$s.\nGet it now at %4$s</string>
+    <string name="permission_denied">Access to storage permission has been denied</string>
+    <string name="permission_denied_completely">Access to storage permission has been denied. You will have to manually enable it in Settings.</string>
+    <string name="permission_request">%1$s requires access to storage in order to be able to apply and save wallpapers</string>
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
     <!-- Light Theme -->
     <!-- Dark Theme -->
