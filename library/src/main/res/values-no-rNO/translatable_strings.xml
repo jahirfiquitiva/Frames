@@ -16,6 +16,7 @@
   ~ limitations under the License.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="empty_section">Ingenting funnet</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
     <!-- Light Theme -->
