@@ -34,7 +34,7 @@ val File.dirSize: Long
     get() {
         if (exists()) {
             var result: Long = 0
-            listFiles().forEach {
+            listFiles()?.forEach {
                 result += if (it.isDirectory) it.dirSize else it.length()
             }
             return result

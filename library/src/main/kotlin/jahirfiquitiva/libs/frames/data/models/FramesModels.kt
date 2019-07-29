@@ -21,8 +21,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import jahirfiquitiva.libs.frames.helpers.extensions.toReadableByteCount
-import jahirfiquitiva.libs.kext.extensions.readBoolean
-import jahirfiquitiva.libs.kext.extensions.writeBoolean
+import jahirfiquitiva.libs.kext.extensions.readBooleanCompat
+import jahirfiquitiva.libs.kext.extensions.writeBooleanCompat
 import java.util.ArrayList
 
 @Entity(tableName = "FAVORITES")
@@ -56,13 +56,13 @@ data class Wallpaper(
         parcel.readString().orEmpty(),
         parcel.readString().orEmpty(),
         parcel.readString().orEmpty(),
-        parcel.readBoolean(),
+        parcel.readBooleanCompat(),
         parcel.readString().orEmpty(),
         parcel.readString().orEmpty(),
         parcel.readLong(),
         parcel.readString().orEmpty(),
         parcel.readString().orEmpty(),
-        parcel.readBoolean(),
+        parcel.readBooleanCompat(),
         parcel.readLong())
     
     override fun equals(other: Any?): Boolean {
@@ -82,13 +82,13 @@ data class Wallpaper(
         parcel.writeString(name)
         parcel.writeString(author)
         parcel.writeString(collections)
-        parcel.writeBoolean(downloadable)
+        parcel.writeBooleanCompat(downloadable)
         parcel.writeString(url)
         parcel.writeString(thumbUrl)
         parcel.writeLong(size)
         parcel.writeString(dimensions)
         parcel.writeString(copyright)
-        parcel.writeBoolean(featured)
+        parcel.writeBooleanCompat(featured)
         parcel.writeLong(id)
     }
     

@@ -58,8 +58,12 @@ fun FragmentActivity.framesPostponeEnterTransition(
 }
 
 fun FragmentActivity.safeStartPostponedEnterTransition() {
-    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
-        supportStartPostponedEnterTransition()
+    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+        try {
+            supportStartPostponedEnterTransition()
+        } catch (e: Exception) {
+        }
+    }
 }
 
 fun FragmentActivity.concatSharedElements(vararg activitySharedElements: Pair<View, String>):

@@ -39,7 +39,7 @@
     <string name="permission_request">%1$s yêu cầu truy cập để lưu trữ để có thể áp dụng và lưu hình nền</string>
     <string name="allow">Cho phép</string>
     <string name="downloading_wallpaper">Tải về \'%1$s\'…</string>
-    <string name="download_successful">Hình nền tải về thành công <div class="notranslate"> 0\'</div></string>
+    <string name="download_successful">Hình nền tải về thành công</string>
     <string name="download_successful_short">Hình nền tải về thành công</string>
     <string name="open">mở</string>
     <string name="file_exists">Hình nền đã được tải về. Bạn có muốn tải về để thay thế nó?</string>

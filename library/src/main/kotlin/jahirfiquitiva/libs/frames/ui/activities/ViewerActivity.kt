@@ -36,7 +36,6 @@ import android.view.animation.LinearInterpolator
 import android.view.animation.ScaleAnimation
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.palette.graphics.Palette
@@ -174,13 +173,14 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
+        setContentView(R.layout.activity_viewer)
+        
         enableTranslucentStatusBar()
         // navigationBarColor = Color.parseColor("#66000000")
         window.setFlags(
             WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
             WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
         
-        setContentView(R.layout.activity_viewer)
         framesPostponeEnterTransition()
         
         currentWallPosition = savedInstanceState?.getInt(CURRENT_WALL_POSITION) ?: {
@@ -224,11 +224,11 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
                 setPaddingBottom(50.dpToPx)
         }
         
-        findViewById<RelativeLayout>(R.id.apply_container).setOnClickListener {
+        findViewById<View>(R.id.apply_button).setOnClickListener {
             doItemClick(APPLY_ACTION_ID)
         }
         
-        findViewById<RelativeLayout>(R.id.info_container).setOnClickListener {
+        findViewById<View>(R.id.info_button).setOnClickListener {
             showInfoDialog()
         }
         
@@ -276,6 +276,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             wallpaper = wallpapersList.getOrNull(currentWallPosition)
         } catch (e: Exception) {
         }
+        clearInfo()
         initWallpaperSetup()
         if (extra != 0) {
             img?.animate()
@@ -284,6 +285,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
                 ?.setInterpolator(AccelerateDecelerateInterpolator())
                 ?.start()
             setupWallpaper(wallpaper, original = false)
+            loadWallpaperDetails(true)
         }
     }
     
@@ -316,7 +318,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         val hasChecker = intent?.getBooleanExtra("checker", false) ?: false
         
         if (downloadable) {
-            findViewById<RelativeLayout>(R.id.download_container).setOnClickListener {
+            findViewById<View>(R.id.download_button).setOnClickListener {
                 if (isNetworkAvailable) {
                     val actuallyComplies = if (hasChecker)
                         compliesWithMinTime(MIN_TIME) || boolean(R.bool.immediate_download)
@@ -346,7 +348,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
                 }
             }
         } else {
-            findViewById<RelativeLayout>(R.id.download_container).gone()
+            findViewById<View>(R.id.download_container).gone()
         }
         
         if (showFavoritesButton) {
@@ -355,11 +357,11 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             val favTransitionName = "fav_transition_$currentWallPosition"
             favImageView.notNull { ViewCompat.setTransitionName(it, favTransitionName) }
             favImageView?.setImageDrawable(favIcon)
-            findViewById<RelativeLayout>(R.id.fav_container).setOnClickListener {
+            findViewById<View>(R.id.fav_button).setOnClickListener {
                 doItemClick(FAVORITE_ACTION_ID)
             }
         } else {
-            findViewById<RelativeLayout>(R.id.fav_container).gone()
+            findViewById<View>(R.id.fav_container).gone()
         }
         
         changeGoBtnsVisibility(visibleSystemUI)
@@ -396,31 +398,27 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         findViewById<View>(R.id.bottom_bar_container).setNavBarMargins()
     }
     
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState?.putBoolean(CLOSING_KEY, closing)
-        outState?.putBoolean(TRANSITIONED_KEY, transitioned)
-        outState?.putBoolean(VISIBLE_SYSTEM_UI_KEY, visibleSystemUI)
-        outState?.putInt(CURRENT_WALL_POSITION, currentWallPosition)
-        outState?.putInt(POSITION_DIFF, wallPositionDifference)
+        outState.putBoolean(CLOSING_KEY, closing)
+        outState.putBoolean(TRANSITIONED_KEY, transitioned)
+        outState.putBoolean(VISIBLE_SYSTEM_UI_KEY, visibleSystemUI)
+        outState.putInt(CURRENT_WALL_POSITION, currentWallPosition)
+        outState.putInt(POSITION_DIFF, wallPositionDifference)
     }
     
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        setSystemUIVisibility(savedInstanceState?.getBoolean(VISIBLE_SYSTEM_UI_KEY, true) ?: true)
-        this.closing = savedInstanceState?.getBoolean(CLOSING_KEY, false) ?: false
-        this.transitioned = savedInstanceState?.getBoolean(TRANSITIONED_KEY, false) ?: false
-        currentWallPosition = savedInstanceState?.getInt(CURRENT_WALL_POSITION, currentWallPosition)
-            ?: currentWallPosition
+        setSystemUIVisibility(savedInstanceState.getBoolean(VISIBLE_SYSTEM_UI_KEY, true))
+        this.closing = savedInstanceState.getBoolean(CLOSING_KEY, false)
+        this.transitioned = savedInstanceState.getBoolean(TRANSITIONED_KEY, false)
+        currentWallPosition = savedInstanceState.getInt(CURRENT_WALL_POSITION, currentWallPosition)
         wallPositionDifference = savedInstanceState?.getInt(POSITION_DIFF, wallPositionDifference)
-            ?: wallPositionDifference
         setupProgressBarColors()
     }
     
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == android.R.id.home) {
-            doFinish()
-        }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) doFinish()
         return super.onOptionsItemSelected(item)
     }
     
@@ -555,13 +553,17 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         setupProgressBarColors()
     }
     
+    private fun clearInfo() {
+        infoDialog?.setDetails(arrayListOf(), arrayListOf(), null, true)
+    }
+    
     private fun updateInfo() {
         infoDialog?.setDetails(getCurrentWallpaperCollections(), details, palette)
     }
     
     private fun addToDetails(detail: WallpaperDetail) {
         if (!detail.value.hasContent()) return
-        val pos = details.indexOf(detail)
+        val pos = details.indexOfFirst { it.icon == detail.icon }
         if (pos != -1) {
             details.removeAt(pos)
             details.add(pos, detail)
@@ -569,32 +571,25 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         updateInfo()
     }
     
-    private fun loadWallpaperDetails() {
+    private fun loadWallpaperDetails(force: Boolean = false) {
         wallpaper?.let {
             with(it) {
                 addToDetails(WallpaperDetail("ic_all_wallpapers", name))
                 if (author.hasContent()) addToDetails(WallpaperDetail("ic_person", author))
                 if (copyright.hasContent()) addToDetails(WallpaperDetail("ic_copyright", copyright))
-                loadExpensiveWallpaperDetails()
+                loadExpensiveWallpaperDetails(force)
             }
         }
     }
     
-    private fun loadExpensiveWallpaperDetails() {
+    private fun loadExpensiveWallpaperDetails(force: Boolean = false) {
         wallpaper?.let {
-            if (it.size != 0L) {
-                val sizeText = it.size.toReadableByteCount()
-                if (sizeText != "-0") addToDetails(WallpaperDetail("ic_size", sizeText))
-            }
-            if (it.dimensions.hasContent()) {
-                addToDetails(WallpaperDetail("ic_dimensions", it.dimensions))
-            }
             val isValidInfo = info?.isValid == true
-            if (isValidInfo) {
+            if (isValidInfo && !force) {
                 postWallpaperInfo(info)
                 return
             }
-            detailsVM.loadData(it)
+            detailsVM.loadData(it, force)
         }
     }
     
@@ -606,7 +601,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             val size = it?.size ?: 0L
             val bytes = size.toReadableByteCount()
             
-            if (prevSize <= 0L && bytes != "-0") {
+            if (bytes != "-0") {
                 addToDetails(WallpaperDetail("ic_size", bytes))
                 wallpaper?.size = size
             } else {

@@ -95,7 +95,7 @@ val Context.dataCacheSize: String
         var extCache: Long = 0
         
         try {
-            cacheDir.listFiles().forEach {
+            cacheDir?.listFiles()?.forEach {
                 cache += if (it.isDirectory) it.dirSize else it.length()
             }
         } catch (ignored: Exception) {
@@ -115,10 +115,10 @@ val Context.dataCacheSize: String
     }
 
 fun Context.clearDataAndCache() {
-    val appDir = File(cacheDir?.parent)
+    val appDir = File(cacheDir?.parent ?: return)
     appDir.let {
         if (it.exists()) {
-            it.list().forEach {
+            it.list()?.forEach {
                 if (!it.equals("lib", true)) {
                     File(appDir, it).deleteEverything()
                 }

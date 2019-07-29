@@ -80,7 +80,8 @@ class InfoBottomSheet : BaseBottomSheet() {
                 }
             } else {
                 val clipboard = context?.getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager
-                clipboard?.primaryClip = ClipData.newPlainText("label", indexOrColor.toHexString())
+                clipboard?.setPrimaryClip(
+                    ClipData.newPlainText("label", indexOrColor.toHexString()))
                 context?.toast(R.string.copied_to_clipboard)
             }
         }
@@ -94,13 +95,14 @@ class InfoBottomSheet : BaseBottomSheet() {
     fun setDetails(
         collections: ArrayList<Collection>,
         details: ArrayList<WallpaperDetail>,
-        palette: Palette?
+        palette: Palette?,
+        force: Boolean = false
                   ) {
-        if (collections.size > 0) {
+        if (collections.size > 0 || force) {
             this.collections.clear()
             this.collections.addAll(collections)
         }
-        if (details.size > 0) {
+        if (details.size > 0 || force) {
             this.details.clear()
             this.details.addAll(details)
         }

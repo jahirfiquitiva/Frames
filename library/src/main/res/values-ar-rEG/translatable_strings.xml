@@ -36,7 +36,7 @@
     <string name="share_text">خلفيتي لهذا اليوم هي %1$s بواسطة %2$s، من %3$s. احصل عليها الان في %4$s</string>
     <string name="permission_denied">تم رفض الوصول إلى إذن التخزين</string>
     <string name="permission_denied_completely">تم رفض الوصول إلى إذن التخزين. سيكون عليك ان تمكنه يدوياً في الإعدادات.</string>
-    <string name="permission_request">يتطلب امكانية الوصول للذاكرة من اجل ان تكون قادرا على تطبيق وتنزيل الخلفيات</string>
+    <string name="permission_request">s$1% يتطلب امكانية الوصول للذاكرة من اجل ان تكون قادرا على تطبيق وتنزيل الخلفيات</string>
     <string name="allow">تسمح</string>
     <string name="downloading_wallpaper">تحميل \'%1$s\'…</string>
     <string name="download_successful">تم تحميل الخلفية بنجاح في \'%1$s\'</string>
