@@ -16,11 +16,11 @@
   ~ limitations under the License.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="empty_section">Không có kết quả!</string>
+    <string name="empty_section">Không tìm thấy kết quả</string>
     <string name="loading_section">Tải nội dung...</string>
-    <string name="no_favorites">Thêm một số hình nền yêu thích đầu tiên</string>
+    <string name="no_favorites">Thêm một số hình nền yêu thích</string>
     <string name="wallpapers">Hình nền</string>
-    <string name="collections">Các bộ sưu tập</string>
+    <string name="collections">Bộ sưu tập</string>
     <string name="x_wallpapers">%1$s hình nền</string>
     <string name="all">Tất cả</string>
     <string name="favorites">Yêu thích</string>
@@ -39,7 +39,7 @@
     <string name="permission_request">%1$s yêu cầu truy cập để lưu trữ để có thể áp dụng và lưu hình nền</string>
     <string name="allow">Cho phép</string>
     <string name="downloading_wallpaper">Tải về \'%1$s\'…</string>
-    <string name="download_successful">Hình nền tải về thành công</string>
+    <string name="download_successful">Hình nền tải về thành công <div class="notranslate"> 0\'</div></string>
     <string name="download_successful_short">Hình nền tải về thành công</string>
     <string name="open">mở</string>
     <string name="file_exists">Hình nền đã được tải về. Bạn có muốn tải về để thay thế nó?</string>
@@ -49,19 +49,21 @@
     <string name="apply_to">Áp dụng cho:</string>
     <string name="home_screen">Màn hình chính</string>
     <string name="lock_screen">Màn hình khoá</string>
-    <string name="home_lock_screen">Trang chủ và khóa màn hình</string>
+    <string name="home_lock_screen">Màn hình chính và khóa</string>
     <string name="apply_with_other_app">Áp dụng với các ứng dụng khác</string>
     <string name="apply_successful">Hình nền được áp dụng thành công cho %1$s</string>
     <string name="apply_successful_short">Hình nền được áp dụng thành công</string>
+    <string name="previous">Quay lại</string>
+    <string name="next">Tiếp theo</string>
     <string name="wallpaper_details">Thông tin chi tiết</string>
     <string name="wallpaper_palette">Bảng màu</string>
-    <string name="copied_to_clipboard">Các màu sắc sao chép vào clipboard</string>
+    <string name="copied_to_clipboard">Sao chép vào clipboard</string>
     <string name="search">Tìm kiếm</string>
     <string name="search_x">Tìm %1$s…</string>
     <string name="search_no_results">Không tìm thấy kết quả</string>
     <string name="about">Thông tin</string>
     <string name="refresh">Làm mới</string>
-    <string name="translate">Dịch</string>
+    <string name="translate">Dịch thuật</string>
     <string name="licenses">Giấy phép</string>
     <!-- Consider Frames an untranslatable word. It's the dashboard name -->
     <string name="frames_dashboard">Khung bảng</string>
@@ -69,31 +71,89 @@
     <string name="ui_contributions">Giao diện người dùng trợ giúp</string>
     <string name="dashboard_copyright">Tôi là một nhà phát triển Android đam mê và sáng tạo và tác giả của bảng điều khiển.</string>
     <string name="sherry_description">Một người phụ nữ bao giờ phát triển những người không bao giờ lốp của việc học, nhiếp ảnh gia sáng tạo và là người có thể làm bảng này.</string>
+    <string name="allan_description">Lần đầu tiên một biểu tượng gói Đấng tạo hóa, sau đó một themer, bây giờ cũng phát triển một.\ntôi đã giúp với một phần của sự phát triển của bảng này.</string>
     <string name="settings">Cài đặt</string>
+    <string name="ui_settings_title">Giao diện người dùng</string>
+    <string name="theme_setting_title">Chủ đề ứng dụng</string>
+    <string name="theme_setting_content">Chọn chủ đề chính cho các ứng dụng</string>
     <!-- Light Theme -->
+    <string name="light_theme">Sáng</string>
     <!-- Dark Theme -->
+    <string name="dark_theme">Tối</string>
     <!-- Amoled Theme -->
+    <string name="amoled_theme">AMOLED</string>
     <!-- Transparent Theme -->
+    <string name="transparent_theme">Trong suốt</string>
     <!-- Automatic Light-Dark Theme -->
+    <string name="auto_dark">Chủ đề Sáng-Tối tự động</string>
     <!-- Automatic Light-Amoled Theme -->
+    <string name="auto_amoled">Chủ đề Sáng-Amoled tự động</string>
+    <string name="navbar_color_setting_title">Màu thanh điều hướng</string>
+    <string name="navbar_color_setting_content">Thanh điều hướng màu với màu tối chính của ứng dụng</string>
+    <string name="wallpapers_columns_setting_title">Hình nền cột</string>
+    <string name="wallpapers_columns_setting_content">Chọn số lượng các cột bạn muốn xem các hình nền</string>
+    <string name="animations_setting_title">Hiển thị hình động</string>
+    <string name="animations_setting_content">Điều này có thể gây ra tụt hậu trong một số thiết bị.</string>
+    <string name="load_hi_res_pictures_title">Xem trước độ phân giải đầy đủ</string>
+    <string name="load_hi_res_pictures_content">Tải đầy đủ độ phân giải hình ảnh trong lưới điện</string>
+    <string name="deep_search_title">Bật Tìm kiếm sâu</string>
+    <string name="deep_search_content">Tìm kiếm theo tên và bộ sưu tập</string>
+    <string name="storage_settings_title">Lưu trữ</string>
+    <string name="wallpapers_download_location_setting_title">Hình nền tải về vị trí</string>
+    <string name="wallpapers_download_location_setting_content">Thay đổi vị trí tải về hình nền.\nvị trí hiện tại: %1$s</string>
+    <string name="create_folder">Tạo thư mục</string>
+    <string name="choose_folder">Lựa chọn</string>
+    <string name="data_cache_setting_title">Bộ nhớ cache và dữ liệu ứng dụng rõ ràng</string>
+    <string name="data_cache_setting_content">Việc này sẽ xóa bộ nhớ cache ứng dụng và sở thích. Kích thước bộ nhớ cache hiện tại\n: %1$s</string>
+    <string name="data_cache_confirmation">Bạn có chắc bạn muốn xóa dữ liệu ứng dụng, bộ nhớ cache và cài đặt?</string>
+    <string name="clear_favorites_setting_title">Làm trống dữ liệu ngôn ngữ</string>
+    <string name="clear_favorites_setting_content">Xoá danh sách các hình nền yêu thích của bạn</string>
+    <string name="clear_favorites_confirmation">Bạn muốn xóa các mục đã chọn?</string>
     <!-- License -->
+    <string name="license_valid_title">Giấy phép hợp lệ</string>
+    <string name="license_valid_content">Cảm ơn bạn đã tải xuống %1$s từ một cửa hàng hợp lệ. Thưởng thức nó!</string>
+    <string name="license_valid_snack">Giấy phép hợp lệ. Cảm ơn bạn đã tải về %1$s. Tận hưởng!</string>
+    <string name="license_invalid_title">Bạn không vượt qua!</string>
+    <string name="license_invalid_content">Xin lỗi, nhưng chúng tôi đã phát hiện ra rằng giấy phép của bạn với %1$s là không hợp lệ. Điều này cũng có thể là bởi vì bạn đang sử dụng ứng dụng cướp biển. %2$s. Nếu bạn nghĩ rằng đây là lỗi, xin vui lòng thử lại sau. Nếu không, xin vui lòng tải các ứng dụng từ một cửa hàng hợp lệ.</string>
+    <string name="license_invalid_content_extra">Hoặc đặc biệt: ứng dụng \'%1$s\', vì vậy xin vui lòng gỡ bỏ cài đặt nó</string>
+    <string name="error_title">Lỗi</string>
+    <string name="action_error_content">Xin lỗi, lỗi bất ngờ xảy ra trong khi cố gắng để hoàn tất hành động này.</string>
+    <string name="license_error_content">Xin lỗi, đã có một lỗi xử lý yêu cầu của bạn. Xin vui lòng thử lại sau.</string>
+    <string name="try_now">Thử lại</string>
+    <string name="donate">Ủng hộ</string>
+    <string name="donate_success_title">Cảm ơn</string>
+    <string name="donate_success_content">Cảm ơn bạn rất nhiều cho tiền của bạn. Tôi thực sự đánh giá cao nó, và tôi vui mừng bạn đang thưởng thức %1$s.</string>
+    <string name="donate_error">Lỗi bất ngờ với mã %1$s xảy ra do %2$s</string>
+    <string name="donate_error_unknown">không rõ lý do</string>
+    <string name="loading">Đang tải…</string>
+    <string name="close">Đóng</string>
     <!-- Muzei Settings -->
+    <string name="muzei_settings">Cài đặt Muzei</string>
     <!-- Please use this character … -->
+    <string name="refresh_wallpapers_every">Làm mới hình nền…</string>
     <string name="every_x">Mỗi %1</string>
-    <string name="minutes">phút</string>
+    <string name="minutes">Phút</string>
     <string name="hours">Giờ</string>
     <string name="days">Ngày</string>
     <string name="refresh_only_on_wifi">Chỉ làm mới Wifi</string>
+    <string name="refresh_only_on_wifi_summary">Làm mới hình nền chỉ khi thiết bị được kết nối với một mạng WiFi.</string>
+    <string name="choose_collections_title">Chọn bộ sưu tập</string>
+    <string name="choose_collections_summary">Chọn bộ sưu tập để lấy hình nền từ. Hiện tại chọn bộ sưu tập: %1$s</string>
     <string name="muzei_not_connected_title">Không được kết nối
 với internet</string>
+    <string name="muzei_not_connected_content">Xin lỗi, nhưng để có thể lựa chọn hoặc thay đổi các bộ sưu tập bạn muốn app có hình nền, bạn phải kết nối Internet. Xin vui lòng thử lại sau.</string>
     <string name="sure_to_exit">Thoát</string>
     <string name="sure_to_exit_content">Bạn có muốn lưu các thay đổi của mình trước khi đóng không?</string>
     <string name="yes">Có</string>
     <string name="no">Không</string>
+    <string name="not_connected_content">Thật không may, hành động này yêu cầu kết nối Internet. Xin vui lòng thử lại sau.</string>
+    <string name="new_wallpapers_available">%1$s mới hình nền có sẵn. Bấm vào để kiểm tra xem chúng!</string>
     <string name="notifications_title">Thông báo</string>
     <string name="enable_notifications">Bật thông báo</string>
     <string name="changelog">Thay đổi</string>
     <string name="dismiss">Bỏ qua</string>
+    <string name="prevent_download_title">Tải về bị khóa</string>
+    <string name="prevent_download_content">Vì lý do bảo mật, tải hình nền là không thể cho %1$s giờ tới. Xin vui lòng thử lại sau.</string>
     <string name="legal">Pháp lý</string>
     <string name="privacy_policy">Chính sách bảo mật</string>
     <string name="terms_conditions">Điều khoản và điều kiện</string>
