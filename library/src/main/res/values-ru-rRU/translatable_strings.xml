@@ -53,6 +53,8 @@
     <string name="apply_with_other_app">Установить с другим приложением</string>
     <string name="apply_successful">Обои успешно установлены на \'%1$s\'</string>
     <string name="apply_successful_short">Обо успешно установлены</string>
+    <string name="previous">Предыдущая</string>
+    <string name="next">Следующий</string>
     <string name="wallpaper_details">Детали</string>
     <string name="wallpaper_palette">Палитра</string>
     <string name="copied_to_clipboard">Цвет скопирован в буфер обмена</string>
@@ -151,4 +153,7 @@
     <string name="dismiss">Отменить</string>
     <string name="prevent_download_title">Загрузки заблокированы</string>
     <string name="prevent_download_content">По соображениям безопасности, загрузка изображений невозможна в течение следующих %1$s часов. Пожалуйста, попробуйте ещё раз позже.</string>
+    <string name="legal">Правила</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="terms_conditions">Пользовательское соглашение</string>
 </resources>
