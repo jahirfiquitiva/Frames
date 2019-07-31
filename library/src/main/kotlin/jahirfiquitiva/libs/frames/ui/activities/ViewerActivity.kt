@@ -276,6 +276,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
             wallpaper = wallpapersList.getOrNull(currentWallPosition)
         } catch (e: Exception) {
         }
+        findViewById<View>(R.id.download_container).visibleIf(wallpaper?.downloadable == true)
         clearInfo()
         initWallpaperSetup()
         if (extra != 0) {
