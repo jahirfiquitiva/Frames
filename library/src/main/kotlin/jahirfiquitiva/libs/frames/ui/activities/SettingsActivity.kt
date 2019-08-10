@@ -140,7 +140,9 @@ open class SettingsActivity : ActivityWFragments<FramesKonfigs>() {
                     initialDirectory = try {
                         File(prefs.downloadsFolder)
                     } catch (e: Exception) {
-                        Environment.getExternalStorageDirectory()
+                        @Suppress("DEPRECATION")
+                        context.getExternalFilesDir(null)
+                            ?: Environment.getExternalStorageDirectory()
                     },
                     allowFolderCreation = true,
                     folderCreationLabel = R.string.create_folder) { dialog, folder ->

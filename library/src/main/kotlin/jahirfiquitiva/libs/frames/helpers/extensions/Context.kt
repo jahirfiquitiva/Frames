@@ -126,9 +126,11 @@ fun Context.clearDataAndCache() {
         }
     }
     clearCache()
+    @Suppress("DEPRECATION")
     FramesKonfigs(this).downloadsFolder = getString(
         R.string.default_download_folder,
-        Environment.getExternalStorageDirectory().absolutePath)
+        getExternalFilesDir(null)?.absolutePath
+            ?: Environment.getExternalStorageDirectory().absolutePath)
 }
 
 fun Context.clearCache() {

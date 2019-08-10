@@ -79,7 +79,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?actionBarSize"
-            android:fitsSystemWindows="true"
             android:background="@drawable/gradient_inverse"
             android:clipChildren="false"
             android:layout_gravity="top"

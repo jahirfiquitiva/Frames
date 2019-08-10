@@ -25,6 +25,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModelProviders
 import ca.allanwang.kau.utils.contentView
 import ca.allanwang.kau.utils.openLink
+import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.anjlab.android.iab.v3.BillingProcessor
@@ -84,7 +85,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
                     Intent.ACTION_SET_WALLPAPER -> WALLS_PICKER
                     else -> field
                 }
-            } ?: field ?: 0
+            } ?: field
         }
     
     var dialog: MaterialDialog? = null
@@ -104,7 +105,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     
     override fun setContentView(layoutResID: Int) {
         super.setContentView(layoutResID)
-        startLicenseCheck()
+        postDelayed(50) { startLicenseCheck() }
     }
     
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -114,7 +115,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
-        pickerKey = savedInstanceState?.getInt("pickerKey") ?: 0
+        pickerKey = savedInstanceState?.getInt("pickerKey", 0) ?: 0
     }
     
     private fun initDonations() {
@@ -146,9 +147,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
                 with(it) {
                     callback {
                         allow { showLicensedSnack(update, force) }
-                        doNotAllow { _, app ->
-                            showNotLicensedDialog(app)
-                        }
+                        doNotAllow { _, app -> showNotLicensedDialog(app) }
                         onError { showLicenseErrorDialog() }
                     }
                     start()

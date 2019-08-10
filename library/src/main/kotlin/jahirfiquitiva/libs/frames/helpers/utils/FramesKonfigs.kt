@@ -31,12 +31,14 @@ open class FramesKonfigs(private val cntxt: Context) : Prefs("jfdb_confs", cntxt
         get() = prefs.getInt(COLUMNS_NUMBER, if (cntxt.isInHorizontalMode) 3 else 2)
         set(value) = prefsEditor.putInt(COLUMNS_NUMBER, value).apply()
     
+    @Suppress("DEPRECATION")
     var downloadsFolder: String
         get() = prefs.getString(
             DOWNLOADS_FOLDER,
             cntxt.getString(
                 R.string.default_download_folder,
-                Environment.getExternalStorageDirectory().absolutePath))
+                cntxt.getExternalFilesDir(null)?.absolutePath))
+            ?: cntxt.getExternalFilesDir(null)?.absolutePath
             ?: Environment.getExternalStorageDirectory().absolutePath
         set(value) = prefsEditor.putString(DOWNLOADS_FOLDER, value).apply()
     
