@@ -33,6 +33,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.transition.NoTransition
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
+import jahirfiquitiva.libs.kext.extensions.hasContent
 import jahirfiquitiva.libs.kext.extensions.isLowRamDevice
 
 fun RequestManager.loadPicture(
@@ -43,12 +44,15 @@ fun RequestManager.loadPicture(
     fitCenter: Boolean = false,
     circular: Boolean = false,
     withTransition: Boolean = true,
+    forceFullRes: Boolean = false,
     listener: RequestListener<Drawable>? = null
                               ): RequestBuilder<*>? {
     return try {
-        val finalUrl =
-            context?.let { if (FramesKonfigs(it).fullResGridPictures) url else thumbnail }
-                ?: thumbnail
+        if (!url.hasContent()) return null
+        
+        val shouldLoadFullRes = context?.let { FramesKonfigs(it).fullResGridPictures } ?: false
+        val actualThumbUrl = if (thumbnail.hasContent()) thumbnail else url
+        
         var options = RequestOptions()
             .format(
                 if (context == null || context.isLowRamDevice) DecodeFormat.PREFER_RGB_565
@@ -82,13 +86,16 @@ fun RequestManager.loadPicture(
             DrawableTransitionOptions.withCrossFade(750)
         }
         
-        val thumbnailRequest: RequestBuilder<Drawable>? = if (finalUrl != thumbnail) {
-            load(thumbnail).apply(options.priority(Priority.HIGH))
+        val thumbnailRequest: RequestBuilder<Drawable>? = if (actualThumbUrl.hasContent()) {
+            load(actualThumbUrl).apply(options.priority(Priority.HIGH))
         } else null
         
-        val request: RequestBuilder<Drawable>? = load(url)
-            .apply(options)
-            .thumbnail(thumbnailRequest?.transition(transition)?.listener(listener))
+        val request: RequestBuilder<Drawable>? =
+            if (shouldLoadFullRes || forceFullRes || thumbnailRequest == null) {
+                load(url)
+                    .apply(options)
+                    .thumbnail(thumbnailRequest?.transition(transition)?.listener(listener))
+            } else thumbnailRequest
         request?.transition(transition)?.listener(listener)
     } catch (e: Exception) {
         null
@@ -103,12 +110,13 @@ fun ImageView.loadPicture(
     fitCenter: Boolean = false,
     circular: Boolean = false,
     withTransition: Boolean = true,
+    forceFullRes: Boolean = false,
     listener: RequestListener<Drawable>? = null
                          ) {
     
     manager
         ?.loadPicture(
             url, thumbnail, placeholder ?: drawable, context, fitCenter, circular,
-            withTransition, listener)
+            withTransition, forceFullRes, listener)
         ?.into(this)
 }

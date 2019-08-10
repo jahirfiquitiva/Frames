@@ -513,8 +513,10 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         
         wallpaper?.let {
             img?.loadPicture(
-                glideManager, it.url, it.thumbUrl, drawable, true, false, false,
-                quickListener { res ->
+                glideManager, it.url, it.thumbUrl, drawable,
+                fitCenter = true, circular = false,
+                withTransition = true, forceFullRes = true,
+                listener = quickListener { res ->
                     loaded = true
                     doOnWallpaperLoad(res)
                 })
