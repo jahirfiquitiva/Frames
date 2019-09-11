@@ -38,14 +38,14 @@ ext.versions = [
         permissions          : '2.0.1',
         materialDialogs      : '3.1.1',
         glide                : '4.9.0',
-        kext                 : 'a98a40f',
+        kext                 : '4420b01',
         sectionedRecyclerView: '5a90cfb',
         rvFastScroll         : '355558f',
         chips                : '0.1.4',
         iaps                 : '1.1.0',
         muzeiApi             : '3.2.0',
         licensesDialog       : '2.0.0',
-        checker              : 'cd0fa38',
+        checker              : '584258d',
         oneSignal            : '3.11.3'
 ]
 
