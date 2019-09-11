@@ -21,6 +21,8 @@ android:
     - '.+'
 
 before_install:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
   - yes | sdkmanager "platforms;android-$ANDROID_API"
   - yes | sdkmanager "build-tools;$ANDROID_BUILD_TOOLS"
 
