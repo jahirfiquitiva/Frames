@@ -1,4 +1,5 @@
 language: android
+dist: trusty
 
 env:
   global:
@@ -22,7 +23,7 @@ before_install:
 jdk:
   - oraclejdk8
 
-script: if [[ "$TRAVIS_TAG" ]]; then ./gradlew clean :app:assembleRelease --full-stacktrace; else ./gradlew clean test --full-stacktrace --info; fi
+script: if [[ "$TRAVIS_TAG" ]]; then ./gradlew clean :app:assembleRelease --full-stacktrace; else ./gradlew clean test --full-stacktrace; fi
 
 branches:
   except:
