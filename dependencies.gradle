@@ -96,7 +96,7 @@ ext.libraries = [
 
 configurations.all {
     resolutionStrategy {
-        force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.50'
-        force 'org.jetbrains.kotlin:kotlin-stdlib:1.3.50'
+        force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:' + versions.kotlin
+        force 'org.jetbrains.kotlin:kotlin-stdlib:' + versions.kotlin
     }
 }
