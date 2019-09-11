@@ -1,5 +1,7 @@
 language: android
 dist: trusty
+jdk:
+  - oraclejdk8
 
 env:
   global:
@@ -21,9 +23,6 @@ android:
 before_install:
   - yes | sdkmanager "platforms;android-$ANDROID_API"
   - yes | sdkmanager "build-tools;$ANDROID_BUILD_TOOLS"
-
-jdk:
-  - oraclejdk8
 
 script: if [[ "$TRAVIS_TAG" ]]; then ./gradlew clean :app:assembleRelease --full-stacktrace; else ./gradlew clean test --full-stacktrace; fi
 
@@ -60,6 +59,7 @@ cache:
 before_script:
   - rm -rf $TRAVIS_BUILD_DIR/app/build/outputs
   - chmod +x gradlew
+  - chmod +x gradle/wrapper/gradle-wrapper.jar
 
 after_success:
   - chmod +x ./publish_apk.sh; ./publish_apk.sh
