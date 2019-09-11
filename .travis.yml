@@ -22,7 +22,7 @@ before_install:
 jdk:
   - oraclejdk8
 
-script: if [[ "$TRAVIS_TAG" ]]; then ./gradlew clean :app:assembleRelease --stacktrace; else ./gradlew clean test --stacktrace; fi
+script: if [[ "$TRAVIS_TAG" ]]; then ./gradlew clean :app:assembleRelease --full-stacktrace; else ./gradlew clean test --full-stacktrace --debug --scan --warning-mode all; fi
 
 branches:
   except:
