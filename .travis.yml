@@ -1,5 +1,6 @@
 language: android
 dist: trusty
+sudo: false
 jdk:
   - oraclejdk8
 
@@ -35,7 +36,14 @@ branches:
     - travis-build
     - i18n
 
-sudo: false
+notifications:
+  email: false
+  slack:
+    rooms: "jahirfiquitiva:$SLACK_CHANNEL_KEY"
+    template:
+      - 'Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}: ''%{commit_subject}''>)  by
+        %{author} for %{repository_name}@%{branch}, %{result} in %{duration}. <%{build_url}|Check
+        details>.'
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
