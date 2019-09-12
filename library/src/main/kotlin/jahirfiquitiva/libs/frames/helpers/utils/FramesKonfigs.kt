@@ -16,6 +16,7 @@
 package jahirfiquitiva.libs.frames.helpers.utils
 
 import android.content.Context
+import android.os.Build
 import android.os.Environment
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.kext.extensions.boolean
@@ -23,6 +24,25 @@ import jahirfiquitiva.libs.kext.extensions.isInHorizontalMode
 import jahirfiquitiva.libs.kext.helpers.Prefs
 
 open class FramesKonfigs(private val cntxt: Context) : Prefs("jfdb_confs", cntxt) {
+    private var defFolder: String = ""
+    
+    init {
+        val externalStorage = try {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                @Suppress("DEPRECATION")
+                Environment.getExternalStorageDirectory().absolutePath ?: ""
+            } else {
+                @Suppress("DEPRECATION")
+                Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES).absolutePath ?: ""
+            }
+        } catch (e: Exception) {
+            ""
+        }
+        val appStorage = cntxt.getExternalFilesDir(null)?.absolutePath ?: ""
+        defFolder = if (appStorage.contains(cntxt.packageName)) externalStorage else appStorage
+    }
+    
     var backupJson: String
         get() = prefs.getString(BACKUP_JSON, "[]") ?: "[]"
         set(value) = prefsEditor.putString(BACKUP_JSON, value).apply()
@@ -35,11 +55,7 @@ open class FramesKonfigs(private val cntxt: Context) : Prefs("jfdb_confs", cntxt
     var downloadsFolder: String
         get() = prefs.getString(
             DOWNLOADS_FOLDER,
-            cntxt.getString(
-                R.string.default_download_folder,
-                cntxt.getExternalFilesDir(null)?.absolutePath))
-            ?: cntxt.getExternalFilesDir(null)?.absolutePath
-            ?: Environment.getExternalStorageDirectory().absolutePath
+            cntxt.getString(R.string.default_download_folder, defFolder)) ?: defFolder
         set(value) = prefsEditor.putString(DOWNLOADS_FOLDER, value).apply()
     
     var fullResGridPictures: Boolean

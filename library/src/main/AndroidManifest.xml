@@ -46,6 +46,7 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
         tools:ignore="AllowBackup,UnusedAttribute"
         tools:overrideLibrary="ca.allanwang.kau.searchview">
 
