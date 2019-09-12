@@ -108,7 +108,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         postDelayed(50) { startLicenseCheck() }
     }
     
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         outState?.putInt("pickerKey", pickerKey)
         super.onSaveInstanceState(outState)
     }
