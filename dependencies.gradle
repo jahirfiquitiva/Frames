@@ -45,7 +45,7 @@ ext.versions = [
         iaps                 : '1.1.0',
         muzeiApi             : '3.2.0',
         licensesDialog       : '2.0.0',
-        checker              : '584258d',
+        checker              : '1.2.6',
         oneSignal            : '3.11.3'
 ]
 
@@ -57,7 +57,7 @@ ext.gradlePlugins = [
 
 ext.libraries = [
         // Kotlin
-        kotlin               : 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:' + versions.kotlin,
+        kotlin               : 'org.jetbrains.kotlin:kotlin-stdlib:' + versions.kotlin,
         coroutines           : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:' + versions.coroutines,
         // Preferences
         preferences          : 'androidx.preference:preference:' + versions.preferences,
