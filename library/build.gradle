@@ -18,6 +18,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
+    compileOptions.incremental = false
     compileSdkVersion versions.targetSdk
     buildToolsVersion versions.buildTools
 
