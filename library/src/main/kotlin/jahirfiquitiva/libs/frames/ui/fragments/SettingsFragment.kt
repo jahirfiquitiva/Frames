@@ -21,7 +21,6 @@ import android.os.Build
 import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
-import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
 import androidx.preference.SwitchPreference
 import androidx.room.Room
@@ -40,8 +39,8 @@ import jahirfiquitiva.libs.frames.helpers.extensions.clearDataAndCache
 import jahirfiquitiva.libs.frames.helpers.extensions.configs
 import jahirfiquitiva.libs.frames.helpers.extensions.dataCacheSize
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
-import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.ui.activities.SettingsActivity
+import jahirfiquitiva.libs.frames.ui.fragments.base.BasePreferenceFragment
 import jahirfiquitiva.libs.kext.extensions.activity
 import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.getAppName
@@ -51,7 +50,7 @@ import jahirfiquitiva.libs.kext.extensions.string
 import jahirfiquitiva.libs.kext.ui.activities.ThemedActivity
 import org.jetbrains.anko.doAsync
 
-open class SettingsFragment : PreferenceFragmentCompat() {
+open class SettingsFragment : BasePreferenceFragment() {
     
     internal var database: FavoritesDatabase? = null
     internal var downloadLocation: Preference? = null
@@ -89,11 +88,10 @@ open class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initDatabase()
-        initPreferences()
     }
     
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        FL.d("Creating preferences")
+        initPreferences()
     }
     
     private fun initDatabase() {
@@ -195,10 +193,14 @@ open class SettingsFragment : PreferenceFragmentCompat() {
         val storagePrefs = findPreference("storage_settings") as? PreferenceCategory
         
         downloadLocation = findPreference("wallpapers_download_location")
-        updateDownloadLocation()
-        downloadLocation?.setOnPreferenceClickListener {
-            requestPermission()
-            true
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            updateDownloadLocation()
+            downloadLocation?.setOnPreferenceClickListener {
+                requestPermission()
+                true
+            }
+        } else {
+            downloadLocation?.isVisible = false
         }
         
         val clearData = findPreference<Preference>("clear_data")
