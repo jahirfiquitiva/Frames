@@ -201,9 +201,8 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
         rvLayoutManager?.let {
             recyclerView?.addOnScrollListener(
                 EndlessRecyclerViewScrollListener(it) { _, view ->
-                    if (userVisibleHint) {
-                        view.post { wallsAdapter.allowMoreItemsLoad() }
-                    }
+                    @Suppress("DEPRECATION")
+                    if (userVisibleHint) view.post { wallsAdapter.allowMoreItemsLoad() }
                 })
         }
         recyclerView?.layoutManager = rvLayoutManager
@@ -452,6 +451,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
     abstract fun showFavoritesIcon(): Boolean
     
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        @Suppress("DEPRECATION")
         super.setUserVisibleHint(isVisibleToUser)
         if (isVisibleToUser && !allowReloadAfterVisibleToUser()) recyclerView?.updateEmptyState()
     }
