@@ -183,8 +183,8 @@ class CollectionActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManager {
         return super.onCreateOptionsMenu(menu)
     }
     
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> doFinish()
             R.id.refresh -> frag?.reloadData(1)
         }
@@ -222,8 +222,8 @@ class CollectionActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManager {
     }
     
     override fun onSaveInstanceState(outState: Bundle) {
-        outState?.putParcelable("item", collection)
-        outState?.putBoolean("fromViewer", fromViewer)
+        outState.putParcelable("item", collection)
+        outState.putBoolean("fromViewer", fromViewer)
         super.onSaveInstanceState(outState)
     }
     

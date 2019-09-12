@@ -17,10 +17,8 @@ package jahirfiquitiva.libs.frames.helpers.extensions
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import androidx.fragment.app.Fragment
@@ -72,15 +70,6 @@ val Context.maxPictureRes
 
 private val runsMinSDK
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
-
-fun Context.openWallpaper(uri: Uri) {
-    sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri))
-    val intent = Intent()
-    intent.action = Intent.ACTION_VIEW
-    intent.setDataAndType(uri, "image/*")
-    intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-    startActivity(intent)
-}
 
 fun Context.createHeartIcon(checked: Boolean): Drawable? =
     drawable(if (checked) "ic_heart" else "ic_heart_outline")

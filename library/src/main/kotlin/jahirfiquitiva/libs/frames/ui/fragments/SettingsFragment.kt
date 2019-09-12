@@ -19,10 +19,11 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.preference.Preference
-import android.preference.PreferenceCategory
-import android.preference.PreferenceScreen
-import android.preference.SwitchPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceScreen
+import androidx.preference.SwitchPreference
 import androidx.room.Room
 import ca.allanwang.kau.utils.openLink
 import ca.allanwang.kau.utils.snackbar
@@ -39,8 +40,8 @@ import jahirfiquitiva.libs.frames.helpers.extensions.clearDataAndCache
 import jahirfiquitiva.libs.frames.helpers.extensions.configs
 import jahirfiquitiva.libs.frames.helpers.extensions.dataCacheSize
 import jahirfiquitiva.libs.frames.helpers.utils.DATABASE_NAME
+import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.ui.activities.SettingsActivity
-import jahirfiquitiva.libs.frames.ui.fragments.base.PreferenceFragment
 import jahirfiquitiva.libs.kext.extensions.activity
 import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.getAppName
@@ -50,7 +51,7 @@ import jahirfiquitiva.libs.kext.extensions.string
 import jahirfiquitiva.libs.kext.ui.activities.ThemedActivity
 import org.jetbrains.anko.doAsync
 
-open class SettingsFragment : PreferenceFragment() {
+open class SettingsFragment : PreferenceFragmentCompat() {
     
     internal var database: FavoritesDatabase? = null
     internal var downloadLocation: Preference? = null
@@ -91,6 +92,10 @@ open class SettingsFragment : PreferenceFragment() {
         initPreferences()
     }
     
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        FL.d("Creating preferences")
+    }
+    
     private fun initDatabase() {
         activity {
             if (boolean(R.bool.isFrames) && database == null) {
@@ -111,7 +116,7 @@ open class SettingsFragment : PreferenceFragment() {
             uiPrefs?.removePreference(navbarPref)
         }
         
-        val themePref = findPreference("theme")
+        val themePref = findPreference<Preference>("theme")
         themePref?.setOnPreferenceClickListener {
             clearDialog()
             val currentTheme = configs.currentTheme
@@ -141,7 +146,7 @@ open class SettingsFragment : PreferenceFragment() {
             true
         }
         
-        val columns = findPreference("columns")
+        val columns = findPreference<Preference>("columns")
         if (boolean(R.bool.isFrames)) {
             columns?.setOnPreferenceClickListener {
                 clearDialog()
@@ -196,7 +201,7 @@ open class SettingsFragment : PreferenceFragment() {
             true
         }
         
-        val clearData = findPreference("clear_data")
+        val clearData = findPreference<Preference>("clear_data")
         clearData?.summary = getString(R.string.data_cache_setting_content, activity?.dataCacheSize)
         clearData?.setOnPreferenceClickListener {
             clearDialog()
@@ -215,7 +220,7 @@ open class SettingsFragment : PreferenceFragment() {
             true
         }
         
-        val clearDatabase = findPreference("clear_database")
+        val clearDatabase = findPreference<Preference>("clear_database")
         if (boolean(R.bool.isFrames)) {
             clearDatabase?.setOnPreferenceClickListener {
                 clearDialog()
@@ -263,7 +268,7 @@ open class SettingsFragment : PreferenceFragment() {
         val legalCategory = findPreference("legal") as? PreferenceCategory
         
         if (privacyLink.hasContent() || termsLink.hasContent()) {
-            val privacyPref = findPreference("privacy")
+            val privacyPref = findPreference<Preference>("privacy")
             if (privacyLink.hasContent()) {
                 privacyPref?.setOnPreferenceClickListener {
                     try {
@@ -276,7 +281,7 @@ open class SettingsFragment : PreferenceFragment() {
                 legalCategory?.removePreference(privacyPref)
             }
             
-            val termsPref = findPreference("terms")
+            val termsPref = findPreference<Preference>("terms")
             if (termsLink.hasContent()) {
                 termsPref?.setOnPreferenceClickListener {
                     try {

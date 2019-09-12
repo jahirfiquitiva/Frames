@@ -23,14 +23,14 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.preference.Preference
-import android.preference.PreferenceManager
-import android.preference.PreferenceScreen
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import androidx.fragment.app.Fragment
+import androidx.preference.Preference
+import androidx.preference.PreferenceManager
+import androidx.preference.PreferenceScreen
 import jahirfiquitiva.libs.kext.extensions.bind
 
 /**
@@ -171,19 +171,21 @@ abstract class PreferenceFragment : Fragment() {
                 PreferenceScreen::class.java)
             m.isAccessible = true
             val result = m.invoke(preferenceManager, screen) as? Boolean
+            @Suppress("ControlFlowWithEmptyBody")
             if (result != null && screen != null) {
                 mHavePrefs = true
-                if (mInitDone) {
-                    postBindPreferences()
-                } else {
-                    // Do Nothing
+                @Suppress("ControlFlowWithEmptyBody")
+                if (mInitDone) postBindPreferences()
+                else {
+                    // Do nothing
                 }
             } else {
-                // Do Nothing
+                // Do nothing
             }
         } catch (ignored: Exception) {
         }
     
+    @SuppressLint("DiscouragedPrivateApi")
     protected fun addPreferencesFromResource(resId: Int) {
         requirePreferenceManager()
         try {
@@ -221,7 +223,8 @@ abstract class PreferenceFragment : Fragment() {
     }
     
     private fun bindPreferences() {
-        preferenceScreen?.bind(listView)
+        // TODO: Fix
+        // preferenceScreen?.bind(listView)
     }
     
     private val listView: ListView?

@@ -46,7 +46,7 @@ open class BaseBottomSheet : RoundedBottomSheetDialogFragment() {
         super.setupDialog(dialog, style)
         
         val content = getContentView()
-        content?.let { dialog?.setContentView(it) }
+        content?.let { dialog.setContentView(it) }
         
         val params =
             (content?.parent as? View)?.layoutParams as? CoordinatorLayout.LayoutParams
@@ -57,7 +57,7 @@ open class BaseBottomSheet : RoundedBottomSheetDialogFragment() {
             behavior?.setBottomSheetCallback(sheetCallback)
         }
         
-        dialog?.setOnShowListener { if (shouldExpandOnShow()) expand() }
+        dialog.setOnShowListener { if (shouldExpandOnShow()) expand() }
     }
     
     fun show(context: FragmentActivity, tag: String) {

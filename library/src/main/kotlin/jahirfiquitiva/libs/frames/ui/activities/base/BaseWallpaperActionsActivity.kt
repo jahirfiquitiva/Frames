@@ -18,7 +18,6 @@ package jahirfiquitiva.libs.frames.ui.activities.base
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.CallSuper
@@ -32,7 +31,6 @@ import com.google.android.material.snackbar.Snackbar
 import jahirfiquitiva.libs.archhelpers.extensions.mdDialog
 import jahirfiquitiva.libs.frames.R
 import jahirfiquitiva.libs.frames.data.models.Wallpaper
-import jahirfiquitiva.libs.frames.helpers.extensions.openWallpaper
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.frames.helpers.utils.FramesKonfigs
 import jahirfiquitiva.libs.frames.helpers.utils.REQUEST_CODE
@@ -171,13 +169,11 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
     }
     
     fun reportWallpaperDownloaded(dest: File) {
-        sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(dest)))
         runOnUiThread {
             properlyCancelDialog()
             showSnackbar(
-                getString(R.string.download_successful, dest.toString()), Snackbar.LENGTH_LONG) {
-                setAction(R.string.open) { dest.getUri(context)?.let { openWallpaper(it) } }
-            }
+                getString(R.string.download_successful, dest.toString()),
+                Snackbar.LENGTH_LONG)
         }
     }
     

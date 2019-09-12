@@ -414,7 +414,7 @@ open class ViewerActivity : BaseWallpaperActionsActivity<FramesKonfigs>() {
         this.closing = savedInstanceState.getBoolean(CLOSING_KEY, false)
         this.transitioned = savedInstanceState.getBoolean(TRANSITIONED_KEY, false)
         currentWallPosition = savedInstanceState.getInt(CURRENT_WALL_POSITION, currentWallPosition)
-        wallPositionDifference = savedInstanceState?.getInt(POSITION_DIFF, wallPositionDifference)
+        wallPositionDifference = savedInstanceState.getInt(POSITION_DIFF, wallPositionDifference)
         setupProgressBarColors()
     }
     

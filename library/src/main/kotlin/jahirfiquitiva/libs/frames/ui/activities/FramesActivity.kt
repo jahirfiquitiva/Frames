@@ -254,16 +254,13 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
         return super.onCreateOptionsMenu(menu)
     }
     
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        item?.let {
-            when (it.itemId) {
-                R.id.refresh -> refreshContent()
-                R.id.changelog -> showChanges()
-                R.id.about -> startActivity(Intent(this, CreditsActivity::class.java))
-                R.id.settings -> startActivityForResult(
-                    Intent(this, SettingsActivity::class.java), 22)
-                R.id.donate -> doDonation()
-            }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.refresh -> refreshContent()
+            R.id.changelog -> showChanges()
+            R.id.about -> startActivity(Intent(this, CreditsActivity::class.java))
+            R.id.settings -> startActivityForResult(Intent(this, SettingsActivity::class.java), 22)
+            R.id.donate -> doDonation()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -302,7 +299,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
     }
     
     override fun onSaveInstanceState(outState: Bundle) {
-        outState?.putInt("current", lastSection)
+        outState.putInt("current", lastSection)
         super.onSaveInstanceState(outState)
     }
     

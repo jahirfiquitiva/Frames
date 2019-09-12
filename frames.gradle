@@ -22,6 +22,8 @@ dependencies {
     // Kotlin
     api libraries.kotlin
     api libraries.coroutines
+    // Preferences
+    api libraries.preferences
     // Architecture Components
     api libraries.room, exclusions
     kapt libraries.roomCompiler
