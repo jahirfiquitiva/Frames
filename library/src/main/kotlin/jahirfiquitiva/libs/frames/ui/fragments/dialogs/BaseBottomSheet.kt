@@ -42,7 +42,7 @@ open class BaseBottomSheet : RoundedBottomSheetDialogFragment() {
     }
     
     @SuppressLint("RestrictedApi")
-    override fun setupDialog(dialog: Dialog?, style: Int) {
+    override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style)
         
         val content = getContentView()

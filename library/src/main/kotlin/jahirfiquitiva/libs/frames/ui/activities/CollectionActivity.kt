@@ -221,7 +221,7 @@ class CollectionActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManager {
         }
     }
     
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         outState?.putParcelable("item", collection)
         outState?.putBoolean("fromViewer", fromViewer)
         super.onSaveInstanceState(outState)
