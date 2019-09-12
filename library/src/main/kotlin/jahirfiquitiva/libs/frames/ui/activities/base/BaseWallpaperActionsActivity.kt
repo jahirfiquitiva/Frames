@@ -43,6 +43,7 @@ import jahirfiquitiva.libs.kext.ui.activities.ActivityWFragments
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragments<T>() {
     
@@ -185,9 +186,7 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
     
     private fun getWallpaperExtension(currentExt: String): String {
         val validExtensions = arrayOf(".jpg", ".jpeg", ".png")
-        validExtensions.forEach {
-            if (currentExt.contains(it, true)) return it
-        }
+        validExtensions.forEach { if (currentExt.contains(it, true)) return it }
         return ".png"
     }
     
@@ -247,7 +246,7 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
                         toHomeScreen -> R.string.home_screen
                         toLockScreen -> R.string.lock_screen
                         else -> R.string.empty
-                    }).toLowerCase()), Snackbar.LENGTH_LONG)
+                    }).toLowerCase(Locale.ROOT)), Snackbar.LENGTH_LONG)
     }
     
     private var file: File? = null

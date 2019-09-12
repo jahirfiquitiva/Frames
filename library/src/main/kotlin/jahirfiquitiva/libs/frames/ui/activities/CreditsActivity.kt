@@ -112,29 +112,27 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
         return super.onCreateOptionsMenu(menu)
     }
     
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        item?.let {
-            when (it.itemId) {
-                android.R.id.home -> finish()
-                R.id.translate -> try {
-                    openLink(getTranslationSite())
-                } catch (ignored: Exception) {
-                }
-                R.id.licenses -> LicensesDialog.Builder(this)
-                    .setTitle(R.string.licenses)
-                    .setNotices(R.raw.notices)
-                    .setShowFullLicenseText(false)
-                    .setIncludeOwnLicense(false)
-                    .setDividerColor(dividerColor)
-                    .build().show()
-                else -> {
-                }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+            R.id.translate -> try {
+                openLink(getTranslationSite())
+            } catch (ignored: Exception) {
+            }
+            R.id.licenses -> LicensesDialog.Builder(this)
+                .setTitle(R.string.licenses)
+                .setNotices(R.raw.notices)
+                .setShowFullLicenseText(false)
+                .setIncludeOwnLicense(false)
+                .setDividerColor(dividerColor)
+                .build().show()
+            else -> {
             }
         }
         return super.onOptionsItemSelected(item)
     }
     
-    open fun getTranslationSite(): String = "http://j.mp/Trnsl8Frames"
+    open fun getTranslationSite(): String = "https://crowdin.com/project/Frames"
     
     private fun registerExtraLicenses() {
         val ccLicense = object : License() {
@@ -199,7 +197,7 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
             val links = stringArray(R.array.credits_links) ?: arrayOf("")
             
             if (descriptions.size == titles.size && photos.size == titles.size) {
-                for (it in 0 until titles.size) {
+                for (it in titles.indices) {
                     val title = titles[it]
                     if (title.hasContent()) {
                         list += Credit(
@@ -242,8 +240,8 @@ open class CreditsActivity : ThemedActivity<FramesKonfigs>() {
     private companion object {
         const val JAHIR_PHOTO_URL =
             "https://github.com/jahirfiquitiva/Website-Resources/raw/master/myself/me-square-white.png"
-        const val JAHIR_BUTTONS = "Website|Twitter"
-        const val JAHIR_LINKS = "https://jahir.xyz/|https://jahir.xyz/twitter"
+        const val JAHIR_BUTTONS = "Website|Twitter|Donate"
+        const val JAHIR_LINKS = "https://jahir.dev/|https://jahir.xyz/twitter|https://jahir.dev/donate"
         
         const val ALLAN_PHOTO_URL = "https://avatars0.githubusercontent.com/u/6251823?v=4&s=400"
         const val ALLAN_BUTTONS = "Website|GitHub"

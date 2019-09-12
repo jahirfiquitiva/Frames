@@ -227,13 +227,11 @@ class CollectionActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManager {
         super.onSaveInstanceState(outState)
     }
     
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        fromViewer = savedInstanceState?.getBoolean("fromViewer", fromViewer) ?: fromViewer
-        savedInstanceState?.let {
-            collection = it.getParcelable("item")
-            initContent(true)
-        }
+        fromViewer = savedInstanceState.getBoolean("fromViewer", fromViewer)
+        collection = savedInstanceState.getParcelable("item")
+        initContent(true)
     }
     
     override fun notifyFavsToFrags(favs: ArrayList<Wallpaper>) {

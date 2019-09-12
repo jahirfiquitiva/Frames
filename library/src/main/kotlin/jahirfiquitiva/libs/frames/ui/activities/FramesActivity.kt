@@ -60,6 +60,7 @@ import jahirfiquitiva.libs.kext.extensions.tint
 import jahirfiquitiva.libs.kext.ui.layouts.CustomTabLayout
 import jahirfiquitiva.libs.kext.ui.widgets.CustomSearchView
 import org.jetbrains.anko.doAsync
+import java.util.Locale
 
 abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManager {
     
@@ -221,7 +222,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
                     else -> ""
                 }
             }
-            searchView?.queryHint = getString(R.string.search_x, hint.toLowerCase())
+            searchView?.queryHint = getString(R.string.search_x, hint.toLowerCase(Locale.ROOT))
         }
     }
     
@@ -303,12 +304,12 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
         super.onSaveInstanceState(outState)
     }
     
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         invalidateOptionsMenu()
         hasCollections = boolean(R.bool.show_collections_tab)
         val correct = if (hasCollections) 1 else 0
-        lastSection = savedInstanceState?.getInt("current", correct) ?: correct
+        lastSection = savedInstanceState.getInt("current", correct)
         initPagerAdapter()
         pager?.setCurrentItem(lastSection, true)
     }

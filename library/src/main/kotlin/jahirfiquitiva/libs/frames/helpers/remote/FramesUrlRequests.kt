@@ -42,7 +42,7 @@ object FramesUrlRequests {
             ins.close()
             reader.close()
         } catch (e: Exception) {
-            Log.e("Error", e.message)
+            Log.e("Error", e.message ?: "Error getting json")
         } finally {
             urlConnection.disconnect()
         }
@@ -67,7 +67,7 @@ object FramesUrlRequests {
                     size, Dimension(options.outWidth.toLong(), options.outHeight.toLong()))
             }
         } catch (e: Exception) {
-            Log.e("Error", e.message)
+            Log.e("Error", e.message ?: "Error getting file info")
         } finally {
             urlConnection.disconnect()
         }

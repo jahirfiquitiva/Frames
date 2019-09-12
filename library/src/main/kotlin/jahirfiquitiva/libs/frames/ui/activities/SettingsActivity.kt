@@ -108,24 +108,22 @@ open class SettingsActivity : ActivityWFragments<FramesKonfigs>() {
         return super.onCreateOptionsMenu(menu)
     }
     
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        item?.let {
-            when (it.itemId) {
-                android.R.id.home -> doFinish()
-                R.id.translate -> {
-                    try {
-                        openLink(getTranslationSite())
-                    } catch (ignored: Exception) {
-                    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> doFinish()
+            R.id.translate -> {
+                try {
+                    openLink(getTranslationSite())
+                } catch (ignored: Exception) {
                 }
-                else -> {
-                }
+            }
+            else -> {
             }
         }
         return super.onOptionsItemSelected(item)
     }
     
-    open fun getTranslationSite(): String = "http://j.mp/Trnsl8Frames"
+    open fun getTranslationSite(): String = "https://crowdin.com/project/Frames"
     
     override fun onBackPressed() {
         super.onBackPressed()

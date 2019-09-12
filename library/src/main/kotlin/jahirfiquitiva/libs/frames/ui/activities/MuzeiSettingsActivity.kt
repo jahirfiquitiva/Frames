@@ -52,11 +52,6 @@ import jahirfiquitiva.libs.kext.extensions.tint
 import jahirfiquitiva.libs.kext.ui.activities.ThemedActivity
 
 class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
-    companion object {
-        private const val SEEKBAR_STEPS = 1
-        private const val SEEKBAR_MAX_VALUE = 13
-        private const val SEEKBAR_MIN_VALUE = 0
-    }
     
     override val prefs: FramesKonfigs by lazy { FramesKonfigs(this) }
     override fun lightTheme(): Int = R.style.LightTheme
@@ -99,43 +94,6 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
         
         val isFramesApp = boolean(R.bool.isFrames)
         
-        /*
-        val everyTitle: TextView? by bind(R.id.every_title)
-        everyTitle?.setTextColor(primaryTextColor)
-        
-        val everySummary: TextView? by bind(R.id.every_summary)
-        everySummary?.setTextColor(secondaryTextColor)
-        everySummary?.text = getString(
-            R.string.every_x, textFromProgress(
-            prefs.muzeiRefreshInterval).toLowerCase(Locale.getDefault()))
-        
-        seekBar?.progress = prefs.muzeiRefreshInterval
-        seekBar?.incrementProgressBy(SEEKBAR_STEPS)
-        seekBar?.max = (SEEKBAR_MAX_VALUE - SEEKBAR_MIN_VALUE) / SEEKBAR_STEPS
-        
-        seekBar?.setOnSeekBarChangeListener(
-            object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(
-                    seekBar: SeekBar?,
-                    progress: Int,
-                    fromUser: Boolean
-                                              ) {
-                    val value = SEEKBAR_MIN_VALUE + (progress * SEEKBAR_STEPS)
-                    everySummary?.text = resources.getString(
-                        R.string.every_x,
-                        textFromProgress(value).toLowerCase(
-                            Locale.getDefault()))
-                    saveChanges()
-                }
-                
-                override fun onStartTrackingTouch(p0: SeekBar?) {}
-                
-                override fun onStopTrackingTouch(p0: SeekBar?) {}
-            })
-        
-        findViewById<View>(R.id.divider).background = ColorDrawable(dividerColor)
-        */
-        
         if (isFramesApp) {
             findViewById<View>(R.id.other_divider).background = ColorDrawable(dividerColor)
         } else {
@@ -170,8 +128,8 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
         }
     }
     
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == android.R.id.home) doFinish()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) doFinish()
         return super.onOptionsItemSelected(item)
     }
     
@@ -289,25 +247,4 @@ class MuzeiSettingsActivity : ThemedActivity<FramesKonfigs>() {
         super.onDestroy()
         doFinish()
     }
-    
-    private fun textFromProgress(progress: Int): String {
-        when (progress) {
-            0 -> return 15.toString() + " " + resources.getString(R.string.minutes)
-            1 -> return 30.toString() + " " + resources.getString(R.string.minutes)
-            2 -> return 45.toString() + " " + resources.getString(R.string.minutes)
-            3 -> return 1.toString() + " " + resources.getString(R.string.hours)
-            4 -> return 2.toString() + " " + resources.getString(R.string.hours)
-            5 -> return 3.toString() + " " + resources.getString(R.string.hours)
-            6 -> return 6.toString() + " " + resources.getString(R.string.hours)
-            7 -> return 9.toString() + " " + resources.getString(R.string.hours)
-            8 -> return 12.toString() + " " + resources.getString(R.string.hours)
-            9 -> return 18.toString() + " " + resources.getString(R.string.hours)
-            10 -> return 1.toString() + " " + resources.getString(R.string.days)
-            11 -> return 3.toString() + " " + resources.getString(R.string.days)
-            12 -> return 7.toString() + " " + resources.getString(R.string.days)
-            13 -> return 14.toString() + " " + resources.getString(R.string.days)
-            else -> return "?"
-        }
-    }
-    
 }

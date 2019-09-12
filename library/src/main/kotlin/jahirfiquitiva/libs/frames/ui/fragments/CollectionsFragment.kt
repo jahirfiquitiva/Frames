@@ -109,9 +109,8 @@ internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHo
                 layoutManager.notNull {
                     addOnScrollListener(
                         EndlessRecyclerViewScrollListener(it) { _, view ->
-                            if (userVisibleHint) {
-                                view.post { collsAdapter.allowMoreItemsLoad() }
-                            }
+                            @Suppress("DEPRECATION")
+                            if (userVisibleHint) view.post { collsAdapter.allowMoreItemsLoad() }
                         })
                 }
                 
@@ -220,6 +219,7 @@ internal class CollectionsFragment : BaseFramesFragment<Collection, CollectionHo
     override fun fromFavorites(): Boolean = false
     
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        @Suppress("DEPRECATION")
         super.setUserVisibleHint(isVisibleToUser)
         if (isVisibleToUser && !allowReloadAfterVisibleToUser()) recyclerView?.updateEmptyState()
     }
