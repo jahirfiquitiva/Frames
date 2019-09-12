@@ -31,6 +31,7 @@
         android:supportsRtl="true"
         android:theme="@style/MySplashScreen"
         android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
         tools:ignore="UnusedAttribute">
 
         <!-- OneSignal Notifications Service -->
