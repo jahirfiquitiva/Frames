@@ -143,7 +143,7 @@ abstract class PreferenceFragment : Fragment() {
         }
     }
     
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         try {
             val m = PreferenceManager::class.java.getDeclaredMethod(
