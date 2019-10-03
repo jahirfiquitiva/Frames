@@ -11,7 +11,7 @@ Frames
 
 A full-of-features, easy-to-customize, free and open source, light-weight, Android dashboard library to create wallpapers apps with almost-null effort.
 
-<a target="_blank" href="https://github.com/jahirfiquitiva/Frames/releases/latest">
+<a target="_blank" href="http://bit.ly/DLFramesAPK">
 <img src="https://jahirfiquitiva.com/share/download_sample.svg?maxAge=432000" width="200"/>
 </a>
 
