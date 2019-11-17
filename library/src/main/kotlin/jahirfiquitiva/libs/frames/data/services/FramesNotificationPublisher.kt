@@ -45,8 +45,10 @@ class FramesNotificationPublisher(
             if (!notificationsEnabled) return
             if (data != null && data.isNotEmpty()) {
                 var postedNewWallsNotification = false
-                for (element in data) {
-                    val dataValue = element.toString().split("=")
+                @Suppress("ReplaceManualRangeWithIndicesCalls")
+                for (i in 0 until data.size) {
+                    val dataValue =
+                        data.toString().replace("{", "").replace("}", "").split(",")[i].split("=")
                     val key = dataValue[0]
                     val value = dataValue[1]
                     if (key.equals("new_walls", true)) {
