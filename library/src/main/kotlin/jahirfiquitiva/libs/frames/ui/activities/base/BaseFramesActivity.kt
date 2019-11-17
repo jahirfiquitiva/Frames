@@ -118,27 +118,6 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         pickerKey = savedInstanceState.getInt("pickerKey", 0)
     }
     
-    private fun initDonations() {
-        if (donationsReady) return
-        if (donationsEnabled && stringArray(R.array.donation_items).orEmpty().isNotEmpty()
-            && BillingProcessor.isIabServiceAvailable(this)) {
-            destroyBillingProcessor()
-            getLicKey()?.let {
-                billingProcessor = BillingProcessor(this, it, this)
-                billingProcessor?.let {
-                    if (!it.isInitialized) it.initialize()
-                    try {
-                        donationsEnabled = it.isOneTimePurchaseSupported || true
-                    } catch (ignored: Exception) {
-                    }
-                    donationsReady = true
-                } ?: { donationsEnabled = false }()
-            } ?: { donationsEnabled = false }()
-        } else {
-            donationsEnabled = false
-        }
-    }
-    
     private fun startLicenseCheck(force: Boolean = false) {
         val update = isUpdate
         if (update || !prefs.functionalDashboard || force) {
@@ -168,6 +147,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     }
     
     open var donationsEnabled = false
+    private var donationViewModel: IAPViewModel? = null
     open fun amazonInstallsEnabled(): Boolean = false
     open fun checkLPF(): Boolean = true
     open fun checkStores(): Boolean = true
@@ -262,6 +242,27 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         dialog?.show()
     }
     
+    private fun initDonations() {
+        if (donationsReady) return
+        if (donationsEnabled && stringArray(R.array.donation_items).orEmpty().isNotEmpty()
+            && BillingProcessor.isIabServiceAvailable(this)) {
+            destroyBillingProcessor()
+            getLicKey()?.let {
+                billingProcessor = BillingProcessor(this, it, this)
+                billingProcessor?.let {
+                    try {
+                        if (!it.isInitialized) it.initialize()
+                        donationsEnabled = it.isOneTimePurchaseSupported || true
+                    } catch (ignored: Exception) {
+                    }
+                    donationsReady = true
+                } ?: { donationsEnabled = false }()
+            } ?: { donationsEnabled = false }()
+        } else {
+            donationsEnabled = false
+        }
+    }
+    
     fun doDonation() {
         initDonations()
         destroyDialog()
@@ -269,33 +270,33 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
             showDonationErrorDialog(0, null)
             return
         }
-        try {
-            billingProcessor?.initialize()
-            if (billingProcessor?.isInitialized == true) {
-                val donationViewModel = ViewModelProviders.of(this).get(IAPViewModel::class.java)
-                donationViewModel.iapBillingProcessor = billingProcessor
-                donationViewModel.observe(this) {
-                    if (it.size > 0) {
-                        showDonationDialog(ArrayList(it))
+        billingProcessor?.let {
+            if (donationViewModel == null) {
+                donationViewModel = ViewModelProviders.of(this).get(IAPViewModel::class.java)
+                donationViewModel?.iapBillingProcessor = it
+                donationViewModel?.observe(this) { items ->
+                    if (items.size > 0) {
+                        showDonationDialog(ArrayList(items))
                     } else {
                         showDonationErrorDialog(0, null)
                     }
-                    donationViewModel.destroy(this)
-                }
-                destroyDialog()
-                dialog = mdDialog {
-                    message(R.string.loading)
-                    cancelable(false)
-                    cancelOnTouchOutside(false)
-                }
-                donationViewModel.loadData(stringArray(R.array.donation_items) ?: arrayOf(""), true)
-                dialog?.show()
-                postDelayed(3000) {
-                    dialog?.cancelable(true)
-                    dialog?.cancelOnTouchOutside(true)
                 }
             }
-        } catch (e: Exception) {
+            destroyDialog()
+            dialog = mdDialog {
+                message(R.string.loading)
+                cancelable(false)
+                cancelOnTouchOutside(false)
+            }
+            dialog?.show()
+            donationViewModel?.loadData(stringArray(R.array.donation_items) ?: arrayOf(""), true)
+            postDelayed(3000) {
+                if (donationViewModel?.getData().orEmpty().isEmpty()) {
+                    dialog?.cancelable(true)
+                    dialog?.cancelOnTouchOutside(true)
+                    dialog?.positiveButton(text = getString(android.R.string.cancel))
+                }
+            }
         }
     }
     
@@ -350,6 +351,8 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     override fun onDestroy() {
         super.onDestroy()
         destroyDialog()
+        donationViewModel?.destroyIAP(this)
+        donationViewModel = null
         destroyBillingProcessor()
         destroyChecker()
     }

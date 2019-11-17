@@ -15,6 +15,7 @@
  */
 package jahirfiquitiva.libs.frames.viewmodels
 
+import androidx.lifecycle.LifecycleOwner
 import com.anjlab.android.iab.v3.BillingProcessor
 import jahirfiquitiva.libs.archhelpers.viewmodels.ListViewModel
 
@@ -22,6 +23,7 @@ class IAPViewModel : ListViewModel<Array<String>, IAPItem>() {
     var iapBillingProcessor: BillingProcessor? = null
     override fun internalLoad(param: Array<String>): ArrayList<IAPItem> {
         val iaps = ArrayList<IAPItem>()
+        iapBillingProcessor ?: return iaps
         try {
             param.forEach {
                 val id = it
@@ -34,6 +36,11 @@ class IAPViewModel : ListViewModel<Array<String>, IAPItem>() {
         } catch (ignored: Exception) {
         }
         return iaps
+    }
+    
+    fun destroyIAP(owner: LifecycleOwner, interrupt: Boolean = true) {
+        destroy(owner, interrupt)
+        iapBillingProcessor = null
     }
 }
 
