@@ -128,7 +128,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
                 billingProcessor?.let {
                     if (!it.isInitialized) it.initialize()
                     try {
-                        donationsEnabled = it.isOneTimePurchaseSupported
+                        donationsEnabled = it.isOneTimePurchaseSupported || true
                     } catch (ignored: Exception) {
                     }
                     donationsReady = true
@@ -269,11 +269,11 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
             showDonationErrorDialog(0, null)
             return
         }
-        billingProcessor?.let {
-            if (!it.isInitialized) it.initialize()
-            if (it.isInitialized) {
+        try {
+            billingProcessor?.initialize()
+            if (billingProcessor?.isInitialized == true) {
                 val donationViewModel = ViewModelProviders.of(this).get(IAPViewModel::class.java)
-                donationViewModel.iapBillingProcessor = it
+                donationViewModel.iapBillingProcessor = billingProcessor
                 donationViewModel.observe(this) {
                     if (it.size > 0) {
                         showDonationDialog(ArrayList(it))
@@ -290,7 +290,12 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
                 }
                 donationViewModel.loadData(stringArray(R.array.donation_items) ?: arrayOf(""), true)
                 dialog?.show()
+                postDelayed(3000) {
+                    dialog?.cancelable(true)
+                    dialog?.cancelOnTouchOutside(true)
+                }
             }
+        } catch (e: Exception) {
         }
     }
     
@@ -332,6 +337,8 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
             }
         }
     }
+    
+    override fun onBillingInitialized() {}
     
     override fun onBillingError(errorCode: Int, error: Throwable?) {
         showDonationErrorDialog(
@@ -375,7 +382,6 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         }
     }
     
-    override fun onBillingInitialized() {}
     override fun onPurchaseHistoryRestored() {}
     
     override fun applyBitmapWallpaper(
