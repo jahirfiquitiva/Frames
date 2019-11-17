@@ -272,6 +272,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         }
         billingProcessor?.let {
             if (donationViewModel == null) {
+                destroyDonations()
                 donationViewModel = ViewModelProviders.of(this).get(IAPViewModel::class.java)
                 donationViewModel?.iapBillingProcessor = it
                 donationViewModel?.observe(this) { items ->
@@ -314,6 +315,7 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     }
     
     private fun showDonationErrorDialog(error: Int, reason: String?) {
+        destroyDonations()
         destroyDialog()
         dialog = mdDialog {
             title(R.string.error_title)
@@ -351,8 +353,6 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     override fun onDestroy() {
         super.onDestroy()
         destroyDialog()
-        donationViewModel?.destroyIAP(this)
-        donationViewModel = null
         destroyBillingProcessor()
         destroyChecker()
     }
@@ -371,6 +371,11 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         billingProcessor?.release()
         billingProcessor = null
         donationsReady = false
+    }
+    
+    private fun destroyDonations() {
+        donationViewModel?.destroyIAP(this)
+        donationViewModel = null
     }
     
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
