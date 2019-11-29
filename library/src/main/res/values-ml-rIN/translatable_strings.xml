@@ -53,6 +53,8 @@
     <string name="apply_with_other_app">മറ്റ് അപ്ലിക്കേഷൻ ഉപയോഗിച്ച് പ്രയോഗിക്കുക</string>
     <string name="apply_successful">വാൾപേപ്പർ %1$s എന്നതിലേക്ക് വിജയകരമായി അപ്പ്ലൈ ചെയ്‌തു</string>
     <string name="apply_successful_short">വാൾപേപ്പർ വിജയകരമായി പ്രയോഗിച്ചു</string>
+    <string name="previous">മുൻപുള്ള</string>
+    <string name="next">അടുത്തത്</string>
     <string name="wallpaper_details">വിശദാംശങ്ങൾ</string>
     <string name="wallpaper_palette">പാലറ്റ്</string>
     <string name="copied_to_clipboard">ക്ലിപ്പ്ബോർഡിലേക്ക് നിറം പകർത്തി</string>
@@ -67,6 +69,7 @@
     <string name="frames_dashboard">ഫ്രെയിംസ് ഡാഷ്ബോർഡ്</string>
     <string name="dev_contributions">വികസന സഹായം</string>
     <string name="ui_contributions">യു ഐ സഹായം</string>
+    <string name="dashboard_copyright">ഞാൻ ഒരു ആവേശവും ക്രിയാത്മകവുമായ Android ഡവലപ്പറും ഡാഷ്‌ബോർഡിന്റെ സ്രഷ്ടാവുമാണ്.</string>
     <string name="sherry_description">ഈ ഡാഷ്ബോഡ്ഡ്  സാധ്യമാക്കിയ, ക്രീറ്റിവ് ഫോട്ടോഗ്രാഫർ ആയ വനിത. </string>
     <string name="allan_description">ആദ്യം ഒരു ഐക്കൺ പാക്ക് സ്രഷ്ടാവും പിന്നീട് ഒരു ഡവലപ്പറും ഇപ്പോൾ ഡവലപ്പറും.\nഈ ഡാഷ്ബോർഡിന്റെ വികസനത്തിന്റെ ഭാഗമായി ഞാൻ സഹായിച്ചിട്ടുണ്ട്</string>
     <string name="settings">ക്രമീകരണങ്ങൾ</string>
@@ -146,4 +149,11 @@
     <string name="new_wallpapers_available">%1$s പുതിയ വാൾപേപ്പറുകൾ ലഭ്യമാണ്. അവ പരിശോധിക്കാൻ ടാപ്പുചെയ്യുക!</string>
     <string name="notifications_title">അറിയിപ്പുകൾ</string>
     <string name="enable_notifications">അറിയിപ്പുകൾ എനേബിൾ ചെയ്യുക</string>
+    <string name="changelog">ചെയ്ഞ്ച്ലോഗ്</string>
+    <string name="dismiss">ഡിസ്മിസ്സ് ചെയ്യുക</string>
+    <string name="prevent_download_title">ഡൗൺലോഡുകൾ ലോക്കുചെയ്‌തിരിക്കുന്നു</string>
+    <string name="prevent_download_content">സുരക്ഷാ കാരണങ്ങളാൽ, അടുത്ത %1$s മണിക്കൂറുകൾക്ക് വാൾപേപ്പറുകൾ ഡൗൺലോഡുചെയ്യുന്നത് സാധ്യമല്ല. പിന്നീട് വീണ്ടും ശ്രമിക്കുക.</string>
+    <string name="legal">ലീഗൽ</string>
+    <string name="privacy_policy">സ്വകാര്യതാനയം</string>
+    <string name="terms_conditions">ഉപാധികളും നിബന്ധനകളും</string>
 </resources>
