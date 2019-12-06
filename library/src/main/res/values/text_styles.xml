@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="TextStyle" />
+
+    <style name="TextStyle.Frames" />
+
+    <!-- Headline3 -->
+    <style name="TextAppearance.Frames.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="android:textSize">48sp</item>
+
+        <item name="lineHeight">64sp</item>
+        <item name="android:letterSpacing" tools:ignore="NewApi">0.0</item>
+    </style>
+
+    <style name="TextStyle.Frames.Headline3">
+        <item name="android:textAppearance">@style/TextAppearance.Frames.Headline3</item>
+        <item name="firstBaselineToTopHeight">52sp</item>
+        <item name="lastBaselineToBottomHeight">16sp</item>
+    </style>
+    <!-- Headline3 -->
+
+    <!-- Headline4 -->
+    <style name="TextAppearance.Frames.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textSize">34sp</item>
+
+        <item name="lineHeight">48sp</item>
+        <item name="android:letterSpacing" tools:ignore="NewApi">0.0075</item>
+    </style>
+
+    <style name="TextStyle.Frames.Headline4">
+        <item name="android:textAppearance">@style/TextAppearance.Frames.Headline4</item>
+        <item name="firstBaselineToTopHeight">36sp</item>
+        <item name="lastBaselineToBottomHeight">12sp</item>
+    </style>
+    <!-- Headline4 -->
+
+    <!-- Headline5 -->
+    <style name="TextAppearance.Frames.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textSize">24sp</item>
+
+        <item name="lineHeight">36sp</item>
+        <item name="android:letterSpacing" tools:ignore="NewApi">0.0</item>
+    </style>
+
+    <style name="TextStyle.Frames.Headline5">
+        <item name="android:textAppearance">@style/TextAppearance.Frames.Headline5</item>
+        <item name="firstBaselineToTopHeight">28sp</item>
+        <item name="lastBaselineToBottomHeight">8sp</item>
+    </style>
+    <!-- Headline5 -->
+
+    <!-- Headline6 -->
+    <style name="TextAppearance.Frames.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/manrope_bold_fam</item>
+        <item name="android:textSize">20sp</item>
+
+        <item name="lineHeight">32sp</item>
+        <item name="android:letterSpacing" tools:ignore="NewApi">0.0075</item>
+    </style>
+
+    <style name="TextStyle.Frames.Headline6">
+        <item name="android:textAppearance">@style/TextAppearance.Frames.Headline6</item>
+        <item name="firstBaselineToTopHeight">24sp</item>
+        <item name="lastBaselineToBottomHeight">8sp</item>
+    </style>
+    <!-- Headline6 -->
+
+    <!-- Subtitle1 -->
+    <style name="TextAppearance.Frames.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/manrope_medium_fam</item>
+        <item name="android:textSize">16sp</item>
+
+        <item name="lineHeight">24sp</item>
+        <item name="android:letterSpacing" tools:ignore="NewApi">0.009375</item>
+    </style>
+
+    <style name="TextStyle.Frames.Subtitle1">
+        <item name="android:textAppearance">@style/TextAppearance.Frames.Subtitle1</item>
+        <item name="firstBaselineToTopHeight">20sp</item>
+        <item name="lastBaselineToBottomHeight">8sp</item>
+    </style>
+    <!-- Subtitle1 -->
+
+    <!-- Subtitle2 -->
+    <style name="TextAppearance.Frames.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/manrope_medium_fam</item>
+        <item name="android:textSize">14sp</item>
+
+        <item name="lineHeight">24sp</item>
+        <item name="android:letterSpacing" tools:ignore="NewApi">0.007145</item>
+    </style>
+
+    <style name="TextStyle.Frames.Subtitle2">
+        <item name="android:textAppearance">@style/TextAppearance.Frames.Subtitle2</item>
+        <item name="firstBaselineToTopHeight">16sp</item>
+        <item name="lastBaselineToBottomHeight">4sp</item>
+    </style>
+    <!-- Subtitle2 -->
+
+    <!-- Button -->
+    <style name="TextAppearance.Frames.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/manrope_bold_fam</item>
+        <item name="android:textSize">14sp</item>
+
+        <item name="lineHeight">20sp</item>
+        <item name="android:letterSpacing" tools:ignore="NewApi">0.05715</item>
+    </style>
+
+    <style name="TextStyle.Frames.Button">
+        <item name="android:textAppearance">@style/TextAppearance.Frames.Button</item>
+        <item name="firstBaselineToTopHeight">16sp</item>
+        <item name="lastBaselineToBottomHeight">4sp</item>
+    </style>
+    <!-- Button -->
+
+    <!-- Body1 -->
+    <style name="TextAppearance.Frames.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">16sp</item>
+
+        <item name="lineHeight">24sp</item>
+        <item name="android:letterSpacing" tools:ignore="NewApi">0.003125</item>
+    </style>
+
+    <style name="TextStyle.Frames.Body1">
+        <item name="android:textAppearance">@style/TextAppearance.Frames.Body1</item>
+        <item name="firstBaselineToTopHeight">20sp</item>
+        <item name="lastBaselineToBottomHeight">8sp</item>
+    </style>
+    <!-- Body1 -->
+
+    <!-- Body2 -->
+    <style name="TextAppearance.Frames.Body2" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textSize">14sp</item>
+
+        <item name="lineHeight">20sp</item>
+        <item name="android:letterSpacing" tools:ignore="NewApi">0.01785</item>
+    </style>
+
+    <style name="TextStyle.Frames.Body2">
+        <item name="android:textAppearance">@style/TextAppearance.Frames.Body2</item>
+        <item name="firstBaselineToTopHeight">16sp</item>
+        <item name="lastBaselineToBottomHeight">4sp</item>
+    </style>
+    <!-- Body2 -->
+
+    <!-- Caption -->
+    <style name="TextAppearance.Frames.Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">12sp</item>
+
+        <item name="lineHeight">16sp</item>
+        <item name="android:letterSpacing" tools:ignore="NewApi">0.08335</item>
+    </style>
+
+    <style name="TextStyle.Frames.Caption">
+        <item name="android:textAppearance">@style/TextAppearance.Frames.Caption</item>
+        <item name="firstBaselineToTopHeight">12sp</item>
+        <item name="lastBaselineToBottomHeight">4sp</item>
+    </style>
+    <!-- Caption -->
+
+    <!-- Overline -->
+    <style name="TextAppearance.Frames.Overline" parent="TextAppearance.MaterialComponents.Overline">
+        <item name="android:textSize">10sp</item>
+
+        <item name="lineHeight">16sp</item>
+        <item name="android:letterSpacing" tools:ignore="NewApi">0.15</item>
+    </style>
+
+    <style name="TextStyle.Frames.Overline">
+        <item name="android:textAppearance">@style/TextAppearance.Frames.Overline</item>
+        <item name="firstBaselineToTopHeight">12sp</item>
+        <item name="lastBaselineToBottomHeight">4sp</item>
+    </style>
+    <!-- Overline -->
+</resources>

@@ -1,0 +1,95 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.kotlin_version = '1.3.61'
+
+    ext {
+
+        // global variables
+        kotlin_version = '1.3.61'
+        min_sdk_version = 16
+        target_sdk_version = 29
+        build_tools_version = '29.0.2'
+        version_code = 300
+        version_name = '3.0.0'
+
+        // local variables (use def)
+        def appcompat_version = '1.1.0'
+        def cardview_version = '1.0.0'
+        def recyclerview_version = '1.1.0'
+        def swipe_refresh_version = '1.0.0'
+        def material_version = '1.1.0-beta02'
+        def coroutines_android_version = '1.3.2'
+        def gson_version = '2.8.6'
+        def lifecycle_version = '2.1.0'
+        def livedata_version = '2.2.0-rc02'
+        def retrofit_gson_version = '2.6.2'
+        def retrofit_version = '2.6.2'
+        def room_version = '2.2.2'
+        def coil_version = "0.8.0"
+
+        libraries = [
+                // Kotlin standard library
+                "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+
+                // Coroutines
+                "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_android_version",
+                "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_android_version",
+
+                // Android UI and appcompat
+                "androidx.appcompat:appcompat:$appcompat_version",
+                "androidx.cardview:cardview:$cardview_version",
+                "androidx.recyclerview:recyclerview:$recyclerview_version",
+                "androidx.swiperefreshlayout:swiperefreshlayout:$swipe_refresh_version",
+                "com.google.android.material:material:$material_version",
+
+                // ViewModel and LiveData
+                "androidx.lifecycle:lifecycle-extensions:$lifecycle_version",
+                "androidx.lifecycle:lifecycle-livedata-ktx:$livedata_version",
+                "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version",
+
+                // Room for database
+                "androidx.room:room-ktx:$room_version",
+
+                // network & serialization
+                "com.google.code.gson:gson:$gson_version",
+                "com.squareup.retrofit2:converter-gson:$retrofit_gson_version",
+                "com.squareup.retrofit2:converter-scalars:$retrofit_version",
+                "com.squareup.retrofit2:retrofit:$retrofit_version",
+
+                // image loading
+                "io.coil-kt:coil:$coil_version",
+        ]
+
+        librariesKapt = [
+                "androidx.room:room-compiler:$room_version",
+        ]
+    }
+
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        maven { url "https://dl.bintray.com/drummer-aidan/maven/" }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

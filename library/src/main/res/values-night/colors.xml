@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">@color/darkThemePrimary</color>
+    <color name="primaryDark">@color/darkThemePrimaryDark</color>
+    <color name="onPrimary">@color/darkThemeOnPrimary</color>
+
+    <color name="accent">@color/darkThemeAccent</color>
+    <color name="onAccent">@color/darkThemeOnAccent</color>
+
+    <color name="surface">@color/darkThemeSurface</color>
+    <color name="onSurface">@color/darkThemeOnSurface</color>
+    <color name="onSurfaceVariant">@color/darkThemeOnSurfaceVariant</color>
+
+    <color name="background">@color/darkThemeBackground</color>
+    <color name="onBackground">@color/darkThemeOnBackground</color>
+    <color name="navigationBar">@color/darkThemePrimaryDark</color>
+
+    <color name="bottomBar">@color/darkThemeBottomBar</color>
+    <color name="bottomBarSelectedItem">@color/darkThemeBottomBarSelectedItem</color>
+    <color name="bottomBarNormalItem">@color/darkThemeBottomBarNormalItem</color>
+</resources>

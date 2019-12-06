@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="grids_spacing">8dp</dimen>
+
+    <!-- Corners Radius -->
+    <dimen name="cards_corner_radius">6dp</dimen>
+    <dimen name="dialogs_corner_radius">8dp</dimen>
+    <dimen name="bottom_sheet_corner_radius">16dp</dimen>
+</resources>

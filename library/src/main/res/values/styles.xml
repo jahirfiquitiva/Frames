@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BaseFramesTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorAccent">@color/accent</item>
+
+        <item name="colorPrimaryVariant">@color/primaryDark</item>
+        <item name="colorOnPrimary">@color/onPrimary</item>
+
+        <item name="colorSecondary">@color/accent</item>
+        <item name="colorSecondaryVariant">@color/accent</item>
+        <item name="colorOnSecondary">@color/onAccent</item>
+
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/onSurface</item>
+
+        <item name="android:windowBackground">@color/background</item>
+        <item name="colorBackgroundFloating">@color/background</item>
+        <item name="colorOnBackground">@color/onBackground</item>
+
+        <item name="textAppearanceHeadline3">@style/TextAppearance.Frames.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.Frames.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.Frames.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.Frames.Headline6</item>
+
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.Frames.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.Frames.Subtitle2</item>
+
+        <item name="textAppearanceButton">@style/TextAppearance.Frames.Button</item>
+
+        <item name="textAppearanceBody1">@style/TextAppearance.Frames.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.Frames.Body2</item>
+
+        <item name="textAppearanceCaption">@style/TextAppearance.Frames.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.Frames.Overline</item>
+    </style>
+
+    <style name="TextAppearance.Frames.CollectionTitle" parent="TextStyle.Frames.Headline6">
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="TextAppearance.Frames.CollectionCount" parent="TextStyle.Frames.Subtitle2">
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="TextAppearance.Frames.WallpaperTitle" parent="TextStyle.Frames.Subtitle1">
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="TextAppearance.Frames.WallpaperSubtitle" parent="TextStyle.Frames.Body2">
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="TextAppearance.Frames.ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="fontFamily">@font/manrope_bold_fam</item>
+    </style>
+
+</resources>
