@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="min_wallpapers_columns_count">3</integer>
-    <integer name="max_wallpapers_columns_count">5</integer>
+    <integer name="min_wallpapers_columns_count">4</integer>
+    <integer name="max_wallpapers_columns_count">7</integer>
     <integer name="collections_columns_count">2</integer>
 </resources>

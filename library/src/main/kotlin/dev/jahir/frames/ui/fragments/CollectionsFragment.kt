@@ -2,6 +2,7 @@ package dev.jahir.frames.ui.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
@@ -20,16 +21,14 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
         recyclerView?.adapter = collsAdapter
         recyclerView?.layoutManager =
             GridLayoutManager(context, columnsCount, GridLayoutManager.VERTICAL, false)
-
-        swipeRefreshLayout?.setOnRefreshListener {
-            swipeRefreshLayout?.isRefreshing = false
-        }
+        recyclerView?.itemAnimator = DefaultItemAnimator()
     }
 
     override fun updateItems(newItems: ArrayList<Collection>) {
         super.updateItems(newItems)
         collsAdapter.collections = items
         collsAdapter.notifyDataSetChanged()
+        stopRefreshing()
     }
 
     companion object {

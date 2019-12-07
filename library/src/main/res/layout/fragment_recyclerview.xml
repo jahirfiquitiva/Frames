@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:overScrollMode="ifContentScrolls"
-        android:paddingBottom="72dp"
+        android:paddingBottom="@dimen/bottom_bar_height"
         android:splitMotionEvents="false" />
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

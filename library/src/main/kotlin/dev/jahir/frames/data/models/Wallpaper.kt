@@ -1,6 +1,7 @@
 package dev.jahir.frames.data.models
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
@@ -15,9 +16,11 @@ data class Wallpaper(
     @SerializedName(value = "collections", alternate = ["categories", "category"])
     val collections: String? = "",
     @SerializedName(value = "dimensions", alternate = ["dimension"])
-    // @TypeConverters(RoomNullToString::class)
     val dimensions: String? = "",
     val copyright: String? = "",
     val downloadable: Boolean? = true,
     val size: Long? = 0
-)
+) {
+    @Ignore
+    var isInFavorites: Boolean = false
+}

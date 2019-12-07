@@ -8,10 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.jahir.frames.R
+import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.data.viewmodels.WallpapersDataViewModel
 import dev.jahir.frames.ui.fragments.CollectionsFragment
-import dev.jahir.frames.ui.fragments.FragmentState
 import dev.jahir.frames.ui.fragments.WallpapersFragment
+import dev.jahir.frames.ui.fragments.base.FragmentState
 import dev.jahir.frames.utils.extensions.navigationBarColor
 import dev.jahir.frames.utils.extensions.statusBarColor
 
@@ -24,11 +25,19 @@ class BaseFramesActivity : AppCompatActivity() {
     private val wallpapersViewModel: WallpapersDataViewModel by lazy {
         ViewModelProviders.of(this).get(WallpapersDataViewModel::class.java)
     }
+
     private val wallpapersFragment: WallpapersFragment by lazy {
-        WallpapersFragment.create(ArrayList(wallpapersViewModel.wallpapers))
+        WallpapersFragment.create(ArrayList(wallpapersViewModel.wallpapers)).apply {
+            this.wallsViewModel = wallpapersViewModel
+        }
     }
     private val collectionsFragment: CollectionsFragment by lazy {
         CollectionsFragment.create(ArrayList(wallpapersViewModel.collections))
+    }
+    private val favoritesFragment: WallpapersFragment by lazy {
+        WallpapersFragment.create(ArrayList(wallpapersViewModel.favorites)).apply {
+            this.wallsViewModel = wallpapersViewModel
+        }
     }
 
     private var currentFragment: Fragment? = null
@@ -44,43 +53,51 @@ class BaseFramesActivity : AppCompatActivity() {
         val toolbar: Toolbar? = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        if (savedInstanceState == null) loadFirstFragment()
+        loadFirstFragment()
 
         bottomBar?.setOnNavigationItemSelectedListener { menuItem ->
             if (currentMenuItemId != menuItem.itemId) {
-                var fragment: Fragment? = null
+                var nextFragment: Fragment? = null
                 oldTag = currentTag
                 currentMenuItemId = menuItem.itemId
                 when (currentMenuItemId) {
                     R.id.wallpapers -> {
                         currentTag = WallpapersFragment.TAG
-                        fragment = wallpapersFragment
+                        nextFragment = wallpapersFragment
                     }
                     R.id.collections -> {
                         currentTag = CollectionsFragment.TAG
-                        fragment = collectionsFragment
+                        nextFragment = collectionsFragment
                     }
-                    /*
                     R.id.favorites -> {
-                        currentTag = TAG_THIRD
-                        fragment = NumberFragment.create("3")
+                        currentTag = WallpapersFragment.FAVS_TAG
+                        nextFragment = favoritesFragment
                     }
-                    */
                 }
-                loadFragment(fragment, currentTag)
+                loadFragment(nextFragment, currentTag)
                 return@setOnNavigationItemSelectedListener true
             }
             false
         }
+        bottomBar?.selectedItemId = when (currentTag) {
+            CollectionsFragment.TAG -> R.id.collections
+            WallpapersFragment.FAVS_TAG -> R.id.favorites
+            else -> R.id.wallpapers
+        }
 
         wallpapersViewModel.observeWallpapers(this) { wallpapersFragment.updateItems(ArrayList(it)) }
         wallpapersViewModel.observeCollections(this) { collectionsFragment.updateItems(it) }
-        wallpapersViewModel.loadData(this, "https://jahir.dev/frames/frames.json")
+        wallpapersViewModel.observeFavorites(this) { favoritesFragment.updateItems(ArrayList(it)) }
+        loadData()
 
         /*
         val fab: FloatingActionButton? = findViewById(R.id.fab)
         fab?.setOnClickListener { changeNightMode(!isNightMode, true) }
         */
+    }
+
+    internal fun loadData() {
+        wallpapersViewModel.loadData(this, getString(R.string.json_url))
     }
 
     private fun recoverFragment() {
@@ -105,16 +122,18 @@ class BaseFramesActivity : AppCompatActivity() {
         when (oldTag) {
             WallpapersFragment.TAG -> menu?.getItem(0)?.isChecked = true
             CollectionsFragment.TAG -> menu?.getItem(1)?.isChecked = true
-            // TAG_THIRD -> menu?.getItem(2)?.isChecked = true
+            WallpapersFragment.FAVS_TAG -> menu?.getItem(2)?.isChecked = true
         }
     }
 
     private fun loadFirstFragment() {
         val transaction = supportFragmentManager.beginTransaction()
-        currentFragment = wallpapersFragment
-        currentFragment?.let {
-            transaction.add(R.id.fragments_container, it, WallpapersFragment.TAG)
+        currentFragment = when (currentTag) {
+            CollectionsFragment.TAG -> collectionsFragment
+            WallpapersFragment.FAVS_TAG -> favoritesFragment
+            else -> wallpapersFragment
         }
+        currentFragment?.let { transaction.add(R.id.fragments_container, it, currentTag) }
         transaction.commit()
     }
 
@@ -131,7 +150,6 @@ class BaseFramesActivity : AppCompatActivity() {
             ft.commit()
             addBackStack()
         }
-
     }
 
     private fun addBackStack() {
@@ -145,13 +163,29 @@ class BaseFramesActivity : AppCompatActivity() {
                     }
                 }
                 listState[0] = firstState
-                listState[listState.lastIndex] = FragmentState(currentTag, oldTag)
+                listState[listState.lastIndex] =
+                    FragmentState(
+                        currentTag,
+                        oldTag
+                    )
             }
             else -> {
-                listState.add(FragmentState(currentTag, oldTag))
+                listState.add(
+                    FragmentState(
+                        currentTag,
+                        oldTag
+                    )
+                )
             }
         }
+    }
 
+    internal fun addToFavorites(wallpaper: Wallpaper) {
+        wallpapersViewModel.addToFavorites(this, wallpaper)
+    }
+
+    internal fun removeFromFavorites(wallpaper: Wallpaper) {
+        wallpapersViewModel.removeFromFavorites(this, wallpaper)
     }
 
     override fun onResume() {
@@ -171,5 +205,19 @@ class BaseFramesActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         wallpapersViewModel.destroy(this)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(CURRENT_FRAGMENT_KEY, currentTag)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        currentTag = savedInstanceState.getString(CURRENT_FRAGMENT_KEY, currentTag) ?: currentTag
+    }
+
+    companion object {
+        private const val CURRENT_FRAGMENT_KEY = "currentFragment"
     }
 }
