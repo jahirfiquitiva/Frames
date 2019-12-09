@@ -4,4 +4,9 @@
     <string name="collections">Collections</string>
     <string name="favorites">Favorites</string>
     <string name="all">All</string>
+
+    <string name="loading">Loading…</string>
+    <string name="no_wallpapers_found">No wallpapers found!</string>
+    <string name="no_collections_found">No collections found!</string>
+    <string name="no_favorites_found">No favorites found!</string>
 </resources>

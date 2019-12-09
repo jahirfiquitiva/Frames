@@ -6,13 +6,31 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/items_recyclerview"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:overScrollMode="ifContentScrolls"
-        android:paddingBottom="@dimen/bottom_bar_height"
-        android:splitMotionEvents="false" />
+        android:layout_gravity="center"
+        android:gravity="center">
+
+        <dev.jahir.frames.ui.widgets.EmptyView
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingBottom="@dimen/bottom_bar_height"
+            android:visibility="gone" />
+
+        <dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
+            android:id="@+id/items_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:overScrollMode="ifContentScrolls"
+            android:paddingBottom="@dimen/bottom_bar_height"
+            android:splitMotionEvents="false"
+            android:visibility="gone" />
+
+    </FrameLayout>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

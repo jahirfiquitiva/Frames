@@ -15,9 +15,8 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        recyclerView?.emptyText = context?.getString(R.string.no_collections_found) ?: ""
         val columnsCount = context?.resources?.getInteger(R.integer.collections_columns_count) ?: 1
-
         recyclerView?.adapter = collsAdapter
         recyclerView?.layoutManager =
             GridLayoutManager(context, columnsCount, GridLayoutManager.VERTICAL, false)

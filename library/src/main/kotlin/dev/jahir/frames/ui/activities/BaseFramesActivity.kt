@@ -27,17 +27,16 @@ class BaseFramesActivity : AppCompatActivity() {
     }
 
     private val wallpapersFragment: WallpapersFragment by lazy {
-        WallpapersFragment.create(ArrayList(wallpapersViewModel.wallpapers)).apply {
-            this.wallsViewModel = wallpapersViewModel
-        }
+        WallpapersFragment.create(ArrayList(wallpapersViewModel.wallpapers), wallpapersViewModel)
     }
     private val collectionsFragment: CollectionsFragment by lazy {
         CollectionsFragment.create(ArrayList(wallpapersViewModel.collections))
     }
     private val favoritesFragment: WallpapersFragment by lazy {
-        WallpapersFragment.create(ArrayList(wallpapersViewModel.favorites)).apply {
-            this.wallsViewModel = wallpapersViewModel
-        }
+        WallpapersFragment.createForFavs(
+            ArrayList(wallpapersViewModel.favorites),
+            wallpapersViewModel
+        )
     }
 
     private var currentFragment: Fragment? = null
@@ -163,20 +162,9 @@ class BaseFramesActivity : AppCompatActivity() {
                     }
                 }
                 listState[0] = firstState
-                listState[listState.lastIndex] =
-                    FragmentState(
-                        currentTag,
-                        oldTag
-                    )
+                listState[listState.lastIndex] = FragmentState(currentTag, oldTag)
             }
-            else -> {
-                listState.add(
-                    FragmentState(
-                        currentTag,
-                        oldTag
-                    )
-                )
-            }
+            else -> listState.add(FragmentState(currentTag, oldTag))
         }
     }
 
