@@ -53,6 +53,8 @@
     <string name="apply_with_other_app">Toepassen met andere app</string>
     <string name="apply_successful">Achtergrond succesvol toegepast naar %1$s</string>
     <string name="apply_successful_short">Achtergrond succesvol toegepast</string>
+    <string name="previous">Vorige</string>
+    <string name="next">Volgende</string>
     <string name="wallpaper_details">Details</string>
     <string name="wallpaper_palette">Palet</string>
     <string name="copied_to_clipboard">Kleur gekopieerd naar het klembord</string>
@@ -151,4 +153,6 @@
     <string name="dismiss">Negeren</string>
     <string name="prevent_download_title">Downloads vergrendeld</string>
     <string name="prevent_download_content">Om veiligheidsredenen is wallpapers downloaden is niet mogelijk voor de volgende %1$s uur. Probeer het later nog eens.</string>
+    <string name="privacy_policy">Privacybeleid</string>
+    <string name="terms_conditions">Algemene voorwaarden</string>
 </resources>
