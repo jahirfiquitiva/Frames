@@ -25,4 +25,6 @@ class WallpapersAdapter(private var onFavClick: (Boolean, Wallpaper) -> Unit) :
         WallpaperViewHolder(parent.inflate(R.layout.item_wallpaper))
 
     override fun getItemCount(): Int = wallpapers.size
+    override fun getItemId(position: Int): Long = position.toLong()
+    override fun getItemViewType(position: Int): Int = position
 }
