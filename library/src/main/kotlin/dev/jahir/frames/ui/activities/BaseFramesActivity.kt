@@ -13,8 +13,8 @@ import dev.jahir.frames.data.viewmodels.WallpapersDataViewModel
 import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.base.FragmentState
-import dev.jahir.frames.utils.extensions.navigationBarColor
-import dev.jahir.frames.utils.extensions.statusBarColor
+import dev.jahir.frames.extensions.navigationBarColor
+import dev.jahir.frames.extensions.statusBarColor
 
 private const val MAX_HISTORIC = 2
 

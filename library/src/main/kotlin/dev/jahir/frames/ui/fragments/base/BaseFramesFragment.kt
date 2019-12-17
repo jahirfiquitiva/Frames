@@ -13,7 +13,7 @@ import dev.jahir.frames.R
 import dev.jahir.frames.ui.activities.BaseFramesActivity
 import dev.jahir.frames.ui.widgets.EmptyView
 import dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
-import dev.jahir.frames.utils.extensions.findView
+import dev.jahir.frames.extensions.findView
 
 open class BaseFramesFragment<T> : Fragment() {
 

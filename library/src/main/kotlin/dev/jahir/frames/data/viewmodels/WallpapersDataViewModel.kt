@@ -8,7 +8,7 @@ import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.data.models.Favorite
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.data.network.WallpapersJSONService
-import dev.jahir.frames.utils.extensions.isNetworkAvailable
+import dev.jahir.frames.extensions.isNetworkAvailable
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

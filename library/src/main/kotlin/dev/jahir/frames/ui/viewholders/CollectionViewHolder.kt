@@ -6,8 +6,8 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
-import dev.jahir.frames.utils.extensions.findView
-import dev.jahir.frames.utils.extensions.loadFramesPic
+import dev.jahir.frames.extensions.findView
+import dev.jahir.frames.extensions.loadFramesPic
 
 class CollectionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 

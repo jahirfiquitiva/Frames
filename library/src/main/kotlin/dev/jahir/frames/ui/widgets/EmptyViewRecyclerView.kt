@@ -6,7 +6,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import dev.jahir.frames.utils.extensions.visibleIf
+import dev.jahir.frames.extensions.visibleIf
 
 open class EmptyViewRecyclerView : RecyclerView {
 

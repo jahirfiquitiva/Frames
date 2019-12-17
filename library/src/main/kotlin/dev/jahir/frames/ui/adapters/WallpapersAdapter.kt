@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.ui.viewholders.WallpaperViewHolder
-import dev.jahir.frames.utils.extensions.inflate
+import dev.jahir.frames.extensions.inflate
 
 class WallpapersAdapter(private var onFavClick: (Boolean, Wallpaper) -> Unit) :
     RecyclerView.Adapter<WallpaperViewHolder>() {

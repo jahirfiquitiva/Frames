@@ -11,7 +11,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
-import dev.jahir.frames.utils.extensions.*
+import dev.jahir.frames.extensions.*
 
 class EmptyView @JvmOverloads constructor(
     context: Context,

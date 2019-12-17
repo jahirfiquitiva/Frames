@@ -8,7 +8,7 @@ import androidx.core.view.postDelayed
 import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.utils.extensions.loadFramesPic
+import dev.jahir.frames.extensions.loadFramesPic
 
 class WallpaperViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val image: AppCompatImageView? = view.findViewById(R.id.wallpaper_image)

@@ -1,4 +1,4 @@
-package dev.jahir.frames.utils.extensions
+package dev.jahir.frames.extensions
 
 import android.graphics.drawable.Animatable
 import android.view.LayoutInflater

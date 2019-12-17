@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.ui.viewholders.CollectionViewHolder
-import dev.jahir.frames.utils.extensions.inflate
+import dev.jahir.frames.extensions.inflate
 
 class CollectionsAdapter : RecyclerView.Adapter<CollectionViewHolder>() {
 
