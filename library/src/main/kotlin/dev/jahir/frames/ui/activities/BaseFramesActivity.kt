@@ -10,11 +10,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.data.viewmodels.WallpapersDataViewModel
+import dev.jahir.frames.extensions.navigationBarColor
+import dev.jahir.frames.extensions.statusBarColor
 import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.base.FragmentState
-import dev.jahir.frames.extensions.navigationBarColor
-import dev.jahir.frames.extensions.statusBarColor
 
 private const val MAX_HISTORIC = 2
 

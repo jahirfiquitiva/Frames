@@ -57,4 +57,9 @@
         <item name="fontFamily">@font/manrope_bold_fam</item>
     </style>
 
+    <style name="TextAppearance.Frames.ToolbarTitle.Viewer" parent="TextAppearance.Frames.ToolbarTitle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:color">@color/white</item>
+    </style>
+
 </resources>

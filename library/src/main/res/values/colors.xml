@@ -3,6 +3,10 @@
 
     <!-- Theme Independent Colors -->
     <color name="wallpaper_overlay">#1a000000</color>
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
+    <color name="transparent">#00000000</color>
+    <color name="viewer_bars_colors">#80000000</color>
 
     <!-- Light Theme Colors -->
 

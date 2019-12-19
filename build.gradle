@@ -26,7 +26,9 @@ buildscript {
         def retrofit_gson_version = '2.6.2'
         def retrofit_version = '2.6.2'
         def room_version = '2.2.2'
-        def coil_version = "0.8.0"
+        def coil_version = '0.8.0'
+        def tiv_version = '2.3.1'
+        def photo_view_version = '2.3.0'
 
         libraries = [
                 // Kotlin standard library
@@ -57,8 +59,10 @@ buildscript {
                 "com.squareup.retrofit2:converter-scalars:$retrofit_version",
                 "com.squareup.retrofit2:retrofit:$retrofit_version",
 
-                // image loading
+                // image loading and zoom
                 "io.coil-kt:coil:$coil_version",
+                "com.github.MikeOrtiz:TouchImageView:$tiv_version",
+                "com.github.chrisbanes:PhotoView:$photo_view_version",
         ]
 
         librariesKapt = [
@@ -75,7 +79,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.2'
+        classpath 'com.android.tools.build:gradle:3.5.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -86,7 +90,9 @@ allprojects {
     repositories {
         google()
         jcenter()
-
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        maven { url "https://dl.bintray.com/drummer-aidan/maven/" }
     }
 }
 
