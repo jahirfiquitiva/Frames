@@ -21,7 +21,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/favorites"
-        android:icon="@drawable/ic_favorite_outline"
+        android:icon="@drawable/ic_favorite_check"
         android:orderInCategory="400"
         android:title="@string/favorites"
         app:showAsAction="ifRoom" />

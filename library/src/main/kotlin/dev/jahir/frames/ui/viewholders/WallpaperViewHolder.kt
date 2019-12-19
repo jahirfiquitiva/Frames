@@ -29,6 +29,6 @@ class WallpaperViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     }
 
     companion object {
-        private const val FAV_DELAY = 150L
+        private const val FAV_DELAY = 100L
     }
 }
