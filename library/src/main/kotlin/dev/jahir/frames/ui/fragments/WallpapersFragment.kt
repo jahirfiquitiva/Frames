@@ -3,11 +3,15 @@ package dev.jahir.frames.ui.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.data.viewmodels.WallpapersDataViewModel
+import dev.jahir.frames.extensions.buildTransitionOptions
+import dev.jahir.frames.extensions.urlAsKey
 import dev.jahir.frames.ui.activities.BaseFramesActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
 import dev.jahir.frames.ui.adapters.WallpapersAdapter
@@ -23,7 +27,7 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     private var wallsViewModel: WallpapersDataViewModel? = null
     private val wallsAdapter: WallpapersAdapter by lazy {
         wallpapersAdapter {
-            onClick { launchViewer(it) }
+            onClick { wall, view -> launchViewer(wall, view) }
             onFavClick { checked, wallpaper ->
                 this@WallpapersFragment.onFavClick(checked, wallpaper)
             }
@@ -66,7 +70,15 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         }
     }
 
-    private fun launchViewer(wallpaper: Wallpaper) {
+    private fun launchViewer(wallpaper: Wallpaper, view: View?) {
+        val transitionKey = view?.let { ViewCompat.getTransitionName(it) } ?: wallpaper.urlAsKey
+        val options =
+            activity?.let {
+                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    it,
+                    *(it.buildTransitionOptions(view) ?: arrayOf())
+                )
+            }
         startActivity(
             Intent(activity, ViewerActivity::class.java)
                 .apply {
@@ -74,7 +86,9 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
                     putExtra(WALLPAPER_AUTHOR_EXTRA, wallpaper.author)
                     putExtra(WALLPAPER_URL_EXTRA, wallpaper.url)
                     putExtra(WALLPAPER_THUMB_EXTRA, wallpaper.thumbnail)
-                }
+                    putExtra(WALLPAPER_TRANSITION_EXTRA, transitionKey)
+                },
+            options?.toBundle()
         )
     }
 
@@ -86,6 +100,7 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         internal const val WALLPAPER_AUTHOR_EXTRA = "wallpaper_author"
         internal const val WALLPAPER_URL_EXTRA = "wallpaper_url"
         internal const val WALLPAPER_THUMB_EXTRA = "wallpaper_thumb"
+        internal const val WALLPAPER_TRANSITION_EXTRA = "wallpaper_transition"
 
         @JvmStatic
         fun create(

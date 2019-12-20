@@ -5,8 +5,12 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.view.View
+import android.view.Window
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.util.Pair
+import androidx.core.view.ViewCompat
+import dev.jahir.frames.R
 
 
 val Activity.isNightMode: Boolean
@@ -76,4 +80,23 @@ inline fun <reified T : View> Activity.findView(@IdRes id: Int, logException: Bo
             null
         }
     }
+}
+
+fun Activity?.buildTransitionOptions(transitionView: View?): Array<Pair<View?, String>>? {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        return null
+    }
+
+    val statusBar: View? by this?.window?.decorView?.findView(android.R.id.statusBarBackground)
+    val navigationBar: View? by this?.window?.decorView?.findView(android.R.id.navigationBarBackground)
+    val appBarLayout: View? by this?.window?.decorView?.findView(R.id.appbar)
+    val transitionName: String = transitionView?.let { ViewCompat.getTransitionName(it) } ?: ""
+
+    val pairs = ArrayList<Pair<View, String>>()
+    pairs.add(Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME))
+    pairs.add(Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME))
+    appBarLayout?.let { pairs.add(Pair.create(it, "appbar")) }
+    pairs.add(Pair.create(transitionView, transitionName))
+
+    return pairs.toArray(arrayOfNulls(pairs.size))
 }

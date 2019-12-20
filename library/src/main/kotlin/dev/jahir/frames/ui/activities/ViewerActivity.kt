@@ -12,10 +12,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.updateLayoutParams
+import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.findView
+import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.extensions.loadFramesPic
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.utils.tint
@@ -29,13 +31,8 @@ class ViewerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_viewer)
-        setSupportActionBar(toolbar)
-        supportActionBar?.let {
-            it.setHomeButtonEnabled(true)
-            it.setDisplayHomeAsUpEnabled(true)
-            it.setDisplayShowHomeEnabled(true)
-        }
-        initWindow()
+
+        supportPostponeEnterTransition()
 
         val wallpaperName =
             intent?.extras?.getString(WallpapersFragment.WALLPAPER_NAME_EXTRA, "") ?: ""
@@ -46,16 +43,36 @@ class ViewerActivity : AppCompatActivity() {
         val wallpaperThumb =
             intent?.extras?.getString(WallpapersFragment.WALLPAPER_THUMB_EXTRA, "") ?: ""
 
+        if (!wallpaperUrl.hasContent()) finish()
+
+        val image: AppCompatImageView? by findView(R.id.wallpaper)
+        image?.let {
+            ViewCompat.setTransitionName(
+                it,
+                intent?.extras?.getString(WallpapersFragment.WALLPAPER_TRANSITION_EXTRA, "") ?: ""
+            )
+        }
+        (image as? PhotoView)?.scale = 1.0F
+        image?.loadFramesPic(wallpaperUrl, wallpaperThumb) { crossfade(250) }
+        supportStartPostponedEnterTransition()
+
+        setSupportActionBar(toolbar)
+        supportActionBar?.let {
+            it.setHomeButtonEnabled(true)
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setDisplayShowHomeEnabled(true)
+        }
+        initWindow()
+
         supportActionBar?.title = wallpaperName
         supportActionBar?.subtitle = wallpaperAuthor
         toolbar?.tint(ContextCompat.getColor(this, R.color.white))
-
-        val image: AppCompatImageView? by findView(R.id.wallpaper)
-        image?.loadFramesPic(wallpaperUrl, wallpaperThumb) { crossfade(250) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) finish()
+        if (item.itemId == android.R.id.home) {
+            supportFinishAfterTransition()
+        }
         return super.onOptionsItemSelected(item)
     }
 
