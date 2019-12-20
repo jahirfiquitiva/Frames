@@ -33,7 +33,7 @@ class WallpaperViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         author?.text = wallpaper.author
         val key = wallpaper.urlAsKey(adapterPosition.toString())
         image?.let { ViewCompat.setTransitionName(it, key) }
-        image?.loadFramesPic(wallpaper.url, wallpaper.thumbnail) { crossfade(250) }
+        image?.loadFramesPic(wallpaper.url, wallpaper.thumbnail)
         itemView.setOnClickListener { onClick(wallpaper, image) }
     }
 

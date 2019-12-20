@@ -1,8 +1,12 @@
 package dev.jahir.frames.ui.activities
 
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.view.View.*
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -12,13 +16,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.updateLayoutParams
+import androidx.palette.graphics.Palette
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.findView
-import dev.jahir.frames.extensions.hasContent
-import dev.jahir.frames.extensions.loadFramesPic
+import dev.jahir.frames.extensions.*
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.utils.tint
 
@@ -30,6 +33,7 @@ class ViewerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setBackgroundDrawable(null)
         setContentView(R.layout.activity_viewer)
 
         supportPostponeEnterTransition()
@@ -53,7 +57,7 @@ class ViewerActivity : AppCompatActivity() {
             )
         }
         (image as? PhotoView)?.scale = 1.0F
-        image?.loadFramesPic(wallpaperUrl, wallpaperThumb) { crossfade(250) }
+        image?.loadFramesPic(wallpaperUrl, wallpaperThumb) { generatePalette(it) }
         supportStartPostponedEnterTransition()
 
         setSupportActionBar(toolbar)
@@ -74,6 +78,19 @@ class ViewerActivity : AppCompatActivity() {
             supportFinishAfterTransition()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun generatePalette(drawable: Drawable?) {
+        val bitmap = drawable?.asBitmap()
+        bitmap ?: return
+        Palette.from(bitmap)
+            .generate {
+                val color = it?.bestSwatch?.rgb ?: 0
+                if (color != 0) return@generate
+                Log.d("Frames", color.toHexString())
+                findViewById<View?>(R.id.viewer_root_layout)?.setBackgroundColor(color)
+                window.setBackgroundDrawable(ColorDrawable(color))
+            }
     }
 
     private fun initWindow() {

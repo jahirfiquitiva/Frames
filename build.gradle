@@ -18,6 +18,7 @@ buildscript {
         def cardview_version = '1.0.0'
         def recyclerview_version = '1.1.0'
         def swipe_refresh_version = '1.0.0'
+        def palette_version = '1.0.0'
         def material_version = '1.1.0-beta02'
         def coroutines_android_version = '1.3.2'
         def gson_version = '2.8.6'
@@ -43,6 +44,7 @@ buildscript {
                 "androidx.cardview:cardview:$cardview_version",
                 "androidx.recyclerview:recyclerview:$recyclerview_version",
                 "androidx.swiperefreshlayout:swiperefreshlayout:$swipe_refresh_version",
+                "androidx.palette:palette:$palette_version",
                 "com.google.android.material:material:$material_version",
 
                 // ViewModel and LiveData

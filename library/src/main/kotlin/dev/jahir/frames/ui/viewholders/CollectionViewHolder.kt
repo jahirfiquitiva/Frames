@@ -16,11 +16,7 @@ class CollectionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val count: TextView? by view.findView(R.id.collection_count)
 
     fun bind(collection: Collection) {
-        collection.cover?.let {
-            image?.loadFramesPic(it.url, it.thumbnail) {
-                crossfade(250)
-            }
-        }
+        collection.cover?.let { image?.loadFramesPic(it.url, it.thumbnail) }
         title?.text = collection.name
         count?.text = collection.count.toString()
     }
