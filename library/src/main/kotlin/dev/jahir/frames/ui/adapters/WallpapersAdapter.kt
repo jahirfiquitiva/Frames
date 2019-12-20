@@ -4,10 +4,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.ui.viewholders.WallpaperViewHolder
 import dev.jahir.frames.extensions.inflate
+import dev.jahir.frames.ui.viewholders.WallpaperViewHolder
 
-class WallpapersAdapter(private var onFavClick: (Boolean, Wallpaper) -> Unit) :
+class WallpapersAdapter(
+    var onClick: (Wallpaper) -> Unit = {},
+    var onFavClick: (Boolean, Wallpaper) -> Unit = { _, _ -> }
+) :
     RecyclerView.Adapter<WallpaperViewHolder>() {
 
     var wallpapers: ArrayList<Wallpaper> = ArrayList()
@@ -18,7 +21,7 @@ class WallpapersAdapter(private var onFavClick: (Boolean, Wallpaper) -> Unit) :
         }
 
     override fun onBindViewHolder(holder: WallpaperViewHolder, position: Int) {
-        holder.bind(wallpapers[position], onFavClick)
+        holder.bind(wallpapers[position],onClick, onFavClick)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallpaperViewHolder =

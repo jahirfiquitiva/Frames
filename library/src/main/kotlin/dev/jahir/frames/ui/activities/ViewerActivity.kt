@@ -17,6 +17,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.loadFramesPic
+import dev.jahir.frames.ui.fragments.WallpapersFragment
+import dev.jahir.frames.utils.tint
 
 class ViewerActivity : AppCompatActivity() {
 
@@ -28,12 +30,28 @@ class ViewerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_viewer)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
+        supportActionBar?.let {
+            it.setHomeButtonEnabled(true)
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setDisplayShowHomeEnabled(true)
+        }
         initWindow()
 
+        val wallpaperName =
+            intent?.extras?.getString(WallpapersFragment.WALLPAPER_NAME_EXTRA, "") ?: ""
+        val wallpaperAuthor =
+            intent?.extras?.getString(WallpapersFragment.WALLPAPER_AUTHOR_EXTRA, "") ?: ""
+        val wallpaperUrl =
+            intent?.extras?.getString(WallpapersFragment.WALLPAPER_URL_EXTRA, "") ?: ""
+        val wallpaperThumb =
+            intent?.extras?.getString(WallpapersFragment.WALLPAPER_THUMB_EXTRA, "") ?: ""
+
+        supportActionBar?.title = wallpaperName
+        supportActionBar?.subtitle = wallpaperAuthor
+        toolbar?.tint(ContextCompat.getColor(this, R.color.white))
+
         val image: AppCompatImageView? by findView(R.id.wallpaper)
-        image?.loadFramesPic("https://raw.githubusercontent.com/jahirfiquitiva/Website-Resources/master/wallpapers/unsplash_c.png")
+        image?.loadFramesPic(wallpaperUrl, wallpaperThumb) { crossfade(250) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

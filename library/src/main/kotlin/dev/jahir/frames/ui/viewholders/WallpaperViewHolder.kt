@@ -16,7 +16,11 @@ class WallpaperViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val author: TextView? = view.findViewById(R.id.wallpaper_author)
     private val favorite: AppCompatCheckBox? = view.findViewById(R.id.fav_button)
 
-    fun bind(wallpaper: Wallpaper, onFavClick: (Boolean, Wallpaper) -> Unit) {
+    fun bind(
+        wallpaper: Wallpaper,
+        onClick: (Wallpaper) -> Unit,
+        onFavClick: (Boolean, Wallpaper) -> Unit
+    ) {
         favorite?.setOnCheckedChangeListener(null)
         favorite?.isChecked = wallpaper.isInFavorites
         favorite?.invalidate()
@@ -26,6 +30,7 @@ class WallpaperViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         title?.text = wallpaper.name
         author?.text = wallpaper.author
         image?.loadFramesPic(wallpaper.url, wallpaper.thumbnail) { crossfade(250) }
+        itemView.setOnClickListener { onClick(wallpaper) }
     }
 
     companion object {

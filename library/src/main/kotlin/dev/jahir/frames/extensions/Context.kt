@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.view.WindowManager
+import androidx.annotation.AttrRes
 import androidx.core.content.ContextCompat
 
 
@@ -59,3 +60,21 @@ val Context.isLowRamDevice: Boolean
         }
         return lowRAMDevice
     }
+
+fun Context.resolveColor(@AttrRes attr: Int, fallback: Int = 0): Int {
+    val a = theme.obtainStyledAttributes(intArrayOf(attr))
+    try {
+        return a.getColor(0, fallback)
+    } finally {
+        a.recycle()
+    }
+}
+
+fun Context.resolveBoolean(@AttrRes attr: Int, fallback: Boolean = false): Boolean {
+    val a = theme.obtainStyledAttributes(intArrayOf(attr))
+    try {
+        return a.getBoolean(0, fallback)
+    } finally {
+        a.recycle()
+    }
+}

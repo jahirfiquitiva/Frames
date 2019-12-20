@@ -64,13 +64,13 @@
 
         </LinearLayout>
 
+        <!-- android:stateListAnimator="@animator/favorite_animator" -->
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/fav_button"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:button="@drawable/ic_favorite_check"
             android:checked="false"
-            android:stateListAnimator="@animator/favorite_animator"
             tools:ignore="UnusedAttribute" />
 
     </LinearLayout>
