@@ -20,8 +20,7 @@
         android:id="@+id/wallpaper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/wall" />
+        android:scaleType="centerCrop" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -38,9 +37,35 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:background="@drawable/gradient_reversed"
-            android:minHeight="?actionBarSize"
-            app:titleTextAppearance="@style/TextAppearance.Frames.ToolbarTitle.Viewer"
-            app:titleTextColor="@color/white" />
+            android:minHeight="?actionBarSize">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Frames.ToolbarTitle.Viewer"
+                    android:textColor="@color/white"
+                    tools:text="Title" />
+
+                <TextView
+                    android:id="@+id/toolbar_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+                    android:textColor="@color/white"
+                    tools:text="Subtitle" />
+
+            </LinearLayout>
+
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 

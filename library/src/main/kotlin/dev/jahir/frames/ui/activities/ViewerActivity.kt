@@ -4,23 +4,25 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.view.MenuItem
 import android.view.View
 import android.view.View.*
-import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
-import androidx.core.view.updateLayoutParams
 import androidx.palette.graphics.Palette
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.jahir.frames.R
+import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.*
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.utils.tint
@@ -32,6 +34,11 @@ class ViewerActivity : AppCompatActivity() {
     private val bottomNavigation: BottomNavigationView? by findView(R.id.bottom_bar)
     private val image: AppCompatImageView? by findView(R.id.wallpaper)
 
+    private var transitioned: Boolean = false
+    private var visibleSystemUI: Boolean = true
+    private var closing: Boolean = false
+    private var currentWallPosition: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setBackgroundDrawable(null)
@@ -39,6 +46,7 @@ class ViewerActivity : AppCompatActivity() {
 
         supportPostponeEnterTransition()
 
+        currentWallPosition = intent?.extras?.getInt(CURRENT_WALL_POSITION, 0) ?: 0
         val wallpaperName =
             intent?.extras?.getString(WallpapersFragment.WALLPAPER_NAME_EXTRA, "") ?: ""
         val wallpaperAuthor =
@@ -47,19 +55,26 @@ class ViewerActivity : AppCompatActivity() {
             intent?.extras?.getString(WallpapersFragment.WALLPAPER_URL_EXTRA, "") ?: ""
         val wallpaperThumb =
             intent?.extras?.getString(WallpapersFragment.WALLPAPER_THUMB_EXTRA, "") ?: ""
-
         if (!wallpaperUrl.hasContent()) finish()
 
+        val wall = Wallpaper(wallpaperName, wallpaperUrl, wallpaperAuthor, wallpaperThumb)
+        findViewById<View?>(R.id.toolbar_title)?.let {
+            (it as? TextView)?.text = wallpaperName
+            ViewCompat.setTransitionName(it, wall.buildTitleTransitionName(currentWallPosition))
+        }
+        findViewById<View?>(R.id.toolbar_subtitle)?.let {
+            (it as? TextView)?.text = wallpaperAuthor
+            ViewCompat.setTransitionName(it, wall.buildAuthorTransitionName(currentWallPosition))
+        }
         image?.let {
-            ViewCompat.setTransitionName(
-                it,
-                intent?.extras?.getString(WallpapersFragment.WALLPAPER_TRANSITION_EXTRA, "") ?: ""
-            )
+            ViewCompat.setTransitionName(it, wall.buildImageTransitionName(currentWallPosition))
         }
         (image as? PhotoView)?.scale = 1.0F
         image?.loadFramesPic(wallpaperUrl, wallpaperThumb) { generatePalette(it) }
 
         supportStartPostponedEnterTransition()
+
+        image?.setOnClickListener { toggleSystemUI() }
 
         setSupportActionBar(toolbar)
         supportActionBar?.let {
@@ -74,6 +89,22 @@ class ViewerActivity : AppCompatActivity() {
         toolbar?.tint(ContextCompat.getColor(this, R.color.white))
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(CLOSING_KEY, closing)
+        outState.putBoolean(TRANSITIONED_KEY, transitioned)
+        outState.putBoolean(VISIBLE_SYSTEM_UI_KEY, visibleSystemUI)
+        outState.putInt(CURRENT_WALL_POSITION, currentWallPosition)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        setSystemUIVisibility(savedInstanceState.getBoolean(VISIBLE_SYSTEM_UI_KEY, true))
+        this.closing = savedInstanceState.getBoolean(CLOSING_KEY, false)
+        this.transitioned = savedInstanceState.getBoolean(TRANSITIONED_KEY, false)
+        this.currentWallPosition = savedInstanceState.getInt(CURRENT_WALL_POSITION, 0)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             supportFinishAfterTransition()
@@ -81,7 +112,12 @@ class ViewerActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onBackPressed() {
+        supportFinishAfterTransition()
+    }
+
     private fun generatePalette(drawable: Drawable?) {
+        supportStartPostponedEnterTransition()
         (image as? PhotoView)?.scale = 1.0F
         drawable?.asBitmap()?.let { bitmap ->
             Palette.from(bitmap)
@@ -108,18 +144,14 @@ class ViewerActivity : AppCompatActivity() {
 
             appbar?.let { appbar ->
                 ViewCompat.setOnApplyWindowInsetsListener(appbar) { _, insets ->
-                    appbar.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        topMargin = insets.systemWindowInsetTop
-                    }
+                    appbar.setMarginTop(insets.systemWindowInsetTop)
                     insets
                 }
             }
 
             bottomNavigation?.let { bottomNavigation ->
                 ViewCompat.setOnApplyWindowInsetsListener(bottomNavigation) { _, insets ->
-                    bottomNavigation.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        bottomMargin = insets.systemWindowInsetBottom
-                    }
+                    bottomNavigation.setMarginBottom(insets.systemWindowInsetBottom)
                     insets
                 }
             }
@@ -127,5 +159,71 @@ class ViewerActivity : AppCompatActivity() {
             window.statusBarColor = ContextCompat.getColor(this, R.color.viewer_bars_colors)
             window.navigationBarColor = ContextCompat.getColor(this, R.color.viewer_bars_colors)
         }
+    }
+
+    private fun toggleSystemUI() {
+        setSystemUIVisibility(!visibleSystemUI)
+    }
+
+    private fun setSystemUIVisibility(visible: Boolean, withSystemBars: Boolean = true) {
+        Handler().post {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && withSystemBars) {
+                window.decorView.systemUiVisibility = if (visible)
+                    SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                            SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                            SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                else
+                    SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                            SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                            SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                            SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                            SYSTEM_UI_FLAG_FULLSCREEN or
+                            SYSTEM_UI_FLAG_IMMERSIVE or
+                            SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            }
+            changeBarsVisibility(visible)
+            visibleSystemUI = visible
+        }
+    }
+
+    private fun changeBarsVisibility(show: Boolean) {
+        changeAppBarVisibility(show)
+        changeBottomBarVisibility(show)
+    }
+
+    private fun changeAppBarVisibility(show: Boolean) {
+        val extra = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.decorView.rootWindowInsets.systemWindowInsetTop
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) 25.dpToPx
+            else 0
+        }
+        appbar?.setMarginTop(if (show) extra else 0)
+        val transY = (if (show) 0 else -(appbar?.height ?: 0 * 3)).toFloat()
+        appbar?.animate()?.translationY(transY)
+            ?.setInterpolator(AccelerateDecelerateInterpolator())
+            ?.withStartAction { if (show) appbar?.visible() }
+            ?.withEndAction { if (!show) appbar?.gone() }
+            ?.start()
+    }
+
+    private fun changeBottomBarVisibility(show: Boolean) {
+        val extra = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.decorView.rootWindowInsets.systemWindowInsetBottom
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) 48.dpToPx
+            else 0
+        }
+        val transY = (if (show) 0 else ((bottomNavigation?.height ?: 0 * 2) + extra)).toFloat()
+        bottomNavigation?.animate()?.translationY(transY)
+            ?.setInterpolator(AccelerateDecelerateInterpolator())
+            ?.start()
+    }
+
+    companion object {
+        private const val CLOSING_KEY = "closing"
+        private const val TRANSITIONED_KEY = "transitioned"
+        private const val VISIBLE_SYSTEM_UI_KEY = "visible_system_ui"
+        internal const val CURRENT_WALL_POSITION = "curr_wall_pos"
     }
 }

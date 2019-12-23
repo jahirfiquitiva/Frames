@@ -4,19 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.data.viewmodels.WallpapersDataViewModel
 import dev.jahir.frames.extensions.buildTransitionOptions
-import dev.jahir.frames.extensions.urlAsKey
 import dev.jahir.frames.ui.activities.BaseFramesActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
 import dev.jahir.frames.ui.adapters.WallpapersAdapter
 import dev.jahir.frames.ui.decorations.GridSpacingItemDecoration
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
+import dev.jahir.frames.ui.viewholders.WallpaperViewHolder
 import dev.jahir.frames.utils.onClick
 import dev.jahir.frames.utils.onFavClick
 import dev.jahir.frames.utils.wallpapersAdapter
@@ -25,9 +24,10 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
     private var isForFavs: Boolean = false
     private var wallsViewModel: WallpapersDataViewModel? = null
+
     private val wallsAdapter: WallpapersAdapter by lazy {
         wallpapersAdapter {
-            onClick { wall, view -> launchViewer(wall, view) }
+            onClick { wall, holder -> launchViewer(wall, holder) }
             onFavClick { checked, wallpaper ->
                 this@WallpapersFragment.onFavClick(checked, wallpaper)
             }
@@ -70,13 +70,14 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         }
     }
 
-    private fun launchViewer(wallpaper: Wallpaper, view: View?) {
-        val transitionKey = view?.let { ViewCompat.getTransitionName(it) } ?: wallpaper.urlAsKey
+    private fun launchViewer(wallpaper: Wallpaper, holder: WallpaperViewHolder) {
         val options =
             activity?.let {
                 ActivityOptionsCompat.makeSceneTransitionAnimation(
                     it,
-                    *(it.buildTransitionOptions(view) ?: arrayOf())
+                    *(it.buildTransitionOptions(
+                        arrayListOf(holder.image, holder.title, holder.author)
+                    ) ?: arrayOf())
                 )
             }
         startActivity(
@@ -86,7 +87,7 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
                     putExtra(WALLPAPER_AUTHOR_EXTRA, wallpaper.author)
                     putExtra(WALLPAPER_URL_EXTRA, wallpaper.url)
                     putExtra(WALLPAPER_THUMB_EXTRA, wallpaper.thumbnail)
-                    putExtra(WALLPAPER_TRANSITION_EXTRA, transitionKey)
+                    putExtra(ViewerActivity.CURRENT_WALL_POSITION, holder.adapterPosition)
                 },
             options?.toBundle()
         )

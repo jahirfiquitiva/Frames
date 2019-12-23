@@ -1,13 +1,13 @@
 package dev.jahir.frames.utils
 
-import android.view.View
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.ui.adapters.WallpapersAdapter
+import dev.jahir.frames.ui.viewholders.WallpaperViewHolder
 
 fun wallpapersAdapter(block: WallpapersAdapter.() -> Unit): WallpapersAdapter =
     WallpapersAdapter().apply(block)
 
-fun WallpapersAdapter.onClick(what: (Wallpaper, T: View?) -> Unit) {
+fun WallpapersAdapter.onClick(what: (Wallpaper, WallpaperViewHolder) -> Unit) {
     this.onClick = what
 }
 

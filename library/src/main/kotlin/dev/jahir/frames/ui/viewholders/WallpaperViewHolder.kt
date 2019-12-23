@@ -9,18 +9,20 @@ import androidx.core.view.postDelayed
 import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
+import dev.jahir.frames.extensions.buildAuthorTransitionName
+import dev.jahir.frames.extensions.buildImageTransitionName
+import dev.jahir.frames.extensions.buildTitleTransitionName
 import dev.jahir.frames.extensions.loadFramesPic
-import dev.jahir.frames.extensions.urlAsKey
 
 class WallpaperViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    private val image: AppCompatImageView? = view.findViewById(R.id.wallpaper_image)
-    private val title: TextView? = view.findViewById(R.id.wallpaper_name)
-    private val author: TextView? = view.findViewById(R.id.wallpaper_author)
-    private val favorite: AppCompatCheckBox? = view.findViewById(R.id.fav_button)
+    internal val image: AppCompatImageView? = view.findViewById(R.id.wallpaper_image)
+    internal val title: TextView? = view.findViewById(R.id.wallpaper_name)
+    internal val author: TextView? = view.findViewById(R.id.wallpaper_author)
+    internal val favorite: AppCompatCheckBox? = view.findViewById(R.id.fav_button)
 
     fun bind(
         wallpaper: Wallpaper,
-        onClick: (Wallpaper, T: View?) -> Unit,
+        onClick: (Wallpaper, WallpaperViewHolder) -> Unit,
         onFavClick: (Boolean, Wallpaper) -> Unit
     ) {
         favorite?.setOnCheckedChangeListener(null)
@@ -29,12 +31,21 @@ class WallpaperViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         favorite?.setOnCheckedChangeListener { _, checked ->
             favorite.postDelayed(FAV_DELAY) { onFavClick(checked, wallpaper) }
         }
+
+        title?.let {
+            ViewCompat.setTransitionName(it, wallpaper.buildTitleTransitionName(adapterPosition))
+        }
+        author?.let {
+            ViewCompat.setTransitionName(it, wallpaper.buildAuthorTransitionName(adapterPosition))
+        }
+        image?.let {
+            ViewCompat.setTransitionName(it, wallpaper.buildImageTransitionName(adapterPosition))
+        }
+
         title?.text = wallpaper.name
         author?.text = wallpaper.author
-        val key = wallpaper.urlAsKey(adapterPosition.toString())
-        image?.let { ViewCompat.setTransitionName(it, key) }
         image?.loadFramesPic(wallpaper.url, wallpaper.thumbnail)
-        itemView.setOnClickListener { onClick(wallpaper, image) }
+        itemView.setOnClickListener { onClick(wallpaper, this) }
     }
 
     companion object {
