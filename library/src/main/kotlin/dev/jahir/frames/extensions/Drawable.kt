@@ -6,11 +6,11 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 
 fun Drawable.asBitmap(
-    scaling: Float = 1f,
+    scaling: Float = 1F,
     config: Bitmap.Config = Bitmap.Config.ARGB_8888
 ): Bitmap {
     if (this is BitmapDrawable && bitmap != null) {
-        if (scaling == 1f) return bitmap
+        if (scaling == 1F) return bitmap
         val width = (bitmap.width * scaling).toInt()
         val height = (bitmap.height * scaling).toInt()
         return Bitmap.createScaledBitmap(bitmap, width, height, false)

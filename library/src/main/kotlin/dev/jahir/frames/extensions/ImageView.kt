@@ -6,34 +6,55 @@ import coil.Coil
 import coil.api.load
 import dev.jahir.frames.ui.animations.SaturatingImageViewTarget
 
+private const val CROSSFADE_DURATION = 250
+
+private fun AppCompatImageView.internalLoadFramesPic(
+    url: String,
+    isForPalette: Boolean = false,
+    thumbnail: Drawable? = null,
+    customTarget: SaturatingImageViewTarget? = null
+) {
+    Coil.load(context, url) {
+        if (isForPalette) allowHardware(false)
+        if (thumbnail == null) crossfade(CROSSFADE_DURATION)
+        placeholder(thumbnail)
+        error(thumbnail)
+        customTarget?.let {
+            target(customTarget)
+            listener(customTarget)
+        }
+    }
+}
+
+private fun AppCompatImageView.buildTarget(
+    block: SaturatingImageViewTarget.() -> Unit
+): SaturatingImageViewTarget = SaturatingImageViewTarget(
+    this
+).apply(block)
+
 fun AppCompatImageView.loadFramesPic(
     url: String,
     thumbnail: String? = url,
-    onLoaded: (Drawable?) -> Unit = {}
+    doWithPalette: ((drawable: Drawable?) -> Unit)? = null
 ) {
-    val saturatingTarget = SaturatingImageViewTarget(this)
-    saturatingTarget.afterSuccess = onLoaded
+    val isForPalette = doWithPalette?.let { true } ?: false
+    val saturatingTarget = buildTarget {
+        if (isForPalette) addListener { doWithPalette?.invoke(it) }
+        clearListenersOnSuccess = true
+    }
     val shouldLoadThumbnail = thumbnail?.let { it.isNotEmpty() && it != url } ?: false
     if (shouldLoadThumbnail) {
-        Coil.load(context, thumbnail) {
-            crossfade(250)
-            saturatingTarget.afterSuccess = { thumbnailDrawable ->
-                onLoaded(thumbnailDrawable)
-                load(url) {
-                    crossfade(250)
-                    placeholder(thumbnailDrawable)
-                    error(thumbnailDrawable)
-                    target { onLoaded(it) }
-                }
-            }
-            target(saturatingTarget)
-            listener(saturatingTarget)
+        val thumbnailTarget = saturatingTarget.addListener {
+            internalLoadFramesPic(url, isForPalette, it,
+                saturatingTarget.apply {
+                    shouldActuallySaturate = false
+                    clearListenersOnSuccess = true
+                })
         }
+        internalLoadFramesPic(thumbnail.orEmpty(), isForPalette, null, thumbnailTarget.apply {
+            clearListenersOnSuccess = false
+        })
     } else {
-        load(url) {
-            crossfade(250)
-            target(saturatingTarget)
-            listener(saturatingTarget)
-        }
+        internalLoadFramesPic(url, isForPalette, null, saturatingTarget)
     }
 }

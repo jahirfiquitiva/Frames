@@ -29,11 +29,13 @@ import coil.target.Target
 /**
  * A [Target], which handles setting images on an [ImageView].
  */
-class SaturatingImageViewTarget(
-    override val view: ImageView
+open class SaturatingImageViewTarget(
+    override val view: ImageView,
+    var shouldActuallySaturate: Boolean = true,
+    var clearListenersOnSuccess: Boolean = true
 ) : PoolableViewTarget<ImageView>, DefaultLifecycleObserver, Request.Listener {
 
-    var afterSuccess: (drawable: Drawable?) -> Unit = {}
+    private val afterSuccessListeners: ArrayList<((drawable: Drawable?) -> Unit)> = ArrayList()
     private var isStarted = false
 
     override fun onStart(placeholder: Drawable?) = setDrawable(placeholder)
@@ -43,10 +45,13 @@ class SaturatingImageViewTarget(
     override fun onSuccess(data: Any, source: DataSource) {
         // This is called after onSuccess(Drawable) above, so we can assume the image has
         // already been set
-        if ((source == DataSource.DISK || source == DataSource.NETWORK) && view.drawable != null) {
+        if ((source == DataSource.DISK || source == DataSource.NETWORK) &&
+            view.drawable != null && shouldActuallySaturate
+        ) {
             saturateDrawableAnimator(view.drawable, view = view).start()
         }
-        afterSuccess(view.drawable)
+        afterSuccessListeners.forEach { it.invoke(view.drawable) }
+        if (clearListenersOnSuccess) afterSuccessListeners.clear()
     }
 
     override fun onError(error: Drawable?) = setDrawable(error)
@@ -73,4 +78,7 @@ class SaturatingImageViewTarget(
         val animatable = view.drawable as? Animatable ?: return
         if (isStarted) animatable.start() else animatable.stop()
     }
+
+    fun addListener(listener: (drawable: Drawable?) -> Unit): SaturatingImageViewTarget =
+        this.apply { this.afterSuccessListeners.add(listener) }
 }

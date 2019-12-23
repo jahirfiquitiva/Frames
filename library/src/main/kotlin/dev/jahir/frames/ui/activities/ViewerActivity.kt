@@ -4,12 +4,12 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.View.*
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
@@ -30,6 +30,7 @@ class ViewerActivity : AppCompatActivity() {
     private val appbar: AppBarLayout? by findView(R.id.appbar)
     private val toolbar: Toolbar? by findView(R.id.toolbar)
     private val bottomNavigation: BottomNavigationView? by findView(R.id.bottom_bar)
+    private val image: AppCompatImageView? by findView(R.id.wallpaper)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +50,6 @@ class ViewerActivity : AppCompatActivity() {
 
         if (!wallpaperUrl.hasContent()) finish()
 
-        val image: AppCompatImageView? by findView(R.id.wallpaper)
         image?.let {
             ViewCompat.setTransitionName(
                 it,
@@ -58,6 +58,7 @@ class ViewerActivity : AppCompatActivity() {
         }
         (image as? PhotoView)?.scale = 1.0F
         image?.loadFramesPic(wallpaperUrl, wallpaperThumb) { generatePalette(it) }
+
         supportStartPostponedEnterTransition()
 
         setSupportActionBar(toolbar)
@@ -81,16 +82,16 @@ class ViewerActivity : AppCompatActivity() {
     }
 
     private fun generatePalette(drawable: Drawable?) {
-        val bitmap = drawable?.asBitmap()
-        bitmap ?: return
-        Palette.from(bitmap)
-            .generate {
-                val color = it?.bestSwatch?.rgb ?: 0
-                if (color != 0) return@generate
-                Log.d("Frames", color.toHexString())
-                findViewById<View?>(R.id.viewer_root_layout)?.setBackgroundColor(color)
-                window.setBackgroundDrawable(ColorDrawable(color))
-            }
+        (image as? PhotoView)?.scale = 1.0F
+        drawable?.asBitmap()?.let { bitmap ->
+            Palette.from(bitmap)
+                .generate { setBackgroundColor(it?.bestSwatch?.rgb ?: 0) }
+        } ?: { setBackgroundColor(0) }()
+    }
+
+    private fun setBackgroundColor(@ColorInt color: Int = 0) {
+        findViewById<View?>(R.id.viewer_root_layout)?.setBackgroundColor(color)
+        window.setBackgroundDrawable(ColorDrawable(color))
     }
 
     private fun initWindow() {
