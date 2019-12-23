@@ -64,4 +64,8 @@
         <item name="android:color">@color/white</item>
     </style>
 
+    <style name="ViewerBottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemRippleColor">@color/viewer_item_ripple</item>
+    </style>
+
 </resources>

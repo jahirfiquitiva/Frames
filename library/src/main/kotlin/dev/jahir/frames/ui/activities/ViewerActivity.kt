@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.View.*
@@ -87,6 +88,11 @@ class ViewerActivity : AppCompatActivity() {
         supportActionBar?.title = wallpaperName
         supportActionBar?.subtitle = wallpaperAuthor
         toolbar?.tint(ContextCompat.getColor(this, R.color.white))
+
+        bottomNavigation?.setOnNavigationItemSelectedListener {
+            Log.d("Frames", (it.title ?: "ItemId: ${it.itemId}").toString())
+            false
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
