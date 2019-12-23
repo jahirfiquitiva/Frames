@@ -9,7 +9,7 @@ import dev.jahir.frames.data.models.Wallpaper
 
 @Database(
     entities = [Wallpaper::class, Favorite::class],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 abstract class FramesDatabase : RoomDatabase() {

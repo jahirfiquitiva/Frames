@@ -48,34 +48,37 @@ class ViewerActivity : AppCompatActivity() {
         supportPostponeEnterTransition()
 
         currentWallPosition = intent?.extras?.getInt(CURRENT_WALL_POSITION, 0) ?: 0
-        val wallpaperName =
-            intent?.extras?.getString(WallpapersFragment.WALLPAPER_NAME_EXTRA, "") ?: ""
-        val wallpaperAuthor =
-            intent?.extras?.getString(WallpapersFragment.WALLPAPER_AUTHOR_EXTRA, "") ?: ""
-        val wallpaperUrl =
-            intent?.extras?.getString(WallpapersFragment.WALLPAPER_URL_EXTRA, "") ?: ""
-        val wallpaperThumb =
-            intent?.extras?.getString(WallpapersFragment.WALLPAPER_THUMB_EXTRA, "") ?: ""
-        if (!wallpaperUrl.hasContent()) finish()
 
-        val wall = Wallpaper(wallpaperName, wallpaperUrl, wallpaperAuthor, wallpaperThumb)
+        val wallpaper =
+            intent?.extras?.getParcelable<Wallpaper?>(WallpapersFragment.WALLPAPER_EXTRA)
+
+        if (wallpaper == null) {
+            finish()
+            return
+        }
+
         findViewById<View?>(R.id.toolbar_title)?.let {
-            (it as? TextView)?.text = wallpaperName
-            ViewCompat.setTransitionName(it, wall.buildTitleTransitionName(currentWallPosition))
+            (it as? TextView)?.text = wallpaper.name
+            ViewCompat.setTransitionName(
+                it,
+                wallpaper.buildTitleTransitionName(currentWallPosition)
+            )
         }
         findViewById<View?>(R.id.toolbar_subtitle)?.let {
-            (it as? TextView)?.text = wallpaperAuthor
-            ViewCompat.setTransitionName(it, wall.buildAuthorTransitionName(currentWallPosition))
+            (it as? TextView)?.text = wallpaper.author
+            ViewCompat.setTransitionName(
+                it,
+                wallpaper.buildAuthorTransitionName(currentWallPosition)
+            )
         }
         image?.let {
-            ViewCompat.setTransitionName(it, wall.buildImageTransitionName(currentWallPosition))
+            ViewCompat.setTransitionName(
+                it,
+                wallpaper.buildImageTransitionName(currentWallPosition)
+            )
         }
         (image as? PhotoView)?.scale = 1.0F
-        image?.loadFramesPic(wallpaperUrl, wallpaperThumb) { generatePalette(it) }
-
-        supportStartPostponedEnterTransition()
-
-        image?.setOnClickListener { toggleSystemUI() }
+        image?.loadFramesPic(wallpaper.url, wallpaper.thumbnail) { generatePalette(it) }
 
         setSupportActionBar(toolbar)
         supportActionBar?.let {
@@ -84,14 +87,27 @@ class ViewerActivity : AppCompatActivity() {
             it.setDisplayShowHomeEnabled(true)
         }
         initWindow()
-
-        supportActionBar?.title = wallpaperName
-        supportActionBar?.subtitle = wallpaperAuthor
         toolbar?.tint(ContextCompat.getColor(this, R.color.white))
+        supportStartPostponedEnterTransition()
+
+        image?.setOnClickListener { toggleSystemUI() }
+
+        val isInFavorites =
+            intent?.extras?.getBoolean(WallpapersFragment.WALLPAPER_IN_FAVS_EXTRA, false)
+                ?: wallpaper.isInFavorites ?: false
+
+        try {
+            bottomNavigation?.menu?.findItem(R.id.favorites)?.isChecked = isInFavorites
+            bottomNavigation?.selectedItemId = if (isInFavorites) R.id.favorites else R.id.details
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         bottomNavigation?.setOnNavigationItemSelectedListener {
-            Log.d("Frames", (it.title ?: "ItemId: ${it.itemId}").toString())
-            false
+            when (it.itemId) {
+                R.id.favorites -> isInFavorites
+                else -> false
+            }
         }
     }
 

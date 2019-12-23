@@ -83,10 +83,8 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         startActivity(
             Intent(activity, ViewerActivity::class.java)
                 .apply {
-                    putExtra(WALLPAPER_NAME_EXTRA, wallpaper.name)
-                    putExtra(WALLPAPER_AUTHOR_EXTRA, wallpaper.author)
-                    putExtra(WALLPAPER_URL_EXTRA, wallpaper.url)
-                    putExtra(WALLPAPER_THUMB_EXTRA, wallpaper.thumbnail)
+                    putExtra(WALLPAPER_EXTRA, wallpaper)
+                    putExtra(WALLPAPER_IN_FAVS_EXTRA, wallpaper.isInFavorites)
                     putExtra(ViewerActivity.CURRENT_WALL_POSITION, holder.adapterPosition)
                 },
             options?.toBundle()
@@ -97,11 +95,8 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         internal const val TAG = "Wallpapers"
         internal const val FAVS_TAG = "Favorites"
 
-        internal const val WALLPAPER_NAME_EXTRA = "wallpaper_name"
-        internal const val WALLPAPER_AUTHOR_EXTRA = "wallpaper_author"
-        internal const val WALLPAPER_URL_EXTRA = "wallpaper_url"
-        internal const val WALLPAPER_THUMB_EXTRA = "wallpaper_thumb"
-        internal const val WALLPAPER_TRANSITION_EXTRA = "wallpaper_transition"
+        internal const val WALLPAPER_EXTRA = "wallpaper"
+        internal const val WALLPAPER_IN_FAVS_EXTRA = "wallpaper_in_favs"
 
         @JvmStatic
         fun create(
