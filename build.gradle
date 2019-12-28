@@ -30,6 +30,7 @@ buildscript {
         def coil_version = '0.8.0'
         def tiv_version = '2.3.1'
         def photo_view_version = '2.3.0'
+        def sectioned_recyclerview_version = '5a90cfb'
 
         libraries = [
                 // Kotlin standard library
@@ -65,6 +66,9 @@ buildscript {
                 "io.coil-kt:coil:$coil_version",
                 "com.github.MikeOrtiz:TouchImageView:$tiv_version",
                 "com.github.chrisbanes:PhotoView:$photo_view_version",
+
+                //  sectioned recyclerview
+                "com.jahirfiquitiva:sectioned-recyclerview:$sectioned_recyclerview_version@aar"
         ]
 
         librariesKapt = [

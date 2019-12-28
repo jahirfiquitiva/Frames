@@ -48,15 +48,14 @@ class WallpapersDataViewModel : ViewModel() {
                     .split(",")
                     .distinct()
             val importantCollectionsNames = listOf(
-                "all", "featured", "new", "wallpaper of the day",
-                "wallpaper of the week"
+                "all", "featured", "new", "wallpaper of the day", "wallpaper of the week"
             )
             val sortedCollectionsNames =
                 listOf(importantCollectionsNames, collections).flatten().distinct()
             val actualCollections: ArrayList<Collection> = ArrayList()
             sortedCollectionsNames.forEach { collectionName ->
                 val collection = Collection(collectionName)
-                wallpapers.filter { it.collections.orEmpty().contains(collectionName) }
+                wallpapers.filter { it.collections.orEmpty().contains(collectionName, true) }
                     .distinctBy { it.url }
                     .forEach { collection.push(it) }
                 if (collection.count > 0) actualCollections.add(collection)

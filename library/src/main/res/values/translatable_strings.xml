@@ -14,4 +14,13 @@
     <string name="download">Download</string>
     <string name="apply">Apply</string>
     <string name="favorite">Favorite</string>
+
+    <string name="palette">Palette</string>
+    <string name="tap_to_copy">Tap to copy</string>
+
+    <string name="dimensions">Dimensions</string>
+    <string name="author">Author</string>
+    <string name="name">Name</string>
+    <string name="file_size">File size</string>
+    <string name="copyright">Copyright</string>
 </resources>

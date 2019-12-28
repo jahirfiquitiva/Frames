@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="dividers">#1fffffff</color>
+
     <color name="primary">@color/darkThemePrimary</color>
     <color name="primaryDark">@color/darkThemePrimaryDark</color>
     <color name="onPrimary">@color/darkThemeOnPrimary</color>
