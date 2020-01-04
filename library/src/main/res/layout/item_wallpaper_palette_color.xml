@@ -7,6 +7,7 @@
     android:layout_height="wrap_content"
     android:clipChildren="false"
     android:clipToPadding="false"
+    android:minHeight="48dp"
     android:paddingStart="16dp"
     android:paddingTop="8dp"
     android:paddingEnd="16dp"
@@ -14,7 +15,7 @@
     app:cardCornerRadius="@dimen/cards_corner_radius">
 
     <TextView
-        android:id="@+id/palette_color"
+        android:id="@+id/palette_color_text"
         style="@style/TextStyle.Frames.Body2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

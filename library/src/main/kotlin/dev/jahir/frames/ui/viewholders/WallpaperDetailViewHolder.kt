@@ -12,8 +12,16 @@ class WallpaperDetailViewHolder(view: View) : SectionedViewHolder(view) {
     private val titleTextView: TextView? by view.findView(R.id.detail_title)
     private val descriptionTextView: TextView? by view.findView(R.id.detail_description)
 
+    fun bind(pair: Pair<Int, String>?) {
+        pair ?: return
+        bind(pair.first, pair.second)
+    }
+
     fun bind(@StringRes title: Int, description: String) {
-        bind(itemView.context.getString(title), description)
+        try {
+            bind(itemView.context.getString(title), description)
+        } catch (e: Exception) {
+        }
     }
 
     fun bind(title: String, description: String) {

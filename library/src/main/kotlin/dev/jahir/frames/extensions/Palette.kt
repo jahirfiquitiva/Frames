@@ -16,6 +16,16 @@ val Palette.bestSwatch: Palette.Swatch?
         return null
     }
 
+val Palette.sortedSwatches: List<Palette.Swatch>
+    get() = swatches.sortedByDescending { it?.population ?: 0 }.subList(0, 6)
+
+val Palette.Swatch.bestTextColor: Int
+    get() {
+        return (if (rgb.isDark) titleTextColor.getLighter(bodyTextColor)
+        else titleTextColor.getDarker(bodyTextColor))
+            .withMinAlpha(.8F)
+    }
+
 private fun getBestPaletteSwatch(swatches: List<Palette.Swatch>): Palette.Swatch =
     Collections.max<Palette.Swatch>(swatches) { opt1, opt2 ->
         val a = opt1?.population ?: 0

@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package dev.jahir.frames.extensions
 
 import android.graphics.Color
@@ -7,12 +9,20 @@ import androidx.annotation.IntRange
 import androidx.core.graphics.ColorUtils
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import kotlin.math.max
 import kotlin.math.roundToInt
 
 val Int.isDark: Boolean
     get() = isDark(0.5)
 
-fun Int.isDark(threshold: Double = 0.5) = ColorUtils.calculateLuminance(this) < threshold
+fun Int.isDark(threshold: Double = 0.5) = luminance < threshold
+
+val Int.luminance
+    get() = ColorUtils.calculateLuminance(this)
+
+fun Int.getLighter(other: Int): Int = if (other.luminance > luminance) other else this
+
+fun Int.getDarker(other: Int): Int = if (other.luminance < luminance) other else this
 
 /**
  * Utils originally created by Allan Wang
@@ -37,7 +47,7 @@ fun FloatArray.toColor(): Int = Color.HSVToColor(this)
 
 @ColorInt
 fun Int.adjustAlpha(factor: Float): Int {
-    val alpha = Math.round(Color.alpha(this) * factor)
+    val alpha = (Color.alpha(this) * factor).roundToInt()
     return Color.argb(alpha, Color.red(this), Color.green(this), Color.blue(this))
 }
 
@@ -61,7 +71,13 @@ fun Int.withAlpha(@FloatRange(from = 0.0, to = 1.0) alpha: Float): Int =
 
 @ColorInt
 fun Int.withMinAlpha(@IntRange(from = 0, to = 255) alpha: Int): Int = Color.argb(
-    Math.max(alpha, Color.alpha(this)), Color.red(this), Color.green(this), Color.blue(this)
+    max(alpha, Color.alpha(this)), Color.red(this), Color.green(this), Color.blue(this)
+)
+
+@ColorInt
+fun Int.withMinAlpha(@FloatRange(from = 0.0, to = 1.0) alpha: Float): Int = Color.argb(
+    max((alpha * 255).roundToInt(), Color.alpha(this)),
+    Color.red(this), Color.green(this), Color.blue(this)
 )
 
 @ColorInt

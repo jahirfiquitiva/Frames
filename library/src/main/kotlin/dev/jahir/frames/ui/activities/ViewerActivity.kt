@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.View.*
@@ -25,6 +24,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.*
+import dev.jahir.frames.ui.fragments.WallpaperDetailsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.utils.tint
 
@@ -39,6 +39,8 @@ class ViewerActivity : AppCompatActivity() {
     private var visibleSystemUI: Boolean = true
     private var closing: Boolean = false
     private var currentWallPosition: Int = 0
+
+    private val detailsFragment: WallpaperDetailsFragment by lazy { WallpaperDetailsFragment.create() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +58,8 @@ class ViewerActivity : AppCompatActivity() {
             finish()
             return
         }
+
+        detailsFragment.wallpaper = wallpaper
 
         findViewById<View?>(R.id.toolbar_title)?.let {
             (it as? TextView)?.text = wallpaper.name
@@ -105,6 +109,10 @@ class ViewerActivity : AppCompatActivity() {
 
         bottomNavigation?.setOnNavigationItemSelectedListener {
             when (it.itemId) {
+                R.id.details -> {
+                    detailsFragment.show(this, "DETAILS_FRAG")
+                    false
+                }
                 R.id.favorites -> isInFavorites
                 else -> false
             }
@@ -143,7 +151,10 @@ class ViewerActivity : AppCompatActivity() {
         (image as? PhotoView)?.scale = 1.0F
         drawable?.asBitmap()?.let { bitmap ->
             Palette.from(bitmap)
-                .generate { setBackgroundColor(it?.bestSwatch?.rgb ?: 0) }
+                .generate {
+                    setBackgroundColor(it?.bestSwatch?.rgb ?: 0)
+                    detailsFragment.palette = it
+                }
         } ?: { setBackgroundColor(0) }()
     }
 
