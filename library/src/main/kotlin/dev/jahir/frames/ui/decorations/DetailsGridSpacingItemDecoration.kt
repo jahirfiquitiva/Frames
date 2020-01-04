@@ -29,10 +29,7 @@ open class DetailsGridSpacingItemDecoration(
         val actualPosition =
             (parent.adapter as? WallpaperDetailsAdapter)?.getRelativePosition(absolutePosition)
         if ((actualPosition?.relativePos() ?: -1) >= 0) {
-            if ((actualPosition?.section() ?: 0) != 1) {
-                outRect.left = spacing
-                outRect.right = spacing - 2 * spacing / 1
-            } else {
+            if ((actualPosition?.section() ?: 0) == 1) {
                 val position = actualPosition?.relativePos() ?: -1
                 if (position < 0) return
 
@@ -42,11 +39,17 @@ open class DetailsGridSpacingItemDecoration(
                     ((parent.adapter as? WallpaperDetailsAdapter)?.getItemCount(1) ?: 0) / 3
                 val halfSpacing = (spacing / 2.0).roundToInt()
 
-                outRect.left = if (column == 0) colorsSideSpacing else halfSpacing
-                outRect.right = if (column == 2) colorsSideSpacing else halfSpacing
+                outRect.left = if (column == 0) spacing else halfSpacing
+                outRect.right = if (column == 2) spacing else halfSpacing
                 outRect.top = if (row == 0) colorsTopBottomSpacing else halfSpacing
                 outRect.bottom = if (row == rowCount - 1) colorsTopBottomSpacing else halfSpacing
+            } else {
+                outRect.left = spacing
+                outRect.right = spacing
             }
+        } else {
+            outRect.left = spacing * -1
+            outRect.right = spacing * -1
         }
     }
 }

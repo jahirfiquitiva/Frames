@@ -37,6 +37,24 @@
 
         <item name="textAppearanceCaption">@style/TextAppearance.Frames.Caption</item>
         <item name="textAppearanceOverline">@style/TextAppearance.Frames.Overline</item>
+
+        <item name="shapeAppearanceSmallComponent">
+            @style/ShapeAppearance.Frames.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">
+            @style/ShapeAppearance.Frames.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">
+            @style/ShapeAppearance.Frames.LargeComponent
+        </item>
+
+        <item name="materialCardViewStyle">@style/Widget.Frames.MaterialCardView</item>
+    </style>
+
+    <style name="Widget.Frames.MaterialCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">
+            @style/ShapeAppearanceOverlay.Frames.MaterialCardView
+        </item>
     </style>
 
     <style name="TextAppearance.Frames.CollectionTitle" parent="TextStyle.Frames.Headline6">
