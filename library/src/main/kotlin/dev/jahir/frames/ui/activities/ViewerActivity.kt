@@ -27,6 +27,7 @@ import dev.jahir.frames.extensions.*
 import dev.jahir.frames.ui.fragments.WallpaperDetailsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.utils.tint
+import kotlin.math.roundToInt
 
 class ViewerActivity : AppCompatActivity() {
 
@@ -151,6 +152,7 @@ class ViewerActivity : AppCompatActivity() {
         (image as? PhotoView)?.scale = 1.0F
         drawable?.asBitmap()?.let { bitmap ->
             Palette.from(bitmap)
+                .maximumColorCount((MAX_FRAMES_PALETTE_COLORS * 1.5).roundToInt())
                 .generate {
                     setBackgroundColor(it?.bestSwatch?.rgb ?: 0)
                     detailsFragment.palette = it

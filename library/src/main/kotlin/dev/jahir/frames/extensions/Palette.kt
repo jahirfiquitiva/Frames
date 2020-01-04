@@ -3,6 +3,8 @@ package dev.jahir.frames.extensions
 import androidx.palette.graphics.Palette
 import java.util.*
 
+internal const val MAX_FRAMES_PALETTE_COLORS = 6
+
 val Palette.bestSwatch: Palette.Swatch?
     get() {
         dominantSwatch?.let { return it }
@@ -17,7 +19,8 @@ val Palette.bestSwatch: Palette.Swatch?
     }
 
 val Palette.sortedSwatches: List<Palette.Swatch>
-    get() = swatches.sortedByDescending { it?.population ?: 0 }.subList(0, 6)
+    get() = swatches.sortedByDescending { it?.population ?: 0 }
+        .subList(0, MAX_FRAMES_PALETTE_COLORS)
 
 val Palette.Swatch.bestTextColor: Int
     get() {
