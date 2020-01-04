@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.MAX_FRAMES_PALETTE_COLORS
+import dev.jahir.frames.extensions.dpToPx
 import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.ui.adapters.WallpaperDetailsAdapter
+import dev.jahir.frames.ui.decorations.DetailsGridSpacingItemDecoration
 import dev.jahir.frames.ui.fragments.base.BaseBottomSheet
 import kotlin.math.roundToInt
 
@@ -36,11 +38,14 @@ class WallpaperDetailsFragment : BaseBottomSheet() {
         val view = View.inflate(context, R.layout.fragment_wallpaper_details, null)
 
         val recyclerView: RecyclerView? by view.findView(R.id.recycler_view)
-        val lm = GridLayoutManager(context, (MAX_FRAMES_PALETTE_COLORS / 2.0).roundToInt())
+        val columns = (MAX_FRAMES_PALETTE_COLORS / 2.0).roundToInt()
+        val decoration = DetailsGridSpacingItemDecoration(8.dpToPx)
+        val lm = GridLayoutManager(context, columns)
 
         recyclerView?.layoutManager = lm
         wallpaperDetailsAdapter.setLayoutManager(lm)
         recyclerView?.adapter = wallpaperDetailsAdapter
+        recyclerView?.addItemDecoration(decoration)
 
         return view
     }

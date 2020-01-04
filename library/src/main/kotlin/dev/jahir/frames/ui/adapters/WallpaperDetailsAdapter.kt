@@ -9,7 +9,7 @@ import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.MAX_FRAMES_PALETTE_COLORS
 import dev.jahir.frames.extensions.inflate
 import dev.jahir.frames.extensions.sortedSwatches
-import dev.jahir.frames.ui.viewholders.HeaderViewHolder
+import dev.jahir.frames.ui.viewholders.WallpaperDetailHeaderViewHolder
 import dev.jahir.frames.ui.viewholders.WallpaperDetailViewHolder
 import dev.jahir.frames.ui.viewholders.WallpaperPaletteColorViewHolder
 import kotlin.math.roundToInt
@@ -35,7 +35,7 @@ class WallpaperDetailsAdapter(var wallpaper: Wallpaper?, var palette: Palette?) 
         when (viewType) {
             0 -> WallpaperDetailViewHolder(parent.inflate(R.layout.item_wallpaper_detail))
             1 -> WallpaperPaletteColorViewHolder(parent.inflate(R.layout.item_wallpaper_palette_color))
-            else -> HeaderViewHolder(parent.inflate(R.layout.item_wallpaper_details_header))
+            else -> WallpaperDetailHeaderViewHolder(parent.inflate(R.layout.item_wallpaper_details_header))
         }
 
     override fun onBindHeaderViewHolder(
@@ -43,7 +43,16 @@ class WallpaperDetailsAdapter(var wallpaper: Wallpaper?, var palette: Palette?) 
         section: Int,
         expanded: Boolean
     ) {
-        // Do nothing
+        val titleRes = when (section) {
+            0 -> R.string.details
+            1 -> R.string.palette
+            else -> 0
+        }
+        val subtitleRes = when (section) {
+            1 -> R.string.tap_to_copy
+            else -> 0
+        }
+        (holder as? WallpaperDetailHeaderViewHolder)?.bind(titleRes, subtitleRes, section > 0)
     }
 
     override fun onBindViewHolder(

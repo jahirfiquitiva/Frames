@@ -6,7 +6,9 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.annotation.AttrRes
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 
 
@@ -77,4 +79,12 @@ fun Context.resolveBoolean(@AttrRes attr: Int, fallback: Boolean = false): Boole
     } finally {
         a.recycle()
     }
+}
+
+fun Context.toast(@StringRes res: Int, duration: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(this, res, duration).show()
+}
+
+fun Context.toast(content: String, duration: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(this, content, duration).show()
 }

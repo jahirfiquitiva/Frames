@@ -17,6 +17,7 @@
 
     <string name="palette">Palette</string>
     <string name="tap_to_copy">Tap to copy</string>
+    <string name="copied_to_clipboard">Copied color to clipboard</string>
 
     <string name="dimensions">Dimensions</string>
     <string name="author">Author</string>
