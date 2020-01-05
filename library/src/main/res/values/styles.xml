@@ -38,6 +38,7 @@
         <item name="textAppearanceCaption">@style/TextAppearance.Frames.Caption</item>
         <item name="textAppearanceOverline">@style/TextAppearance.Frames.Overline</item>
 
+        <!--
         <item name="shapeAppearanceSmallComponent">
             @style/ShapeAppearance.Frames.SmallComponent
         </item>
@@ -47,8 +48,8 @@
         <item name="shapeAppearanceLargeComponent">
             @style/ShapeAppearance.Frames.LargeComponent
         </item>
-
         <item name="materialCardViewStyle">@style/Widget.Frames.MaterialCardView</item>
+        -->
     </style>
 
     <style name="Widget.Frames.MaterialCardView" parent="Widget.MaterialComponents.CardView">

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?selectableItemBackground"
-    android:hapticFeedbackEnabled="true">
+    android:hapticFeedbackEnabled="true"
+    app:cardCornerRadius="@dimen/small_components_corner_size">
 
     <ProgressBar
         style="@style/Widget.AppCompat.ProgressBar"
