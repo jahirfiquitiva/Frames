@@ -12,5 +12,18 @@
         android:theme="@style/BaseFramesTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
+
+        <!-- DO NOT REMOVE !!! -->
+        <!-- Required for files access !!! -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_providers" />
+        </provider>
+
     </application>
 </manifest>

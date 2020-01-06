@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Frames</string>
+
+    <string name="fetch_notification_default_channel_name">@string/downloads</string>
+    <string name="fetch_notification_download_failed">@string/download_failed</string>
+    <string name="fetch_notification_download_pause">@string/download_pause</string>
+    <string name="fetch_notification_download_paused">@string/download_paused</string>
+    <string name="fetch_notification_download_resume">@string/download_resume</string>
+    <string name="fetch_notification_download_retry">@string/download_retry</string>
+    <string name="fetch_notification_download_starting">@string/download_starting</string>
+    <string name="fetch_notification_download_cancel">@string/download_cancel</string>
+    <string name="download_complete">@string/download_successful_short</string>
+    <string name="fetch_notification_download_complete">@string/download_complete</string>
+    <string name="fetch_notification_download_downloading">@string/download_downloading</string>
+    <string name="fetch_notification_download_eta_hrs">@string/download_eta_hrs</string>
+    <string name="fetch_notification_download_eta_min">@string/download_eta_min</string>
+    <string name="fetch_notification_download_eta_sec">@string/download_eta_sec</string>
 </resources>

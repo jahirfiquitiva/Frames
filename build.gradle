@@ -31,6 +31,8 @@ buildscript {
         def tiv_version = '2.3.1'
         def photo_view_version = '2.3.0'
         def sectioned_recyclerview_version = '5a90cfb'
+        def fetch_version = '3.1.4'
+        def kpermissions_version = '2.0.2'
 
         libraries = [
                 // Kotlin standard library
@@ -68,7 +70,13 @@ buildscript {
                 "com.github.chrisbanes:PhotoView:$photo_view_version",
 
                 //  sectioned recyclerview
-                "com.jahirfiquitiva:sectioned-recyclerview:$sectioned_recyclerview_version@aar"
+                "com.jahirfiquitiva:sectioned-recyclerview:$sectioned_recyclerview_version@aar",
+
+                // file downloader
+                "androidx.tonyodev.fetch2:xfetch2:$fetch_version",
+
+                // permissions
+                "com.github.fondesa:kpermissions:$kpermissions_version"
         ]
 
         librariesKapt = [
@@ -82,6 +90,7 @@ buildscript {
         mavenCentral()
         maven { url 'https://jitpack.io' }
         maven { url "https://dl.bintray.com/drummer-aidan/maven/" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 
     dependencies {
@@ -99,6 +108,7 @@ allprojects {
         mavenCentral()
         maven { url 'https://jitpack.io' }
         maven { url "https://dl.bintray.com/drummer-aidan/maven/" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 }
 
