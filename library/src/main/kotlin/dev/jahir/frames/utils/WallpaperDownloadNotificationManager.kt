@@ -74,7 +74,7 @@ abstract class WallpaperDownloadNotificationManager(private val weakContext: Wea
                     NotificationChannel(
                         channelId,
                         channelName,
-                        NotificationManager.IMPORTANCE_DEFAULT
+                        NotificationManager.IMPORTANCE_LOW
                     )
                 notificationManager.createNotificationChannel(channel)
             }
@@ -139,6 +139,8 @@ abstract class WallpaperDownloadNotificationManager(private val weakContext: Wea
         when {
             downloadNotification.isDownloading -> {
                 notificationBuilder.setTimeoutAfter(getNotificationTimeOutMillis())
+                // TODO: Enable when fixed by library
+                /*
                     .addAction(
                         R.drawable.fetch_notification_pause,
                         context.getString(R.string.fetch_notification_download_pause),
@@ -155,9 +157,12 @@ abstract class WallpaperDownloadNotificationManager(private val weakContext: Wea
                             DownloadNotification.ActionType.CANCEL
                         )
                     )
+                */
             }
             downloadNotification.isPaused -> {
                 notificationBuilder.setTimeoutAfter(getNotificationTimeOutMillis())
+                // TODO: Enable when fixed by library
+                /*
                     .addAction(
                         R.drawable.fetch_notification_resume,
                         context.getString(R.string.fetch_notification_download_resume),
@@ -174,6 +179,7 @@ abstract class WallpaperDownloadNotificationManager(private val weakContext: Wea
                             DownloadNotification.ActionType.CANCEL
                         )
                     )
+                */
             }
             downloadNotification.isQueued -> {
                 notificationBuilder.setTimeoutAfter(getNotificationTimeOutMillis())
@@ -334,14 +340,11 @@ abstract class WallpaperDownloadNotificationManager(private val weakContext: Wea
             downloadNotification.title = getDownloadNotificationTitle(download)
             downloadNotificationsMap[download.id] = downloadNotification
             if (downloadNotificationExcludeSet.contains(downloadNotification.notificationId)
-                && !downloadNotification.isFailed && !downloadNotification.isCompleted
-            ) {
+                && !downloadNotification.isFailed && !downloadNotification.isCompleted) {
                 downloadNotificationExcludeSet.remove(downloadNotification.notificationId)
             }
-            if (downloadNotification.isCancelledNotification || shouldCancelNotification(
-                    downloadNotification
-                )
-            ) {
+            if (downloadNotification.isCancelledNotification ||
+                shouldCancelNotification(downloadNotification)) {
                 cancelNotification(downloadNotification.notificationId)
             } else {
                 notify(download.group)
