@@ -82,17 +82,19 @@ inline fun <reified T : View> Activity.findView(@IdRes id: Int, logException: Bo
     }
 }
 
-fun Activity?.buildTransitionOptions(transitionViews: ArrayList<View?> = ArrayList()): Array<Pair<View?, String>>? {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-        return null
-    }
+fun Activity?.buildTransitionOptions(transitionViews: ArrayList<View?> = ArrayList()): Array<Pair<View?, String>> {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return arrayOf()
 
     val statusBar: View? by this?.window?.decorView?.findView(android.R.id.statusBarBackground)
     val navigationBar: View? by this?.window?.decorView?.findView(android.R.id.navigationBarBackground)
 
     val pairs = ArrayList<Pair<View, String>>()
-    pairs.add(Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME))
-    pairs.add(Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME))
+    statusBar?.let {
+        pairs.add(Pair.create(it, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME))
+    }
+    navigationBar?.let {
+        pairs.add(Pair.create(it, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME))
+    }
 
     val appBarLayout: View? by this?.window?.decorView?.findView(R.id.appbar)
     appBarLayout?.let { pairs.add(Pair.create(it, "appbar")) }
@@ -101,8 +103,10 @@ fun Activity?.buildTransitionOptions(transitionViews: ArrayList<View?> = ArrayLi
     bottomNavigation?.let { pairs.add(Pair.create(it, "bottombar")) }
 
     transitionViews.forEach {
-        val transitionName = it?.let { ViewCompat.getTransitionName(it) } ?: ""
-        if (transitionName.hasContent()) pairs.add(Pair.create(it, transitionName))
+        it?.let {
+            val transitionName = ViewCompat.getTransitionName(it) ?: ""
+            if (transitionName.hasContent()) pairs.add(Pair.create(it, transitionName))
+        }
     }
 
     return pairs.toArray(arrayOfNulls(pairs.size))

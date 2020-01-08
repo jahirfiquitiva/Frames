@@ -71,15 +71,19 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     }
 
     private fun launchViewer(wallpaper: Wallpaper, holder: WallpaperViewHolder) {
-        val options =
+        val options = try {
             activity?.let {
                 ActivityOptionsCompat.makeSceneTransitionAnimation(
                     it,
                     *(it.buildTransitionOptions(
                         arrayListOf(holder.image, holder.title, holder.author)
-                    ) ?: arrayOf())
+                    ))
                 )
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
         startActivity(
             Intent(activity, ViewerActivity::class.java)
                 .apply {

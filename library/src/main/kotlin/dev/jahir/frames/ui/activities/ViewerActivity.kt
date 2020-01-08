@@ -1,5 +1,8 @@
 package dev.jahir.frames.ui.activities
 
+import android.app.WallpaperManager
+import android.content.DialogInterface
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -17,7 +20,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.palette.graphics.Palette
+import coil.Coil
+import coil.api.load
+import coil.request.Request
 import com.github.chrisbanes.photoview.PhotoView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.MAX_FRAMES_PALETTE_COLORS
@@ -65,7 +72,6 @@ class ViewerActivity : BaseSystemUIVisibilityActivity() {
         }
 
         initFetch(wallpaper)
-
         detailsFragment.wallpaper = wallpaper
 
         findViewById<View?>(R.id.toolbar_title)?.let {
@@ -124,6 +130,10 @@ class ViewerActivity : BaseSystemUIVisibilityActivity() {
                     requestPermission()
                     false
                 }
+                R.id.apply -> {
+                    applyWallpaper(wallpaper)
+                    false
+                }
                 R.id.favorites -> isInFavorites
                 else -> false
             }
@@ -153,6 +163,20 @@ class ViewerActivity : BaseSystemUIVisibilityActivity() {
 
     override fun onBackPressed() {
         supportFinishAfterTransition()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            val bmp = (image?.drawable as? BitmapDrawable?)?.bitmap
+            if (bmp?.isRecycled == false) bmp.recycle()
+        } catch (e: Exception) {
+        }
+        try {
+            image?.setImageBitmap(null)
+            image?.setImageDrawable(null)
+        } catch (e: Exception) {
+        }
     }
 
     private fun generatePalette(drawable: Drawable?) {
@@ -206,6 +230,62 @@ class ViewerActivity : BaseSystemUIVisibilityActivity() {
 
     override fun onPermissionsAccepted(permissions: Array<out String>) {
         startDownload()
+    }
+
+    private fun applyWallpaper(wallpaper: Wallpaper?) {
+        wallpaper ?: return
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setMessage("Loading wallpaper…")
+            .setCancelable(false)
+            .create()
+        dialog.setOnShowListener {
+            Coil.load(this, wallpaper.url) {
+                target {
+                    var bmp = try {
+                        it.asBitmap()
+                    } catch (e: Exception) {
+                        null
+                    }
+                    bmp ?: return@target
+                    val wm = WallpaperManager.getInstance(this@ViewerActivity)
+                    val result: Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        wm.setBitmap(bmp, null, true)
+                    } else {
+                        wm.setBitmap(bmp)
+                        -1
+                    }
+                    val success = result != 0
+                    if (!bmp.isRecycled) bmp.recycle()
+                    @Suppress("UNUSED_VALUE")
+                    bmp = null
+                    dialog.setMessage(if (success) "Success!" else "Error!")
+                    dialog.setCancelable(true)
+                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Ok") { _, _ ->
+                        dialog.dismiss()
+                    }
+                }
+                listener(object : Request.Listener {
+                    override fun onCancel(data: Any) {
+                        super.onCancel(data)
+                        dialog.setMessage("Cancel")
+                        dialog.setCancelable(true)
+                    }
+
+                    override fun onError(data: Any, throwable: Throwable) {
+                        super.onError(data, throwable)
+                        dialog.setMessage("Error")
+                        dialog.setCancelable(true)
+                    }
+
+                    override fun onStart(data: Any) {
+                        super.onStart(data)
+                        dialog.setMessage("Start")
+                        dialog.setCancelable(false)
+                    }
+                })
+            }
+        }
+        dialog.show()
     }
 
     companion object {
