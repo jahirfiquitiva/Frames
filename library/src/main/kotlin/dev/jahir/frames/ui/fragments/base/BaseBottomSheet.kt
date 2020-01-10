@@ -40,6 +40,7 @@ open class BaseBottomSheet : BottomSheetDialogFragment() {
 
         if (parentBehavior != null && parentBehavior is BottomSheetBehavior<*>) {
             behavior = parentBehavior
+            behavior?.saveFlags = BottomSheetBehavior.SAVE_ALL
             behavior?.addBottomSheetCallback(sheetCallback)
         }
 

@@ -6,7 +6,9 @@
     android:layout_height="wrap_content"
     android:foreground="?selectableItemBackground"
     android:hapticFeedbackEnabled="true"
-    app:cardCornerRadius="@dimen/small_components_corner_size">
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="@dimen/cards_corner_size">
 
     <ProgressBar
         style="@style/Widget.AppCompat.ProgressBar"

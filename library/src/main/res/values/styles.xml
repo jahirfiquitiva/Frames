@@ -38,11 +38,15 @@
         <item name="textAppearanceCaption">@style/TextAppearance.Frames.Caption</item>
         <item name="textAppearanceOverline">@style/TextAppearance.Frames.Overline</item>
 
-        <item name="android:dialogTheme">@style/Frames.Alert</item>
-        <item name="android:alertDialogTheme">@style/Frames.Alert</item>
-        <item name="materialAlertDialogTheme">@style/Frames.Alert</item>
+        <item name="android:dialogTheme">@style/Frames.Dialogs</item>
+        <item name="android:alertDialogTheme">@style/Frames.Dialogs</item>
+        <item name="materialAlertDialogTheme">@style/Frames.Dialogs</item>
 
-        <!--
+        <item name="materialCardViewStyle">@style/Widget.Frames.MaterialCardView</item>
+        <item name="bottomSheetDialogTheme">@style/Frames.BottomSheetDialog</item>
+        <item name="navigationViewStyle">@style/Widget.Frames.NavigationView</item>
+        <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.PrimarySurface</item>
+
         <item name="shapeAppearanceSmallComponent">
             @style/ShapeAppearance.Frames.SmallComponent
         </item>
@@ -52,43 +56,35 @@
         <item name="shapeAppearanceLargeComponent">
             @style/ShapeAppearance.Frames.LargeComponent
         </item>
-        <item name="materialCardViewStyle">@style/Widget.Frames.MaterialCardView</item>
-        -->
-    </style>
-
-    <style name="Widget.Frames.MaterialCardView" parent="Widget.MaterialComponents.CardView">
-        <item name="shapeAppearanceOverlay">
-            @style/ShapeAppearanceOverlay.Frames.MaterialCardView
-        </item>
-    </style>
-
-    <style name="TextAppearance.Frames.CollectionTitle" parent="TextStyle.Frames.Headline6">
-        <item name="android:textColor">#fff</item>
-    </style>
-
-    <style name="TextAppearance.Frames.CollectionCount" parent="TextStyle.Frames.Subtitle2">
-        <item name="android:textColor">#fff</item>
-    </style>
-
-    <style name="TextAppearance.Frames.WallpaperTitle" parent="TextStyle.Frames.Subtitle1">
-        <item name="android:textColor">#fff</item>
-    </style>
-
-    <style name="TextAppearance.Frames.WallpaperSubtitle" parent="TextStyle.Frames.Body2">
-        <item name="android:textColor">#fff</item>
-    </style>
-
-    <style name="TextAppearance.Frames.ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="fontFamily">@font/manrope_bold_fam</item>
-    </style>
-
-    <style name="TextAppearance.Frames.ToolbarTitle.Viewer" parent="TextAppearance.Frames.ToolbarTitle">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:color">@color/white</item>
     </style>
 
     <style name="ViewerBottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="itemRippleColor">@color/viewer_item_ripple</item>
+    </style>
+
+    <!-- Bottom Sheet Dialogs -->
+    <style name="Frames.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Dialog" tools:ignore="NewApi">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/Frames.BottomSheet.Modal.Animation</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="bottomSheetStyle">@style/Frames.BottomSheet.Modal</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="android:navigationBarDividerColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Frames.BottomSheet.Modal" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="shapeAppearance">?shapeAppearanceLargeComponent</item>
+    </style>
+
+    <style name="Frames.BottomSheet.Modal.Animation" parent="Animation.AppCompat.Dialog">
+        <item name="android:windowEnterAnimation">@anim/bottom_sheet_slide_in</item>
+        <item name="android:windowExitAnimation">@anim/bottom_sheet_slide_out</item>
+    </style>
+
+    <!--Navigation Drawer-->
+    <style name="Widget.Frames.NavigationView" parent="Widget.MaterialComponents.NavigationView">
+        <item name="itemTextAppearance">?textAppearanceBody2</item>
     </style>
 
 </resources>

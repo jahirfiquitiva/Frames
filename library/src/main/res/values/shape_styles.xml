@@ -16,9 +16,19 @@
         <item name="cornerSize">@dimen/large_components_corner_size</item>
     </style>
 
-    <style name="ShapeAppearanceOverlay.Frames.MaterialCardView" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">@dimen/small_components_corner_size</item>
+    <style name="ShapeAppearance.Frames.CardView" parent="ShapeAppearance.Frames.MediumComponent">
+        <item name="cornerSize">@dimen/cards_corner_size</item>
+    </style>
+
+    <style name="Widget.Frames.MaterialCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="shapeAppearance">@style/ShapeAppearance.Frames.CardView</item>
+        <item name="cardElevation">@dimen/cards_elevation</item>
+    </style>
+
+    <style name="Frames.Dialogs" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorPrimary">@color/accent</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="materialButtonStyle">@style/Frames.Dialogs.Button</item>
     </style>
 
 </resources>

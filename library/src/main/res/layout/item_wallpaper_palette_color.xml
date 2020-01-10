@@ -5,6 +5,8 @@
     android:id="@+id/palette_color_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
     android:foreground="?selectableItemBackground"
     android:hapticFeedbackEnabled="true"
     android:minHeight="48dp"
@@ -12,7 +14,7 @@
     android:paddingTop="8dp"
     android:paddingEnd="16dp"
     android:paddingBottom="8dp"
-    app:cardCornerRadius="@dimen/small_components_corner_size">
+    app:cardCornerRadius="@dimen/cards_corner_size">
 
     <TextView
         android:id="@+id/palette_color_text"

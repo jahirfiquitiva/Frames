@@ -3,7 +3,9 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="bottom_bar_height">64dp</dimen>
     <dimen name="grids_spacing">8dp</dimen>
-    <dimen name="small_components_corner_size">6dp</dimen>
+    <dimen name="cards_elevation">2dp</dimen>
+    <dimen name="small_components_corner_size">4dp</dimen>
+    <dimen name="cards_corner_size">6dp</dimen>
     <dimen name="medium_components_corner_size">8dp</dimen>
     <dimen name="large_components_corner_size">12dp</dimen>
 </resources>

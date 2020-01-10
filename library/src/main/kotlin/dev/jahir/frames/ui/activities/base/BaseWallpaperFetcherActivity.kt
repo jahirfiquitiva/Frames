@@ -66,18 +66,28 @@ abstract class BaseWallpaperFetcherActivity : BaseStoragePermissionRequestActivi
         totalBlocks: Int
     ) {
         super.onStarted(download, downloadBlocks, totalBlocks)
-        dialog.dismiss()
+        dismissDialog()
     }
 
     internal fun cancelDownload() {
-        fetch.cancel(request?.id ?: -1)
-        fetch.remove(request?.id ?: -1)
-        fetch.removeListener(this)
+        try {
+            fetch.cancel(request?.id ?: -1)
+            fetch.remove(request?.id ?: -1)
+            fetch.removeListener(this)
+        } catch (e: Exception) {
+        }
+    }
+
+    private fun dismissDialog() {
+        try {
+            dialog.dismiss()
+        } catch (e: Exception) {
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        dialog.dismiss()
+        dismissDialog()
         cancelDownload()
     }
 }

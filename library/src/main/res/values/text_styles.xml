@@ -174,14 +174,33 @@
     </style>
     <!-- Overline -->
 
-    <style name="Frames.Alert" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="colorPrimary">@color/accent</item>
-        <item name="colorAccent">@color/accent</item>
-        <item name="materialButtonStyle">@style/Frames.Alert.Button</item>
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Frames.LargeComponent</item>
+    <style name="Frames.Dialogs.Button" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/accent</item>
     </style>
 
-    <style name="Frames.Alert.Button" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">@color/accent</item>
+    <style name="TextAppearance.Frames.CollectionTitle" parent="TextStyle.Frames.Headline6">
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="TextAppearance.Frames.CollectionCount" parent="TextStyle.Frames.Subtitle2">
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="TextAppearance.Frames.WallpaperTitle" parent="TextStyle.Frames.Subtitle1">
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="TextAppearance.Frames.WallpaperSubtitle" parent="TextStyle.Frames.Body2">
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="TextAppearance.Frames.ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="fontFamily">@font/manrope_bold_fam</item>
+        <item name="android:textColor">@color/onPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Frames.ToolbarTitle.Viewer" parent="TextAppearance.Frames.ToolbarTitle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:color">@color/white</item>
     </style>
 </resources>

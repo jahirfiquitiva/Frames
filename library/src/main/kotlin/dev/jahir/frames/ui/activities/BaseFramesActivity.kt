@@ -176,12 +176,6 @@ class BaseFramesActivity : AppCompatActivity() {
         wallpapersViewModel.removeFromFavorites(this, wallpaper)
     }
 
-    override fun onResume() {
-        super.onResume()
-        statusBarColor = ContextCompat.getColor(this, R.color.primaryDark)
-        navigationBarColor = ContextCompat.getColor(this, R.color.primaryDark)
-    }
-
     override fun onBackPressed() {
         if (listState.size > 1) {
             recoverFragment()

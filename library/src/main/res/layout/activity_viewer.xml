@@ -34,6 +34,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            style="?toolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:background="@drawable/gradient_reversed"
