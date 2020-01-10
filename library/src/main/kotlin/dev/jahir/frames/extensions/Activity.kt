@@ -1,6 +1,8 @@
 package dev.jahir.frames.extensions
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
@@ -31,6 +33,16 @@ fun Activity.changeNightMode(setNight: Boolean = true, force: Boolean = false) {
             }
         }
     )
+}
+
+inline fun Activity.restart(intentBuilder: Intent.() -> Unit = {}) {
+    val i = Intent(this, this::class.java)
+    intent?.extras?.let { i.putExtras(it) }
+    i.intentBuilder()
+    startActivity(i)
+    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+    finish()
+    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
 }
 
 inline var Activity.navigationBarColor: Int
@@ -69,6 +81,48 @@ inline var Activity.statusBarColor: Int
             prevSystemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
         window.decorView.systemUiVisibility = prevSystemUiVisibility
+    }
+
+inline var Activity.statusBarLight: Boolean
+    @SuppressLint("InlinedApi")
+    get() {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            window.decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR > 0
+        else false
+    }
+    @SuppressLint("InlinedApi")
+    set(value) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val flags = window.decorView.systemUiVisibility
+            window.decorView.systemUiVisibility =
+                if (value) flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                else flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+        }
+    }
+
+inline var Window.navigationBarLight: Boolean
+    @SuppressLint("InlinedApi")
+    get() {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR > 0
+        else false
+    }
+    @SuppressLint("InlinedApi")
+    set(value) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val flags = decorView.systemUiVisibility
+            decorView.systemUiVisibility =
+                if (value) flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+                else flags and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
+        }
+    }
+
+inline var Activity.navigationBarLight: Boolean
+    @SuppressLint("InlinedApi")
+    get() = window.navigationBarLight
+    @SuppressLint("InlinedApi")
+    set(value) {
+        window.navigationBarLight = value
     }
 
 inline fun <reified T : View> Activity.findView(@IdRes id: Int, logException: Boolean = false): Lazy<T?> {

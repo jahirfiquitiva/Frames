@@ -24,7 +24,6 @@
 
     <color name="background">#fafafa</color>
     <color name="onBackground">#de000000</color>
-    <color name="navigationBar">@color/primaryDark</color>
 
     <color name="bottomBar">@color/surface</color>
     <color name="bottomBarSelectedItem">@color/accent</color>
@@ -45,7 +44,6 @@
 
     <color name="darkThemeBackground">#303030</color>
     <color name="darkThemeOnBackground">#b3ffffff</color>
-    <color name="darkThemeNavigationBar">@color/darkThemePrimaryDark</color>
 
     <color name="darkThemeBottomBar">@color/darkThemeSurface</color>
     <color name="darkThemeBottomBarSelectedItem">@color/darkThemeAccent</color>

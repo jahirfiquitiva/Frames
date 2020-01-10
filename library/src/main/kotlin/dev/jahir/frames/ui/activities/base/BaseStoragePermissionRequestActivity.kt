@@ -2,7 +2,6 @@ package dev.jahir.frames.ui.activities.base
 
 import android.Manifest
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.fondesa.kpermissions.request.PermissionRequest
 import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce
@@ -10,7 +9,7 @@ import com.google.android.material.snackbar.Snackbar
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.showSnackbar
 
-abstract class BaseStoragePermissionRequestActivity : AppCompatActivity(),
+abstract class BaseStoragePermissionRequestActivity : ThemedActivity(),
     PermissionRequest.AcceptedListener,
     PermissionRequest.DeniedListener,
     PermissionRequest.PermanentlyDeniedListener,

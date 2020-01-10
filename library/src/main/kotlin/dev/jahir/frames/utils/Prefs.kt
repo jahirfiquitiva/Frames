@@ -16,7 +16,11 @@ open class Prefs(context: Context, name: String = PREFS_NAME, mode: Int = Contex
 
     var lastVersion: Long
         get() = prefs.getLong(LAST_VERSION, -1)
-        set(lastVersion) = prefsEditor.putLong(LAST_VERSION, lastVersion).apply()
+        set(value) = prefsEditor.putLong(LAST_VERSION, value).apply()
+
+    var shouldColorNavbar: Boolean
+        get() = prefs.getBoolean(SHOULD_COLOR_NAVBAR, true)
+        set(value) = prefsEditor.putBoolean(SHOULD_COLOR_NAVBAR, value).apply()
 
     var shouldLoadFullResPictures: Boolean
         get() = prefs.getBoolean(SHOULD_LOAD_FULL_RES_PICTURES, false)
@@ -30,6 +34,7 @@ open class Prefs(context: Context, name: String = PREFS_NAME, mode: Int = Contex
         private const val PREFS_NAME = "frames_prefs"
         const val IS_FIRST_RUN = "first_run"
         const val LAST_VERSION = "last_version"
+        const val SHOULD_COLOR_NAVBAR = "should_color_navbar"
         const val SHOULD_LOAD_FULL_RES_PICTURES = "should_load_full_res_pictures"
         const val SHOULD_CROP_WALLPAPER_BEFORE_APPLY = "should_crop_wallpaper_before_apply"
     }

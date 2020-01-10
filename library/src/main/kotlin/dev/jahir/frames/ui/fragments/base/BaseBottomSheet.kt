@@ -2,13 +2,18 @@ package dev.jahir.frames.ui.fragments.base
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.os.Build
 import android.view.View
+import android.view.WindowManager
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dev.jahir.frames.R
+import dev.jahir.frames.extensions.isDark
+import dev.jahir.frames.extensions.navigationBarLight
 import dev.jahir.frames.utils.postDelayed
 
 open class BaseBottomSheet : BottomSheetDialogFragment() {
@@ -44,7 +49,16 @@ open class BaseBottomSheet : BottomSheetDialogFragment() {
             behavior?.addBottomSheetCallback(sheetCallback)
         }
 
-        dialog.setOnShowListener { if (shouldExpandOnShow()) expand() }
+        dialog.setOnShowListener { dialogInterface ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                (dialogInterface as? BottomSheetDialog)?.apply {
+                    window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                    window?.navigationBarLight =
+                        !ContextCompat.getColor(requireContext(), R.color.surface).isDark
+                }
+            }
+            if (shouldExpandOnShow()) expand()
+        }
     }
 
     fun show(context: FragmentActivity, tag: String) {

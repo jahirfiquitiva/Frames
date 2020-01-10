@@ -1,29 +1,26 @@
 package dev.jahir.frames.ui.activities
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.data.viewmodels.WallpapersDataViewModel
-import dev.jahir.frames.extensions.navigationBarColor
-import dev.jahir.frames.extensions.statusBarColor
+import dev.jahir.frames.ui.activities.base.ThemedActivity
 import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.base.FragmentState
 
 private const val MAX_HISTORIC = 2
 
-class BaseFramesActivity : AppCompatActivity() {
+class BaseFramesActivity : ThemedActivity() {
 
     private val bottomBar: BottomNavigationView? by lazy { findViewById<BottomNavigationView?>(R.id.bottom_bar) }
 
     private val wallpapersViewModel: WallpapersDataViewModel by lazy {
-        ViewModelProviders.of(this).get(WallpapersDataViewModel::class.java)
+        ViewModelProvider(this).get(WallpapersDataViewModel::class.java)
     }
 
     private val wallpapersFragment: WallpapersFragment by lazy {

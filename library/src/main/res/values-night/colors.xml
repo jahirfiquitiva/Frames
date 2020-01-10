@@ -15,7 +15,6 @@
 
     <color name="background">@color/darkThemeBackground</color>
     <color name="onBackground">@color/darkThemeOnBackground</color>
-    <color name="navigationBar">@color/darkThemePrimaryDark</color>
 
     <color name="bottomBar">@color/darkThemeBottomBar</color>
     <color name="bottomBarSelectedItem">@color/darkThemeBottomBarSelectedItem</color>

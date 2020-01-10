@@ -21,6 +21,8 @@
         <item name="colorOnBackground">@color/onBackground</item>
 
         <item name="android:windowActivityTransitions">true</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="android:navigationBarDividerColor">@color/transparent</item>
 
         <item name="textAppearanceHeadline3">@style/TextAppearance.Frames.Headline3</item>
         <item name="textAppearanceHeadline4">@style/TextAppearance.Frames.Headline4</item>
@@ -60,17 +62,19 @@
 
     <style name="ViewerBottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="itemRippleColor">@color/viewer_item_ripple</item>
+        <item name="android:background">@color/surface</item>
+        <item name="android:backgroundTint" tools:ignore="NewApi">@color/surface</item>
     </style>
 
     <!-- Bottom Sheet Dialogs -->
     <style name="Frames.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Dialog" tools:ignore="NewApi">
         <item name="android:windowIsFloating">false</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowAnimationStyle">@style/Frames.BottomSheet.Modal.Animation</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@color/transparent</item>
         <item name="bottomSheetStyle">@style/Frames.BottomSheet.Modal</item>
         <item name="android:navigationBarColor">?colorSurface</item>
-        <item name="android:navigationBarDividerColor">@android:color/transparent</item>
+        <item name="android:navigationBarDividerColor">@color/transparent</item>
     </style>
 
     <style name="Frames.BottomSheet.Modal" parent="Widget.MaterialComponents.BottomSheet.Modal">
