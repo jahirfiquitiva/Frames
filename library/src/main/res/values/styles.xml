@@ -38,6 +38,10 @@
         <item name="textAppearanceCaption">@style/TextAppearance.Frames.Caption</item>
         <item name="textAppearanceOverline">@style/TextAppearance.Frames.Overline</item>
 
+        <item name="android:dialogTheme">@style/Frames.Alert</item>
+        <item name="android:alertDialogTheme">@style/Frames.Alert</item>
+        <item name="materialAlertDialogTheme">@style/Frames.Alert</item>
+
         <!--
         <item name="shapeAppearanceSmallComponent">
             @style/ShapeAppearance.Frames.SmallComponent

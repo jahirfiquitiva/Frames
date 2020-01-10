@@ -173,4 +173,15 @@
         <item name="lastBaselineToBottomHeight">4sp</item>
     </style>
     <!-- Overline -->
+
+    <style name="Frames.Alert" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorPrimary">@color/accent</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="materialButtonStyle">@style/Frames.Alert.Button</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Frames.LargeComponent</item>
+    </style>
+
+    <style name="Frames.Alert.Button" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/accent</item>
+    </style>
 </resources>

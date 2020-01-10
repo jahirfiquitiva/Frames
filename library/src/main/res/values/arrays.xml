@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="set_wallpaper_options">
+        <item>@string/home_screen</item>
+        <item>@string/lock_screen</item>
+        <item>@string/home_and_lock_screens</item>
+        <item>@string/apply_w_external_app</item>
+    </string-array>
+
+    <string-array name="set_wallpaper_options_pre_nougat">
+        <item>@string/home_and_lock_screens</item>
+        <item>@string/apply_w_external_app</item>
+    </string-array>
+</resources>

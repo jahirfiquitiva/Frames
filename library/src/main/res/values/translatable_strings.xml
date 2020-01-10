@@ -44,13 +44,26 @@
     <string name="download_failed">Wallpaper download has failed</string>
     <string name="download_pause">Pause download</string>
     <string name="download_paused">Wallpaper download has been paused</string>
-    <string name="download_resume">Resume download</string>
-    <string name="download_retry">Retry download</string>
+    <string name="download_resume">Resume</string>
+    <string name="download_retry">Retry</string>
     <string name="download_starting">Starting download</string>
-    <string name="download_cancel">Cancel download</string>
+    <string name="download_cancel">Cancel</string>
     <string name="download_downloading">Download in progress…</string>
 
     <string name="download_eta_hrs">%1$dh %2$dm %3$ds left</string>
     <string name="download_eta_min">%1$dm %2$ds left</string>
     <string name="download_eta_sec">%1$ds left</string>
+
+    <string name="apply_to">Apply to</string>
+    <string name="home_screen">Home screen</string>
+    <string name="lock_screen">Lock screen</string>
+    <string name="home_and_lock_screens">Home and lock screens</string>
+    <string name="apply_w_external_app">Apply with external app</string>
+    <string name="both">Both</string>
+
+    <string name="applying_wallpaper">Applying \'%1$s\'…</string>
+    <string name="applying_preparing">Preparing…</string>
+    <string name="applying_downloading">Downloading…</string>
+    <string name="applying_wallpaper_def">Applying…</string>
+    <string name="applying_applied">Wallpaper applied successfully</string>
 </resources>

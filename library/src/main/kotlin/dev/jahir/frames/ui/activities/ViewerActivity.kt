@@ -1,7 +1,5 @@
 package dev.jahir.frames.ui.activities
 
-import android.app.WallpaperManager
-import android.content.DialogInterface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -20,11 +18,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.palette.graphics.Palette
-import coil.Coil
-import coil.api.load
-import coil.request.Request
 import com.github.chrisbanes.photoview.PhotoView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.MAX_FRAMES_PALETTE_COLORS
@@ -38,6 +32,7 @@ import dev.jahir.frames.extensions.loadFramesPic
 import dev.jahir.frames.extensions.setMarginBottom
 import dev.jahir.frames.extensions.setMarginTop
 import dev.jahir.frames.ui.activities.base.BaseSystemUIVisibilityActivity
+import dev.jahir.frames.ui.fragments.SetWallpaperOptionDialog
 import dev.jahir.frames.ui.fragments.WallpaperDetailsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.utils.tint
@@ -95,7 +90,7 @@ class ViewerActivity : BaseSystemUIVisibilityActivity() {
             )
         }
         (image as? PhotoView)?.scale = 1.0F
-        image?.loadFramesPic(wallpaper.url, wallpaper.thumbnail) { generatePalette(it) }
+        image?.loadFramesPic(wallpaper.url, wallpaper.thumbnail, true) { generatePalette(it) }
 
         setSupportActionBar(toolbar)
         supportActionBar?.let {
@@ -234,58 +229,7 @@ class ViewerActivity : BaseSystemUIVisibilityActivity() {
 
     private fun applyWallpaper(wallpaper: Wallpaper?) {
         wallpaper ?: return
-        val dialog = MaterialAlertDialogBuilder(this)
-            .setMessage("Loading wallpaper…")
-            .setCancelable(false)
-            .create()
-        dialog.setOnShowListener {
-            Coil.load(this, wallpaper.url) {
-                target {
-                    var bmp = try {
-                        it.asBitmap()
-                    } catch (e: Exception) {
-                        null
-                    }
-                    bmp ?: return@target
-                    val wm = WallpaperManager.getInstance(this@ViewerActivity)
-                    val result: Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        wm.setBitmap(bmp, null, true)
-                    } else {
-                        wm.setBitmap(bmp)
-                        -1
-                    }
-                    val success = result != 0
-                    if (!bmp.isRecycled) bmp.recycle()
-                    @Suppress("UNUSED_VALUE")
-                    bmp = null
-                    dialog.setMessage(if (success) "Success!" else "Error!")
-                    dialog.setCancelable(true)
-                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Ok") { _, _ ->
-                        dialog.dismiss()
-                    }
-                }
-                listener(object : Request.Listener {
-                    override fun onCancel(data: Any) {
-                        super.onCancel(data)
-                        dialog.setMessage("Cancel")
-                        dialog.setCancelable(true)
-                    }
-
-                    override fun onError(data: Any, throwable: Throwable) {
-                        super.onError(data, throwable)
-                        dialog.setMessage("Error")
-                        dialog.setCancelable(true)
-                    }
-
-                    override fun onStart(data: Any) {
-                        super.onStart(data)
-                        dialog.setMessage("Start")
-                        dialog.setCancelable(false)
-                    }
-                })
-            }
-        }
-        dialog.show()
+        SetWallpaperOptionDialog.show(this, wallpaper)
     }
 
     companion object {

@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import dev.jahir.frames.utils.Prefs
 
 
 @Suppress("DEPRECATION")
@@ -88,3 +89,6 @@ fun Context.toast(@StringRes res: Int, duration: Int = Toast.LENGTH_SHORT) {
 fun Context.toast(content: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, content, duration).show()
 }
+
+internal val Context.prefs: Prefs
+    get() = Prefs(this)

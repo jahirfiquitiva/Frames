@@ -5,5 +5,5 @@
     <dimen name="grids_spacing">8dp</dimen>
     <dimen name="small_components_corner_size">6dp</dimen>
     <dimen name="medium_components_corner_size">8dp</dimen>
-    <dimen name="large_components_corner_size">16dp</dimen>
+    <dimen name="large_components_corner_size">12dp</dimen>
 </resources>

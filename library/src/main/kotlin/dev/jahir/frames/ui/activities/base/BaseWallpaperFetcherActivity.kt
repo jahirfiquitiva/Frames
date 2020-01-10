@@ -1,6 +1,5 @@
 package dev.jahir.frames.ui.activities.base
 
-import android.util.Log
 import com.tonyodev.fetch2.Fetch
 import com.tonyodev.fetch2.FetchConfiguration
 import com.tonyodev.fetch2.NetworkType
@@ -45,11 +44,7 @@ abstract class BaseWallpaperFetcherActivity : BaseStoragePermissionRequestActivi
     }
 
     internal fun startDownload() {
-        request?.let {
-            fetch.enqueue(it,
-                Func { req -> Log.d("Frames", "Task enqueued: ${req.file}") },
-                Func { error -> Log.d("Frames", "Error fetch: ${error.httpResponse}") })
-        }
+        request?.let { fetch.enqueue(it, Func { }, Func { }) }
     }
 
     internal fun cancelDownload() {

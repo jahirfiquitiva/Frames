@@ -4,12 +4,12 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
-import android.util.Log
 import androidx.core.content.FileProvider
 import dev.jahir.frames.R
 import java.io.File
 
-fun File.getUri(context: Context): Uri? {
+fun File.getUri(context: Context?): Uri? {
+    context ?: return null
     return try {
         FileProvider.getUriForFile(context, context.packageName + ".fileProvider", this)
     } catch (e: Exception) {
@@ -25,10 +25,10 @@ fun File.getUri(context: Context): Uri? {
 @Suppress("DEPRECATION")
 fun Context.getExternalStorageFolder(): File? {
     val externalStorage = try {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            Environment.getExternalStorageDirectory()
-        } else {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        } else {
+            Environment.getExternalStorageDirectory()
         }
     } catch (e: Exception) {
         e.printStackTrace()
@@ -48,10 +48,7 @@ fun Context.getDefaultWallpapersDownloadFolder(): File? {
     val externalFolder = getExternalStorageFolder()
     val folder = File("$externalFolder${File.separator}${getString(R.string.app_name)}")
     try {
-        if (!folder.exists()) {
-            Log.d("Frames", "Creating folder: $folder")
-            folder.mkdirs()
-        }
+        if (!folder.exists()) folder.mkdirs()
     } catch (e: Exception) {
         e.printStackTrace()
     }

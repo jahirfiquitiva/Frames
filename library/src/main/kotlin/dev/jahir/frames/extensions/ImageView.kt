@@ -35,6 +35,7 @@ private fun AppCompatImageView.buildTarget(
 fun AppCompatImageView.loadFramesPic(
     url: String,
     thumbnail: String? = url,
+    forceLoadFullRes: Boolean = false,
     doWithPalette: ((drawable: Drawable?) -> Unit)? = null
 ) {
     val isForPalette = doWithPalette?.let { true } ?: false
@@ -44,16 +45,20 @@ fun AppCompatImageView.loadFramesPic(
     }
     val shouldLoadThumbnail = thumbnail?.let { it.isNotEmpty() && it != url } ?: false
     if (shouldLoadThumbnail) {
-        val thumbnailTarget = saturatingTarget.addListener {
-            internalLoadFramesPic(url, isForPalette, it,
-                saturatingTarget.apply {
-                    shouldActuallySaturate = false
-                    clearListenersOnSuccess = true
-                })
+        if (context.prefs.shouldLoadFullResPictures || forceLoadFullRes) {
+            val thumbnailTarget = saturatingTarget.addListener {
+                internalLoadFramesPic(url, isForPalette, it,
+                    saturatingTarget.apply {
+                        shouldActuallySaturate = false
+                        clearListenersOnSuccess = true
+                    })
+            }
+            internalLoadFramesPic(thumbnail.orEmpty(), isForPalette, null, thumbnailTarget.apply {
+                clearListenersOnSuccess = false
+            })
+        } else {
+            internalLoadFramesPic(thumbnail.orEmpty(), isForPalette, null, saturatingTarget)
         }
-        internalLoadFramesPic(thumbnail.orEmpty(), isForPalette, null, thumbnailTarget.apply {
-            clearListenersOnSuccess = false
-        })
     } else {
         internalLoadFramesPic(url, isForPalette, null, saturatingTarget)
     }
