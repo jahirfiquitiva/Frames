@@ -1,19 +1,24 @@
 package dev.jahir.frames.ui.activities.base
 
+import com.tonyodev.fetch2.Download
 import com.tonyodev.fetch2.Fetch
 import com.tonyodev.fetch2.FetchConfiguration
 import com.tonyodev.fetch2.NetworkType
 import com.tonyodev.fetch2.Priority
 import com.tonyodev.fetch2.Request
+import com.tonyodev.fetch2core.DownloadBlock
 import com.tonyodev.fetch2core.Func
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.getWallpapersDownloadFolder
+import dev.jahir.frames.ui.fragments.WallpaperDownloadDialog
+import dev.jahir.frames.utils.BaseFetchListener
 import dev.jahir.frames.utils.WallpaperDownloadNotificationManager
 import java.io.File
 import java.lang.ref.WeakReference
 
 
-abstract class BaseWallpaperFetcherActivity : BaseStoragePermissionRequestActivity() {
+abstract class BaseWallpaperFetcherActivity : BaseStoragePermissionRequestActivity(),
+    BaseFetchListener {
 
     private val fetch: Fetch by lazy {
         val fetchConfig = FetchConfiguration.Builder(this)
@@ -23,8 +28,10 @@ abstract class BaseWallpaperFetcherActivity : BaseStoragePermissionRequestActivi
                 override fun getFetchInstanceForNamespace(namespace: String): Fetch = fetch
             })
             .build()
-        Fetch.Impl.getInstance(fetchConfig)
+        Fetch.Impl.getInstance(fetchConfig).apply { addListener(this@BaseWallpaperFetcherActivity) }
     }
+
+    private val dialog: WallpaperDownloadDialog by lazy { WallpaperDownloadDialog.create() }
 
     private var request: Request? = null
 
@@ -44,11 +51,33 @@ abstract class BaseWallpaperFetcherActivity : BaseStoragePermissionRequestActivi
     }
 
     internal fun startDownload() {
-        request?.let { fetch.enqueue(it, Func { }, Func { }) }
+        request?.let {
+            fetch.enqueue(it, Func { dialog.show(this) },
+                Func {
+                    dialog.showFinalMessage()
+                    dialog.show(this)
+                })
+        }
+    }
+
+    override fun onStarted(
+        download: Download,
+        downloadBlocks: List<DownloadBlock>,
+        totalBlocks: Int
+    ) {
+        super.onStarted(download, downloadBlocks, totalBlocks)
+        dialog.dismiss()
     }
 
     internal fun cancelDownload() {
-        fetch.cancel(request?.id ?: 0)
-        fetch.cancelAll()
+        fetch.cancel(request?.id ?: -1)
+        fetch.remove(request?.id ?: -1)
+        fetch.removeListener(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        dialog.dismiss()
+        cancelDownload()
     }
 }

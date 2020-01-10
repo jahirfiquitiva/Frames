@@ -22,7 +22,7 @@ import java.lang.ref.WeakReference
 abstract class WallpaperDownloadNotificationManager(private val weakContext: WeakReference<Context>) :
     FetchNotificationManager {
 
-    private val context: Context by lazy { weakContext.get()!! }
+    private val context: Context by lazy { weakContext.get()!!.applicationContext }
     private val notificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
     private val downloadNotificationsMap = mutableMapOf<Int, DownloadNotification>()
