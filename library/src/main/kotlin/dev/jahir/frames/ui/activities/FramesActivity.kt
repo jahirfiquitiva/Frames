@@ -10,7 +10,6 @@ import dev.jahir.frames.ui.activities.base.BaseSearchableActivity
 import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
-import dev.jahir.frames.ui.fragments.base.FragmentState
 
 class FramesActivity : BaseSearchableActivity() {
 
@@ -27,7 +26,6 @@ class FramesActivity : BaseSearchableActivity() {
     }
 
     private var currentFragment: Fragment? = null
-    private val listState = mutableListOf<FragmentState>()
     private var currentTag: String = WallpapersFragment.TAG
     private var oldTag: String = WallpapersFragment.TAG
     private var currentMenuItemId: Int = R.id.wallpapers
@@ -89,32 +87,6 @@ class FramesActivity : BaseSearchableActivity() {
         else -> getString(R.string.search_x)
     }
 
-    private fun recoverFragment() {
-        val lastState = listState.last()
-        listState.removeAt(listState.size - 1)
-
-        currentTag = lastState.currentFragmentTag
-        oldTag = lastState.previousFragmentTag
-
-        val ft = supportFragmentManager.beginTransaction()
-
-        val currentFragment = supportFragmentManager.findFragmentByTag(currentTag)
-        val oldFragment = supportFragmentManager.findFragmentByTag(oldTag)
-
-        if (currentFragment?.isVisible == true && oldFragment?.isHidden == true) {
-            ft.hide(currentFragment).show(oldFragment)
-        }
-
-        ft.commit()
-
-        val menu = bottomBar?.menu
-        when (oldTag) {
-            WallpapersFragment.TAG -> menu?.getItem(0)?.isChecked = true
-            CollectionsFragment.TAG -> menu?.getItem(1)?.isChecked = true
-            WallpapersFragment.FAVS_TAG -> menu?.getItem(2)?.isChecked = true
-        }
-    }
-
     private fun loadFirstFragment() {
         val transaction = supportFragmentManager.beginTransaction()
         currentFragment = when (currentTag) {
@@ -137,33 +109,7 @@ class FramesActivity : BaseSearchableActivity() {
             }
             currentFragment = fragment
             ft.commit()
-            addBackStack()
             updateSearchHint()
-        }
-    }
-
-    private fun addBackStack() {
-        when (listState.size) {
-            MAX_HISTORIC -> {
-                listState[1].previousFragmentTag = WallpapersFragment.TAG
-                val firstState = listState[1]
-                for (i in listState.indices) {
-                    if (listState.indices.contains((i + 1))) {
-                        listState[i] = listState[i + 1]
-                    }
-                }
-                listState[0] = firstState
-                listState[listState.lastIndex] = FragmentState(currentTag, oldTag)
-            }
-            else -> listState.add(FragmentState(currentTag, oldTag))
-        }
-    }
-
-    override fun onBackPressed() {
-        if (listState.size > 1) {
-            recoverFragment()
-        } else {
-            super.onBackPressed()
         }
     }
 
@@ -217,6 +163,6 @@ class FramesActivity : BaseSearchableActivity() {
 
     companion object {
         private const val CURRENT_FRAGMENT_KEY = "current_fragment"
-        private const val MAX_HISTORIC = 2
+        private const val MAX_HISTORIC = 1
     }
 }
