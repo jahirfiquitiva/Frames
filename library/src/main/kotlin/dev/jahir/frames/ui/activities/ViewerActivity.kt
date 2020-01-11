@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -31,14 +32,14 @@ import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.loadFramesPic
 import dev.jahir.frames.extensions.setMarginBottom
 import dev.jahir.frames.extensions.setMarginTop
-import dev.jahir.frames.ui.activities.base.BaseSystemUIVisibilityActivity
+import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.fragments.SetWallpaperOptionDialog
 import dev.jahir.frames.ui.fragments.WallpaperDetailsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.utils.tint
 import kotlin.math.roundToInt
 
-class ViewerActivity : BaseSystemUIVisibilityActivity() {
+class ViewerActivity : BaseFavoritesConnectedActivity() {
 
     private val toolbar: Toolbar? by findView(R.id.toolbar)
     private val image: AppCompatImageView? by findView(R.id.wallpaper)
@@ -46,6 +47,13 @@ class ViewerActivity : BaseSystemUIVisibilityActivity() {
     private var transitioned: Boolean = false
     private var closing: Boolean = false
     private var currentWallPosition: Int = 0
+    private var favoritesModified: Boolean = false
+    private var isInFavorites: Boolean = false
+        set(value) {
+            Log.d("Frames", "Selecting favorites? $value")
+            field = value
+            bottomNavigation?.setSelectedItemId(if (value) R.id.favorites else R.id.details, false)
+        }
 
     private val detailsFragment: WallpaperDetailsFragment by lazy { WallpaperDetailsFragment.create() }
 
@@ -104,49 +112,51 @@ class ViewerActivity : BaseSystemUIVisibilityActivity() {
 
         image?.setOnClickListener { toggleSystemUI() }
 
-        val isInFavorites =
+        isInFavorites =
             intent?.extras?.getBoolean(WallpapersFragment.WALLPAPER_IN_FAVS_EXTRA, false)
                 ?: wallpaper.isInFavorites ?: false
 
-        try {
-            bottomNavigation?.menu?.findItem(R.id.favorites)?.isChecked = isInFavorites
-            bottomNavigation?.selectedItemId = if (isInFavorites) R.id.favorites else R.id.details
-        } catch (e: Exception) {
-            e.printStackTrace()
+        wallpapersViewModel.observeFavorites(this) {
+            this.favoritesModified = true
+            this.isInFavorites = it.any { wall -> wall.url == wallpaper.url }
         }
+
+        bottomNavigation?.setSelectedItemId(
+            if (isInFavorites) R.id.favorites else R.id.details,
+            false
+        )
+        wallpapersViewModel.loadData(this)
 
         bottomNavigation?.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.details -> {
-                    detailsFragment.show(this, "DETAILS_FRAG")
-                    false
+                R.id.details -> detailsFragment.show(this, "DETAILS_FRAG")
+                R.id.download -> requestPermission()
+                R.id.apply -> applyWallpaper(wallpaper)
+                R.id.favorites -> {
+                    if (isInFavorites) removeFromFavorites(wallpaper)
+                    else addToFavorites(wallpaper)
                 }
-                R.id.download -> {
-                    requestPermission()
-                    false
-                }
-                R.id.apply -> {
-                    applyWallpaper(wallpaper)
-                    false
-                }
-                R.id.favorites -> isInFavorites
-                else -> false
             }
+            false
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        outState.putInt(CURRENT_WALL_POSITION, currentWallPosition)
         outState.putBoolean(CLOSING_KEY, closing)
         outState.putBoolean(TRANSITIONED_KEY, transitioned)
-        outState.putInt(CURRENT_WALL_POSITION, currentWallPosition)
+        outState.putBoolean(IS_IN_FAVORITES_KEY, isInFavorites)
+        outState.putBoolean(FAVORITES_MODIFIED, favoritesModified)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
+        this.currentWallPosition = savedInstanceState.getInt(CURRENT_WALL_POSITION, 0)
         this.closing = savedInstanceState.getBoolean(CLOSING_KEY, false)
         this.transitioned = savedInstanceState.getBoolean(TRANSITIONED_KEY, false)
-        this.currentWallPosition = savedInstanceState.getInt(CURRENT_WALL_POSITION, 0)
+        this.isInFavorites = savedInstanceState.getBoolean(IS_IN_FAVORITES_KEY, false)
+        this.favoritesModified = savedInstanceState.getBoolean(FAVORITES_MODIFIED, false)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -157,11 +167,13 @@ class ViewerActivity : BaseSystemUIVisibilityActivity() {
     }
 
     override fun onBackPressed() {
+        setResult(if (favoritesModified) FAVORITES_MODIFIED_RESULT else FAVORITES_NOT_MODIFIED_RESULT)
         supportFinishAfterTransition()
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        setResult(if (favoritesModified) FAVORITES_MODIFIED_RESULT else FAVORITES_NOT_MODIFIED_RESULT)
         try {
             val bmp = (image?.drawable as? BitmapDrawable?)?.bitmap
             if (bmp?.isRecycled == false) bmp.recycle()
@@ -233,8 +245,13 @@ class ViewerActivity : BaseSystemUIVisibilityActivity() {
     }
 
     companion object {
+        internal const val REQUEST_CODE = 10
+        internal const val FAVORITES_MODIFIED_RESULT = 1
+        internal const val FAVORITES_NOT_MODIFIED_RESULT = 0
+        internal const val CURRENT_WALL_POSITION = "curr_wall_pos"
         private const val CLOSING_KEY = "closing"
         private const val TRANSITIONED_KEY = "transitioned"
-        internal const val CURRENT_WALL_POSITION = "curr_wall_pos"
+        private const val IS_IN_FAVORITES_KEY = "is_in_favorites"
+        private const val FAVORITES_MODIFIED = "favorites_modified"
     }
 }

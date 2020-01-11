@@ -1,7 +1,11 @@
 package dev.jahir.frames.data.viewmodels
 
 import android.content.Context
-import androidx.lifecycle.*
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.gson.GsonBuilder
 import dev.jahir.frames.data.db.FramesDatabase
 import dev.jahir.frames.data.models.Collection
@@ -79,14 +83,24 @@ class WallpapersDataViewModel : ViewModel() {
                 .orEmpty()
         }
 
-    private suspend fun internalRemoveFromFavorites(context: Context, wallpaper: Wallpaper) =
-        withContext(IO) {
-            FramesDatabase.getAppDatabase(context)?.favoritesDao()?.delete(Favorite(wallpaper.url))
-        }
-
     private suspend fun internalAddToFavorites(context: Context, wallpaper: Wallpaper) =
         withContext(IO) {
-            FramesDatabase.getAppDatabase(context)?.favoritesDao()?.insert(Favorite(wallpaper.url))
+            try {
+                FramesDatabase.getAppDatabase(context)?.favoritesDao()
+                    ?.insert(Favorite(wallpaper.url))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    private suspend fun internalRemoveFromFavorites(context: Context, wallpaper: Wallpaper) =
+        withContext(IO) {
+            try {
+                FramesDatabase.getAppDatabase(context)?.favoritesDao()
+                    ?.delete(Favorite(wallpaper.url))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
     fun loadData(context: Context, url: String = "") {
@@ -98,10 +112,10 @@ class WallpapersDataViewModel : ViewModel() {
                     try {
                         service.getJSON(url).filter { it.url.isNotEmpty() }
                     } catch (e: Exception) {
-                        listOf<Wallpaper>()
+                        wallpapersData?.value.orEmpty()
                     }
-                } else listOf()
-            }
+                } else wallpapersData?.value.orEmpty()
+            } else wallpapersData?.value.orEmpty()
             wallpapers = wallpapers.map { wall ->
                 wall.apply { this.isInFavorites = favorites.any { fav -> fav.url == wall.url } }
             }
@@ -125,10 +139,15 @@ class WallpapersDataViewModel : ViewModel() {
         }
     }
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     fun removeFromFavorites(context: Context?, wallpaper: Wallpaper) {
         context ?: return
         viewModelScope.launch {
             internalRemoveFromFavorites(context, wallpaper)
+            try {
+                Thread.sleep(10)
+            } catch (e: Exception) {
+            }
             loadData(context)
         }
     }

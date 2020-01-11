@@ -3,23 +3,16 @@ package dev.jahir.frames.ui.activities
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.jahir.frames.R
-import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.data.viewmodels.WallpapersDataViewModel
-import dev.jahir.frames.ui.activities.base.ThemedActivity
+import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.base.FragmentState
 
-class BaseFramesActivity : ThemedActivity() {
+class BaseFramesActivity : BaseFavoritesConnectedActivity() {
 
     private val bottomBar: BottomNavigationView? by lazy { findViewById<BottomNavigationView?>(R.id.bottom_bar) }
-
-    private val wallpapersViewModel: WallpapersDataViewModel by lazy {
-        ViewModelProvider(this).get(WallpapersDataViewModel::class.java)
-    }
 
     private val wallpapersFragment: WallpapersFragment by lazy {
         WallpapersFragment.create(ArrayList(wallpapersViewModel.wallpapers), wallpapersViewModel)
@@ -163,25 +156,12 @@ class BaseFramesActivity : ThemedActivity() {
         }
     }
 
-    internal fun addToFavorites(wallpaper: Wallpaper) {
-        wallpapersViewModel.addToFavorites(this, wallpaper)
-    }
-
-    internal fun removeFromFavorites(wallpaper: Wallpaper) {
-        wallpapersViewModel.removeFromFavorites(this, wallpaper)
-    }
-
     override fun onBackPressed() {
         if (listState.size > 1) {
             recoverFragment()
         } else {
             super.onBackPressed()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        wallpapersViewModel.destroy(this)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -192,6 +172,10 @@ class BaseFramesActivity : ThemedActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         currentTag = savedInstanceState.getString(CURRENT_FRAGMENT_KEY, currentTag) ?: currentTag
+    }
+
+    override fun onPermissionsAccepted(permissions: Array<out String>) {
+        // Not necessary
     }
 
     companion object {

@@ -12,6 +12,7 @@ import dev.jahir.frames.data.viewmodels.WallpapersDataViewModel
 import dev.jahir.frames.extensions.buildTransitionOptions
 import dev.jahir.frames.ui.activities.BaseFramesActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
+import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.adapters.WallpapersAdapter
 import dev.jahir.frames.ui.decorations.GridSpacingItemDecoration
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
@@ -84,15 +85,23 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
             e.printStackTrace()
             null
         }
-        startActivity(
+        startActivityForResult(
             Intent(activity, ViewerActivity::class.java)
                 .apply {
                     putExtra(WALLPAPER_EXTRA, wallpaper)
                     putExtra(WALLPAPER_IN_FAVS_EXTRA, wallpaper.isInFavorites)
                     putExtra(ViewerActivity.CURRENT_WALL_POSITION, holder.adapterPosition)
                 },
+            ViewerActivity.REQUEST_CODE,
             options?.toBundle()
         )
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ViewerActivity.REQUEST_CODE &&
+            resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT)
+            (activity as? BaseFavoritesConnectedActivity)?.reloadData()
     }
 
     companion object {

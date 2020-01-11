@@ -70,7 +70,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <dev.jahir.frames.ui.widgets.FramesBottomNavigationView
         android:id="@+id/bottom_bar"
         style="@style/ViewerBottomNavigation"
         android:layout_width="match_parent"

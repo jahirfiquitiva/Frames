@@ -6,18 +6,18 @@ import android.os.Handler
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.dpToPx
 import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.gone
 import dev.jahir.frames.extensions.setMarginTop
 import dev.jahir.frames.extensions.visible
+import dev.jahir.frames.ui.widgets.FramesBottomNavigationView
 
 abstract class BaseSystemUIVisibilityActivity : BaseWallpaperFetcherActivity() {
 
     internal val appbar: AppBarLayout? by findView(R.id.appbar)
-    internal val bottomNavigation: BottomNavigationView? by findView(R.id.bottom_bar)
+    internal val bottomNavigation: FramesBottomNavigationView? by findView(R.id.bottom_bar)
 
     private var visibleSystemUI: Boolean = true
 
