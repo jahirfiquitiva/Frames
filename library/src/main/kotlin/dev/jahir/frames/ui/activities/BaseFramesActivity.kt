@@ -13,8 +13,6 @@ import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.base.FragmentState
 
-private const val MAX_HISTORIC = 2
-
 class BaseFramesActivity : ThemedActivity() {
 
     private val bottomBar: BottomNavigationView? by lazy { findViewById<BottomNavigationView?>(R.id.bottom_bar) }
@@ -198,5 +196,6 @@ class BaseFramesActivity : ThemedActivity() {
 
     companion object {
         private const val CURRENT_FRAGMENT_KEY = "currentFragment"
+        private const val MAX_HISTORIC = 2
     }
 }
