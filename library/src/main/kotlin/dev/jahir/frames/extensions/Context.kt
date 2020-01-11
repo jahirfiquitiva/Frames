@@ -2,14 +2,17 @@ package dev.jahir.frames.extensions
 
 import android.app.ActivityManager
 import android.content.Context
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import dev.jahir.frames.R
 import dev.jahir.frames.utils.Prefs
 
 
@@ -88,6 +91,17 @@ fun Context.toast(@StringRes res: Int, duration: Int = Toast.LENGTH_SHORT) {
 
 fun Context.toast(content: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, content, duration).show()
+}
+
+@ColorInt
+fun Context.getRightNavigationBarColor(): Int = if (prefs.shouldColorNavbar) {
+    try {
+        resolveColor(R.attr.colorSurface, ContextCompat.getColor(this, R.color.surface))
+    } catch (e: Exception) {
+        Color.parseColor("#000000")
+    }
+} else {
+    Color.parseColor("#000000")
 }
 
 internal val Context.prefs: Prefs

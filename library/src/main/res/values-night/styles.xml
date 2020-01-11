@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="BaseFramesTheme.Amoled" parent="BaseFramesTheme" tools:ignore="NewApi">
+        <item name="colorPrimary">@color/amoledThemePrimary</item>
+        <item name="colorPrimaryDark">@color/amoledThemePrimaryDark</item>
+        <item name="colorAccent">@color/amoledThemeAccent</item>
+
+        <item name="colorPrimaryVariant">@color/amoledThemePrimaryDark</item>
+        <item name="colorOnPrimary">@color/amoledThemeOnPrimary</item>
+
+        <item name="colorSecondary">@color/amoledThemeAccent</item>
+        <item name="colorSecondaryVariant">@color/amoledThemeAccent</item>
+        <item name="colorOnSecondary">@color/amoledThemeOnAccent</item>
+
+        <item name="colorSurface">@color/amoledThemeSurface</item>
+        <item name="colorOnSurface">@color/amoledThemeOnSurface</item>
+
+        <item name="android:windowBackground">@color/amoledThemeBackground</item>
+        <item name="colorBackgroundFloating">@color/amoledThemeBackground</item>
+        <item name="colorOnBackground">@color/amoledThemeOnBackground</item>
+    </style>
+
+</resources>

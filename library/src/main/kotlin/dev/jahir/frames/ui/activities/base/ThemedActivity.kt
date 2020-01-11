@@ -1,22 +1,30 @@
 package dev.jahir.frames.ui.activities.base
 
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
-import androidx.annotation.ColorInt
+import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.isDark
+import dev.jahir.frames.extensions.getRightNavigationBarColor
 import dev.jahir.frames.extensions.navigationBarColor
-import dev.jahir.frames.extensions.navigationBarLight
 import dev.jahir.frames.extensions.prefs
+import dev.jahir.frames.extensions.resolveColor
 import dev.jahir.frames.extensions.restart
 import dev.jahir.frames.extensions.statusBarColor
-import dev.jahir.frames.extensions.statusBarLight
+import dev.jahir.frames.utils.Prefs
 
 abstract class ThemedActivity : AppCompatActivity() {
+
+    private var lastTheme: Prefs.ThemeKey = Prefs.ThemeKey.DEFAULT_THEME_KEY
+    private var wasUsingAmoled: Boolean = false
+
+    @StyleRes
+    open fun defaultTheme(): Int = R.style.BaseFramesTheme
+
+    @StyleRes
+    open fun amoledTheme(): Int = R.style.BaseFramesTheme_Amoled
 
     private var coloredNavbar = false
 
@@ -28,12 +36,15 @@ abstract class ThemedActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (coloredNavbar != prefs.shouldColorNavbar)
+        if (lastTheme != prefs.currentTheme || wasUsingAmoled != prefs.usesAmoledTheme ||
+            coloredNavbar != prefs.shouldColorNavbar)
             onThemeChanged()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
+        lastTheme = prefs.currentTheme
+        wasUsingAmoled = prefs.usesAmoledTheme
         coloredNavbar = prefs.shouldColorNavbar
     }
 
@@ -49,23 +60,11 @@ abstract class ThemedActivity : AppCompatActivity() {
     @Suppress("DEPRECATION")
     private fun setCustomTheme() {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        statusBarColor = ContextCompat.getColor(this, R.color.primaryDark)
-        statusBarLight = !statusBarColor.isDark
-        val navColor = getCorrectNavbarColor()
-        navigationBarColor = navColor
-        navigationBarLight = !navColor.isDark
-    }
-
-    @ColorInt
-    private fun getCorrectNavbarColor(): Int {
-        return if (prefs.shouldColorNavbar) {
-            try {
-                ContextCompat.getColor(this, R.color.surface)
-            } catch (e: Exception) {
-                Color.parseColor("#000000")
-            }
-        } else {
-            Color.parseColor("#000000")
-        }
+        setTheme(if (prefs.usesAmoledTheme) amoledTheme() else defaultTheme())
+        statusBarColor = resolveColor(
+            R.attr.colorPrimaryDark,
+            ContextCompat.getColor(this, R.color.primaryDark)
+        )
+        navigationBarColor = getRightNavigationBarColor()
     }
 }

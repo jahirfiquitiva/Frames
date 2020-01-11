@@ -248,11 +248,7 @@ class ApplierDialog : DialogFragment(), BaseFetchListener {
         }
 
         fun show(activity: FragmentActivity, option: Int = 0, wallpaper: Wallpaper? = null) =
-            create(
-                option,
-                wallpaper
-            ).show(activity.supportFragmentManager,
-                TAG
-            )
+            create(option, wallpaper)
+                .show(activity.supportFragmentManager, TAG)
     }
 }

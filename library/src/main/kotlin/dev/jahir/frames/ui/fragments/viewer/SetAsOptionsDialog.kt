@@ -26,13 +26,7 @@ class SetAsOptionsDialog : DialogFragment() {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) option else option + 2
             }
             .setPositiveButton(android.R.string.ok) { _, _ ->
-                activity?.let {
-                    ApplierDialog.show(
-                        it,
-                        selectedOption,
-                        wallpaper
-                    )
-                }
+                activity?.let { ApplierDialog.show(it, selectedOption, wallpaper) }
                 dismiss()
             }
             .setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
@@ -50,11 +44,7 @@ class SetAsOptionsDialog : DialogFragment() {
             SetAsOptionsDialog().apply { this.wallpaper = wallpaper }
 
         fun show(activity: FragmentActivity, wallpaper: Wallpaper? = null) =
-            create(
-                wallpaper
-            ).show(activity.supportFragmentManager,
-                TAG
-            )
+            create(wallpaper).show(activity.supportFragmentManager, TAG)
     }
 
 }

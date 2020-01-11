@@ -53,19 +53,15 @@ class DownloaderDialog : DialogFragment() {
     }
 
     fun show(activity: FragmentActivity) {
-        show(activity.supportFragmentManager,
-            TAG
-        )
+        show(activity.supportFragmentManager, TAG)
     }
 
     companion object {
         private const val TAG = "WALLPAPER_DOWNLOAD_DIALOG"
 
-        fun create() =
-            DownloaderDialog()
+        fun create() = DownloaderDialog()
 
-        fun show(activity: FragmentActivity) = create().show(activity.supportFragmentManager,
-            TAG
-        )
+        fun show(activity: FragmentActivity) =
+            create().show(activity.supportFragmentManager, TAG)
     }
 }

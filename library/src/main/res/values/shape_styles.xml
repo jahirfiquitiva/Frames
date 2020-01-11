@@ -26,8 +26,7 @@
     </style>
 
     <style name="Frames.Dialogs" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="colorPrimary">@color/accent</item>
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorPrimary">?colorAccent</item>
         <item name="materialButtonStyle">@style/Frames.Dialogs.Button</item>
     </style>
 

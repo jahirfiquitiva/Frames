@@ -3,6 +3,7 @@
     package="dev.jahir.frames.app">
 
     <application
+        android:name="dev.jahir.frames.ui.FramesApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"

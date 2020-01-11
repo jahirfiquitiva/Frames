@@ -60,10 +60,10 @@
         </item>
     </style>
 
+    <style name="BaseFramesTheme.Amoled" parent="BaseFramesTheme" tools:ignore="NewApi" />
+
     <style name="ViewerBottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="itemRippleColor">@color/viewer_item_ripple</item>
-        <item name="android:background">@color/surface</item>
-        <item name="android:backgroundTint" tools:ignore="NewApi">@color/surface</item>
     </style>
 
     <!-- Bottom Sheet Dialogs -->

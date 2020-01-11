@@ -19,7 +19,6 @@ abstract class BaseSearchableActivity : BaseFavoritesConnectedActivity() {
     private var searchItem: MenuItem? = null
     private var searchView: CleanSearchView? = null
 
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(getMenuRes(), menu)
 

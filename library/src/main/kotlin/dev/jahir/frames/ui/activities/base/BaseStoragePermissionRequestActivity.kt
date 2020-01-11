@@ -50,6 +50,7 @@ abstract class BaseStoragePermissionRequestActivity : ThemedActivity(),
         permissions: Array<out String>,
         nonce: PermissionNonce
     ) {
+        // TODO: Show rationale properly
         AlertDialog.Builder(this)
             .setTitle("Request again the permissions")
             .setPositiveButton(android.R.string.ok) { _, _ ->

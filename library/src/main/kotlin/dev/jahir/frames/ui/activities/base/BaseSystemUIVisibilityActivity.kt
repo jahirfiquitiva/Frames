@@ -62,11 +62,15 @@ abstract class BaseSystemUIVisibilityActivity : BaseWallpaperFetcherActivity() {
     }
 
     private fun changeAppBarVisibility(show: Boolean) {
-        val extra = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.rootWindowInsets.systemWindowInsetTop
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) 25.dpToPx
-            else 0
+        val extra = try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.decorView.rootWindowInsets.systemWindowInsetTop
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) 25.dpToPx
+                else 0
+            }
+        } catch (e: Exception) {
+            0
         }
         appbar?.setMarginTop(if (show) extra else 0)
         val transY = (if (show) 0 else -(appbar?.height ?: 0 * 3)).toFloat()
@@ -78,11 +82,15 @@ abstract class BaseSystemUIVisibilityActivity : BaseWallpaperFetcherActivity() {
     }
 
     private fun changeBottomBarVisibility(show: Boolean) {
-        val extra = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.rootWindowInsets.systemWindowInsetBottom
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) 48.dpToPx
-            else 0
+        val extra = try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.decorView.rootWindowInsets.systemWindowInsetBottom
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) 48.dpToPx
+                else 0
+            }
+        } catch (e: Exception) {
+            0
         }
         val transY = (if (show) 0 else ((bottomNavigation?.height ?: 0 * 2) + extra)).toFloat()
         bottomNavigation?.animate()?.translationY(transY)

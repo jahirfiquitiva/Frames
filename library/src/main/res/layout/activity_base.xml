@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/bottomBar"
+        app:forceRightColor="true"
         app:itemIconTint="@drawable/bottom_bar_states"
         app:itemTextColor="@drawable/bottom_bar_states"
         app:menu="@menu/bottom_navigation_menu" />

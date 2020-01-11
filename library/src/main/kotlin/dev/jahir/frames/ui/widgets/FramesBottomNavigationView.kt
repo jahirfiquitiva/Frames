@@ -4,12 +4,31 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.annotation.IdRes
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dev.jahir.frames.R
+import dev.jahir.frames.extensions.resolveColor
 
 class FramesBottomNavigationView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : BottomNavigationView(context, attrs, defStyle) {
+
+    init {
+        init(context, attrs)
+    }
+
+    private fun init(context: Context, attributeSet: AttributeSet?) {
+        val a = context.obtainStyledAttributes(
+            attributeSet, R.styleable.FramesBottomNavigationView, 0, 0
+        )
+        try {
+            val forceRightColor =
+                a.getBoolean(R.styleable.FramesBottomNavigationView_forceRightColor, false)
+            if (forceRightColor) setBackgroundColor(context.resolveColor(R.attr.colorSurface))
+        } finally {
+            a.recycle()
+        }
+    }
 
     fun setSelectedItemId(@IdRes itemId: Int, triggerEvent: Boolean = true) {
         try {

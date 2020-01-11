@@ -45,42 +45,12 @@ inline fun Activity.restart(intentBuilder: Intent.() -> Unit = {}) {
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
 }
 
-inline var Activity.navigationBarColor: Int
-    get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.navigationBarColor else Color.BLACK
-    set(value) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            return
-        }
-        window.navigationBarColor = value
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return
-        }
-        var prevSystemUiVisibility = window.decorView.systemUiVisibility
-        prevSystemUiVisibility = if (value.isDark) {
-            prevSystemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
-        } else {
-            prevSystemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-        }
-        window.decorView.systemUiVisibility = prevSystemUiVisibility
-    }
-
 inline var Activity.statusBarColor: Int
     get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.statusBarColor else Color.BLACK
     set(value) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            return
-        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
         window.statusBarColor = value
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return
-        }
-        var prevSystemUiVisibility = window.decorView.systemUiVisibility
-        prevSystemUiVisibility = if (value.isDark) {
-            prevSystemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-        } else {
-            prevSystemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
-        window.decorView.systemUiVisibility = prevSystemUiVisibility
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) statusBarLight = !value.isDark
     }
 
 inline var Activity.statusBarLight: Boolean
@@ -98,6 +68,14 @@ inline var Activity.statusBarLight: Boolean
                 if (value) flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                 else flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
         }
+    }
+
+inline var Activity.navigationBarColor: Int
+    get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.navigationBarColor else Color.BLACK
+    set(value) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
+        window.navigationBarColor = value
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) navigationBarLight = !value.isDark
     }
 
 inline var Window.navigationBarLight: Boolean

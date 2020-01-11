@@ -2,9 +2,7 @@ package dev.jahir.frames.ui.activities
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.ui.activities.base.BaseSearchableActivity
 import dev.jahir.frames.ui.fragments.CollectionsFragment
@@ -12,8 +10,6 @@ import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
 
 class FramesActivity : BaseSearchableActivity() {
-
-    private val bottomBar: BottomNavigationView? by findView(R.id.bottom_bar)
 
     private val wallpapersFragment: WallpapersFragment by lazy {
         WallpapersFragment.create(ArrayList(wallpapersViewModel.wallpapers))
@@ -37,7 +33,7 @@ class FramesActivity : BaseSearchableActivity() {
         setSupportActionBar(toolbar)
         loadFirstFragment()
 
-        bottomBar?.setOnNavigationItemSelectedListener { menuItem ->
+        bottomNavigation?.setOnNavigationItemSelectedListener { menuItem ->
             if (currentMenuItemId != menuItem.itemId) {
                 var nextFragment: Fragment? = null
                 oldTag = currentTag
@@ -61,7 +57,7 @@ class FramesActivity : BaseSearchableActivity() {
             }
             false
         }
-        bottomBar?.selectedItemId = when (currentTag) {
+        bottomNavigation?.selectedItemId = when (currentTag) {
             CollectionsFragment.TAG -> R.id.collections
             WallpapersFragment.FAVS_TAG -> R.id.favorites
             else -> R.id.wallpapers

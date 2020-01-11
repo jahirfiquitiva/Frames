@@ -7,4 +7,8 @@
     <declare-styleable name="PortraitImageView">
         <attr name="heightMultiplier" format="reference|dimension" />
     </declare-styleable>
+
+    <declare-styleable name="FramesBottomNavigationView">
+        <attr name="forceRightColor" format="reference|boolean" />
+    </declare-styleable>
 </resources>

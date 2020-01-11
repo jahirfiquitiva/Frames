@@ -175,7 +175,7 @@
     <!-- Overline -->
 
     <style name="Frames.Dialogs.Button" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">@color/accent</item>
+        <item name="android:textColor">?colorAccent</item>
     </style>
 
     <style name="TextAppearance.Frames.CollectionTitle" parent="TextStyle.Frames.Headline6">
@@ -196,7 +196,7 @@
 
     <style name="TextAppearance.Frames.ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="fontFamily">@font/manrope_bold_fam</item>
-        <item name="android:textColor">@color/onPrimary</item>
+        <item name="android:textColor">?colorOnPrimary</item>
     </style>
 
     <style name="TextAppearance.Frames.ToolbarTitle.Viewer" parent="TextAppearance.Frames.ToolbarTitle">
