@@ -32,9 +32,12 @@ class WallpapersDataViewModel : ViewModel() {
         MutableLiveData<ArrayList<Collection>>()
     }
 
-    val wallpapers: List<Wallpaper> = wallpapersData?.value.orEmpty()
-    val collections: ArrayList<Collection> = ArrayList(collectionsData?.value.orEmpty())
-    val favorites: List<Wallpaper> = wallpapersData?.value.orEmpty()
+    val wallpapers: List<Wallpaper>
+        get() = wallpapersData?.value.orEmpty()
+    val collections: ArrayList<Collection>
+        get() = ArrayList(collectionsData?.value.orEmpty())
+    val favorites: List<Wallpaper>
+        get() = wallpapersData?.value.orEmpty()
 
     private val service by lazy {
         Retrofit.Builder()
@@ -56,12 +59,15 @@ class WallpapersDataViewModel : ViewModel() {
             )
             val sortedCollectionsNames =
                 listOf(importantCollectionsNames, collections).flatten().distinct()
+
+            var usedCovers = ArrayList<String>()
             val actualCollections: ArrayList<Collection> = ArrayList()
             sortedCollectionsNames.forEach { collectionName ->
                 val collection = Collection(collectionName)
                 wallpapers.filter { it.collections.orEmpty().contains(collectionName, true) }
                     .distinctBy { it.url }
                     .forEach { collection.push(it) }
+                usedCovers = collection.setupCover(usedCovers)
                 if (collection.count > 0) actualCollections.add(collection)
             }
             actualCollections

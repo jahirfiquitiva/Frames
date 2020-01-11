@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
+import dev.jahir.frames.extensions.hasContent
+import dev.jahir.frames.extensions.lower
 import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
@@ -33,6 +35,21 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
         collsAdapter.collections = items
         collsAdapter.notifyDataSetChanged()
         stopRefreshing()
+    }
+
+    override fun internalApplyFilter(
+        filter: String,
+        originalItems: ArrayList<Collection>,
+        closed: Boolean
+    ) {
+        super.internalApplyFilter(filter, originalItems, closed)
+        if (filter.hasContent()) {
+            updateItems(ArrayList(originalItems.filter {
+                it.name.lower().contains(filter.lower())
+            }))
+        } else {
+            updateItems(originalItems)
+        }
     }
 
     override fun onStateChanged(state: EmptyViewRecyclerView.State, emptyView: EmptyView?) {

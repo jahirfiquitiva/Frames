@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.data.viewmodels.WallpapersDataViewModel
 import dev.jahir.frames.extensions.buildTransitionOptions
+import dev.jahir.frames.extensions.hasContent
+import dev.jahir.frames.extensions.lower
 import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
@@ -26,7 +27,6 @@ import dev.jahir.frames.utils.wallpapersAdapter
 class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
     private var isForFavs: Boolean = false
-    private var wallsViewModel: WallpapersDataViewModel? = null
 
     private val wallsAdapter: WallpapersAdapter by lazy {
         wallpapersAdapter {
@@ -72,14 +72,31 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         stopRefreshing()
     }
 
+    override fun internalApplyFilter(
+        filter: String,
+        originalItems: ArrayList<Wallpaper>,
+        closed: Boolean
+    ) {
+        super.internalApplyFilter(filter, originalItems, closed)
+        if (filter.hasContent()) {
+            updateItems(ArrayList(
+                originalItems.filter {
+                    it.name.lower().contains(filter.lower()) ||
+                            it.collections.orEmpty().lower().contains(filter.lower()) ||
+                            it.author.lower().contains(filter.lower())
+                }
+            ))
+        } else {
+            updateItems(originalItems)
+        }
+    }
+
     private fun onFavClick(checked: Boolean, wallpaper: Wallpaper) {
         (activity as? CollectionActivity)?.setFavoritesModified()
         if (checked) {
             (activity as? BaseFavoritesConnectedActivity)?.addToFavorites(wallpaper)
-                ?: wallsViewModel?.addToFavorites(context, wallpaper)
         } else {
             (activity as? BaseFavoritesConnectedActivity)?.removeFromFavorites(wallpaper)
-                ?: wallsViewModel?.removeFromFavorites(context, wallpaper)
         }
     }
 
@@ -126,18 +143,11 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         internal const val WALLPAPER_IN_FAVS_EXTRA = "wallpaper_in_favs"
 
         @JvmStatic
-        fun create(
-            list: ArrayList<Wallpaper> = ArrayList(),
-            wallsViewModel: WallpapersDataViewModel? = null
-        ) = WallpapersFragment().apply {
-            updateItems(list)
-            this.wallsViewModel = wallsViewModel
-        }
+        fun create(list: ArrayList<Wallpaper> = ArrayList()) =
+            WallpapersFragment().apply { updateItems(list) }
 
         @JvmStatic
-        fun createForFavs(
-            list: ArrayList<Wallpaper> = ArrayList(),
-            wallsViewModel: WallpapersDataViewModel? = null
-        ) = create(list, wallsViewModel).apply { this.isForFavs = true }
+        fun createForFavs(list: ArrayList<Wallpaper> = ArrayList()) =
+            create(list).apply { this.isForFavs = true }
     }
 }

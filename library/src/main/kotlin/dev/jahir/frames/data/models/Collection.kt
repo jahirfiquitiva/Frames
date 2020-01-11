@@ -10,18 +10,17 @@ data class Collection(val name: String, val wallpapers: ArrayList<Wallpaper> = A
     val count: Int
         get() = wallpapers.size
 
-    val cover: Wallpaper?
-        get() {
-            return try {
-                wallpapers.random()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                null
-            }
-        }
+    var cover: Wallpaper? = null
+        private set
 
     fun push(wallpaper: Wallpaper) {
         if (wallpapers.any { it.url == wallpaper.url }) return
         wallpapers.add(wallpaper)
+    }
+
+    internal fun setupCover(usedUrls: ArrayList<String>): ArrayList<String> {
+        cover = wallpapers.firstOrNull { !usedUrls.contains(it.url) } ?: wallpapers.firstOrNull()
+        cover?.let { usedUrls.add(it.url) }
+        return usedUrls
     }
 }

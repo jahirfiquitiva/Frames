@@ -12,18 +12,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.view.menu.ActionMenuItemView
-import androidx.appcompat.widget.*
+import androidx.appcompat.widget.ActionMenuView
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.withAlpha
 import java.lang.reflect.Field
 
-fun Toolbar.tint(
-    @ColorInt titleColor: Int, @ColorInt subtitleColor: Int = titleColor,
-    @ColorInt iconsColor: Int = titleColor, forceShowIcons: Boolean = false
-) {
-
+fun Toolbar.tintIcons(@ColorInt iconsColor: Int, forceShowIcons: Boolean = false) {
     (0..childCount).forEach { i ->
         val v = getChildAt(i)
 
@@ -59,16 +59,22 @@ fun Toolbar.tint(
     } catch (e: Exception) {
     }
 
-    // Step 4: Changing the color of title and subtitle.
-    setTitleTextColor(titleColor)
-    setSubtitleTextColor(subtitleColor)
-
-    // Step 5: Change the color of overflow menu icon.
-    overflowIcon?.tint(iconsColor)
+    // Step 4: Change the color of overflow menu icon.
     setOverflowButtonColor(iconsColor)
 
-    // Step 6: Tint toolbar menu.
+    // Step 5: Tint toolbar menu.
     menu?.tint(iconsColor, forceShowIcons)
+}
+
+fun Toolbar.tint(
+    @ColorInt titleColor: Int, @ColorInt subtitleColor: Int = titleColor,
+    @ColorInt iconsColor: Int = titleColor, forceShowIcons: Boolean = false
+) {
+    tintIcons(iconsColor, forceShowIcons)
+
+    // Step 6: Changing the color of title and subtitle.
+    setTitleTextColor(titleColor)
+    setSubtitleTextColor(subtitleColor)
 }
 
 fun Menu.tint(@ColorInt iconsColor: Int, forceShowIcons: Boolean = false) {
@@ -93,7 +99,8 @@ fun Menu.tint(@ColorInt iconsColor: Int, forceShowIcons: Boolean = false) {
     }
 }
 
-private fun Toolbar.setOverflowButtonColor(@ColorInt color: Int) {
+fun Toolbar.setOverflowButtonColor(@ColorInt color: Int) {
+    overflowIcon?.tint(color)
     @SuppressLint("PrivateResource")
     val overflowDescription = resources.getString(R.string.abc_action_menu_overflow_description)
     val outViews = ArrayList<View>()
@@ -148,7 +155,11 @@ fun ImageView.tint(@ColorInt color: Int) {
 /**
  * Wrap the color into a state and tint the drawable
  */
-fun Drawable.tint(@ColorInt color: Int): Drawable = tint(ColorStateList.valueOf(color))
+fun Drawable.tint(@ColorInt color: Int): Drawable {
+    val drawable = DrawableCompat.wrap(mutate())
+    DrawableCompat.setTint(drawable, color)
+    return drawable
+}
 
 /**
  * Tint the drawable with a given color state list

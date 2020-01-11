@@ -40,6 +40,48 @@ open class BaseFramesFragment<T> : Fragment(), EmptyViewRecyclerView.StateChange
         swipeRefreshLayout?.setOnRefreshListener { startRefreshing() }
     }
 
+    internal fun setRefreshEnabled(enabled: Boolean) {
+        swipeRefreshLayout?.isEnabled = enabled
+    }
+
+    internal fun applyFilter(filter: String, originalItems: ArrayList<T>, closed: Boolean) {
+        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
+        internalApplyFilter(filter, originalItems, closed)
+        if (!closed) scrollToTop()
+    }
+
+    internal open fun internalApplyFilter(
+        filter: String,
+        originalItems: ArrayList<T>,
+        closed: Boolean
+    ) {
+    }
+
+    /*
+     override fun applyFilter(filter: String, closed: Boolean) {
+        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
+        val list = ArrayList(
+            if (fromFavorites())
+                (activity as? FavsDbManager)?.getFavs() ?: wallpapersModel?.getData().orEmpty()
+            else wallpapersModel?.getData().orEmpty())
+        searching = filter.hasContent()
+        wallsAdapter.searching = searching
+        configureRVColumns(true)
+        if (filter.hasContent()) {
+            recyclerView?.setEmptyImage(R.drawable.no_results)
+            recyclerView?.setEmptyText(R.string.search_no_results)
+            wallsAdapter.setItems(list.jfilter { filteredWallpaper(it, filter) })
+        } else {
+            recyclerView?.setEmptyImage(
+                if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
+            recyclerView?.setEmptyText(
+                if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
+            wallsAdapter.setItems(list)
+        }
+        if (!closed) scrollToTop()
+    }
+     */
+
     private fun startRefreshing() {
         val isRefreshing = swipeRefreshLayout?.isRefreshing ?: false
         if (isRefreshing) stopRefreshing()
@@ -50,6 +92,10 @@ open class BaseFramesFragment<T> : Fragment(), EmptyViewRecyclerView.StateChange
 
     internal fun stopRefreshing() {
         Handler().postDelayed(10) { swipeRefreshLayout?.isRefreshing = false }
+    }
+
+    internal fun scrollToTop() {
+        recyclerView?.post { recyclerView?.smoothScrollToPosition(0) }
     }
 
     override fun onStateChanged(state: EmptyViewRecyclerView.State, emptyView: EmptyView?) {

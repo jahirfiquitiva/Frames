@@ -66,4 +66,15 @@
     <string name="applying_downloading">Downloading…</string>
     <string name="applying_wallpaper_def">Applying…</string>
     <string name="applying_applied">Wallpaper applied successfully</string>
+
+    <string name="search">Search</string>
+    <string name="changelog">Changelog</string>
+    <string name="donate">Donate</string>
+    <string name="about">About</string>
+    <string name="settings">Settings</string>
+
+    <string name="search_x">Search…</string>
+    <string name="search_wallpapers">Search wallpapers…</string>
+    <string name="search_collections">Search collections…</string>
+    <string name="search_favorites">Search favorites…</string>
 </resources>
