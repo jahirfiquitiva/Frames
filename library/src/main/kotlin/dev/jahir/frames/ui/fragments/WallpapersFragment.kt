@@ -55,6 +55,7 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     override fun onStateChanged(state: EmptyViewRecyclerView.State, emptyView: EmptyView?) {
         super.onStateChanged(state, emptyView)
         if (state == EmptyViewRecyclerView.State.EMPTY) {
+            if (isForFavs) emptyView?.setImageDrawable(R.drawable.ic_empty_favorites)
             emptyView?.setEmpty(
                 context?.getString(
                     if (isForFavs) R.string.no_favorites_found

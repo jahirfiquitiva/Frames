@@ -17,7 +17,8 @@ class EmptyViewRecyclerView @JvmOverloads constructor(
     var state: State = State.LOADING
         set(value) {
             if (value != field) {
-                field = value
+                val items = adapter?.itemCount ?: 0
+                field = if (value == State.NORMAL && items <= 0) State.EMPTY else value
                 updateStateViews()
             }
         }
@@ -44,7 +45,7 @@ class EmptyViewRecyclerView @JvmOverloads constructor(
         visibleIf(state == State.NORMAL)
     }
 
-    private val observer: AdapterDataObserver = object : RecyclerView.AdapterDataObserver() {
+    private val observer: AdapterDataObserver = object : AdapterDataObserver() {
         override fun onChanged() {
             super.onChanged()
             setStateInternal()

@@ -33,8 +33,9 @@ open class BaseFramesFragment<T> : Fragment(), EmptyViewRecyclerView.StateChange
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView?.stateChangeListener = this
         recyclerView?.emptyView = emptyView
+        recyclerView?.stateChangeListener = this
+        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
         swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh)
         swipeRefreshLayout?.setOnRefreshListener { startRefreshing() }
     }

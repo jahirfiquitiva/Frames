@@ -3,6 +3,7 @@ package dev.jahir.frames.ui.widgets
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -14,9 +15,11 @@ import dev.jahir.frames.R
 import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.gone
 import dev.jahir.frames.extensions.hasContent
+import dev.jahir.frames.extensions.resolveColor
 import dev.jahir.frames.extensions.showAndAnimate
 import dev.jahir.frames.extensions.visible
 import dev.jahir.frames.extensions.visibleIf
+import dev.jahir.frames.utils.tint
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class EmptyView @JvmOverloads constructor(
@@ -32,6 +35,7 @@ class EmptyView @JvmOverloads constructor(
 
     init {
         inflate(context, R.layout.view_empty, this)
+        setImageDrawable(R.drawable.ic_empty_section)
     }
 
     fun setText(@StringRes text: Int = 0) {
@@ -73,7 +77,11 @@ class EmptyView @JvmOverloads constructor(
 
     fun setImageDrawable(@DrawableRes drawable: Int = 0) {
         try {
-            setImageDrawable(ContextCompat.getDrawable(context, drawable))
+            setImageDrawable(
+                ContextCompat.getDrawable(context, drawable)?.tint(
+                    context.resolveColor(R.attr.colorOnSurface)
+                )
+            )
         } catch (e: Exception) {
         }
     }
@@ -82,10 +90,19 @@ class EmptyView @JvmOverloads constructor(
         if (shouldShow) show() else hide()
     }
 
-    fun show() {
+    private fun show() {
         visible()
         imageView?.showAndAnimate()
     }
 
-    fun hide() = gone()
+    fun hide() {
+        progressBar?.gone()
+        imageView?.gone()
+        textView?.gone()
+        gone()
+    }
+
+    fun gone() {
+        visibility = View.GONE
+    }
 }
