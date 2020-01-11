@@ -1,6 +1,7 @@
 package dev.jahir.frames.ui.activities.base
 
 import androidx.lifecycle.ViewModelProvider
+import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.data.viewmodels.WallpapersDataViewModel
 
@@ -21,6 +22,10 @@ abstract class BaseFavoritesConnectedActivity : BaseSystemUIVisibilityActivity()
     override fun onDestroy() {
         super.onDestroy()
         wallpapersViewModel.destroy(this)
+    }
+
+    internal fun loadData() {
+        wallpapersViewModel.loadData(this, getString(R.string.json_url))
     }
 
     internal fun reloadData() {

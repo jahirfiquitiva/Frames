@@ -83,10 +83,6 @@ class BaseFramesActivity : BaseFavoritesConnectedActivity() {
         */
     }
 
-    internal fun loadData() {
-        wallpapersViewModel.loadData(this, getString(R.string.json_url))
-    }
-
     private fun recoverFragment() {
         val lastState = listState.last()
         listState.removeAt(listState.size - 1)

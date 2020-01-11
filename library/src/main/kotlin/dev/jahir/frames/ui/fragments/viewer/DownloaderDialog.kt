@@ -1,4 +1,4 @@
-package dev.jahir.frames.ui.fragments
+package dev.jahir.frames.ui.fragments.viewer
 
 import android.app.Dialog
 import android.os.Bundle
@@ -11,7 +11,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.gone
 
-class WallpaperDownloadDialog : DialogFragment() {
+class DownloaderDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
 
@@ -53,14 +53,19 @@ class WallpaperDownloadDialog : DialogFragment() {
     }
 
     fun show(activity: FragmentActivity) {
-        show(activity.supportFragmentManager, TAG)
+        show(activity.supportFragmentManager,
+            TAG
+        )
     }
 
     companion object {
         private const val TAG = "WALLPAPER_DOWNLOAD_DIALOG"
 
-        fun create() = WallpaperDownloadDialog()
+        fun create() =
+            DownloaderDialog()
 
-        fun show(activity: FragmentActivity) = create().show(activity.supportFragmentManager, TAG)
+        fun show(activity: FragmentActivity) = create().show(activity.supportFragmentManager,
+            TAG
+        )
     }
 }

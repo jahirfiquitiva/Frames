@@ -5,7 +5,6 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -33,9 +32,9 @@ import dev.jahir.frames.extensions.loadFramesPic
 import dev.jahir.frames.extensions.setMarginBottom
 import dev.jahir.frames.extensions.setMarginTop
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
-import dev.jahir.frames.ui.fragments.SetWallpaperOptionDialog
-import dev.jahir.frames.ui.fragments.WallpaperDetailsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
+import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
+import dev.jahir.frames.ui.fragments.viewer.SetAsOptionsDialog
 import dev.jahir.frames.utils.tint
 import kotlin.math.roundToInt
 
@@ -50,12 +49,11 @@ class ViewerActivity : BaseFavoritesConnectedActivity() {
     private var favoritesModified: Boolean = false
     private var isInFavorites: Boolean = false
         set(value) {
-            Log.d("Frames", "Selecting favorites? $value")
             field = value
             bottomNavigation?.setSelectedItemId(if (value) R.id.favorites else R.id.details, false)
         }
 
-    private val detailsFragment: WallpaperDetailsFragment by lazy { WallpaperDetailsFragment.create() }
+    private val detailsFragment: DetailsFragment by lazy { DetailsFragment.create() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -166,14 +164,17 @@ class ViewerActivity : BaseFavoritesConnectedActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onBackPressed() {
+    override fun finish() {
         setResult(if (favoritesModified) FAVORITES_MODIFIED_RESULT else FAVORITES_NOT_MODIFIED_RESULT)
+        super.finish()
+    }
+
+    override fun onBackPressed() {
         supportFinishAfterTransition()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        setResult(if (favoritesModified) FAVORITES_MODIFIED_RESULT else FAVORITES_NOT_MODIFIED_RESULT)
         try {
             val bmp = (image?.drawable as? BitmapDrawable?)?.bitmap
             if (bmp?.isRecycled == false) bmp.recycle()
@@ -241,7 +242,7 @@ class ViewerActivity : BaseFavoritesConnectedActivity() {
 
     private fun applyWallpaper(wallpaper: Wallpaper?) {
         wallpaper ?: return
-        SetWallpaperOptionDialog.show(this, wallpaper)
+        SetAsOptionsDialog.show(this, wallpaper)
     }
 
     companion object {

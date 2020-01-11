@@ -15,9 +15,10 @@ class CollectionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val title: TextView? by view.findView(R.id.collection_title)
     private val count: TextView? by view.findView(R.id.collection_count)
 
-    fun bind(collection: Collection) {
+    fun bind(collection: Collection, onClick: ((collection: Collection) -> Unit)? = null) {
         collection.cover?.let { image?.loadFramesPic(it.url, it.thumbnail) }
         title?.text = collection.name
         count?.text = collection.count.toString()
+        itemView.setOnClickListener { onClick?.invoke(collection) }
     }
 }

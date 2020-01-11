@@ -10,7 +10,7 @@ import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.data.viewmodels.WallpapersDataViewModel
 import dev.jahir.frames.extensions.buildTransitionOptions
-import dev.jahir.frames.ui.activities.BaseFramesActivity
+import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.adapters.WallpapersAdapter
@@ -73,11 +73,12 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     }
 
     private fun onFavClick(checked: Boolean, wallpaper: Wallpaper) {
+        (activity as? CollectionActivity)?.setFavoritesModified()
         if (checked) {
-            (activity as? BaseFramesActivity)?.addToFavorites(wallpaper)
+            (activity as? BaseFavoritesConnectedActivity)?.addToFavorites(wallpaper)
                 ?: wallsViewModel?.addToFavorites(context, wallpaper)
         } else {
-            (activity as? BaseFramesActivity)?.removeFromFavorites(wallpaper)
+            (activity as? BaseFavoritesConnectedActivity)?.removeFromFavorites(wallpaper)
                 ?: wallsViewModel?.removeFromFavorites(context, wallpaper)
         }
     }
@@ -111,8 +112,10 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ViewerActivity.REQUEST_CODE &&
-            resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT)
+            resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT) {
+            (activity as? CollectionActivity)?.setFavoritesModified()
             (activity as? BaseFavoritesConnectedActivity)?.reloadData()
+        }
     }
 
     companion object {

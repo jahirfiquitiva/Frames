@@ -1,7 +1,12 @@
 package dev.jahir.frames.data.models
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-data class Collection(val name: String, val wallpapers: ArrayList<Wallpaper> = ArrayList()) {
+@Parcelize
+data class Collection(val name: String, val wallpapers: ArrayList<Wallpaper> = ArrayList()) :
+    Parcelable {
+
     val count: Int
         get() = wallpapers.size
 

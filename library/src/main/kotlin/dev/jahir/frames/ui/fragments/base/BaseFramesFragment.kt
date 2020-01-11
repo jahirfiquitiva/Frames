@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.findView
-import dev.jahir.frames.ui.activities.BaseFramesActivity
+import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.widgets.EmptyView
 import dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
 
@@ -45,7 +45,7 @@ open class BaseFramesFragment<T> : Fragment(), EmptyViewRecyclerView.StateChange
         if (isRefreshing) stopRefreshing()
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
         swipeRefreshLayout?.isRefreshing = true
-        (activity as? BaseFramesActivity)?.loadData()
+        (activity as? BaseFavoritesConnectedActivity)?.loadData()
     }
 
     internal fun stopRefreshing() {

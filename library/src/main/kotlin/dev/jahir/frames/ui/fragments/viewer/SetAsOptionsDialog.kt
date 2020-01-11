@@ -1,4 +1,4 @@
-package dev.jahir.frames.ui.fragments
+package dev.jahir.frames.ui.fragments.viewer
 
 import android.app.Dialog
 import android.os.Build
@@ -9,7 +9,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 
-class SetWallpaperOptionDialog : DialogFragment() {
+class SetAsOptionsDialog : DialogFragment() {
 
     private var selectedOption = 0
     private var wallpaper: Wallpaper? = null
@@ -26,7 +26,13 @@ class SetWallpaperOptionDialog : DialogFragment() {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) option else option + 2
             }
             .setPositiveButton(android.R.string.ok) { _, _ ->
-                activity?.let { WallpaperApplierDialog.show(it, selectedOption, wallpaper) }
+                activity?.let {
+                    ApplierDialog.show(
+                        it,
+                        selectedOption,
+                        wallpaper
+                    )
+                }
                 dismiss()
             }
             .setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
@@ -41,10 +47,14 @@ class SetWallpaperOptionDialog : DialogFragment() {
     companion object {
         private const val TAG = "SET_WALLPAPER_OPTION_DIALOG"
         fun create(wallpaper: Wallpaper? = null) =
-            SetWallpaperOptionDialog().apply { this.wallpaper = wallpaper }
+            SetAsOptionsDialog().apply { this.wallpaper = wallpaper }
 
         fun show(activity: FragmentActivity, wallpaper: Wallpaper? = null) =
-            create(wallpaper).show(activity.supportFragmentManager, TAG)
+            create(
+                wallpaper
+            ).show(activity.supportFragmentManager,
+                TAG
+            )
     }
 
 }

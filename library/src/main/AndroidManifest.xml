@@ -25,6 +25,7 @@
         </activity>
 
         <activity android:name=".ui.activities.ViewerActivity" />
+        <activity android:name=".ui.activities.CollectionActivity" />
 
     </application>
 

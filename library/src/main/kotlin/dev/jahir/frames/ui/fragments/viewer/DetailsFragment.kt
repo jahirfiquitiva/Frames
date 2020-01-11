@@ -1,4 +1,4 @@
-package dev.jahir.frames.ui.fragments
+package dev.jahir.frames.ui.fragments.viewer
 
 import android.view.View
 import androidx.palette.graphics.Palette
@@ -14,7 +14,7 @@ import dev.jahir.frames.ui.decorations.DetailsGridSpacingItemDecoration
 import dev.jahir.frames.ui.fragments.base.BaseBottomSheet
 import kotlin.math.roundToInt
 
-class WallpaperDetailsFragment : BaseBottomSheet() {
+class DetailsFragment : BaseBottomSheet() {
 
     var wallpaper: Wallpaper? = null
         set(value) {
@@ -55,7 +55,7 @@ class WallpaperDetailsFragment : BaseBottomSheet() {
     companion object {
         @JvmStatic
         fun create(wallpaper: Wallpaper? = null, palette: Palette? = null) =
-            WallpaperDetailsFragment().apply {
+            DetailsFragment().apply {
                 this.wallpaper = wallpaper
                 this.palette = palette
             }

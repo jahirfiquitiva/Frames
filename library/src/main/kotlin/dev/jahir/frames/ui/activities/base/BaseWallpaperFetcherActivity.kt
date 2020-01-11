@@ -10,7 +10,7 @@ import com.tonyodev.fetch2core.DownloadBlock
 import com.tonyodev.fetch2core.Func
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.getWallpapersDownloadFolder
-import dev.jahir.frames.ui.fragments.WallpaperDownloadDialog
+import dev.jahir.frames.ui.fragments.viewer.DownloaderDialog
 import dev.jahir.frames.utils.BaseFetchListener
 import dev.jahir.frames.utils.WallpaperDownloadNotificationManager
 import java.io.File
@@ -31,7 +31,7 @@ abstract class BaseWallpaperFetcherActivity : BaseStoragePermissionRequestActivi
         Fetch.Impl.getInstance(fetchConfig).apply { addListener(this@BaseWallpaperFetcherActivity) }
     }
 
-    private val dialog: WallpaperDownloadDialog by lazy { WallpaperDownloadDialog.create() }
+    private val dialog: DownloaderDialog by lazy { DownloaderDialog.create() }
 
     private var request: Request? = null
 

@@ -1,4 +1,4 @@
-package dev.jahir.frames.ui.fragments
+package dev.jahir.frames.ui.fragments.viewer
 
 import android.app.Dialog
 import android.app.WallpaperManager
@@ -33,7 +33,7 @@ import dev.jahir.frames.utils.ensureBackgroundThread
 import java.io.File
 
 
-class WallpaperApplierDialog : DialogFragment(), BaseFetchListener {
+class ApplierDialog : DialogFragment(), BaseFetchListener {
 
     private var applyToOption = 0
     private var wallpaper: Wallpaper? = null
@@ -68,7 +68,7 @@ class WallpaperApplierDialog : DialogFragment(), BaseFetchListener {
             .build()
     }
     private val fetch: Fetch by lazy {
-        Fetch.Impl.getInstance(fetchConfig).apply { addListener(this@WallpaperApplierDialog) }
+        Fetch.Impl.getInstance(fetchConfig).apply { addListener(this@ApplierDialog) }
     }
     private val request: Request by lazy {
         Request(wallpaper?.url.orEmpty(), filePath).apply {
@@ -242,12 +242,17 @@ class WallpaperApplierDialog : DialogFragment(), BaseFetchListener {
         private const val TAG = "WALLPAPER_APPLIER_DIALOG"
         private const val WITH_OTHER_APP_CODE = 733
 
-        fun create(option: Int = 0, wallpaper: Wallpaper? = null) = WallpaperApplierDialog().apply {
+        fun create(option: Int = 0, wallpaper: Wallpaper? = null) = ApplierDialog().apply {
             applyToOption = option
             this.wallpaper = wallpaper
         }
 
         fun show(activity: FragmentActivity, option: Int = 0, wallpaper: Wallpaper? = null) =
-            create(option, wallpaper).show(activity.supportFragmentManager, TAG)
+            create(
+                option,
+                wallpaper
+            ).show(activity.supportFragmentManager,
+                TAG
+            )
     }
 }
