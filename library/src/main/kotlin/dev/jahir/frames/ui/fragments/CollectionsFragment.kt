@@ -8,6 +8,8 @@ import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.ui.adapters.CollectionsAdapter
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
+import dev.jahir.frames.ui.widgets.EmptyView
+import dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
 
 class CollectionsFragment : BaseFramesFragment<Collection>() {
 
@@ -15,7 +17,6 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView?.emptyText = context?.getString(R.string.no_collections_found) ?: ""
         val columnsCount = context?.resources?.getInteger(R.integer.collections_columns_count) ?: 1
         recyclerView?.adapter = collsAdapter
         recyclerView?.layoutManager =
@@ -28,6 +29,15 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
         collsAdapter.collections = items
         collsAdapter.notifyDataSetChanged()
         stopRefreshing()
+    }
+
+    override fun onStateChanged(state: EmptyViewRecyclerView.State, emptyView: EmptyView?) {
+        super.onStateChanged(state, emptyView)
+        if (state == EmptyViewRecyclerView.State.EMPTY) {
+            emptyView?.setEmpty(
+                context?.getString(R.string.no_collections_found) ?: ""
+            )
+        }
     }
 
     companion object {

@@ -14,10 +14,7 @@ class FramesBottomNavigationView @JvmOverloads constructor(
     fun setSelectedItemId(@IdRes itemId: Int, triggerEvent: Boolean = true) {
         try {
             if (triggerEvent) super.setSelectedItemId(itemId)
-            else {
-                val item = menu.findItem(itemId)
-                if (item != null) item.isChecked = true
-            }
+            else menu.findItem(itemId)?.isChecked = true
         } catch (e: Exception) {
         }
     }

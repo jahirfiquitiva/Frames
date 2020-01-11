@@ -11,8 +11,14 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.*
+import dev.jahir.frames.extensions.findView
+import dev.jahir.frames.extensions.gone
+import dev.jahir.frames.extensions.hasContent
+import dev.jahir.frames.extensions.showAndAnimate
+import dev.jahir.frames.extensions.visible
+import dev.jahir.frames.extensions.visibleIf
 
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 class EmptyView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
@@ -70,6 +76,10 @@ class EmptyView @JvmOverloads constructor(
             setImageDrawable(ContextCompat.getDrawable(context, drawable))
         } catch (e: Exception) {
         }
+    }
+
+    fun showIf(shouldShow: Boolean) {
+        if (shouldShow) show() else hide()
     }
 
     fun show() {

@@ -10,17 +10,17 @@ import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dev.jahir.frames.R
+import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.ui.activities.BaseFramesActivity
 import dev.jahir.frames.ui.widgets.EmptyView
 import dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
-import dev.jahir.frames.extensions.findView
 
-open class BaseFramesFragment<T> : Fragment() {
+open class BaseFramesFragment<T> : Fragment(), EmptyViewRecyclerView.StateChangeListener {
 
     internal var items: ArrayList<T> = ArrayList()
 
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
-    internal val recyclerView: EmptyViewRecyclerView? by findView(R.id.items_recyclerview)
+    internal val recyclerView: EmptyViewRecyclerView? by findView(R.id.recycler_view)
     private val emptyView: EmptyView? by findView(R.id.empty_view)
 
     override fun onCreateView(
@@ -33,6 +33,7 @@ open class BaseFramesFragment<T> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        recyclerView?.stateChangeListener = this
         recyclerView?.emptyView = emptyView
         swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh)
         swipeRefreshLayout?.setOnRefreshListener { startRefreshing() }
@@ -48,6 +49,10 @@ open class BaseFramesFragment<T> : Fragment() {
 
     internal fun stopRefreshing() {
         Handler().postDelayed(10) { swipeRefreshLayout?.isRefreshing = false }
+    }
+
+    override fun onStateChanged(state: EmptyViewRecyclerView.State, emptyView: EmptyView?) {
+        if (state == EmptyViewRecyclerView.State.LOADING) emptyView?.setLoading()
     }
 
     @CallSuper

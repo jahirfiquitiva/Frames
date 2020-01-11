@@ -17,6 +17,8 @@ import dev.jahir.frames.ui.adapters.WallpapersAdapter
 import dev.jahir.frames.ui.decorations.GridSpacingItemDecoration
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
 import dev.jahir.frames.ui.viewholders.WallpaperViewHolder
+import dev.jahir.frames.ui.widgets.EmptyView
+import dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
 import dev.jahir.frames.utils.onClick
 import dev.jahir.frames.utils.onFavClick
 import dev.jahir.frames.utils.wallpapersAdapter
@@ -37,10 +39,6 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView?.emptyText = context?.getString(
-            if (isForFavs) R.string.no_favorites_found
-            else R.string.no_wallpapers_found
-        ) ?: ""
         val columnsCount =
             context?.resources?.getInteger(R.integer.min_wallpapers_columns_count) ?: 2
         recyclerView?.adapter = wallsAdapter
@@ -52,6 +50,18 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
             )
         )
         recyclerView?.itemAnimator = DefaultItemAnimator()
+    }
+
+    override fun onStateChanged(state: EmptyViewRecyclerView.State, emptyView: EmptyView?) {
+        super.onStateChanged(state, emptyView)
+        if (state == EmptyViewRecyclerView.State.EMPTY) {
+            emptyView?.setEmpty(
+                context?.getString(
+                    if (isForFavs) R.string.no_favorites_found
+                    else R.string.no_wallpapers_found
+                ) ?: ""
+            )
+        }
     }
 
     override fun updateItems(newItems: ArrayList<Wallpaper>) {
