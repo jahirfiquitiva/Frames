@@ -57,37 +57,12 @@ open class BaseFramesFragment<T> : Fragment(), EmptyViewRecyclerView.StateChange
     ) {
     }
 
-    /*
-     override fun applyFilter(filter: String, closed: Boolean) {
-        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
-        val list = ArrayList(
-            if (fromFavorites())
-                (activity as? FavsDbManager)?.getFavs() ?: wallpapersModel?.getData().orEmpty()
-            else wallpapersModel?.getData().orEmpty())
-        searching = filter.hasContent()
-        wallsAdapter.searching = searching
-        configureRVColumns(true)
-        if (filter.hasContent()) {
-            recyclerView?.setEmptyImage(R.drawable.no_results)
-            recyclerView?.setEmptyText(R.string.search_no_results)
-            wallsAdapter.setItems(list.jfilter { filteredWallpaper(it, filter) })
-        } else {
-            recyclerView?.setEmptyImage(
-                if (fromFavorites()) R.drawable.no_favorites else R.drawable.empty_section)
-            recyclerView?.setEmptyText(
-                if (fromFavorites()) R.string.no_favorites else R.string.empty_section)
-            wallsAdapter.setItems(list)
-        }
-        if (!closed) scrollToTop()
-    }
-     */
-
     private fun startRefreshing() {
         val isRefreshing = swipeRefreshLayout?.isRefreshing ?: false
         if (isRefreshing) stopRefreshing()
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
         swipeRefreshLayout?.isRefreshing = true
-        (activity as? BaseFavoritesConnectedActivity)?.loadData()
+        (activity as? BaseFavoritesConnectedActivity<*>)?.loadData()
     }
 
     internal fun stopRefreshing() {
