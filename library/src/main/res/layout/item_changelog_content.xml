@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="false"
+    android:focusable="false"
+    android:orientation="horizontal"
+    android:paddingLeft="?dialogPreferredPadding"
+    android:paddingRight="?dialogPreferredPadding"
+    android:paddingBottom="8.4sp">
+
+    <!--padding bottom is 14sp * 0.6-->
+    <TextView
+        android:id="@+id/kau_changelog_bullet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
+        android:lineSpacingMultiplier="1.6"
+        android:paddingEnd="5dp"
+        android:paddingRight="5dp"
+        android:text="•"
+        android:textAppearance="@style/TextAppearance.Frames.Body2"
+        tools:ignore="HardcodedText,RtlSymmetry" />
+
+    <TextView
+        android:id="@+id/kau_changelog_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
+        android:lineSpacingMultiplier="1.6"
+        android:textAppearance="@style/TextAppearance.Frames.Body2" />
+
+</LinearLayout>

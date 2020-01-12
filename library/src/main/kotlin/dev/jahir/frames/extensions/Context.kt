@@ -104,5 +104,17 @@ fun Context.getRightNavigationBarColor(): Int = if (prefs.shouldColorNavbar) {
     Color.parseColor("#000000")
 }
 
+@Suppress("DEPRECATION")
+val Context.currentVersionCode: Long
+    get() = try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            packageManager.getPackageInfo(packageName, 0).longVersionCode
+        } else {
+            packageManager.getPackageInfo(packageName, 0).versionCode.toLong()
+        }
+    } catch (e: Exception) {
+        -1L
+    }
+
 internal val Context.prefs: Prefs
     get() = Prefs(this)

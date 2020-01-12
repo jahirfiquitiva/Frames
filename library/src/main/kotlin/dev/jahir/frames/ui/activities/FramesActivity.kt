@@ -4,12 +4,12 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.hasContent
-import dev.jahir.frames.ui.activities.base.BaseSearchableActivity
+import dev.jahir.frames.ui.activities.base.BaseChangelogDialogActivity
 import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
 
-class FramesActivity : BaseSearchableActivity() {
+class FramesActivity : BaseChangelogDialogActivity() {
 
     private val wallpapersFragment: WallpapersFragment by lazy {
         WallpapersFragment.create(ArrayList(wallpapersViewModel.wallpapers))
