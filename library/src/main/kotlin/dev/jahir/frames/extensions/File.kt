@@ -44,18 +44,15 @@ fun Context.getExternalStorageFolder(): File? {
     else appStorage
 }
 
+fun File.createIfDidNotExist(): Boolean = try {
+    if (!exists()) mkdirs() else true
+} catch (e: Exception) {
+    false
+}
+
 fun Context.getDefaultWallpapersDownloadFolder(): File? {
     val externalFolder = getExternalStorageFolder()
     val folder = File("$externalFolder${File.separator}${getString(R.string.app_name)}")
-    try {
-        if (!folder.exists()) folder.mkdirs()
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
+    folder.createIfDidNotExist()
     return folder
-}
-
-fun Context.getWallpapersDownloadFolder(): File? {
-    // TODO: Check Preferences
-    return getDefaultWallpapersDownloadFolder()
 }

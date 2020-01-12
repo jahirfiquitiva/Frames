@@ -3,9 +3,17 @@ package dev.jahir.frames.utils
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import dev.jahir.frames.R
+import dev.jahir.frames.extensions.createIfDidNotExist
+import dev.jahir.frames.extensions.getDefaultWallpapersDownloadFolder
+import java.io.File
 
 @Suppress("MemberVisibilityCanBePrivate")
-open class Prefs(context: Context, name: String = PREFS_NAME, mode: Int = Context.MODE_PRIVATE) {
+open class Prefs(
+    private val context: Context,
+    name: String = PREFS_NAME,
+    mode: Int = Context.MODE_PRIVATE
+) {
     val prefs: SharedPreferences = context.getSharedPreferences(name, mode)
     @SuppressLint("CommitPrefEdits")
     val prefsEditor: SharedPreferences.Editor = prefs.edit()
@@ -38,6 +46,42 @@ open class Prefs(context: Context, name: String = PREFS_NAME, mode: Int = Contex
         get() = prefs.getBoolean(SHOULD_CROP_WALLPAPER_BEFORE_APPLY, false)
         set(value) = prefsEditor.putBoolean(SHOULD_CROP_WALLPAPER_BEFORE_APPLY, value).apply()
 
+    var downloadsFolder: File?
+        get() {
+            val file = File(
+                prefs.getString(
+                    DOWNLOADS_FOLDER,
+                    context.getDefaultWallpapersDownloadFolder().toString()
+                ) ?: context.externalCacheDir.toString()
+            )
+            file.createIfDidNotExist()
+            return file
+        }
+        set(value) = prefsEditor.putString(DOWNLOADS_FOLDER, value.toString()).apply()
+
+    var functionalDashboard: Boolean
+        get() = prefs.getBoolean(FUNCTIONAL_DASHBOARD, false)
+        set(value) = prefsEditor.putBoolean(FUNCTIONAL_DASHBOARD, value).apply()
+
+    var notificationsEnabled: Boolean
+        get() = prefs.getBoolean(
+            NOTIFICATIONS_ENABLED,
+            context.resources.getBoolean(R.bool.notifications_enabled_by_default)
+        )
+        set(value) = prefsEditor.putBoolean(NOTIFICATIONS_ENABLED, value).apply()
+
+    var refreshMuzeiOnWiFiOnly: Boolean
+        get() = prefs.getBoolean(REFRESH_MUZEI_ON_WIFI_ONLY, false)
+        set(value) = prefsEditor.putBoolean(REFRESH_MUZEI_ON_WIFI_ONLY, value).apply()
+
+    var muzeiRefreshInterval: Int
+        get() = prefs.getInt(MUZEI_REFRESH_INTERVAL, 10)
+        set(value) = prefsEditor.putInt(MUZEI_REFRESH_INTERVAL, value).apply()
+
+    var muzeiCollections: String
+        get() = prefs.getString(MUZEI_COLLECTIONS, "").orEmpty()
+        set(value) = prefsEditor.putString(MUZEI_COLLECTIONS, value).apply()
+
     enum class ThemeKey(val value: Int) {
         LIGHT(0), DARK(1), FOLLOW_SYSTEM(2);
 
@@ -61,5 +105,11 @@ open class Prefs(context: Context, name: String = PREFS_NAME, mode: Int = Contex
         private const val SHOULD_COLOR_NAVBAR = "should_color_navbar"
         private const val SHOULD_LOAD_FULL_RES_PICTURES = "should_load_full_res_pictures"
         private const val SHOULD_CROP_WALLPAPER_BEFORE_APPLY = "should_crop_wallpaper_before_apply"
+        private const val DOWNLOADS_FOLDER = "downloads_folder"
+        private const val FUNCTIONAL_DASHBOARD = "functional_dashboard"
+        private const val NOTIFICATIONS_ENABLED = "notifications_enabled"
+        private const val REFRESH_MUZEI_ON_WIFI_ONLY = "refresh_muzei_on_wifi_only"
+        private const val MUZEI_REFRESH_INTERVAL = "muzei_refresh_interval"
+        private const val MUZEI_COLLECTIONS = "muzei_collections"
     }
 }

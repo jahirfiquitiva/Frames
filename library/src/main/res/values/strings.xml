@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Frames</string>
-
     <string name="fetch_notification_default_channel_name">@string/downloads</string>
     <string name="fetch_notification_download_failed">@string/download_failed</string>
     <string name="fetch_notification_download_pause">@string/download_pause</string>

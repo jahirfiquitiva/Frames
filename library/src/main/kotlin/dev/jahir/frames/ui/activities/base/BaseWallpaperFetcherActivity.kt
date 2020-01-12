@@ -9,14 +9,12 @@ import com.tonyodev.fetch2.Request
 import com.tonyodev.fetch2core.DownloadBlock
 import com.tonyodev.fetch2core.Func
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.extensions.getWallpapersDownloadFolder
 import dev.jahir.frames.ui.fragments.viewer.DownloaderDialog
 import dev.jahir.frames.utils.BaseFetchListener
 import dev.jahir.frames.utils.Prefs
 import dev.jahir.frames.utils.WallpaperDownloadNotificationManager
 import java.io.File
 import java.lang.ref.WeakReference
-
 
 abstract class BaseWallpaperFetcherActivity<out P : Prefs> :
     BaseStoragePermissionRequestActivity<P>(), BaseFetchListener {
@@ -38,7 +36,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Prefs> :
 
     internal fun initFetch(wallpaper: Wallpaper?) {
         wallpaper ?: return
-        val folder = getWallpapersDownloadFolder() ?: externalCacheDir ?: cacheDir
+        val folder = prefs.downloadsFolder ?: externalCacheDir ?: cacheDir
         val filename = wallpaper.url.substring(wallpaper.url.lastIndexOf("/") + 1)
 
         request = Request(wallpaper.url, "$folder${File.separator}$filename")
