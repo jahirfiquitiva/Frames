@@ -56,9 +56,11 @@ abstract class BaseLicenseCheckerActivity<out P : Prefs> : BaseChangelogDialogAc
     }
 
     private fun startLicenseCheck(force: Boolean = false) {
-        if (isUpdate || !prefs.functionalDashboard || force) {
-            checker = getLicenseChecker()
-            checker?.let {
+        destroyChecker()
+        checker = getLicenseChecker()
+        checker?.let {
+            licenseCheckEnabled = true
+            if (isUpdate || !prefs.functionalDashboard || force) {
                 with(it) {
                     callback {
                         allow { showLicensedSnack(isUpdate, force) }
@@ -67,11 +69,12 @@ abstract class BaseLicenseCheckerActivity<out P : Prefs> : BaseChangelogDialogAc
                     }
                     start()
                 }
-            } ?: {
-                prefs.functionalDashboard = true
-                if (isUpdate) showChangelog()
-            }()
-        }
+            }
+        } ?: {
+            licenseCheckEnabled = false
+            prefs.functionalDashboard = true
+            if (isUpdate) showChangelog()
+        }()
     }
 
     // Not really needed to override
