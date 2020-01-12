@@ -10,11 +10,14 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.annotation.XmlRes
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.jahir.frames.R
+import dev.jahir.frames.extensions.adapter
 import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.extensions.inflate
+import dev.jahir.frames.extensions.mdDialog
+import dev.jahir.frames.extensions.positiveButton
+import dev.jahir.frames.extensions.title
 import org.xmlpull.v1.XmlPullParser
 
 /**
@@ -45,11 +48,11 @@ fun Context.buildChangelogDialog(
         val items = parse(this, xmlRes)
         val adapter = MyChangelogAdapter(this)
         adapter.addAll(items)
-        MaterialAlertDialogBuilder(this)
-            .setTitle(title)
-            .setAdapter(adapter, null)
-            .setPositiveButton(btnText) { d, _ -> d?.dismiss() }
-            .create()
+        mdDialog {
+            title(title)
+            adapter(adapter)
+            positiveButton(btnText) { it.dismiss() }
+        }
     } catch (e: Exception) {
         null
     }

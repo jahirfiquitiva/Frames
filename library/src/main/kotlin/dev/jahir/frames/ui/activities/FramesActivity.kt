@@ -10,7 +10,7 @@ import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
 import dev.jahir.frames.utils.Prefs
 
-class FramesActivity : BaseLicenseCheckerActivity<Prefs>() {
+abstract class FramesActivity : BaseLicenseCheckerActivity<Prefs>() {
 
     override val prefs: Prefs by lazy { Prefs(this) }
 

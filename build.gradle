@@ -32,6 +32,7 @@ buildscript {
         def sectioned_recyclerview_version = '5a90cfb'
         def fetch_version = '3.1.4'
         def kpermissions_version = '2.0.2'
+        def license_checker_version = '1.2.6'
 
         libraries = [
                 // Kotlin standard library
@@ -74,11 +75,16 @@ buildscript {
                 "androidx.tonyodev.fetch2:xfetch2:$fetch_version",
 
                 // permissions
-                "com.github.fondesa:kpermissions:$kpermissions_version"
+                "com.github.fondesa:kpermissions:$kpermissions_version",
         ]
 
         librariesKapt = [
                 "androidx.room:room-compiler:$room_version",
+        ]
+
+        librariesApi = [
+                // license checker
+                "com.github.javiersantos:PiracyChecker:$license_checker_version"
         ]
     }
 

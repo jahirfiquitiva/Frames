@@ -20,22 +20,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.palette.graphics.Palette
 import com.github.chrisbanes.photoview.PhotoView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.extensions.MAX_FRAMES_PALETTE_COLORS
-import dev.jahir.frames.extensions.asBitmap
-import dev.jahir.frames.extensions.bestSwatch
-import dev.jahir.frames.extensions.buildAuthorTransitionName
-import dev.jahir.frames.extensions.buildImageTransitionName
-import dev.jahir.frames.extensions.buildTitleTransitionName
-import dev.jahir.frames.extensions.compliesWithMinTime
-import dev.jahir.frames.extensions.findView
-import dev.jahir.frames.extensions.firstInstallTime
-import dev.jahir.frames.extensions.loadFramesPic
-import dev.jahir.frames.extensions.setMarginBottom
-import dev.jahir.frames.extensions.setMarginTop
-import dev.jahir.frames.extensions.toReadableTime
+import dev.jahir.frames.extensions.*
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
@@ -260,11 +247,11 @@ class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
             val timeLeftText = timeLeft.toReadableTime()
 
             downloadBlockedDialog?.dismiss()
-            downloadBlockedDialog = MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.prevent_download_title)
-                .setMessage(getString(R.string.prevent_download_content, timeLeftText))
-                .setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
-                .create()
+            downloadBlockedDialog = mdDialog {
+                title(R.string.prevent_download_title)
+                message(getString(R.string.prevent_download_content, timeLeftText))
+                positiveButton(android.R.string.ok) { it.dismiss() }
+            }
             downloadBlockedDialog?.show()
         }
     }

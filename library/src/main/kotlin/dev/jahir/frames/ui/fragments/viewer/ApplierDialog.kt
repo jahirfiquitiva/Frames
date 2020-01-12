@@ -12,7 +12,6 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.tonyodev.fetch2.Download
 import com.tonyodev.fetch2.Error
 import com.tonyodev.fetch2.Fetch
@@ -24,14 +23,16 @@ import com.tonyodev.fetch2core.DownloadBlock
 import com.tonyodev.fetch2core.Func
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
+import dev.jahir.frames.extensions.cancelable
 import dev.jahir.frames.extensions.getUri
 import dev.jahir.frames.extensions.gone
+import dev.jahir.frames.extensions.mdDialog
 import dev.jahir.frames.extensions.prefs
+import dev.jahir.frames.extensions.view
 import dev.jahir.frames.utils.BaseFetchListener
 import dev.jahir.frames.utils.WallpaperDownloadNotificationManager
 import dev.jahir.frames.utils.ensureBackgroundThread
 import java.io.File
-
 
 class ApplierDialog : DialogFragment(), BaseFetchListener {
 
@@ -83,13 +84,11 @@ class ApplierDialog : DialogFragment(), BaseFetchListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
-
-        val dialog = MaterialAlertDialogBuilder(context)
-            .setView(R.layout.dialog_apply)
-            .setCancelable(false)
-            .create()
+        val dialog = requireContext().mdDialog {
+            view(R.layout.dialog_apply)
+            cancelable(false)
+        }
         isCancelable = false
-
         dialog.setOnShowListener { startDownload() }
         return dialog
     }

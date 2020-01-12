@@ -2,9 +2,11 @@ package dev.jahir.frames.extensions
 
 import android.app.ActivityManager
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Build
 import android.view.WindowManager
 import android.widget.Toast
@@ -157,6 +159,14 @@ val Context.firstInstallTime: Long
             -1
         }
     }
+
+fun Context.openLink(url: String?) {
+    val link = url ?: return
+    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+    if (browserIntent.resolveActivity(packageManager) != null)
+        startActivity(browserIntent)
+    else toast("Cannot find a browser")
+}
 
 internal val Context.prefs: Prefs
     get() = (this as? BaseThemedActivity<*>)?.prefs ?: Prefs(this)

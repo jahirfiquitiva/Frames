@@ -7,20 +7,20 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.jahir.frames.R
+import dev.jahir.frames.extensions.cancelable
 import dev.jahir.frames.extensions.gone
+import dev.jahir.frames.extensions.mdDialog
+import dev.jahir.frames.extensions.view
 
 class DownloaderDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
-
-        val dialog = MaterialAlertDialogBuilder(context)
-            .setView(R.layout.dialog_apply)
-            .setCancelable(false)
-            .create()
+        val dialog = requireContext().mdDialog {
+            view(R.layout.dialog_apply)
+            cancelable(false)
+        }
         isCancelable = false
-
         return dialog
     }
 

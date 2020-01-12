@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="BaseFramesTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar" tools:ignore="NewApi">
+    <style name="BaseFramesSplashScreenTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar" tools:ignore="NewApi">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primaryDark</item>
         <item name="colorAccent">@color/accent</item>
@@ -16,13 +18,18 @@
         <item name="colorSurface">@color/surface</item>
         <item name="colorOnSurface">@color/onSurface</item>
 
-        <item name="android:windowBackground">@color/background</item>
         <item name="colorBackgroundFloating">@color/background</item>
         <item name="colorOnBackground">@color/onBackground</item>
 
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:navigationBarColor">?colorSurface</item>
         <item name="android:navigationBarDividerColor">@color/transparent</item>
+    </style>
+
+    <style name="BaseFramesSplashScreenTheme.Amoled" parent="BaseFramesSplashScreenTheme" tools:ignore="NewApi" />
+
+    <style name="BaseFramesTheme" parent="BaseFramesSplashScreenTheme" tools:ignore="NewApi">
+        <item name="android:windowBackground">@color/background</item>
 
         <item name="textAppearanceHeadline3">@style/TextAppearance.Frames.Headline3</item>
         <item name="textAppearanceHeadline4">@style/TextAppearance.Frames.Headline4</item>

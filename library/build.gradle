@@ -71,4 +71,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation libraries
     kapt librariesKapt
+    api librariesApi
 }

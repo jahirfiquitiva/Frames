@@ -5,9 +5,13 @@ import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
+import dev.jahir.frames.extensions.mdDialog
+import dev.jahir.frames.extensions.negativeButton
+import dev.jahir.frames.extensions.positiveButton
+import dev.jahir.frames.extensions.singleChoiceItems
+import dev.jahir.frames.extensions.title
 
 class SetAsOptionsDialog : DialogFragment() {
 
@@ -16,21 +20,21 @@ class SetAsOptionsDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
-        return MaterialAlertDialogBuilder(context)
-            .setTitle(R.string.apply_to)
-            .setSingleChoiceItems(
+        return requireContext().mdDialog {
+            title(R.string.apply_to)
+            singleChoiceItems(
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) R.array.set_wallpaper_options
                 else R.array.set_wallpaper_options_pre_nougat, selectedOption
             ) { _, option ->
-                this.selectedOption =
+                this@SetAsOptionsDialog.selectedOption =
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) option else option + 2
             }
-            .setPositiveButton(android.R.string.ok) { _, _ ->
+            positiveButton(android.R.string.ok) {
                 activity?.let { ApplierDialog.show(it, selectedOption, wallpaper) }
                 dismiss()
             }
-            .setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
-            .create()
+            negativeButton(android.R.string.cancel) { dismiss() }
+        }
     }
 
     override fun dismiss() {
