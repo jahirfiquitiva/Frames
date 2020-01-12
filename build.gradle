@@ -42,8 +42,7 @@ buildscript {
                 "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_android_version",
                 "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_android_version",
 
-                // Android UI and appcompat
-                "androidx.appcompat:appcompat:$appcompat_version",
+                // Android UI
                 "androidx.cardview:cardview:$cardview_version",
                 "androidx.recyclerview:recyclerview:$recyclerview_version",
                 "androidx.swiperefreshlayout:swiperefreshlayout:$swipe_refresh_version",
@@ -75,14 +74,17 @@ buildscript {
                 "androidx.tonyodev.fetch2:xfetch2:$fetch_version",
 
                 // permissions
-                "com.github.fondesa:kpermissions:$kpermissions_version",
+                "com.github.fondesa:kpermissions:$kpermissions_version"
         ]
 
         librariesKapt = [
-                "androidx.room:room-compiler:$room_version",
+                "androidx.room:room-compiler:$room_version"
         ]
 
         librariesApi = [
+                // AppCompat
+                "androidx.appcompat:appcompat:$appcompat_version",
+
                 // license checker
                 "com.github.javiersantos:PiracyChecker:$license_checker_version"
         ]

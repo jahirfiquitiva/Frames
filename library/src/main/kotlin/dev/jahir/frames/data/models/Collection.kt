@@ -1,6 +1,7 @@
 package dev.jahir.frames.data.models
 
 import android.os.Parcelable
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -10,6 +11,7 @@ data class Collection(val name: String, val wallpapers: ArrayList<Wallpaper> = A
     val count: Int
         get() = wallpapers.size
 
+    @IgnoredOnParcel
     var cover: Wallpaper? = null
         private set
 

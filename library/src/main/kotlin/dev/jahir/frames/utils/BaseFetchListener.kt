@@ -7,19 +7,19 @@ import com.tonyodev.fetch2core.DownloadBlock
 
 interface BaseFetchListener : FetchListener {
     override fun onAdded(download: Download) {
-        // TO
+        // Do nothing
     }
 
     override fun onCancelled(download: Download) {
-        // TO
+        // Do nothing
     }
 
     override fun onCompleted(download: Download) {
-        // TO
+        // Do nothing
     }
 
     override fun onDeleted(download: Download) {
-        // TO
+        // Do nothing
     }
 
     override fun onDownloadBlockUpdated(
@@ -27,15 +27,15 @@ interface BaseFetchListener : FetchListener {
         downloadBlock: DownloadBlock,
         totalBlocks: Int
     ) {
-        // TO
+        // Do nothing
     }
 
     override fun onError(download: Download, error: Error, throwable: Throwable?) {
-        // TO
+        // Do nothing
     }
 
     override fun onPaused(download: Download) {
-        // TO
+        // Do nothing
     }
 
     override fun onProgress(
@@ -43,19 +43,19 @@ interface BaseFetchListener : FetchListener {
         etaInMilliSeconds: Long,
         downloadedBytesPerSecond: Long
     ) {
-        // TO
+        // Do nothing
     }
 
     override fun onQueued(download: Download, waitingOnNetwork: Boolean) {
-        // TO
+        // Do nothing
     }
 
     override fun onRemoved(download: Download) {
-        // TO
+        // Do nothing
     }
 
     override fun onResumed(download: Download) {
-        // TO
+        // Do nothing
     }
 
     override fun onStarted(
@@ -63,10 +63,10 @@ interface BaseFetchListener : FetchListener {
         downloadBlocks: List<DownloadBlock>,
         totalBlocks: Int
     ) {
-        // TO
+        // Do nothing
     }
 
     override fun onWaitingNetwork(download: Download) {
-        // TO
+        // Do nothing
     }
 }

@@ -17,7 +17,20 @@ import java.io.File
 import java.lang.ref.WeakReference
 
 abstract class BaseWallpaperFetcherActivity<out P : Prefs> :
-    BaseStoragePermissionRequestActivity<P>(), BaseFetchListener {
+    BaseStoragePermissionRequestActivity<P>() {
+
+    private val fetchListener: BaseFetchListener by lazy {
+        object : BaseFetchListener {
+            override fun onStarted(
+                download: Download,
+                downloadBlocks: List<DownloadBlock>,
+                totalBlocks: Int
+            ) {
+                super.onStarted(download, downloadBlocks, totalBlocks)
+                dismissDialog()
+            }
+        }
+    }
 
     private val fetch: Fetch by lazy {
         val fetchConfig = FetchConfiguration.Builder(this)
@@ -27,7 +40,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Prefs> :
                 override fun getFetchInstanceForNamespace(namespace: String): Fetch = fetch
             })
             .build()
-        Fetch.Impl.getInstance(fetchConfig).apply { addListener(this@BaseWallpaperFetcherActivity) }
+        Fetch.Impl.getInstance(fetchConfig).apply { addListener(fetchListener) }
     }
 
     private val downloaderDialog: DownloaderDialog by lazy { DownloaderDialog.create() }
@@ -58,20 +71,11 @@ abstract class BaseWallpaperFetcherActivity<out P : Prefs> :
         }
     }
 
-    override fun onStarted(
-        download: Download,
-        downloadBlocks: List<DownloadBlock>,
-        totalBlocks: Int
-    ) {
-        super.onStarted(download, downloadBlocks, totalBlocks)
-        dismissDialog()
-    }
-
     internal fun cancelDownload() {
         try {
             fetch.cancel(request?.id ?: -1)
             fetch.remove(request?.id ?: -1)
-            fetch.removeListener(this)
+            fetch.removeListener(fetchListener)
         } catch (e: Exception) {
         }
     }

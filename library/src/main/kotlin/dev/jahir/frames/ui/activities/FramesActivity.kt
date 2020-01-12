@@ -156,12 +156,7 @@ abstract class FramesActivity : BaseLicenseCheckerActivity<Prefs>() {
         )
     }
 
-    override fun onPermissionsAccepted(permissions: Array<out String>) {
-        // Not necessary
-    }
-
     companion object {
         private const val CURRENT_FRAGMENT_KEY = "current_fragment"
-        private const val MAX_HISTORIC = 1
     }
 }

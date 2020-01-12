@@ -79,10 +79,6 @@ class CollectionActivity : BaseSearchableActivity<Prefs>() {
         )
     }
 
-    override fun onPermissionsAccepted(permissions: Array<out String>) {
-        // Do nothing
-    }
-
     override fun finish() {
         setResult(
             if (favoritesModified) ViewerActivity.FAVORITES_MODIFIED_RESULT

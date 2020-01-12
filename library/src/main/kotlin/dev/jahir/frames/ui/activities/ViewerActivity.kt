@@ -256,7 +256,8 @@ class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         }
     }
 
-    override fun onPermissionsAccepted(permissions: Array<out String>) {
+    override fun internalOnPermissionsAccepted(permissions: Array<out String>) {
+        super.internalOnPermissionsAccepted(permissions)
         startDownload()
     }
 
