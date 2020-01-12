@@ -77,4 +77,7 @@
     <string name="search_wallpapers">Search wallpapers…</string>
     <string name="search_collections">Search collections…</string>
     <string name="search_favorites">Search favorites…</string>
+
+    <string name="prevent_download_title">Downloads locked</string>
+    <string name="prevent_download_content">For security reasons, downloading wallpapers isn\'t possible for the next %1$s hours. Please try again later.</string>
 </resources>

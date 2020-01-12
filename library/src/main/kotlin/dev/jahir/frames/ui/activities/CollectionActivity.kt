@@ -9,8 +9,11 @@ import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.ui.activities.base.BaseSearchableActivity
 import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
+import dev.jahir.frames.utils.Prefs
 
-class CollectionActivity : BaseSearchableActivity() {
+class CollectionActivity : BaseSearchableActivity<Prefs>() {
+
+    override val prefs: Prefs by lazy { Prefs(this) }
 
     private val wallpapersFragment: WallpapersFragment by lazy { WallpapersFragment.create() }
     private var collection: String = ""

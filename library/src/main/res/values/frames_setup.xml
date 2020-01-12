@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
     <string name="json_url">"https://jahir.dev/frames/frames.json"</string>
+
+    <bool name="allow_immediate_downloads">true</bool>
+
 </resources>

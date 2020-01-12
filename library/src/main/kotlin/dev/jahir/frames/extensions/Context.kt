@@ -13,6 +13,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
+import dev.jahir.frames.ui.activities.base.BaseThemedActivity
 import dev.jahir.frames.utils.Prefs
 
 
@@ -116,5 +117,46 @@ val Context.currentVersionCode: Long
         -1L
     }
 
+fun Context.getAppName(defName: String = ""): String {
+    var name: String = try {
+        (packageManager?.getApplicationLabel(applicationInfo) ?: "").toString()
+    } catch (e: Exception) {
+        ""
+    }
+    if (name.hasContent()) return name
+
+    val stringRes = applicationInfo?.labelRes ?: 0
+    name = if (stringRes == 0) {
+        applicationInfo?.nonLocalizedLabel?.toString() ?: ""
+    } else {
+        getString(stringRes)
+    }
+
+    if (name.hasContent()) return name
+    if (defName.hasContent()) return defName
+
+    val def = getString(R.string.app_name)
+    return if (def.hasContent()) def else "Unknown"
+}
+
+val Context.isUpdate: Boolean
+    get() {
+        val prevVersion = prefs.lastVersion
+        prefs.lastVersion = currentVersionCode
+        return currentVersionCode > prevVersion
+    }
+
+fun Context.compliesWithMinTime(time: Long): Boolean =
+    System.currentTimeMillis() - firstInstallTime > time
+
+val Context.firstInstallTime: Long
+    get() {
+        return try {
+            packageManager.getPackageInfo(packageName, 0).firstInstallTime
+        } catch (e: Exception) {
+            -1
+        }
+    }
+
 internal val Context.prefs: Prefs
-    get() = Prefs(this)
+    get() = (this as? BaseThemedActivity<*>)?.prefs ?: Prefs(this)

@@ -14,6 +14,7 @@ import dev.jahir.frames.extensions.lower
 import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
+import dev.jahir.frames.ui.activities.base.BaseLicenseCheckerActivity
 import dev.jahir.frames.ui.adapters.WallpapersAdapter
 import dev.jahir.frames.ui.decorations.GridSpacingItemDecoration
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
@@ -94,9 +95,9 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     private fun onFavClick(checked: Boolean, wallpaper: Wallpaper) {
         (activity as? CollectionActivity)?.setFavoritesModified()
         if (checked) {
-            (activity as? BaseFavoritesConnectedActivity)?.addToFavorites(wallpaper)
+            (activity as? BaseFavoritesConnectedActivity<*>)?.addToFavorites(wallpaper)
         } else {
-            (activity as? BaseFavoritesConnectedActivity)?.removeFromFavorites(wallpaper)
+            (activity as? BaseFavoritesConnectedActivity<*>)?.removeFromFavorites(wallpaper)
         }
     }
 
@@ -120,6 +121,10 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
                     putExtra(WALLPAPER_EXTRA, wallpaper)
                     putExtra(WALLPAPER_IN_FAVS_EXTRA, wallpaper.isInFavorites)
                     putExtra(ViewerActivity.CURRENT_WALL_POSITION, holder.adapterPosition)
+                    putExtra(
+                        ViewerActivity.LICENSE_CHECK_ENABLED,
+                        (activity as? BaseLicenseCheckerActivity<*>)?.licenseCheckEnabled ?: false
+                    )
                 },
             ViewerActivity.REQUEST_CODE,
             options?.toBundle()
@@ -131,7 +136,7 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         if (requestCode == ViewerActivity.REQUEST_CODE &&
             resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT) {
             (activity as? CollectionActivity)?.setFavoritesModified()
-            (activity as? BaseFavoritesConnectedActivity)?.reloadData()
+            (activity as? BaseFavoritesConnectedActivity<*>)?.reloadData()
         }
     }
 

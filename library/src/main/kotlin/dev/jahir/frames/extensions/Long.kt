@@ -1,5 +1,6 @@
 package dev.jahir.frames.extensions
 
+import java.util.concurrent.TimeUnit
 import kotlin.math.ln
 import kotlin.math.pow
 
@@ -14,4 +15,10 @@ fun Long.toReadableByteCount(si: Boolean = true): String {
     } catch (ignored: Exception) {
         return "-0"
     }
+}
+
+fun Long.toReadableTime(): String {
+    val hr = TimeUnit.MILLISECONDS.toHours(this)
+    val min = TimeUnit.MILLISECONDS.toMinutes(this - TimeUnit.HOURS.toMillis(hr))
+    return String.format("%02d:%02d", hr, min)
 }

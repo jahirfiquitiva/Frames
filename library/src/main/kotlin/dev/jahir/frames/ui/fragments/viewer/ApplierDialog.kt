@@ -73,7 +73,6 @@ class ApplierDialog : DialogFragment(), BaseFetchListener {
     private val request: Request by lazy {
         Request(wallpaper?.url.orEmpty(), filePath).apply {
             priority = Priority.HIGH
-            // TODO: Allow WiFi only downloads
             networkType = NetworkType.ALL
             addHeader(
                 WallpaperDownloadNotificationManager.INTERNAL_FRAMES_WALLPAPER_HEADER,

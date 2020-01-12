@@ -13,12 +13,14 @@ import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.palette.graphics.Palette
 import com.github.chrisbanes.photoview.PhotoView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.MAX_FRAMES_PALETTE_COLORS
@@ -27,18 +29,24 @@ import dev.jahir.frames.extensions.bestSwatch
 import dev.jahir.frames.extensions.buildAuthorTransitionName
 import dev.jahir.frames.extensions.buildImageTransitionName
 import dev.jahir.frames.extensions.buildTitleTransitionName
+import dev.jahir.frames.extensions.compliesWithMinTime
 import dev.jahir.frames.extensions.findView
+import dev.jahir.frames.extensions.firstInstallTime
 import dev.jahir.frames.extensions.loadFramesPic
 import dev.jahir.frames.extensions.setMarginBottom
 import dev.jahir.frames.extensions.setMarginTop
+import dev.jahir.frames.extensions.toReadableTime
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
 import dev.jahir.frames.ui.fragments.viewer.SetAsOptionsDialog
+import dev.jahir.frames.utils.Prefs
 import dev.jahir.frames.utils.tint
 import kotlin.math.roundToInt
 
-class ViewerActivity : BaseFavoritesConnectedActivity() {
+class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
+
+    override val prefs: Prefs by lazy { Prefs(this) }
 
     private val toolbar: Toolbar? by findView(R.id.toolbar)
     private val image: AppCompatImageView? by findView(R.id.wallpaper)
@@ -54,6 +62,8 @@ class ViewerActivity : BaseFavoritesConnectedActivity() {
         }
 
     private val detailsFragment: DetailsFragment by lazy { DetailsFragment.create() }
+
+    private var downloadBlockedDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,7 +139,7 @@ class ViewerActivity : BaseFavoritesConnectedActivity() {
         bottomNavigation?.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.details -> detailsFragment.show(this, "DETAILS_FRAG")
-                R.id.download -> requestPermission()
+                R.id.download -> checkForDownload()
                 R.id.apply -> applyWallpaper(wallpaper)
                 R.id.favorites -> {
                     if (isInFavorites) removeFromFavorites(wallpaper)
@@ -176,6 +186,7 @@ class ViewerActivity : BaseFavoritesConnectedActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        downloadBlockedDialog?.dismiss()
         try {
             val bmp = (image?.drawable as? BitmapDrawable?)?.bitmap
             if (bmp?.isRecycled == false) bmp.recycle()
@@ -237,6 +248,27 @@ class ViewerActivity : BaseFavoritesConnectedActivity() {
         }
     }
 
+    private fun checkForDownload() {
+        val actuallyComplies = if (intent?.getBooleanExtra(LICENSE_CHECK_ENABLED, false) == true)
+            compliesWithMinTime(MIN_TIME) || resources.getBoolean(R.bool.allow_immediate_downloads)
+        else true
+        if (actuallyComplies) {
+            requestPermission()
+        } else {
+            val elapsedTime = System.currentTimeMillis() - firstInstallTime
+            val timeLeft = MIN_TIME - elapsedTime
+            val timeLeftText = timeLeft.toReadableTime()
+
+            downloadBlockedDialog?.dismiss()
+            downloadBlockedDialog = MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.prevent_download_title)
+                .setMessage(getString(R.string.prevent_download_content, timeLeftText))
+                .setPositiveButton(android.R.string.ok) { d, _ -> d.dismiss() }
+                .create()
+            downloadBlockedDialog?.show()
+        }
+    }
+
     override fun onPermissionsAccepted(permissions: Array<out String>) {
         startDownload()
     }
@@ -247,10 +279,12 @@ class ViewerActivity : BaseFavoritesConnectedActivity() {
     }
 
     companion object {
+        internal const val MIN_TIME: Long = 3 * 60 * 60000
         internal const val REQUEST_CODE = 10
         internal const val FAVORITES_MODIFIED_RESULT = 1
         internal const val FAVORITES_NOT_MODIFIED_RESULT = 0
         internal const val CURRENT_WALL_POSITION = "curr_wall_pos"
+        internal const val LICENSE_CHECK_ENABLED = "license_check_enabled"
         private const val CLOSING_KEY = "closing"
         private const val TRANSITIONED_KEY = "transitioned"
         private const val IS_IN_FAVORITES_KEY = "is_in_favorites"

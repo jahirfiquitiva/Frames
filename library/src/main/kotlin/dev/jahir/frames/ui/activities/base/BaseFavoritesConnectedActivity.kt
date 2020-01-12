@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModelProvider
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.data.viewmodels.WallpapersDataViewModel
+import dev.jahir.frames.utils.Prefs
 
-abstract class BaseFavoritesConnectedActivity : BaseSystemUIVisibilityActivity() {
+abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisibilityActivity<P>() {
 
     internal val wallpapersViewModel: WallpapersDataViewModel by lazy {
         ViewModelProvider(this).get(WallpapersDataViewModel::class.java)

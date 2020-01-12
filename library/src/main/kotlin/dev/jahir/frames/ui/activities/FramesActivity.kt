@@ -4,12 +4,15 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.hasContent
-import dev.jahir.frames.ui.activities.base.BaseChangelogDialogActivity
+import dev.jahir.frames.ui.activities.base.BaseLicenseCheckerActivity
 import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
+import dev.jahir.frames.utils.Prefs
 
-class FramesActivity : BaseChangelogDialogActivity() {
+class FramesActivity : BaseLicenseCheckerActivity<Prefs>() {
+
+    override val prefs: Prefs by lazy { Prefs(this) }
 
     private val wallpapersFragment: WallpapersFragment by lazy {
         WallpapersFragment.create(ArrayList(wallpapersViewModel.wallpapers))

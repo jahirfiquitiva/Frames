@@ -12,13 +12,14 @@ import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.getWallpapersDownloadFolder
 import dev.jahir.frames.ui.fragments.viewer.DownloaderDialog
 import dev.jahir.frames.utils.BaseFetchListener
+import dev.jahir.frames.utils.Prefs
 import dev.jahir.frames.utils.WallpaperDownloadNotificationManager
 import java.io.File
 import java.lang.ref.WeakReference
 
 
-abstract class BaseWallpaperFetcherActivity : BaseStoragePermissionRequestActivity(),
-    BaseFetchListener {
+abstract class BaseWallpaperFetcherActivity<out P : Prefs> :
+    BaseStoragePermissionRequestActivity<P>(), BaseFetchListener {
 
     private val fetch: Fetch by lazy {
         val fetchConfig = FetchConfiguration.Builder(this)
@@ -31,7 +32,7 @@ abstract class BaseWallpaperFetcherActivity : BaseStoragePermissionRequestActivi
         Fetch.Impl.getInstance(fetchConfig).apply { addListener(this@BaseWallpaperFetcherActivity) }
     }
 
-    private val dialog: DownloaderDialog by lazy { DownloaderDialog.create() }
+    private val downloaderDialog: DownloaderDialog by lazy { DownloaderDialog.create() }
 
     private var request: Request? = null
 
@@ -42,7 +43,6 @@ abstract class BaseWallpaperFetcherActivity : BaseStoragePermissionRequestActivi
 
         request = Request(wallpaper.url, "$folder${File.separator}$filename")
         request?.priority = Priority.HIGH
-        // TODO: Allow WiFi only downloads
         request?.networkType = NetworkType.ALL
         request?.addHeader(
             WallpaperDownloadNotificationManager.INTERNAL_FRAMES_WALLPAPER_HEADER,
@@ -52,10 +52,10 @@ abstract class BaseWallpaperFetcherActivity : BaseStoragePermissionRequestActivi
 
     internal fun startDownload() {
         request?.let {
-            fetch.enqueue(it, Func { dialog.show(this) },
+            fetch.enqueue(it, Func { downloaderDialog.show(this) },
                 Func {
-                    dialog.showFinalMessage()
-                    dialog.show(this)
+                    downloaderDialog.showFinalMessage()
+                    downloaderDialog.show(this)
                 })
         }
     }
@@ -80,7 +80,7 @@ abstract class BaseWallpaperFetcherActivity : BaseStoragePermissionRequestActivi
 
     private fun dismissDialog() {
         try {
-            dialog.dismiss()
+            downloaderDialog.dismiss()
         } catch (e: Exception) {
         }
     }

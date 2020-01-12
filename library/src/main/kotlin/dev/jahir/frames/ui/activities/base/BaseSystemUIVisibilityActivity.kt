@@ -13,8 +13,9 @@ import dev.jahir.frames.extensions.gone
 import dev.jahir.frames.extensions.setMarginTop
 import dev.jahir.frames.extensions.visible
 import dev.jahir.frames.ui.widgets.FramesBottomNavigationView
+import dev.jahir.frames.utils.Prefs
 
-abstract class BaseSystemUIVisibilityActivity : BaseWallpaperFetcherActivity() {
+abstract class BaseSystemUIVisibilityActivity<out P : Prefs> : BaseWallpaperFetcherActivity<P>() {
 
     internal val appbar: AppBarLayout? by findView(R.id.appbar)
     internal val bottomNavigation: FramesBottomNavigationView? by findView(R.id.bottom_bar)

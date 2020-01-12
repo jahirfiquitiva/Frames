@@ -9,13 +9,12 @@ import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.getRightNavigationBarColor
 import dev.jahir.frames.extensions.navigationBarColor
-import dev.jahir.frames.extensions.prefs
 import dev.jahir.frames.extensions.resolveColor
 import dev.jahir.frames.extensions.restart
 import dev.jahir.frames.extensions.statusBarColor
 import dev.jahir.frames.utils.Prefs
 
-abstract class ThemedActivity : AppCompatActivity() {
+abstract class BaseThemedActivity<out P : Prefs> : AppCompatActivity() {
 
     private var lastTheme: Prefs.ThemeKey = Prefs.ThemeKey.DEFAULT_THEME_KEY
     private var wasUsingAmoled: Boolean = false
@@ -27,6 +26,8 @@ abstract class ThemedActivity : AppCompatActivity() {
     open fun amoledTheme(): Int = R.style.BaseFramesTheme_Amoled
 
     private var coloredNavbar = false
+
+    abstract val prefs: P
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setCustomTheme()

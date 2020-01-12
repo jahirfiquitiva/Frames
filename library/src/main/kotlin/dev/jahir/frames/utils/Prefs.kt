@@ -15,7 +15,7 @@ open class Prefs(context: Context, name: String = PREFS_NAME, mode: Int = Contex
         set(value) = prefsEditor.putBoolean(IS_FIRST_RUN, value).apply()
 
     var lastVersion: Long
-        get() = prefs.getLong(LAST_VERSION, -1)
+        get() = prefs.getLong(LAST_VERSION, -1L)
         set(value) = prefsEditor.putLong(LAST_VERSION, value).apply()
 
     var currentTheme: ThemeKey
@@ -53,13 +53,13 @@ open class Prefs(context: Context, name: String = PREFS_NAME, mode: Int = Contex
     }
 
     companion object {
-        private const val PREFS_NAME = "frames_prefs"
-        const val IS_FIRST_RUN = "first_run"
-        const val LAST_VERSION = "last_version"
-        const val CURRENT_THEME = "current_theme"
-        const val USES_AMOLED_THEME = "uses_amoled_theme"
-        const val SHOULD_COLOR_NAVBAR = "should_color_navbar"
-        const val SHOULD_LOAD_FULL_RES_PICTURES = "should_load_full_res_pictures"
-        const val SHOULD_CROP_WALLPAPER_BEFORE_APPLY = "should_crop_wallpaper_before_apply"
+        private const val PREFS_NAME = "jfdb_confs"
+        private const val IS_FIRST_RUN = "first_run"
+        private const val LAST_VERSION = "last_version"
+        private const val CURRENT_THEME = "current_theme"
+        private const val USES_AMOLED_THEME = "uses_amoled_theme"
+        private const val SHOULD_COLOR_NAVBAR = "should_color_navbar"
+        private const val SHOULD_LOAD_FULL_RES_PICTURES = "should_load_full_res_pictures"
+        private const val SHOULD_CROP_WALLPAPER_BEFORE_APPLY = "should_crop_wallpaper_before_apply"
     }
 }

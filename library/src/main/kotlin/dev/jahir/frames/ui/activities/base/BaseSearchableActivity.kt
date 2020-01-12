@@ -9,10 +9,11 @@ import dev.jahir.frames.R
 import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.resolveColor
 import dev.jahir.frames.ui.widgets.CleanSearchView
+import dev.jahir.frames.utils.Prefs
 import dev.jahir.frames.utils.postDelayed
 import dev.jahir.frames.utils.tintIcons
 
-abstract class BaseSearchableActivity : BaseFavoritesConnectedActivity() {
+abstract class BaseSearchableActivity<out P : Prefs> : BaseFavoritesConnectedActivity<P>() {
 
     internal val toolbar: Toolbar? by findView(R.id.toolbar)
 
