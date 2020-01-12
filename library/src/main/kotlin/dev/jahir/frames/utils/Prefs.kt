@@ -66,7 +66,11 @@ open class Prefs(
     var notificationsEnabled: Boolean
         get() = prefs.getBoolean(
             NOTIFICATIONS_ENABLED,
-            context.resources.getBoolean(R.bool.notifications_enabled_by_default)
+            try {
+                context.resources.getBoolean(R.bool.notifications_enabled_by_default)
+            } catch (e: Exception) {
+                false
+            }
         )
         set(value) = prefsEditor.putBoolean(NOTIFICATIONS_ENABLED, value).apply()
 
