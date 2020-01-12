@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -8,7 +9,7 @@ android {
 
     lintOptions {
         abortOnError false
-        checkReleaseBuilds false
+        checkReleaseBuilds true
         warningsAsErrors true
         disable 'MissingTranslation',
                 'GoogleAppIndexingWarning',
@@ -16,8 +17,7 @@ android {
                 'ContentDescription',
                 'RtlSymmetry',
                 'RtlHardcoded',
-                'RtlEnabled',
-                'Overdraw'
+                'RtlEnabled'
     }
 
     defaultConfig {
