@@ -6,12 +6,12 @@ import android.view.View
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.gone
 import dev.jahir.frames.extensions.hasContent
-import dev.jahir.frames.ui.activities.base.BaseSearchableActivity
+import dev.jahir.frames.ui.activities.base.BaseChangelogDialogActivity
 import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.utils.Prefs
 
-class CollectionActivity : BaseSearchableActivity<Prefs>() {
+class CollectionActivity : BaseChangelogDialogActivity<Prefs>() {
 
     override val prefs: Prefs by lazy { Prefs(this) }
 
