@@ -4,6 +4,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
@@ -85,6 +86,16 @@ fun Context.resolveBoolean(@AttrRes attr: Int, fallback: Boolean = false): Boole
         return a.getBoolean(0, fallback)
     } finally {
         a.recycle()
+    }
+}
+
+fun Context.getDrawable(name: String?): Drawable? {
+    name ?: return null
+    if (!name.hasContent()) return null
+    return try {
+        ContextCompat.getDrawable(this, resources.getIdentifier(name, "drawable", packageName))
+    } catch (e: Exception) {
+        null
     }
 }
 

@@ -14,6 +14,7 @@ import dev.jahir.frames.extensions.bestTextColor
 import dev.jahir.frames.extensions.buildAuthorTransitionName
 import dev.jahir.frames.extensions.buildImageTransitionName
 import dev.jahir.frames.extensions.buildTitleTransitionName
+import dev.jahir.frames.extensions.context
 import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.loadFramesPic
 import dev.jahir.frames.extensions.withAlpha
@@ -54,6 +55,7 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
         image?.loadFramesPic(
             wallpaper.url,
             wallpaper.thumbnail,
+            context.getString(R.string.wallpapers_placeholder),
             doWithPalette = if (shouldColorTiles) generatePalette else null
         )
     }

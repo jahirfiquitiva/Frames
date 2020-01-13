@@ -94,7 +94,7 @@ class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
             )
         }
         (image as? PhotoView)?.scale = 1.0F
-        image?.loadFramesPic(wallpaper.url, wallpaper.thumbnail, true) { generatePalette(it) }
+        image?.loadFramesPic(wallpaper.url, wallpaper.thumbnail, null, true) { generatePalette(it) }
 
         setSupportActionBar(toolbar)
         supportActionBar?.let {
