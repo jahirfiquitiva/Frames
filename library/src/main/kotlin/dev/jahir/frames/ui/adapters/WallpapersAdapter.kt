@@ -10,8 +10,7 @@ import dev.jahir.frames.ui.viewholders.WallpaperViewHolder
 class WallpapersAdapter(
     var onClick: (Wallpaper, WallpaperViewHolder) -> Unit = { _, _ -> },
     var onFavClick: (Boolean, Wallpaper) -> Unit = { _, _ -> }
-) :
-    RecyclerView.Adapter<WallpaperViewHolder>() {
+) : RecyclerView.Adapter<WallpaperViewHolder>() {
 
     var wallpapers: ArrayList<Wallpaper> = ArrayList()
         set(value) {

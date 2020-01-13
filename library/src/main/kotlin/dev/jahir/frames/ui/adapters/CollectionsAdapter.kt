@@ -21,8 +21,19 @@ class CollectionsAdapter(private val onClick: ((collection: Collection) -> Unit)
         holder.bind(collections[position], onClick)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionViewHolder =
-        CollectionViewHolder(parent.inflate(R.layout.item_collection))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionViewHolder {
+        val shouldBeFilled = try {
+            parent.context.resources.getBoolean(R.bool.enable_filled_collection_preview)
+        } catch (e: Exception) {
+            false
+        }
+        return CollectionViewHolder(
+            parent.inflate(
+                if (shouldBeFilled) R.layout.item_collection_filled
+                else R.layout.item_collection
+            )
+        )
+    }
 
     override fun getItemCount(): Int = collections.size
 }

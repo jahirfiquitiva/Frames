@@ -6,19 +6,25 @@ import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.ViewCompat
 import androidx.core.view.postDelayed
-import androidx.recyclerview.widget.RecyclerView
+import androidx.core.widget.CompoundButtonCompat
+import androidx.palette.graphics.Palette
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
+import dev.jahir.frames.extensions.bestTextColor
 import dev.jahir.frames.extensions.buildAuthorTransitionName
 import dev.jahir.frames.extensions.buildImageTransitionName
 import dev.jahir.frames.extensions.buildTitleTransitionName
+import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.loadFramesPic
+import dev.jahir.frames.extensions.withAlpha
+import dev.jahir.frames.utils.tint
 
-class WallpaperViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
     internal val image: AppCompatImageView? = view.findViewById(R.id.wallpaper_image)
     internal val title: TextView? = view.findViewById(R.id.wallpaper_name)
     internal val author: TextView? = view.findViewById(R.id.wallpaper_author)
     internal val favorite: AppCompatCheckBox? = view.findViewById(R.id.fav_button)
+    private val detailsBackground: View? by view.findView(R.id.wallpaper_details_background)
 
     fun bind(
         wallpaper: Wallpaper,
@@ -44,11 +50,26 @@ class WallpaperViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         title?.text = wallpaper.name
         author?.text = wallpaper.author
-        image?.loadFramesPic(wallpaper.url, wallpaper.thumbnail)
         itemView.setOnClickListener { onClick(wallpaper, this) }
+        image?.loadFramesPic(
+            wallpaper.url,
+            wallpaper.thumbnail,
+            doWithPalette = if (shouldColorTiles) generatePalette else null
+        )
+    }
+
+    override fun doWithBestSwatch(swatch: Palette.Swatch) {
+        detailsBackground?.setBackgroundColor(swatch.rgb.withAlpha(COLORED_TILES_ALPHA))
+        val textColor = swatch.bestTextColor
+        title?.setTextColor(textColor)
+        author?.setTextColor(textColor)
+        favorite?.let { favBtn ->
+            favBtn.buttonDrawable = CompoundButtonCompat.getButtonDrawable(favBtn)?.tint(textColor)
+        }
     }
 
     companion object {
         private const val FAV_DELAY = 100L
+        internal const val COLORED_TILES_ALPHA = .9F
     }
 }

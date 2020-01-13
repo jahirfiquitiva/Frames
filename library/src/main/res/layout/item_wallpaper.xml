@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?selectableItemBackground"
-    android:hapticFeedbackEnabled="true"
     android:clickable="true"
     android:focusable="true"
+    android:foreground="?selectableItemBackground"
+    android:hapticFeedbackEnabled="true"
     app:cardCornerRadius="@dimen/cards_corner_size">
 
     <ProgressBar
@@ -29,6 +29,7 @@
         android:background="@color/wallpaper_overlay" />
 
     <LinearLayout
+        android:id="@+id/wallpaper_details_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -66,7 +67,6 @@
 
         </LinearLayout>
 
-        <!-- android:stateListAnimator="@animator/favorite_animator" -->
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/fav_button"
             android:layout_width="24dp"

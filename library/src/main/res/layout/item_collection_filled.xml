@@ -29,20 +29,20 @@
     <LinearLayout
         android:id="@+id/collection_details_background"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:background="@drawable/gradient"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:orientation="horizontal"
         android:padding="24dp">
 
         <TextView
             android:id="@+id/collection_title"
             style="@style/TextAppearance.Frames.CollectionTitle"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingEnd="24dp"
+            android:gravity="center"
+            android:textAllCaps="true"
             tools:ignore="RtlCompat,RtlSymmetry"
             tools:text="Collection Name" />
 
@@ -53,6 +53,7 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:textAlignment="textEnd"
+            android:visibility="gone"
             tools:text="100" />
 
     </LinearLayout>
