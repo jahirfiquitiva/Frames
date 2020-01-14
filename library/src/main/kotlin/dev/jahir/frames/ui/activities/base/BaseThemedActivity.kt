@@ -12,6 +12,7 @@ import dev.jahir.frames.extensions.navigationBarColor
 import dev.jahir.frames.extensions.resolveColor
 import dev.jahir.frames.extensions.restart
 import dev.jahir.frames.extensions.statusBarColor
+import dev.jahir.frames.ui.FramesApplication
 import dev.jahir.frames.utils.Prefs
 
 abstract class BaseThemedActivity<out P : Prefs> : AppCompatActivity() {
@@ -51,6 +52,7 @@ abstract class BaseThemedActivity<out P : Prefs> : AppCompatActivity() {
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun onThemeChanged() {
+        (applicationContext as? FramesApplication)?.setDefaultNightMode()
         postRecreate()
     }
 

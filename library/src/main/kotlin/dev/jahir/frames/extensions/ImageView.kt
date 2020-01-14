@@ -16,7 +16,7 @@ private fun AppCompatImageView.internalLoadFramesPic(
 ) {
     Coil.load(context, url) {
         if (isForPalette) allowHardware(false)
-        if (thumbnail == null) crossfade(CROSSFADE_DURATION)
+        if (thumbnail == null && context.prefs.animationsEnabled) crossfade(CROSSFADE_DURATION)
         placeholder(thumbnail)
         error(thumbnail)
         customTarget?.let {

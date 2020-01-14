@@ -11,6 +11,7 @@ import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.buildTransitionOptions
 import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.extensions.lower
+import dev.jahir.frames.extensions.prefs
 import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
@@ -102,19 +103,20 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     }
 
     private fun launchViewer(wallpaper: Wallpaper, holder: WallpaperViewHolder) {
-        val options = try {
-            activity?.let {
-                ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    it,
-                    *(it.buildTransitionOptions(
-                        arrayListOf(holder.image, holder.title, holder.author)
-                    ))
-                )
+        val options = if (context?.prefs?.animationsEnabled == true) {
+            try {
+                activity?.let {
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        it,
+                        *(it.buildTransitionOptions(
+                            arrayListOf(holder.image, holder.title, holder.author)
+                        ))
+                    )
+                }
+            } catch (e: Exception) {
+                null
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
+        } else null
         startActivityForResult(
             Intent(activity, ViewerActivity::class.java)
                 .apply {
@@ -141,8 +143,8 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     }
 
     companion object {
-        internal const val TAG = "Wallpapers"
-        internal const val FAVS_TAG = "Favorites"
+        internal const val TAG = "wallpapers_fragment"
+        internal const val FAVS_TAG = "favorites_fragment"
 
         internal const val WALLPAPER_EXTRA = "wallpaper"
         internal const val WALLPAPER_IN_FAVS_EXTRA = "wallpaper_in_favs"

@@ -56,3 +56,21 @@ fun Context.getDefaultWallpapersDownloadFolder(): File? {
     folder.createIfDidNotExist()
     return folder
 }
+
+val File.dirSize: Long
+    get() {
+        if (exists()) {
+            var result: Long = 0
+            listFiles()?.forEach {
+                result += if (it.isDirectory) it.dirSize else it.length()
+            }
+            return result
+        }
+        return 0
+    }
+
+fun File.deleteEverything() {
+    if (isDirectory) {
+        list()?.forEach { File(this, it).deleteEverything() }
+    } else delete()
+}

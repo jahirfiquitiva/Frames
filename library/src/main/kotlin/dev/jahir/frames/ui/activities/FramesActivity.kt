@@ -1,6 +1,8 @@
 package dev.jahir.frames.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.hasContent
@@ -70,14 +72,14 @@ abstract class FramesActivity : BaseLicenseCheckerActivity<Prefs>() {
         wallpapersViewModel.observeCollections(this) { collectionsFragment.updateItems(it) }
         wallpapersViewModel.observeFavorites(this) { favoritesFragment.updateItems(ArrayList(it)) }
         loadData()
-
-        /*
-        val fab: FloatingActionButton? = findViewById(R.id.fab)
-        fab?.setOnClickListener { changeNightMode(!isNightMode, true) }
-        */
     }
 
     override fun getMenuRes(): Int = R.menu.toolbar_menu
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.settings) startActivity(Intent(this, SettingsActivity::class.java))
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun getSearchHint(): String = when (currentTag) {
         WallpapersFragment.TAG -> getString(R.string.search_wallpapers)

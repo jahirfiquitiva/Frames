@@ -25,6 +25,7 @@ import coil.decode.DataSource
 import coil.request.Request
 import coil.target.PoolableViewTarget
 import coil.target.Target
+import dev.jahir.frames.extensions.prefs
 
 /**
  * A [Target], which handles setting images on an [ImageView].
@@ -46,7 +47,7 @@ open class SaturatingImageViewTarget(
         // This is called after onSuccess(Drawable) above, so we can assume the image has
         // already been set
         if ((source == DataSource.DISK || source == DataSource.NETWORK) &&
-            view.drawable != null && shouldActuallySaturate
+            view.drawable != null && shouldActuallySaturate && view.context.prefs.animationsEnabled
         ) {
             saturateDrawableAnimator(view.drawable, view = view).start()
         }
@@ -75,6 +76,7 @@ open class SaturatingImageViewTarget(
     }
 
     private fun updateAnimation() {
+        if (!view.context.prefs.animationsEnabled) return
         val animatable = view.drawable as? Animatable ?: return
         if (isStarted) animatable.start() else animatable.stop()
     }

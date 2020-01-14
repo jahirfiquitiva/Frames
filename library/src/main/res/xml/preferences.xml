@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="prefs">
+
+    <androidx.preference.PreferenceCategory
+        android:key="interface_prefs"
+        android:title="@string/interface_title">
+
+        <androidx.preference.Preference
+            android:key="app_theme"
+            android:summary="@string/follow_system_theme"
+            android:title="@string/app_theme" />
+
+        <androidx.preference.SwitchPreference
+            android:key="use_amoled"
+            android:summary="@string/use_amoled_theme_summary"
+            android:title="@string/use_amoled_theme" />
+
+        <androidx.preference.SwitchPreference
+            android:key="colored_navigation_bar"
+            android:title="@string/colored_navigation_bar" />
+
+        <androidx.preference.SwitchPreference
+            android:key="interface_animations"
+            android:summary="@string/interface_animations_summary"
+            android:title="@string/interface_animations" />
+
+    </androidx.preference.PreferenceCategory>
+
+    <androidx.preference.PreferenceCategory
+        android:key="data_prefs"
+        android:title="@string/data_and_storage">
+
+        <androidx.preference.SwitchPreference
+            android:key="full_res_previews"
+            android:summary="@string/display_full_res_previews_summary"
+            android:title="@string/display_full_res_previews" />
+
+        <androidx.preference.Preference
+            android:key="download_location"
+            android:summary="@string/download_location_summary"
+            android:title="@string/download_location" />
+
+        <androidx.preference.Preference
+            android:key="clear_data_cache"
+            android:summary="@string/clear_data_cache_summary"
+            android:title="@string/clear_data_cache" />
+
+    </androidx.preference.PreferenceCategory>
+
+    <androidx.preference.PreferenceCategory
+        android:key="notifications_prefs"
+        android:title="@string/notifications">
+
+        <androidx.preference.SwitchPreference
+            android:key="notifications"
+            android:title="@string/enable_notifications" />
+
+    </androidx.preference.PreferenceCategory>
+
+    <androidx.preference.PreferenceCategory
+        android:key="legal"
+        android:title="@string/legal">
+
+        <androidx.preference.Preference
+            android:key="privacy"
+            android:persistent="true"
+            android:title="@string/privacy_policy" />
+
+        <androidx.preference.Preference
+            android:key="terms"
+            android:persistent="true"
+            android:title="@string/terms_conditions" />
+
+    </androidx.preference.PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

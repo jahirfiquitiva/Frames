@@ -3,6 +3,7 @@ package dev.jahir.frames.utils
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.annotation.StringRes
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.createIfDidNotExist
 import dev.jahir.frames.extensions.getDefaultWallpapersDownloadFolder
@@ -46,6 +47,10 @@ open class Prefs(
         get() = prefs.getBoolean(SHOULD_CROP_WALLPAPER_BEFORE_APPLY, false)
         set(value) = prefsEditor.putBoolean(SHOULD_CROP_WALLPAPER_BEFORE_APPLY, value).apply()
 
+    var animationsEnabled: Boolean
+        get() = prefs.getBoolean(ANIMATIONS_ENABLED, true)
+        set(value) = prefsEditor.putBoolean(ANIMATIONS_ENABLED, value).apply()
+
     var downloadsFolder: File?
         get() {
             val file = File(
@@ -86,8 +91,10 @@ open class Prefs(
         get() = prefs.getString(MUZEI_COLLECTIONS, "").orEmpty()
         set(value) = prefsEditor.putString(MUZEI_COLLECTIONS, value).apply()
 
-    enum class ThemeKey(val value: Int) {
-        LIGHT(0), DARK(1), FOLLOW_SYSTEM(2);
+    enum class ThemeKey(val value: Int, @StringRes val stringResId: Int) {
+        LIGHT(0, R.string.light_theme),
+        DARK(1, R.string.dark_theme),
+        FOLLOW_SYSTEM(2, R.string.follow_system_theme);
 
         companion object {
             internal val DEFAULT_THEME_KEY = FOLLOW_SYSTEM
@@ -109,6 +116,7 @@ open class Prefs(
         private const val SHOULD_COLOR_NAVBAR = "should_color_navbar"
         private const val SHOULD_LOAD_FULL_RES_PICTURES = "should_load_full_res_pictures"
         private const val SHOULD_CROP_WALLPAPER_BEFORE_APPLY = "should_crop_wallpaper_before_apply"
+        private const val ANIMATIONS_ENABLED = "animations_enabled"
         private const val DOWNLOADS_FOLDER = "downloads_folder"
         private const val FUNCTIONAL_DASHBOARD = "functional_dashboard"
         private const val NOTIFICATIONS_ENABLED = "notifications_enabled"

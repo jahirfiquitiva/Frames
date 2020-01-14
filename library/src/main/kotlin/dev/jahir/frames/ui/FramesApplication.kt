@@ -7,8 +7,12 @@ import dev.jahir.frames.utils.Prefs
 
 class FramesApplication : Application() {
     override fun onCreate() {
-        AppCompatDelegate.setDefaultNightMode(getNightMode())
+        setDefaultNightMode()
         super.onCreate()
+    }
+
+    internal fun setDefaultNightMode() {
+        AppCompatDelegate.setDefaultNightMode(getNightMode())
     }
 
     private fun getNightMode(): Int = when (prefs.currentTheme) {

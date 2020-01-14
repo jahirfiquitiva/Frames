@@ -11,4 +11,10 @@
         <item>@string/home_and_lock_screens</item>
         <item>@string/apply_w_external_app</item>
     </string-array>
+
+    <string-array name="app_themes">
+        <item>@string/light_theme</item>
+        <item>@string/dark_theme</item>
+        <item>@string/follow_system_theme</item>
+    </string-array>
 </resources>

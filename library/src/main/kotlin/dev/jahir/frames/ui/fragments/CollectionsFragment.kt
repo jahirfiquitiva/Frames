@@ -74,7 +74,7 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
     }
 
     companion object {
-        internal const val TAG = "Collections"
+        internal const val TAG = "collections_fragment"
         internal const val COLLECTION_EXTRA = "collection"
 
         @JvmStatic

@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
 import dev.jahir.frames.ui.activities.base.BaseThemedActivity
 import dev.jahir.frames.utils.Prefs
+import java.io.File
 
 
 @Suppress("DEPRECATION")
@@ -177,6 +178,50 @@ fun Context.openLink(url: String?) {
     if (browserIntent.resolveActivity(packageManager) != null)
         startActivity(browserIntent)
     else toast("Cannot find a browser")
+}
+
+val Context.dataCacheSize: String
+    get() {
+        var cache: Long = 0
+        var extCache: Long = 0
+
+        try {
+            cacheDir?.listFiles()?.forEach {
+                cache += if (it.isDirectory) it.dirSize else it.length()
+            }
+        } catch (ignored: Exception) {
+        }
+
+        try {
+            externalCacheDir?.listFiles()?.forEach {
+                extCache += if (it.isDirectory) it.dirSize else it.length()
+            }
+        } catch (ignored: Exception) {
+        }
+
+        val finalResult = ((cache + extCache) / 1024).toDouble()
+
+        return if (finalResult > 1024) String.format("%.2f", finalResult / 1024) + " MB"
+        else String.format("%.2f", finalResult) + " KB"
+    }
+
+fun Context.clearDataAndCache() {
+    val appDir = File(cacheDir?.parent ?: return)
+    appDir.let {
+        if (it.exists()) {
+            it.list()?.forEach { fl ->
+                if (!fl.equals("lib", true)) File(appDir, fl).deleteEverything()
+            }
+        }
+    }
+    clearCache()
+}
+
+fun Context.clearCache() {
+    try {
+        cacheDir?.deleteEverything()
+    } catch (ignored: Exception) {
+    }
 }
 
 internal val Context.prefs: Prefs
