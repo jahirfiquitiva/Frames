@@ -77,7 +77,10 @@ abstract class FramesActivity : BaseLicenseCheckerActivity<Prefs>() {
     override fun getMenuRes(): Int = R.menu.toolbar_menu
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.settings) startActivity(Intent(this, SettingsActivity::class.java))
+        when (item.itemId) {
+            R.id.about -> startActivity(Intent(this, AboutActivity::class.java))
+            R.id.settings -> startActivity(Intent(this, SettingsActivity::class.java))
+        }
         return super.onOptionsItemSelected(item)
     }
 

@@ -9,7 +9,7 @@ import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.extensions.visibleIf
 
-class WallpaperDetailHeaderViewHolder(view: View) : SectionedViewHolder(view) {
+class SectionHeaderViewHolder(view: View) : SectionedViewHolder(view) {
 
     private val titleTextView: TextView? by view.findView(R.id.section_title)
     private val subtitleTextView: TextView? by view.findView(R.id.section_subtitle)

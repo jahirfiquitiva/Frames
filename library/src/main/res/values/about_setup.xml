@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><!--suppress CheckTagEmptyBody -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <string-array name="credits_photos" formatted="false" tools:ignore="TypographyDashes"></string-array>
+    <string-array name="credits_titles"></string-array>
+    <string-array name="credits_descriptions"></string-array>
+    <string-array name="credits_buttons"></string-array>
+    <string-array name="credits_links"></string-array>
+
+</resources>

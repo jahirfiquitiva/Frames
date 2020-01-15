@@ -120,4 +120,7 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="terms_conditions">Terms and Conditions</string>
 
+    <string name="dashboard">Dashboard</string>
+    <string name="jahir_description">I am a passionate and creative full-stack developer and the creator of the dashboard.</string>
+    <string name="eduardo_description">UI designer. Defender of negative space.</string>
 </resources>

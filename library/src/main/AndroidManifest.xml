@@ -27,6 +27,10 @@
         <activity
             android:name=".ui.activities.CollectionActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.activities.AboutActivity"
+            android:exported="false"
+            android:label="@string/about" />
 
         <activity
             android:name=".ui.activities.SettingsActivity"

@@ -98,4 +98,12 @@
         <item name="itemTextAppearance">?textAppearanceBody2</item>
     </style>
 
+    <style name="AboutButton" parent="Widget.MaterialComponents.Button.UnelevatedButton" tools:ignore="NewApi">
+        <item name="android:minWidth">56dp</item>
+        <item name="android:textColor">?colorAccent</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="backgroundTint">@color/about_btn_bg_selector</item>
+        <item name="rippleColor">@color/about_btn_ripple</item>
+    </style>
+
 </resources>
