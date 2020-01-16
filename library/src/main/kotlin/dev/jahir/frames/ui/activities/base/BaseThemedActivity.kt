@@ -62,7 +62,6 @@ abstract class BaseThemedActivity<out P : Prefs> : AppCompatActivity() {
 
     @Suppress("DEPRECATION")
     private fun setCustomTheme() {
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         setTheme(if (prefs.usesAmoledTheme) amoledTheme() else defaultTheme())
         statusBarColor = resolveColor(
             R.attr.colorPrimaryDark,

@@ -26,7 +26,10 @@ abstract class BaseSearchableActivity<out P : Prefs> : BaseFavoritesConnectedAct
         menu?.let {
             searchItem = it.findItem(R.id.search)
             searchView = searchItem?.actionView as? CleanSearchView
-            searchView?.onCollapse = { doSearch(closed = true) }
+            searchView?.onCollapse = {
+                doSearch(closed = true)
+                invalidateOptionsMenu()
+            }
             searchView?.onQueryChanged = { query -> doSearch(query) }
             searchView?.onQuerySubmit = { query -> doSearch(query) }
             searchView?.bindToItem(searchItem)

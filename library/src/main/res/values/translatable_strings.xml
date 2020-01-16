@@ -99,7 +99,7 @@
     <string name="light_theme">Light</string>
     <string name="dark_theme">Dark</string>
     <string name="follow_system_theme">Follow system</string>
-    <string name="use_amoled_theme">Use amoled theme</string>
+    <string name="use_amoled_theme">Use AMOLED theme</string>
     <string name="use_amoled_theme_summary">Requires dark theme enabled either in app or system-wide</string>
     <string name="colored_navigation_bar">Colored navigation bar</string>
     <string name="interface_animations">Interface animations</string>
