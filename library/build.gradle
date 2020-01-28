@@ -4,8 +4,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion target_sdk_version
-    buildToolsVersion build_tools_version
+    compileSdkVersion Frames.targetSdk
+    buildToolsVersion Frames.buildTools
 
     lintOptions {
         abortOnError false
@@ -21,10 +21,10 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion min_sdk_version
-        targetSdkVersion target_sdk_version
-        versionCode version_code
-        versionName version_name
+        minSdkVersion Frames.minSdk
+        targetSdkVersion Frames.targetSdk
+        versionCode Frames.version
+        versionName Frames.versionName
         vectorDrawables.useSupportLibrary true
         proguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
         consumerProguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
@@ -70,9 +70,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation libraries
-    kapt librariesKapt
-    api librariesApi
+    implementation Libs.implementationDependencies
+    kapt Libs.kaptDependencies
+    api Libs.apiDependencies
 }
 
 apply from: '../lib-artifacts.gradle'
