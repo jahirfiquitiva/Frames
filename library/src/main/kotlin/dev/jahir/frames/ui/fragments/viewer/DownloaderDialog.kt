@@ -32,7 +32,6 @@ class DownloaderDialog : DialogFragment() {
             } catch (e: Exception) {
             }
             setMessage(message)
-            dialog?.setCancelable(true)
         }
         isCancelable = true
     }
@@ -50,6 +49,10 @@ class DownloaderDialog : DialogFragment() {
             textView?.text = message
         } catch (e: Exception) {
         }
+    }
+
+    internal fun setOnShowListener(what: () -> Unit) {
+        dialog?.setOnShowListener { what() }
     }
 
     fun show(activity: FragmentActivity) {

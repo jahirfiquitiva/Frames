@@ -123,4 +123,10 @@
     <string name="dashboard">Dashboard</string>
     <string name="jahir_description">I am a passionate and creative full-stack developer and the creator of the dashboard.</string>
     <string name="eduardo_description">UI designer. Defender of negative space.</string>
+
+    <string name="donate_success_title">Thank you</string>
+    <string name="donate_success_content">Thank you so much for your donation. I really appreciate it and I\'m glad you\'re enjoying %1$s.</string>
+    <string name="donate_error">Unexpected error with code %1$s occurred due to %2$s</string>
+    <string name="donate_error_unknown">unknown reasons</string>
+    <string name="close">Close</string>
 </resources>

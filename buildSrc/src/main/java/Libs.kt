@@ -58,6 +58,10 @@ object Libs {
     private const val licenseChecker =
         "com.github.javiersantos:PiracyChecker:${Versions.licenseChecker}"
 
+    // In-App Purchases
+    private const val inAppPurchases =
+        "com.anjlab.android.iab.v3:library:${Versions.inAppPurchases}"
+
     // Implementation dependencies
     val implementationDependencies = arrayOf(
         kotlin,
@@ -81,7 +85,8 @@ object Libs {
         photoView,
         sectionedRecyclerView,
         fetch,
-        permissions
+        permissions,
+        inAppPurchases
     )
 
     // Kapt dependencies

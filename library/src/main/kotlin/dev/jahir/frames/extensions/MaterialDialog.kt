@@ -60,6 +60,16 @@ fun MaterialAlertDialogBuilder.singleChoiceItems(
 ) = setSingleChoiceItems(cursor, checkedItem, labelColumn) { d, w -> onClick(d, w) }
 
 fun MaterialAlertDialogBuilder.singleChoiceItems(
+    items: List<Any>, checkedItem: Int = -1,
+    onClick: (dialog: DialogInterface, which: Int) -> Unit = { _, _ -> }
+): MaterialAlertDialogBuilder {
+    val itemsAsStrings = items.map { it.toString() }
+    val actualItems = arrayOfNulls<CharSequence>(itemsAsStrings.size)
+    ArrayList(itemsAsStrings).toArray(actualItems)
+    return setSingleChoiceItems(actualItems, checkedItem) { d, w -> onClick(d, w) }
+}
+
+fun MaterialAlertDialogBuilder.singleChoiceItems(
     items: Array<CharSequence>, checkedItem: Int = -1,
     onClick: (dialog: DialogInterface, which: Int) -> Unit = { _, _ -> }
 ) = setSingleChoiceItems(items, checkedItem) { d, w -> onClick(d, w) }

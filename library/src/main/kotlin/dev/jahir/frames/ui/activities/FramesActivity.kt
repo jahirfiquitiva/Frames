@@ -6,13 +6,13 @@ import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.hasContent
-import dev.jahir.frames.ui.activities.base.BaseLicenseCheckerActivity
+import dev.jahir.frames.ui.activities.base.BaseDonationsActivity
 import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
 import dev.jahir.frames.utils.Prefs
 
-abstract class FramesActivity : BaseLicenseCheckerActivity<Prefs>() {
+abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
 
     override val prefs: Prefs by lazy { Prefs(this) }
 
@@ -80,6 +80,7 @@ abstract class FramesActivity : BaseLicenseCheckerActivity<Prefs>() {
         when (item.itemId) {
             R.id.about -> startActivity(Intent(this, AboutActivity::class.java))
             R.id.settings -> startActivity(Intent(this, SettingsActivity::class.java))
+            R.id.donate -> launchDonationsFlow()
         }
         return super.onOptionsItemSelected(item)
     }

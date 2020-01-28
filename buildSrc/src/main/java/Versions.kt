@@ -46,6 +46,9 @@ object Versions {
     // Permissions
     const val permissions = "2.0.2"
 
-    // License checker
+    // License Checker
     const val licenseChecker = "1.2.6"
+
+    // In-App Purchases
+    const val inAppPurchases = "1.0.44"
 }

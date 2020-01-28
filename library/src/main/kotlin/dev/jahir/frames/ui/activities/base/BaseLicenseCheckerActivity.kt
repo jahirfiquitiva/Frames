@@ -32,7 +32,6 @@ abstract class BaseLicenseCheckerActivity<out P : Prefs> : BaseChangelogDialogAc
 
     private var licenseCheckDialog: AlertDialog? = null
 
-    open var donationsEnabled = false
     open fun amazonInstallsEnabled(): Boolean = false
     open fun checkLPF(): Boolean = true
     open fun checkStores(): Boolean = true
