@@ -40,28 +40,30 @@ class DonationsViewModel : ViewModel() {
         billingProcessor: BillingProcessor? = null,
         donationItemsIds: Array<String> = arrayOf()
     ) {
-        billingProcessor ?: return
-        if (!billingProcessor.isInitialized) {
-            try {
-                billingProcessor.initialize()
-            } catch (e: Exception) {
-            }
-        }
-        if (donationItemsIds.isEmpty()) return
-        if (!billingProcessor.isInitialized) return
-        viewModelScope.launch {
-            val newItems = ArrayList<DonationItem>()
-            donationItemsIds.forEach { itemId ->
-                val donationItem = getDonationItemDetails(billingProcessor, itemId)
-                donationItem?.let {
-                    val max = it.title.indexOf("(")
-                    val name = it.title.substring(0, if (max > 0) max else it.title.length).trim()
-                    newItems.add(DonationItem(itemId, name, it.priceText.trim()))
+        billingProcessor?.let { bp ->
+            if (donationItemsIds.isEmpty() || !bp.isInitialized) {
+                data?.value = null
+                data?.postValue(arrayListOf())
+            } else {
+                viewModelScope.launch {
+                    val newItems = ArrayList<DonationItem>()
+                    donationItemsIds.forEach { itemId ->
+                        val donationItem = getDonationItemDetails(bp, itemId)
+                        donationItem?.let {
+                            val max = it.title.indexOf("(")
+                            val name =
+                                it.title.substring(0, if (max > 0) max else it.title.length).trim()
+                            newItems.add(DonationItem(itemId, name, it.priceText.trim()))
+                        }
+                    }
+                    data?.value = null
+                    data?.postValue(newItems)
                 }
             }
+        } ?: {
             data?.value = null
-            data?.postValue(newItems)
-        }
+            data?.postValue(arrayListOf())
+        }()
     }
 
     fun observe(owner: LifecycleOwner, onUpdated: (List<DonationItem>) -> Unit) {

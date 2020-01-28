@@ -39,8 +39,8 @@ open class SettingsFragment : BasePreferenceFragment<Prefs>() {
         themePreference?.setOnClickListener {
             showDialog {
                 title(R.string.app_theme)
-                singleChoiceItems(R.array.app_themes, currentThemeKey) { d, w ->
-                    currentThemeKey = w
+                singleChoiceItems(R.array.app_themes, currentThemeKey) { _, which ->
+                    currentThemeKey = which
                 }
                 positiveButton(android.R.string.ok) {
                     getPrefs().currentTheme = Prefs.ThemeKey.fromValue(currentThemeKey)

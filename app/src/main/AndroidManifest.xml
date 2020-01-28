@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="dev.jahir.frames.app">
 
-    <!-- Permission required for donations -->
-    <!-- <uses-permission android:name="com.android.vending.BILLING" /> -->
+    <!-- Permission required for donations. Remove it if you don't use it -->
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
         android:name="dev.jahir.frames.ui.FramesApplication"

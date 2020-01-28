@@ -20,11 +20,39 @@ import dev.jahir.frames.ui.fragments.viewer.DownloaderDialog
 import dev.jahir.frames.utils.Prefs
 import dev.jahir.frames.utils.postDelayed
 
-abstract class BaseDonationsActivity<out P : Prefs> : BaseLicenseCheckerActivity<P>(),
-    BillingProcessor.IBillingHandler {
+abstract class BaseDonationsActivity<out P : Prefs> : BaseLicenseCheckerActivity<P>() {
 
     private val donationsViewModel: DonationsViewModel by lazy {
         ViewModelProvider(this).get(DonationsViewModel::class.java)
+    }
+
+    private val billingHandler: BillingProcessor.IBillingHandler by lazy {
+        object : BillingProcessor.IBillingHandler {
+            override fun onBillingInitialized() {
+                donationsReady = true
+            }
+
+            override fun onProductPurchased(productId: String, details: TransactionDetails?) {
+                billingProcessor?.let {
+                    if (it.consumePurchase(productId)) {
+                        dismissDialogs()
+                        donationsDialog = mdDialog {
+                            title(R.string.donate_success_title)
+                            message(getString(R.string.donate_success_content, getAppName()))
+                            positiveButton(android.R.string.ok)
+                        }
+                        donationsDialog?.show()
+                    }
+                }
+            }
+
+            override fun onBillingError(errorCode: Int, error: Throwable?) {
+                destroyBillingProcessor()
+                onDonationError(errorCode, error?.message ?: error.toString())
+            }
+
+            override fun onPurchaseHistoryRestored() {}
+        }
     }
 
     private val loadingDialog: DownloaderDialog by lazy { DownloaderDialog.create() }
@@ -32,24 +60,35 @@ abstract class BaseDonationsActivity<out P : Prefs> : BaseLicenseCheckerActivity
 
     private var billingProcessor: BillingProcessor? = null
     private var donationsReady = false
+    private val donationItemsIds: Array<String>
+        get() = try {
+            resources.getStringArray(R.array.donation_items)
+        } catch (e: Exception) {
+            arrayOf()
+        }
     open val donationsEnabled: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         donationsViewModel.observe(this) {
             if (it.isNotEmpty()) {
                 showDonationDialog(it)
             } else {
-                onDonationError(0, null)
+                billingHandler.onBillingError(0, null)
             }
         }
         initDonations()
     }
 
     private fun dismissDialogs() {
-        loadingDialog.dismiss()
-        donationsDialog?.dismiss()
+        try {
+            loadingDialog.dismiss()
+        } catch (e: Exception) {
+        }
+        try {
+            donationsDialog?.dismiss()
+        } catch (e: Exception) {
+        }
         donationsDialog = null
     }
 
@@ -68,42 +107,35 @@ abstract class BaseDonationsActivity<out P : Prefs> : BaseLicenseCheckerActivity
 
     private fun initDonations() {
         if (donationsReady) return
-        if (donationsEnabled && BillingProcessor.isIabServiceAvailable(this)) {
+        if (donationsEnabled && donationItemsIds.isNotEmpty()
+            && BillingProcessor.isIabServiceAvailable(this)) {
             destroyBillingProcessor()
-            billingProcessor = BillingProcessor(this, getLicKey(), this)
+            billingProcessor = BillingProcessor(this, getLicKey(), billingHandler)
             billingProcessor?.let {
                 if (!it.isInitialized) it.initialize()
                 try {
                     donationsReady = it.isOneTimePurchaseSupported || true
-                } catch (ignored: Exception) {
+                } catch (e: Exception) {
                 }
             } ?: {
-                onBillingError(0, null)
+                billingHandler.onBillingError(0, null)
             }()
         }
     }
 
     internal fun launchDonationsFlow() {
         initDonations()
-        if (!donationsReady) {
+        if (!donationsReady || donationItemsIds.isEmpty()) {
             showDonationErrorDialog(0, null)
             return
         }
-
         dismissDialogs()
         loadingDialog.setOnShowListener {
-            donationsViewModel.loadItems(
-                billingProcessor,
-                try {
-                    resources.getStringArray(R.array.donation_items)
-                } catch (e: Exception) {
-                    arrayOf<String>()
-                }
-            )
+            donationsViewModel.loadItems(billingProcessor, donationItemsIds)
         }
         loadingDialog.isCancelable = false
         loadingDialog.show(this)
-        postDelayed(3000) { loadingDialog.isCancelable = true }
+        postDelayed(2500) { loadingDialog.isCancelable = true }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -113,36 +145,11 @@ abstract class BaseDonationsActivity<out P : Prefs> : BaseLicenseCheckerActivity
         } ?: { super.onActivityResult(requestCode, resultCode, data) }()
     }
 
-    override fun onBillingInitialized() {
-        donationsReady = true
-    }
-
-    override fun onPurchaseHistoryRestored() {}
-
-    override fun onProductPurchased(productId: String, details: TransactionDetails?) {
-        billingProcessor?.let {
-            if (it.consumePurchase(productId)) {
-                dismissDialogs()
-                donationsDialog = mdDialog {
-                    title(R.string.donate_success_title)
-                    message(getString(R.string.donate_success_content, getAppName()))
-                    positiveButton(android.R.string.ok)
-                }
-                donationsDialog?.show()
-            }
-        }
-    }
-
-    override fun onBillingError(errorCode: Int, error: Throwable?) {
-        destroyBillingProcessor()
-        onDonationError(errorCode, error?.message ?: error.toString())
-    }
-
     internal fun purchase(productId: String) {
         try {
             billingProcessor?.purchase(this, productId)
         } catch (e: Exception) {
-            onDonationError(0, e.message)
+            billingHandler.onBillingError(0, e)
         }
     }
 
