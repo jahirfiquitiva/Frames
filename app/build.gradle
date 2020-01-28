@@ -4,13 +4,13 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion Frames.targetSdk
-    buildToolsVersion Frames.buildTools
+    compileSdkVersion Versions.targetSdk
+    buildToolsVersion Versions.buildTools
 
     defaultConfig {
         applicationId "dev.jahir.frames.app"
-        minSdkVersion Frames.minSdk
-        targetSdkVersion Frames.targetSdk
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
         versionCode Frames.version
         versionName Frames.versionName
     }

@@ -28,7 +28,7 @@ object Libs {
     private const val viewmodelKtx =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
 
-    // Room for database
+    // Room Database
     private const val room = "androidx.room:room-ktx:${Versions.room}"
     private const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
 
