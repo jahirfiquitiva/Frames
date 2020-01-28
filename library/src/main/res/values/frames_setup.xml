@@ -16,7 +16,7 @@
     True means yes
     False means no
     -->
-    <bool name="notifications_enabled_by_default">false</bool>
+    <bool name="notifications_enabled_by_default">true</bool>
 
     <!-- Choose whether you want colored tiles by default -->
     <bool name="enable_colored_tiles">false</bool>

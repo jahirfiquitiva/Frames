@@ -6,7 +6,7 @@
     <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
-        android:name="dev.jahir.frames.ui.FramesApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -70,5 +70,16 @@
                 android:resource="@xml/file_providers" />
         </provider>
 
+        <!-- OneSignal Notifications Service -->
+        <!-- TODO: Remove comment marks to enable
+        <service
+            android:name=".NotificationService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE">
+            <intent-filter>
+                <action android:name="com.onesignal.NotificationExtender" />
+            </intent-filter>
+        </service>
+        -->
     </application>
 </manifest>

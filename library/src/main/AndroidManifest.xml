@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
 
     <application
-        android:name=".ui.FramesApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:largeHeap="true"

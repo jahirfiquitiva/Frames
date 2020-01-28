@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import dev.jahir.frames.extensions.prefs
 import dev.jahir.frames.utils.Prefs
 
-class FramesApplication : Application() {
+open class FramesApplication : Application() {
     override fun onCreate() {
         setDefaultNightMode()
         super.onCreate()

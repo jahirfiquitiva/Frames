@@ -224,5 +224,5 @@ fun Context.clearCache() {
     }
 }
 
-internal val Context.prefs: Prefs
+val Context.prefs: Prefs
     get() = (this as? BaseThemedActivity<*>)?.prefs ?: Prefs(this)
