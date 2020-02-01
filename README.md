@@ -99,7 +99,7 @@ allprojects {
 2. Add the dependency in your project `build.gradle` file
 ```gradle
 dependencies {
-    compile('dev.jahir:Frames:{latest version}@aar') {
+    implementation('dev.jahir:Frames:{latest version}@aar') {
         transitive = true
     }
 }
