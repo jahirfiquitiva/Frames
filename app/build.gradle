@@ -30,7 +30,7 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            outputFileName = details.appId + "-v${variant.versionName}-${variant.name}.apk"
+            outputFileName = defaultConfig.applicationId + "-v${variant.versionName}-${variant.name}.apk"
         }
     }
 
