@@ -4,19 +4,19 @@ Frames
 ======
 
 ![API](https://img.shields.io/badge/API-16%2B-34bf49.svg)
-[![JitPack](https://jitpack.io/v/com.jahirfiquitiva/Frames.svg)](https://jitpack.io/#com.jahirfiquitiva/Frames)
-[![Build Status](https://travis-ci.org/jahirfiquitiva/Frames.svg?branch=master)](https://travis-ci.org/jahirfiquitiva/Frames)
+[![JitPack](https://jitpack.io/v/dev.jahir/Frames.svg)](https://jitpack.io/#dev.jahir/Frames)
+[![Build Status](https://travis-ci.com/jahirfiquitiva/Frames.svg?branch=master)](https://travis-ci.com/jahirfiquitiva/Frames)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9747a594949f49b9a8146909868adfba)](https://www.codacy.com/app/jahirfiquitiva/Frames?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jahirfiquitiva/Frames&amp;utm_campaign=Badge_Grade)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/Frames/localized.svg)](http://j.mp/FramesTranslations)
 
 A full-of-features, easy-to-customize, free and open source, light-weight, Android dashboard library to create wallpapers apps with almost-null effort.
 
-<a target="_blank" href="http://bit.ly/DLFramesAPK">
-<img src="https://jahirfiquitiva.com/share/download_sample.svg?maxAge=432000" width="200"/>
+<a target="_blank" href="http://jahir.dev/gh-releases/frames">
+<img src="https://jahir.dev/share/download_sample.svg?maxAge=432000" width="200"/>
 </a>
 
-<a target="_blank" href="https://jahirfiquitiva.com/donate/">
-<img src="https://jahirfiquitiva.com/share/support_my_work.svg?maxAge=432000" width="200"/>
+<a target="_blank" href="https://jahir.dev/donate/">
+<img src="https://jahir.dev/share/support_my_work.svg?maxAge=432000" width="200"/>
 </a>
 
 ## Show some  :blue_heart:
@@ -25,7 +25,7 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 [![GitHub watchers](https://img.shields.io/github/watchers/jahirfiquitiva/Frames.svg?style=social&label=Watch)](https://github.com/jahirfiquitiva/Frames)
 
 [![Follow on GitHub](https://img.shields.io/github/followers/jahirfiquitiva.svg?style=social&label=Follow)](https://github.com/jahirfiquitiva)
-[![Twitter Follow](https://img.shields.io/twitter/follow/jahirfiquitiva.svg?style=social)](https://twitter.com/jahirfiquitiva)
+[![Follow on Twitter](https://img.shields.io/twitter/follow/jahirfiquitiva.svg?style=social)](https://twitter.com/jahirfiquitiva)
 
 ---
 
@@ -33,31 +33,25 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 
 ### Customizable styles
 <p align="center">
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/3.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/9.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/2.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/10.png" height="350"/>
-</p>
-<p align="center">
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/15.png" height="350"/>
 <img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/1.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/11.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/12.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/2.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/3.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/4.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/5.png" height="350"/>
 </p>
 
 ### Full-screen Viewer / Multiple themes
 <p align="center">
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/4.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/14.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/6.png" height="350"/>
 <img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/7.png" height="350"/>
 <img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/8.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/9.png" height="350"/>
 </p>
 
-### Credits / Settings / Muzei Settings
+### Credits / Settings
 <p align="center">
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/5.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/6.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/13.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/10.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/11.png" height="350"/>
 </p>
 
 ---
@@ -66,22 +60,18 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 - Material Design dashboard.
 - License Checker.
 - Donations.
-- OneSignal notifications ready.
+- [OneSignal](https://onesignal.com/) notifications ready.
 - Cloud based (only) wallpapers.
 - App can work offline.
 - Categories section.
 - Favorites section.
-- Deep search (users can search wallpapers by name, author and/or collection at the same time).
 - Wallpapers can be applied and downloaded.
 - Wallpapers include a full-screen viewer with zooming capabilities and detailed info viewer.
-- [Muzei Live Wallpaper](http://muzei.co/) support.
 - Credits section.
 - Settings section with these options:
 	- Option to change app theme (Light, Dark, Amoled, Transparent, Auto-Dark, Auto-Amoled).
 	- Option to color navigation bar (Lollipop+).
-	- Option to change the columns amount in wallpapers section.
 	- Option to clear app cache.
-	- Option to change where to download wallpapers.
 	- Option to clear favorites database.
 - Tablet layouts.
 - Lots of customizations.
@@ -109,12 +99,12 @@ allprojects {
 2. Add the dependency in your project `build.gradle` file
 ```gradle
 dependencies {
-    compile('com.jahirfiquitiva:Frames:{latest version}@aar') {
+    compile('dev.jahir:Frames:{latest version}@aar') {
         transitive = true
     }
 }
 ```
-where `{latest version}` corresponds to published version in   [![JitPack](https://jitpack.io/v/jahirfiquitiva/Frames.svg)](https://jitpack.io/#jahirfiquitiva/Frames)
+where `{latest version}` corresponds to published version in   [![JitPack](https://jitpack.io/v/dev.jahir/Frames.svg)](https://jitpack.io/#dev.jahir/Frames)
 
 ## How to implement
 :page_with_curl: Everything you need to know can be found in the **[Wiki Docs](https://github.com/jahirfiquitiva/Frames/wiki/)**
@@ -126,21 +116,22 @@ Just join our community and make a post. We'll help you as soon as possible. [![
 
 # Developed by
 
-### [Jahir Fiquitiva](https://jahirfiquitiva.com/)
+### [Jahir Fiquitiva](https://jahir.dev/)
 
 [![Follow on GitHub](https://img.shields.io/github/followers/jahirfiquitiva.svg?style=social&label=Follow)](https://github.com/jahirfiquitiva)
-[![Twitter Follow](https://img.shields.io/twitter/follow/jahirfiquitiva.svg?style=social)](https://twitter.com/jahirfiquitiva)
+[![Follow on Twitter](https://img.shields.io/twitter/follow/jahirfiquitiva.svg?style=social)](https://twitter.com/jahirfiquitiva)
 
 If you found this app/library helpful and want to thank me, you can:
 
-<a target="_blank" href="https://jahirfiquitiva.com/donate/">
-<img src="https://jahirfiquitiva.com/share/support_my_work.svg?maxAge=432000" width="200"/>
+<a target="_blank" href="https://jahir.dev/donate/">
+<img src="https://jahir.dev/share/support_my_work.svg?maxAge=432000" width="200"/>
 </a>
 
 **Thanks in advance!** :pray:
 
 ## Special thanks 🙌
 
+- [Eduardo Pratti](https://pratti.design/) 🎨
 - [Sherry Sabatine](http://www.ssabatinephotography.com/) 💵
 - [Allan Wang](https://www.allanwang.ca/) 💻
 - [James Fenn](https://theandroidmaster.github.io/) 🔌
@@ -152,7 +143,6 @@ If you found this app/library helpful and want to thank me, you can:
 - [Lumiq Creative](https://lumiqcreative.com/) 🎨
 - [Jackson Hayes](https://jacksonhayes.xyz/) 📖
 - [Kevin Aguilar](https://twitter.com/kevttob) 🎨
-- [Eduardo Pratti](https://pratti.design/) 🎨
 - [Anthony Nguyen](https://twitter.com/link6155) 🎨
 
 ---
@@ -161,7 +151,7 @@ If you found this app/library helpful and want to thank me, you can:
 
 This app is shared under the CreativeCommons Attribution-ShareAlike license.
 
-	Copyright © 2019 Jahir Fiquitiva
+	Copyright © 2020 Jahir Fiquitiva
 
 	Licensed under the CreativeCommons Attribution-ShareAlike 
 	4.0 International License. You may not use this file except in compliance 

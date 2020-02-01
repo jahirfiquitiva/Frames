@@ -1,24 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2019. Jahir Fiquitiva
-  ~
-  ~ Licensed under the CreativeCommons Attribution-ShareAlike
-  ~ 4.0 International License. You may not use this file except in compliance
-  ~ with the License. You may obtain a copy of the License at
-  ~
-  ~    http://creativecommons.org/licenses/by-sa/4.0/legalcode
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="jahirfiquitiva.apps.frames.sample">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="dev.jahir.frames.app">
 
-    <!-- Permission required for donations -->
+    <!-- Permission required for donations. Remove it if you don't use it -->
     <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
@@ -27,24 +11,12 @@
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/MySplashScreen"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/BaseFramesSplashScreenTheme"
         tools:ignore="UnusedAttribute">
-
-        <!-- OneSignal Notifications Service -->
-        <!-- TODO: Remove comment marks to enable
-        <service
-                android:name=".NotificationService"
-                android:permission="android.permission.BIND_JOB_SERVICE"
-                android:exported="false">
-            <intent-filter>
-                <action android:name="com.onesignal.NotificationExtender"/>
-            </intent-filter>
-        </service>
-        -->
 
         <activity
             android:name=".MainActivity"
@@ -88,29 +60,8 @@
             </intent-filter>
         </activity>
 
-        <!-- Muzei Service -->
-        <provider
-            android:name=".MuzeiService"
-            android:authorities="${applicationId}.muzei"
-            android:label="@string/app_name"
-            android:description="@string/app_description"
-            android:icon="@drawable/ic_muzei_icon"
-            android:exported="true"
-            android:permission="com.google.android.apps.muzei.api.ACCESS_PROVIDER"
-            tools:ignore="ExportedService">
-            <intent-filter>
-                <action android:name="com.google.android.apps.muzei.api.MuzeiArtProvider" />
-            </intent-filter>
-
-            <meta-data
-                android:name="color"
-                android:value="@color/muzei_color" />
-            <meta-data
-                android:name="settingsActivity"
-                android:value="jahirfiquitiva.libs.frames.ui.activities.MuzeiSettingsActivity" />
-        </provider>
-
-        <!-- Required for files access !!! DO NOT REMOVE !!! -->
+        <!-- DO NOT REMOVE !!! -->
+        <!-- Required for files access !!! -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"
@@ -120,6 +71,17 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_providers" />
         </provider>
-    </application>
 
+        <!-- OneSignal Notifications Service -->
+        <!-- TODO: Remove comment marks to enable
+        <service
+            android:name=".NotificationService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE">
+            <intent-filter>
+                <action android:name="com.onesignal.NotificationExtender" />
+            </intent-filter>
+        </service>
+        -->
+    </application>
 </manifest>

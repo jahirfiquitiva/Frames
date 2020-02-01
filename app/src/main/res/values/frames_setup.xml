@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?><!--suppress CheckTagEmptyBody -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!--    This is the link for the JSON file where you have listed your wallpapers -->
+    <string name="json_url">https://jahir.dev/frames/frames.json</string>
+
+    <!--
+    Enable immediate download
+    When set to false, users must wait 3 hours after installing the app to be able to download
+    any wallpapers
+    -->
+    <bool name="allow_immediate_downloads">true</bool>
+
+    <!--
+    Do you want notifications to be enabled for all your users?
+    True means yes
+    False means no
+    -->
+    <bool name="notifications_enabled_by_default">true</bool>
+
+    <!-- Choose whether you want colored tiles by default -->
+    <bool name="enable_colored_tiles">false</bool>
+
+    <!-- Choose whether you want filled collection preview by default -->
+    <bool name="enable_filled_collection_preview">false</bool>
+
+    <!-- Privacy Policy link or url -->
+    <string name="privacy_policy_link">""</string>
+
+    <!-- Terms and Conditions link or url -->
+    <string name="terms_conditions_link">""</string>
+
+    <!--
+    Show a custom image as placeholder while loading wallpapers or collections
+    Use drawable name without extensions
+    -->
+    <string name="wallpapers_placeholder" translatable="false"></string>
+    <string name="collections_placeholder" translatable="false"></string>
+
+    <!-- These are your donation items. Only put their ids here -->
+    <string-array name="donation_items"></string-array>
+</resources>
