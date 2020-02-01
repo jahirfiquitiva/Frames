@@ -70,9 +70,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation Libs.implementationDependencies
+    api Libs.dependencies
     kapt Libs.kaptDependencies
-    api Libs.apiDependencies
 }
 
 apply from: '../lib-artifacts.gradle'

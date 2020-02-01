@@ -65,11 +65,12 @@ object Libs {
     // OneSignal
     private const val oneSignal = "com.onesignal:OneSignal:${Versions.oneSignal}"
 
-    // Implementation dependencies
-    val implementationDependencies = arrayOf(
+    // Dependencies (must use api for they to work)
+    val dependencies = arrayOf(
         kotlin,
         coroutines,
         coroutinesAndroid,
+        appcompat,
         cardView,
         recyclerView,
         swipeRefreshLayout,
@@ -89,15 +90,10 @@ object Libs {
         sectionedRecyclerView,
         fetch,
         permissions,
+        licenseChecker,
         inAppPurchases
     )
 
     // Kapt dependencies
     val kaptDependencies = arrayOf(roomCompiler)
-
-    // Api dependencies
-    val apiDependencies = arrayOf(
-        appcompat,
-        licenseChecker
-    )
 }
