@@ -33,31 +33,25 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 
 ### Customizable styles
 <p align="center">
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/3.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/9.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/2.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/10.png" height="350"/>
-</p>
-<p align="center">
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/15.png" height="350"/>
 <img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/1.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/11.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/12.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/2.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/3.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/4.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/5.png" height="350"/>
 </p>
 
 ### Full-screen Viewer / Multiple themes
 <p align="center">
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/4.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/14.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/6.png" height="350"/>
 <img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/7.png" height="350"/>
 <img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/8.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/9.png" height="350"/>
 </p>
 
-### Credits / Settings / Muzei Settings
+### Credits / Settings
 <p align="center">
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/5.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/6.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/13.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/10.png" height="350"/>
+<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/11.png" height="350"/>
 </p>
 
 ---
@@ -66,22 +60,18 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 - Material Design dashboard.
 - License Checker.
 - Donations.
-- OneSignal notifications ready.
+- [OneSignal](https://onesignal.com/) notifications ready.
 - Cloud based (only) wallpapers.
 - App can work offline.
 - Categories section.
 - Favorites section.
-- Deep search (users can search wallpapers by name, author and/or collection at the same time).
 - Wallpapers can be applied and downloaded.
 - Wallpapers include a full-screen viewer with zooming capabilities and detailed info viewer.
-- [Muzei Live Wallpaper](http://muzei.co/) support.
 - Credits section.
 - Settings section with these options:
 	- Option to change app theme (Light, Dark, Amoled, Transparent, Auto-Dark, Auto-Amoled).
 	- Option to color navigation bar (Lollipop+).
-	- Option to change the columns amount in wallpapers section.
 	- Option to clear app cache.
-	- Option to change where to download wallpapers.
 	- Option to clear favorites database.
 - Tablet layouts.
 - Lots of customizations.
@@ -129,7 +119,7 @@ Just join our community and make a post. We'll help you as soon as possible. [![
 ### [Jahir Fiquitiva](https://jahir.dev/)
 
 [![Follow on GitHub](https://img.shields.io/github/followers/jahirfiquitiva.svg?style=social&label=Follow)](https://github.com/jahirfiquitiva)
-[![Twitter Follow](https://img.shields.io/twitter/follow/jahirfiquitiva.svg?style=social)](https://twitter.com/jahirfiquitiva)
+[![Follow on Twitter](https://img.shields.io/twitter/follow/jahirfiquitiva.svg?style=social)](https://twitter.com/jahirfiquitiva)
 
 If you found this app/library helpful and want to thank me, you can:
 
@@ -141,6 +131,7 @@ If you found this app/library helpful and want to thank me, you can:
 
 ## Special thanks 🙌
 
+- [Eduardo Pratti](https://pratti.design/) 🎨
 - [Sherry Sabatine](http://www.ssabatinephotography.com/) 💵
 - [Allan Wang](https://www.allanwang.ca/) 💻
 - [James Fenn](https://theandroidmaster.github.io/) 🔌
@@ -152,7 +143,6 @@ If you found this app/library helpful and want to thank me, you can:
 - [Lumiq Creative](https://lumiqcreative.com/) 🎨
 - [Jackson Hayes](https://jacksonhayes.xyz/) 📖
 - [Kevin Aguilar](https://twitter.com/kevttob) 🎨
-- [Eduardo Pratti](https://pratti.design/) 🎨
 - [Anthony Nguyen](https://twitter.com/link6155) 🎨
 
 ---
@@ -161,7 +151,7 @@ If you found this app/library helpful and want to thank me, you can:
 
 This app is shared under the CreativeCommons Attribution-ShareAlike license.
 
-	Copyright © 2019 Jahir Fiquitiva
+	Copyright © 2020 Jahir Fiquitiva
 
 	Licensed under the CreativeCommons Attribution-ShareAlike 
 	4.0 International License. You may not use this file except in compliance 

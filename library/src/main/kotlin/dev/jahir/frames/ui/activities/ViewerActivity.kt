@@ -54,6 +54,8 @@ class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        statusBarLight = false
+        navigationBarLight = false
         window.setBackgroundDrawable(null)
         setContentView(R.layout.activity_viewer)
 
