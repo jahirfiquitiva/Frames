@@ -48,7 +48,7 @@ android {
                 onesignal_app_id               : OneSignal.appId,
                 onesignal_google_project_number: OneSignal.googleProjectNumber
         ]
-        applicationId "dev.jahir.frames.app"
+        applicationId Frames.appId
         minSdkVersion Versions.minSdk
         targetSdkVersion Versions.targetSdk
         versionCode Frames.version
