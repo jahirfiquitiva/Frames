@@ -1,15 +1,14 @@
 package dev.jahir.frames.extensions
 
-import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
@@ -46,45 +45,10 @@ fun Context.isNetworkAvailable(): Boolean {
     }
 }
 
-val Context.currentRotation: Int
-    get() {
-        val display = (getSystemService(Context.WINDOW_SERVICE) as? WindowManager)?.defaultDisplay
-        return (display?.rotation ?: 0) * 90
-    }
-
-val Context.isInHorizontalMode: Boolean
-    get() = currentRotation == 90 || currentRotation == 270
-
-val Context.isInPortraitMode: Boolean
-    get() = currentRotation == 0 || currentRotation == 180
-
-val Context.isLowRamDevice: Boolean
-    get() {
-        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager
-        val lowRAMDevice: Boolean
-        lowRAMDevice = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            activityManager?.isLowRamDevice ?: true
-        } else {
-            val memInfo = ActivityManager.MemoryInfo()
-            activityManager?.getMemoryInfo(memInfo)
-            memInfo.lowMemory
-        }
-        return lowRAMDevice
-    }
-
 fun Context.resolveColor(@AttrRes attr: Int, fallback: Int = 0): Int {
     val a = theme.obtainStyledAttributes(intArrayOf(attr))
     try {
         return a.getColor(0, fallback)
-    } finally {
-        a.recycle()
-    }
-}
-
-fun Context.resolveBoolean(@AttrRes attr: Int, fallback: Boolean = false): Boolean {
-    val a = theme.obtainStyledAttributes(intArrayOf(attr))
-    try {
-        return a.getBoolean(0, fallback)
     } finally {
         a.recycle()
     }
@@ -226,3 +190,10 @@ fun Context.clearCache() {
 
 val Context.prefs: Prefs
     get() = (this as? BaseThemedActivity<*>)?.prefs ?: Prefs(this)
+
+val Context.currentNightMode: Int
+    get() = try {
+        resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+    } catch (e: Exception) {
+        Configuration.UI_MODE_NIGHT_UNDEFINED
+    }

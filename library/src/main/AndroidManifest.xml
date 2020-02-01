@@ -20,12 +20,15 @@
         <activity
             android:name=".ui.activities.FramesActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.activities.ViewerActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.activities.CollectionActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.activities.AboutActivity"
             android:exported="false"

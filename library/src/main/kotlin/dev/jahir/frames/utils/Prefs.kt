@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import androidx.annotation.StringRes
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.createIfDidNotExist
+import dev.jahir.frames.extensions.currentNightMode
 import dev.jahir.frames.extensions.getDefaultWallpapersDownloadFolder
 import java.io.File
 
@@ -19,10 +20,6 @@ open class Prefs(
     @SuppressLint("CommitPrefEdits")
     val prefsEditor: SharedPreferences.Editor = prefs.edit()
 
-    var isFirstRun: Boolean
-        get() = prefs.getBoolean(IS_FIRST_RUN, true)
-        set(value) = prefsEditor.putBoolean(IS_FIRST_RUN, value).apply()
-
     var lastVersion: Long
         get() = prefs.getLong(LAST_VERSION, -1L)
         set(value) = prefsEditor.putLong(LAST_VERSION, value).apply()
@@ -30,6 +27,10 @@ open class Prefs(
     var currentTheme: ThemeKey
         get() = ThemeKey.fromValue(prefs.getInt(CURRENT_THEME, ThemeKey.DEFAULT_THEME_KEY.value))
         set(value) = prefsEditor.putInt(CURRENT_THEME, value.value).apply()
+
+    var lastNightMode: Int
+        get() = prefs.getInt(LAST_NIGHT_MODE, context.currentNightMode)
+        set(value) = prefsEditor.putInt(LAST_NIGHT_MODE, value).apply()
 
     var usesAmoledTheme: Boolean
         get() = prefs.getBoolean(USES_AMOLED_THEME, false)
@@ -97,9 +98,9 @@ open class Prefs(
 
     companion object {
         private const val PREFS_NAME = "jfdb_confs"
-        private const val IS_FIRST_RUN = "first_run"
         private const val LAST_VERSION = "last_version"
         private const val CURRENT_THEME = "current_theme"
+        private const val LAST_NIGHT_MODE = "last_night_mode"
         private const val USES_AMOLED_THEME = "uses_amoled_theme"
         private const val SHOULD_COLOR_NAVBAR = "should_color_navbar"
         private const val SHOULD_LOAD_FULL_RES_PICTURES = "should_load_full_res_pictures"

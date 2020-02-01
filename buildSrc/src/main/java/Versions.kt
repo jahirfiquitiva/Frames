@@ -28,7 +28,7 @@ object Versions {
     const val materialComponents = "1.1.0-rc01"
 
     // ViewModel and LiveData
-    const val lifecycle = "2.2.0-rc02"
+    const val lifecycle = "2.2.0"
 
     // Room Database
     const val room = "2.2.3"

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
+import dev.jahir.frames.extensions.currentNightMode
 import dev.jahir.frames.extensions.getRightNavigationBarColor
 import dev.jahir.frames.extensions.navigationBarColor
 import dev.jahir.frames.extensions.resolveColor
@@ -19,14 +20,13 @@ abstract class BaseThemedActivity<out P : Prefs> : AppCompatActivity() {
 
     private var lastTheme: Prefs.ThemeKey = Prefs.ThemeKey.DEFAULT_THEME_KEY
     private var wasUsingAmoled: Boolean = false
+    private var coloredNavbar: Boolean = false
 
     @StyleRes
     open fun defaultTheme(): Int = R.style.BaseFramesTheme
 
     @StyleRes
     open fun amoledTheme(): Int = R.style.BaseFramesTheme_Amoled
-
-    private var coloredNavbar = false
 
     abstract val prefs: P
 
@@ -38,9 +38,11 @@ abstract class BaseThemedActivity<out P : Prefs> : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (lastTheme != prefs.currentTheme || wasUsingAmoled != prefs.usesAmoledTheme ||
-            coloredNavbar != prefs.shouldColorNavbar)
+        if (lastTheme != prefs.currentTheme || currentNightMode != prefs.lastNightMode
+            || wasUsingAmoled != prefs.usesAmoledTheme || coloredNavbar != prefs.shouldColorNavbar) {
+            prefs.lastNightMode = currentNightMode
             onThemeChanged()
+        }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

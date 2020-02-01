@@ -3,37 +3,14 @@ package dev.jahir.frames.extensions
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.view.Window
 import androidx.annotation.IdRes
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.util.Pair
 import androidx.core.view.ViewCompat
 import dev.jahir.frames.R
-
-
-val Activity.isNightMode: Boolean
-    get() {
-        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        return currentNightMode == Configuration.UI_MODE_NIGHT_YES
-    }
-
-fun Activity.changeNightMode(setNight: Boolean = true, force: Boolean = false) {
-    AppCompatDelegate.setDefaultNightMode(
-        if (force) {
-            if (setNight) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-        } else {
-            if (setNight) {
-                AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY or AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            } else {
-                AppCompatDelegate.MODE_NIGHT_NO
-            }
-        }
-    )
-}
 
 inline fun Activity.restart(intentBuilder: Intent.() -> Unit = {}) {
     val i = Intent(this, this::class.java)
