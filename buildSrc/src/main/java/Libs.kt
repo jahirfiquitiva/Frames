@@ -63,7 +63,7 @@ object Libs {
         "com.anjlab.android.iab.v3:library:${Versions.inAppPurchases}"
 
     // OneSignal
-    private const val oneSignal = "com.onesignal:OneSignal:${Versions.oneSignal}"
+    const val oneSignal = "com.onesignal:OneSignal:${Versions.oneSignal}"
 
     // Dependencies (must use api for they to work)
     val dependencies = arrayOf(
