@@ -42,7 +42,7 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val columnsCount =
-            context?.resources?.getInteger(R.integer.min_wallpapers_columns_count) ?: 2
+            context?.resources?.getInteger(R.integer.wallpapers_columns_count) ?: 2
         recyclerView?.adapter = wallsAdapter
         recyclerView?.layoutManager =
             GridLayoutManager(context, columnsCount, GridLayoutManager.VERTICAL, false)
