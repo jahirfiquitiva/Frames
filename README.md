@@ -7,7 +7,7 @@ Frames
 [![JitPack](https://jitpack.io/v/dev.jahir/Frames.svg)](https://jitpack.io/#dev.jahir/Frames)
 [![Build Status](https://travis-ci.com/jahirfiquitiva/Frames.svg?branch=master)](https://travis-ci.com/jahirfiquitiva/Frames)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9747a594949f49b9a8146909868adfba)](https://www.codacy.com/app/jahirfiquitiva/Frames?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jahirfiquitiva/Frames&amp;utm_campaign=Badge_Grade)
-[![Crowdin](https://d322cqt584bo4o.cloudfront.net/Frames/localized.svg)](http://j.mp/FramesTranslations)
+[![Crowdin](https://d322cqt584bo4o.cloudfront.net/Frames/localized.svg)](https://crowdin.com/project/Frames/invite)
 
 A full-of-features, easy-to-customize, free and open source, light-weight, Android dashboard library to create wallpapers apps with almost-null effort.
 
@@ -78,7 +78,7 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 - Works with Android 4.1 and newer.
 
 ## Help translating
-:page_facing_up: Help making Frames available in more languages. [Click here to go to the translation site](http://j.mp/Trnsl8Frames)
+:page_facing_up: Help making Frames available in more languages. [Click here to go to the translation site](https://crowdin.com/project/Frames/invite)
 
 ## Changelog
 :radio_button: You can find it in the [Releases page](https://github.com/jahirfiquitiva/Frames/releases)
