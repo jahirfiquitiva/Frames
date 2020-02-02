@@ -32,8 +32,7 @@ import dev.jahir.frames.extensions.prefs
  */
 open class SaturatingImageViewTarget(
     override val view: ImageView,
-    var shouldActuallySaturate: Boolean = true,
-    var clearListenersOnSuccess: Boolean = true
+    var shouldActuallySaturate: Boolean = true
 ) : PoolableViewTarget<ImageView>, DefaultLifecycleObserver, Request.Listener {
 
     private val afterSuccessListeners: ArrayList<((drawable: Drawable?) -> Unit)> = ArrayList()
@@ -52,7 +51,7 @@ open class SaturatingImageViewTarget(
             saturateDrawableAnimator(view.drawable, view = view).start()
         }
         afterSuccessListeners.forEach { it.invoke(view.drawable) }
-        if (clearListenersOnSuccess) afterSuccessListeners.clear()
+        afterSuccessListeners.clear()
     }
 
     override fun onError(error: Drawable?) = setDrawable(error)

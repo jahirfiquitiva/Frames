@@ -10,13 +10,13 @@ import dev.jahir.frames.ui.animations.SaturatingImageViewTarget
 private const val CROSSFADE_DURATION = 250
 
 private fun AppCompatImageView.internalLoadFramesPic(
-    url: String,
+    url: String?,
     isForPalette: Boolean = false,
     cropAsCircle: Boolean = false,
     thumbnail: Drawable? = null,
     customTarget: SaturatingImageViewTarget? = null
 ) {
-    Coil.load(context, url) {
+    Coil.load(context, url.orEmpty()) {
         if (isForPalette) allowHardware(false)
         if (thumbnail == null && context.prefs.animationsEnabled) crossfade(CROSSFADE_DURATION)
         placeholder(thumbnail)
@@ -31,9 +31,8 @@ private fun AppCompatImageView.internalLoadFramesPic(
 
 private fun AppCompatImageView.buildTarget(
     block: SaturatingImageViewTarget.() -> Unit
-): SaturatingImageViewTarget = SaturatingImageViewTarget(
-    this
-).apply(block)
+): SaturatingImageViewTarget =
+    SaturatingImageViewTarget(this).apply(block)
 
 fun AppCompatImageView.loadFramesPic(
     url: String,
@@ -45,29 +44,26 @@ fun AppCompatImageView.loadFramesPic(
 ) {
     if (!url.hasContent()) return
     val isForPalette = doWithPalette?.let { true } ?: false
-    val saturatingTarget = buildTarget {
-        if (isForPalette) addListener { doWithPalette?.invoke(it) }
-        clearListenersOnSuccess = true
-    }
+    val saturatingTarget = buildTarget { addListener { doWithPalette?.invoke(it) } }
     val placeholder = context.getDrawable(placeholderName)
-    val shouldLoadThumbnail = thumbnail?.let { it.isNotEmpty() && it != url } ?: false
+    val shouldLoadThumbnail = thumbnail?.let { it.hasContent() && it != url } ?: false
     if (shouldLoadThumbnail) {
         if (context.prefs.shouldLoadFullResPictures || forceLoadFullRes) {
-            val thumbnailTarget = saturatingTarget.addListener {
-                internalLoadFramesPic(url, isForPalette, cropAsCircle, it,
-                    saturatingTarget.apply {
-                        shouldActuallySaturate = false
-                        clearListenersOnSuccess = true
-                    })
+            val thumbnailTarget = saturatingTarget.apply {
+                addListener {
+                    internalLoadFramesPic(url, isForPalette, cropAsCircle, it,
+                        buildTarget {
+                            shouldActuallySaturate = false
+                            addListener { drwbl -> doWithPalette?.invoke(drwbl) }
+                        })
+                }
             }
-            internalLoadFramesPic(thumbnail.orEmpty(), isForPalette, cropAsCircle, placeholder,
-                thumbnailTarget.apply {
-                    clearListenersOnSuccess = false
-                })
+            internalLoadFramesPic(
+                thumbnail, isForPalette, cropAsCircle, placeholder, thumbnailTarget
+            )
         } else {
             internalLoadFramesPic(
-                thumbnail.orEmpty(), isForPalette, cropAsCircle,
-                placeholder, saturatingTarget
+                thumbnail, isForPalette, cropAsCircle, placeholder, saturatingTarget
             )
         }
     } else {
