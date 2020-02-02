@@ -25,7 +25,7 @@ object Versions {
     const val swipeRefreshLayout = "1.0.0"
     const val palette = "1.0.0"
     const val preference = "1.1.0"
-    const val materialComponents = "1.1.0-rc01"
+    const val materialComponents = "1.1.0-rc02"
 
     // ViewModel and LiveData
     const val lifecycle = "2.2.0"
@@ -38,7 +38,7 @@ object Versions {
     const val retrofit = "2.6.2"
 
     // Image loading and Photo View
-    const val coil = "0.8.0"
+    const val coil = "0.9.3"
     const val photoView = "2.3.0"
 
     // Sectioned RecyclerView
