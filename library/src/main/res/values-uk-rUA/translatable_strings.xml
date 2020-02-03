@@ -38,4 +38,24 @@
     <string name="download_pause">Призупинити завантаження</string>
     <string name="download_paused">Завантаження шпалер призупинено</string>
     <string name="download_resume">Продовжити</string>
+    <string name="download_retry">Повторити</string>
+    <string name="download_cancel">Скасувати</string>
+    <string name="download_downloading">Завантаження триває…</string>
+    <string name="download_eta_hrs">лишилося %1$dгод %2$dм. %3$dс</string>
+    <string name="download_eta_min">лишилося %1$dгод %2$dм. с</string>
+    <string name="download_eta_sec">лишилося %1$dгод м. с</string>
+    <string name="apply_to">Застосувати до</string>
+    <string name="home_screen">Головний екран</string>
+    <string name="lock_screen">Екран блокування</string>
+    <string name="home_and_lock_screens">Головний екран та екран блокування</string>
+    <string name="apply_w_external_app">Застосувати зовнішнім додатком</string>
+    <string name="both">Обидва</string>
+    <string name="applying_wallpaper">Застосування \'%1$s\'…</string>
+    <string name="applying_preparing">Підготування…</string>
+    <string name="applying_downloading">Завантаження…</string>
+    <string name="applying_wallpaper_def">Застосування…</string>
+    <string name="applying_applied">Шпалери успішно застосовано</string>
+    <string name="search">Пошук</string>
+    <string name="changelog">Список змін</string>
+    <string name="donate">Підтримати</string>
 </resources>
