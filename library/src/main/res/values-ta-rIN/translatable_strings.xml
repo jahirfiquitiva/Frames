@@ -8,4 +8,11 @@
     <string name="loading">லோடிங்…</string>
     <string name="no_wallpapers_found">வால்பேப்பர்கள் எதுவும் கிடைக்கவில்லை!</string>
     <string name="no_collections_found">காலெக்ஷன்ஸ் எதுவும் கிடைக்கவில்லை!</string>
+    <string name="no_favorites_found">பாவொரிட்ஸ் எதுவும் கிடைக்கவில்லை!</string>
+    <string name="details">விவரங்கள்</string>
+    <string name="save">சேமிக்கவும்</string>
+    <string name="download">டவுன்லோட்</string>
+    <string name="apply">அப்ளை</string>
+    <string name="favorite">பாவொரிட்ஸ்</string>
+    <string name="palette">வண்ணங்கள்</string>
 </resources>
