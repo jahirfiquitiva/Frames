@@ -16,4 +16,11 @@
     <string name="favorite">பாவொரிட்ஸ்</string>
     <string name="palette">வண்ணங்கள்</string>
     <string name="tap_to_copy">நகலெடுக்க தாப் செய்யவும்</string>
+    <string name="copied_to_clipboard">கிளிப்போர்டுக்கு வண்ணம் நகலெடுக்கப்பட்டது</string>
+    <string name="dimensions">பரிமாணங்கள்</string>
+    <string name="author">ஆசிரியர்</string>
+    <string name="name">பெயர்</string>
+    <string name="file_size">பைலை அளவு</string>
+    <string name="copyright">பதிப்புரிமை</string>
+    <string name="permission_denied">ஸ்டோரேஜ் அனுமதிக்கான அணுகல் மறுக்கப்பட்டது</string>
 </resources>
