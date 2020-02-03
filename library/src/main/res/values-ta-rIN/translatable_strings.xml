@@ -39,4 +39,10 @@ download_cancelled
     <string name="downloads">டவுன்லோட்ஸ்</string>
     <string name="download_failed">வால்பேப்பர் டவுன்லோட் தோல்வியடைந்தது</string>
     <string name="download_pause">டவுன்லோட் இடைநிறுத்தம்</string>
+    <string name="download_paused">வால்பேப்பர் டவுன்லோட் இடைநிறுத்தப்பட்டுள்ளது</string>
+    <string name="download_resume">தொடரவும்</string>
+    <string name="download_retry">மீண்டும் முயற்சிக்கவும்</string>
+    <string name="download_starting">டவுன்லோட் தொடங்குகிறது</string>
+    <string name="download_cancel">ரத்துசெய்</string>
+    <string name="download_downloading">டவுன்லோட் செயலில் உள்ளது…</string>
 </resources>
