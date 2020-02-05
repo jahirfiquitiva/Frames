@@ -6,4 +6,7 @@ object Libs {
 
     // Frames
     const val frames = "dev.jahir:Frames:${Versions.frames}@aar"
+
+    // OneSignal
+    const val oneSignal = "com.onesignal:OneSignal:${Versions.oneSignal}"
 }
