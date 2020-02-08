@@ -18,4 +18,16 @@
     <string name="tap_to_copy">Tryck för att kopiera</string>
     <string name="copied_to_clipboard">Kopiera färgen till urklipp</string>
     <string name="dimensions">Mått</string>
+    <string name="author">Skapare</string>
+    <string name="name">Namn</string>
+    <string name="file_size">Filstorlek</string>
+    <string name="copyright">Upphovsrätt</string>
+    <string name="permission_denied">Åtkomst till lagringsmedia har blivit nekat</string>
+    <string name="permission_permanently_denied">Åtkomst till lagringsmedia har blivit nekat tidigare.
+Du behöver manuellt tillåta detta i inställningar.</string>
+    <string name="permission_request">%1$s behöver tillgång till lagringsutrymmet för att kunna använda och spara bakgrunder</string>
+    <string name="allow">Tillåt</string>
+    <string name="downloading_wallpaper">Laddar ned \'%1$s\'…</string>
+    <string name="download_successful">Bakgrundsbilden har laddats ner till \'%1$s\'</string>
+    <string name="download_successful_short">Hämtningen utav bakgrundsbilden lyckad</string>
 </resources>
