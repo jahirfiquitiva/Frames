@@ -22,9 +22,9 @@
     <string name="name">Namn</string>
     <string name="file_size">Filstorlek</string>
     <string name="copyright">Copyright</string>
-    <string name="permission_denied">Åtkomst till lagringsmedia har blivit nekat</string>
-    <string name="permission_permanently_denied">Åtkomst till lagringsmedia har blivit nekat tidigare.
-Du behöver manuellt tillåta detta i inställningar.</string>
+    <string name="permission_denied">Ingen tillgång till lagringsutrymmet</string>
+    <string name="permission_permanently_denied">Åtkomst till lagringsmedia har nekats tidigare.
+Du måste tillåta detta i inställningar.</string>
     <string name="permission_request">%1$s behöver tillgång till lagringsutrymmet för att kunna använda och spara bakgrunder</string>
     <string name="allow">Tillåt</string>
     <string name="downloading_wallpaper">Laddar ned \'%1$s\'…</string>
