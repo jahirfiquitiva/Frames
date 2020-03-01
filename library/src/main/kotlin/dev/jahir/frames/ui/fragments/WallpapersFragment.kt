@@ -65,9 +65,8 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     }
 
     override fun updateItems(newItems: ArrayList<Wallpaper>) {
-        wallsAdapter.wallpapers = newItems
-        recyclerView?.notifyDataActuallySet()
         super.updateItems(newItems)
+        wallsAdapter.wallpapers = newItems
     }
 
     override fun internalApplyFilter(
@@ -147,9 +146,7 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
         @JvmStatic
         fun create(list: ArrayList<Wallpaper> = ArrayList()) =
-            WallpapersFragment().apply {
-                this.wallsAdapter.wallpapers = list
-            }
+            WallpapersFragment().apply { updateItems(list) }
 
         @JvmStatic
         fun createForFavs(list: ArrayList<Wallpaper> = ArrayList()) =

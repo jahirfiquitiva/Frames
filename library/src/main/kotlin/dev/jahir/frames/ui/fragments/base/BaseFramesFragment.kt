@@ -79,6 +79,7 @@ open class BaseFramesFragment<T> : Fragment(), EmptyViewRecyclerView.StateChange
 
     @CallSuper
     open fun updateItems(newItems: ArrayList<T>) {
+        recyclerView?.notifyDataActuallySet()
         stopRefreshing()
     }
 }

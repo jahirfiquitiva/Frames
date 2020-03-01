@@ -29,9 +29,8 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
     }
 
     override fun updateItems(newItems: ArrayList<Collection>) {
-        collsAdapter.collections = newItems
-        recyclerView?.notifyDataActuallySet()
         super.updateItems(newItems)
+        collsAdapter.collections = newItems
     }
 
     override fun internalApplyFilter(
@@ -75,8 +74,7 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
         internal const val COLLECTION_EXTRA = "collection"
 
         @JvmStatic
-        fun create(list: ArrayList<Collection> = ArrayList()) = CollectionsFragment().apply {
-            this.collsAdapter.collections = list
-        }
+        fun create(list: ArrayList<Collection> = ArrayList()) =
+            CollectionsFragment().apply { updateItems(list) }
     }
 }

@@ -23,11 +23,11 @@ class EmptyViewRecyclerView @JvmOverloads constructor(
     var emptyView: EmptyView? = null
     var state: State = State.LOADING
         set(value) {
-            field = adapter?.let {
-                if (value == State.NORMAL && (adapter?.itemCount ?: 0) <= 0) State.EMPTY
-                else value
-            } ?: State.LOADING
-            updateStateViews()
+            if (value != field) {
+                val items = adapter?.itemCount ?: 0
+                field = if (value == State.NORMAL && items <= 0) State.EMPTY else value
+                updateStateViews()
+            }
         }
 
     fun setState(newState: State, emptyView: EmptyView? = null) {
