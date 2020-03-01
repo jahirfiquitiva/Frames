@@ -46,7 +46,9 @@ fun Context.isNetworkAvailable(): Boolean {
             } ?: false
         } else {
             val activeNetworkInfo = connectivityManager.activeNetworkInfo ?: return false
-            return activeNetworkInfo.isAvailable && activeNetworkInfo.isConnectedOrConnecting
+            val connected =
+                activeNetworkInfo.isAvailable && activeNetworkInfo.isConnectedOrConnecting
+            return connected || connectivityManager.allNetworkInfo.any { it.isConnectedOrConnecting }
         }
     } catch (ignored: Exception) {
         return false

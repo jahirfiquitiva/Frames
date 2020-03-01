@@ -126,18 +126,28 @@ class WallpapersDataViewModel : ViewModel() {
     fun loadData(context: Context, url: String = "") {
         viewModelScope.launch {
             val favorites = getFavorites(context)
-            var wallpapers = getWallpapersFromDatabase(context)
-            if (context.isNetworkAvailable() && url.hasContent()) {
-                try {
-                    wallpapers = service.getJSON(url).filter { it.url.hasContent() }
-                } catch (ignored: Exception) {
-                }
-            }
-            wallpapers = wallpapers.map { wall ->
-                wall.apply { this.isInFavorites = favorites.any { fav -> fav.url == wall.url } }
-            }
-            postWallpapers(wallpapers)
+
+            val remoteWallpapers: List<Wallpaper> =
+                if (context.isNetworkAvailable() && url.hasContent()) {
+                    try {
+                        service.getJSON(url)
+                    } catch (e: Exception) {
+                        arrayListOf<Wallpaper>()
+                    }
+                } else arrayListOf()
+
+            val wallpapers =
+                (if (remoteWallpapers.isNotEmpty()) remoteWallpapers
+                else getWallpapersFromDatabase(context))
+                    .filter { it.url.hasContent() }
+                    .map { wall ->
+                        wall.apply {
+                            this.isInFavorites = favorites.any { fav -> fav.url == wall.url }
+                        }
+                    }
+
             saveWallpapers(context, wallpapers)
+            postWallpapers(wallpapers)
 
             val actualFavorites =
                 wallpapers.filter { wllppr -> favorites.any { fav -> fav.url == wllppr.url } }
