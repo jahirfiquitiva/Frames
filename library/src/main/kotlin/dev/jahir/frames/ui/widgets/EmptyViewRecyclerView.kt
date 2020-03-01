@@ -14,7 +14,6 @@ class EmptyViewRecyclerView @JvmOverloads constructor(
 
     private var dataActuallySet = false
         set(value) {
-            if (!value) return
             field = value
             setStateInternal()
         }
@@ -44,7 +43,7 @@ class EmptyViewRecyclerView @JvmOverloads constructor(
             adapter?.let {
                 when {
                     // TODO: Double check
-                    // state == State.LOADING -> State.LOADING
+                    state == State.LOADING -> State.LOADING
                     it.itemCount <= 0 -> State.EMPTY
                     else -> State.NORMAL
                 }
