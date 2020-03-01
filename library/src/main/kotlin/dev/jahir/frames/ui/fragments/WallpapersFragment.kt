@@ -65,8 +65,9 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     }
 
     override fun updateItems(newItems: ArrayList<Wallpaper>) {
-        super.updateItems(newItems)
         wallsAdapter.wallpapers = newItems
+        wallsAdapter.notifyDataSetChanged()
+        super.updateItems(newItems)
     }
 
     override fun internalApplyFilter(

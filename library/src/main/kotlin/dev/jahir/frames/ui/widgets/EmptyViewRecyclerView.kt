@@ -14,7 +14,7 @@ class EmptyViewRecyclerView @JvmOverloads constructor(
 
     private var dataActuallySet = false
         set(value) {
-            field = value
+            if (value) field = value
             setStateInternal()
         }
 
@@ -39,7 +39,7 @@ class EmptyViewRecyclerView @JvmOverloads constructor(
     }
 
     private fun setStateInternal() {
-        state = if (dataActuallySet) {
+        state = if (dataActuallySet || IGNORE_FLAG) {
             adapter?.let {
                 when {
                     // TODO: Double check
@@ -101,5 +101,9 @@ class EmptyViewRecyclerView @JvmOverloads constructor(
 
     interface StateChangeListener {
         fun onStateChanged(state: State, emptyView: EmptyView?)
+    }
+
+    companion object {
+        private const val IGNORE_FLAG = true
     }
 }

@@ -158,6 +158,6 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
 
     companion object {
         private const val CURRENT_FRAGMENT_KEY = "current_fragment"
-        private const val INITIAL_FRAGMENT_TAG = CollectionsFragment.TAG
+        private const val INITIAL_FRAGMENT_TAG = WallpapersFragment.TAG
     }
 }

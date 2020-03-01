@@ -29,8 +29,9 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
     }
 
     override fun updateItems(newItems: ArrayList<Collection>) {
-        super.updateItems(newItems)
         collsAdapter.collections = newItems
+        collsAdapter.notifyDataSetChanged()
+        super.updateItems(newItems)
     }
 
     override fun internalApplyFilter(
