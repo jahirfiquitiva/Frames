@@ -12,6 +12,7 @@ import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.data.models.Favorite
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.data.network.WallpapersJSONService
+import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.extensions.isNetworkAvailable
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -75,18 +76,31 @@ class WallpapersDataViewModel : ViewModel() {
 
     private suspend fun getWallpapersFromDatabase(context: Context): List<Wallpaper> =
         withContext(IO) {
-            FramesDatabase.getAppDatabase(context)?.wallpapersDao()?.getAllWallpapers().orEmpty()
+            try {
+                FramesDatabase.getAppDatabase(context)?.wallpapersDao()?.getAllWallpapers()
+                    .orEmpty()
+            } catch (e: Exception) {
+                arrayListOf<Wallpaper>()
+            }
         }
 
     private suspend fun saveWallpapers(context: Context, wallpapers: List<Wallpaper>) =
         withContext(IO) {
-            FramesDatabase.getAppDatabase(context)?.wallpapersDao()?.insertAll(wallpapers)
+            try {
+                FramesDatabase.getAppDatabase(context)?.wallpapersDao()?.insertAll(wallpapers)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
     private suspend fun getFavorites(context: Context): List<Favorite> =
         withContext(IO) {
-            FramesDatabase.getAppDatabase(context)?.favoritesDao()?.getAllFavorites()
-                .orEmpty()
+            try {
+                FramesDatabase.getAppDatabase(context)?.favoritesDao()?.getAllFavorites()
+                    .orEmpty()
+            } catch (e: Exception) {
+                arrayListOf<Favorite>()
+            }
         }
 
     private suspend fun internalAddToFavorites(context: Context, wallpaper: Wallpaper) =
@@ -113,15 +127,12 @@ class WallpapersDataViewModel : ViewModel() {
         viewModelScope.launch {
             val favorites = getFavorites(context)
             var wallpapers = getWallpapersFromDatabase(context)
-            if (wallpapers.isEmpty() || context.isNetworkAvailable()) {
-                wallpapers = if (url.isNotEmpty() && url.isNotBlank()) {
-                    try {
-                        service.getJSON(url).filter { it.url.isNotEmpty() }
-                    } catch (e: Exception) {
-                        wallpapersData?.value.orEmpty()
-                    }
-                } else wallpapersData?.value.orEmpty()
-            } else wallpapersData?.value.orEmpty()
+            if (context.isNetworkAvailable() && url.hasContent()) {
+                try {
+                    wallpapers = service.getJSON(url).filter { it.url.hasContent() }
+                } catch (ignored: Exception) {
+                }
+            }
             wallpapers = wallpapers.map { wall ->
                 wall.apply { this.isInFavorites = favorites.any { fav -> fav.url == wall.url } }
             }

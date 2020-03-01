@@ -19,29 +19,37 @@ import dev.jahir.frames.ui.activities.base.BaseThemedActivity
 import dev.jahir.frames.utils.Prefs
 import java.io.File
 
-
 @Suppress("DEPRECATION")
 fun Context.isNetworkAvailable(): Boolean {
-    val connectivityManager =
-        ContextCompat.getSystemService(
-            this,
-            Context.CONNECTIVITY_SERVICE::class.java
-        ) as ConnectivityManager?
-    connectivityManager ?: return false
-
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        val capabilities =
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        capabilities?.let {
-            when {
-                it.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                it.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                it.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-                else -> false
+    try {
+        var connectivityManager: ConnectivityManager? = try {
+            ContextCompat.getSystemService(this, ConnectivityManager::class.java)
+        } catch (ignored: Exception) {
+            null
+        }
+        if (connectivityManager == null)
+            try {
+                connectivityManager =
+                    getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager?
+            } catch (ignored: Exception) {
             }
-        } ?: false
-    } else {
-        connectivityManager.activeNetworkInfo?.isConnected ?: false
+        connectivityManager ?: return false
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val activeNetwork = connectivityManager.activeNetwork ?: return false
+            val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
+            capabilities?.let {
+                it.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                        || it.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                        || it.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+                        || it.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            } ?: false
+        } else {
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo ?: return false
+            return activeNetworkInfo.isAvailable && activeNetworkInfo.isConnectedOrConnecting
+        }
+    } catch (ignored: Exception) {
+        return false
     }
 }
 
