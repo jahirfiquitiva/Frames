@@ -87,6 +87,7 @@ class WallpapersDataViewModel : ViewModel() {
     private suspend fun saveWallpapers(context: Context, wallpapers: List<Wallpaper>) =
         withContext(IO) {
             try {
+                FramesDatabase.getAppDatabase(context)?.wallpapersDao()?.nuke()
                 FramesDatabase.getAppDatabase(context)?.wallpapersDao()?.insertAll(wallpapers)
             } catch (e: Exception) {
                 e.printStackTrace()
