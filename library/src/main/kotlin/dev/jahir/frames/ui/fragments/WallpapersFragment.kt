@@ -40,7 +40,6 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView?.adapter = wallsAdapter
         val columnsCount =
             context?.resources?.getInteger(R.integer.wallpapers_columns_count) ?: 2
         recyclerView?.layoutManager =
@@ -50,6 +49,8 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
                 columnsCount, resources.getDimensionPixelSize(R.dimen.grids_spacing)
             )
         )
+        recyclerView?.adapter = wallsAdapter
+        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
     }
 
     override fun onStateChanged(state: EmptyViewRecyclerView.State, emptyView: EmptyView?) {
@@ -66,7 +67,6 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
     override fun updateItems(newItems: ArrayList<Wallpaper>) {
         wallsAdapter.wallpapers = newItems
-        wallsAdapter.notifyDataSetChanged()
         super.updateItems(newItems)
     }
 
@@ -147,7 +147,9 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
         @JvmStatic
         fun create(list: ArrayList<Wallpaper> = ArrayList()) =
-            WallpapersFragment().apply { updateItems(list) }
+            WallpapersFragment().apply {
+                wallsAdapter.wallpapers = list
+            }
 
         @JvmStatic
         fun createForFavs(list: ArrayList<Wallpaper> = ArrayList()) =

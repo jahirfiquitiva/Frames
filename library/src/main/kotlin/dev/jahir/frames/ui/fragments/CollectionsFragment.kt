@@ -22,15 +22,15 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView?.adapter = collsAdapter
         val columnsCount = context?.resources?.getInteger(R.integer.collections_columns_count) ?: 1
         recyclerView?.layoutManager =
             GridLayoutManager(context, columnsCount, GridLayoutManager.VERTICAL, false)
+        recyclerView?.adapter = collsAdapter
+        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
     }
 
     override fun updateItems(newItems: ArrayList<Collection>) {
         collsAdapter.collections = newItems
-        collsAdapter.notifyDataSetChanged()
         super.updateItems(newItems)
     }
 
@@ -76,6 +76,8 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
 
         @JvmStatic
         fun create(list: ArrayList<Collection> = ArrayList()) =
-            CollectionsFragment().apply { updateItems(list) }
+            CollectionsFragment().apply {
+                collsAdapter.collections = list
+            }
     }
 }
