@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
@@ -41,9 +40,9 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        recyclerView?.adapter = wallsAdapter
         val columnsCount =
             context?.resources?.getInteger(R.integer.wallpapers_columns_count) ?: 2
-        recyclerView?.adapter = wallsAdapter
         recyclerView?.layoutManager =
             GridLayoutManager(context, columnsCount, GridLayoutManager.VERTICAL, false)
         recyclerView?.addItemDecoration(
@@ -51,7 +50,6 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
                 columnsCount, resources.getDimensionPixelSize(R.dimen.grids_spacing)
             )
         )
-        recyclerView?.itemAnimator = DefaultItemAnimator()
     }
 
     override fun onStateChanged(state: EmptyViewRecyclerView.State, emptyView: EmptyView?) {
@@ -60,18 +58,16 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
             if (isForFavs) emptyView?.setImageDrawable(R.drawable.ic_empty_favorites)
             emptyView?.setEmpty(
                 context?.getString(
-                    if (isForFavs) R.string.no_favorites_found
-                    else R.string.no_wallpapers_found
+                    if (isForFavs) R.string.no_favorites_found else R.string.no_wallpapers_found
                 ) ?: ""
             )
         }
     }
 
     override fun updateItems(newItems: ArrayList<Wallpaper>) {
+        wallsAdapter.wallpapers = newItems
+        recyclerView?.notifyDataActuallySet()
         super.updateItems(newItems)
-        wallsAdapter.wallpapers = items
-        wallsAdapter.notifyDataSetChanged()
-        stopRefreshing()
     }
 
     override fun internalApplyFilter(
@@ -151,7 +147,9 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
         @JvmStatic
         fun create(list: ArrayList<Wallpaper> = ArrayList()) =
-            WallpapersFragment().apply { updateItems(list) }
+            WallpapersFragment().apply {
+                this.wallsAdapter.wallpapers = list
+            }
 
         @JvmStatic
         fun createForFavs(list: ArrayList<Wallpaper> = ArrayList()) =

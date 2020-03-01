@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.findView
@@ -16,8 +17,6 @@ import dev.jahir.frames.ui.widgets.EmptyView
 import dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
 
 open class BaseFramesFragment<T> : Fragment(), EmptyViewRecyclerView.StateChangeListener {
-
-    internal var items: ArrayList<T> = ArrayList()
 
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     internal val recyclerView: EmptyViewRecyclerView? by findView(R.id.recycler_view)
@@ -35,6 +34,7 @@ open class BaseFramesFragment<T> : Fragment(), EmptyViewRecyclerView.StateChange
         super.onViewCreated(view, savedInstanceState)
         recyclerView?.emptyView = emptyView
         recyclerView?.stateChangeListener = this
+        recyclerView?.itemAnimator = DefaultItemAnimator()
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
         swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh)
         swipeRefreshLayout?.setOnRefreshListener { startRefreshing() }
@@ -79,8 +79,6 @@ open class BaseFramesFragment<T> : Fragment(), EmptyViewRecyclerView.StateChange
 
     @CallSuper
     open fun updateItems(newItems: ArrayList<T>) {
-        this.items.clear()
-        this.items.addAll(newItems)
         stopRefreshing()
     }
 }

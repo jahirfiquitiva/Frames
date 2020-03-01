@@ -16,7 +16,6 @@ fun File.getUri(context: Context?): Uri? {
         try {
             Uri.fromFile(this)
         } catch (e: Exception) {
-            e.printStackTrace()
             null
         }
     }
@@ -31,13 +30,11 @@ fun Context.getExternalStorageFolder(): File? {
             Environment.getExternalStorageDirectory()
         }
     } catch (e: Exception) {
-        e.printStackTrace()
         null
     }
     val appStorage = try {
         getExternalFilesDir(null)
     } catch (e: Exception) {
-        e.printStackTrace()
         null
     }
     return if (appStorage?.absolutePath.orEmpty().contains(packageName)) externalStorage
@@ -59,14 +56,15 @@ fun Context.getDefaultWallpapersDownloadFolder(): File? {
 
 val File.dirSize: Long
     get() {
-        if (exists()) {
-            var result: Long = 0
-            listFiles()?.forEach {
-                result += if (it.isDirectory) it.dirSize else it.length()
-            }
-            return result
+        return try {
+            if (exists()) {
+                var result: Long = 0
+                listFiles()?.forEach { result += if (it.isDirectory) it.dirSize else it.length() }
+                result
+            } else 0
+        } catch (e: Exception) {
+            0
         }
-        return 0
     }
 
 fun File.deleteEverything() {

@@ -3,7 +3,6 @@ package dev.jahir.frames.ui.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
@@ -23,18 +22,16 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val columnsCount = context?.resources?.getInteger(R.integer.collections_columns_count) ?: 1
         recyclerView?.adapter = collsAdapter
+        val columnsCount = context?.resources?.getInteger(R.integer.collections_columns_count) ?: 1
         recyclerView?.layoutManager =
             GridLayoutManager(context, columnsCount, GridLayoutManager.VERTICAL, false)
-        recyclerView?.itemAnimator = DefaultItemAnimator()
     }
 
     override fun updateItems(newItems: ArrayList<Collection>) {
+        collsAdapter.collections = newItems
+        recyclerView?.notifyDataActuallySet()
         super.updateItems(newItems)
-        collsAdapter.collections = items
-        collsAdapter.notifyDataSetChanged()
-        stopRefreshing()
     }
 
     override fun internalApplyFilter(
@@ -79,7 +76,7 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
 
         @JvmStatic
         fun create(list: ArrayList<Collection> = ArrayList()) = CollectionsFragment().apply {
-            updateItems(list)
+            this.collsAdapter.collections = list
         }
     }
 }

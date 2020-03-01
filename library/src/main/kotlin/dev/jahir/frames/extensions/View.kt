@@ -25,7 +25,7 @@ inline fun <reified T : View> View.findView(@IdRes id: Int, logException: Boolea
 fun <T : View> T.showAndAnimate() {
     visible()
     (this as? ImageView)?.let {
-        postDelayed(250) { (it.drawable as? Animatable)?.start() }
+        postDelayed(100) { (it.drawable as? Animatable)?.start() }
     }
 }
 

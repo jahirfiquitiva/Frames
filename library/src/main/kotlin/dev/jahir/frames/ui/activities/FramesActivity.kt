@@ -27,8 +27,8 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
     }
 
     private var currentFragment: Fragment? = null
-    private var currentTag: String = WallpapersFragment.TAG
-    private var oldTag: String = WallpapersFragment.TAG
+    private var currentTag: String = INITIAL_FRAGMENT_TAG
+    private var oldTag: String = INITIAL_FRAGMENT_TAG
     private var currentMenuItemId: Int = R.id.wallpapers
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -140,29 +140,24 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
 
     private fun filterWallpapers(filter: String = "", closed: Boolean = false) {
         (currentFragment as? WallpapersFragment)?.applyFilter(
-            filter,
-            ArrayList(wallpapersViewModel.wallpapers),
-            closed
+            filter, ArrayList(wallpapersViewModel.wallpapers), closed
         )
     }
 
     private fun filterCollections(filter: String = "", closed: Boolean = false) {
         (currentFragment as? CollectionsFragment)?.applyFilter(
-            filter,
-            ArrayList(wallpapersViewModel.collections),
-            closed
+            filter, ArrayList(wallpapersViewModel.collections), closed
         )
     }
 
     private fun filterFavorites(filter: String = "", closed: Boolean = false) {
         (currentFragment as? WallpapersFragment)?.applyFilter(
-            filter,
-            ArrayList(wallpapersViewModel.favorites),
-            closed
+            filter, ArrayList(wallpapersViewModel.favorites), closed
         )
     }
 
     companion object {
         private const val CURRENT_FRAGMENT_KEY = "current_fragment"
+        private const val INITIAL_FRAGMENT_TAG = CollectionsFragment.TAG
     }
 }

@@ -59,7 +59,7 @@ class EmptyView @JvmOverloads constructor(
 
     fun setEmpty(text: String = "") {
         progressBar?.gone()
-        imageView?.visible()
+        imageView?.showAndAnimate()
         setText(text)
         show()
     }
@@ -92,17 +92,16 @@ class EmptyView @JvmOverloads constructor(
 
     private fun show() {
         visible()
-        imageView?.showAndAnimate()
     }
 
     fun hide() {
-        progressBar?.gone()
-        imageView?.gone()
-        textView?.gone()
         gone()
     }
 
     fun gone() {
+        progressBar?.gone()
+        imageView?.gone()
+        textView?.gone()
         visibility = View.GONE
     }
 }
