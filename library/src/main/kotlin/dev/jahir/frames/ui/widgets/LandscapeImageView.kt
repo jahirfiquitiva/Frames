@@ -2,7 +2,7 @@ package dev.jahir.frames.ui.widgets
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatImageView
+import com.google.android.material.imageview.ShapeableImageView
 import dev.jahir.frames.R
 
 open class LandscapeImageView @JvmOverloads constructor(
@@ -10,7 +10,7 @@ open class LandscapeImageView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     style: Int = 0
 ) :
-    AppCompatImageView(context, attributeSet, style) {
+    ShapeableImageView(context, attributeSet, style) {
 
     private var heightDivider: Float = 3F
 
