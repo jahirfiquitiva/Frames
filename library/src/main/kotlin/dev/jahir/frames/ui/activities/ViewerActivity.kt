@@ -115,7 +115,6 @@ class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
                 ?: wallpaper.isInFavorites ?: false
 
         wallpapersViewModel.observeFavorites(this) {
-            this.favoritesModified = true
             this.isInFavorites = it.any { wall -> wall.url == wallpaper.url }
         }
 
@@ -131,6 +130,7 @@ class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
                 R.id.download -> checkForDownload()
                 R.id.apply -> applyWallpaper(wallpaper)
                 R.id.favorites -> {
+                    this.favoritesModified = true
                     if (isInFavorites) removeFromFavorites(wallpaper)
                     else addToFavorites(wallpaper)
                 }

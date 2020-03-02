@@ -84,10 +84,19 @@ class WallpapersDataViewModel : ViewModel() {
             }
         }
 
-    private suspend fun saveWallpapers(context: Context, wallpapers: List<Wallpaper>) =
+    private suspend fun deleteAllWallpapers(context: Context) =
         withContext(IO) {
             try {
                 FramesDatabase.getAppDatabase(context)?.wallpapersDao()?.nuke()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    private suspend fun saveWallpapers(context: Context, wallpapers: List<Wallpaper>) =
+        withContext(IO) {
+            try {
+                deleteAllWallpapers(context)
                 FramesDatabase.getAppDatabase(context)?.wallpapersDao()?.insertAll(wallpapers)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -137,10 +146,16 @@ class WallpapersDataViewModel : ViewModel() {
                     }
                 } else arrayListOf()
 
+            val localWallpapers = try {
+                getWallpapersFromDatabase(context)
+            } catch (e: Exception) {
+                arrayListOf<Wallpaper>()
+            }
+
             val wallpapers =
-                (if (remoteWallpapers.isNotEmpty()) remoteWallpapers
-                else getWallpapersFromDatabase(context))
+                (if (remoteWallpapers.isNotEmpty()) remoteWallpapers else localWallpapers)
                     .filter { it.url.hasContent() }
+                    .distinctBy { it.url }
                     .map { wall ->
                         wall.apply {
                             this.isInFavorites = favorites.any { fav -> fav.url == wall.url }
