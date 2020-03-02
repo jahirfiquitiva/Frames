@@ -3,10 +3,20 @@ package dev.jahir.frames.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.AnimationSet
+import android.view.animation.DecelerateInterpolator
+import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import dev.jahir.frames.R
+import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.hasContent
+import dev.jahir.frames.extensions.invisible
+import dev.jahir.frames.extensions.visible
 import dev.jahir.frames.ui.activities.base.BaseDonationsActivity
 import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
@@ -107,17 +117,56 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
     private fun loadFragment(fragment: Fragment?, tag: String) {
         fragment ?: return
         if (currentFragment !== fragment) {
-            val ft = supportFragmentManager.beginTransaction()
-            currentFragment?.let { ft.hide(it).setMaxLifecycle(it, Lifecycle.State.STARTED) }
-            if (fragment.isAdded) {
-                ft.show(fragment)
-            } else {
-                ft.add(R.id.fragments_container, fragment, tag)
+            fadeFragmentTransition {
+                val ft = supportFragmentManager.beginTransaction()
+                currentFragment?.let { ft.hide(it).setMaxLifecycle(it, Lifecycle.State.STARTED) }
+                if (fragment.isAdded) {
+                    ft.show(fragment)
+                } else {
+                    ft.add(R.id.fragments_container, fragment, tag)
+                }
+                ft.setMaxLifecycle(fragment, Lifecycle.State.RESUMED)
+                currentFragment = fragment
+                ft.commit()
+                updateSearchHint()
             }
-            ft.setMaxLifecycle(fragment, Lifecycle.State.RESUMED)
-            currentFragment = fragment
-            ft.commit()
-            updateSearchHint()
+        }
+    }
+
+    private fun fadeFragmentTransition(
+        @IdRes viewId: Int = R.id.fragments_container,
+        fragmentTransaction: () -> Unit = {}
+    ) {
+        val fragmentsContainer by findView<View>(viewId)
+
+        fragmentsContainer?.let { container ->
+            val fadeOut = AlphaAnimation(1F, 0F)
+            fadeOut.interpolator = DecelerateInterpolator()
+            fadeOut.duration = FRAGMENT_TRANSITION_DURATION
+
+            fadeOut.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationEnd(p0: Animation?) {
+                    container.invisible()
+                    fragmentTransaction()
+
+                    val fadeIn = AlphaAnimation(0F, 1F)
+                    fadeIn.interpolator = AccelerateInterpolator()
+                    fadeIn.startOffset = FRAGMENT_TRANSITION_OFFSET_DURATION
+                    fadeIn.duration = FRAGMENT_TRANSITION_DURATION
+
+                    val animation = AnimationSet(false)
+                    animation.addAnimation(fadeIn)
+                    container.visible()
+                    container.animation = animation
+                }
+
+                override fun onAnimationRepeat(p0: Animation?) {}
+                override fun onAnimationStart(p0: Animation?) {}
+            })
+
+            val animation = AnimationSet(false)
+            animation.addAnimation(fadeOut)
+            container.animation = animation
         }
     }
 
@@ -142,5 +191,7 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
     companion object {
         private const val CURRENT_FRAGMENT_KEY = "current_fragment"
         private const val INITIAL_FRAGMENT_TAG = WallpapersFragment.TAG
+        private const val FRAGMENT_TRANSITION_DURATION = 100L
+        private const val FRAGMENT_TRANSITION_OFFSET_DURATION = 50L
     }
 }
