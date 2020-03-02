@@ -195,6 +195,29 @@ class WallpapersDataViewModel : ViewModel() {
         }
     }
 
+    private fun repostAllData(context: Context?) {
+        context ?: return
+        viewModelScope.launch {
+            postWallpapers(wallpapers)
+            val favorites = getFavorites(context)
+            val actualFavorites =
+                wallpapers.filter { wllppr -> favorites.any { fav -> fav.url == wllppr.url } }
+            postFavorites(actualFavorites)
+            postCollections(collections)
+        }
+    }
+
+    fun repostData(context: Context?, key: Int) {
+        context ?: return
+        viewModelScope.launch {
+            when (key) {
+                1 -> postCollections(collections)
+                0 -> postWallpapers(wallpapers)
+                else -> repostAllData(context)
+            }
+        }
+    }
+
     private fun postWallpapers(result: List<Wallpaper>) {
         wallpapersData?.value = null
         wallpapersData?.postValue(result)

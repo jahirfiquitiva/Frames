@@ -66,17 +66,7 @@ class CollectionActivity : BaseChangelogDialogActivity<Prefs>() {
     override fun internalDoSearch(filter: String, closed: Boolean) {
         super.internalDoSearch(filter, closed)
         wallpapersFragment.setRefreshEnabled(!filter.hasContent())
-        val rightCollection = try {
-            val collections = wallpapersViewModel.collections
-            collections.getOrNull(collections.indexOfFirst { coll -> coll.name == collection })
-        } catch (e: Exception) {
-            null
-        }
-        wallpapersFragment.applyFilter(
-            filter,
-            ArrayList(rightCollection?.wallpapers.orEmpty()),
-            closed
-        )
+        wallpapersFragment.applyFilter(filter, closed)
     }
 
     override fun finish() {

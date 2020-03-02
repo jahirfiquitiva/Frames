@@ -16,8 +16,9 @@ import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.widgets.EmptyView
 import dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
 
-open class BaseFramesFragment<T> : Fragment(), EmptyViewRecyclerView.StateChangeListener {
+abstract class BaseFramesFragment<T> : Fragment(), EmptyViewRecyclerView.StateChangeListener {
 
+    internal val originalItems: ArrayList<T> = ArrayList()
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     internal val recyclerView: EmptyViewRecyclerView? by findView(R.id.recycler_view)
     private val emptyView: EmptyView? by findView(R.id.empty_view)
@@ -40,21 +41,19 @@ open class BaseFramesFragment<T> : Fragment(), EmptyViewRecyclerView.StateChange
         swipeRefreshLayout?.setOnRefreshListener { startRefreshing() }
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as? BaseFavoritesConnectedActivity<*>)?.repostData(getRepostKey())
+    }
+
     internal fun setRefreshEnabled(enabled: Boolean) {
         swipeRefreshLayout?.isEnabled = enabled
     }
 
-    internal fun applyFilter(filter: String, originalItems: ArrayList<T>, closed: Boolean) {
+    internal fun applyFilter(filter: String, closed: Boolean) {
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
-        internalApplyFilter(filter, originalItems, closed)
+        updateItemsInAdapter(getFilteredItems(filter, closed))
         if (!closed) scrollToTop()
-    }
-
-    internal open fun internalApplyFilter(
-        filter: String,
-        originalItems: ArrayList<T>,
-        closed: Boolean
-    ) {
     }
 
     private fun startRefreshing() {
@@ -79,6 +78,13 @@ open class BaseFramesFragment<T> : Fragment(), EmptyViewRecyclerView.StateChange
 
     @CallSuper
     open fun updateItems(newItems: ArrayList<T>) {
+        this.originalItems.clear()
+        this.originalItems.addAll(newItems)
+        updateItemsInAdapter(newItems)
         stopRefreshing()
     }
+
+    abstract fun getFilteredItems(filter: String, closed: Boolean): ArrayList<T>
+    abstract fun updateItemsInAdapter(items: ArrayList<T>)
+    abstract fun getRepostKey(): Int
 }

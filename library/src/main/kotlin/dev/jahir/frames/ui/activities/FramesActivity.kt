@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.ui.activities.base.BaseDonationsActivity
@@ -107,11 +108,13 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
         fragment ?: return
         if (currentFragment !== fragment) {
             val ft = supportFragmentManager.beginTransaction()
+            currentFragment?.let { ft.hide(it).setMaxLifecycle(it, Lifecycle.State.STARTED) }
             if (fragment.isAdded) {
-                currentFragment?.let { ft.hide(it).show(fragment) }
+                ft.show(fragment)
             } else {
-                currentFragment?.let { ft.hide(it).add(R.id.fragments_container, fragment, tag) }
+                ft.add(R.id.fragments_container, fragment, tag)
             }
+            ft.setMaxLifecycle(fragment, Lifecycle.State.RESUMED)
             currentFragment = fragment
             ft.commit()
             updateSearchHint()
@@ -130,30 +133,10 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
 
     override fun internalDoSearch(filter: String, closed: Boolean) {
         super.internalDoSearch(filter, closed)
-        (currentFragment as? BaseFramesFragment<*>)?.setRefreshEnabled(!filter.hasContent())
-        when (currentTag) {
-            WallpapersFragment.TAG -> filterWallpapers(filter, closed)
-            CollectionsFragment.TAG -> filterCollections(filter, closed)
-            WallpapersFragment.FAVS_TAG -> filterFavorites(filter, closed)
+        (currentFragment as? BaseFramesFragment<*>)?.let {
+            it.setRefreshEnabled(!filter.hasContent())
+            it.applyFilter(filter, closed)
         }
-    }
-
-    private fun filterWallpapers(filter: String = "", closed: Boolean = false) {
-        (currentFragment as? WallpapersFragment)?.applyFilter(
-            filter, ArrayList(wallpapersViewModel.wallpapers), closed
-        )
-    }
-
-    private fun filterCollections(filter: String = "", closed: Boolean = false) {
-        (currentFragment as? CollectionsFragment)?.applyFilter(
-            filter, ArrayList(wallpapersViewModel.collections), closed
-        )
-    }
-
-    private fun filterFavorites(filter: String = "", closed: Boolean = false) {
-        (currentFragment as? WallpapersFragment)?.applyFilter(
-            filter, ArrayList(wallpapersViewModel.favorites), closed
-        )
     }
 
     companion object {

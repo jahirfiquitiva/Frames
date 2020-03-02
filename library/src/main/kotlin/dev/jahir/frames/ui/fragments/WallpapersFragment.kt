@@ -27,7 +27,8 @@ import dev.jahir.frames.utils.wallpapersAdapter
 
 class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
-    private var isForFavs: Boolean = false
+    internal var isForFavs: Boolean = false
+        private set
 
     private val wallsAdapter: WallpapersAdapter by lazy {
         wallpapersAdapter {
@@ -65,28 +66,17 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         }
     }
 
-    override fun updateItems(newItems: ArrayList<Wallpaper>) {
-        wallsAdapter.wallpapers = newItems
-        super.updateItems(newItems)
+    override fun updateItemsInAdapter(items: ArrayList<Wallpaper>) {
+        wallsAdapter.wallpapers = items
     }
 
-    override fun internalApplyFilter(
-        filter: String,
-        originalItems: ArrayList<Wallpaper>,
-        closed: Boolean
-    ) {
-        super.internalApplyFilter(filter, originalItems, closed)
-        if (filter.hasContent()) {
-            updateItems(ArrayList(
-                originalItems.filter {
-                    it.name.lower().contains(filter.lower()) ||
-                            it.collections.orEmpty().lower().contains(filter.lower()) ||
-                            it.author.lower().contains(filter.lower())
-                }
-            ))
-        } else {
-            updateItems(originalItems)
-        }
+    override fun getFilteredItems(filter: String, closed: Boolean): ArrayList<Wallpaper> {
+        if (!filter.hasContent()) return originalItems
+        return ArrayList(originalItems.filter {
+            it.name.lower().contains(filter.lower()) ||
+                    it.collections.orEmpty().lower().contains(filter.lower()) ||
+                    it.author.lower().contains(filter.lower())
+        })
     }
 
     private fun onFavClick(checked: Boolean, wallpaper: Wallpaper) {
@@ -138,6 +128,8 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         }
     }
 
+    override fun getRepostKey(): Int = if (isForFavs) 2 else 0
+
     companion object {
         internal const val TAG = "wallpapers_fragment"
         internal const val FAVS_TAG = "favorites_fragment"
@@ -148,11 +140,15 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         @JvmStatic
         fun create(list: ArrayList<Wallpaper> = ArrayList()) =
             WallpapersFragment().apply {
-                wallsAdapter.wallpapers = list
+                this.isForFavs = false
+                updateItemsInAdapter(list)
             }
 
         @JvmStatic
         fun createForFavs(list: ArrayList<Wallpaper> = ArrayList()) =
-            create(list).apply { this.isForFavs = true }
+            WallpapersFragment().apply {
+                this.isForFavs = true
+                updateItemsInAdapter(list)
+            }
     }
 }

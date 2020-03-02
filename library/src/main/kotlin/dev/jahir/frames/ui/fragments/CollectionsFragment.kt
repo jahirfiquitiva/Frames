@@ -18,35 +18,26 @@ import dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
 
 class CollectionsFragment : BaseFramesFragment<Collection>() {
 
-    private val collsAdapter: CollectionsAdapter by lazy { CollectionsAdapter { onClicked(it) } }
+    private val collectionsAdapter: CollectionsAdapter by lazy { CollectionsAdapter { onClicked(it) } }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val columnsCount = context?.resources?.getInteger(R.integer.collections_columns_count) ?: 1
         recyclerView?.layoutManager =
             GridLayoutManager(context, columnsCount, GridLayoutManager.VERTICAL, false)
-        recyclerView?.adapter = collsAdapter
+        recyclerView?.adapter = collectionsAdapter
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
     }
 
-    override fun updateItems(newItems: ArrayList<Collection>) {
-        collsAdapter.collections = newItems
-        super.updateItems(newItems)
+    override fun updateItemsInAdapter(items: ArrayList<Collection>) {
+        collectionsAdapter.collections = items
     }
 
-    override fun internalApplyFilter(
-        filter: String,
-        originalItems: ArrayList<Collection>,
-        closed: Boolean
-    ) {
-        super.internalApplyFilter(filter, originalItems, closed)
-        if (filter.hasContent()) {
-            updateItems(ArrayList(originalItems.filter {
-                it.name.lower().contains(filter.lower())
-            }))
-        } else {
-            updateItems(originalItems)
-        }
+    override fun getFilteredItems(filter: String, closed: Boolean): ArrayList<Collection> {
+        if (!filter.hasContent()) return originalItems
+        return ArrayList(originalItems.filter {
+            it.name.lower().contains(filter.lower())
+        })
     }
 
     override fun onStateChanged(state: EmptyViewRecyclerView.State, emptyView: EmptyView?) {
@@ -70,6 +61,8 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
         }
     }
 
+    override fun getRepostKey(): Int = 1
+
     companion object {
         internal const val TAG = "collections_fragment"
         internal const val COLLECTION_EXTRA = "collection"
@@ -77,7 +70,7 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
         @JvmStatic
         fun create(list: ArrayList<Collection> = ArrayList()) =
             CollectionsFragment().apply {
-                collsAdapter.collections = list
+                updateItemsInAdapter(list)
             }
     }
 }
