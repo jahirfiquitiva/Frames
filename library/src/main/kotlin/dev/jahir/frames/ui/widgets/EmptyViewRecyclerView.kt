@@ -12,12 +12,6 @@ class EmptyViewRecyclerView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : RecyclerView(context, attributeSet, defStyleAttr) {
 
-    private var dataActuallySet = false
-        set(value) {
-            if (value) field = value
-            setStateInternal()
-        }
-
     var stateChangeListener: StateChangeListener? = null
     var emptyView: EmptyView? = null
     var state: State = State.LOADING
@@ -34,21 +28,15 @@ class EmptyViewRecyclerView @JvmOverloads constructor(
         this.state = newState
     }
 
-    fun notifyDataActuallySet() {
-        dataActuallySet = true
-    }
-
     private fun setStateInternal() {
-        state = if (dataActuallySet || IGNORE_FLAG) {
-            adapter?.let {
-                when {
-                    // TODO: Double check
-                    // state == State.LOADING -> State.LOADING
-                    it.itemCount <= 0 -> State.EMPTY
-                    else -> State.NORMAL
-                }
-            } ?: State.LOADING
-        } else State.LOADING
+        state = adapter?.let {
+            when {
+                // TODO: Double check
+                // state == State.LOADING -> State.LOADING
+                it.itemCount <= 0 -> State.EMPTY
+                else -> State.NORMAL
+            }
+        } ?: State.LOADING
     }
 
     private fun updateStateViews() {
@@ -101,9 +89,5 @@ class EmptyViewRecyclerView @JvmOverloads constructor(
 
     interface StateChangeListener {
         fun onStateChanged(state: State, emptyView: EmptyView?)
-    }
-
-    companion object {
-        private const val IGNORE_FLAG = true
     }
 }

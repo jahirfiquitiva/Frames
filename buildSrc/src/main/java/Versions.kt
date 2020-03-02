@@ -25,20 +25,20 @@ object Versions {
     const val swipeRefreshLayout = "1.0.0"
     const val palette = "1.0.0"
     const val preference = "1.1.0"
-    const val materialComponents = "1.1.0-rc02"
+    const val materialComponents = "1.2.0-alpha05"
 
     // ViewModel and LiveData
     const val lifecycle = "2.2.0"
 
     // Room Database
-    const val room = "2.2.3"
+    const val room = "2.2.4"
 
     // Network & Serialization
     const val gson = "2.8.6"
-    const val retrofit = "2.6.2"
+    const val retrofit = "2.7.2"
 
     // Image loading and Photo View
-    const val coil = "0.9.3"
+    const val coil = "0.9.5"
     const val photoView = "2.3.0"
 
     // Sectioned RecyclerView
