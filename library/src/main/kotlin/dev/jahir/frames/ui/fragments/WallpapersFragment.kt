@@ -80,12 +80,12 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     }
 
     private fun onFavClick(checked: Boolean, wallpaper: Wallpaper) {
-        (activity as? CollectionActivity)?.setFavoritesModified()
-        if (checked) {
+        val updated = (if (checked) {
             (activity as? BaseFavoritesConnectedActivity<*>)?.addToFavorites(wallpaper)
         } else {
             (activity as? BaseFavoritesConnectedActivity<*>)?.removeFromFavorites(wallpaper)
-        }
+        }) ?: false
+        if (updated) (activity as? CollectionActivity)?.setFavoritesModified()
     }
 
     private fun launchViewer(wallpaper: Wallpaper, holder: WallpaperViewHolder) {

@@ -64,6 +64,7 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
     }
 
     override fun onFavoritesUpdated(favorites: List<Wallpaper>) {
+        super.onFavoritesUpdated(favorites)
         favoritesFragment.updateItems(ArrayList(favorites))
     }
 

@@ -18,14 +18,22 @@ abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisib
         wallpapersViewModel.observeFavorites(this, ::onFavoritesUpdated)
     }
 
-    internal fun addToFavorites(wallpaper: Wallpaper) {
-        if (canModifyFavorites()) wallpapersViewModel.addToFavorites(this, wallpaper)
-        else onFavoritesLocked()
+    internal fun addToFavorites(wallpaper: Wallpaper): Boolean {
+        if (canModifyFavorites()) {
+            wallpapersViewModel.addToFavorites(this, wallpaper)
+            return true
+        }
+        onFavoritesLocked()
+        return false
     }
 
-    internal fun removeFromFavorites(wallpaper: Wallpaper) {
-        if (canModifyFavorites()) wallpapersViewModel.removeFromFavorites(this, wallpaper)
-        else onFavoritesLocked()
+    internal fun removeFromFavorites(wallpaper: Wallpaper): Boolean {
+        if (canModifyFavorites()) {
+            wallpapersViewModel.removeFromFavorites(this, wallpaper)
+            return true
+        }
+        onFavoritesLocked()
+        return false
     }
 
     override fun onDestroy() {
@@ -53,5 +61,5 @@ abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisib
 
     open fun canModifyFavorites(): Boolean = true
     open fun onFavoritesLocked() {}
-    abstract fun onFavoritesUpdated(favorites: List<Wallpaper>)
+    open fun onFavoritesUpdated(favorites: List<Wallpaper>) {}
 }
