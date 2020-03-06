@@ -16,6 +16,7 @@ import androidx.lifecycle.Lifecycle
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.findView
+import dev.jahir.frames.extensions.getAppName
 import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.extensions.invisible
 import dev.jahir.frames.extensions.visible
@@ -110,27 +111,31 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
         transaction.commit()
     }
 
-    open fun changeFragment(itemId: Int, force: Boolean = false): Boolean {
+    open fun getToolbarTitleForItem(itemId: Int): String? = null
+
+    open fun getNextFragment(itemId: Int): Pair<Pair<String?, Fragment?>?, Boolean>? =
+        when (currentMenuItemId) {
+            R.id.wallpapers -> Pair(Pair(WallpapersFragment.TAG, wallpapersFragment), true)
+            R.id.collections -> Pair(Pair(CollectionsFragment.TAG, collectionsFragment), true)
+            R.id.favorites -> Pair(Pair(WallpapersFragment.FAVS_TAG, favoritesFragment), true)
+            else -> null
+        }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun changeFragment(itemId: Int, force: Boolean = false): Boolean {
         if (currentMenuItemId != itemId || force) {
-            var nextFragment: Fragment? = null
-            oldTag = currentTag
-            currentMenuItemId = itemId
-            when (currentMenuItemId) {
-                R.id.wallpapers -> {
-                    currentTag = WallpapersFragment.TAG
-                    nextFragment = wallpapersFragment
-                }
-                R.id.collections -> {
-                    currentTag = CollectionsFragment.TAG
-                    nextFragment = collectionsFragment
-                }
-                R.id.favorites -> {
-                    currentTag = WallpapersFragment.FAVS_TAG
-                    nextFragment = favoritesFragment
-                }
+            val next = getNextFragment(itemId)
+            // Pair ( Pair ( fragmentTag, fragment ) , shouldShowItemAsSelected )
+            val shouldSelectItem = next?.second == true
+            if (shouldSelectItem) {
+                oldTag = currentTag
+                currentMenuItemId = itemId
+                currentTag = next?.first?.first.orEmpty()
+                loadFragment(next?.first?.second, currentTag, force)
+                supportActionBar?.title =
+                    getToolbarTitleForItem(itemId) ?: getAppName("MyWallApp")
             }
-            loadFragment(nextFragment, currentTag, force)
-            return true
+            return shouldSelectItem
         }
         return false
     }
