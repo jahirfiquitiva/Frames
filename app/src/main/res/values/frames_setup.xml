@@ -25,7 +25,7 @@
     <bool name="enable_filled_collection_preview">false</bool>
 
     <!-- Choose whether you want to show wallpaper palette colors or not -->
-    <bool name="show_wallpaper_palette_details">false</bool>
+    <bool name="show_wallpaper_palette_details">true</bool>
 
     <!-- Privacy Policy link or url -->
     <string name="privacy_policy_link">""</string>
