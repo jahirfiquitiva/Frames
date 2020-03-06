@@ -18,7 +18,7 @@ import dev.jahir.frames.utils.Prefs
 
 abstract class BaseThemedActivity<out P : Prefs> : AppCompatActivity() {
 
-    private var lastTheme: Prefs.ThemeKey = Prefs.ThemeKey.DEFAULT_THEME_KEY
+    private var lastTheme: Prefs.ThemeKey = Prefs.ThemeKey.FOLLOW_SYSTEM
     private var wasUsingAmoled: Boolean = false
     private var coloredNavbar: Boolean = false
 
