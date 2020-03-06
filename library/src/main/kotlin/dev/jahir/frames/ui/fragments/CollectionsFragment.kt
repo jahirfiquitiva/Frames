@@ -11,12 +11,15 @@ import dev.jahir.frames.extensions.lower
 import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
+import dev.jahir.frames.ui.activities.base.BaseSystemUIVisibilityActivity
 import dev.jahir.frames.ui.adapters.CollectionsAdapter
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
 import dev.jahir.frames.ui.widgets.EmptyView
 import dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
 
 class CollectionsFragment : BaseFramesFragment<Collection>() {
+
+    private var canToggleSystemUIVisibility: Boolean = true
 
     private val collectionsAdapter: CollectionsAdapter by lazy { CollectionsAdapter { onClicked(it) } }
 
@@ -49,6 +52,10 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
 
     private fun onClicked(collection: Collection) {
         startActivityForResult(Intent(activity, CollectionActivity::class.java).apply {
+            putExtra(
+                BaseSystemUIVisibilityActivity.CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
+                canToggleSystemUIVisibility
+            )
             putExtra(COLLECTION_EXTRA, collection.name)
         }, CollectionActivity.REQUEST_CODE)
     }
@@ -68,8 +75,12 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
         internal const val COLLECTION_EXTRA = "collection"
 
         @JvmStatic
-        fun create(list: ArrayList<Collection> = ArrayList()) =
+        fun create(
+            list: ArrayList<Collection> = ArrayList(),
+            canToggleSystemUIVisibility: Boolean = true
+        ) =
             CollectionsFragment().apply {
+                this.canToggleSystemUIVisibility = canToggleSystemUIVisibility
                 updateItemsInAdapter(list)
             }
     }
