@@ -51,9 +51,9 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
 
     var currentFragment: Fragment? = null
         private set
-    private var currentTag: String = INITIAL_FRAGMENT_TAG
-    private var oldTag: String = INITIAL_FRAGMENT_TAG
-    private var currentMenuItemId: Int = R.id.wallpapers
+    private var currentTag: String = getInitialFragmentTag()
+    private var oldTag: String = getInitialFragmentTag()
+    private var currentMenuItemId: Int = getInitialItemId()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -214,9 +214,11 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
         }
     }
 
+    open fun getInitialFragmentTag(): String = WallpapersFragment.TAG
+    open fun getInitialItemId(): Int = R.id.wallpapers
+
     companion object {
         private const val CURRENT_FRAGMENT_KEY = "current_fragment"
-        private const val INITIAL_FRAGMENT_TAG = WallpapersFragment.TAG
         private const val FRAGMENT_TRANSITION_DURATION = 100L
         private const val FRAGMENT_TRANSITION_OFFSET_DURATION = 50L
     }
