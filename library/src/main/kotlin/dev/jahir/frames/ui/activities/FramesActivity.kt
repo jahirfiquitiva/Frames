@@ -13,6 +13,7 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import dev.jahir.frames.R
+import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.extensions.invisible
@@ -81,8 +82,11 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
 
         wallpapersViewModel.observeWallpapers(this) { wallpapersFragment.updateItems(ArrayList(it)) }
         wallpapersViewModel.observeCollections(this) { collectionsFragment.updateItems(it) }
-        wallpapersViewModel.observeFavorites(this) { favoritesFragment.updateItems(ArrayList(it)) }
         loadData()
+    }
+
+    override fun onFavoritesUpdated(favorites: List<Wallpaper>) {
+        favoritesFragment.updateItems(ArrayList(favorites))
     }
 
     override fun getMenuRes(): Int = R.menu.toolbar_menu

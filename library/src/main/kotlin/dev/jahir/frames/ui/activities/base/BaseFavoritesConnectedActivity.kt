@@ -1,5 +1,6 @@
 package dev.jahir.frames.ui.activities.base
 
+import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
@@ -12,12 +13,19 @@ abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisib
         ViewModelProvider(this).get(WallpapersDataViewModel::class.java)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        wallpapersViewModel.observeFavorites(this, ::onFavoritesUpdated)
+    }
+
     internal fun addToFavorites(wallpaper: Wallpaper) {
-        wallpapersViewModel.addToFavorites(this, wallpaper)
+        if (canModifyFavorites()) wallpapersViewModel.addToFavorites(this, wallpaper)
+        else onFavoritesLocked()
     }
 
     internal fun removeFromFavorites(wallpaper: Wallpaper) {
-        wallpapersViewModel.removeFromFavorites(this, wallpaper)
+        if (canModifyFavorites()) wallpapersViewModel.removeFromFavorites(this, wallpaper)
+        else onFavoritesLocked()
     }
 
     override fun onDestroy() {
@@ -42,4 +50,8 @@ abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisib
         } catch (e: Exception) {
         }
     }
+
+    open fun canModifyFavorites(): Boolean = true
+    open fun onFavoritesLocked() {}
+    abstract fun onFavoritesUpdated(favorites: List<Wallpaper>)
 }
