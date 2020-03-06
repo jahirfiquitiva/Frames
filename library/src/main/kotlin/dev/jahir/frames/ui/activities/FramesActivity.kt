@@ -38,7 +38,8 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
         WallpapersFragment.createForFavs(ArrayList(wallpapersViewModel.favorites))
     }
 
-    private var currentFragment: Fragment? = null
+    var currentFragment: Fragment? = null
+        private set
     private var currentTag: String = INITIAL_FRAGMENT_TAG
     private var oldTag: String = INITIAL_FRAGMENT_TAG
     private var currentMenuItemId: Int = R.id.wallpapers
@@ -50,30 +51,7 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
         setSupportActionBar(toolbar)
         loadFirstFragment()
 
-        bottomNavigation?.setOnNavigationItemSelectedListener { menuItem ->
-            if (currentMenuItemId != menuItem.itemId) {
-                var nextFragment: Fragment? = null
-                oldTag = currentTag
-                currentMenuItemId = menuItem.itemId
-                when (currentMenuItemId) {
-                    R.id.wallpapers -> {
-                        currentTag = WallpapersFragment.TAG
-                        nextFragment = wallpapersFragment
-                    }
-                    R.id.collections -> {
-                        currentTag = CollectionsFragment.TAG
-                        nextFragment = collectionsFragment
-                    }
-                    R.id.favorites -> {
-                        currentTag = WallpapersFragment.FAVS_TAG
-                        nextFragment = favoritesFragment
-                    }
-                }
-                loadFragment(nextFragment, currentTag)
-                return@setOnNavigationItemSelectedListener true
-            }
-            false
-        }
+        bottomNavigation?.setOnNavigationItemSelectedListener { changeFragment(it.itemId) }
         bottomNavigation?.selectedItemId = when (currentTag) {
             CollectionsFragment.TAG -> R.id.collections
             WallpapersFragment.FAVS_TAG -> R.id.favorites
@@ -118,9 +96,34 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
         transaction.commit()
     }
 
-    private fun loadFragment(fragment: Fragment?, tag: String) {
+    open fun changeFragment(itemId: Int, force: Boolean = false): Boolean {
+        if (currentMenuItemId != itemId || force) {
+            var nextFragment: Fragment? = null
+            oldTag = currentTag
+            currentMenuItemId = itemId
+            when (currentMenuItemId) {
+                R.id.wallpapers -> {
+                    currentTag = WallpapersFragment.TAG
+                    nextFragment = wallpapersFragment
+                }
+                R.id.collections -> {
+                    currentTag = CollectionsFragment.TAG
+                    nextFragment = collectionsFragment
+                }
+                R.id.favorites -> {
+                    currentTag = WallpapersFragment.FAVS_TAG
+                    nextFragment = favoritesFragment
+                }
+            }
+            loadFragment(nextFragment, currentTag, force)
+            return true
+        }
+        return false
+    }
+
+    private fun loadFragment(fragment: Fragment?, tag: String, force: Boolean = false) {
         fragment ?: return
-        if (currentFragment !== fragment) {
+        if (currentFragment !== fragment || force) {
             fadeFragmentTransition {
                 val ft = supportFragmentManager.beginTransaction()
                 currentFragment?.let { ft.hide(it).setMaxLifecycle(it, Lifecycle.State.STARTED) }
