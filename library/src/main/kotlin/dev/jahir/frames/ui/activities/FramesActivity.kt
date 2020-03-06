@@ -114,7 +114,7 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
     open fun getToolbarTitleForItem(itemId: Int): String? = null
 
     open fun getNextFragment(itemId: Int): Pair<Pair<String?, Fragment?>?, Boolean>? =
-        when (currentMenuItemId) {
+        when (itemId) {
             R.id.wallpapers -> Pair(Pair(WallpapersFragment.TAG, wallpapersFragment), true)
             R.id.collections -> Pair(Pair(CollectionsFragment.TAG, collectionsFragment), true)
             R.id.favorites -> Pair(Pair(WallpapersFragment.FAVS_TAG, favoritesFragment), true)

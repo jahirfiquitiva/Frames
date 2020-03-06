@@ -25,7 +25,7 @@ open class Prefs(
         set(value) = prefsEditor.putLong(LAST_VERSION, value).apply()
 
     var currentTheme: ThemeKey
-        get() = ThemeKey.fromValue(prefs.getInt(CURRENT_THEME, ThemeKey.DEFAULT_THEME_KEY.value))
+        get() = ThemeKey.fromValue(prefs.getInt(CURRENT_THEME, getDefaultThemeKey().value))
         set(value) = prefsEditor.putInt(CURRENT_THEME, value.value).apply()
 
     var lastNightMode: Int
@@ -80,14 +80,14 @@ open class Prefs(
         )
         set(value) = prefsEditor.putBoolean(NOTIFICATIONS_ENABLED, value).apply()
 
+    open fun getDefaultThemeKey(): ThemeKey = ThemeKey.FOLLOW_SYSTEM
+
     enum class ThemeKey(val value: Int, @StringRes val stringResId: Int) {
         LIGHT(0, R.string.light_theme),
         DARK(1, R.string.dark_theme),
         FOLLOW_SYSTEM(2, R.string.follow_system_theme);
 
         companion object {
-            internal val DEFAULT_THEME_KEY = FOLLOW_SYSTEM
-
             fun fromValue(value: Int): ThemeKey = when (value) {
                 0 -> LIGHT
                 1 -> DARK
