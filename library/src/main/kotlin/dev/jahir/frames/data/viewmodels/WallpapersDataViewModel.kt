@@ -14,6 +14,7 @@ import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.data.network.WallpapersJSONService
 import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.extensions.isNetworkAvailable
+import dev.jahir.frames.extensions.lazyMutableLiveData
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -23,22 +24,17 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 
 class WallpapersDataViewModel : ViewModel() {
 
-    private val favoritesData: MutableLiveData<List<Wallpaper>>? by lazy {
-        MutableLiveData<List<Wallpaper>>()
-    }
-    private val wallpapersData: MutableLiveData<List<Wallpaper>>? by lazy {
-        MutableLiveData<List<Wallpaper>>()
-    }
-    private val collectionsData: MutableLiveData<ArrayList<Collection>>? by lazy {
-        MutableLiveData<ArrayList<Collection>>()
-    }
-
+    private val wallpapersData: MutableLiveData<List<Wallpaper>>? by lazyMutableLiveData()
     val wallpapers: List<Wallpaper>
         get() = wallpapersData?.value.orEmpty()
+
+    private val collectionsData: MutableLiveData<ArrayList<Collection>>? by lazyMutableLiveData()
     val collections: ArrayList<Collection>
         get() = ArrayList(collectionsData?.value.orEmpty())
+
+    private val favoritesData: MutableLiveData<List<Wallpaper>>? by lazyMutableLiveData()
     val favorites: List<Wallpaper>
-        get() = wallpapersData?.value.orEmpty()
+        get() = favoritesData?.value.orEmpty()
 
     private val service by lazy {
         Retrofit.Builder()

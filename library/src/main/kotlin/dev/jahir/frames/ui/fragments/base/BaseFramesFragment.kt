@@ -39,10 +39,6 @@ abstract class BaseFramesFragment<T> : Fragment(), EmptyViewRecyclerView.StateCh
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
         swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh)
         swipeRefreshLayout?.setOnRefreshListener { startRefreshing() }
-    }
-
-    override fun onResume() {
-        super.onResume()
         (activity as? BaseFavoritesConnectedActivity<*>)?.repostData(getRepostKey())
     }
 

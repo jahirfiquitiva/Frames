@@ -9,18 +9,14 @@ import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.SkuDetails
 import dev.jahir.frames.data.models.DonationItem
 import dev.jahir.frames.extensions.hasContent
+import dev.jahir.frames.extensions.lazyMutableLiveData
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class DonationsViewModel : ViewModel() {
 
-    private val data: MutableLiveData<List<DonationItem>>? by lazy {
-        MutableLiveData<List<DonationItem>>()
-    }
-
-    val donationItems: List<DonationItem>
-        get() = data?.value.orEmpty()
+    private val data: MutableLiveData<List<DonationItem>>? by lazyMutableLiveData()
 
     private suspend fun getDonationItemDetails(
         billingProcessor: BillingProcessor,
