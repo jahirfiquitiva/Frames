@@ -11,7 +11,7 @@ abstract class BaseChangelogDialogActivity<out P : Prefs> : BaseSearchableActivi
 
     private val changelogDialog: AlertDialog? by lazy { buildChangelogDialog() }
 
-    internal fun showChangelog(force: Boolean = false) {
+    fun showChangelog(force: Boolean = false) {
         if (isUpdate || force) changelogDialog?.show()
     }
 

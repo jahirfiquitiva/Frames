@@ -138,8 +138,8 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     override fun getRepostKey(): Int = if (isForFavs) 2 else 0
 
     companion object {
-        internal const val TAG = "wallpapers_fragment"
-        internal const val FAVS_TAG = "favorites_fragment"
+        const val TAG = "wallpapers_fragment"
+        const val FAVS_TAG = "favorites_fragment"
 
         internal const val WALLPAPER_EXTRA = "wallpaper"
         internal const val WALLPAPER_IN_FAVS_EXTRA = "wallpaper_in_favs"

@@ -71,7 +71,7 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
     override fun getRepostKey(): Int = 1
 
     companion object {
-        internal const val TAG = "collections_fragment"
+        const val TAG = "collections_fragment"
         internal const val COLLECTION_EXTRA = "collection"
 
         @JvmStatic
