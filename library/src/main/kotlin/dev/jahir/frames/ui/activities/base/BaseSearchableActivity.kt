@@ -15,7 +15,7 @@ import dev.jahir.frames.utils.tintIcons
 
 abstract class BaseSearchableActivity<out P : Prefs> : BaseFavoritesConnectedActivity<P>() {
 
-    internal val toolbar: Toolbar? by findView(R.id.toolbar)
+    val toolbar: Toolbar? by findView(R.id.toolbar)
 
     private var searchItem: MenuItem? = null
     private var searchView: CleanSearchView? = null
