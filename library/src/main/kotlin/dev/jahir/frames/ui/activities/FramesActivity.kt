@@ -10,6 +10,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
 import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import dev.jahir.frames.R
@@ -46,7 +47,7 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_base)
+        setContentView(getLayoutRes())
 
         setSupportActionBar(toolbar)
         loadFirstFragment()
@@ -62,6 +63,9 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
         wallpapersViewModel.observeCollections(this) { collectionsFragment.updateItems(it) }
         loadData()
     }
+
+    @LayoutRes
+    open fun getLayoutRes(): Int = R.layout.activity_base
 
     override fun onFavoritesUpdated(favorites: List<Wallpaper>) {
         super.onFavoritesUpdated(favorites)

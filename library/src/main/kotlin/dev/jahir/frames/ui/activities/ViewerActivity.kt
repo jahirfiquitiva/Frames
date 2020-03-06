@@ -72,7 +72,8 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
             finish()
             return
         }
-        if (wallpaper.downloadable == false) bottomNavigation?.removeItem(R.id.download)
+        if (wallpaper.downloadable == false || !shouldShowDownloadOption())
+            bottomNavigation?.removeItem(R.id.download)
 
         initFetch(wallpaper)
         detailsFragment.wallpaper = wallpaper
