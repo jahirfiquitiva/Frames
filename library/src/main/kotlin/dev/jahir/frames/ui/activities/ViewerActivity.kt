@@ -31,7 +31,7 @@ import dev.jahir.frames.utils.Prefs
 import dev.jahir.frames.utils.tint
 import kotlin.math.roundToInt
 
-class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
+open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
 
     override val prefs: Prefs by lazy { Prefs(this) }
 
@@ -125,17 +125,7 @@ class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         wallpapersViewModel.loadData(this)
 
         bottomNavigation?.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.details -> detailsFragment.show(this, "DETAILS_FRAG")
-                R.id.download -> checkForDownload()
-                R.id.apply -> applyWallpaper(wallpaper)
-                R.id.favorites -> {
-                    this.favoritesModified = true
-                    if (isInFavorites) removeFromFavorites(wallpaper)
-                    else addToFavorites(wallpaper)
-                }
-            }
-            false
+            handleNavigationItemSelected(it.itemId, wallpaper)
         }
     }
 
@@ -158,9 +148,7 @@ class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            supportFinishAfterTransition()
-        }
+        if (item.itemId == android.R.id.home) supportFinishAfterTransition()
         return super.onOptionsItemSelected(item)
     }
 
@@ -237,7 +225,23 @@ class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         }
     }
 
+    open fun handleNavigationItemSelected(itemId: Int, wallpaper: Wallpaper?): Boolean {
+        wallpaper ?: return false
+        when (itemId) {
+            R.id.details -> detailsFragment.show(this, "DETAILS_FRAG")
+            R.id.download -> checkForDownload()
+            R.id.apply -> applyWallpaper(wallpaper)
+            R.id.favorites -> {
+                this.favoritesModified = true
+                if (isInFavorites) removeFromFavorites(wallpaper)
+                else addToFavorites(wallpaper)
+            }
+        }
+        return false
+    }
+
     private fun checkForDownload() {
+        if (!shouldShowDownloadOption()) return
         val actuallyComplies = if (intent?.getBooleanExtra(LICENSE_CHECK_ENABLED, false) == true)
             compliesWithMinTime(MIN_TIME) || resources.getBoolean(R.bool.allow_immediate_downloads)
         else true
@@ -267,6 +271,8 @@ class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         wallpaper ?: return
         SetAsOptionsDialog.show(this, wallpaper)
     }
+
+    open fun shouldShowDownloadOption() = true
 
     companion object {
         internal const val MIN_TIME: Long = 3 * 60 * 60000

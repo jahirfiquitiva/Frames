@@ -37,6 +37,7 @@ abstract class BaseSystemUIVisibilityActivity<out P : Prefs> : BaseWallpaperFetc
     }
 
     private fun setSystemUIVisibility(visible: Boolean, withSystemBars: Boolean = true) {
+        if (!canToggleSystemUIVisibility()) return
         Handler().post {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && withSystemBars) {
                 window.decorView.systemUiVisibility = if (visible)
@@ -99,7 +100,11 @@ abstract class BaseSystemUIVisibilityActivity<out P : Prefs> : BaseWallpaperFetc
             ?.start()
     }
 
+    open fun canToggleSystemUIVisibility(): Boolean =
+        intent?.getBooleanExtra(CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY, true) ?: true
+
     companion object {
         private const val VISIBLE_SYSTEM_UI_KEY = "visible_system_ui"
+        internal const val CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY = "can_toggle_visibility"
     }
 }

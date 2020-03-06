@@ -15,6 +15,7 @@ import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.activities.base.BaseLicenseCheckerActivity
+import dev.jahir.frames.ui.activities.base.BaseSystemUIVisibilityActivity
 import dev.jahir.frames.ui.adapters.WallpapersAdapter
 import dev.jahir.frames.ui.decorations.GridSpacingItemDecoration
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
@@ -26,6 +27,8 @@ import dev.jahir.frames.utils.onFavClick
 import dev.jahir.frames.utils.wallpapersAdapter
 
 class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
+
+    private var canToggleSystemUIVisibility: Boolean = true
 
     internal var isForFavs: Boolean = false
         private set
@@ -106,6 +109,10 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         startActivityForResult(
             Intent(activity, ViewerActivity::class.java)
                 .apply {
+                    putExtra(
+                        BaseSystemUIVisibilityActivity.CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
+                        canToggleSystemUIVisibility
+                    )
                     putExtra(WALLPAPER_EXTRA, wallpaper)
                     putExtra(WALLPAPER_IN_FAVS_EXTRA, wallpaper.isInFavorites)
                     putExtra(ViewerActivity.CURRENT_WALL_POSITION, holder.adapterPosition)
@@ -138,16 +145,24 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         internal const val WALLPAPER_IN_FAVS_EXTRA = "wallpaper_in_favs"
 
         @JvmStatic
-        fun create(list: ArrayList<Wallpaper> = ArrayList()) =
+        fun create(
+            list: ArrayList<Wallpaper> = ArrayList(),
+            canToggleSystemUIVisibility: Boolean = true
+        ) =
             WallpapersFragment().apply {
                 this.isForFavs = false
+                this.canToggleSystemUIVisibility = canToggleSystemUIVisibility
                 updateItemsInAdapter(list)
             }
 
         @JvmStatic
-        fun createForFavs(list: ArrayList<Wallpaper> = ArrayList()) =
+        fun createForFavs(
+            list: ArrayList<Wallpaper> = ArrayList(),
+            canToggleSystemUIVisibility: Boolean = true
+        ) =
             WallpapersFragment().apply {
                 this.isForFavs = true
+                this.canToggleSystemUIVisibility = canToggleSystemUIVisibility
                 updateItemsInAdapter(list)
             }
     }
