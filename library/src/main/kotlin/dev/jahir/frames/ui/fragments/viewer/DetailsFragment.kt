@@ -16,6 +16,8 @@ import kotlin.math.roundToInt
 
 class DetailsFragment : BaseBottomSheet() {
 
+    private var shouldShowPaletteDetails: Boolean = true
+
     var wallpaper: Wallpaper? = null
         set(value) {
             field = value
@@ -31,7 +33,7 @@ class DetailsFragment : BaseBottomSheet() {
         }
 
     private val wallpaperDetailsAdapter: WallpaperDetailsAdapter by lazy {
-        WallpaperDetailsAdapter(wallpaper, palette)
+        WallpaperDetailsAdapter(wallpaper, palette, shouldShowPaletteDetails)
     }
 
     override fun getContentView(): View? {
@@ -54,10 +56,15 @@ class DetailsFragment : BaseBottomSheet() {
 
     companion object {
         @JvmStatic
-        fun create(wallpaper: Wallpaper? = null, palette: Palette? = null) =
+        fun create(
+            wallpaper: Wallpaper? = null,
+            palette: Palette? = null,
+            shouldShowPaletteDetails: Boolean = true
+        ) =
             DetailsFragment().apply {
                 this.wallpaper = wallpaper
                 this.palette = palette
+                this.shouldShowPaletteDetails = shouldShowPaletteDetails
             }
     }
 }

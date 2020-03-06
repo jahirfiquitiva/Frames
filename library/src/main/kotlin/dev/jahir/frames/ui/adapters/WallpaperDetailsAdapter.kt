@@ -14,8 +14,11 @@ import dev.jahir.frames.ui.viewholders.WallpaperDetailViewHolder
 import dev.jahir.frames.ui.viewholders.WallpaperPaletteColorViewHolder
 import kotlin.math.roundToInt
 
-class WallpaperDetailsAdapter(var wallpaper: Wallpaper?, var palette: Palette?) :
-    SectionedRecyclerViewAdapter<SectionedViewHolder>() {
+class WallpaperDetailsAdapter(
+    var wallpaper: Wallpaper?,
+    var palette: Palette?,
+    private val shouldShowPaletteDetails: Boolean = true
+) : SectionedRecyclerViewAdapter<SectionedViewHolder>() {
 
     init {
         shouldShowHeadersForEmptySections(false)
@@ -24,7 +27,7 @@ class WallpaperDetailsAdapter(var wallpaper: Wallpaper?, var palette: Palette?) 
 
     override fun getItemCount(section: Int): Int = when (section) {
         0 -> wallpaper?.detailsCount ?: 0
-        1 -> palette?.sortedSwatches?.size ?: 0
+        1 -> if (shouldShowPaletteDetails) palette?.sortedSwatches?.size ?: 0 else 0
         else -> 0
     }
 
@@ -76,7 +79,7 @@ class WallpaperDetailsAdapter(var wallpaper: Wallpaper?, var palette: Palette?) 
     }
 
     override fun onBindFooterViewHolder(holder: SectionedViewHolder?, section: Int) {}
-    override fun getSectionCount(): Int = 2
+    override fun getSectionCount(): Int = if (shouldShowPaletteDetails) 2 else 1
 
     override fun getRowSpan(
         fullSpanSize: Int,

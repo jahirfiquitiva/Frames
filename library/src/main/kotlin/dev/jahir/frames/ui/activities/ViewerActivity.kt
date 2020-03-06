@@ -48,7 +48,9 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
             bottomNavigation?.setSelectedItemId(if (value) R.id.favorites else R.id.details, false)
         }
 
-    private val detailsFragment: DetailsFragment by lazy { DetailsFragment.create() }
+    private val detailsFragment: DetailsFragment by lazy {
+        DetailsFragment.create(shouldShowPaletteDetails = shouldShowWallpapersPalette())
+    }
 
     private var downloadBlockedDialog: AlertDialog? = null
 
@@ -179,6 +181,10 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
     private fun generatePalette(drawable: Drawable?) {
         supportStartPostponedEnterTransition()
         (image as? PhotoView)?.scale = 1.0F
+        if (!shouldShowWallpapersPalette()) {
+            setBackgroundColor(0)
+            return
+        }
         drawable?.asBitmap()?.let { bitmap ->
             Palette.from(bitmap)
                 .maximumColorCount((MAX_FRAMES_PALETTE_COLORS * 1.5).roundToInt())
@@ -270,6 +276,12 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
     private fun applyWallpaper(wallpaper: Wallpaper?) {
         wallpaper ?: return
         SetAsOptionsDialog.show(this, wallpaper)
+    }
+
+    private fun shouldShowWallpapersPalette(): Boolean = try {
+        resources.getBoolean(R.bool.show_wallpaper_palette_details)
+    } catch (e: Exception) {
+        true
     }
 
     open fun shouldShowDownloadOption() = true
