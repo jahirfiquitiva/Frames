@@ -55,6 +55,7 @@ class EmptyView @JvmOverloads constructor(
         textView?.gone()
         progressBar?.visible()
         show()
+        imageView?.gone()
     }
 
     fun setEmpty(text: String = "") {
