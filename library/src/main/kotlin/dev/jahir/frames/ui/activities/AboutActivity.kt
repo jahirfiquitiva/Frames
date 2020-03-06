@@ -17,7 +17,7 @@ import dev.jahir.frames.ui.adapters.AboutAdapter
 import dev.jahir.frames.utils.Prefs
 import dev.jahir.frames.utils.tintIcons
 
-class AboutActivity : BaseThemedActivity<Prefs>() {
+open class AboutActivity : BaseThemedActivity<Prefs>() {
 
     override val prefs: Prefs by lazy { Prefs(this) }
     private val toolbar: Toolbar? by findView(R.id.toolbar)
@@ -112,26 +112,33 @@ class AboutActivity : BaseThemedActivity<Prefs>() {
     }
 
     private fun getInternalAboutItems(): ArrayList<AboutItem> {
-        return arrayListOf(
+        val items = getAdditionalInternalAboutItems()
+        items.add(
             AboutItem(
                 "Jahir Fiquitiva",
                 getString(R.string.jahir_description),
-                "https://jahir.dev/assets/images/me/me.jpg",
+                "https://unavatar.now.sh/jahirfiquitiva",
                 arrayListOf(
                     "Website" to "https://jahir.dev",
                     "Twitter" to "https://twitter.com/jahirfiquitiva",
                     "GitHub" to "https://github.com/jahirfiquitiva"
                 )
-            ),
+            )
+        )
+        items.add(
             AboutItem(
                 "Eduardo Pratti",
                 getString(R.string.eduardo_description),
-                "https://pbs.twimg.com/profile_images/560688750247051264/seXz0Y25_400x400.jpeg",
+                "https://unavatar.now.sh/edpratti",
                 arrayListOf(
                     "Website" to "https://pratti.design/",
                     "Twitter" to "https://twitter.com/edpratti"
                 )
             )
         )
+        return items
     }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    open fun getAdditionalInternalAboutItems(): ArrayList<AboutItem> = arrayListOf()
 }
