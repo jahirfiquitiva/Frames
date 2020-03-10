@@ -13,7 +13,6 @@ import dev.jahir.frames.extensions.lower
 import dev.jahir.frames.extensions.prefs
 import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
-import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.activities.base.BaseLicenseCheckerActivity
 import dev.jahir.frames.ui.activities.base.BaseSystemUIVisibilityActivity
 import dev.jahir.frames.ui.adapters.WallpapersAdapter
@@ -26,7 +25,7 @@ import dev.jahir.frames.utils.onClick
 import dev.jahir.frames.utils.onFavClick
 import dev.jahir.frames.utils.wallpapersAdapter
 
-class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
+open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
     private var canToggleSystemUIVisibility: Boolean = true
 
@@ -84,9 +83,9 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
     private fun onFavClick(checked: Boolean, wallpaper: Wallpaper) {
         val updated = (if (checked) {
-            (activity as? BaseFavoritesConnectedActivity<*>)?.addToFavorites(wallpaper)
+            (activity as? ViewerActivity)?.addToFavorites(wallpaper)
         } else {
-            (activity as? BaseFavoritesConnectedActivity<*>)?.removeFromFavorites(wallpaper)
+            (activity as? ViewerActivity)?.removeFromFavorites(wallpaper)
         }) ?: false
         if (updated) (activity as? CollectionActivity)?.setFavoritesModified()
     }
@@ -107,7 +106,7 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
             }
         } else null
         startActivityForResult(
-            Intent(activity, ViewerActivity::class.java)
+            getTargetActivityIntent()
                 .apply {
                     putExtra(
                         BaseSystemUIVisibilityActivity.CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
@@ -131,11 +130,12 @@ class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         if (requestCode == ViewerActivity.REQUEST_CODE &&
             resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT) {
             (activity as? CollectionActivity)?.setFavoritesModified()
-            (activity as? BaseFavoritesConnectedActivity<*>)?.reloadData()
+            (activity as? ViewerActivity)?.reloadData()
         }
     }
 
     override fun getRepostKey(): Int = if (isForFavs) 2 else 0
+    override fun getTargetActivityIntent(): Intent = Intent(activity, ViewerActivity::class.java)
 
     companion object {
         const val TAG = "wallpapers_fragment"

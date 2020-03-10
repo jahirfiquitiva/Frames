@@ -2,6 +2,7 @@ package dev.jahir.frames.ui.fragments
 
 import android.os.Build
 import android.os.Bundle
+import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
@@ -28,6 +29,7 @@ open class SettingsFragment : BasePreferenceFragment<Prefs>() {
 
     private var currentThemeKey: Int = -1
 
+    @CallSuper
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 

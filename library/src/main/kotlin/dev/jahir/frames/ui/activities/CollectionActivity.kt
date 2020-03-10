@@ -11,7 +11,7 @@ import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.utils.Prefs
 
-class CollectionActivity : BaseChangelogDialogActivity<Prefs>() {
+open class CollectionActivity : BaseChangelogDialogActivity<Prefs>() {
 
     override val prefs: Prefs by lazy { Prefs(this) }
 

@@ -1,5 +1,6 @@
 package dev.jahir.frames.ui.fragments.base
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -83,4 +84,5 @@ abstract class BaseFramesFragment<T> : Fragment(), EmptyViewRecyclerView.StateCh
     abstract fun getFilteredItems(filter: String, closed: Boolean): ArrayList<T>
     abstract fun updateItemsInAdapter(items: ArrayList<T>)
     abstract fun getRepostKey(): Int
+    abstract fun getTargetActivityIntent(): Intent
 }

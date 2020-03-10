@@ -51,13 +51,16 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
     }
 
     private fun onClicked(collection: Collection) {
-        startActivityForResult(Intent(activity, CollectionActivity::class.java).apply {
-            putExtra(
-                BaseSystemUIVisibilityActivity.CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
-                canToggleSystemUIVisibility
-            )
-            putExtra(COLLECTION_EXTRA, collection.name)
-        }, CollectionActivity.REQUEST_CODE)
+        startActivityForResult(
+            getTargetActivityIntent()
+                .apply {
+                    putExtra(
+                        BaseSystemUIVisibilityActivity.CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
+                        canToggleSystemUIVisibility
+                    )
+                    putExtra(COLLECTION_EXTRA, collection.name)
+                }, CollectionActivity.REQUEST_CODE
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -69,6 +72,9 @@ class CollectionsFragment : BaseFramesFragment<Collection>() {
     }
 
     override fun getRepostKey(): Int = 1
+
+    override fun getTargetActivityIntent(): Intent =
+        Intent(activity, CollectionActivity::class.java)
 
     companion object {
         const val TAG = "collections_fragment"

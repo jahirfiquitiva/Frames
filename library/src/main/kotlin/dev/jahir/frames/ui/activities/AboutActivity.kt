@@ -125,20 +125,23 @@ open class AboutActivity : BaseThemedActivity<Prefs>() {
                 )
             )
         )
-        items.add(
-            AboutItem(
-                "Eduardo Pratti",
-                getString(R.string.eduardo_description),
-                "https://pbs.twimg.com/profile_images/560688750247051264/seXz0Y25_400x400.jpeg",
-                arrayListOf(
-                    "Website" to "https://pratti.design/",
-                    "Twitter" to "https://twitter.com/edpratti"
+        if (shouldIncludeEd())
+            items.add(
+                AboutItem(
+                    "Eduardo Pratti",
+                    getString(R.string.eduardo_description),
+                    "https://pbs.twimg.com/profile_images/560688750247051264/seXz0Y25_400x400.jpeg",
+                    arrayListOf(
+                        "Website" to "https://pratti.design/",
+                        "Twitter" to "https://twitter.com/edpratti"
+                    )
                 )
             )
-        )
         return items
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
     open fun getAdditionalInternalAboutItems(): ArrayList<AboutItem> = arrayListOf()
+
+    open fun shouldIncludeEd(): Boolean = true
 }
