@@ -42,6 +42,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:paddingEnd="24dp"
             tools:ignore="RtlCompat,RtlSymmetry"
             tools:text="Collection Name" />
@@ -51,7 +53,9 @@
             style="@style/TextAppearance.Frames.CollectionCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:gravity="end"
+            android:maxLines="1"
             android:textAlignment="textEnd"
             tools:text="100" />
 

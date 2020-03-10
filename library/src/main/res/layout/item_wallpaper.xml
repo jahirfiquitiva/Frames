@@ -56,6 +56,8 @@
                 style="@style/TextAppearance.Frames.WallpaperTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
                 tools:text="Wallpaper Name" />
 
             <TextView
@@ -63,6 +65,8 @@
                 style="@style/TextAppearance.Frames.WallpaperSubtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
                 tools:text="Wallpaper Author" />
 
         </LinearLayout>

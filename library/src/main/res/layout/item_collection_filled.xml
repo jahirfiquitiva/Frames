@@ -41,7 +41,9 @@
             style="@style/TextAppearance.Frames.CollectionTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:gravity="center"
+            android:maxLines="1"
             android:textAllCaps="true"
             tools:ignore="RtlCompat,RtlSymmetry"
             tools:text="Collection Name" />
@@ -51,7 +53,9 @@
             style="@style/TextAppearance.Frames.CollectionCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:gravity="end"
+            android:maxLines="1"
             android:textAlignment="textEnd"
             android:visibility="gone"
             tools:text="100" />
