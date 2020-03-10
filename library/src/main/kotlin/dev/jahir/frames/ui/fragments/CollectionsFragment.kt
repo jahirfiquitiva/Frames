@@ -19,8 +19,6 @@ import dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
 
 open class CollectionsFragment : BaseFramesFragment<Collection>() {
 
-    var canToggleSystemUIVisibility: Boolean = true
-
     private val collectionsAdapter: CollectionsAdapter by lazy { CollectionsAdapter { onClicked(it) } }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,7 +54,7 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
                 .apply {
                     putExtra(
                         BaseSystemUIVisibilityActivity.CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
-                        canToggleSystemUIVisibility
+                        canToggleSystemUIVisibility()
                     )
                     putExtra(COLLECTION_EXTRA, collection.name)
                 }, CollectionActivity.REQUEST_CODE
@@ -81,12 +79,8 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
         internal const val COLLECTION_EXTRA = "collection"
 
         @JvmStatic
-        fun create(
-            list: ArrayList<Collection> = ArrayList(),
-            canToggleSystemUIVisibility: Boolean = true
-        ) =
+        fun create(list: ArrayList<Collection> = ArrayList()) =
             CollectionsFragment().apply {
-                this.canToggleSystemUIVisibility = canToggleSystemUIVisibility
                 updateItemsInAdapter(list)
             }
     }

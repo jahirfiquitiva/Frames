@@ -27,7 +27,6 @@ import dev.jahir.frames.utils.wallpapersAdapter
 
 open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
-    var canToggleSystemUIVisibility: Boolean = true
     var isForFavs: Boolean = false
         private set
 
@@ -109,7 +108,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
                 .apply {
                     putExtra(
                         BaseSystemUIVisibilityActivity.CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
-                        canToggleSystemUIVisibility
+                        canToggleSystemUIVisibility()
                     )
                     putExtra(WALLPAPER_EXTRA, wallpaper)
                     putExtra(WALLPAPER_IN_FAVS_EXTRA, wallpaper.isInFavorites)
@@ -144,24 +143,16 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         internal const val WALLPAPER_IN_FAVS_EXTRA = "wallpaper_in_favs"
 
         @JvmStatic
-        fun create(
-            list: ArrayList<Wallpaper> = ArrayList(),
-            canToggleSystemUIVisibility: Boolean = true
-        ) =
+        fun create(list: ArrayList<Wallpaper> = ArrayList()) =
             WallpapersFragment().apply {
                 this.isForFavs = false
-                this.canToggleSystemUIVisibility = canToggleSystemUIVisibility
                 updateItemsInAdapter(list)
             }
 
         @JvmStatic
-        fun createForFavs(
-            list: ArrayList<Wallpaper> = ArrayList(),
-            canToggleSystemUIVisibility: Boolean = true
-        ) =
+        fun createForFavs(list: ArrayList<Wallpaper> = ArrayList()) =
             WallpapersFragment().apply {
                 this.isForFavs = true
-                this.canToggleSystemUIVisibility = canToggleSystemUIVisibility
                 updateItemsInAdapter(list)
             }
     }

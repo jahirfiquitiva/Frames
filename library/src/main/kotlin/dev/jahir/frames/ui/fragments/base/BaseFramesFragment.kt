@@ -85,4 +85,6 @@ abstract class BaseFramesFragment<T> : Fragment(), EmptyViewRecyclerView.StateCh
     abstract fun updateItemsInAdapter(items: ArrayList<T>)
     abstract fun getRepostKey(): Int
     abstract fun getTargetActivityIntent(): Intent
+
+    open fun canToggleSystemUIVisibility(): Boolean = true
 }
