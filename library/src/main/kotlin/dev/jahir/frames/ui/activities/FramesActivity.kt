@@ -33,10 +33,10 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
     private val wallpapersFragment: WallpapersFragment by lazy {
         WallpapersFragment.create(ArrayList(wallpapersViewModel.wallpapers))
     }
-    val collectionsFragment: CollectionsFragment by lazy {
+    private val collectionsFragment: CollectionsFragment by lazy {
         CollectionsFragment.create(ArrayList(wallpapersViewModel.collections))
     }
-    val favoritesFragment: WallpapersFragment by lazy {
+    private val favoritesFragment: WallpapersFragment by lazy {
         WallpapersFragment.createForFavs(ArrayList(wallpapersViewModel.favorites))
     }
 
