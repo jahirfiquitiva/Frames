@@ -9,7 +9,7 @@ import dev.jahir.frames.utils.Prefs
 
 abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisibilityActivity<P>() {
 
-    internal val wallpapersViewModel: WallpapersDataViewModel by lazy {
+    val wallpapersViewModel: WallpapersDataViewModel by lazy {
         ViewModelProvider(this).get(WallpapersDataViewModel::class.java)
     }
 

@@ -15,9 +15,8 @@ open class CollectionActivity : BaseChangelogDialogActivity<Prefs>() {
 
     override val prefs: Prefs by lazy { Prefs(this) }
 
-    open val wallpapersFragment: WallpapersFragment by lazy {
-        WallpapersFragment.create(canToggleSystemUIVisibility = canToggleSystemUIVisibility())
-    }
+    open val wallpapersFragment: WallpapersFragment by lazy { WallpapersFragment.create() }
+
     private var collection: String = ""
     private var favoritesModified: Boolean = false
 
