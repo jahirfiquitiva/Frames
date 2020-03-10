@@ -27,9 +27,8 @@ import dev.jahir.frames.utils.wallpapersAdapter
 
 open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
-    private var canToggleSystemUIVisibility: Boolean = true
-
-    internal var isForFavs: Boolean = false
+    var canToggleSystemUIVisibility: Boolean = true
+    var isForFavs: Boolean = false
         private set
 
     private val wallsAdapter: WallpapersAdapter by lazy {

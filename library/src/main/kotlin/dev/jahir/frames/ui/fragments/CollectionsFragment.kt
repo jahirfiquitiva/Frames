@@ -17,9 +17,9 @@ import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
 import dev.jahir.frames.ui.widgets.EmptyView
 import dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
 
-class CollectionsFragment : BaseFramesFragment<Collection>() {
+open class CollectionsFragment : BaseFramesFragment<Collection>() {
 
-    private var canToggleSystemUIVisibility: Boolean = true
+    var canToggleSystemUIVisibility: Boolean = true
 
     private val collectionsAdapter: CollectionsAdapter by lazy { CollectionsAdapter { onClicked(it) } }
 
