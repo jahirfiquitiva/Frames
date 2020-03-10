@@ -28,7 +28,6 @@ import dev.jahir.frames.utils.wallpapersAdapter
 open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
     var isForFavs: Boolean = false
-        private set
 
     private val wallsAdapter: WallpapersAdapter by lazy {
         wallpapersAdapter {
