@@ -13,6 +13,7 @@ import dev.jahir.frames.extensions.lower
 import dev.jahir.frames.extensions.prefs
 import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
+import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.activities.base.BaseLicenseCheckerActivity
 import dev.jahir.frames.ui.activities.base.BaseSystemUIVisibilityActivity
 import dev.jahir.frames.ui.adapters.WallpapersAdapter
@@ -31,6 +32,8 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
     private val wallsAdapter: WallpapersAdapter by lazy {
         wallpapersAdapter {
+            this.canModifyFavorites =
+                (activity as? BaseFavoritesConnectedActivity<*>)?.canModifyFavorites() ?: true
             onClick { wall, holder -> launchViewer(wall, holder) }
             onFavClick { checked, wallpaper ->
                 this@WallpapersFragment.onFavClick(checked, wallpaper)
@@ -79,11 +82,15 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     }
 
     private fun onFavClick(checked: Boolean, wallpaper: Wallpaper) {
-        val updated = (if (checked) {
-            (activity as? ViewerActivity)?.addToFavorites(wallpaper)
-        } else {
-            (activity as? ViewerActivity)?.removeFromFavorites(wallpaper)
-        }) ?: false
+        var updated = false
+        (activity as? BaseFavoritesConnectedActivity<*>)?.let {
+            if (it.canModifyFavorites()) {
+                updated =
+                    if (checked) it.addToFavorites(wallpaper) else it.removeFromFavorites(wallpaper)
+            } else {
+                it.onFavoritesLocked()
+            }
+        }
         if (updated) (activity as? CollectionActivity)?.setFavoritesModified()
     }
 
@@ -134,6 +141,11 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     override fun getRepostKey(): Int = if (isForFavs) 2 else 0
     override fun getTargetActivityIntent(): Intent = Intent(activity, ViewerActivity::class.java)
 
+    open fun notifyCanModifyFavorites(canModify: Boolean = true) {
+        wallsAdapter.canModifyFavorites = canModify
+        wallsAdapter.notifyDataSetChanged()
+    }
+
     companion object {
         const val TAG = "wallpapers_fragment"
         const val FAVS_TAG = "favorites_fragment"
@@ -142,17 +154,23 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         internal const val WALLPAPER_IN_FAVS_EXTRA = "wallpaper_in_favs"
 
         @JvmStatic
-        fun create(list: ArrayList<Wallpaper> = ArrayList()) =
-            WallpapersFragment().apply {
-                this.isForFavs = false
-                updateItemsInAdapter(list)
-            }
+        fun create(
+            list: ArrayList<Wallpaper> = ArrayList(),
+            canModifyFavorites: Boolean = true
+        ) = WallpapersFragment().apply {
+            this.isForFavs = false
+            notifyCanModifyFavorites(canModifyFavorites)
+            updateItemsInAdapter(list)
+        }
 
         @JvmStatic
-        fun createForFavs(list: ArrayList<Wallpaper> = ArrayList()) =
-            WallpapersFragment().apply {
-                this.isForFavs = true
-                updateItemsInAdapter(list)
-            }
+        fun createForFavs(
+            list: ArrayList<Wallpaper> = ArrayList(),
+            canModifyFavorites: Boolean = true
+        ) = WallpapersFragment().apply {
+            this.isForFavs = true
+            notifyCanModifyFavorites(canModifyFavorites)
+            updateItemsInAdapter(list)
+        }
     }
 }

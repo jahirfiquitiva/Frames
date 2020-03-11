@@ -1,5 +1,6 @@
 package dev.jahir.frames.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -15,7 +16,9 @@ open class CollectionActivity : BaseChangelogDialogActivity<Prefs>() {
 
     override val prefs: Prefs by lazy { Prefs(this) }
 
-    open val wallpapersFragment: WallpapersFragment by lazy { WallpapersFragment.create() }
+    open val wallpapersFragment: WallpapersFragment by lazy {
+        WallpapersFragment.create(canModifyFavorites = canModifyFavorites())
+    }
 
     private var collection: String = ""
     private var favoritesModified: Boolean = false
@@ -70,12 +73,15 @@ open class CollectionActivity : BaseChangelogDialogActivity<Prefs>() {
         wallpapersFragment.applyFilter(filter, closed)
     }
 
-    override fun finish() {
+    override fun onFinish() {
+        super.onFinish()
         setResult(
             if (favoritesModified) ViewerActivity.FAVORITES_MODIFIED_RESULT
-            else ViewerActivity.FAVORITES_NOT_MODIFIED_RESULT
+            else ViewerActivity.FAVORITES_NOT_MODIFIED_RESULT,
+            Intent().apply {
+                putExtra(ViewerActivity.FAVORITES_MODIFIED, favoritesModified)
+            }
         )
-        super.finish()
     }
 
     internal fun setFavoritesModified() {

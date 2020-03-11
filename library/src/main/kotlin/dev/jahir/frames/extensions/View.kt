@@ -2,13 +2,11 @@
 
 package dev.jahir.frames.extensions
 
-import android.graphics.drawable.Animatable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.IdRes
-import androidx.core.view.postDelayed
 import androidx.customview.widget.ViewDragHelper
 
 inline fun <reified T : View> View.findView(@IdRes id: Int, logException: Boolean = false): Lazy<T?> {
@@ -24,9 +22,7 @@ inline fun <reified T : View> View.findView(@IdRes id: Int, logException: Boolea
 
 fun <T : View> T.showAndAnimate() {
     visible()
-    (this as? ImageView)?.let {
-        postDelayed(150) { (it.drawable as? Animatable)?.start() }
-    }
+    (this as? ImageView)?.startAnimatable()
 }
 
 fun <T : View> T.visible(): T {

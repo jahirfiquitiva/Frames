@@ -1,7 +1,10 @@
 package dev.jahir.frames.extensions
 
+import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
+import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.view.postDelayed
 import coil.Coil
 import coil.api.load
 import coil.transform.CircleCropTransformation
@@ -70,3 +73,9 @@ fun AppCompatImageView.loadFramesPic(
         internalLoadFramesPic(url, isForPalette, cropAsCircle, placeholder, saturatingTarget)
     }
 }
+
+fun ImageView.startAnimatable() {
+    postDelayed(IMAGEVIEW_ANIMATABLE_DELAY) { (drawable as? Animatable)?.start() }
+}
+
+private const val IMAGEVIEW_ANIMATABLE_DELAY = 100L

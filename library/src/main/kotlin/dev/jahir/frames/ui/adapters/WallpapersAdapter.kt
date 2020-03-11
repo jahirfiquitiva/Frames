@@ -7,7 +7,8 @@ import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.inflate
 import dev.jahir.frames.ui.viewholders.WallpaperViewHolder
 
-class WallpapersAdapter(
+internal class WallpapersAdapter(
+    var canModifyFavorites: Boolean = true,
     var onClick: (Wallpaper, WallpaperViewHolder) -> Unit = { _, _ -> },
     var onFavClick: (Boolean, Wallpaper) -> Unit = { _, _ -> }
 ) : RecyclerView.Adapter<WallpaperViewHolder>() {
@@ -20,7 +21,7 @@ class WallpapersAdapter(
         }
 
     override fun onBindViewHolder(holder: WallpaperViewHolder, position: Int) {
-        holder.bind(wallpapers[position], onClick, onFavClick)
+        holder.bind(wallpapers[position], canModifyFavorites, onClick, onFavClick)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallpaperViewHolder =

@@ -31,13 +31,16 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
     override val prefs: Prefs by lazy { Prefs(this) }
 
     open val wallpapersFragment: WallpapersFragment by lazy {
-        WallpapersFragment.create(ArrayList(wallpapersViewModel.wallpapers))
+        WallpapersFragment.create(ArrayList(wallpapersViewModel.wallpapers), canModifyFavorites())
     }
     open val collectionsFragment: CollectionsFragment by lazy {
         CollectionsFragment.create(ArrayList(wallpapersViewModel.collections))
     }
     open val favoritesFragment: WallpapersFragment by lazy {
-        WallpapersFragment.createForFavs(ArrayList(wallpapersViewModel.favorites))
+        WallpapersFragment.createForFavs(
+            ArrayList(wallpapersViewModel.favorites),
+            canModifyFavorites()
+        )
     }
 
     var currentFragment: Fragment? = null

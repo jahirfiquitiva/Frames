@@ -71,13 +71,12 @@
 
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatCheckBox
+        <dev.jahir.frames.ui.widgets.FavoriteCheckbox
             android:id="@+id/fav_button"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:button="@drawable/ic_favorite_check"
-            android:checked="false"
-            tools:ignore="UnusedAttribute" />
+            android:checked="false" />
 
     </LinearLayout>
 

@@ -3,7 +3,6 @@ package dev.jahir.frames.ui.activities.base
 import android.os.Bundle
 import android.os.Handler
 import androidx.annotation.StyleRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
@@ -16,7 +15,7 @@ import dev.jahir.frames.extensions.statusBarColor
 import dev.jahir.frames.ui.FramesApplication
 import dev.jahir.frames.utils.Prefs
 
-abstract class BaseThemedActivity<out P : Prefs> : AppCompatActivity() {
+abstract class BaseThemedActivity<out P : Prefs> : BaseFinishResultActivity() {
 
     private var lastTheme: Prefs.ThemeKey = Prefs.ThemeKey.FOLLOW_SYSTEM
     private var wasUsingAmoled: Boolean = false

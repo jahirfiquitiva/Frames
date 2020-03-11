@@ -1,5 +1,6 @@
 package dev.jahir.frames.ui.activities
 
+import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -155,13 +156,15 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun finish() {
-        setResult(if (favoritesModified) FAVORITES_MODIFIED_RESULT else FAVORITES_NOT_MODIFIED_RESULT)
-        super.finish()
-    }
-
-    override fun onBackPressed() {
-        supportFinishAfterTransition()
+    override fun onFinish() {
+        super.onFinish()
+        setResult(
+            if (favoritesModified) FAVORITES_MODIFIED_RESULT
+            else FAVORITES_NOT_MODIFIED_RESULT,
+            Intent().apply {
+                putExtra(FAVORITES_MODIFIED, favoritesModified)
+            }
+        )
     }
 
     override fun onDestroy() {
@@ -239,9 +242,11 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
             R.id.download -> checkForDownload()
             R.id.apply -> applyWallpaper(wallpaper)
             R.id.favorites -> {
-                this.favoritesModified = true
-                if (isInFavorites) removeFromFavorites(wallpaper)
-                else addToFavorites(wallpaper)
+                if (canModifyFavorites()) {
+                    this.favoritesModified = true
+                    if (isInFavorites) removeFromFavorites(wallpaper)
+                    else addToFavorites(wallpaper)
+                } else onFavoritesLocked()
             }
         }
         return false
@@ -290,6 +295,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
     companion object {
         internal const val MIN_TIME: Long = 3 * 60 * 60000
         internal const val REQUEST_CODE = 10
+        internal const val FAVORITES_MODIFIED = "favorites_modified"
         internal const val FAVORITES_MODIFIED_RESULT = 1
         internal const val FAVORITES_NOT_MODIFIED_RESULT = 0
         internal const val CURRENT_WALL_POSITION = "curr_wall_pos"
@@ -297,6 +303,5 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         private const val CLOSING_KEY = "closing"
         private const val TRANSITIONED_KEY = "transitioned"
         private const val IS_IN_FAVORITES_KEY = "is_in_favorites"
-        private const val FAVORITES_MODIFIED = "favorites_modified"
     }
 }

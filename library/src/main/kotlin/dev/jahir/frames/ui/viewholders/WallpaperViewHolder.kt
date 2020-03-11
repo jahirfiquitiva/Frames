@@ -2,7 +2,6 @@ package dev.jahir.frames.ui.viewholders
 
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.ViewCompat
 import androidx.core.view.postDelayed
@@ -18,26 +17,35 @@ import dev.jahir.frames.extensions.context
 import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.loadFramesPic
 import dev.jahir.frames.extensions.withAlpha
+import dev.jahir.frames.ui.widgets.FavoriteCheckbox
 import dev.jahir.frames.utils.tint
 
 class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
     internal val image: AppCompatImageView? = view.findViewById(R.id.wallpaper_image)
     internal val title: TextView? = view.findViewById(R.id.wallpaper_name)
     internal val author: TextView? = view.findViewById(R.id.wallpaper_author)
-    internal val favorite: AppCompatCheckBox? = view.findViewById(R.id.fav_button)
+    internal val favorite: FavoriteCheckbox? = view.findViewById(R.id.fav_button)
     private val detailsBackground: View? by view.findView(R.id.wallpaper_details_background)
 
     fun bind(
         wallpaper: Wallpaper,
+        canModifyFavorites: Boolean,
         onClick: (Wallpaper, WallpaperViewHolder) -> Unit,
         onFavClick: (Boolean, Wallpaper) -> Unit
     ) {
         favorite?.setOnCheckedChangeListener(null)
         favorite?.isChecked = wallpaper.isInFavorites
         favorite?.invalidate()
-        favorite?.setOnCheckedChangeListener { _, checked ->
-            favorite.postDelayed(FAV_DELAY) { onFavClick(checked, wallpaper) }
+        favorite?.canCheck = canModifyFavorites
+        favorite?.setOnClickListener { view ->
+            view.postDelayed(FAV_DELAY) {
+                onFavClick(
+                    (view as? FavoriteCheckbox)?.isChecked ?: wallpaper.isInFavorites,
+                    wallpaper
+                )
+            }
         }
+        favorite?.onDisabledClickListener = { onFavClick(wallpaper.isInFavorites, wallpaper) }
 
         title?.let {
             ViewCompat.setTransitionName(it, wallpaper.buildTitleTransitionName(adapterPosition))
