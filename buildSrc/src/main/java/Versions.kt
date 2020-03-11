@@ -16,5 +16,5 @@ object Versions {
     const val buildTools = "29.0.2"
 
     // Frames
-    const val frames = "3.0.2"
+    const val frames = "3.0.3"
 }
