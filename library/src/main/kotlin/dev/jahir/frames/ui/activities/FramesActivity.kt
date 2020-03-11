@@ -26,6 +26,7 @@ import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
 import dev.jahir.frames.utils.Prefs
 
+@Suppress("LeakingThis", "MemberVisibilityCanBePrivate")
 abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
 
     override val prefs: Prefs by lazy { Prefs(this) }
@@ -213,7 +214,7 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
 
     companion object {
         private const val CURRENT_FRAGMENT_KEY = "current_fragment"
-        private const val FRAGMENT_TRANSITION_DURATION = 100L
-        private const val FRAGMENT_TRANSITION_OFFSET_DURATION = 50L
+        private const val FRAGMENT_TRANSITION_DURATION = 80L
+        private const val FRAGMENT_TRANSITION_OFFSET_DURATION = 40L
     }
 }
