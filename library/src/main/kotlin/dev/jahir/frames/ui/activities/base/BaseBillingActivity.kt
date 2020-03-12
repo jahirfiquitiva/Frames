@@ -18,11 +18,11 @@ import dev.jahir.frames.extensions.title
 import dev.jahir.frames.ui.fragments.viewer.DownloaderDialog
 import dev.jahir.frames.utils.Prefs
 
+@Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseBillingActivity<out P : Prefs> : BaseLicenseCheckerActivity<P>(),
     BillingProcessesListener {
 
-    private val billingViewModel: BillingViewModel by lazyViewModel()
-    @Suppress("MemberVisibilityCanBePrivate")
+    val billingViewModel: BillingViewModel by lazyViewModel()
     val isBillingClientReady: Boolean
         get() = billingEnabled && billingViewModel.isBillingClientReady
 
