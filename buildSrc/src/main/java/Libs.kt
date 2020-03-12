@@ -58,9 +58,8 @@ object Libs {
     private const val licenseChecker =
         "com.github.javiersantos:PiracyChecker:${Versions.licenseChecker}"
 
-    // In-App Purchases
-    private const val inAppPurchases =
-        "com.anjlab.android.iab.v3:library:${Versions.inAppPurchases}"
+    // In-App Billing
+    private const val inAppBilling = "com.android.billingclient:billing:${Versions.inAppBilling}"
 
     // OneSignal
     const val oneSignal = "com.onesignal:OneSignal:${Versions.oneSignal}"
@@ -91,7 +90,7 @@ object Libs {
         fetch,
         permissions,
         licenseChecker,
-        inAppPurchases
+        inAppBilling
     )
 
     // Kapt dependencies

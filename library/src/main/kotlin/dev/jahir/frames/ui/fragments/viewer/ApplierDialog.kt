@@ -29,12 +29,13 @@ import dev.jahir.frames.extensions.gone
 import dev.jahir.frames.extensions.mdDialog
 import dev.jahir.frames.extensions.prefs
 import dev.jahir.frames.extensions.view
-import dev.jahir.frames.utils.BaseFetchListener
+import dev.jahir.frames.data.listeners.BaseFetchListener
 import dev.jahir.frames.utils.WallpaperDownloadNotificationManager
 import dev.jahir.frames.utils.ensureBackgroundThread
 import java.io.File
 
-class ApplierDialog : DialogFragment(), BaseFetchListener {
+class ApplierDialog : DialogFragment(),
+    BaseFetchListener {
 
     private var applyToOption = 0
     private var wallpaper: Wallpaper? = null

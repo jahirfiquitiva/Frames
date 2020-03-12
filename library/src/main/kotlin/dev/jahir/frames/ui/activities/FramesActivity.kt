@@ -20,14 +20,14 @@ import dev.jahir.frames.extensions.getAppName
 import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.extensions.invisible
 import dev.jahir.frames.extensions.visible
-import dev.jahir.frames.ui.activities.base.BaseDonationsActivity
+import dev.jahir.frames.ui.activities.base.BaseBillingActivity
 import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
 import dev.jahir.frames.utils.Prefs
 
 @Suppress("LeakingThis", "MemberVisibilityCanBePrivate")
-abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
+abstract class FramesActivity : BaseBillingActivity<Prefs>() {
 
     override val prefs: Prefs by lazy { Prefs(this) }
 
@@ -83,7 +83,7 @@ abstract class FramesActivity : BaseDonationsActivity<Prefs>() {
         when (item.itemId) {
             R.id.about -> startActivity(Intent(this, AboutActivity::class.java))
             R.id.settings -> startActivity(Intent(this, SettingsActivity::class.java))
-            R.id.donate -> launchDonationsFlow()
+            R.id.donate -> showInAppPurchasesDialog()
         }
         return super.onOptionsItemSelected(item)
     }

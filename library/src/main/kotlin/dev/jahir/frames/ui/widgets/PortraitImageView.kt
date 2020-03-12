@@ -2,7 +2,7 @@ package dev.jahir.frames.ui.widgets
 
 import android.content.Context
 import android.util.AttributeSet
-import com.google.android.material.imageview.ShapeableImageView
+import androidx.appcompat.widget.AppCompatImageView
 import dev.jahir.frames.R
 
 open class PortraitImageView @JvmOverloads constructor(
@@ -10,7 +10,7 @@ open class PortraitImageView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     style: Int = 0
 ) :
-    ShapeableImageView(context, attributeSet, style) {
+    AppCompatImageView(context, attributeSet, style) {
 
     private var heightMultiplier: Float = 1.25F
 

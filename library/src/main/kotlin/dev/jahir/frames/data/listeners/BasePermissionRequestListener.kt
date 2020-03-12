@@ -1,4 +1,4 @@
-package dev.jahir.frames.utils
+package dev.jahir.frames.data.listeners
 
 import com.fondesa.kpermissions.request.PermissionRequest
 import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce

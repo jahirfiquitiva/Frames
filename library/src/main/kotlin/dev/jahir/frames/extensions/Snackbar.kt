@@ -20,7 +20,6 @@ fun View.showSnackbar(
     if (!snack.isShownOrQueued) snack.show()
 }
 
-
 fun View.showSnackbar(
     @StringRes text: Int,
     duration: Int = Snackbar.LENGTH_SHORT,
