@@ -9,7 +9,7 @@ class MainActivity : FramesActivity() {
      * These things here have the default values. You can delete the ones you don't want to change
      * and/or modify the ones you want to.
      */
-    override val donationsEnabled = true
+    override val billingEnabled = true
 
     override fun amazonInstallsEnabled(): Boolean = false
     override fun checkLPF(): Boolean = true

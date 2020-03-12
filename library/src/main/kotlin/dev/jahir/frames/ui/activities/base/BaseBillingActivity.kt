@@ -22,14 +22,21 @@ abstract class BaseBillingActivity<out P : Prefs> : BaseLicenseCheckerActivity<P
     BillingProcessesListener {
 
     private val billingViewModel: BillingViewModel by lazyViewModel()
+    @Suppress("MemberVisibilityCanBePrivate")
+    val isBillingClientReady: Boolean
+        get() = billingEnabled && billingViewModel.isBillingClientReady
 
     private val loadingDialog: DownloaderDialog by lazy { DownloaderDialog.create() }
     private var purchasesDialog: AlertDialog? = null
 
+    open val billingEnabled: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        billingViewModel.billingProcessesListener = this
-        billingViewModel.initialize(this)
+        if (billingEnabled) {
+            billingViewModel.billingProcessesListener = this
+            billingViewModel.initialize(this)
+        }
     }
 
     private fun dismissDialogs() {
@@ -51,7 +58,7 @@ abstract class BaseBillingActivity<out P : Prefs> : BaseLicenseCheckerActivity<P
     }
 
     fun showInAppPurchasesDialog() {
-        if (!billingViewModel.isBillingClientReady) {
+        if (!isBillingClientReady) {
             onSkuPurchaseError()
             return
         }
