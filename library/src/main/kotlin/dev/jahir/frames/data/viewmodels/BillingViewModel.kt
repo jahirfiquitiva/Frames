@@ -86,7 +86,7 @@ class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdat
             buildSkuDetailsParams(skuItemsIds, BillingClient.SkuType.SUBS)
         ) { billingResult2, detailsList ->
             if (billingResult2.responseCode == BillingClient.BillingResponseCode.OK) {
-                inAppSkuDetailsData.postValue(detailsList)
+                subscriptionsSkuDetailsData.postValue(detailsList)
             }
         }
     }
