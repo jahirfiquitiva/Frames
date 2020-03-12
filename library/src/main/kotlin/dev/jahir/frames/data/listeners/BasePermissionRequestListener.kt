@@ -1,29 +1,24 @@
 package dev.jahir.frames.data.listeners
 
+import com.fondesa.kpermissions.PermissionStatus
+import com.fondesa.kpermissions.allGranted
+import com.fondesa.kpermissions.anyDenied
+import com.fondesa.kpermissions.anyPermanentlyDenied
+import com.fondesa.kpermissions.anyShouldShowRationale
 import com.fondesa.kpermissions.request.PermissionRequest
-import com.fondesa.kpermissions.request.runtime.nonce.PermissionNonce
 
-interface BasePermissionRequestListener : PermissionRequest.AcceptedListener,
-    PermissionRequest.DeniedListener,
-    PermissionRequest.PermanentlyDeniedListener,
-    PermissionRequest.RationaleListener {
-
-    override fun onPermissionsAccepted(permissions: Array<out String>) {
-        // Do nothing
+interface BasePermissionRequestListener : PermissionRequest.Listener {
+    override fun onPermissionsResult(result: List<PermissionStatus>) {
+        when {
+            result.anyDenied() -> onPermissionsDenied(result)
+            result.anyPermanentlyDenied() -> onPermissionsPermanentlyDenied(result)
+            result.anyShouldShowRationale() -> onPermissionsShouldShowRationale(result)
+            result.allGranted() -> onPermissionsGranted(result)
+        }
     }
 
-    override fun onPermissionsDenied(permissions: Array<out String>) {
-        // Do nothing
-    }
-
-    override fun onPermissionsPermanentlyDenied(permissions: Array<out String>) {
-        // Do nothing
-    }
-
-    override fun onPermissionsShouldShowRationale(
-        permissions: Array<out String>,
-        nonce: PermissionNonce
-    ) {
-        // Do nothing
-    }
+    fun onPermissionsDenied(result: List<PermissionStatus>) {}
+    fun onPermissionsPermanentlyDenied(result: List<PermissionStatus>) {}
+    fun onPermissionsShouldShowRationale(result: List<PermissionStatus>) {}
+    fun onPermissionsGranted(result: List<PermissionStatus>) {}
 }

@@ -20,6 +20,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.palette.graphics.Palette
+import com.fondesa.kpermissions.PermissionStatus
 import com.github.chrisbanes.photoview.PhotoView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
@@ -274,8 +275,8 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         }
     }
 
-    override fun internalOnPermissionsAccepted(permissions: Array<out String>) {
-        super.internalOnPermissionsAccepted(permissions)
+    override fun internalOnPermissionsGranted(result: List<PermissionStatus>) {
+        super.internalOnPermissionsGranted(result)
         startDownload()
     }
 
