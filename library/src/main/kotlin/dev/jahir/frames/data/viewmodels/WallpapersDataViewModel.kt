@@ -24,17 +24,17 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 
 class WallpapersDataViewModel : ViewModel() {
 
-    private val wallpapersData: MutableLiveData<List<Wallpaper>>? by lazyMutableLiveData()
+    private val wallpapersData: MutableLiveData<List<Wallpaper>> by lazyMutableLiveData()
     val wallpapers: List<Wallpaper>
-        get() = wallpapersData?.value.orEmpty()
+        get() = wallpapersData.value.orEmpty()
 
-    private val collectionsData: MutableLiveData<ArrayList<Collection>>? by lazyMutableLiveData()
+    private val collectionsData: MutableLiveData<ArrayList<Collection>> by lazyMutableLiveData()
     val collections: ArrayList<Collection>
-        get() = ArrayList(collectionsData?.value.orEmpty())
+        get() = ArrayList(collectionsData.value.orEmpty())
 
-    private val favoritesData: MutableLiveData<List<Wallpaper>>? by lazyMutableLiveData()
+    private val favoritesData: MutableLiveData<List<Wallpaper>> by lazyMutableLiveData()
     val favorites: List<Wallpaper>
-        get() = favoritesData?.value.orEmpty()
+        get() = favoritesData.value.orEmpty()
 
     private val service by lazy {
         Retrofit.Builder()
@@ -215,37 +215,37 @@ class WallpapersDataViewModel : ViewModel() {
     }
 
     private fun postWallpapers(result: List<Wallpaper>) {
-        wallpapersData?.value = null
-        wallpapersData?.postValue(result)
+        wallpapersData.value = null
+        wallpapersData.postValue(result)
     }
 
     private fun postCollections(result: ArrayList<Collection>) {
-        collectionsData?.value = null
-        collectionsData?.postValue(result)
+        collectionsData.value = null
+        collectionsData.postValue(result)
     }
 
     private fun postFavorites(result: List<Wallpaper>) {
-        favoritesData?.value = null
-        favoritesData?.postValue(result)
+        favoritesData.value = null
+        favoritesData.postValue(result)
     }
 
     fun observeWallpapers(owner: LifecycleOwner, onUpdated: (List<Wallpaper>) -> Unit) {
-        wallpapersData?.observe(owner, Observer<List<Wallpaper>> { r -> r?.let { onUpdated(it) } })
+        wallpapersData.observe(owner, Observer<List<Wallpaper>> { r -> r?.let { onUpdated(it) } })
     }
 
     fun observeCollections(owner: LifecycleOwner, onUpdated: (ArrayList<Collection>) -> Unit) {
-        collectionsData?.observe(
+        collectionsData.observe(
             owner,
             Observer<ArrayList<Collection>> { r -> r?.let { onUpdated(it) } })
     }
 
     fun observeFavorites(owner: LifecycleOwner, onUpdated: (List<Wallpaper>) -> Unit) {
-        favoritesData?.observe(owner, Observer<List<Wallpaper>> { r -> r?.let { onUpdated(it) } })
+        favoritesData.observe(owner, Observer<List<Wallpaper>> { r -> r?.let { onUpdated(it) } })
     }
 
     fun destroy(owner: LifecycleOwner) {
-        wallpapersData?.removeObservers(owner)
-        collectionsData?.removeObservers(owner)
-        favoritesData?.removeObservers(owner)
+        wallpapersData.removeObservers(owner)
+        collectionsData.removeObservers(owner)
+        favoritesData.removeObservers(owner)
     }
 }
