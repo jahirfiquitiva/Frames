@@ -22,9 +22,9 @@ import dev.jahir.frames.utils.Prefs
 abstract class BaseBillingActivity<out P : Prefs> : BaseLicenseCheckerActivity<P>(),
     BillingProcessesListener {
 
-    val billingViewModel: BillingViewModel? by lazyViewModel()
+    val billingViewModel: BillingViewModel by lazyViewModel()
     val isBillingClientReady: Boolean
-        get() = billingEnabled && billingViewModel?.isBillingClientReady == true
+        get() = billingEnabled && billingViewModel.isBillingClientReady
 
     private val loadingDialog: DownloaderDialog by lazy { DownloaderDialog.create() }
     private var purchasesDialog: AlertDialog? = null
@@ -34,8 +34,8 @@ abstract class BaseBillingActivity<out P : Prefs> : BaseLicenseCheckerActivity<P
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (billingEnabled) {
-            billingViewModel?.billingProcessesListener = this
-            billingViewModel?.initialize(this)
+            billingViewModel.billingProcessesListener = this
+            billingViewModel.initialize(this)
         }
     }
 
@@ -54,7 +54,7 @@ abstract class BaseBillingActivity<out P : Prefs> : BaseLicenseCheckerActivity<P
     override fun onDestroy() {
         super.onDestroy()
         dismissDialogs()
-        billingViewModel?.destroy(this)
+        billingViewModel.destroy(this)
     }
 
     fun showInAppPurchasesDialog() {
@@ -63,13 +63,13 @@ abstract class BaseBillingActivity<out P : Prefs> : BaseLicenseCheckerActivity<P
             return
         }
         val skuDetailsList =
-            billingViewModel?.inAppSkuDetails?.map { CleanSkuDetails(it) }.orEmpty()
+            billingViewModel.inAppSkuDetails.map { CleanSkuDetails(it) }.orEmpty()
         if (skuDetailsList.isEmpty()) return
         dismissDialogs()
         purchasesDialog = mdDialog {
             title(R.string.donate)
             singleChoiceItems(skuDetailsList, 0) { _, which ->
-                billingViewModel?.launchBillingFlow(
+                billingViewModel.launchBillingFlow(
                     this@BaseBillingActivity,
                     skuDetailsList[which].originalDetails
                 )
@@ -101,8 +101,8 @@ abstract class BaseBillingActivity<out P : Prefs> : BaseLicenseCheckerActivity<P
 
     override fun onBillingClientReady() {
         super.onBillingClientReady()
-        billingViewModel?.queryInAppSkuDetailsList(getInAppPurchasesItemsIds())
-        billingViewModel?.querySubscriptionsSkuDetailsList(getSubscriptionsItemsIds())
+        billingViewModel.queryInAppSkuDetailsList(getInAppPurchasesItemsIds())
+        billingViewModel.querySubscriptionsSkuDetailsList(getSubscriptionsItemsIds())
     }
 
     open fun getInAppPurchasesItemsIds(): List<String> = try {

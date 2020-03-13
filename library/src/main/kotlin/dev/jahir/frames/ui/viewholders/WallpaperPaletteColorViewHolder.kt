@@ -9,7 +9,11 @@ import androidx.cardview.widget.CardView
 import androidx.palette.graphics.Palette
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.*
+import dev.jahir.frames.extensions.bestTextColor
+import dev.jahir.frames.extensions.context
+import dev.jahir.frames.extensions.findView
+import dev.jahir.frames.extensions.toHexString
+import dev.jahir.frames.extensions.toast
 
 class WallpaperPaletteColorViewHolder(view: View) : SectionedViewHolder(view) {
 

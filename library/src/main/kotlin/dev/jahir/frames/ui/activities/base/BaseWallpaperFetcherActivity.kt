@@ -8,9 +8,9 @@ import com.tonyodev.fetch2.Priority
 import com.tonyodev.fetch2.Request
 import com.tonyodev.fetch2core.DownloadBlock
 import com.tonyodev.fetch2core.Func
+import dev.jahir.frames.data.listeners.BaseFetchListener
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.ui.fragments.viewer.DownloaderDialog
-import dev.jahir.frames.data.listeners.BaseFetchListener
 import dev.jahir.frames.utils.Prefs
 import dev.jahir.frames.utils.WallpaperDownloadNotificationManager
 import java.io.File

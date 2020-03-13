@@ -9,16 +9,16 @@ import dev.jahir.frames.utils.Prefs
 
 abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisibilityActivity<P>() {
 
-    val wallpapersViewModel: WallpapersDataViewModel? by lazyViewModel()
+    val wallpapersViewModel: WallpapersDataViewModel by lazyViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        wallpapersViewModel?.observeFavorites(this, ::onFavoritesUpdated)
+        wallpapersViewModel.observeFavorites(this, ::onFavoritesUpdated)
     }
 
     internal fun addToFavorites(wallpaper: Wallpaper): Boolean {
         if (canModifyFavorites()) {
-            wallpapersViewModel?.addToFavorites(this, wallpaper)
+            wallpapersViewModel.addToFavorites(this, wallpaper)
             return true
         }
         onFavoritesLocked()
@@ -27,7 +27,7 @@ abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisib
 
     internal fun removeFromFavorites(wallpaper: Wallpaper): Boolean {
         if (canModifyFavorites()) {
-            wallpapersViewModel?.removeFromFavorites(this, wallpaper)
+            wallpapersViewModel.removeFromFavorites(this, wallpaper)
             return true
         }
         onFavoritesLocked()
@@ -36,23 +36,23 @@ abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisib
 
     override fun onDestroy() {
         super.onDestroy()
-        wallpapersViewModel?.destroy(this)
+        wallpapersViewModel.destroy(this)
     }
 
     internal fun loadData() {
-        wallpapersViewModel?.loadData(this, getString(R.string.json_url))
+        wallpapersViewModel.loadData(this, getString(R.string.json_url))
     }
 
     internal fun reloadData() {
         try {
-            wallpapersViewModel?.loadData(this)
+            wallpapersViewModel.loadData(this)
         } catch (e: Exception) {
         }
     }
 
     internal fun repostData(key: Int) {
         try {
-            wallpapersViewModel?.repostData(this, key)
+            wallpapersViewModel.repostData(this, key)
         } catch (e: Exception) {
         }
     }

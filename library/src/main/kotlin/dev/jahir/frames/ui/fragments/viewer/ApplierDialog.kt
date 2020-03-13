@@ -22,6 +22,7 @@ import com.tonyodev.fetch2.Request
 import com.tonyodev.fetch2core.DownloadBlock
 import com.tonyodev.fetch2core.Func
 import dev.jahir.frames.R
+import dev.jahir.frames.data.listeners.BaseFetchListener
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.cancelable
 import dev.jahir.frames.extensions.getUri
@@ -29,7 +30,6 @@ import dev.jahir.frames.extensions.gone
 import dev.jahir.frames.extensions.mdDialog
 import dev.jahir.frames.extensions.prefs
 import dev.jahir.frames.extensions.view
-import dev.jahir.frames.data.listeners.BaseFetchListener
 import dev.jahir.frames.utils.WallpaperDownloadNotificationManager
 import dev.jahir.frames.utils.ensureBackgroundThread
 import java.io.File

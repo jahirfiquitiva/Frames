@@ -1,6 +1,10 @@
 package dev.jahir.frames.data.db
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import dev.jahir.frames.data.models.Favorite
 
 @Dao // Data Access Object
