@@ -9,6 +9,12 @@ inline fun <reified T> lazyMutableLiveData(): Lazy<MutableLiveData<T>> {
     return lazy { MutableLiveData<T>() }
 }
 
-inline fun <reified T : ViewModel> ViewModelStoreOwner.lazyViewModel(): Lazy<T> {
-    return lazy { ViewModelProvider(this).get(T::class.java) }
+inline fun <reified T : ViewModel> ViewModelStoreOwner.lazyViewModel(): Lazy<T?> {
+    return lazy {
+        try {
+            ViewModelProvider(this).get(T::class.java)
+        } catch (e: Exception) {
+            null
+        }
+    }
 }

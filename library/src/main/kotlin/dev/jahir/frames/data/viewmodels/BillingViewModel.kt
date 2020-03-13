@@ -6,6 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.observe
+import androidx.lifecycle.viewModelScope
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
@@ -19,6 +20,9 @@ import dev.jahir.frames.data.listeners.BillingProcessesListener
 import dev.jahir.frames.data.models.DetailedPurchaseRecord
 import dev.jahir.frames.extensions.asDetailedPurchase
 import dev.jahir.frames.extensions.lazyMutableLiveData
+import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdatedListener {
@@ -70,25 +74,35 @@ class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdat
     ): SkuDetailsParams =
         SkuDetailsParams.newBuilder().setSkusList(skuItemsIds).setType(skuType).build()
 
-    fun queryInAppSkuDetailsList(skuItemsIds: List<String>) {
+    private suspend fun internalQuerySkuDetailsList(skuItemsIds: List<String>, @BillingClient.SkuType skuType: String) {
         if (!isBillingClientReady || skuItemsIds.isNullOrEmpty()) return
-        billingClient?.querySkuDetailsAsync(
-            buildSkuDetailsParams(skuItemsIds, BillingClient.SkuType.INAPP)
-        ) { billingResult2, detailsList ->
-            if (billingResult2.responseCode == BillingClient.BillingResponseCode.OK) {
-                inAppSkuDetailsData.postValue(detailsList)
+        withContext(Default) {
+            billingClient?.querySkuDetailsAsync(
+                buildSkuDetailsParams(skuItemsIds, skuType)
+            ) { billingResult2, detailsList ->
+                if (billingResult2.responseCode == BillingClient.BillingResponseCode.OK) {
+                    when (skuType) {
+                        BillingClient.SkuType.INAPP -> {
+                            inAppSkuDetailsData.postValue(detailsList)
+                        }
+                        BillingClient.SkuType.SUBS -> {
+                            subscriptionsSkuDetailsData.postValue(detailsList)
+                        }
+                    }
+                }
             }
         }
     }
 
+    fun queryInAppSkuDetailsList(skuItemsIds: List<String>) {
+        viewModelScope.launch {
+            internalQuerySkuDetailsList(skuItemsIds, BillingClient.SkuType.INAPP)
+        }
+    }
+
     fun querySubscriptionsSkuDetailsList(skuItemsIds: List<String>) {
-        if (!isBillingClientReady || skuItemsIds.isNullOrEmpty()) return
-        billingClient?.querySkuDetailsAsync(
-            buildSkuDetailsParams(skuItemsIds, BillingClient.SkuType.SUBS)
-        ) { billingResult2, detailsList ->
-            if (billingResult2.responseCode == BillingClient.BillingResponseCode.OK) {
-                subscriptionsSkuDetailsData.postValue(detailsList)
-            }
+        viewModelScope.launch {
+            internalQuerySkuDetailsList(skuItemsIds, BillingClient.SkuType.SUBS)
         }
     }
 
@@ -101,30 +115,34 @@ class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdat
         )
     }
 
-    private fun queryPurchasesHistory(@BillingClient.SkuType skuType: String) {
+    private suspend fun queryPurchasesHistory(@BillingClient.SkuType skuType: String) {
         if (!isBillingClientReady) return
-        billingClient?.queryPurchaseHistoryAsync(skuType) { result, history ->
-            if (result.responseCode == BillingClient.BillingResponseCode.OK) {
-                val previousPurchases = mutableListOf<DetailedPurchaseRecord>()
-                history?.forEachIndexed { _, it ->
-                    it.asDetailedPurchase()?.let { detailed -> previousPurchases.add(detailed) }
-                }
-                val rightPreviousPurchases = previousPurchases.sortedBy { it.purchaseTime }
-                when (skuType) {
-                    BillingClient.SkuType.INAPP -> {
-                        inAppPurchasesHistoryData.postValue(rightPreviousPurchases)
+        withContext(Default) {
+            billingClient?.queryPurchaseHistoryAsync(skuType) { result, history ->
+                if (result.responseCode == BillingClient.BillingResponseCode.OK) {
+                    val previousPurchases = mutableListOf<DetailedPurchaseRecord>()
+                    history?.forEachIndexed { _, it ->
+                        it.asDetailedPurchase()?.let { detailed -> previousPurchases.add(detailed) }
                     }
-                    BillingClient.SkuType.SUBS -> {
-                        subscriptionsPurchasesHistoryData.postValue(rightPreviousPurchases)
+                    val rightPreviousPurchases = previousPurchases.sortedBy { it.purchaseTime }
+                    when (skuType) {
+                        BillingClient.SkuType.INAPP -> {
+                            inAppPurchasesHistoryData.postValue(rightPreviousPurchases)
+                        }
+                        BillingClient.SkuType.SUBS -> {
+                            subscriptionsPurchasesHistoryData.postValue(rightPreviousPurchases)
+                        }
                     }
                 }
             }
         }
     }
 
-    private fun loadPastPurchases() {
-        queryPurchasesHistory(BillingClient.SkuType.SUBS)
-        queryPurchasesHistory(BillingClient.SkuType.INAPP)
+    fun loadPastPurchases() {
+        viewModelScope.launch {
+            queryPurchasesHistory(BillingClient.SkuType.SUBS)
+            queryPurchasesHistory(BillingClient.SkuType.INAPP)
+        }
     }
 
     private fun handlePurchase(purchase: Purchase) {
@@ -177,24 +195,29 @@ class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdat
         }
     }
 
-    private fun internalInitializeObservers(owner: LifecycleOwner) {
-        billingClientReadyData.observe(owner) { ready ->
-            if (ready) {
-                loadPastPurchases()
-                billingProcessesListener?.onBillingClientReady()
+    private fun internalInitializeObservers(owner: LifecycleOwner?) {
+        owner ?: return
+        try {
+            billingClientReadyData.observe(owner) { ready ->
+                if (ready) {
+                    loadPastPurchases()
+                    billingProcessesListener?.onBillingClientReady()
+                }
             }
-        }
-        inAppSkuDetailsData.observe(owner) {
-            billingProcessesListener?.onInAppSkuDetailsListUpdated(it)
-        }
-        inAppPurchasesHistoryData.observe(owner) {
-            billingProcessesListener?.onInAppPurchasesHistoryUpdated(it)
-        }
-        subscriptionsSkuDetailsData.observe(owner) {
-            billingProcessesListener?.onSubscriptionsSkuDetailsListUpdated(it)
-        }
-        subscriptionsPurchasesHistoryData.observe(owner) {
-            billingProcessesListener?.onSubscriptionsPurchasesHistoryUpdated(it)
+            inAppSkuDetailsData.observe(owner) {
+                billingProcessesListener?.onInAppSkuDetailsListUpdated(it)
+            }
+            inAppPurchasesHistoryData.observe(owner) {
+                billingProcessesListener?.onInAppPurchasesHistoryUpdated(it)
+            }
+            subscriptionsSkuDetailsData.observe(owner) {
+                billingProcessesListener?.onSubscriptionsSkuDetailsListUpdated(it)
+            }
+            subscriptionsPurchasesHistoryData.observe(owner) {
+                billingProcessesListener?.onSubscriptionsPurchasesHistoryUpdated(it)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
