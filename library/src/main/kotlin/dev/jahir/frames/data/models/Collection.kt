@@ -20,7 +20,7 @@ open class Collection(val name: String, val wallpapers: ArrayList<Wallpaper> = A
         wallpapers.add(wallpaper)
     }
 
-    internal fun setupCover(usedUrls: ArrayList<String>): ArrayList<String> {
+    fun setupCover(usedUrls: ArrayList<String>): ArrayList<String> {
         cover = wallpapers.firstOrNull { !usedUrls.contains(it.url) } ?: wallpapers.firstOrNull()
         cover?.let { usedUrls.add(it.url) }
         return usedUrls
