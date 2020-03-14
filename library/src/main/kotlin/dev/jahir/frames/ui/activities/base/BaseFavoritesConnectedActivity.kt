@@ -43,7 +43,7 @@ abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisib
     }
 
     internal fun loadData() {
-        wallpapersViewModel.loadData(this, getString(R.string.json_url))
+        wallpapersViewModel.loadData(this, getDataUrl())
     }
 
     internal fun reloadData() {
@@ -63,4 +63,10 @@ abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisib
     open fun canModifyFavorites(): Boolean = true
     open fun onFavoritesLocked() {}
     open fun onFavoritesUpdated(favorites: List<Wallpaper>) {}
+
+    open fun getDataUrl(): String = try {
+        getString(R.string.json_url)
+    } catch (e: Exception) {
+        ""
+    }
 }
