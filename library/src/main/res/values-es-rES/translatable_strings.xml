@@ -99,6 +99,7 @@
     <string name="privacy_policy">Política de privacidad</string>
     <string name="terms_conditions">Términos y condiciones</string>
     <string name="dashboard">Tablero</string>
+    <string name="jahir_description">Soy un desarrollador full-stack apasionado y creativo.</string>
     <string name="eduardo_description">Diseñador de IU. Defensor del espacio negativo.</string>
     <string name="donate_success_title">Gracias</string>
     <string name="donate_success_content">Muchas gracias por tu donación. Lo aprecio y me alegra que estés disfrutando %1$s.</string>
