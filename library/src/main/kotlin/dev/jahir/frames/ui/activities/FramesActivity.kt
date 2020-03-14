@@ -14,6 +14,7 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import dev.jahir.frames.R
+import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.getAppName
@@ -65,7 +66,7 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
         }
 
         wallpapersViewModel.observeWallpapers(this) { wallpapersFragment.updateItems(ArrayList(it)) }
-        wallpapersViewModel.observeCollections(this) { collectionsFragment.updateItems(it) }
+        wallpapersViewModel.observeCollections(this, ::handleCollectionsUpdate)
         loadData()
     }
 
@@ -117,7 +118,7 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
         }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun changeFragment(itemId: Int, force: Boolean = false): Boolean {
+    fun changeFragment(itemId: Int, force: Boolean = false, animate: Boolean = true): Boolean {
         if (currentMenuItemId != itemId || force) {
             val next = getNextFragment(itemId)
             // Pair ( Pair ( fragmentTag, fragment ) , shouldShowItemAsSelected )
@@ -126,7 +127,7 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
                 oldTag = currentTag
                 currentMenuItemId = itemId
                 currentTag = next?.first?.first.orEmpty()
-                loadFragment(next?.first?.second, currentTag, force)
+                loadFragment(next?.first?.second, currentTag, force, animate)
                 supportActionBar?.title =
                     getToolbarTitleForItem(itemId) ?: getAppName("MyWallApp")
             }
@@ -135,23 +136,31 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
         return false
     }
 
-    private fun loadFragment(fragment: Fragment?, tag: String, force: Boolean = false) {
+    private fun internalLoadFragment(fragment: Fragment?, tag: String, force: Boolean = false) {
         fragment ?: return
         if (currentFragment !== fragment || force) {
-            fadeFragmentTransition {
-                val ft = supportFragmentManager.beginTransaction()
-                currentFragment?.let { ft.hide(it).setMaxLifecycle(it, Lifecycle.State.STARTED) }
-                if (fragment.isAdded) {
-                    ft.show(fragment)
-                } else {
-                    ft.add(R.id.fragments_container, fragment, tag)
-                }
-                ft.setMaxLifecycle(fragment, Lifecycle.State.RESUMED)
-                currentFragment = fragment
-                ft.commit()
-                updateSearchHint()
+            val ft = supportFragmentManager.beginTransaction()
+            currentFragment?.let { ft.hide(it).setMaxLifecycle(it, Lifecycle.State.STARTED) }
+            if (fragment.isAdded) {
+                ft.show(fragment)
+            } else {
+                ft.add(R.id.fragments_container, fragment, tag)
             }
+            ft.setMaxLifecycle(fragment, Lifecycle.State.RESUMED)
+            currentFragment = fragment
+            ft.commit()
+            updateSearchHint()
         }
+    }
+
+    private fun loadFragment(
+        fragment: Fragment?,
+        tag: String,
+        force: Boolean = false,
+        animate: Boolean = true
+    ) {
+        if (animate) fadeFragmentTransition { internalLoadFragment(fragment, tag, force) }
+        else internalLoadFragment(fragment, tag, force)
     }
 
     private fun fadeFragmentTransition(
@@ -211,6 +220,10 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
 
     open fun getInitialFragmentTag(): String = WallpapersFragment.TAG
     open fun getInitialItemId(): Int = R.id.wallpapers
+
+    open fun handleCollectionsUpdate(collections: ArrayList<Collection>) {
+        collectionsFragment.updateItems(collections)
+    }
 
     companion object {
         private const val CURRENT_FRAGMENT_KEY = "current_fragment"
