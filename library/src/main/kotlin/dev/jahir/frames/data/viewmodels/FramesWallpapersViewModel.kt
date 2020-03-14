@@ -4,7 +4,7 @@ import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.data.models.Wallpaper
 
 class FramesWallpapersViewModel : WallpapersDataViewModel() {
-    override fun internalTransformWallpapersToCollections(wallpapers: List<Wallpaper>): ArrayList<Collection> {
+    override fun internalTransformWallpapersToCollections(wallpapers: List<Wallpaper>): List<Collection> {
         val collections =
             wallpapers.joinToString(",") { it.collections ?: "" }
                 .replace("|", ",")

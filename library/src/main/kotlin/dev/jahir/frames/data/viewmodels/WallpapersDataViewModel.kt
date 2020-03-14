@@ -44,10 +44,10 @@ abstract class WallpapersDataViewModel : ViewModel() {
             .build().create(WallpapersJSONService::class.java)
     }
 
-    abstract fun internalTransformWallpapersToCollections(wallpapers: List<Wallpaper>): ArrayList<Collection>
+    abstract fun internalTransformWallpapersToCollections(wallpapers: List<Wallpaper>): List<Collection>
 
     private suspend fun transformWallpapersToCollections(wallpapers: List<Wallpaper>): ArrayList<Collection> =
-        withContext(IO) { internalTransformWallpapersToCollections(wallpapers) }
+        withContext(IO) { ArrayList(internalTransformWallpapersToCollections(wallpapers)) }
 
     private suspend fun getWallpapersFromDatabase(context: Context): List<Wallpaper> =
         withContext(IO) {
