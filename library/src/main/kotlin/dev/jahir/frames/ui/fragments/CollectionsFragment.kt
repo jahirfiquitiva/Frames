@@ -48,7 +48,7 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
         }
     }
 
-    private fun onClicked(collection: Collection) {
+    open fun onClicked(collection: Collection) {
         startActivityForResult(
             getTargetActivityIntent()
                 .apply {

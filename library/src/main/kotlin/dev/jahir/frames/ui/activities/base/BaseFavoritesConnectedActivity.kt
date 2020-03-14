@@ -1,15 +1,18 @@
 package dev.jahir.frames.ui.activities.base
 
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
+import dev.jahir.frames.data.viewmodels.FramesWallpapersViewModel
 import dev.jahir.frames.data.viewmodels.WallpapersDataViewModel
-import dev.jahir.frames.extensions.lazyViewModel
 import dev.jahir.frames.utils.Prefs
 
 abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisibilityActivity<P>() {
 
-    val wallpapersViewModel: WallpapersDataViewModel by lazyViewModel()
+    open val wallpapersViewModel: WallpapersDataViewModel by lazy {
+        ViewModelProvider(this).get(FramesWallpapersViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

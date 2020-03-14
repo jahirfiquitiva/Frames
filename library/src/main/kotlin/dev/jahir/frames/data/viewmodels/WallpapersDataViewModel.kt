@@ -22,7 +22,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
-class WallpapersDataViewModel : ViewModel() {
+abstract class WallpapersDataViewModel : ViewModel() {
 
     private val wallpapersData: MutableLiveData<List<Wallpaper>> by lazyMutableLiveData()
     val wallpapers: List<Wallpaper>
@@ -44,31 +44,10 @@ class WallpapersDataViewModel : ViewModel() {
             .build().create(WallpapersJSONService::class.java)
     }
 
-    private suspend fun transformWallpapersToCollections(wallpapers: List<Wallpaper>): ArrayList<Collection> =
-        withContext(IO) {
-            val collections =
-                wallpapers.joinToString(",") { it.collections ?: "" }
-                    .replace("|", ",")
-                    .split(",")
-                    .distinct()
-            val importantCollectionsNames = listOf(
-                "all", "featured", "new", "wallpaper of the day", "wallpaper of the week"
-            )
-            val sortedCollectionsNames =
-                listOf(importantCollectionsNames, collections).flatten().distinct()
+    abstract fun internalTransformWallpapersToCollections(wallpapers: List<Wallpaper>): ArrayList<Collection>
 
-            var usedCovers = ArrayList<String>()
-            val actualCollections: ArrayList<Collection> = ArrayList()
-            sortedCollectionsNames.forEach { collectionName ->
-                val collection = Collection(collectionName)
-                wallpapers.filter { it.collections.orEmpty().contains(collectionName, true) }
-                    .distinctBy { it.url }
-                    .forEach { collection.push(it) }
-                usedCovers = collection.setupCover(usedCovers)
-                if (collection.count > 0) actualCollections.add(collection)
-            }
-            actualCollections
-        }
+    private suspend fun transformWallpapersToCollections(wallpapers: List<Wallpaper>): ArrayList<Collection> =
+        withContext(IO) { internalTransformWallpapersToCollections(wallpapers) }
 
     private suspend fun getWallpapersFromDatabase(context: Context): List<Wallpaper> =
         withContext(IO) {
@@ -99,33 +78,43 @@ class WallpapersDataViewModel : ViewModel() {
             }
         }
 
+    open fun internalGetFavorites(context: Context): List<Favorite> =
+        FramesDatabase.getAppDatabase(context)?.favoritesDao()?.getAllFavorites().orEmpty()
+
+    open fun internalAddToFavorites(context: Context, wallpaper: Wallpaper): Boolean {
+        FramesDatabase.getAppDatabase(context)?.favoritesDao()?.insert(Favorite(wallpaper.url))
+        return true
+    }
+
+    open fun internalRemoveFromFavorites(context: Context, wallpaper: Wallpaper): Boolean {
+        FramesDatabase.getAppDatabase(context)?.favoritesDao()?.delete(Favorite(wallpaper.url))
+        return true
+    }
+
     private suspend fun getFavorites(context: Context): List<Favorite> =
         withContext(IO) {
             try {
-                FramesDatabase.getAppDatabase(context)?.favoritesDao()?.getAllFavorites()
-                    .orEmpty()
+                internalGetFavorites(context)
             } catch (e: Exception) {
-                arrayListOf<Favorite>()
+                listOf<Favorite>()
             }
         }
 
-    private suspend fun internalAddToFavorites(context: Context, wallpaper: Wallpaper) =
+    private suspend fun addToFavorites(context: Context, wallpaper: Wallpaper): Boolean =
         withContext(IO) {
             try {
-                FramesDatabase.getAppDatabase(context)?.favoritesDao()
-                    ?.insert(Favorite(wallpaper.url))
+                internalAddToFavorites(context, wallpaper)
             } catch (e: Exception) {
-                e.printStackTrace()
+                false
             }
         }
 
-    private suspend fun internalRemoveFromFavorites(context: Context, wallpaper: Wallpaper) =
+    private suspend fun removeFromFavorites(context: Context, wallpaper: Wallpaper): Boolean =
         withContext(IO) {
             try {
-                FramesDatabase.getAppDatabase(context)?.favoritesDao()
-                    ?.delete(Favorite(wallpaper.url))
+                internalRemoveFromFavorites(context, wallpaper)
             } catch (e: Exception) {
-                e.printStackTrace()
+                false
             }
         }
 
@@ -173,7 +162,7 @@ class WallpapersDataViewModel : ViewModel() {
     fun addToFavorites(context: Context?, wallpaper: Wallpaper) {
         context ?: return
         viewModelScope.launch {
-            internalAddToFavorites(context, wallpaper)
+            addToFavorites(context, wallpaper)
             loadData(context)
         }
     }
@@ -182,7 +171,7 @@ class WallpapersDataViewModel : ViewModel() {
     fun removeFromFavorites(context: Context?, wallpaper: Wallpaper) {
         context ?: return
         viewModelScope.launch {
-            internalRemoveFromFavorites(context, wallpaper)
+            removeFromFavorites(context, wallpaper)
             try {
                 Thread.sleep(10)
             } catch (e: Exception) {

@@ -5,7 +5,7 @@ import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Collection(val name: String, val wallpapers: ArrayList<Wallpaper> = ArrayList()) :
+open class Collection(val name: String, val wallpapers: ArrayList<Wallpaper> = ArrayList()) :
     Parcelable {
 
     val count: Int
