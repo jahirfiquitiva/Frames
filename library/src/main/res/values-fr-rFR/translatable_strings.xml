@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="wallpapers">Fonds d\'écran</string>
     <string name="collections">Collections</string>
     <string name="favorites">Favoris</string>
@@ -99,7 +99,6 @@
     <string name="privacy_policy">Politique de confidentialité</string>
     <string name="terms_conditions">Termes et conditions d\'utilisation</string>
     <string name="dashboard">Tableau de bord</string>
-    <string name="jahir_description">Je suis un développeur Android créatif, passionné et aussi le créateur de ce tableau de bord.</string>
     <string name="eduardo_description">Designeur de l\'interface utilisateur. Fervant défenseur des espaces négatifs.</string>
     <string name="donate_success_title">Merci</string>
     <string name="donate_success_content">Merci beaucoup pour votre donation. J\'apprécie beaucoup votre geste et je suis ravis que vous appréciez %1$s.</string>
