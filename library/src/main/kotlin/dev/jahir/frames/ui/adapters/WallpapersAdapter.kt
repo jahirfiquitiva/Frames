@@ -8,6 +8,7 @@ import dev.jahir.frames.extensions.inflate
 import dev.jahir.frames.ui.viewholders.WallpaperViewHolder
 
 internal class WallpapersAdapter(
+    private val canShowFavoritesButton: Boolean = true,
     var canModifyFavorites: Boolean = true,
     var onClick: (Wallpaper, WallpaperViewHolder) -> Unit = { _, _ -> },
     var onFavClick: (Boolean, Wallpaper) -> Unit = { _, _ -> }
@@ -21,7 +22,13 @@ internal class WallpapersAdapter(
         }
 
     override fun onBindViewHolder(holder: WallpaperViewHolder, position: Int) {
-        holder.bind(wallpapers[position], canModifyFavorites, onClick, onFavClick)
+        holder.bind(
+            wallpapers[position],
+            canShowFavoritesButton,
+            canModifyFavorites,
+            onClick,
+            onFavClick
+        )
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallpaperViewHolder =

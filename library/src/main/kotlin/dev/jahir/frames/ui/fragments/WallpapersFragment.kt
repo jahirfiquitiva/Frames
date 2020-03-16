@@ -30,9 +30,10 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     var isForFavs: Boolean = false
 
     private val wallsAdapter: WallpapersAdapter by lazy {
-        wallpapersAdapter {
-            this.canModifyFavorites =
-                (activity as? BaseFavoritesConnectedActivity<*>)?.canModifyFavorites() ?: true
+        wallpapersAdapter(
+            canShowFavoritesButton(),
+            (activity as? BaseFavoritesConnectedActivity<*>)?.canModifyFavorites() ?: true
+        ) {
             onClick { wall, holder -> launchViewer(wall, holder) }
             onFavClick { checked, wallpaper ->
                 this@WallpapersFragment.onFavClick(checked, wallpaper)
@@ -146,6 +147,8 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         wallsAdapter.canModifyFavorites = canModify
         wallsAdapter.notifyDataSetChanged()
     }
+
+    open fun canShowFavoritesButton(): Boolean = true
 
     companion object {
         const val TAG = "wallpapers_fragment"

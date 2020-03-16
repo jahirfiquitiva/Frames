@@ -20,6 +20,7 @@ abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisib
     }
 
     internal fun addToFavorites(wallpaper: Wallpaper): Boolean {
+        if (!canShowFavoritesButton()) return false
         if (canModifyFavorites()) {
             wallpapersViewModel.addToFavorites(this, wallpaper)
             return true
@@ -29,6 +30,7 @@ abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisib
     }
 
     internal fun removeFromFavorites(wallpaper: Wallpaper): Boolean {
+        if (!canShowFavoritesButton()) return false
         if (canModifyFavorites()) {
             wallpapersViewModel.removeFromFavorites(this, wallpaper)
             return true
@@ -60,6 +62,7 @@ abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisib
         }
     }
 
+    open fun canShowFavoritesButton(): Boolean = true
     open fun canModifyFavorites(): Boolean = true
     open fun onFavoritesLocked() {}
     open fun onFavoritesUpdated(favorites: List<Wallpaper>) {}
