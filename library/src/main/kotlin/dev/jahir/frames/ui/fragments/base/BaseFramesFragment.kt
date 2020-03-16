@@ -20,7 +20,7 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_recyclerview),
 
     internal val originalItems: ArrayList<T> = ArrayList()
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
-    internal val recyclerView: EmptyViewRecyclerView? by findView(R.id.recycler_view)
+    val recyclerView: EmptyViewRecyclerView? by findView(R.id.recycler_view)
     private val emptyView: EmptyView? by findView(R.id.empty_view)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,8 +74,7 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_recyclerview),
 
     abstract fun getFilteredItems(filter: String, closed: Boolean): ArrayList<T>
     abstract fun updateItemsInAdapter(items: ArrayList<T>)
-    abstract fun getRepostKey(): Int
-    abstract fun getTargetActivityIntent(): Intent
-
+    open fun getRepostKey(): Int = -1
+    open fun getTargetActivityIntent(): Intent? = null
     open fun canToggleSystemUIVisibility(): Boolean = true
 }
