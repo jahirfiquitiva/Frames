@@ -60,7 +60,7 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
         setContentView(getLayoutRes())
 
         setSupportActionBar(toolbar)
-        loadFirstFragment()
+        changeFragment(initialItemId, true, false)
 
         bottomNavigation?.setOnNavigationItemSelectedListener { changeFragment(it.itemId) }
         bottomNavigation?.selectedItemId = when (currentTag) {
@@ -98,17 +98,6 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
         CollectionsFragment.TAG -> getString(R.string.search_collections)
         WallpapersFragment.FAVS_TAG -> getString(R.string.search_favorites)
         else -> getString(R.string.search_x)
-    }
-
-    private fun loadFirstFragment() {
-        val transaction = supportFragmentManager.beginTransaction()
-        currentFragment = when (currentTag) {
-            CollectionsFragment.TAG -> collectionsFragment
-            WallpapersFragment.FAVS_TAG -> favoritesFragment
-            else -> wallpapersFragment
-        }
-        currentFragment?.let { transaction.add(R.id.fragments_container, it, currentTag) }
-        transaction.commit()
     }
 
     open fun getToolbarTitleForItem(itemId: Int): String? = null
