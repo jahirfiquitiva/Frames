@@ -136,7 +136,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         if (requestCode == ViewerActivity.REQUEST_CODE &&
             resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT) {
             (activity as? CollectionActivity)?.setFavoritesModified()
-            (activity as? BaseFavoritesConnectedActivity<*>)?.reloadData()
+            (activity as? BaseFavoritesConnectedActivity<*>)?.reloadWallpapersData()
         }
     }
 

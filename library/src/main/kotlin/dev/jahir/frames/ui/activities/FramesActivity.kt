@@ -67,7 +67,7 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
 
         wallpapersViewModel.observeWallpapers(this) { wallpapersFragment.updateItems(ArrayList(it)) }
         wallpapersViewModel.observeCollections(this, ::handleCollectionsUpdate)
-        loadData()
+        loadWallpapersData()
     }
 
     @LayoutRes

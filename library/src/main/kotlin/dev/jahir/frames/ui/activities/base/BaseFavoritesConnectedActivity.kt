@@ -44,18 +44,18 @@ abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisib
         wallpapersViewModel.destroy(this)
     }
 
-    internal fun loadData() {
+    internal fun loadWallpapersData() {
         wallpapersViewModel.loadData(this, getDataUrl())
     }
 
-    internal fun reloadData() {
+    internal fun reloadWallpapersData() {
         try {
             wallpapersViewModel.loadData(this)
         } catch (e: Exception) {
         }
     }
 
-    internal fun repostData(key: Int) {
+    internal fun repostWallpapersData(key: Int) {
         try {
             wallpapersViewModel.repostData(this, key)
         } catch (e: Exception) {

@@ -64,7 +64,7 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CollectionActivity.REQUEST_CODE &&
             resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT) {
-            (activity as? BaseFavoritesConnectedActivity<*>)?.reloadData()
+            (activity as? BaseFavoritesConnectedActivity<*>)?.reloadWallpapersData()
         }
     }
 

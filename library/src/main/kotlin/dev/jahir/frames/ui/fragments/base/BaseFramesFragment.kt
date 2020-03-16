@@ -32,7 +32,7 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_recyclerview),
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
         swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh)
         swipeRefreshLayout?.setOnRefreshListener { startRefreshing() }
-        (activity as? BaseFavoritesConnectedActivity<*>)?.repostData(getRepostKey())
+        (activity as? BaseFavoritesConnectedActivity<*>)?.repostWallpapersData(getRepostKey())
     }
 
     internal fun setRefreshEnabled(enabled: Boolean) {
@@ -58,7 +58,7 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_recyclerview),
     }
 
     open fun loadData() {
-        (activity as? BaseFavoritesConnectedActivity<*>)?.loadData()
+        (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData()
     }
 
     internal fun stopRefreshing() {
