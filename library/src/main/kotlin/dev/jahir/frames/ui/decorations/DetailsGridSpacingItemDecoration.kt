@@ -11,7 +11,6 @@ open class DetailsGridSpacingItemDecoration(
     private val spacing: Int
 ) : RecyclerView.ItemDecoration() {
 
-    private val colorsSideSpacing = 16.dpToPx
     private val colorsTopBottomSpacing = 12.dpToPx
 
     override fun getItemOffsets(

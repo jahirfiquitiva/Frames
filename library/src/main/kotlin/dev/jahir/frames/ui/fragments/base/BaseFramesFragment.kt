@@ -54,6 +54,10 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_recyclerview),
         if (isRefreshing) stopRefreshing()
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
         swipeRefreshLayout?.isRefreshing = true
+        loadData()
+    }
+
+    open fun loadData() {
         (activity as? BaseFavoritesConnectedActivity<*>)?.loadData()
     }
 

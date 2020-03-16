@@ -62,12 +62,8 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
         setSupportActionBar(toolbar)
         changeFragment(initialItemId, true, false)
 
+        bottomNavigation?.selectedItemId = initialItemId
         bottomNavigation?.setOnNavigationItemSelectedListener { changeFragment(it.itemId) }
-        bottomNavigation?.selectedItemId = when (currentTag) {
-            CollectionsFragment.TAG -> R.id.collections
-            WallpapersFragment.FAVS_TAG -> R.id.favorites
-            else -> R.id.wallpapers
-        }
 
         wallpapersViewModel.observeWallpapers(this) { wallpapersFragment.updateItems(ArrayList(it)) }
         wallpapersViewModel.observeCollections(this, ::handleCollectionsUpdate)
