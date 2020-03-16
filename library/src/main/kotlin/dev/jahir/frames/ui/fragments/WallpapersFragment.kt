@@ -28,10 +28,11 @@ import dev.jahir.frames.utils.wallpapersAdapter
 open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
     var isForFavs: Boolean = false
+    open val canShowFavoritesButton: Boolean = true
 
     private val wallsAdapter: WallpapersAdapter by lazy {
         wallpapersAdapter(
-            canShowFavoritesButton(),
+            canShowFavoritesButton,
             (activity as? BaseFavoritesConnectedActivity<*>)?.canModifyFavorites() ?: true
         ) {
             onClick { wall, holder -> launchViewer(wall, holder) }
@@ -147,8 +148,6 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         wallsAdapter.canModifyFavorites = canModify
         wallsAdapter.notifyDataSetChanged()
     }
-
-    open fun canShowFavoritesButton(): Boolean = true
 
     companion object {
         const val TAG = "wallpapers_fragment"

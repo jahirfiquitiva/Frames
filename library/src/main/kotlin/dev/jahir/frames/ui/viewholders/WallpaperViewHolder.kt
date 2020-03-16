@@ -15,8 +15,8 @@ import dev.jahir.frames.extensions.buildImageTransitionName
 import dev.jahir.frames.extensions.buildTitleTransitionName
 import dev.jahir.frames.extensions.context
 import dev.jahir.frames.extensions.findView
-import dev.jahir.frames.extensions.gone
 import dev.jahir.frames.extensions.loadFramesPic
+import dev.jahir.frames.extensions.visible
 import dev.jahir.frames.extensions.withAlpha
 import dev.jahir.frames.ui.widgets.FavoriteCheckbox
 import dev.jahir.frames.utils.tint
@@ -49,8 +49,7 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
                 }
             }
             favorite?.onDisabledClickListener = { onFavClick(wallpaper.isInFavorites, wallpaper) }
-        } else {
-            favorite?.gone()
+            favorite?.visible()
         }
 
         title?.let {

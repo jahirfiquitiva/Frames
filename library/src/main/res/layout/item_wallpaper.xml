@@ -79,6 +79,7 @@
             android:layout_marginRight="8dp"
             android:button="@drawable/ic_favorite_check"
             android:checked="false"
+            android:visibility="gone"
             tools:ignore="RtlSymmetry" />
 
     </LinearLayout>
