@@ -47,9 +47,13 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
 
     var currentFragment: Fragment? = null
         private set
-    private var currentTag: String = getInitialFragmentTag()
-    private var oldTag: String = getInitialFragmentTag()
-    private var currentMenuItemId: Int = getInitialItemId()
+
+    open val initialFragmentTag: String = WallpapersFragment.TAG
+    open val initialItemId: Int = R.id.wallpapers
+
+    private var currentTag: String = initialFragmentTag
+    private var oldTag: String = initialFragmentTag
+    private var currentMenuItemId: Int = initialItemId
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -217,9 +221,6 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
             it.applyFilter(filter, closed)
         }
     }
-
-    open fun getInitialFragmentTag(): String = WallpapersFragment.TAG
-    open fun getInitialItemId(): Int = R.id.wallpapers
 
     open fun handleCollectionsUpdate(collections: ArrayList<Collection>) {
         collectionsFragment.updateItems(collections)

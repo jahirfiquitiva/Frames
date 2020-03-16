@@ -35,7 +35,7 @@ abstract class BaseStoragePermissionRequestActivity<out P : Prefs> : BaseThemedA
                     getString(R.string.permission_request, getAppName()),
                     Snackbar.LENGTH_LONG
                 ) {
-                    setAction(android.R.string.ok) { requestPermission() }
+                    setAction(android.R.string.ok) { requestStoragePermission() }
                 }
             }
         }
@@ -47,7 +47,7 @@ abstract class BaseStoragePermissionRequestActivity<out P : Prefs> : BaseThemedA
             .apply { addListener(permissionRequestListener) }
     }
 
-    internal fun requestPermission() {
+    fun requestStoragePermission() {
         permissionRequest.send()
     }
 

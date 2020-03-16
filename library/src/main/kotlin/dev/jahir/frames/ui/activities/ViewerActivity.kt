@@ -259,7 +259,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
             compliesWithMinTime(MIN_TIME) || resources.getBoolean(R.bool.allow_immediate_downloads)
         else true
         if (actuallyComplies) {
-            requestPermission()
+            requestStoragePermission()
         } else {
             val elapsedTime = System.currentTimeMillis() - firstInstallTime
             val timeLeft = MIN_TIME - elapsedTime
