@@ -31,7 +31,7 @@ class AboutAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectionedViewHolder =
         when (viewType) {
             0, 1 -> AboutViewHolder(parent.inflate(R.layout.item_about))
-            else -> SectionHeaderViewHolder(parent.inflate(R.layout.item_about_section_header))
+            else -> SectionHeaderViewHolder(parent.inflate(R.layout.item_section_header))
         }
 
     override fun onBindHeaderViewHolder(
