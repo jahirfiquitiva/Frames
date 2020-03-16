@@ -17,6 +17,9 @@ abstract class BaseSearchableActivity<out P : Prefs> : BaseFavoritesConnectedAct
 
     val toolbar: Toolbar? by findView(R.id.toolbar)
 
+    open val initialItemId: Int = R.id.wallpapers
+    internal var currentMenuItemId: Int = initialItemId
+
     private var searchItem: MenuItem? = null
     private var searchView: CleanSearchView? = null
 
@@ -41,13 +44,14 @@ abstract class BaseSearchableActivity<out P : Prefs> : BaseFavoritesConnectedAct
                     ContextCompat.getColor(this, R.color.onPrimary)
                 )
             )
+            searchItem?.isVisible = canShowSearch(currentMenuItemId)
         }
 
         return super.onCreateOptionsMenu(menu)
     }
 
     internal fun updateSearchHint() {
-        searchView?.queryHint = getSearchHint()
+        searchView?.queryHint = getSearchHint(currentMenuItemId)
     }
 
     private val lock by lazy { Any() }
@@ -61,7 +65,7 @@ abstract class BaseSearchableActivity<out P : Prefs> : BaseFavoritesConnectedAct
     @MenuRes
     open fun getMenuRes(): Int = 0
 
-    open fun getSearchHint(): String = ""
-
+    open fun getSearchHint(itemId: Int): String = ""
+    open fun canShowSearch(itemId: Int): Boolean = true
     open fun internalDoSearch(filter: String = "", closed: Boolean = false) {}
 }

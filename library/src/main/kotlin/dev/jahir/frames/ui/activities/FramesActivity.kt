@@ -49,11 +49,9 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
         private set
 
     open val initialFragmentTag: String = WallpapersFragment.TAG
-    open val initialItemId: Int = R.id.wallpapers
 
     private var currentTag: String = initialFragmentTag
     private var oldTag: String = initialFragmentTag
-    private var currentMenuItemId: Int = initialItemId
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,10 +87,10 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun getSearchHint(): String = when (currentTag) {
-        WallpapersFragment.TAG -> getString(R.string.search_wallpapers)
-        CollectionsFragment.TAG -> getString(R.string.search_collections)
-        WallpapersFragment.FAVS_TAG -> getString(R.string.search_favorites)
+    override fun getSearchHint(itemId: Int): String = when (itemId) {
+        R.id.wallpapers -> getString(R.string.search_wallpapers)
+        R.id.collections -> getString(R.string.search_collections)
+        R.id.favorites -> getString(R.string.search_favorites)
         else -> getString(R.string.search_x)
     }
 
@@ -143,6 +141,7 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
             ft.setMaxLifecycle(fragment, Lifecycle.State.RESUMED)
             currentFragment = fragment
             ft.commit()
+            invalidateOptionsMenu()
             updateSearchHint()
         }
     }
