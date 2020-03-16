@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.findView
+import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.widgets.EmptyView
 import dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
@@ -18,7 +19,7 @@ import dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
 abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_recyclerview),
     EmptyViewRecyclerView.StateChangeListener {
 
-    internal val originalItems: ArrayList<T> = ArrayList()
+    private val originalItems: ArrayList<T> = ArrayList()
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     val recyclerView: EmptyViewRecyclerView? by findView(R.id.recycler_view)
     private val emptyView: EmptyView? by findView(R.id.empty_view)
@@ -40,7 +41,8 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_recyclerview),
 
     internal fun applyFilter(filter: String, closed: Boolean) {
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
-        updateItemsInAdapter(getFilteredItems(filter, closed))
+        if (filter.hasContent())
+            updateItemsInAdapter(getFilteredItems(ArrayList(originalItems), filter, closed))
         if (!closed) scrollToTop()
     }
 
@@ -72,7 +74,12 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_recyclerview),
         stopRefreshing()
     }
 
-    abstract fun getFilteredItems(filter: String, closed: Boolean): ArrayList<T>
+    abstract fun getFilteredItems(
+        originalItems: ArrayList<T>,
+        filter: String,
+        closed: Boolean
+    ): ArrayList<T>
+
     abstract fun updateItemsInAdapter(items: ArrayList<T>)
     open fun getRepostKey(): Int = -1
     open fun getTargetActivityIntent(): Intent? = null

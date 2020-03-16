@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.buildTransitionOptions
-import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.extensions.lower
 import dev.jahir.frames.extensions.prefs
 import dev.jahir.frames.ui.activities.CollectionActivity
@@ -72,14 +71,16 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         wallsAdapter.wallpapers = items
     }
 
-    override fun getFilteredItems(filter: String, closed: Boolean): ArrayList<Wallpaper> {
-        if (!filter.hasContent()) return originalItems
-        return ArrayList(originalItems.filter {
+    override fun getFilteredItems(
+        originalItems: ArrayList<Wallpaper>,
+        filter: String,
+        closed: Boolean
+    ): ArrayList<Wallpaper> =
+        ArrayList(originalItems.filter {
             it.name.lower().contains(filter.lower()) ||
                     it.collections.orEmpty().lower().contains(filter.lower()) ||
                     it.author.lower().contains(filter.lower())
         })
-    }
 
     private fun onFavClick(checked: Boolean, wallpaper: Wallpaper) {
         var updated = false

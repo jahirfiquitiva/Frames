@@ -6,7 +6,6 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
-import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.extensions.lower
 import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
@@ -34,12 +33,12 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
         collectionsAdapter.collections = items
     }
 
-    override fun getFilteredItems(filter: String, closed: Boolean): ArrayList<Collection> {
-        if (!filter.hasContent()) return originalItems
-        return ArrayList(originalItems.filter {
-            it.name.lower().contains(filter.lower())
-        })
-    }
+    override fun getFilteredItems(
+        originalItems: ArrayList<Collection>,
+        filter: String,
+        closed: Boolean
+    ): ArrayList<Collection> =
+        ArrayList(originalItems.filter { it.name.lower().contains(filter.lower()) })
 
     override fun onStateChanged(state: EmptyViewRecyclerView.State, emptyView: EmptyView?) {
         super.onStateChanged(state, emptyView)
