@@ -41,8 +41,11 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_recyclerview),
 
     internal fun applyFilter(filter: String, closed: Boolean) {
         recyclerView?.state = EmptyViewRecyclerView.State.LOADING
-        if (filter.hasContent())
-            updateItemsInAdapter(getFilteredItems(ArrayList(originalItems), filter, closed))
+        updateItemsInAdapter(
+            if (filter.hasContent())
+                getFilteredItems(ArrayList(originalItems), filter, closed)
+            else originalItems
+        )
         if (!closed) scrollToTop()
     }
 
