@@ -32,13 +32,13 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
 
     override val prefs: Prefs by lazy { Prefs(this) }
 
-    open val wallpapersFragment: WallpapersFragment by lazy {
+    open val wallpapersFragment: WallpapersFragment? by lazy {
         WallpapersFragment.create(ArrayList(wallpapersViewModel.wallpapers), canModifyFavorites())
     }
-    open val collectionsFragment: CollectionsFragment by lazy {
+    open val collectionsFragment: CollectionsFragment? by lazy {
         CollectionsFragment.create(ArrayList(wallpapersViewModel.collections))
     }
-    open val favoritesFragment: WallpapersFragment by lazy {
+    open val favoritesFragment: WallpapersFragment? by lazy {
         WallpapersFragment.createForFavs(
             ArrayList(wallpapersViewModel.favorites),
             canModifyFavorites()
@@ -65,7 +65,7 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
         bottomNavigation?.selectedItemId = initialItemId
         bottomNavigation?.setOnNavigationItemSelectedListener { changeFragment(it.itemId) }
 
-        wallpapersViewModel.observeWallpapers(this) { wallpapersFragment.updateItems(ArrayList(it)) }
+        wallpapersViewModel.observeWallpapers(this) { wallpapersFragment?.updateItems(ArrayList(it)) }
         wallpapersViewModel.observeCollections(this, ::handleCollectionsUpdate)
         loadWallpapersData()
     }
@@ -75,7 +75,7 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
 
     override fun onFavoritesUpdated(favorites: List<Wallpaper>) {
         super.onFavoritesUpdated(favorites)
-        favoritesFragment.updateItems(ArrayList(favorites))
+        favoritesFragment?.updateItems(ArrayList(favorites))
     }
 
     override fun getMenuRes(): Int = R.menu.toolbar_menu
@@ -111,16 +111,21 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
         if (currentMenuItemId != itemId || force) {
             val next = getNextFragment(itemId)
             // Pair ( Pair ( fragmentTag, fragment ) , shouldShowItemAsSelected )
+            val nextFragmentTag = next?.first?.first.orEmpty()
+            if (!nextFragmentTag.hasContent()) return false
+            val nextFragment = next?.first?.second
             val shouldSelectItem = next?.second == true
-            if (shouldSelectItem) {
-                oldTag = currentTag
-                currentMenuItemId = itemId
-                currentTag = next?.first?.first.orEmpty()
-                loadFragment(next?.first?.second, currentTag, force, animate)
-                supportActionBar?.title =
-                    getToolbarTitleForItem(itemId) ?: getAppName("MyWallApp")
-            }
-            return shouldSelectItem
+            return nextFragment?.let {
+                if (shouldSelectItem) {
+                    oldTag = currentTag
+                    currentMenuItemId = itemId
+                    currentTag = nextFragmentTag
+                    loadFragment(nextFragment, currentTag, force, animate)
+                    supportActionBar?.title =
+                        getToolbarTitleForItem(itemId) ?: getAppName("MyWallApp")
+                }
+                shouldSelectItem
+            } ?: false
         }
         return false
     }
@@ -208,7 +213,7 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
     }
 
     open fun handleCollectionsUpdate(collections: ArrayList<Collection>) {
-        collectionsFragment.updateItems(collections)
+        collectionsFragment?.updateItems(collections)
     }
 
     companion object {
