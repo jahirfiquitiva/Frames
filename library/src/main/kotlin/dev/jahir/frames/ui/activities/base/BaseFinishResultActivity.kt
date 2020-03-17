@@ -1,8 +1,6 @@
 package dev.jahir.frames.ui.activities.base
 
-import androidx.appcompat.app.AppCompatActivity
-
-abstract class BaseFinishResultActivity : AppCompatActivity() {
+abstract class BaseFinishResultActivity : BaseSnackbarsActivity() {
     override fun finish() {
         onFinish()
         super.finish()
