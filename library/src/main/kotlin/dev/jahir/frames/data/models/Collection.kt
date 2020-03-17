@@ -11,6 +11,9 @@ open class Collection(val name: String, val wallpapers: ArrayList<Wallpaper> = A
     val count: Int
         get() = wallpapers.size
 
+    var displayName: String = name
+        get() = name
+
     @IgnoredOnParcel
     var cover: Wallpaper? = null
         private set

@@ -31,7 +31,7 @@ class CollectionViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
         collection: Collection,
         onClick: ((collection: Collection) -> Unit)? = null
     ) {
-        title?.text = collection.name
+        title?.text = collection.displayName
         count?.text = collection.count.toString()
         itemView.setOnClickListener { onClick?.invoke(collection) }
         collection.cover?.let {
