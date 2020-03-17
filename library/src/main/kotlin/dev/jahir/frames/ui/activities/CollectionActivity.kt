@@ -60,7 +60,7 @@ open class CollectionActivity : BaseChangelogDialogActivity<Prefs>() {
 
     override fun getMenuRes(): Int = R.menu.toolbar_menu_simple
 
-    override fun getSearchHint(): String = getString(R.string.search_wallpapers)
+    override fun getSearchHint(itemId: Int): String = getString(R.string.search_wallpapers)
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) supportFinishAfterTransition()
