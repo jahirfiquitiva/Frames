@@ -61,6 +61,9 @@ object Libs {
     // In-App Billing
     private const val inAppBilling = "com.android.billingclient:billing:${Versions.inAppBilling}"
 
+    // MultiDex
+    private const val multidex = "androidx.multidex:multidex:${Versions.multidex}"
+
     // OneSignal
     const val oneSignal = "com.onesignal:OneSignal:${Versions.oneSignal}"
 
@@ -90,7 +93,8 @@ object Libs {
         fetch,
         permissions,
         licenseChecker,
-        inAppBilling
+        inAppBilling,
+        multidex
     )
 
     // Kapt dependencies

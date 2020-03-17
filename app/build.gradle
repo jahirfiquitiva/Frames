@@ -54,6 +54,7 @@ android {
         versionCode Frames.version
         versionName Frames.versionName
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
         proguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
         consumerProguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
 

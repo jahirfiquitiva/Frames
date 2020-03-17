@@ -55,4 +55,7 @@ object Versions {
 
     // In-App Billing
     const val inAppBilling = "2.0.3"
+
+    // MultiDex
+    const val multidex = "2.0.1"
 }
