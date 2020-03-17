@@ -78,26 +78,59 @@ abstract class WallpapersDataViewModel : ViewModel() {
             }
         }
 
-    open fun internalGetFavorites(context: Context): List<Favorite> =
+    private fun internalAddToLocalFavorites(
+        context: Context,
+        wallpapers: List<Wallpaper>
+    ): Boolean {
+        FramesDatabase.getAppDatabase(context)?.favoritesDao()
+            ?.insertAll(wallpapers.map { Favorite(it.url) })
+        return true
+    }
+
+    private fun internalNukeAllLocalFavorites(context: Context): Boolean {
+        FramesDatabase.getAppDatabase(context)?.favoritesDao()?.nuke()
+        return true
+    }
+
+    open suspend fun internalGetFavorites(context: Context): List<Favorite> =
         FramesDatabase.getAppDatabase(context)?.favoritesDao()?.getAllFavorites().orEmpty()
 
-    open fun internalAddToFavorites(context: Context, wallpaper: Wallpaper): Boolean {
+    open suspend fun internalAddToFavorites(context: Context, wallpaper: Wallpaper): Boolean {
         FramesDatabase.getAppDatabase(context)?.favoritesDao()?.insert(Favorite(wallpaper.url))
         return true
     }
 
-    open fun internalRemoveFromFavorites(context: Context, wallpaper: Wallpaper): Boolean {
+    open suspend fun internalRemoveFromFavorites(context: Context, wallpaper: Wallpaper): Boolean {
         FramesDatabase.getAppDatabase(context)?.favoritesDao()?.delete(Favorite(wallpaper.url))
         return true
     }
 
-    private suspend fun getFavorites(context: Context): List<Favorite> =
+    suspend fun addAllToLocalFavorites(context: Context, wallpapers: List<Wallpaper>): Boolean =
         withContext(IO) {
             try {
+                internalAddToLocalFavorites(context, wallpapers)
+            } catch (e: Exception) {
+                false
+            }
+        }
+
+    suspend fun nukeLocalFavorites(context: Context): Boolean =
+        withContext(IO) {
+            try {
+                internalNukeAllLocalFavorites(context)
+            } catch (e: Exception) {
+                false
+            }
+        }
+
+    private suspend fun getFavorites(context: Context): List<Favorite> =
+        withContext(IO) {
+            val result = try {
                 internalGetFavorites(context)
             } catch (e: Exception) {
                 listOf<Favorite>()
             }
+            result
         }
 
     private suspend fun addToFavorites(context: Context, wallpaper: Wallpaper): Boolean =
