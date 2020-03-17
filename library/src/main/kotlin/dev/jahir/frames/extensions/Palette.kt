@@ -26,7 +26,7 @@ val Palette.Swatch.bestTextColor: Int
     get() {
         return (if (rgb.isDark) titleTextColor.getLighter(bodyTextColor)
         else titleTextColor.getDarker(bodyTextColor))
-            .withMinAlpha(.8F)
+            .withMinAlpha(.85F)
     }
 
 private fun getBestPaletteSwatch(swatches: List<Palette.Swatch>): Palette.Swatch =

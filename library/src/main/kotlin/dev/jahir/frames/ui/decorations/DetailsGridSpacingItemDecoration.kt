@@ -3,6 +3,7 @@ package dev.jahir.frames.ui.decorations
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import dev.jahir.frames.extensions.MAX_FRAMES_PALETTE_COLORS
 import dev.jahir.frames.extensions.dpToPx
 import dev.jahir.frames.ui.adapters.WallpaperDetailsAdapter
 import kotlin.math.roundToInt
@@ -32,16 +33,20 @@ open class DetailsGridSpacingItemDecoration(
                 val position = actualPosition?.relativePos() ?: -1
                 if (position < 0) return
 
-                val column = position % 3
-                val row = position / 3
+                val colorsColumnsCount = (MAX_FRAMES_PALETTE_COLORS / 2.0).roundToInt()
+                val column = position % colorsColumnsCount
+                val row = position / colorsColumnsCount
                 val rowCount =
-                    ((parent.adapter as? WallpaperDetailsAdapter)?.getItemCount(1) ?: 0) / 3
+                    ((parent.adapter as? WallpaperDetailsAdapter)?.getItemCount(1)
+                        ?: 0) / colorsColumnsCount
                 val halfSpacing = (spacing / 2.0).roundToInt()
+                val colorSmallSpacing = (halfSpacing / 4.0).roundToInt()
 
                 outRect.left = if (column == 0) spacing else halfSpacing
-                outRect.right = if (column == 2) spacing else halfSpacing
-                outRect.top = if (row == 0) colorsTopBottomSpacing else halfSpacing
-                outRect.bottom = if (row == rowCount - 1) colorsTopBottomSpacing else halfSpacing
+                outRect.right = if (column == colorsColumnsCount) spacing else halfSpacing
+                outRect.top = if (row == 0) colorsTopBottomSpacing else (colorSmallSpacing * -1)
+                outRect.bottom =
+                    if (row == rowCount - 1) colorsTopBottomSpacing else (colorSmallSpacing * -1)
             } else {
                 outRect.left = spacing
                 outRect.right = spacing

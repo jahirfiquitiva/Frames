@@ -25,7 +25,8 @@
             android:layout_marginBottom="4sp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@string/palette" />
+            android:text="@string/palette"
+            android:textColor="?colorOnSurface" />
 
         <TextView
             android:id="@+id/section_subtitle"
@@ -34,7 +35,8 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@string/tap_to_copy" />
+            android:text="@string/tap_to_copy"
+            android:textColor="?colorOnSurface" />
 
     </LinearLayout>
 

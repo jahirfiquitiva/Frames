@@ -19,6 +19,7 @@
         android:layout_weight="1"
         android:ellipsize="end"
         android:maxLines="1"
+        android:textColor="?colorOnSurface"
         tools:text="Dimensions" />
 
     <TextView
@@ -29,6 +30,7 @@
         android:layout_weight="1"
         android:ellipsize="end"
         android:maxLines="1"
+        android:textColor="?colorOnSurface"
         tools:text="3200x2560" />
 
 </LinearLayout>

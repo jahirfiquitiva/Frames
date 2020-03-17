@@ -21,6 +21,8 @@
         <item name="colorBackgroundFloating">@color/background</item>
         <item name="colorOnBackground">@color/onBackground</item>
 
+        <item name="android:textColorPrimary">?colorOnSurface</item>
+
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:navigationBarColor">?colorSurface</item>
         <item name="android:navigationBarDividerColor">@color/transparent</item>
@@ -98,12 +100,23 @@
         <item name="itemTextAppearance">?textAppearanceBody2</item>
     </style>
 
-    <style name="AboutButton" parent="Widget.MaterialComponents.Button.UnelevatedButton" tools:ignore="NewApi">
+    <style name="Widget.Frames.TextButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="backgroundTint">@color/text_btn_bg_color</item>
+        <item name="rippleColor">@color/text_btn_ripple_color</item>
         <item name="android:minWidth">56dp</item>
         <item name="android:textColor">?colorAccent</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="backgroundTint">@color/about_btn_bg_selector</item>
-        <item name="rippleColor">@color/about_btn_ripple</item>
+    </style>
+
+    <style name="Widget.Frames.ColoredButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/colored_btn_bg_color</item>
+        <item name="rippleColor">@color/colored_btn_ripple_color</item>
+        <item name="android:textColor">?colorOnSecondary</item>
+    </style>
+
+    <style name="Widget.Frames.SurfaceButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/surface_btn_bg_color</item>
+        <item name="rippleColor">@color/surface_btn_ripple_color</item>
+        <item name="android:textColor">?colorOnSurface</item>
     </style>
 
 </resources>
