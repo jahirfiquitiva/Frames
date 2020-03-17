@@ -27,6 +27,7 @@
 
         <TextView
             android:id="@+id/name"
+            style="@style/TextStyle.Frames.Subtitle1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -35,11 +36,11 @@
             android:paddingLeft="16dp"
             android:paddingEnd="16dp"
             android:paddingRight="16dp"
-            android:textAppearance="@style/TextAppearance.Frames.Subtitle1"
             tools:text="Jahir Fiquitiva" />
 
         <TextView
             android:id="@+id/description"
+            style="@style/TextStyle.Frames.Body2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="8dp"
@@ -49,7 +50,6 @@
             android:paddingLeft="16dp"
             android:paddingEnd="16dp"
             android:paddingRight="16dp"
-            android:textAppearance="@style/TextAppearance.Frames.Body2"
             tools:text="@string/jahir_description" />
 
         <dev.jahir.frames.ui.widgets.AboutButtonsLayout

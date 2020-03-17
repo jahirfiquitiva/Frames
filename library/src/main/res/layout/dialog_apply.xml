@@ -23,7 +23,7 @@
 
     <TextView
         android:id="@+id/dialog_apply_message"
-        style="@style/TextAppearance.Frames.Body2"
+        style="@style/TextStyle.Frames.Body2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
