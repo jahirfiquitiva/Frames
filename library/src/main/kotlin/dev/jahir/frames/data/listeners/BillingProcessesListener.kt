@@ -5,6 +5,7 @@ import dev.jahir.frames.data.models.DetailedPurchaseRecord
 
 interface BillingProcessesListener {
     fun onBillingClientReady() {}
+    fun onBillingClientDisconnected() {}
     fun onInAppSkuDetailsListUpdated(skuDetailsList: List<SkuDetails>) {}
     fun onSubscriptionsSkuDetailsListUpdated(skuDetailsList: List<SkuDetails>) {}
     fun onInAppPurchasesHistoryUpdated(skuDetailsList: List<DetailedPurchaseRecord>) {}

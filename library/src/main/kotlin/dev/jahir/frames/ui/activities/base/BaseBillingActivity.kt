@@ -1,6 +1,7 @@
 package dev.jahir.frames.ui.activities.base
 
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AlertDialog
 import dev.jahir.frames.R
 import dev.jahir.frames.data.listeners.BillingProcessesListener
@@ -37,6 +38,12 @@ abstract class BaseBillingActivity<out P : Prefs> : BaseLicenseCheckerActivity<P
             billingViewModel.billingProcessesListener = this
             billingViewModel.initialize(this)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val created = super.onCreateOptionsMenu(menu)
+        menu?.findItem(R.id.donate)?.isVisible = isBillingClientReady
+        return created
     }
 
     private fun dismissDialogs() {
@@ -101,8 +108,14 @@ abstract class BaseBillingActivity<out P : Prefs> : BaseLicenseCheckerActivity<P
 
     override fun onBillingClientReady() {
         super.onBillingClientReady()
+        invalidateOptionsMenu()
         billingViewModel.queryInAppSkuDetailsList(getInAppPurchasesItemsIds())
         billingViewModel.querySubscriptionsSkuDetailsList(getSubscriptionsItemsIds())
+    }
+
+    override fun onBillingClientDisconnected() {
+        super.onBillingClientDisconnected()
+        invalidateOptionsMenu()
     }
 
     open fun getInAppPurchasesItemsIds(): List<String> = try {

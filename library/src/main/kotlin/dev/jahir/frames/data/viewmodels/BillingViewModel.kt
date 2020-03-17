@@ -202,7 +202,7 @@ class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdat
                 if (ready) {
                     loadPastPurchases()
                     billingProcessesListener?.onBillingClientReady()
-                }
+                } else billingProcessesListener?.onBillingClientDisconnected()
             }
             inAppSkuDetailsData.observe(owner) {
                 billingProcessesListener?.onInAppSkuDetailsListUpdated(it)
