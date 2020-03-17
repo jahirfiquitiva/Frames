@@ -12,7 +12,6 @@ open class Collection(val name: String, val wallpapers: ArrayList<Wallpaper> = A
         get() = wallpapers.size
 
     var displayName: String = name
-        get() = name
 
     @IgnoredOnParcel
     var cover: Wallpaper? = null
