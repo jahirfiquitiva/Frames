@@ -2,7 +2,6 @@ package dev.jahir.frames.ui.activities
 
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -60,7 +59,6 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         super.onCreate(savedInstanceState)
         statusBarLight = false
         navigationBarLight = false
-        window.setBackgroundDrawable(null)
         setContentView(R.layout.activity_viewer)
 
         supportPostponeEnterTransition()
@@ -187,7 +185,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         supportStartPostponedEnterTransition()
         (image as? PhotoView)?.scale = 1.0F
         if (!shouldShowWallpapersPalette()) {
-            setBackgroundColor(0)
+            setBackgroundColor()
             return
         }
         drawable?.asBitmap()?.let { bitmap ->
@@ -197,12 +195,11 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
                     setBackgroundColor(it?.bestSwatch?.rgb ?: 0)
                     detailsFragment.palette = it
                 }
-        } ?: { setBackgroundColor(0) }()
+        } ?: { setBackgroundColor() }()
     }
 
     private fun setBackgroundColor(@ColorInt color: Int = 0) {
-        findViewById<View?>(R.id.viewer_root_layout)?.setBackgroundColor(color)
-        window.setBackgroundDrawable(ColorDrawable(color))
+        findViewById<View?>(R.id.activity_root_view)?.setBackgroundColor(color)
     }
 
     private fun initWindow() {
@@ -292,6 +289,8 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
     }
 
     open fun shouldShowDownloadOption() = true
+    override val shouldChangeStatusBarLightStatus: Boolean = false
+    override val shouldChangeNavigationBarLightStatus: Boolean = false
 
     companion object {
         internal const val MIN_TIME: Long = 3 * 60 * 60000

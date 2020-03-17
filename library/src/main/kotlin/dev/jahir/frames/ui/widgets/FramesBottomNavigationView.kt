@@ -10,8 +10,8 @@ import dev.jahir.frames.extensions.resolveColor
 class FramesBottomNavigationView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyle: Int = 0
-) : BottomNavigationView(context, attrs, defStyle) {
+    defStyleAttr: Int = 0
+) : BottomNavigationView(context, attrs, defStyleAttr) {
 
     init {
         init(context, attrs)

@@ -27,7 +27,6 @@ inline var Activity.statusBarColor: Int
     set(value) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
         window.statusBarColor = value
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) statusBarLight = !value.isDark
     }
 
 inline var Activity.statusBarLight: Boolean
@@ -52,7 +51,6 @@ inline var Activity.navigationBarColor: Int
     set(value) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
         window.navigationBarColor = value
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) navigationBarLight = !value.isDark
     }
 
 inline var Window.navigationBarLight: Boolean
@@ -108,7 +106,7 @@ fun Activity?.buildTransitionOptions(transitionViews: ArrayList<View?> = ArrayLi
     val appBarLayout: View? by this?.window?.decorView?.findView(R.id.appbar)
     appBarLayout?.let { pairs.add(Pair.create(it, "appbar")) }
 
-    val bottomNavigation: View? by this?.window?.decorView?.findView(R.id.bottom_bar)
+    val bottomNavigation: View? by this?.window?.decorView?.findView(R.id.bottom_navigation)
     bottomNavigation?.let { pairs.add(Pair.create(it, "bottombar")) }
 
     transitionViews.forEach {

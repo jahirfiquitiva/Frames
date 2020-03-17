@@ -8,10 +8,13 @@ import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.currentNightMode
 import dev.jahir.frames.extensions.getRightNavigationBarColor
+import dev.jahir.frames.extensions.isDark
 import dev.jahir.frames.extensions.navigationBarColor
+import dev.jahir.frames.extensions.navigationBarLight
 import dev.jahir.frames.extensions.resolveColor
 import dev.jahir.frames.extensions.restart
 import dev.jahir.frames.extensions.statusBarColor
+import dev.jahir.frames.extensions.statusBarLight
 import dev.jahir.frames.ui.FramesApplication
 import dev.jahir.frames.utils.Prefs
 
@@ -64,10 +67,21 @@ abstract class BaseThemedActivity<out P : Prefs> : BaseFinishResultActivity() {
     @Suppress("DEPRECATION")
     private fun setCustomTheme() {
         setTheme(if (prefs.usesAmoledTheme) amoledTheme() else defaultTheme())
-        statusBarColor = resolveColor(
+        resolveColor(
             R.attr.colorPrimaryDark,
             ContextCompat.getColor(this, R.color.primaryDark)
-        )
-        navigationBarColor = getRightNavigationBarColor()
+        ).let {
+            statusBarColor = it
+            if (shouldChangeStatusBarLightStatus)
+                statusBarLight = !it.isDark
+        }
+        getRightNavigationBarColor().let {
+            navigationBarColor = it
+            if (shouldChangeNavigationBarLightStatus)
+                navigationBarLight = !it.isDark
+        }
     }
+
+    open val shouldChangeStatusBarLightStatus: Boolean = true
+    open val shouldChangeNavigationBarLightStatus: Boolean = true
 }

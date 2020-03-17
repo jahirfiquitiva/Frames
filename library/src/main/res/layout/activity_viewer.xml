@@ -2,7 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/viewer_root_layout"
+    android:id="@+id/activity_root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -71,7 +71,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <dev.jahir.frames.ui.widgets.FramesBottomNavigationView
-        android:id="@+id/bottom_bar"
+        android:id="@+id/bottom_navigation"
         style="@style/ViewerBottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

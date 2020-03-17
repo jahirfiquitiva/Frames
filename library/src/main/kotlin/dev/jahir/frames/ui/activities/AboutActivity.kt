@@ -26,7 +26,7 @@ open class AboutActivity : BaseThemedActivity<Prefs>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recyclerview)
-        findViewById<View?>(R.id.bottom_bar)?.gone()
+        findViewById<View?>(R.id.bottom_navigation)?.gone()
 
         setSupportActionBar(toolbar)
         supportActionBar?.let {

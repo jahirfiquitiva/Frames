@@ -7,6 +7,7 @@ import com.google.android.material.snackbar.Snackbar
 import dev.jahir.frames.R
 import dev.jahir.frames.data.listeners.BasePermissionRequestListener
 import dev.jahir.frames.extensions.getAppName
+import dev.jahir.frames.extensions.showSnackbar
 import dev.jahir.frames.utils.Prefs
 
 abstract class BaseStoragePermissionRequestActivity<out P : Prefs> : BaseThemedActivity<P>() {

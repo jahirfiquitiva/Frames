@@ -3,7 +3,7 @@
     <dimen name="splash_logo_bottom">16dp</dimen>
     <dimen name="splash_brand_bottom">48dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="bottom_bar_height">64dp</dimen>
+    <dimen name="bottom_navigation_height">64dp</dimen>
     <dimen name="grids_spacing">8dp</dimen>
     <dimen name="cards_elevation">2dp</dimen>
     <dimen name="small_components_corner_size">4dp</dimen>

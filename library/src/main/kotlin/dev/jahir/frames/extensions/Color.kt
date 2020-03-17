@@ -20,8 +20,10 @@ fun Int.isDark(threshold: Double = 0.5) = luminance < threshold
 val Int.luminance
     get() = ColorUtils.calculateLuminance(this)
 
+@ColorInt
 fun Int.getLighter(other: Int): Int = if (other.luminance > luminance) other else this
 
+@ColorInt
 fun Int.getDarker(other: Int): Int = if (other.luminance < luminance) other else this
 
 /**

@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:paddingBottom="@dimen/bottom_bar_height"
+            android:paddingBottom="@dimen/bottom_navigation_height"
             android:visibility="gone" />
 
         <dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
@@ -27,7 +27,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:overScrollMode="ifContentScrolls"
-            android:paddingBottom="@dimen/bottom_bar_height"
+            android:paddingBottom="@dimen/bottom_navigation_height"
             android:splitMotionEvents="false"
             android:visibility="gone" />
 
