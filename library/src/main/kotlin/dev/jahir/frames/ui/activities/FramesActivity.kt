@@ -106,7 +106,7 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun changeFragment(itemId: Int, force: Boolean = false, animate: Boolean = true): Boolean {
-        if (currentMenuItemId != itemId || force) {
+        if (currentItemId != itemId || force) {
             val next = getNextFragment(itemId)
             // Pair ( Pair ( fragmentTag, fragment ) , shouldShowItemAsSelected )
             val nextFragmentTag = next?.first?.first.orEmpty()
@@ -116,7 +116,7 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
             return nextFragment?.let {
                 if (shouldSelectItem) {
                     oldTag = currentTag
-                    currentMenuItemId = itemId
+                    currentItemId = itemId
                     currentTag = nextFragmentTag
                     loadFragment(nextFragment, currentTag, force, animate)
                     supportActionBar?.title =
