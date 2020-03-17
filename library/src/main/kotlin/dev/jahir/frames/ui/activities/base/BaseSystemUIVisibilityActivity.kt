@@ -18,7 +18,7 @@ import dev.jahir.frames.utils.Prefs
 abstract class BaseSystemUIVisibilityActivity<out P : Prefs> : BaseWallpaperFetcherActivity<P>() {
 
     internal val appbar: AppBarLayout? by findView(R.id.appbar)
-    internal val bottomNavigation: FramesBottomNavigationView? by findView(R.id.bottom_bar)
+    val bottomNavigation: FramesBottomNavigationView? by findView(R.id.bottom_bar)
 
     private var visibleSystemUI: Boolean = true
 
