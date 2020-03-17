@@ -22,6 +22,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
+@Suppress("unused")
 abstract class WallpapersDataViewModel : ViewModel() {
 
     private val wallpapersData: MutableLiveData<List<Wallpaper>> by lazyMutableLiveData()

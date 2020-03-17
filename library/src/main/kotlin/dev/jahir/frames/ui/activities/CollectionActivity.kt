@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import dev.jahir.frames.R
+import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.extensions.gone
 import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.ui.activities.base.BaseChangelogDialogActivity
-import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.utils.Prefs
 
@@ -20,7 +20,8 @@ open class CollectionActivity : BaseChangelogDialogActivity<Prefs>() {
         WallpapersFragment.create(canModifyFavorites = canModifyFavorites())
     }
 
-    private var collection: String = ""
+    private var collection: Collection? = null
+    private var collectionName: String = ""
     private var favoritesModified: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,17 +36,20 @@ open class CollectionActivity : BaseChangelogDialogActivity<Prefs>() {
             it.setDisplayShowHomeEnabled(true)
         }
 
-        collection = intent?.extras?.getString(CollectionsFragment.COLLECTION_EXTRA, "") ?: ""
-        if (!collection.hasContent()) {
+        collection = intent?.extras?.getParcelable(COLLECTION_KEY)
+        collectionName = intent?.extras?.getString(COLLECTION_NAME_KEY, "") ?: ""
+        if (!collectionName.hasContent()) {
             finish()
             return
         }
 
-        supportActionBar?.title = collection
+        supportActionBar?.title = collection?.displayName ?: collectionName
 
         wallpapersViewModel.observeCollections(this) {
             val rightCollection = try {
-                it.getOrNull(it.indexOfFirst { coll -> coll.name == collection })
+                it.getOrNull(it.indexOfFirst { coll ->
+                    coll.name == collection?.name ?: collectionName
+                })
             } catch (e: Exception) {
                 null
             }
@@ -89,17 +93,18 @@ open class CollectionActivity : BaseChangelogDialogActivity<Prefs>() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(COLLECTION_NAME_KEY, collection)
+        outState.putString(COLLECTION_NAME_KEY, collectionName)
         super.onSaveInstanceState(outState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        collection = savedInstanceState.getString(COLLECTION_NAME_KEY, "") ?: ""
+        collectionName = savedInstanceState.getString(COLLECTION_NAME_KEY, "") ?: ""
     }
 
     companion object {
         internal const val REQUEST_CODE = 11
-        private const val COLLECTION_NAME_KEY = "collection_name"
+        internal const val COLLECTION_KEY = "collection"
+        internal const val COLLECTION_NAME_KEY = "collection_name"
     }
 }

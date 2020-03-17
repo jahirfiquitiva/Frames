@@ -55,7 +55,8 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
                         BaseSystemUIVisibilityActivity.CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
                         canToggleSystemUIVisibility()
                     )
-                    putExtra(COLLECTION_EXTRA, collection.name)
+                    putExtra(CollectionActivity.COLLECTION_KEY, collection)
+                    putExtra(CollectionActivity.COLLECTION_NAME_KEY, collection.name)
                 }, CollectionActivity.REQUEST_CODE
         )
     }
@@ -75,12 +76,9 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
 
     companion object {
         const val TAG = "collections_fragment"
-        internal const val COLLECTION_EXTRA = "collection"
 
         @JvmStatic
         fun create(list: ArrayList<Collection> = ArrayList()) =
-            CollectionsFragment().apply {
-                updateItemsInAdapter(list)
-            }
+            CollectionsFragment().apply { updateItemsInAdapter(list) }
     }
 }
