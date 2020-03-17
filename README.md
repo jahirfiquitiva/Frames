@@ -69,10 +69,9 @@ A full-of-features, easy-to-customize, free and open source, light-weight, Andro
 - Wallpapers include a full-screen viewer with zooming capabilities and detailed info viewer.
 - Credits section.
 - Settings section with these options:
-	- Option to change app theme (Light, Dark, Amoled, Transparent, Auto-Dark, Auto-Amoled).
+	- Option to change app theme (Light, Dark, System, AMOLED).
 	- Option to color navigation bar (Lollipop+).
 	- Option to clear app cache.
-	- Option to clear favorites database.
 - Tablet layouts.
 - Lots of customizations.
 - Works with Android 4.1 and newer.
