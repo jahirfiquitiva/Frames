@@ -36,6 +36,26 @@
     <string name="download_retry">पुन: प्रयास करें</string>
     <string name="download_starting">डाउनलोड शुरू हो रहा है</string>
     <string name="download_cancel">रद्द करें</string>
+    <string name="download_downloading">डाउनलोड हो रहा है</string>
+    <string name="home_screen">होम स्क्रीन</string>
+    <string name="lock_screen">लॉक स्क्रीन</string>
+    <string name="both">दोनों</string>
+    <string name="applying_wallpaper_def">लागू हो रहा…</string>
+    <string name="applying_applied">वॉलपेपर को सफलतापूर्वक लागू किया गया</string>
+    <string name="search">खोजें</string>
+    <string name="search_x">खोजें...</string>
+    <string name="prevent_download_content">सुरक्षा कारणों से, वॉलपेपर डाउनलोड करना अगले %1$s घंटों के लिए संभव नहीं है। बाद में पुन: प्रयास करें।</string>
+    <string name="license_valid_title">लाइसेंस मान्य</string>
+    <string name="license_invalid_content">क्षमा करें, लेकिन हमने पाया है कि आपके लाइसेंस के लिए %1$s मान्य नहीं है।
+यह भी इसलिए हो सकता है क्योंकि आप पायरेटेड ऐप्स का उपयोग कर रहे हैं। %2$s। यदि आपको लगता है कि यह एक त्रुटि है, तो कृपया बाद में फिर से प्रयास करें। अन्यथा, कृपया किसी मान्य स्टोर से एप्लिकेशन डाउनलोड करें।</string>
+    <string name="license_invalid_content_extra">या विशेष रूप से: \'%1$s\' एप्लिकेशन, इसलिए प्लीज इसे अनइंस्टॉल करें</string>
+    <string name="error">त्रुटि</string>
+    <string name="license_error_content">क्षमा करें, आपका लाइसेंस जांचते समय एक त्रुटि हुई थी। कृपया बाद में पुन: प्रयास करें ।</string>
+    <string name="try_now">अब कोशिश करे</string>
+    <string name="interface_title">इंटरफेस</string>
+    <string name="legal">कानूनी</string>
+    <string name="privacy_policy">गोपनीयता नीति</string>
+    <string name="terms_conditions">नियम व शर्तें</string>
     <string name="dashboard">डैशबोर्ड</string>
     <string name="donate_success_title">धन्यवाद!</string>
     <string name="close">बंद करें</string>
