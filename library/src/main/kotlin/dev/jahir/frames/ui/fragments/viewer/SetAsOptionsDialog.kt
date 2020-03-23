@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentActivity
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.mdDialog
@@ -12,10 +11,11 @@ import dev.jahir.frames.extensions.negativeButton
 import dev.jahir.frames.extensions.positiveButton
 import dev.jahir.frames.extensions.singleChoiceItems
 import dev.jahir.frames.extensions.title
+import dev.jahir.frames.ui.activities.ViewerActivity
 
 class SetAsOptionsDialog : DialogFragment() {
 
-    private var selectedOption = 0
+    private var selectedOption = -1
     private var wallpaper: Wallpaper? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -30,7 +30,8 @@ class SetAsOptionsDialog : DialogFragment() {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) option else option + 2
             }
             positiveButton(android.R.string.ok) {
-                activity?.let { ApplierDialog.show(it, selectedOption, wallpaper) }
+                if (selectedOption >= 0)
+                    (activity as? ViewerActivity)?.showApplierDialog(wallpaper, selectedOption)
                 dismiss()
             }
             negativeButton(android.R.string.cancel) { dismiss() }
@@ -38,17 +39,17 @@ class SetAsOptionsDialog : DialogFragment() {
     }
 
     override fun dismiss() {
-        super.dismiss()
         wallpaper = null
+        selectedOption = -1
+        try {
+            super.dismiss()
+        } catch (e: Exception) {
+        }
     }
 
     companion object {
-        private const val TAG = "SET_WALLPAPER_OPTION_DIALOG"
+        internal const val TAG = "SET_WALLPAPER_OPTIONS_DIALOG"
         fun create(wallpaper: Wallpaper? = null) =
             SetAsOptionsDialog().apply { this.wallpaper = wallpaper }
-
-        fun show(activity: FragmentActivity, wallpaper: Wallpaper? = null) =
-            create(wallpaper).show(activity.supportFragmentManager, TAG)
     }
-
 }

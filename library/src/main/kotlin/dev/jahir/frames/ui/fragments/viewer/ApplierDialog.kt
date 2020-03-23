@@ -11,7 +11,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentActivity
 import com.tonyodev.fetch2.Download
 import com.tonyodev.fetch2.Error
 import com.tonyodev.fetch2.Fetch
@@ -34,21 +33,10 @@ import dev.jahir.frames.utils.WallpaperDownloadNotificationManager
 import dev.jahir.frames.utils.ensureBackgroundThread
 import java.io.File
 
-class ApplierDialog : DialogFragment(),
-    BaseFetchListener {
+class ApplierDialog : DialogFragment(), BaseFetchListener {
 
-    private var applyToOption = 0
+    private var applyToOption = -1
     private var wallpaper: Wallpaper? = null
-
-    private val applyFlag: Int
-        get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            when (applyToOption) {
-                0 -> WallpaperManager.FLAG_SYSTEM
-                1 -> WallpaperManager.FLAG_LOCK
-                3 -> -1
-                else -> WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK
-            }
-        } else applyToOption
 
     private val wm: WallpaperManager? by lazy {
         try {
@@ -115,6 +103,7 @@ class ApplierDialog : DialogFragment(),
             e.printStackTrace()
         }
         fetch.cancel(request.id)
+        applyToOption = -1
     }
 
     private fun setMessage(@StringRes res: Int) {
@@ -168,8 +157,21 @@ class ApplierDialog : DialogFragment(),
     }
 
     private fun setAsWallpaper(download: Download) {
+        if (applyToOption < 0) {
+            showFinalMessage()
+            return
+        }
         ensureBackgroundThread {
-            if (applyFlag > 0) {
+            if (applyToOption in 0..2) {
+                val applyFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    when (applyToOption) {
+                        0 -> WallpaperManager.FLAG_SYSTEM
+                        1 -> WallpaperManager.FLAG_LOCK
+                        else -> -1
+                    }
+                } else -1
+                applyToOption = -1
+
                 val bitmap = try {
                     BitmapFactory.decodeFile(download.file)
                 } catch (e: Exception) {
@@ -192,7 +194,9 @@ class ApplierDialog : DialogFragment(),
                 scaledBitmap?.let { bmp ->
                     wm?.let { wm ->
                         val result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            wm.setBitmap(bmp, null, true, applyFlag)
+                            if (applyFlag >= 0) {
+                                wm.setBitmap(bmp, null, true, applyFlag)
+                            } else wm.setBitmap(bmp, null, true)
                         } else {
                             wm.setBitmap(bmp)
                             -1
@@ -201,12 +205,8 @@ class ApplierDialog : DialogFragment(),
                             if (result != 0) R.string.applying_applied
                             else R.string.unexpected_error_occurred
                         )
-                    } ?: {
-                        showFinalMessage()
-                    }()
-                } ?: {
-                    showFinalMessage()
-                }()
+                    } ?: { showFinalMessage() }()
+                } ?: { showFinalMessage() }()
             } else {
                 val uri = File(filePath).getUri(context)
                 uri?.let {
@@ -238,16 +238,12 @@ class ApplierDialog : DialogFragment(),
     }
 
     companion object {
-        private const val TAG = "WALLPAPER_APPLIER_DIALOG"
+        internal const val TAG = "WALLPAPER_APPLIER_DIALOG"
         private const val WITH_OTHER_APP_CODE = 733
 
-        fun create(option: Int = 0, wallpaper: Wallpaper? = null) = ApplierDialog().apply {
-            applyToOption = option
+        fun create(wallpaper: Wallpaper? = null, option: Int = -1) = ApplierDialog().apply {
+            this.applyToOption = option
             this.wallpaper = wallpaper
         }
-
-        fun show(activity: FragmentActivity, option: Int = 0, wallpaper: Wallpaper? = null) =
-            create(option, wallpaper)
-                .show(activity.supportFragmentManager, TAG)
     }
 }

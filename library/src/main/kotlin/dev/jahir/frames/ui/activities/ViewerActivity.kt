@@ -18,6 +18,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
+import androidx.fragment.app.DialogFragment
 import androidx.palette.graphics.Palette
 import com.fondesa.kpermissions.PermissionStatus
 import com.github.chrisbanes.photoview.PhotoView
@@ -26,6 +27,7 @@ import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.*
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.fragments.WallpapersFragment
+import dev.jahir.frames.ui.fragments.viewer.ApplierDialog
 import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
 import dev.jahir.frames.ui.fragments.viewer.SetAsOptionsDialog
 import dev.jahir.frames.utils.Prefs
@@ -54,6 +56,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
     }
 
     private var downloadBlockedDialog: AlertDialog? = null
+    private var applierDialog: DialogFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -166,9 +169,26 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         )
     }
 
+    private fun dismissApplierDialog() {
+        try {
+            applierDialog?.dismiss()
+        } catch (e: Exception) {
+        }
+        applierDialog = null
+    }
+
+    private fun dismissDownloadBlockedDialog() {
+        try {
+            downloadBlockedDialog?.dismiss()
+        } catch (e: Exception) {
+        }
+        downloadBlockedDialog = null
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        downloadBlockedDialog?.dismiss()
+        dismissApplierDialog()
+        dismissDownloadBlockedDialog()
         try {
             val bmp = (image?.drawable as? BitmapDrawable?)?.bitmap
             if (bmp?.isRecycled == false) bmp.recycle()
@@ -262,7 +282,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
             val timeLeft = MIN_TIME - elapsedTime
             val timeLeftText = timeLeft.toReadableTime()
 
-            downloadBlockedDialog?.dismiss()
+            dismissDownloadBlockedDialog()
             downloadBlockedDialog = mdDialog {
                 title(R.string.prevent_download_title)
                 message(getString(R.string.prevent_download_content, timeLeftText))
@@ -279,7 +299,16 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
 
     private fun applyWallpaper(wallpaper: Wallpaper?) {
         wallpaper ?: return
-        SetAsOptionsDialog.show(this, wallpaper)
+        dismissApplierDialog()
+        applierDialog = SetAsOptionsDialog.create(wallpaper)
+        applierDialog?.show(supportFragmentManager, SetAsOptionsDialog.TAG)
+    }
+
+    internal fun showApplierDialog(wallpaper: Wallpaper?, selectedOption: Int = -1) {
+        wallpaper ?: return
+        dismissApplierDialog()
+        applierDialog = ApplierDialog.create(wallpaper, selectedOption)
+        applierDialog?.show(supportFragmentManager, ApplierDialog.TAG)
     }
 
     private fun shouldShowWallpapersPalette(): Boolean = try {
