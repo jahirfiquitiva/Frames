@@ -117,7 +117,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
 
         isInFavorites =
             intent?.extras?.getBoolean(WallpapersFragment.WALLPAPER_IN_FAVS_EXTRA, false)
-                ?: wallpaper.isInFavorites ?: false
+                ?: wallpaper.isInFavorites
 
         wallpapersViewModel.observeFavorites(this) {
             this.isInFavorites = it.any { wall -> wall.url == wallpaper.url }

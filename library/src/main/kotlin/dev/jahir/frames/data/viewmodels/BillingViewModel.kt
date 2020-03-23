@@ -74,7 +74,10 @@ class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdat
     ): SkuDetailsParams =
         SkuDetailsParams.newBuilder().setSkusList(skuItemsIds).setType(skuType).build()
 
-    private suspend fun internalQuerySkuDetailsList(skuItemsIds: List<String>, @BillingClient.SkuType skuType: String) {
+    private suspend fun internalQuerySkuDetailsList(
+        skuItemsIds: List<String>,
+        @BillingClient.SkuType skuType: String
+    ) {
         if (!isBillingClientReady || skuItemsIds.isNullOrEmpty()) return
         withContext(Default) {
             billingClient?.querySkuDetailsAsync(

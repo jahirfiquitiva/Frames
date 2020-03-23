@@ -56,7 +56,7 @@ abstract class WallpapersDataViewModel : ViewModel() {
                 FramesDatabase.getAppDatabase(context)?.wallpapersDao()?.getAllWallpapers()
                     .orEmpty()
             } catch (e: Exception) {
-                arrayListOf<Wallpaper>()
+                arrayListOf()
             }
         }
 
@@ -129,7 +129,7 @@ abstract class WallpapersDataViewModel : ViewModel() {
             val result = try {
                 internalGetFavorites(context)
             } catch (e: Exception) {
-                listOf<Favorite>()
+                listOf()
             }
             result
         }
