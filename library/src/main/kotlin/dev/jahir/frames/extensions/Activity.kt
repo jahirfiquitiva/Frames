@@ -78,7 +78,10 @@ inline var Activity.navigationBarLight: Boolean
         window.navigationBarLight = value
     }
 
-inline fun <reified T : View> Activity.findView(@IdRes id: Int, logException: Boolean = false): Lazy<T?> {
+inline fun <reified T : View> Activity.findView(
+    @IdRes id: Int,
+    logException: Boolean = false
+): Lazy<T?> {
     return lazy {
         try {
             findViewById<T>(id)
@@ -92,8 +95,9 @@ inline fun <reified T : View> Activity.findView(@IdRes id: Int, logException: Bo
 fun Activity?.buildTransitionOptions(transitionViews: ArrayList<View?> = ArrayList()): Array<Pair<View?, String>> {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return arrayOf()
 
-    val statusBar: View? by this?.window?.decorView?.findView(android.R.id.statusBarBackground)
-    val navigationBar: View? by this?.window?.decorView?.findView(android.R.id.navigationBarBackground)
+    val statusBar: View? = this?.window?.decorView?.findViewById(android.R.id.statusBarBackground)
+    val navigationBar: View? =
+        this?.window?.decorView?.findViewById(android.R.id.navigationBarBackground)
 
     val pairs = ArrayList<Pair<View, String>>()
     statusBar?.let {
@@ -103,10 +107,10 @@ fun Activity?.buildTransitionOptions(transitionViews: ArrayList<View?> = ArrayLi
         pairs.add(Pair.create(it, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME))
     }
 
-    val appBarLayout: View? by this?.window?.decorView?.findView(R.id.appbar)
+    val appBarLayout: View? = this?.window?.decorView?.findViewById(R.id.appbar)
     appBarLayout?.let { pairs.add(Pair.create(it, "appbar")) }
 
-    val bottomNavigation: View? by this?.window?.decorView?.findView(R.id.bottom_navigation)
+    val bottomNavigation: View? = this?.window?.decorView?.findViewById(R.id.bottom_navigation)
     bottomNavigation?.let { pairs.add(Pair.create(it, "bottombar")) }
 
     transitionViews.forEach {

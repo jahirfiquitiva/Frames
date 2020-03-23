@@ -11,12 +11,9 @@ import dev.jahir.frames.extensions.getDefaultWallpapersDownloadFolder
 import java.io.File
 
 @Suppress("MemberVisibilityCanBePrivate")
-open class Prefs(
-    private val context: Context,
-    name: String = PREFS_NAME,
-    mode: Int = Context.MODE_PRIVATE
-) {
-    val prefs: SharedPreferences = context.getSharedPreferences(name, mode)
+open class Prefs(private val context: Context) {
+    val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
     @SuppressLint("CommitPrefEdits")
     val prefsEditor: SharedPreferences.Editor = prefs.edit()
 
