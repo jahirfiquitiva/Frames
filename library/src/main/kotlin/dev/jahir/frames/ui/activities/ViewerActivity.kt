@@ -32,7 +32,6 @@ import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
 import dev.jahir.frames.ui.fragments.viewer.SetAsOptionsDialog
 import dev.jahir.frames.utils.Prefs
 import dev.jahir.frames.utils.tint
-import kotlin.math.roundToInt
 
 open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
 
@@ -210,7 +209,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         }
         drawable?.asBitmap()?.let { bitmap ->
             Palette.from(bitmap)
-                .maximumColorCount((MAX_FRAMES_PALETTE_COLORS * 1.5).roundToInt())
+                .maximumColorCount(MAX_FRAMES_PALETTE_COLORS * 2)
                 .generate {
                     setBackgroundColor(it?.bestSwatch?.rgb ?: 0)
                     detailsFragment.palette = it

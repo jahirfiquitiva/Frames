@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.MAX_FRAMES_PALETTE_COLORS
+import dev.jahir.frames.extensions.bestSwatches
 import dev.jahir.frames.extensions.dpToPx
 import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.ui.adapters.WallpaperDetailsAdapter
@@ -28,12 +29,11 @@ class DetailsFragment : BaseBottomSheet() {
     var palette: Palette? = null
         set(value) {
             field = value
-            wallpaperDetailsAdapter.palette = value
-            wallpaperDetailsAdapter.notifyDataSetChanged()
+            wallpaperDetailsAdapter.paletteSwatches = ArrayList(value?.bestSwatches.orEmpty())
         }
 
     private val wallpaperDetailsAdapter: WallpaperDetailsAdapter by lazy {
-        WallpaperDetailsAdapter(wallpaper, palette, shouldShowPaletteDetails)
+        WallpaperDetailsAdapter(wallpaper, shouldShowPaletteDetails)
     }
 
     override fun getContentView(): View? {

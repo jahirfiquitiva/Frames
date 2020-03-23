@@ -8,7 +8,6 @@ import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.MAX_FRAMES_PALETTE_COLORS
 import dev.jahir.frames.extensions.inflate
-import dev.jahir.frames.extensions.sortedSwatches
 import dev.jahir.frames.ui.viewholders.SectionHeaderViewHolder
 import dev.jahir.frames.ui.viewholders.WallpaperDetailViewHolder
 import dev.jahir.frames.ui.viewholders.WallpaperPaletteColorViewHolder
@@ -16,9 +15,16 @@ import kotlin.math.roundToInt
 
 class WallpaperDetailsAdapter(
     var wallpaper: Wallpaper?,
-    var palette: Palette?,
     private val shouldShowPaletteDetails: Boolean = true
 ) : SectionedRecyclerViewAdapter<SectionedViewHolder>() {
+
+    var paletteSwatches: ArrayList<Palette.Swatch> = ArrayList()
+        set(value) {
+            field.clear()
+            if (shouldShowPaletteDetails)
+                field.addAll(value)
+            notifyDataSetChanged()
+        }
 
     init {
         shouldShowHeadersForEmptySections(false)
@@ -27,7 +33,7 @@ class WallpaperDetailsAdapter(
 
     override fun getItemCount(section: Int): Int = when (section) {
         0 -> wallpaper?.detailsCount ?: 0
-        1 -> if (shouldShowPaletteDetails) palette?.sortedSwatches?.size ?: 0 else 0
+        1 -> paletteSwatches.size
         else -> 0
     }
 
@@ -72,7 +78,7 @@ class WallpaperDetailsAdapter(
             }
             1 -> {
                 (holder as? WallpaperPaletteColorViewHolder)?.bind(
-                    palette?.sortedSwatches?.getOrNull(relativePosition)
+                    paletteSwatches.getOrNull(relativePosition)
                 )
             }
         }

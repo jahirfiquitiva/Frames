@@ -6,9 +6,7 @@ import dev.jahir.frames.extensions.actualNightMode
 
 open class FramesApplication : MultiDexApplication() {
     override fun onCreate() {
-        if (shouldForceResetTheme()) AppCompatDelegate.setDefaultNightMode(actualNightMode)
+        AppCompatDelegate.setDefaultNightMode(actualNightMode)
         super.onCreate()
     }
-
-    open fun shouldForceResetTheme(): Boolean = false
 }
