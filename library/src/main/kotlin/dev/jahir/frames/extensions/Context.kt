@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
 import dev.jahir.frames.ui.activities.base.BaseThemedActivity
@@ -206,4 +207,11 @@ val Context.currentNightMode: Int
         resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
     } catch (e: Exception) {
         Configuration.UI_MODE_NIGHT_UNDEFINED
+    }
+
+val Context.actualNightMode: Int
+    get() = when (prefs.currentTheme) {
+        Prefs.ThemeKey.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+        Prefs.ThemeKey.DARK -> AppCompatDelegate.MODE_NIGHT_YES
+        else -> AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY or AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     }

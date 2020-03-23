@@ -6,6 +6,7 @@ import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
+import dev.jahir.frames.extensions.actualNightMode
 import dev.jahir.frames.extensions.currentNightMode
 import dev.jahir.frames.extensions.getRightNavigationBarColor
 import dev.jahir.frames.extensions.isDark
@@ -15,7 +16,6 @@ import dev.jahir.frames.extensions.resolveColor
 import dev.jahir.frames.extensions.restart
 import dev.jahir.frames.extensions.statusBarColor
 import dev.jahir.frames.extensions.statusBarLight
-import dev.jahir.frames.ui.FramesApplication
 import dev.jahir.frames.utils.Prefs
 
 abstract class BaseThemedActivity<out P : Prefs> : BaseFinishResultActivity() {
@@ -33,9 +33,10 @@ abstract class BaseThemedActivity<out P : Prefs> : BaseFinishResultActivity() {
     abstract val prefs: P
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+        AppCompatDelegate.setDefaultNightMode(actualNightMode)
         setCustomTheme()
         super.onCreate(savedInstanceState)
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
 
     override fun onResume() {
@@ -56,11 +57,6 @@ abstract class BaseThemedActivity<out P : Prefs> : BaseFinishResultActivity() {
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun onThemeChanged() {
-        (applicationContext as? FramesApplication)?.setDefaultNightMode()
-        postRecreate()
-    }
-
-    private fun postRecreate() {
         Handler().post { restart() }
     }
 
