@@ -161,14 +161,14 @@ abstract class WallpapersDataViewModel : ViewModel() {
                     try {
                         service.getJSON(url)
                     } catch (e: Exception) {
-                        arrayListOf<Wallpaper>()
+                        arrayListOf()
                     }
                 } else arrayListOf()
 
             val localWallpapers = try {
                 getWallpapersFromDatabase(context)
             } catch (e: Exception) {
-                arrayListOf<Wallpaper>()
+                arrayListOf()
             }
 
             val wallpapers =
@@ -253,17 +253,15 @@ abstract class WallpapersDataViewModel : ViewModel() {
     }
 
     fun observeWallpapers(owner: LifecycleOwner, onUpdated: (List<Wallpaper>) -> Unit) {
-        wallpapersData.observe(owner, Observer<List<Wallpaper>> { r -> r?.let { onUpdated(it) } })
+        wallpapersData.observe(owner, Observer { r -> r?.let { onUpdated(it) } })
     }
 
     fun observeCollections(owner: LifecycleOwner, onUpdated: (ArrayList<Collection>) -> Unit) {
-        collectionsData.observe(
-            owner,
-            Observer<ArrayList<Collection>> { r -> r?.let { onUpdated(it) } })
+        collectionsData.observe(owner, Observer { r -> r?.let { onUpdated(it) } })
     }
 
     fun observeFavorites(owner: LifecycleOwner, onUpdated: (List<Wallpaper>) -> Unit) {
-        favoritesData.observe(owner, Observer<List<Wallpaper>> { r -> r?.let { onUpdated(it) } })
+        favoritesData.observe(owner, Observer { r -> r?.let { onUpdated(it) } })
     }
 
     fun destroy(owner: LifecycleOwner) {
