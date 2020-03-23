@@ -10,11 +10,8 @@ import dev.jahir.frames.extensions.lower
 import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
-import dev.jahir.frames.ui.activities.base.BaseSystemUIVisibilityActivity
 import dev.jahir.frames.ui.adapters.CollectionsAdapter
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
-import dev.jahir.frames.ui.widgets.EmptyView
-import dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
 
 open class CollectionsFragment : BaseFramesFragment<Collection>() {
 
@@ -26,7 +23,6 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
         recyclerView?.layoutManager =
             GridLayoutManager(context, columnsCount, GridLayoutManager.VERTICAL, false)
         recyclerView?.adapter = collectionsAdapter
-        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
     }
 
     override fun updateItemsInAdapter(items: ArrayList<Collection>) {
@@ -35,26 +31,14 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
 
     override fun getFilteredItems(
         originalItems: ArrayList<Collection>,
-        filter: String,
-        closed: Boolean
+        filter: String
     ): ArrayList<Collection> =
         ArrayList(originalItems.filter { it.name.lower().contains(filter.lower()) })
-
-    override fun onStateChanged(state: EmptyViewRecyclerView.State, emptyView: EmptyView?) {
-        super.onStateChanged(state, emptyView)
-        if (state == EmptyViewRecyclerView.State.EMPTY) {
-            emptyView?.setEmpty(context?.getString(R.string.no_collections_found) ?: "")
-        }
-    }
 
     open fun onClicked(collection: Collection) {
         startActivityForResult(
             getTargetActivityIntent()
                 .apply {
-                    putExtra(
-                        BaseSystemUIVisibilityActivity.CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
-                        canToggleSystemUIVisibility()
-                    )
                     putExtra(CollectionActivity.COLLECTION_KEY, collection)
                     putExtra(CollectionActivity.COLLECTION_NAME_KEY, collection.name)
                 }, CollectionActivity.REQUEST_CODE
@@ -73,6 +57,8 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
 
     override fun getTargetActivityIntent(): Intent =
         Intent(activity, CollectionActivity::class.java)
+
+    override fun getEmptyText(): Int = R.string.no_collections_found
 
     companion object {
         const val TAG = "collections_fragment"

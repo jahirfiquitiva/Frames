@@ -69,7 +69,7 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
     }
 
     @LayoutRes
-    open fun getLayoutRes(): Int = R.layout.activity_base
+    open fun getLayoutRes(): Int = R.layout.activity_fragments_bottom_navigation
 
     override fun onFavoritesUpdated(favorites: List<Wallpaper>) {
         super.onFavoritesUpdated(favorites)

@@ -29,10 +29,12 @@ abstract class BaseSystemUIVisibilityActivity<out P : Prefs> : BaseWallpaperFetc
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
+        if (!canToggleSystemUIVisibility()) return
         setSystemUIVisibility(savedInstanceState.getBoolean(VISIBLE_SYSTEM_UI_KEY, true))
     }
 
     internal fun toggleSystemUI() {
+        if (!canToggleSystemUIVisibility()) return
         setSystemUIVisibility(!visibleSystemUI)
     }
 
@@ -59,11 +61,13 @@ abstract class BaseSystemUIVisibilityActivity<out P : Prefs> : BaseWallpaperFetc
     }
 
     private fun changeBarsVisibility(show: Boolean) {
+        if (!canToggleSystemUIVisibility()) return
         changeAppBarVisibility(show)
         changeBottomBarVisibility(show)
     }
 
     private fun changeAppBarVisibility(show: Boolean) {
+        if (!canToggleSystemUIVisibility()) return
         val extra = try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 window.decorView.rootWindowInsets.systemWindowInsetTop
@@ -84,6 +88,7 @@ abstract class BaseSystemUIVisibilityActivity<out P : Prefs> : BaseWallpaperFetc
     }
 
     private fun changeBottomBarVisibility(show: Boolean) {
+        if (!canToggleSystemUIVisibility()) return
         val extra = try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 window.decorView.rootWindowInsets.systemWindowInsetBottom
@@ -100,11 +105,9 @@ abstract class BaseSystemUIVisibilityActivity<out P : Prefs> : BaseWallpaperFetc
             ?.start()
     }
 
-    open fun canToggleSystemUIVisibility(): Boolean =
-        intent?.getBooleanExtra(CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY, true) ?: true
+    open fun canToggleSystemUIVisibility(): Boolean = false
 
     companion object {
         private const val VISIBLE_SYSTEM_UI_KEY = "visible_system_ui"
-        internal const val CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY = "can_toggle_visibility"
     }
 }

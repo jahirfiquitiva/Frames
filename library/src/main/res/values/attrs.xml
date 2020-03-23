@@ -11,4 +11,11 @@
     <declare-styleable name="FramesBottomNavigationView">
         <attr name="forceRightColor" format="reference|boolean" />
     </declare-styleable>
+
+    <declare-styleable name="StatefulRecyclerView">
+        <attr name="stateRootLayout" format="reference" />
+        <attr name="stateTextView" format="reference" />
+        <attr name="stateImageView" format="reference" />
+        <attr name="stateProgressBar" format="reference" />
+    </declare-styleable>
 </resources>

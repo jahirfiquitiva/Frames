@@ -2,7 +2,6 @@ package dev.jahir.frames.ui.activities
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.AboutItem
 import dev.jahir.frames.extensions.findView
-import dev.jahir.frames.extensions.gone
 import dev.jahir.frames.extensions.resolveColor
 import dev.jahir.frames.ui.activities.base.BaseThemedActivity
 import dev.jahir.frames.ui.adapters.AboutAdapter
@@ -26,7 +24,6 @@ open class AboutActivity : BaseThemedActivity<Prefs>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recyclerview)
-        findViewById<View?>(R.id.bottom_navigation)?.gone()
 
         setSupportActionBar(toolbar)
         supportActionBar?.let {

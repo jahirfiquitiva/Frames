@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/state_root_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
@@ -11,18 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center">
+        android:gravity="center"
+        android:paddingBottom="16dp">
 
         <ProgressBar
-            android:id="@+id/progress_bar"
+            android:id="@+id/state_progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:visibility="gone" />
+            android:gravity="center" />
 
-        <ImageView
-            android:id="@+id/icon"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/state_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -34,7 +35,7 @@
     </FrameLayout>
 
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/state_text"
         style="@style/TextStyle.Frames.Body1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,7 +45,6 @@
         android:lineSpacingMultiplier="1.2"
         android:maxLines="3"
         android:padding="24dp"
-        android:visibility="gone"
-        tools:text="@string/loading" />
+        android:text="@string/loading" />
 
 </LinearLayout>

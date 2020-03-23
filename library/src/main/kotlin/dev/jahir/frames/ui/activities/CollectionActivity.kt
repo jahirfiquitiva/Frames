@@ -3,7 +3,6 @@ package dev.jahir.frames.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.extensions.gone
@@ -26,8 +25,7 @@ open class CollectionActivity : BaseChangelogDialogActivity<Prefs>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_base)
-        findViewById<View?>(R.id.bottom_navigation)?.gone()
+        setContentView(R.layout.activity_fragments)
 
         setSupportActionBar(toolbar)
         supportActionBar?.let {
@@ -60,6 +58,11 @@ open class CollectionActivity : BaseChangelogDialogActivity<Prefs>() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.fragments_container, wallpapersFragment, WallpapersFragment.TAG)
         transaction.commit()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bottomNavigation?.gone()
     }
 
     override fun getMenuRes(): Int = R.menu.toolbar_menu_simple

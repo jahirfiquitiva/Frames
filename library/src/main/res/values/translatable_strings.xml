@@ -9,6 +9,8 @@
     <string name="no_wallpapers_found">No wallpapers found!</string>
     <string name="no_collections_found">No collections found!</string>
     <string name="no_favorites_found">No favorites found!</string>
+    <string name="no_results_found">No results found!</string>
+    <string name="nothing_found">Nothing found!</string>
 
     <string name="details">Details</string>
     <string name="save">Save</string>

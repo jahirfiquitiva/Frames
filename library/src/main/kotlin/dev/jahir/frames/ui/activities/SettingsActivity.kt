@@ -2,13 +2,11 @@ package dev.jahir.frames.ui.activities
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.findView
-import dev.jahir.frames.extensions.gone
 import dev.jahir.frames.extensions.resolveColor
 import dev.jahir.frames.ui.activities.base.BaseThemedActivity
 import dev.jahir.frames.ui.fragments.SettingsFragment
@@ -26,8 +24,7 @@ open class SettingsActivity : BaseThemedActivity<Prefs>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_base)
-        findViewById<View?>(R.id.bottom_navigation)?.gone()
+        setContentView(R.layout.activity_fragments)
 
         setSupportActionBar(toolbar)
         supportActionBar?.let {

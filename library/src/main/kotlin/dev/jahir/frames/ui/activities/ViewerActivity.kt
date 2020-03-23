@@ -321,6 +321,9 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
     override val shouldChangeStatusBarLightStatus: Boolean = false
     override val shouldChangeNavigationBarLightStatus: Boolean = false
 
+    override fun canToggleSystemUIVisibility(): Boolean =
+        intent?.getBooleanExtra(CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY, true) ?: true
+
     companion object {
         internal const val MIN_TIME: Long = 3 * 60 * 60000
         internal const val REQUEST_CODE = 10
@@ -329,6 +332,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         internal const val FAVORITES_NOT_MODIFIED_RESULT = 0
         internal const val CURRENT_WALL_POSITION = "curr_wall_pos"
         internal const val LICENSE_CHECK_ENABLED = "license_check_enabled"
+        internal const val CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY = "can_toggle_visibility"
         private const val CLOSING_KEY = "closing"
         private const val TRANSITIONED_KEY = "transitioned"
         private const val IS_IN_FAVORITES_KEY = "is_in_favorites"

@@ -12,16 +12,15 @@
         android:layout_gravity="center"
         android:gravity="center">
 
-        <dev.jahir.frames.ui.widgets.EmptyView
-            android:id="@+id/empty_view"
+        <include
+            layout="@layout/item_empty_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:paddingBottom="@dimen/bottom_navigation_height"
-            android:visibility="gone" />
+            android:paddingBottom="@dimen/bottom_navigation_height" />
 
-        <dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
+        <dev.jahir.frames.ui.widgets.StatefulRecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -29,7 +28,8 @@
             android:overScrollMode="ifContentScrolls"
             android:paddingBottom="@dimen/bottom_navigation_height"
             android:splitMotionEvents="false"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:stateRootLayout="@id/state_root_layout" />
 
     </FrameLayout>
 

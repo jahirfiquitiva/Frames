@@ -14,13 +14,10 @@ import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.activities.base.BaseLicenseCheckerActivity
-import dev.jahir.frames.ui.activities.base.BaseSystemUIVisibilityActivity
 import dev.jahir.frames.ui.adapters.WallpapersAdapter
 import dev.jahir.frames.ui.decorations.GridSpacingItemDecoration
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
 import dev.jahir.frames.ui.viewholders.WallpaperViewHolder
-import dev.jahir.frames.ui.widgets.EmptyView
-import dev.jahir.frames.ui.widgets.EmptyViewRecyclerView
 import dev.jahir.frames.utils.onClick
 import dev.jahir.frames.utils.onFavClick
 import dev.jahir.frames.utils.wallpapersAdapter
@@ -54,19 +51,6 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
             )
         )
         recyclerView?.adapter = wallsAdapter
-        recyclerView?.state = EmptyViewRecyclerView.State.LOADING
-    }
-
-    override fun onStateChanged(state: EmptyViewRecyclerView.State, emptyView: EmptyView?) {
-        super.onStateChanged(state, emptyView)
-        if (state == EmptyViewRecyclerView.State.EMPTY) {
-            if (isForFavs) emptyView?.setImageDrawable(R.drawable.ic_empty_favorites)
-            emptyView?.setEmpty(
-                context?.getString(
-                    if (isForFavs) R.string.no_favorites_found else R.string.no_wallpapers_found
-                ) ?: ""
-            )
-        }
     }
 
     override fun updateItemsInAdapter(items: ArrayList<Wallpaper>) {
@@ -75,8 +59,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
     override fun getFilteredItems(
         originalItems: ArrayList<Wallpaper>,
-        filter: String,
-        closed: Boolean
+        filter: String
     ): ArrayList<Wallpaper> =
         ArrayList(originalItems.filter {
             it.name.lower().contains(filter.lower()) ||
@@ -116,7 +99,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
             getTargetActivityIntent()
                 .apply {
                     putExtra(
-                        BaseSystemUIVisibilityActivity.CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
+                        ViewerActivity.CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
                         canToggleSystemUIVisibility()
                     )
                     putExtra(WALLPAPER_EXTRA, wallpaper)
@@ -148,6 +131,14 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         wallsAdapter.canModifyFavorites = canModify
         wallsAdapter.notifyDataSetChanged()
     }
+
+    override fun getEmptyText(): Int =
+        if (isForFavs) R.string.no_favorites_found else R.string.no_wallpapers_found
+
+    override fun getEmptyDrawable(): Int =
+        if (isForFavs) R.drawable.ic_empty_favorites else super.getEmptyDrawable()
+
+    open fun canToggleSystemUIVisibility(): Boolean = true
 
     companion object {
         const val TAG = "wallpapers_fragment"

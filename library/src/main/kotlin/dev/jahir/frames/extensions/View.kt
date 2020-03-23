@@ -9,7 +9,10 @@ import android.widget.ImageView
 import androidx.annotation.IdRes
 import androidx.customview.widget.ViewDragHelper
 
-inline fun <reified T : View> View.findView(@IdRes id: Int, logException: Boolean = false): Lazy<T?> {
+inline fun <reified T : View> View.findView(
+    @IdRes id: Int,
+    logException: Boolean = false
+): Lazy<T?> {
     return lazy {
         try {
             findViewById<T>(id)
@@ -20,13 +23,9 @@ inline fun <reified T : View> View.findView(@IdRes id: Int, logException: Boolea
     }
 }
 
-fun <T : View> T.showAndAnimate() {
-    visible()
-    (this as? ImageView)?.startAnimatable()
-}
-
-fun <T : View> T.visible(): T {
+fun <T : View> T.visible(animate: Boolean = false): T {
     visibility = View.VISIBLE
+    if (animate) (this as? ImageView)?.startAnimatable()
     return this
 }
 
