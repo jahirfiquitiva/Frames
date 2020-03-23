@@ -24,8 +24,7 @@ fun MaterialAlertDialogBuilder.message(message: String) = setMessage(message)
 fun MaterialAlertDialogBuilder.positiveButton(
     @StringRes positiveButtonResId: Int,
     onClick: (DialogInterface) -> Unit = {}
-) =
-    setPositiveButton(positiveButtonResId) { d, _ -> onClick(d) }
+) = setPositiveButton(positiveButtonResId) { d, _ -> onClick(d) }
 
 fun MaterialAlertDialogBuilder.positiveButton(
     positiveButtonText: String,
@@ -35,8 +34,7 @@ fun MaterialAlertDialogBuilder.positiveButton(
 fun MaterialAlertDialogBuilder.negativeButton(
     @StringRes negativeButtonResId: Int,
     onClick: (DialogInterface) -> Unit = {}
-) =
-    setNegativeButton(negativeButtonResId) { d, _ -> onClick(d) }
+) = setNegativeButton(negativeButtonResId) { d, _ -> onClick(d) }
 
 fun MaterialAlertDialogBuilder.negativeButton(
     negativeButtonText: String,
@@ -46,8 +44,7 @@ fun MaterialAlertDialogBuilder.negativeButton(
 fun MaterialAlertDialogBuilder.neutralButton(
     @StringRes neutralButtonResId: Int,
     onClick: (DialogInterface) -> Unit = {}
-) =
-    setNeutralButton(neutralButtonResId) { d, _ -> onClick(d) }
+) = setNeutralButton(neutralButtonResId) { d, _ -> onClick(d) }
 
 fun MaterialAlertDialogBuilder.neutralButton(
     neutralButtonText: String,

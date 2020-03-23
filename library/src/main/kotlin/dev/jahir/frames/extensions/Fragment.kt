@@ -4,7 +4,6 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 
-
 inline fun <reified T : View> Fragment.findView(
     @IdRes id: Int,
     logException: Boolean = false
