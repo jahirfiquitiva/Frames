@@ -22,7 +22,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
-@Suppress("unused")
+@Suppress("unused", "RemoveExplicitTypeArguments")
 abstract class WallpapersDataViewModel : ViewModel() {
 
     private val wallpapersData: MutableLiveData<List<Wallpaper>> by lazyMutableLiveData()
@@ -56,7 +56,7 @@ abstract class WallpapersDataViewModel : ViewModel() {
                 FramesDatabase.getAppDatabase(context)?.wallpapersDao()?.getAllWallpapers()
                     .orEmpty()
             } catch (e: Exception) {
-                arrayListOf()
+                arrayListOf<Wallpaper>()
             }
         }
 
@@ -129,7 +129,7 @@ abstract class WallpapersDataViewModel : ViewModel() {
             val result = try {
                 internalGetFavorites(context)
             } catch (e: Exception) {
-                listOf()
+                listOf<Favorite>()
             }
             result
         }
@@ -161,14 +161,14 @@ abstract class WallpapersDataViewModel : ViewModel() {
                     try {
                         service.getJSON(url)
                     } catch (e: Exception) {
-                        arrayListOf()
+                        arrayListOf<Wallpaper>()
                     }
-                } else arrayListOf()
+                } else arrayListOf<Wallpaper>()
 
             val localWallpapers = try {
                 getWallpapersFromDatabase(context)
             } catch (e: Exception) {
-                arrayListOf()
+                arrayListOf<Wallpaper>()
             }
 
             val wallpapers =
