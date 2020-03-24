@@ -1,2 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"></resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="wallpapers">वॉलपेपर्स</string>
+    <string name="collections">संग्रह</string>
+    <string name="favorites">पसंदीदा</string>
+    <string name="all">सभी</string>
+    <string name="loading">लोड हो रहा है…</string>
+    <string name="no_wallpapers_found">कोई वॉलपेपर्स नही मिला</string>
+    <string name="no_collections_found">कोई संग्रह नही मिला</string>
+    <string name="no_favorites_found">कोई पसंदीदा नही</string>
+    <string name="details">विवरण</string>
+    <string name="save">सेव करें</string>
+    <string name="download">डाउनलोड</string>
+    <string name="apply">लागू करें</string>
+    <string name="favorite">पसंदीदा</string>
+    <string name="copied_to_clipboard">क्लिपबोर्ड पर रंग कॉपी हो गया</string>
+    <string name="dimensions">आयाम</string>
+    <string name="author">रचयिता</string>
+    <string name="name">नाम</string>
+    <string name="copyright">कॉपीराइट</string>
+    <string name="permission_denied">स्टोरेज की अनुमति से इनकार कर दिया गया है</string>
+    <string name="permission_permanently_denied">स्टोरेज की अनुमति से इनकार कर दिया गया है। आपको सेटिंग्स में मैन्युअल रूप से इसे सक्षम करना होगा।</string>
+    <string name="permission_request">%1$s को आपकी स्टोरेज की आवश्यकता है ताकि वह वॉलपेपर को अप्लाई और सेव कर सके</string>
+    <string name="allow">अनुमति दें</string>
+    <string name="downloading_wallpaper">%1$s डाउनलोड हो रहा है</string>
+    <string name="download_successful">वॉलपेपर को सफलतापूर्वक डाउनलोड हो गया \'%1$s\'</string>
+    <string name="download_successful_short">वॉलपेपर सफलतापूर्वक डाउनलोड हो गया</string>
+    <string name="cancel">रद्द करें</string>
+    <string name="unexpected_error_occurred">एक अप्रत्याशित गड़बड़ी हुई है!</string>
+    <string name="download_already_in_progress">एक डाउनलोड प्रगति में है</string>
+    <string name="download_canceled">डाउनलोड रद्द किया गया</string>
+    <string name="downloads">डाउनलोड</string>
+    <string name="download_pause">डाउनलोड रोकें</string>
+    <string name="download_paused">वॉलपेपर डाउनलोड को रोक दिया गया है</string>
+    <string name="download_resume">शुरू करें</string>
+    <string name="download_retry">पुन: प्रयास करें</string>
+    <string name="download_starting">डाउनलोड शुरू हो रहा है</string>
+    <string name="download_cancel">रद्द करें</string>
+    <string name="download_downloading">डाउनलोड हो रहा है</string>
+    <string name="home_screen">होम स्क्रीन</string>
+    <string name="lock_screen">लॉक स्क्रीन</string>
+    <string name="both">दोनों</string>
+    <string name="applying_wallpaper_def">लागू हो रहा…</string>
+    <string name="applying_applied">वॉलपेपर को सफलतापूर्वक लागू किया गया</string>
+    <string name="search">खोजें</string>
+    <string name="search_x">खोजें...</string>
+    <string name="prevent_download_content">सुरक्षा कारणों से, वॉलपेपर डाउनलोड करना अगले %1$s घंटों के लिए संभव नहीं है। बाद में पुन: प्रयास करें।</string>
+    <string name="license_valid_title">लाइसेंस मान्य</string>
+    <string name="license_invalid_content">क्षमा करें, लेकिन हमने पाया है कि आपके लाइसेंस के लिए %1$s मान्य नहीं है।
+यह भी इसलिए हो सकता है क्योंकि आप पायरेटेड ऐप्स का उपयोग कर रहे हैं। %2$s। यदि आपको लगता है कि यह एक त्रुटि है, तो कृपया बाद में फिर से प्रयास करें। अन्यथा, कृपया किसी मान्य स्टोर से एप्लिकेशन डाउनलोड करें।</string>
+    <string name="license_invalid_content_extra">या विशेष रूप से: \'%1$s\' एप्लिकेशन, इसलिए प्लीज इसे अनइंस्टॉल करें</string>
+    <string name="error">त्रुटि</string>
+    <string name="license_error_content">क्षमा करें, आपका लाइसेंस जांचते समय एक त्रुटि हुई थी। कृपया बाद में पुन: प्रयास करें ।</string>
+    <string name="try_now">अब कोशिश करे</string>
+    <string name="interface_title">इंटरफेस</string>
+    <string name="legal">कानूनी</string>
+    <string name="privacy_policy">गोपनीयता नीति</string>
+    <string name="terms_conditions">नियम व शर्तें</string>
+    <string name="dashboard">डैशबोर्ड</string>
+    <string name="donate_success_title">धन्यवाद!</string>
+    <string name="close">बंद करें</string>
+</resources>
