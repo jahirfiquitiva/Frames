@@ -35,7 +35,7 @@ object Versions {
 
     // Network & Serialization
     const val gson = "2.8.6"
-    const val retrofit = "2.8.0"
+    const val retrofit = "2.8.1"
 
     // Image loading and Photo View
     const val coil = "0.9.5"
@@ -48,7 +48,7 @@ object Versions {
     const val fetch = "3.1.4"
 
     // Permissions
-    const val permissions = "3.0.0"
+    const val permissions = "3.1.0"
 
     // License Checker
     const val licenseChecker = "1.2.6"
