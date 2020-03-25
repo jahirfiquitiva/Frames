@@ -8,6 +8,8 @@
     <string name="no_wallpapers_found">Aucun fond d\'écran trouvé !</string>
     <string name="no_collections_found">Aucune collection trouvée !</string>
     <string name="no_favorites_found">Aucun favori trouvé !</string>
+    <string name="no_results_found">Aucun(s) résultat(s) trouvé(s) !</string>
+    <string name="nothing_found">Rien n\'a été trouvé !</string>
     <string name="details">Détails</string>
     <string name="save">Sauvegarder</string>
     <string name="download">Télécharger</string>
@@ -99,6 +101,7 @@
     <string name="privacy_policy">Politique de confidentialité</string>
     <string name="terms_conditions">Termes et conditions d\'utilisation</string>
     <string name="dashboard">Tableau de bord</string>
+    <string name="jahir_description">Je suis un développeur passionné et créatif.</string>
     <string name="eduardo_description">Designeur de l\'interface utilisateur. Fervant défenseur des espaces négatifs.</string>
     <string name="donate_success_title">Merci</string>
     <string name="donate_success_content">Merci beaucoup pour votre donation. J\'apprécie beaucoup votre geste et je suis ravis que vous appréciez %1$s.</string>
