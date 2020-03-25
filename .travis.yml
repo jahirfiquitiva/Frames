@@ -25,9 +25,6 @@ before_install:
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
   - yes | sdkmanager "platforms;android-$ANDROID_API"
   - yes | sdkmanager "build-tools;$ANDROID_BUILD_TOOLS"
-  - mkdir -p ~/bin && curl -sSL -o ~/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && chmod +x ~/bin/jq
-  - export PATH=$PATH:~/bin
-  - jq --version
 
 script: if [[ "$TRAVIS_TAG" ]]; then ./gradlew clean :app:assembleRelease --full-stacktrace; else ./gradlew clean test --full-stacktrace; fi
 

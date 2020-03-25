@@ -11,11 +11,9 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 		)
 		printf "\n\nRelease data: $tagInfo\n"
 		releaseId="$(echo "$tagInfo" | jq --compact-output ".id")"
-		printf "\n\nRelease id: $releaseId\n"
 
 		releaseNameOrg="$(echo "$tagInfo" | jq --compact-output ".tag_name")"
 		releaseName=$(echo ${releaseNameOrg} | cut -d "\"" -f 2)
-		printf "\n\nRelease name: $releaseName\n"
 
 		ln=$"%0D%0A"
 		tab=$"%09"
@@ -32,7 +30,7 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 
 		for apk in $(find *.apk -type f); do
 			FILE="$apk"
-			printf "\n\nUploading: $FILE to release $releaseId ... \n"
+			printf "\n\nUploading: $FILE ... \n"
 			upload=$(
 				curl \
 					-H "Authorization: token $GITHUB_API_KEY" \
