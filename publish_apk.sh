@@ -4,7 +4,11 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 		cd $TRAVIS_BUILD_DIR/app/build/outputs/apk/release/
 
 		printf "\n\nGetting tag information\n"
-		tagInfo="$(curl https://api.github.com/repos/${TRAVIS_REPO_SLUG}/releases/tags/${TRAVIS_TAG})"
+		tagInfo=$(
+			curl \
+				-H "Authorization: token $GITHUB_API_KEY" \
+				"https://api.github.com/repos/${TRAVIS_REPO_SLUG}/releases/tags/${TRAVIS_TAG}"
+		)
 		printf "\n\nRelease data: $tagInfo\n"
 		releaseId="$(echo "$tagInfo" | jq --compact-output ".id")"
 		printf "\n\nRelease id: $releaseId\n"
