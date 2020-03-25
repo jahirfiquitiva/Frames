@@ -24,10 +24,16 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 		printf "\n"
 
 		for apk in $(find *.apk -type f); do
-			apkName="${apk::-4}"
-
-			printf "\n\nUploading: $apkName.apk to release $releaseId ... \n"
-			upload=$(curl "https://uploads.github.com/repos/${TRAVIS_REPO_SLUG}/releases/${releaseId}/assets?access_token=${GITHUB_API_KEY}&name=${apkName}.apk" --header 'Content-Type: application/zip' --upload-file ${apkName}.apk -X POST)
+			FILE="$apk"
+			printf "\n\nUploading: $FILE to release $releaseId ... \n"
+			upload=$(
+				curl \
+					-H "Authorization: token $GITHUB_API_KEY" \
+					-H "Content-Type: $(file -b --mime-type $FILE)" \
+					--data-binary @$FILE \
+					--upload-file $FILE \
+					"https://uploads.github.com/repos/${TRAVIS_REPO_SLUG}/releases/${releaseId}/assets?name=$(basename $FILE)&access_token=${GITHUB_API_KEY}"
+			)
 
 			printf "\n\nUpload Result: $upload\n"
 
