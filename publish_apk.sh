@@ -2,8 +2,9 @@
 if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 	if [ "$TRAVIS_TAG" ]; then
 		cd $TRAVIS_BUILD_DIR/app/build/outputs/apk/release/
-		
+
 		printf "\n\nGetting tag information\n"
+		printf "https://api.github.com/repos/${TRAVIS_REPO_SLUG}/releases/tags/${TRAVIS_TAG} \n"
 		tagInfo="$(curl https://api.github.com/repos/${TRAVIS_REPO_SLUG}/releases/tags/${TRAVIS_TAG})"
 		releaseId="$(echo "$tagInfo" | jq --compact-output ".id")"
 
@@ -11,13 +12,13 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 		releaseName=$(echo ${releaseNameOrg} | cut -d "\"" -f 2)
 
 		ln=$"%0D%0A"
-        tab=$"%09"
+		tab=$"%09"
 
 		changes="$(echo "$tagInfo" | jq --compact-output ".body")"
-        changes=$(echo ${changes} | cut -d "\"" -f 2)
-        changes=$(echo "${changes//\"\r\n\"/$ln}")
-        changes=$(echo "${changes//'\r\n'/$ln}")
-        changes=$(echo "${changes//\\r\\n/$ln}")
+		changes=$(echo ${changes} | cut -d "\"" -f 2)
+		changes=$(echo "${changes//\"\r\n\"/$ln}")
+		changes=$(echo "${changes//'\r\n'/$ln}")
+		changes=$(echo "${changes//\\r\\n/$ln}")
 
 		repoName=$(echo ${TRAVIS_REPO_SLUG} | cut -d / -f 2)
 
@@ -27,15 +28,15 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 			apkName="${apk::-4}"
 
 			printf "\n\nUploading: $apkName.apk ...\n"
-			upload=`curl "https://uploads.github.com/repos/${TRAVIS_REPO_SLUG}/releases/${releaseId}/assets?access_token=${GITHUB_API_KEY}&name=${apkName}.apk" --header 'Content-Type: application/zip' --upload-file ${apkName}.apk  -X POST`
+			upload=$(curl "https://uploads.github.com/repos/${TRAVIS_REPO_SLUG}/releases/${releaseId}/assets?access_token=${GITHUB_API_KEY}&name=${apkName}.apk" --header 'Content-Type: application/zip' --upload-file ${apkName}.apk -X POST)
 
 			printf "\n\nUpload Result: $upload\n"
 
 			url="$(echo "$upload" | jq --compact-output ".browser_download_url")"
-            url=$(echo ${url} | cut -d "\"" -f 2)
-            url=$(echo "${url//\"\r\n\"/$ln}")
-            url=$(echo "${url//'\r\n'/$ln}")
-            url=$(echo "${url//\\r\\n/$ln}")
+			url=$(echo ${url} | cut -d "\"" -f 2)
+			url=$(echo "${url//\"\r\n\"/$ln}")
+			url=$(echo "${url//'\r\n'/$ln}")
+			url=$(echo "${url//\\r\\n/$ln}")
 
 			if [[ ! -z "$url" && "$url" != " " && "$url" != "null" ]]; then
 				printf "\nAPK url: $url"
@@ -44,14 +45,14 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 
 				printf "\n\nSending message to Telegram channel\n"
 				echo "Message: ${message}"
-                printf "\n\n"
-                echo "Buttons: ${btns}"
-                printf "\n\n"
+				printf "\n\n"
+				echo "Buttons: ${btns}"
+				printf "\n\n"
 
-                telegramUrl="https://api.telegram.org/bot${TEL_BOT_KEY}/sendMessage?chat_id=@JFsDashSupport&text=${message}&parse_mode=Markdown&reply_markup=${btns}"
-                echo "Telegram url: ${telegramUrl}"
-                printf "\n\n"
-                curl -g "${telegramUrl}"
+				telegramUrl="https://api.telegram.org/bot${TEL_BOT_KEY}/sendMessage?chat_id=@JFsDashSupport&text=${message}&parse_mode=Markdown&reply_markup=${btns}"
+				echo "Telegram url: ${telegramUrl}"
+				printf "\n\n"
+				curl -g "${telegramUrl}"
 			else
 				printf "\n\nSkipping Telegram report because no file was uploaded\n"
 			fi
