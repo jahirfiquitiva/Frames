@@ -5,10 +5,13 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 
 		printf "\n\nGetting tag information\n"
 		tagInfo="$(curl https://api.github.com/repos/${TRAVIS_REPO_SLUG}/releases/tags/${TRAVIS_TAG})"
+		printf "\n\nRelease data: $tagInfo\n"
 		releaseId="$(echo "$tagInfo" | jq --compact-output ".id")"
+		printf "\n\nRelease id: $releaseId\n"
 
 		releaseNameOrg="$(echo "$tagInfo" | jq --compact-output ".tag_name")"
 		releaseName=$(echo ${releaseNameOrg} | cut -d "\"" -f 2)
+		printf "\n\nRelease name: $releaseName\n"
 
 		ln=$"%0D%0A"
 		tab=$"%09"
