@@ -21,22 +21,17 @@ abstract class BaseStoragePermissionRequestActivity<out P : Prefs> : BaseThemedA
 
             override fun onPermissionsDenied(result: List<PermissionStatus>) {
                 super.onPermissionsDenied(result)
-                showSnackbar(R.string.permission_denied, Snackbar.LENGTH_LONG)
+                showSnackbar(R.string.permission_denied, Snackbar.LENGTH_INDEFINITE)
             }
 
             override fun onPermissionsPermanentlyDenied(result: List<PermissionStatus>) {
                 super.onPermissionsPermanentlyDenied(result)
-                showSnackbar(R.string.permission_permanently_denied, Snackbar.LENGTH_LONG)
+                showSnackbar(R.string.permission_permanently_denied, Snackbar.LENGTH_INDEFINITE)
             }
 
             override fun onPermissionsShouldShowRationale(result: List<PermissionStatus>) {
                 super.onPermissionsShouldShowRationale(result)
-                showSnackbar(
-                    getString(R.string.permission_request, getAppName()),
-                    Snackbar.LENGTH_LONG
-                ) {
-                    setAction(android.R.string.ok) { requestStoragePermission() }
-                }
+                showPermissionRationale()
             }
         }
     }
@@ -51,7 +46,16 @@ abstract class BaseStoragePermissionRequestActivity<out P : Prefs> : BaseThemedA
         permissionRequest.send()
     }
 
+    private fun showPermissionRationale() {
+        showSnackbar(getPermissionRationaleMessage(), Snackbar.LENGTH_INDEFINITE) {
+            setAction(android.R.string.ok) { requestStoragePermission() }
+        }
+    }
+
     open fun internalOnPermissionsGranted(result: List<PermissionStatus>) {}
+
+    open fun getPermissionRationaleMessage(): String =
+        getString(R.string.permission_request, getAppName())
 
     override fun onDestroy() {
         super.onDestroy()
