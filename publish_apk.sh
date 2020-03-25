@@ -4,7 +4,6 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 		cd $TRAVIS_BUILD_DIR/app/build/outputs/apk/release/
 
 		printf "\n\nGetting tag information\n"
-		printf "https://api.github.com/repos/${TRAVIS_REPO_SLUG}/releases/tags/${TRAVIS_TAG} \n"
 		tagInfo="$(curl https://api.github.com/repos/${TRAVIS_REPO_SLUG}/releases/tags/${TRAVIS_TAG})"
 		releaseId="$(echo "$tagInfo" | jq --compact-output ".id")"
 
@@ -27,7 +26,7 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 		for apk in $(find *.apk -type f); do
 			apkName="${apk::-4}"
 
-			printf "\n\nUploading: $apkName.apk ...\n"
+			printf "\n\nUploading: $apkName.apk to release $releaseId ... \n"
 			upload=$(curl "https://uploads.github.com/repos/${TRAVIS_REPO_SLUG}/releases/${releaseId}/assets?access_token=${GITHUB_API_KEY}&name=${apkName}.apk" --header 'Content-Type: application/zip' --upload-file ${apkName}.apk -X POST)
 
 			printf "\n\nUpload Result: $upload\n"
@@ -53,12 +52,12 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 				echo "Telegram url: ${telegramUrl}"
 				printf "\n\n"
 				curl -g "${telegramUrl}"
+
+				printf "\n\nFinished uploading APK(s) and reporting to Telegram\n"
 			else
 				printf "\n\nSkipping Telegram report because no file was uploaded\n"
 			fi
 		done
-
-		printf "\n\nFinished uploading APK(s)\n"
 	else
 		printf "\n\nSkipping APK(s) upload because this commit does not have a tag\n"
 	fi
