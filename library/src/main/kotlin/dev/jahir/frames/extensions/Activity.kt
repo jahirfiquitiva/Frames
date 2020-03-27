@@ -16,6 +16,7 @@ inline fun Activity.restart(intentBuilder: Intent.() -> Unit = {}) {
     val i = Intent(this, this::class.java)
     intent?.extras?.let { i.putExtras(it) }
     i.intentBuilder()
+    i.flags = i.flags or Intent.FLAG_ACTIVITY_CLEAR_TOP
     startActivity(i)
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     finish()

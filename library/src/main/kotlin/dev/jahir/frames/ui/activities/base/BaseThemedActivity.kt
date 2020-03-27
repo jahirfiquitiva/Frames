@@ -6,8 +6,6 @@ import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.actualNightMode
-import dev.jahir.frames.extensions.currentNightMode
 import dev.jahir.frames.extensions.getRightNavigationBarColor
 import dev.jahir.frames.extensions.isDark
 import dev.jahir.frames.extensions.navigationBarColor
@@ -20,7 +18,7 @@ import dev.jahir.frames.utils.Prefs
 
 abstract class BaseThemedActivity<out P : Prefs> : BaseFinishResultActivity() {
 
-    private var lastTheme: Prefs.ThemeKey = Prefs.ThemeKey.FOLLOW_SYSTEM
+    private var lastTheme: Int = Prefs.ThemeKey.FOLLOW_SYSTEM.value
     private var wasUsingAmoled: Boolean = false
     private var coloredNavbar: Boolean = false
 
@@ -34,29 +32,26 @@ abstract class BaseThemedActivity<out P : Prefs> : BaseFinishResultActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-        AppCompatDelegate.setDefaultNightMode(actualNightMode)
         setCustomTheme()
         super.onCreate(savedInstanceState)
     }
 
     override fun onResume() {
         super.onResume()
-        if (lastTheme != prefs.currentTheme || currentNightMode != prefs.lastNightMode
-            || wasUsingAmoled != prefs.usesAmoledTheme || coloredNavbar != prefs.shouldColorNavbar) {
-            prefs.lastNightMode = currentNightMode
+        if (lastTheme != prefs.currentTheme.value
+            || wasUsingAmoled != prefs.usesAmoledTheme
+            || coloredNavbar != prefs.shouldColorNavbar)
             onThemeChanged()
-        }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        lastTheme = prefs.currentTheme
+        lastTheme = prefs.currentTheme.value
         wasUsingAmoled = prefs.usesAmoledTheme
         coloredNavbar = prefs.shouldColorNavbar
     }
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun onThemeChanged() {
+    internal fun onThemeChanged() {
         Handler().post { restart() }
     }
 

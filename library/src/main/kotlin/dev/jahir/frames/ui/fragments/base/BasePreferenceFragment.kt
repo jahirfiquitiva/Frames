@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.ui.activities.base.BaseThemedActivity
 import dev.jahir.frames.utils.Prefs
 
-abstract class BasePreferenceFragment<out P : Prefs> : PreferenceFragmentCompat() {
+abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
 
     open fun getPrefs(): Prefs {
         return (activity as? BaseThemedActivity<*>)?.prefs ?: Prefs(requireContext())

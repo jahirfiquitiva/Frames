@@ -21,11 +21,10 @@ import dev.jahir.frames.extensions.setOnClickListener
 import dev.jahir.frames.extensions.singleChoiceItems
 import dev.jahir.frames.extensions.title
 import dev.jahir.frames.ui.activities.SettingsActivity
-import dev.jahir.frames.ui.activities.base.BaseThemedActivity
 import dev.jahir.frames.ui.fragments.base.BasePreferenceFragment
 import dev.jahir.frames.utils.Prefs
 
-open class SettingsFragment : BasePreferenceFragment<Prefs>() {
+open class SettingsFragment : BasePreferenceFragment() {
 
     private var currentThemeKey: Int = -1
 
@@ -47,27 +46,20 @@ open class SettingsFragment : BasePreferenceFragment<Prefs>() {
                 positiveButton(android.R.string.ok) {
                     getPrefs().currentTheme = Prefs.ThemeKey.fromValue(currentThemeKey)
                     it.dismiss()
-                    (activity as? BaseThemedActivity<*>)?.onThemeChanged()
                 }
             }
         }
 
         val amoledPreference = findPreference<SwitchPreference?>("use_amoled")
         amoledPreference?.isChecked = getPrefs().usesAmoledTheme
-        amoledPreference?.setOnCheckedChangeListener {
-            getPrefs().usesAmoledTheme = it
-            (activity as? BaseThemedActivity<*>)?.onThemeChanged()
-        }
+        amoledPreference?.setOnCheckedChangeListener { getPrefs().usesAmoledTheme = it }
 
         val coloredNavbarPref = findPreference<SwitchPreference?>("colored_navigation_bar")
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
             interfacePreferences?.removePreference(coloredNavbarPref)
         else {
             coloredNavbarPref?.isChecked = getPrefs().shouldColorNavbar
-            coloredNavbarPref?.setOnCheckedChangeListener {
-                getPrefs().shouldColorNavbar = it
-                (activity as? BaseThemedActivity<*>)?.onThemeChanged()
-            }
+            coloredNavbarPref?.setOnCheckedChangeListener { getPrefs().shouldColorNavbar = it }
         }
 
         val animationsPref = findPreference<SwitchPreference?>("interface_animations")

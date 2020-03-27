@@ -6,16 +6,16 @@ import android.content.SharedPreferences
 import androidx.annotation.StringRes
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.createIfDidNotExist
-import dev.jahir.frames.extensions.currentNightMode
 import dev.jahir.frames.extensions.getDefaultWallpapersDownloadFolder
 import java.io.File
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class Prefs(private val context: Context) {
-    val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    private val prefs: SharedPreferences =
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     @SuppressLint("CommitPrefEdits")
-    val prefsEditor: SharedPreferences.Editor = prefs.edit()
+    private val prefsEditor: SharedPreferences.Editor = prefs.edit()
 
     var lastVersion: Long
         get() = prefs.getLong(LAST_VERSION, -1L)
@@ -24,10 +24,6 @@ open class Prefs(private val context: Context) {
     var currentTheme: ThemeKey
         get() = ThemeKey.fromValue(prefs.getInt(CURRENT_THEME, getDefaultThemeKey().value))
         set(value) = prefsEditor.putInt(CURRENT_THEME, value.value).apply()
-
-    var lastNightMode: Int
-        get() = prefs.getInt(LAST_NIGHT_MODE, context.currentNightMode)
-        set(value) = prefsEditor.putInt(LAST_NIGHT_MODE, value).apply()
 
     var usesAmoledTheme: Boolean
         get() = prefs.getBoolean(USES_AMOLED_THEME, false)
@@ -79,6 +75,14 @@ open class Prefs(private val context: Context) {
 
     open fun getDefaultThemeKey(): ThemeKey = ThemeKey.FOLLOW_SYSTEM
 
+    fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        prefs.registerOnSharedPreferenceChangeListener(listener)
+    }
+
+    fun unregisterOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        prefs.unregisterOnSharedPreferenceChangeListener(listener)
+    }
+
     enum class ThemeKey(val value: Int, @StringRes val stringResId: Int) {
         LIGHT(0, R.string.light_theme),
         DARK(1, R.string.dark_theme),
@@ -96,10 +100,9 @@ open class Prefs(private val context: Context) {
     companion object {
         private const val PREFS_NAME = "jfdb_confs"
         private const val LAST_VERSION = "last_version"
-        private const val CURRENT_THEME = "current_theme"
-        private const val LAST_NIGHT_MODE = "last_night_mode"
-        private const val USES_AMOLED_THEME = "uses_amoled_theme"
-        private const val SHOULD_COLOR_NAVBAR = "should_color_navbar"
+        internal const val CURRENT_THEME = "current_theme"
+        internal const val USES_AMOLED_THEME = "uses_amoled_theme"
+        internal const val SHOULD_COLOR_NAVBAR = "should_color_navbar"
         private const val SHOULD_LOAD_FULL_RES_PICTURES = "should_load_full_res_pictures"
         private const val SHOULD_CROP_WALLPAPER_BEFORE_APPLY = "should_crop_wallpaper_before_apply"
         private const val ANIMATIONS_ENABLED = "animations_enabled"

@@ -1,12 +1,12 @@
 package dev.jahir.frames.ui
 
-import androidx.appcompat.app.AppCompatDelegate
+import android.content.Context
 import androidx.multidex.MultiDexApplication
-import dev.jahir.frames.extensions.actualNightMode
+import dev.jahir.frames.extensions.setDefaultDashboardTheme
 
 open class FramesApplication : MultiDexApplication() {
-    override fun onCreate() {
-        AppCompatDelegate.setDefaultNightMode(actualNightMode)
-        super.onCreate()
+    override fun attachBaseContext(base: Context?) {
+        base?.setDefaultDashboardTheme()
+        super.attachBaseContext(base)
     }
 }
