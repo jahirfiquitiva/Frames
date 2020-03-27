@@ -12,9 +12,8 @@ import dev.jahir.frames.utils.Prefs
 
 abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
 
-    open fun getPrefs(): Prefs {
-        return (activity as? BaseThemedActivity<*>)?.prefs ?: Prefs(requireContext())
-    }
+    val prefs: Prefs
+        get() = (activity as? BaseThemedActivity<*>)?.prefs ?: Prefs(requireContext())
 
     private fun setAllPreferencesToAvoidHavingExtraSpace(preference: Preference) {
         preference.isIconSpaceReserved = false

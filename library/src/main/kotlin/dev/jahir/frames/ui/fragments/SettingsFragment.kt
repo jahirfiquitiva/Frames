@@ -34,7 +34,7 @@ open class SettingsFragment : BasePreferenceFragment() {
 
         val interfacePreferences = findPreference<PreferenceCategory?>("interface_prefs")
 
-        currentThemeKey = getPrefs().currentTheme.value
+        currentThemeKey = prefs.currentTheme.value
         val themePreference = findPreference<Preference?>("app_theme")
         themePreference?.setSummary(Prefs.ThemeKey.fromValue(currentThemeKey).stringResId)
         themePreference?.setOnClickListener {
@@ -44,37 +44,37 @@ open class SettingsFragment : BasePreferenceFragment() {
                     currentThemeKey = which
                 }
                 positiveButton(android.R.string.ok) {
-                    getPrefs().currentTheme = Prefs.ThemeKey.fromValue(currentThemeKey)
+                    prefs.currentTheme = Prefs.ThemeKey.fromValue(currentThemeKey)
                     it.dismiss()
                 }
             }
         }
 
         val amoledPreference = findPreference<SwitchPreference?>("use_amoled")
-        amoledPreference?.isChecked = getPrefs().usesAmoledTheme
-        amoledPreference?.setOnCheckedChangeListener { getPrefs().usesAmoledTheme = it }
+        amoledPreference?.isChecked = prefs.usesAmoledTheme
+        amoledPreference?.setOnCheckedChangeListener { prefs.usesAmoledTheme = it }
 
         val coloredNavbarPref = findPreference<SwitchPreference?>("colored_navigation_bar")
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
             interfacePreferences?.removePreference(coloredNavbarPref)
         else {
-            coloredNavbarPref?.isChecked = getPrefs().shouldColorNavbar
-            coloredNavbarPref?.setOnCheckedChangeListener { getPrefs().shouldColorNavbar = it }
+            coloredNavbarPref?.isChecked = prefs.shouldColorNavbar
+            coloredNavbarPref?.setOnCheckedChangeListener { prefs.shouldColorNavbar = it }
         }
 
         val animationsPref = findPreference<SwitchPreference?>("interface_animations")
-        animationsPref?.isChecked = getPrefs().animationsEnabled
-        animationsPref?.setOnCheckedChangeListener { getPrefs().animationsEnabled = it }
+        animationsPref?.isChecked = prefs.animationsEnabled
+        animationsPref?.setOnCheckedChangeListener { prefs.animationsEnabled = it }
 
         val fullResPicturesPref = findPreference<SwitchPreference?>("full_res_previews")
-        fullResPicturesPref?.isChecked = getPrefs().shouldLoadFullResPictures
+        fullResPicturesPref?.isChecked = prefs.shouldLoadFullResPictures
         fullResPicturesPref?.setOnCheckedChangeListener {
-            getPrefs().shouldLoadFullResPictures = it
+            prefs.shouldLoadFullResPictures = it
         }
 
         val downloadLocationPref = findPreference<Preference?>("download_location")
         downloadLocationPref?.summary =
-            getString(R.string.download_location_summary) + "\n${getPrefs().downloadsFolder}"
+            getString(R.string.download_location_summary) + "\n${prefs.downloadsFolder}"
 
         val clearCachePref = findPreference<Preference?>("clear_data_cache")
         clearCachePref?.summary =
@@ -86,9 +86,9 @@ open class SettingsFragment : BasePreferenceFragment() {
         }
 
         val notificationsPrefs = findPreference<SwitchPreference?>("notifications")
-        notificationsPrefs?.isChecked = getPrefs().notificationsEnabled
+        notificationsPrefs?.isChecked = prefs.notificationsEnabled
         notificationsPrefs?.setOnCheckedChangeListener {
-            getPrefs().notificationsEnabled = it
+            prefs.notificationsEnabled = it
         }
 
         setupLegalLinks()
