@@ -29,6 +29,7 @@ import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.viewer.ApplierDialog
 import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
+import dev.jahir.frames.ui.fragments.viewer.DownloadToApplyDialog
 import dev.jahir.frames.ui.fragments.viewer.SetAsOptionsDialog
 import dev.jahir.frames.utils.Prefs
 import dev.jahir.frames.utils.tint
@@ -307,7 +308,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         wallpaper ?: return
         dismissApplierDialog()
         applierDialog = ApplierDialog.create(wallpaper, selectedOption)
-        applierDialog?.show(supportFragmentManager, ApplierDialog.TAG)
+        applierDialog?.show(supportFragmentManager, DownloadToApplyDialog.TAG)
     }
 
     private fun shouldShowWallpapersPalette(): Boolean = try {
