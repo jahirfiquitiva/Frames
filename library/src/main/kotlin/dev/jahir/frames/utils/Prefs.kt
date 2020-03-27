@@ -11,11 +11,11 @@ import java.io.File
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class Prefs(private val context: Context) {
-    private val prefs: SharedPreferences =
+    val prefs: SharedPreferences =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     @SuppressLint("CommitPrefEdits")
-    private val prefsEditor: SharedPreferences.Editor = prefs.edit()
+    val prefsEditor: SharedPreferences.Editor = prefs.edit()
 
     var lastVersion: Long
         get() = prefs.getLong(LAST_VERSION, -1L)
