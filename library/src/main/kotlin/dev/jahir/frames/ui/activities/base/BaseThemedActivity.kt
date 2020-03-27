@@ -1,7 +1,6 @@
 package dev.jahir.frames.ui.activities.base
 
 import android.os.Bundle
-import android.os.Handler
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -15,6 +14,7 @@ import dev.jahir.frames.extensions.restart
 import dev.jahir.frames.extensions.statusBarColor
 import dev.jahir.frames.extensions.statusBarLight
 import dev.jahir.frames.utils.Prefs
+import dev.jahir.frames.utils.postDelayed
 
 abstract class BaseThemedActivity<out P : Prefs> : BaseFinishResultActivity() {
 
@@ -52,7 +52,7 @@ abstract class BaseThemedActivity<out P : Prefs> : BaseFinishResultActivity() {
     }
 
     internal fun onThemeChanged() {
-        Handler().post { restart() }
+        postDelayed(2) { restart() }
     }
 
     @Suppress("DEPRECATION")

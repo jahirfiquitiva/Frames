@@ -22,10 +22,10 @@ abstract class FramesDatabase : RoomDatabase() {
         fun getAppDatabase(context: Context): FramesDatabase? {
             if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(
-                        context.applicationContext,
-                        FramesDatabase::class.java,
-                        context.applicationInfo.name ?: "Frames"
-                    )
+                    context.applicationContext,
+                    FramesDatabase::class.java,
+                    context.applicationInfo.name ?: "Frames"
+                )
                     .fallbackToDestructiveMigration()
                     .build()
             }
