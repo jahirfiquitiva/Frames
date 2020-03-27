@@ -8,6 +8,8 @@
     <string name="no_wallpapers_found">कोई वॉलपेपर्स नही मिला</string>
     <string name="no_collections_found">कोई संग्रह नही मिला</string>
     <string name="no_favorites_found">कोई पसंदीदा नही</string>
+    <string name="no_results_found">कोई परिणाम नहीं मिला</string>
+    <string name="nothing_found">कुछ नहीं मिला</string>
     <string name="details">विवरण</string>
     <string name="save">सेव करें</string>
     <string name="download">डाउनलोड</string>
@@ -53,10 +55,12 @@
     <string name="license_error_content">क्षमा करें, आपका लाइसेंस जांचते समय एक त्रुटि हुई थी। कृपया बाद में पुन: प्रयास करें ।</string>
     <string name="try_now">अब कोशिश करे</string>
     <string name="interface_title">इंटरफेस</string>
+    <string name="notifications">सूचनाएँ</string>
     <string name="legal">कानूनी</string>
     <string name="privacy_policy">गोपनीयता नीति</string>
     <string name="terms_conditions">नियम व शर्तें</string>
     <string name="dashboard">डैशबोर्ड</string>
     <string name="donate_success_title">धन्यवाद!</string>
+    <string name="donate_error_unknown">अज्ञात कारणों</string>
     <string name="close">बंद करें</string>
 </resources>
