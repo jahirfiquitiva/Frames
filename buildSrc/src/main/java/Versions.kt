@@ -19,13 +19,13 @@ object Versions {
     const val coroutines = "1.3.5"
 
     // Android UI
-    const val appcompat = "1.2.0-alpha03"
+    const val appcompat = "1.1.0"
     const val cardView = "1.0.0"
     const val recyclerView = "1.1.0"
     const val swipeRefreshLayout = "1.0.0"
     const val palette = "1.0.0"
     const val preference = "1.1.0"
-    const val materialComponents = "1.2.0-alpha05"
+    const val materialComponents = "1.1.0"
 
     // ViewModel and LiveData
     const val lifecycle = "2.2.0"

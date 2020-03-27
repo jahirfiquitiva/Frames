@@ -52,7 +52,8 @@ abstract class BaseThemedActivity<out P : Prefs> : BaseFinishResultActivity() {
     }
 
     internal fun onThemeChanged() {
-        postDelayed(2) { restart() }
+        delegate.applyDayNight()
+        postDelayed(5) { restart() }
     }
 
     @Suppress("DEPRECATION")
