@@ -3,6 +3,7 @@ package dev.jahir.frames.ui.fragments.viewer
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.StringRes
@@ -68,7 +69,14 @@ open class DownloadToApplyDialog : DialogFragment(), BaseFetchListener {
     }
 
     private fun startDownload() {
-        fetch.enqueue(request, Func { }, Func { showFinalMessage() })
+        fetch.enqueue(request, Func { }, Func { error ->
+            Log.e(
+                "Frames",
+                "${error.name} ~~ ${error.httpResponse?.code} ~~ ${error.httpResponse?.errorResponse}",
+                error.throwable
+            )
+            showFinalMessage()
+        })
     }
 
     open fun showFinalMessage(@StringRes message: Int = R.string.unexpected_error_occurred) {
