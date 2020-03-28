@@ -138,6 +138,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
     override fun onEnterAnimationComplete() {
         super.onEnterAnimationComplete()
         setupInitialZoom()
+        findViewById<View?>(R.id.loading)?.gone()
     }
 
     private fun setupInitialZoom() {
@@ -218,9 +219,9 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
     }
 
     private fun generatePalette(drawable: Drawable?) {
-        findViewById<View?>(R.id.loading)?.gone()
         supportStartPostponedEnterTransition()
         setupInitialZoom()
+        findViewById<View?>(R.id.loading)?.gone()
         if (!shouldShowWallpapersPalette()) {
             setBackgroundColor()
             return
