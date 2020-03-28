@@ -218,6 +218,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
     }
 
     private fun generatePalette(drawable: Drawable?) {
+        findViewById<View?>(R.id.loading)?.gone()
         supportStartPostponedEnterTransition()
         setupInitialZoom()
         if (!shouldShowWallpapersPalette()) {
