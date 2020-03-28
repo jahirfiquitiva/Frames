@@ -101,7 +101,9 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
                 wallpaper.buildImageTransitionName(currentWallPosition)
             )
         }
-        (image as? PhotoView)?.scale = 1.0F
+
+        setupInitialZoom()
+        image?.setOnClickListener { toggleSystemUI() }
         image?.loadFramesPic(wallpaper.url, wallpaper.thumbnail, null, true) { generatePalette(it) }
 
         setSupportActionBar(toolbar)
@@ -113,8 +115,6 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         initWindow()
         toolbar?.tint(ContextCompat.getColor(this, R.color.white))
         supportStartPostponedEnterTransition()
-
-        image?.setOnClickListener { toggleSystemUI() }
 
         isInFavorites =
             intent?.extras?.getBoolean(WallpapersFragment.WALLPAPER_IN_FAVS_EXTRA, false)
@@ -132,6 +132,21 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
 
         bottomNavigation?.setOnNavigationItemSelectedListener {
             handleNavigationItemSelected(it.itemId, wallpaper)
+        }
+    }
+
+    override fun onEnterAnimationComplete() {
+        super.onEnterAnimationComplete()
+        setupInitialZoom()
+    }
+
+    private fun setupInitialZoom() {
+        (image as? PhotoView)?.let {
+            it.post {
+                it.minimumScale = 1F
+                it.maximumScale = 2.5F
+                it.scale = 1F
+            }
         }
     }
 
@@ -187,6 +202,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
 
     override fun onDestroy() {
         super.onDestroy()
+        setupInitialZoom()
         dismissApplierDialog()
         dismissDownloadBlockedDialog()
         try {
@@ -203,7 +219,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
 
     private fun generatePalette(drawable: Drawable?) {
         supportStartPostponedEnterTransition()
-        (image as? PhotoView)?.scale = 1.0F
+        setupInitialZoom()
         if (!shouldShowWallpapersPalette()) {
             setBackgroundColor()
             return
