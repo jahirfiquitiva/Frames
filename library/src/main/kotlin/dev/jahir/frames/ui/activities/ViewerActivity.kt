@@ -103,7 +103,8 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         }
 
         setupInitialZoom()
-        image?.setOnClickListener { toggleSystemUI() }
+        (image as? PhotoView)?.setOnPhotoTapListener { _, _, _ -> toggleSystemUI() }
+            ?: image?.setOnClickListener { toggleSystemUI() }
         image?.loadFramesPic(wallpaper.url, wallpaper.thumbnail, null, true) { generatePalette(it) }
 
         setSupportActionBar(toolbar)
@@ -138,7 +139,6 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
     override fun onEnterAnimationComplete() {
         super.onEnterAnimationComplete()
         setupInitialZoom()
-        findViewById<View?>(R.id.loading)?.gone()
     }
 
     private fun setupInitialZoom() {
@@ -146,7 +146,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
             it.post {
                 it.minimumScale = 1F
                 it.maximumScale = 2.5F
-                it.scale = 1F
+                it.setScale(1F, true)
             }
         }
     }
