@@ -19,9 +19,12 @@ val Palette.bestSwatches: List<Palette.Swatch>
         lightMutedSwatch?.let { bestSwatches.add(it) }
         darkMutedSwatch?.let { bestSwatches.add(it) }
         bestSwatches.addAll(swatches.filterNotNull())
-        return bestSwatches
-            .distinctBy { it.rgb }
-            .subList(0, MAX_FRAMES_PALETTE_COLORS)
+        val distinctSwatches = bestSwatches.distinctBy { it.rgb }
+        val maxSize =
+            if (distinctSwatches.size <= MAX_FRAMES_PALETTE_COLORS) distinctSwatches.size
+            else MAX_FRAMES_PALETTE_COLORS
+        return distinctSwatches
+            .subList(0, maxSize)
             .sortedByDescending { it.population }
     }
 
