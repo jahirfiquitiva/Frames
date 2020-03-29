@@ -42,7 +42,7 @@ open class Prefs(private val context: Context) {
         set(value) = prefsEditor.putBoolean(SHOULD_CROP_WALLPAPER_BEFORE_APPLY, value).apply()
 
     var animationsEnabled: Boolean
-        get() = prefs.getBoolean(ANIMATIONS_ENABLED, true)
+        get() = prefs.getBoolean(ANIMATIONS_ENABLED, animationsEnabledByDefault())
         set(value) = prefsEditor.putBoolean(ANIMATIONS_ENABLED, value).apply()
 
     var downloadsFolder: File?
@@ -74,6 +74,7 @@ open class Prefs(private val context: Context) {
         set(value) = prefsEditor.putBoolean(NOTIFICATIONS_ENABLED, value).apply()
 
     open fun getDefaultThemeKey(): ThemeKey = ThemeKey.FOLLOW_SYSTEM
+    open fun animationsEnabledByDefault(): Boolean = true
 
     fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
         prefs.registerOnSharedPreferenceChangeListener(listener)
