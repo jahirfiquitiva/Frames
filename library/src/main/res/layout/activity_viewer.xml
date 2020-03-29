@@ -16,10 +16,12 @@
         android:focusable="false"
         android:gravity="center" />
 
-    <com.github.chrisbanes.photoview.PhotoView
+    <dev.jahir.frames.ui.widgets.FramesPhotoView
         android:id="@+id/wallpaper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:scaleType="centerCrop" />
 
     <com.google.android.material.appbar.AppBarLayout

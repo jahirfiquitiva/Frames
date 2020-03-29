@@ -10,7 +10,7 @@ import coil.api.load
 import coil.transform.CircleCropTransformation
 import dev.jahir.frames.ui.animations.SaturatingImageViewTarget
 
-private const val CROSSFADE_DURATION = 250
+private const val CROSSFADE_DURATION = 300
 
 private fun AppCompatImageView.internalLoadFramesPic(
     url: String?,
@@ -34,8 +34,7 @@ private fun AppCompatImageView.internalLoadFramesPic(
 
 private fun AppCompatImageView.buildTarget(
     block: SaturatingImageViewTarget.() -> Unit
-): SaturatingImageViewTarget =
-    SaturatingImageViewTarget(this).apply(block)
+): SaturatingImageViewTarget = SaturatingImageViewTarget(this).apply(block)
 
 fun AppCompatImageView.loadFramesPic(
     url: String,

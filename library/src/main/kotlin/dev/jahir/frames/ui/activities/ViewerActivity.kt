@@ -102,11 +102,6 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
             )
         }
 
-        setupInitialZoom()
-        (image as? PhotoView)?.setOnPhotoTapListener { _, _, _ -> toggleSystemUI() }
-            ?: image?.setOnClickListener { toggleSystemUI() }
-        image?.loadFramesPic(wallpaper.url, wallpaper.thumbnail, null, true) { generatePalette(it) }
-
         setSupportActionBar(toolbar)
         supportActionBar?.let {
             it.setHomeButtonEnabled(true)
@@ -115,6 +110,11 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         }
         initWindow()
         toolbar?.tint(ContextCompat.getColor(this, R.color.white))
+
+        (image as? PhotoView)?.setOnPhotoTapListener { _, _, _ -> toggleSystemUI() }
+            ?: image?.setOnClickListener { toggleSystemUI() }
+        image?.loadFramesPic(wallpaper.url, wallpaper.thumbnail, null, true) { generatePalette(it) }
+
         supportStartPostponedEnterTransition()
 
         isInFavorites =
@@ -133,21 +133,6 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
 
         bottomNavigation?.setOnNavigationItemSelectedListener {
             handleNavigationItemSelected(it.itemId, wallpaper)
-        }
-    }
-
-    override fun onEnterAnimationComplete() {
-        super.onEnterAnimationComplete()
-        setupInitialZoom()
-    }
-
-    private fun setupInitialZoom() {
-        (image as? PhotoView)?.let {
-            it.post {
-                it.minimumScale = 1F
-                it.maximumScale = 2.5F
-                it.setScale(1F, true)
-            }
         }
     }
 
@@ -203,7 +188,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        setupInitialZoom()
+        (image as? PhotoView)?.setScale(1F, true)
         dismissApplierDialog()
         dismissDownloadBlockedDialog()
         try {
@@ -212,7 +197,6 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         } catch (e: Exception) {
         }
         try {
-            image?.setImageBitmap(null)
             image?.setImageDrawable(null)
         } catch (e: Exception) {
         }
@@ -220,7 +204,6 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
 
     private fun generatePalette(drawable: Drawable?) {
         supportStartPostponedEnterTransition()
-        setupInitialZoom()
         findViewById<View?>(R.id.loading)?.gone()
         if (!shouldShowWallpapersPalette()) {
             setBackgroundColor()
