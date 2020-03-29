@@ -72,6 +72,12 @@ open class SettingsFragment : BasePreferenceFragment() {
             prefs.shouldLoadFullResPictures = it
         }
 
+        val cropPicturesPrefs = findPreference<SwitchPreference?>("crop_pictures")
+        cropPicturesPrefs?.isChecked = prefs.shouldCropWallpaperBeforeApply
+        cropPicturesPrefs?.setOnCheckedChangeListener {
+            prefs.shouldCropWallpaperBeforeApply = it
+        }
+
         val downloadLocationPref = findPreference<Preference?>("download_location")
         downloadLocationPref?.summary =
             getString(R.string.download_location_summary) + "\n${prefs.downloadsFolder}"

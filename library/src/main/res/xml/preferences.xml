@@ -36,6 +36,11 @@
             android:summary="@string/display_full_res_previews_summary"
             android:title="@string/display_full_res_previews" />
 
+        <androidx.preference.SwitchPreference
+            android:key="crop_pictures"
+            android:summary="@string/crop_pictures_summary"
+            android:title="@string/crop_pictures" />
+
         <androidx.preference.Preference
             android:key="download_location"
             android:summary="@string/download_location_summary"

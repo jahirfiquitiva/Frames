@@ -110,6 +110,8 @@
     <string name="data_and_storage">Data and storage</string>
     <string name="display_full_res_previews">Display full resolution previews</string>
     <string name="display_full_res_previews_summary">This consumes more data</string>
+    <string name="crop_pictures">Scale when applying</string>
+    <string name="crop_pictures_summary">Scale image to match the device\'s resolution</string>
     <string name="download_location">Download location</string>
     <string name="download_location_summary">Currently storing wallpapers in:</string>
     <string name="clear_data_cache">Clear app data and cache</string>

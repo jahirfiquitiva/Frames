@@ -63,9 +63,9 @@ class ApplierDialog : DownloadToApplyDialog() {
                     bitmap?.let {
                         try {
                             val wantedHeight = wm?.desiredMinimumHeight ?: 0
-                            val ratio = wantedHeight / bitmap.height.toFloat()
-                            val wantedWidth = (bitmap.width * ratio).toInt()
-                            Bitmap.createScaledBitmap(bitmap, wantedWidth, wantedHeight, true)
+                            val ratio = wantedHeight / it.height.toFloat()
+                            val wantedWidth = (it.width * ratio).toInt()
+                            Bitmap.createScaledBitmap(it, wantedWidth, wantedHeight, true)
                         } catch (e: Exception) {
                             it
                         }

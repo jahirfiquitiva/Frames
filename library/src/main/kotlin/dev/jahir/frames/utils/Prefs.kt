@@ -38,11 +38,18 @@ open class Prefs(private val context: Context) {
         set(value) = prefsEditor.putBoolean(SHOULD_LOAD_FULL_RES_PICTURES, value).apply()
 
     var shouldCropWallpaperBeforeApply: Boolean
-        get() = prefs.getBoolean(SHOULD_CROP_WALLPAPER_BEFORE_APPLY, false)
+        get() = prefs.getBoolean(SHOULD_CROP_WALLPAPER_BEFORE_APPLY, true)
         set(value) = prefsEditor.putBoolean(SHOULD_CROP_WALLPAPER_BEFORE_APPLY, value).apply()
 
     var animationsEnabled: Boolean
-        get() = prefs.getBoolean(ANIMATIONS_ENABLED, animationsEnabledByDefault())
+        get() = prefs.getBoolean(
+            ANIMATIONS_ENABLED,
+            try {
+                context.resources.getBoolean(R.bool.animations_enabled_by_default)
+            } catch (e: Exception) {
+                true
+            }
+        )
         set(value) = prefsEditor.putBoolean(ANIMATIONS_ENABLED, value).apply()
 
     var downloadsFolder: File?

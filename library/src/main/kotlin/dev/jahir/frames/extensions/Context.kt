@@ -84,15 +84,16 @@ fun Context.toast(content: String, duration: Int = Toast.LENGTH_SHORT) {
 }
 
 @ColorInt
-fun Context.getRightNavigationBarColor(): Int = if (prefs.shouldColorNavbar) {
-    try {
-        resolveColor(R.attr.colorSurface, ContextCompat.getColor(this, R.color.surface))
-    } catch (e: Exception) {
+fun Context.getRightNavigationBarColor(): Int =
+    if (prefs.shouldColorNavbar && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        try {
+            resolveColor(R.attr.colorSurface, ContextCompat.getColor(this, R.color.surface))
+        } catch (e: Exception) {
+            Color.parseColor("#000000")
+        }
+    } else {
         Color.parseColor("#000000")
     }
-} else {
-    Color.parseColor("#000000")
-}
 
 @Suppress("DEPRECATION")
 val Context.currentVersionCode: Long
