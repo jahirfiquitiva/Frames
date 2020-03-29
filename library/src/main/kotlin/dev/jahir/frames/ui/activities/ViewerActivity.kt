@@ -21,7 +21,6 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.palette.graphics.Palette
 import com.fondesa.kpermissions.PermissionStatus
-import com.github.chrisbanes.photoview.PhotoView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.*
@@ -31,6 +30,7 @@ import dev.jahir.frames.ui.fragments.viewer.ApplierDialog
 import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
 import dev.jahir.frames.ui.fragments.viewer.DownloadToApplyDialog
 import dev.jahir.frames.ui.fragments.viewer.SetAsOptionsDialog
+import dev.jahir.frames.ui.widgets.FramesPhotoView
 import dev.jahir.frames.utils.Prefs
 import dev.jahir.frames.utils.tint
 
@@ -111,7 +111,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         initWindow()
         toolbar?.tint(ContextCompat.getColor(this, R.color.white))
 
-        (image as? PhotoView)?.setOnPhotoTapListener { _, _, _ -> toggleSystemUI() }
+        (image as? FramesPhotoView)?.setOnPhotoTapListener { _, _, _ -> toggleSystemUI() }
             ?: image?.setOnClickListener { toggleSystemUI() }
         image?.loadFramesPic(wallpaper.url, wallpaper.thumbnail, null, true) { generatePalette(it) }
 
@@ -188,7 +188,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        (image as? PhotoView)?.setScale(1F, true)
+        (image as? FramesPhotoView)?.setScale(1F, true)
         dismissApplierDialog()
         dismissDownloadBlockedDialog()
         try {

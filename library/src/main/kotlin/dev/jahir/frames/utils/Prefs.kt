@@ -81,7 +81,6 @@ open class Prefs(private val context: Context) {
         set(value) = prefsEditor.putBoolean(NOTIFICATIONS_ENABLED, value).apply()
 
     open fun getDefaultThemeKey(): ThemeKey = ThemeKey.FOLLOW_SYSTEM
-    open fun animationsEnabledByDefault(): Boolean = true
 
     fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
         prefs.registerOnSharedPreferenceChangeListener(listener)
