@@ -84,4 +84,14 @@
     <string name="dark_theme">Темна</string>
     <string name="follow_system_theme">Як налаштовано в системі</string>
     <string name="use_amoled_theme">Використовувати AMOLED тему</string>
+    <string name="use_amoled_theme_summary">Потребує в додатку або в загальній системі темну тему</string>
+    <string name="colored_navigation_bar">Кольорова панель навігації</string>
+    <string name="interface_animations">Анімація інтерфейсу</string>
+    <string name="interface_animations_summary">Вимкніть, якщо у вас погана продуктивність</string>
+    <string name="data_and_storage">Дані та сховище</string>
+    <string name="display_full_res_previews">Попередній перегляд в повному розширенні</string>
+    <string name="display_full_res_previews_summary">Це споживає більше даних</string>
+    <string name="crop_pictures">Масштаб при застосуванні</string>
+    <string name="crop_pictures_summary">Масштабувати зображення відповідно до роздільної здатності пристрою</string>
+    <string name="download_location">Тека завантаження</string>
 </resources>
