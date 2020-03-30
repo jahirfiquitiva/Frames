@@ -94,4 +94,17 @@
     <string name="crop_pictures">Масштаб при застосуванні</string>
     <string name="crop_pictures_summary">Масштабувати зображення відповідно до роздільної здатності пристрою</string>
     <string name="download_location">Тека завантаження</string>
+    <string name="download_location_summary">Наразі шпалери зберігаються у:</string>
+    <string name="clear_data_cache">Очистити дані програми та кеш</string>
+    <string name="clear_data_cache_summary">Поточний розмір кеша: %1$s</string>
+    <string name="notifications">Сповіщення</string>
+    <string name="enable_notifications">Увімкнути сповіщення</string>
+    <string name="legal">Правила та умови</string>
+    <string name="privacy_policy">Політика конфіденційності</string>
+    <string name="terms_conditions">Правила та умови використання</string>
+    <string name="donate_success_title">Дякуємо</string>
+    <string name="donate_success_content">Ґречно дякую за вашу пожертву. Я дійсно ціную це, і я радий що вам сподобалось %1$s.</string>
+    <string name="donate_error">Непередбачувана помилка з кодом %1$s через %2$s</string>
+    <string name="donate_error_unknown">невідомі причини</string>
+    <string name="close">Закрити</string>
 </resources>
