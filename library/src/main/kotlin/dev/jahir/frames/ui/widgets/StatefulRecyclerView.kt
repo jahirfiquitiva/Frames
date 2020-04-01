@@ -219,6 +219,7 @@ open class StatefulRecyclerView @JvmOverloads constructor(
         }
     }
 
+    @Suppress("unused")
     private class SavedState : BaseSavedState {
         var loading: Boolean = true
         var stateValue: Int = State.LOADING.value
@@ -233,6 +234,13 @@ open class StatefulRecyclerView @JvmOverloads constructor(
             super.writeToParcel(out, flags)
             out.writeInt(if (loading) 1 else 0)
             out.writeInt(stateValue)
+        }
+
+        companion object {
+            private val CREATOR = object : Parcelable.Creator<SavedState?> {
+                override fun createFromParcel(parcel: Parcel?): SavedState? = SavedState(parcel)
+                override fun newArray(size: Int): Array<SavedState?> = arrayOfNulls(size)
+            }
         }
     }
 }
