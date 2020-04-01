@@ -91,6 +91,8 @@
     <string name="data_and_storage">Données et stockage</string>
     <string name="display_full_res_previews">Aperçus en haute résolution</string>
     <string name="display_full_res_previews_summary">Cela consomme plus de données</string>
+    <string name="crop_pictures">La mise à l\'échelle sera faite lors de l\'application</string>
+    <string name="crop_pictures_summary">Mise à l\'échelle de l\'image pour correspondre à la résolution de l\'appareil</string>
     <string name="download_location">Emplacement des téléchargements</string>
     <string name="download_location_summary">Les fonds d\'écran sont actuellement stockés dans:</string>
     <string name="clear_data_cache">Effacer les données et le cache de l\'application</string>
