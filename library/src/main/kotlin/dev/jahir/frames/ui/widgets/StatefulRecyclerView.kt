@@ -2,6 +2,8 @@ package dev.jahir.frames.ui.widgets
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ProgressBar
@@ -72,6 +74,7 @@ open class StatefulRecyclerView @JvmOverloads constructor(
     }
 
     init {
+        isSaveEnabled = true
         init(context, attrs)
     }
 
@@ -152,15 +155,38 @@ open class StatefulRecyclerView @JvmOverloads constructor(
         }
     }
 
-    enum class State {
-        NORMAL, EMPTY, LOADING
+    override fun onSaveInstanceState(): Parcelable? {
+        val superState = super.onSaveInstanceState()
+        val myState = SavedState(superState)
+        myState.loading = this.loading
+        myState.stateValue = this.state.value
+        return myState
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable) {
+        val savedState = state as? SavedState
+        super.onRestoreInstanceState(savedState?.superState)
+        this.loading = savedState?.loading ?: true
+        this.state = State.getForValue(savedState?.stateValue ?: -1)
     }
 
     interface StateDrawableModifier {
         fun modifyDrawable(drawable: Drawable?): Drawable? = drawable
     }
 
-    class StatefulAdapterObserver(private val onUpdated: (() -> Unit)? = null) :
+    private enum class State(val value: Int) {
+        NORMAL(1), EMPTY(0), LOADING(-1);
+
+        companion object {
+            internal fun getForValue(value: Int) = when (value) {
+                0 -> EMPTY
+                1 -> NORMAL
+                else -> LOADING
+            }
+        }
+    }
+
+    private class StatefulAdapterObserver(private val onUpdated: (() -> Unit)? = null) :
         AdapterDataObserver() {
         override fun onChanged() {
             super.onChanged()
@@ -190,6 +216,23 @@ open class StatefulRecyclerView @JvmOverloads constructor(
         override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
             super.onItemRangeMoved(fromPosition, toPosition, itemCount)
             onUpdated?.invoke()
+        }
+    }
+
+    private class SavedState : BaseSavedState {
+        var loading: Boolean = true
+        var stateValue: Int = State.LOADING.value
+
+        internal constructor(superState: Parcelable?) : super(superState)
+        private constructor(parcel: Parcel?) : super(parcel) {
+            loading = (parcel?.readInt() ?: 1) == 1
+            stateValue = (parcel?.readInt() ?: 0)
+        }
+
+        override fun writeToParcel(out: Parcel, flags: Int) {
+            super.writeToParcel(out, flags)
+            out.writeInt(if (loading) 1 else 0)
+            out.writeInt(stateValue)
         }
     }
 }
