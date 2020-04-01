@@ -73,17 +73,17 @@ abstract class BaseSearchableActivity<out P : Prefs> : BaseFavoritesConnectedAct
     open fun internalDoSearch(filter: String = "", closed: Boolean = false) {}
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt(CURRENT_SECTION_KEY, currentItemId)
+        outState.putInt(CURRENT_ITEM_KEY, currentItemId)
         super.onSaveInstanceState(outState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        currentItemId = savedInstanceState.getInt(CURRENT_SECTION_KEY, initialItemId)
+        currentItemId = savedInstanceState.getInt(CURRENT_ITEM_KEY, initialItemId)
         bottomNavigation?.selectedItemId = currentItemId
     }
 
     companion object {
-        private const val CURRENT_SECTION_KEY = "current_section"
+        private const val CURRENT_ITEM_KEY = "current_item"
     }
 }
