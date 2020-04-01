@@ -55,9 +55,7 @@ open class CollectionActivity : BaseChangelogDialogActivity<Prefs>() {
         }
         wallpapersViewModel.loadData(this)
 
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.fragments_container, wallpapersFragment, WallpapersFragment.TAG)
-        transaction.commit()
+        replaceFragment(wallpapersFragment, WallpapersFragment.IN_COLLECTION_TAG)
     }
 
     override fun onResume() {

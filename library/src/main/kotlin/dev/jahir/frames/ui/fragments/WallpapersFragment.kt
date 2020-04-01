@@ -143,6 +143,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     companion object {
         const val TAG = "wallpapers_fragment"
         const val FAVS_TAG = "favorites_fragment"
+        const val IN_COLLECTION_TAG = "wallpapers_in_collection_fragment"
 
         internal const val WALLPAPER_EXTRA = "wallpaper"
         internal const val WALLPAPER_IN_FAVS_EXTRA = "wallpaper_in_favs"

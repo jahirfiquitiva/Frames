@@ -1,9 +1,12 @@
 package dev.jahir.frames.ui.activities.base
 
 import android.os.Bundle
+import android.util.Log
+import androidx.annotation.IdRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.getRightNavigationBarColor
 import dev.jahir.frames.extensions.isDark
@@ -18,7 +21,6 @@ import dev.jahir.frames.utils.postDelayed
 
 abstract class BaseThemedActivity<out P : Prefs> : BaseFinishResultActivity() {
 
-    private var lastTheme: Int = Prefs.ThemeKey.FOLLOW_SYSTEM.value
     private var wasUsingAmoled: Boolean = false
     private var coloredNavbar: Boolean = false
 
@@ -38,22 +40,20 @@ abstract class BaseThemedActivity<out P : Prefs> : BaseFinishResultActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (lastTheme != prefs.currentTheme.value
-            || wasUsingAmoled != prefs.usesAmoledTheme
+        if (wasUsingAmoled != prefs.usesAmoledTheme
             || coloredNavbar != prefs.shouldColorNavbar)
             onThemeChanged()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        lastTheme = prefs.currentTheme.value
         wasUsingAmoled = prefs.usesAmoledTheme
         coloredNavbar = prefs.shouldColorNavbar
     }
 
     internal fun onThemeChanged() {
         delegate.applyDayNight()
-        postDelayed(5) { restart() }
+        postDelayed(2) { restart() }
     }
 
     @Suppress("DEPRECATION")
@@ -71,6 +71,21 @@ abstract class BaseThemedActivity<out P : Prefs> : BaseFinishResultActivity() {
             navigationBarColor = it
             if (shouldChangeNavigationBarLightStatus)
                 navigationBarLight = !it.isDark
+        }
+    }
+
+    fun replaceFragment(
+        fragment: Fragment?,
+        fragmentTag: String = "fragment",
+        @IdRes fragmentContainerId: Int = R.id.fragments_container
+    ) {
+        fragment ?: return
+        try {
+            supportFragmentManager.beginTransaction()
+                .replace(fragmentContainerId, fragment, fragmentTag)
+                .commit()
+        } catch (e: Exception) {
+            Log.e("FragmentTransaction", e.message, e)
         }
     }
 

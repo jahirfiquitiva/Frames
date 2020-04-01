@@ -1,5 +1,6 @@
 package dev.jahir.frames.ui.activities.base
 
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.MenuRes
@@ -13,6 +14,7 @@ import dev.jahir.frames.utils.Prefs
 import dev.jahir.frames.utils.postDelayed
 import dev.jahir.frames.utils.tintIcons
 
+@Suppress("LeakingThis")
 abstract class BaseSearchableActivity<out P : Prefs> : BaseFavoritesConnectedActivity<P>() {
 
     val toolbar: Toolbar? by findView(R.id.toolbar)
@@ -69,4 +71,19 @@ abstract class BaseSearchableActivity<out P : Prefs> : BaseFavoritesConnectedAct
     open fun getSearchHint(itemId: Int): String = ""
     open fun canShowSearch(itemId: Int): Boolean = true
     open fun internalDoSearch(filter: String = "", closed: Boolean = false) {}
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(CURRENT_SECTION_KEY, currentItemId)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        currentItemId = savedInstanceState.getInt(CURRENT_SECTION_KEY, initialItemId)
+        bottomNavigation?.selectedItemId = currentItemId
+    }
+
+    companion object {
+        private const val CURRENT_SECTION_KEY = "current_section"
+    }
 }

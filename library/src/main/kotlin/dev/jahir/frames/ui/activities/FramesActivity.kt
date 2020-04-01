@@ -12,7 +12,6 @@ import android.view.animation.DecelerateInterpolator
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.data.models.Wallpaper
@@ -131,16 +130,8 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
     private fun internalLoadFragment(fragment: Fragment?, tag: String, force: Boolean = false) {
         fragment ?: return
         if (currentFragment !== fragment || force) {
-            val ft = supportFragmentManager.beginTransaction()
-            currentFragment?.let { ft.hide(it).setMaxLifecycle(it, Lifecycle.State.STARTED) }
-            if (fragment.isAdded) {
-                ft.show(fragment)
-            } else {
-                ft.add(R.id.fragments_container, fragment, tag)
-            }
-            ft.setMaxLifecycle(fragment, Lifecycle.State.RESUMED)
+            replaceFragment(fragment, tag)
             currentFragment = fragment
-            ft.commit()
             invalidateOptionsMenu()
             updateSearchHint()
         }
@@ -152,7 +143,8 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
         force: Boolean = false,
         animate: Boolean = true
     ) {
-        if (animate) fadeFragmentTransition { internalLoadFragment(fragment, tag, force) }
+        if (animate && prefs.animationsEnabled)
+            fadeFragmentTransition { internalLoadFragment(fragment, tag, force) }
         else internalLoadFragment(fragment, tag, force)
     }
 
@@ -174,7 +166,7 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
 
                     val fadeIn = AlphaAnimation(0F, 1F)
                     fadeIn.interpolator = AccelerateInterpolator()
-                    fadeIn.startOffset = FRAGMENT_TRANSITION_OFFSET_DURATION
+                    fadeIn.startOffset = FRAGMENT_TRANSITION_DURATION
                     fadeIn.duration = FRAGMENT_TRANSITION_DURATION
 
                     val animation = AnimationSet(false)
@@ -194,13 +186,14 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
         outState.putString(CURRENT_FRAGMENT_KEY, currentTag)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         currentTag = savedInstanceState.getString(CURRENT_FRAGMENT_KEY, currentTag) ?: currentTag
+        changeFragment(currentItemId, true)
     }
 
     override fun internalDoSearch(filter: String, closed: Boolean) {
@@ -217,7 +210,6 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
 
     companion object {
         private const val CURRENT_FRAGMENT_KEY = "current_fragment"
-        private const val FRAGMENT_TRANSITION_DURATION = 80L
-        private const val FRAGMENT_TRANSITION_OFFSET_DURATION = 40L
+        private const val FRAGMENT_TRANSITION_DURATION = 100L
     }
 }

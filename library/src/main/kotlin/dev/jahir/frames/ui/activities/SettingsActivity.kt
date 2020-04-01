@@ -56,9 +56,7 @@ open class SettingsActivity : BaseThemedActivity<Prefs>() {
             )
         )
 
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.fragments_container, getSettingsFragment(), SettingsFragment.TAG)
-        transaction.commit()
+        replaceFragment(getSettingsFragment(), SettingsFragment.TAG)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
