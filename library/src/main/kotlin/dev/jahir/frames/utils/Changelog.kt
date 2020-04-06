@@ -17,6 +17,7 @@ import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.extensions.inflate
 import dev.jahir.frames.extensions.mdDialog
 import dev.jahir.frames.extensions.positiveButton
+import dev.jahir.frames.extensions.string
 import dev.jahir.frames.extensions.title
 import org.xmlpull.v1.XmlPullParser
 
@@ -37,7 +38,7 @@ fun Context.buildChangelogDialog(
     @XmlRes xmlRes: Int = R.xml.changelog,
     @StringRes title: Int = R.string.changelog,
     @StringRes btnText: Int = android.R.string.ok
-): AlertDialog? = buildChangelogDialog(xmlRes, getString(title), getString(btnText))
+): AlertDialog? = buildChangelogDialog(xmlRes, string(title), string(btnText))
 
 fun Context.buildChangelogDialog(
     @XmlRes xmlRes: Int,

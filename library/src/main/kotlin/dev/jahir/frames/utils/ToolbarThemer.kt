@@ -17,9 +17,10 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import dev.jahir.frames.R
+import dev.jahir.frames.extensions.drawable
+import dev.jahir.frames.extensions.string
 import dev.jahir.frames.extensions.withAlpha
 import java.lang.reflect.Field
 
@@ -102,7 +103,7 @@ fun Menu.tint(@ColorInt iconsColor: Int, forceShowIcons: Boolean = false) {
 fun Toolbar.setOverflowButtonColor(@ColorInt color: Int) {
     overflowIcon?.tint(color)
     @SuppressLint("PrivateResource")
-    val overflowDescription = resources.getString(R.string.abc_action_menu_overflow_description)
+    val overflowDescription = context.string(R.string.abc_action_menu_overflow_description)
     val outViews = ArrayList<View>()
     findViewsWithText(outViews, overflowDescription, View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION)
     if (outViews.isEmpty()) return
@@ -193,7 +194,7 @@ fun EditText.tintCursor(@ColorInt color: Int) {
         val fCursorDrawable = clazz.getDeclaredField("mCursorDrawable")
         fCursorDrawable.isAccessible = true
         val drawables: Array<Drawable?> = Array(2) {
-            val drawable = ContextCompat.getDrawable(context, mCursorDrawableRes)
+            val drawable = context.drawable(mCursorDrawableRes)
             drawable?.tint(color)
             drawable
         }

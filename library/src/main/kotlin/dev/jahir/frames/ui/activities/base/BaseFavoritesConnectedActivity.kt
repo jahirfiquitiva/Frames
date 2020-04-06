@@ -6,6 +6,7 @@ import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.data.viewmodels.FramesWallpapersViewModel
 import dev.jahir.frames.data.viewmodels.WallpapersDataViewModel
+import dev.jahir.frames.extensions.string
 import dev.jahir.frames.utils.Prefs
 
 abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisibilityActivity<P>() {
@@ -66,10 +67,5 @@ abstract class BaseFavoritesConnectedActivity<out P : Prefs> : BaseSystemUIVisib
     open fun canModifyFavorites(): Boolean = true
     open fun onFavoritesLocked() {}
     open fun onFavoritesUpdated(favorites: List<Wallpaper>) {}
-
-    open fun getDataUrl(): String = try {
-        getString(R.string.json_url)
-    } catch (e: Exception) {
-        ""
-    }
+    open fun getDataUrl(): String = string(R.string.json_url)
 }

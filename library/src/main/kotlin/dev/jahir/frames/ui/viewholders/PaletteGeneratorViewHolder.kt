@@ -7,16 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.asBitmap
 import dev.jahir.frames.extensions.bestSwatch
+import dev.jahir.frames.extensions.boolean
 import dev.jahir.frames.extensions.context
 
 abstract class PaletteGeneratorViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     internal val shouldColorTiles: Boolean by lazy {
-        try {
-            context.resources.getBoolean(R.bool.enable_colored_tiles)
-        } catch (e: Exception) {
-            false
-        }
+        context.boolean(R.bool.enable_colored_tiles)
     }
 
     internal val generatePalette: (drawable: Drawable?) -> Unit by lazy {

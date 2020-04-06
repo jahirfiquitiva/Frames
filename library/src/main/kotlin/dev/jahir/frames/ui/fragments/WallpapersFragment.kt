@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.buildTransitionOptions
+import dev.jahir.frames.extensions.dimenPixelSize
+import dev.jahir.frames.extensions.dpToPx
+import dev.jahir.frames.extensions.integer
 import dev.jahir.frames.extensions.lower
 import dev.jahir.frames.extensions.prefs
 import dev.jahir.frames.ui.activities.CollectionActivity
@@ -41,13 +44,12 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val columnsCount =
-            context?.resources?.getInteger(R.integer.wallpapers_columns_count) ?: 2
+        val columnsCount = context?.integer(R.integer.wallpapers_columns_count, 2) ?: 2
         recyclerView?.layoutManager =
             GridLayoutManager(context, columnsCount, GridLayoutManager.VERTICAL, false)
         recyclerView?.addItemDecoration(
             GridSpacingItemDecoration(
-                columnsCount, resources.getDimensionPixelSize(R.dimen.grids_spacing)
+                columnsCount, context?.dimenPixelSize(R.dimen.grids_spacing, 8.dpToPx) ?: 8.dpToPx
             )
         )
         recyclerView?.adapter = wallsAdapter

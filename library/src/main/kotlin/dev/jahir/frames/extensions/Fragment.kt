@@ -2,6 +2,7 @@ package dev.jahir.frames.extensions
 
 import android.view.View
 import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 
 inline fun <reified T : View> Fragment.findView(
@@ -17,3 +18,10 @@ inline fun <reified T : View> Fragment.findView(
         }
     }
 }
+
+fun Fragment.string(@StringRes resId: Int, vararg formatArgs: Any? = arrayOf()): String =
+    try {
+        getString(resId, *formatArgs.map { it.toString() }.toTypedArray())
+    } catch (e: Exception) {
+        ""
+    }

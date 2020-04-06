@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import dev.jahir.frames.R
 
-fun View.showSnackbar(
+fun View.snackbar(
     text: CharSequence,
     duration: Int = Snackbar.LENGTH_SHORT,
     @IdRes anchorViewId: Int = R.id.bottom_navigation,
@@ -27,50 +27,50 @@ fun View.showSnackbar(
     if (!snack.isShownOrQueued) snack.show()
 }
 
-fun View.showSnackbar(
+fun View.snackbar(
     @StringRes text: Int,
     duration: Int = Snackbar.LENGTH_SHORT,
     @IdRes anchorViewId: Int = R.id.bottom_navigation,
     config: Snackbar.() -> Unit = {}
 ) {
-    showSnackbar(context.getString(text), duration, anchorViewId, config)
+    snackbar(context.string(text), duration, anchorViewId, config)
 }
 
-fun Activity.showSnackbar(
+fun Activity.snackbar(
     text: CharSequence,
     duration: Int = Snackbar.LENGTH_SHORT,
     @IdRes anchorViewId: Int = R.id.bottom_navigation,
     config: Snackbar.() -> Unit = {}
 ) {
-    contentView?.showSnackbar(text, duration, anchorViewId, config)
+    contentView?.snackbar(text, duration, anchorViewId, config)
 }
 
-fun Activity.showSnackbar(
+fun Activity.snackbar(
     @StringRes text: Int,
     duration: Int = Snackbar.LENGTH_SHORT,
     @IdRes anchorViewId: Int = R.id.bottom_navigation,
     config: Snackbar.() -> Unit = {}
 ) {
-    showSnackbar(getString(text), duration, anchorViewId, config)
+    snackbar(string(text), duration, anchorViewId, config)
 }
 
-fun Fragment.showSnackbar(
+fun Fragment.snackbar(
     text: CharSequence,
     duration: Int = Snackbar.LENGTH_SHORT,
     @IdRes anchorViewId: Int = R.id.bottom_navigation,
     config: Snackbar.() -> Unit = {}
 ) {
-    activity?.showSnackbar(text, duration, anchorViewId, config)
-        ?: view?.showSnackbar(text, duration, anchorViewId, config)
+    activity?.snackbar(text, duration, anchorViewId, config)
+        ?: view?.snackbar(text, duration, anchorViewId, config)
 }
 
-fun Fragment.showSnackbar(
+fun Fragment.snackbar(
     @StringRes text: Int,
     duration: Int = Snackbar.LENGTH_SHORT,
     @IdRes anchorViewId: Int = R.id.bottom_navigation,
     config: Snackbar.() -> Unit = {}
 ) {
-    showSnackbar(context?.getString(text).orEmpty(), duration, anchorViewId, config)
+    snackbar(context?.string(text).orEmpty(), duration, anchorViewId, config)
 }
 
 inline val Activity.contentView: View?

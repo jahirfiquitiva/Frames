@@ -10,8 +10,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
+import dev.jahir.frames.extensions.color
 import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.gone
 import dev.jahir.frames.extensions.resolveColor
@@ -22,8 +22,7 @@ class CleanSearchView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     style: Int = 0
-) :
-    SearchView(context, attributeSet, style) {
+) : SearchView(context, attributeSet, style) {
 
     private var tintColor: Int = 0
 
@@ -64,12 +63,7 @@ class CleanSearchView @JvmOverloads constructor(
             }
         })
 
-        tint(
-            context.resolveColor(
-                R.attr.colorOnPrimary,
-                ContextCompat.getColor(context, R.color.onPrimary)
-            )
-        )
+        tint(context.resolveColor(R.attr.colorOnPrimary, context.color(R.color.onPrimary)))
     }
 
     private fun removeSearchIcon() {
@@ -139,10 +133,7 @@ class CleanSearchView @JvmOverloads constructor(
             }
         })
         item?.icon?.tint(
-            context.resolveColor(
-                R.attr.colorOnPrimary,
-                ContextCompat.getColor(context, R.color.onPrimary)
-            )
+            context.resolveColor(R.attr.colorOnPrimary, context.color(R.color.onPrimary))
         )
     }
 }

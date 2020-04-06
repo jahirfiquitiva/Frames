@@ -1,6 +1,8 @@
 package dev.jahir.frames.ui.activities.base
 
+import com.google.android.material.snackbar.Snackbar
 import com.tonyodev.fetch2.Download
+import com.tonyodev.fetch2.Error
 import com.tonyodev.fetch2.Fetch
 import com.tonyodev.fetch2.FetchConfiguration
 import com.tonyodev.fetch2.NetworkType
@@ -8,11 +10,15 @@ import com.tonyodev.fetch2.Priority
 import com.tonyodev.fetch2.Request
 import com.tonyodev.fetch2core.DownloadBlock
 import com.tonyodev.fetch2core.Func
+import dev.jahir.frames.R
 import dev.jahir.frames.data.listeners.BaseFetchListener
 import dev.jahir.frames.data.models.Wallpaper
+import dev.jahir.frames.extensions.snackbar
+import dev.jahir.frames.extensions.string
 import dev.jahir.frames.ui.fragments.viewer.DownloaderDialog
 import dev.jahir.frames.utils.Prefs
 import dev.jahir.frames.utils.WallpaperDownloadNotificationManager
+import dev.jahir.frames.utils.postDelayed
 import java.io.File
 import java.lang.ref.WeakReference
 
@@ -27,14 +33,27 @@ abstract class BaseWallpaperFetcherActivity<out P : Prefs> :
                 totalBlocks: Int
             ) {
                 super.onStarted(download, downloadBlocks, totalBlocks)
-                dismissDialog()
+                dismissDownloadDialog()
+            }
+
+            override fun onCompleted(download: Download) {
+                super.onCompleted(download)
+                snackbar(
+                    string(R.string.download_successful, download.file),
+                    Snackbar.LENGTH_LONG
+                )
+                dismissDownloadDialog()
+            }
+
+            override fun onError(download: Download, error: Error, throwable: Throwable?) {
+                super.onError(download, error, throwable)
+                dismissDownloadDialog(true)
             }
         }
     }
 
     private val fetch: Fetch by lazy {
         val fetchConfig = FetchConfiguration.Builder(this)
-            .setDownloadConcurrentLimit(2)
             .setNotificationManager(object :
                 WallpaperDownloadNotificationManager(WeakReference(this@BaseWallpaperFetcherActivity)) {
                 override fun getFetchInstanceForNamespace(namespace: String): Fetch = fetch
@@ -68,28 +87,35 @@ abstract class BaseWallpaperFetcherActivity<out P : Prefs> :
                     downloaderDialog.showFinalMessage()
                     downloaderDialog.show(this)
                 })
-        }
+        } ?: { dismissDownloadDialog(true) }()
     }
 
     internal fun cancelDownload() {
         try {
             fetch.cancel(request?.id ?: -1)
+            fetch.cancelAll()
             fetch.remove(request?.id ?: -1)
-            fetch.removeListener(fetchListener)
+            fetch.removeAll()
+            fetch.delete(request?.id ?: -1)
+            fetch.deleteAll()
         } catch (e: Exception) {
         }
     }
 
-    private fun dismissDialog() {
-        try {
-            downloaderDialog.dismiss()
-        } catch (e: Exception) {
+    private fun dismissDownloadDialog(cancelDownload: Boolean = false) {
+        if (cancelDownload) cancelDownload()
+        postDelayed(50) {
+            try {
+                downloaderDialog.dismiss()
+            } catch (e: Exception) {
+            }
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        dismissDialog()
-        cancelDownload()
+        dismissDownloadDialog(true)
+        fetch.removeListener(fetchListener)
+        fetch.close()
     }
 }

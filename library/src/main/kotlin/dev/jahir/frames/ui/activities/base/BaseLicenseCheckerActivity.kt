@@ -18,7 +18,8 @@ import dev.jahir.frames.extensions.message
 import dev.jahir.frames.extensions.negativeButton
 import dev.jahir.frames.extensions.openLink
 import dev.jahir.frames.extensions.positiveButton
-import dev.jahir.frames.extensions.showSnackbar
+import dev.jahir.frames.extensions.snackbar
+import dev.jahir.frames.extensions.string
 import dev.jahir.frames.extensions.title
 import dev.jahir.frames.utils.Prefs
 import dev.jahir.frames.utils.postDelayed
@@ -94,7 +95,7 @@ abstract class BaseLicenseCheckerActivity<out P : Prefs> : BaseChangelogDialogAc
         licenseCheckDialog?.dismiss()
         prefs.functionalDashboard = true
         if (!update || force) {
-            showSnackbar(getString(R.string.license_valid_snack, getAppName()))
+            snackbar(string(R.string.license_valid_snack, getAppName()))
         } else {
             showChangelog()
         }
@@ -105,12 +106,12 @@ abstract class BaseLicenseCheckerActivity<out P : Prefs> : BaseChangelogDialogAc
         prefs.functionalDashboard = false
         val pirateAppName = pirateApp?.name ?: ""
         val content = if (pirateAppName.hasContent()) {
-            getString(
+            string(
                 R.string.license_invalid_content, getAppName(),
-                getString(R.string.license_invalid_content_extra, pirateAppName)
+                string(R.string.license_invalid_content_extra, pirateAppName)
             )
         } else {
-            getString(R.string.license_invalid_content, getAppName(), "~")
+            string(R.string.license_invalid_content, getAppName(), "~")
         }
         licenseCheckDialog = mdDialog {
             title(R.string.license_invalid_title)

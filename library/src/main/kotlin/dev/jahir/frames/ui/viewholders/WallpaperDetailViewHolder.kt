@@ -6,6 +6,7 @@ import androidx.annotation.StringRes
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.findView
+import dev.jahir.frames.extensions.string
 
 class WallpaperDetailViewHolder(view: View) : SectionedViewHolder(view) {
 
@@ -19,7 +20,7 @@ class WallpaperDetailViewHolder(view: View) : SectionedViewHolder(view) {
 
     fun bind(@StringRes title: Int, description: String) {
         try {
-            bind(itemView.context.getString(title), description)
+            bind(itemView.context.string(title), description)
         } catch (e: Exception) {
         }
     }

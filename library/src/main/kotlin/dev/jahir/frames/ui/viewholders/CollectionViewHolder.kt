@@ -7,9 +7,11 @@ import androidx.palette.graphics.Palette
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.extensions.bestTextColor
+import dev.jahir.frames.extensions.boolean
 import dev.jahir.frames.extensions.context
 import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.loadFramesPic
+import dev.jahir.frames.extensions.string
 import dev.jahir.frames.extensions.withAlpha
 
 class CollectionViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
@@ -18,14 +20,6 @@ class CollectionViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
     private val title: TextView? by view.findView(R.id.collection_title)
     private val count: TextView? by view.findView(R.id.collection_count)
     private val detailsBackground: View? by view.findView(R.id.collection_details_background)
-
-    internal val shouldBeFilled: Boolean by lazy {
-        try {
-            context.resources.getBoolean(R.bool.enable_filled_collection_preview)
-        } catch (e: Exception) {
-            false
-        }
-    }
 
     fun bind(
         collection: Collection,
@@ -38,7 +32,7 @@ class CollectionViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
             image?.loadFramesPic(
                 it.url,
                 it.thumbnail,
-                context.getString(R.string.collections_placeholder),
+                context.string(R.string.collections_placeholder),
                 doWithPalette = if (shouldColorTiles) generatePalette else null
             )
         }
@@ -47,7 +41,8 @@ class CollectionViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
     override fun doWithBestSwatch(swatch: Palette.Swatch) {
         detailsBackground?.setBackgroundColor(
             swatch.rgb.withAlpha(
-                if (shouldBeFilled) FILLED_COLORED_TILES_ALPHA
+                if (context.boolean(R.bool.enable_filled_collection_preview))
+                    FILLED_COLORED_TILES_ALPHA
                 else WallpaperViewHolder.COLORED_TILES_ALPHA
             )
         )

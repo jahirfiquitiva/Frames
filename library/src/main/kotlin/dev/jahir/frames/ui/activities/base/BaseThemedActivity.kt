@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.annotation.IdRes
 import androidx.annotation.StyleRes
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import dev.jahir.frames.R
+import dev.jahir.frames.extensions.color
 import dev.jahir.frames.extensions.getRightNavigationBarColor
 import dev.jahir.frames.extensions.isDark
 import dev.jahir.frames.extensions.navigationBarColor
@@ -33,7 +32,6 @@ abstract class BaseThemedActivity<out P : Prefs> : BaseFinishResultActivity() {
     abstract val prefs: P
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setCustomTheme()
         super.onCreate(savedInstanceState)
     }
@@ -59,10 +57,7 @@ abstract class BaseThemedActivity<out P : Prefs> : BaseFinishResultActivity() {
     @Suppress("DEPRECATION")
     private fun setCustomTheme() {
         setTheme(if (prefs.usesAmoledTheme) amoledTheme() else defaultTheme())
-        resolveColor(
-            R.attr.colorPrimaryDark,
-            ContextCompat.getColor(this, R.color.primaryDark)
-        ).let {
+        resolveColor(R.attr.colorPrimaryDark, color(R.color.primaryDark)).let {
             statusBarColor = it
             if (shouldChangeStatusBarLightStatus)
                 statusBarLight = !it.isDark

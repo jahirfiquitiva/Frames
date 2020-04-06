@@ -15,6 +15,7 @@ import dev.jahir.frames.extensions.message
 import dev.jahir.frames.extensions.negativeButton
 import dev.jahir.frames.extensions.positiveButton
 import dev.jahir.frames.extensions.singleChoiceItems
+import dev.jahir.frames.extensions.string
 import dev.jahir.frames.extensions.title
 import dev.jahir.frames.ui.fragments.viewer.DownloaderDialog
 import dev.jahir.frames.utils.Prefs
@@ -91,7 +92,7 @@ abstract class BaseBillingActivity<out P : Prefs> : BaseLicenseCheckerActivity<P
         dismissDialogs()
         purchasesDialog = mdDialog {
             title(R.string.donate_success_title)
-            message(getString(R.string.donate_success_content, getAppName()))
+            message(string(R.string.donate_success_content, getAppName()))
             positiveButton(android.R.string.ok)
         }
         purchasesDialog?.show()
@@ -101,7 +102,7 @@ abstract class BaseBillingActivity<out P : Prefs> : BaseLicenseCheckerActivity<P
         dismissDialogs()
         purchasesDialog = mdDialog {
             title(R.string.error)
-            message(getString(R.string.unexpected_error_occurred))
+            message(string(R.string.unexpected_error_occurred))
         }
         purchasesDialog?.show()
     }

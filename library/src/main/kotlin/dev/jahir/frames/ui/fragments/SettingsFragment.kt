@@ -23,6 +23,7 @@ import dev.jahir.frames.extensions.positiveButton
 import dev.jahir.frames.extensions.setOnCheckedChangeListener
 import dev.jahir.frames.extensions.setOnClickListener
 import dev.jahir.frames.extensions.singleChoiceItems
+import dev.jahir.frames.extensions.string
 import dev.jahir.frames.extensions.title
 import dev.jahir.frames.ui.activities.SettingsActivity
 import dev.jahir.frames.ui.fragments.base.BasePreferenceFragment
@@ -84,15 +85,15 @@ open class SettingsFragment : BasePreferenceFragment() {
 
         val downloadLocationPref = findPreference<Preference?>("download_location")
         downloadLocationPref?.summary =
-            getString(R.string.download_location_summary) + "\n${prefs.downloadsFolder}"
+            string(R.string.download_location_summary) + "\n${prefs.downloadsFolder}"
 
         val clearCachePref = findPreference<Preference?>("clear_data_cache")
         clearCachePref?.summary =
-            getString(R.string.clear_data_cache_summary, context?.dataCacheSize ?: "")
+            string(R.string.clear_data_cache_summary, context?.dataCacheSize ?: "")
         clearCachePref?.setOnClickListener {
             context?.clearDataAndCache()
             clearCachePref.summary =
-                getString(R.string.clear_data_cache_summary, context?.dataCacheSize ?: "")
+                string(R.string.clear_data_cache_summary, context?.dataCacheSize ?: "")
         }
 
         val notificationsPrefs = findPreference<SwitchPreference?>("notifications")
@@ -113,17 +114,8 @@ open class SettingsFragment : BasePreferenceFragment() {
     }
 
     private fun setupLegalLinks() {
-        val privacyLink = try {
-            getString(R.string.privacy_policy_link)
-        } catch (e: Exception) {
-            ""
-        }
-
-        val termsLink = try {
-            getString(R.string.terms_conditions_link)
-        } catch (e: Exception) {
-            ""
-        }
+        val privacyLink = string(R.string.privacy_policy_link)
+        val termsLink = string(R.string.terms_conditions_link)
 
         val prefsScreen = findPreference<PreferenceScreen?>("prefs")
         val legalCategory = findPreference<PreferenceCategory?>("legal")

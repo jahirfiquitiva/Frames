@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import androidx.core.content.FileProvider
-import dev.jahir.frames.R
 import java.io.File
 
 fun File.getUri(context: Context?): Uri? {
@@ -49,7 +48,7 @@ fun File.createIfDidNotExist(): Boolean = try {
 
 fun Context.getDefaultWallpapersDownloadFolder(): File? {
     val externalFolder = getExternalStorageFolder()
-    val folder = File("$externalFolder${File.separator}${getString(R.string.app_name)}")
+    val folder = File("$externalFolder${File.separator}${getAppName()}")
     folder.createIfDidNotExist()
     return folder
 }

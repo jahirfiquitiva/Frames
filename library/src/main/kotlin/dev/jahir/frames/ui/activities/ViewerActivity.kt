@@ -16,7 +16,6 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.palette.graphics.Palette
@@ -109,7 +108,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
             it.setDisplayShowHomeEnabled(true)
         }
         initWindow()
-        toolbar?.tint(ContextCompat.getColor(this, R.color.white))
+        toolbar?.tint(color(R.color.white))
 
         (image as? FramesPhotoView)?.setOnPhotoTapListener { _, _, _ -> toggleSystemUI() }
             ?: image?.setOnClickListener { toggleSystemUI() }
@@ -249,8 +248,8 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
                 }
             }
 
-            window.statusBarColor = ContextCompat.getColor(this, R.color.viewer_bars_colors)
-            window.navigationBarColor = ContextCompat.getColor(this, R.color.viewer_bars_colors)
+            window.statusBarColor = color(R.color.viewer_bars_colors)
+            window.navigationBarColor = color(R.color.viewer_bars_colors)
         }
     }
 
@@ -274,7 +273,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
     private fun checkForDownload() {
         if (!shouldShowDownloadOption()) return
         val actuallyComplies = if (intent?.getBooleanExtra(LICENSE_CHECK_ENABLED, false) == true)
-            compliesWithMinTime(MIN_TIME) || resources.getBoolean(R.bool.allow_immediate_downloads)
+            compliesWithMinTime(MIN_TIME) || boolean(R.bool.allow_immediate_downloads)
         else true
         if (actuallyComplies) {
             requestStoragePermission()
@@ -286,7 +285,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
             dismissDownloadBlockedDialog()
             downloadBlockedDialog = mdDialog {
                 title(R.string.prevent_download_title)
-                message(getString(R.string.prevent_download_content, timeLeftText))
+                message(string(R.string.prevent_download_content, timeLeftText))
                 positiveButton(android.R.string.ok) { it.dismiss() }
             }
             downloadBlockedDialog?.show()
@@ -312,11 +311,8 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
         applierDialog?.show(supportFragmentManager, DownloadToApplyDialog.TAG)
     }
 
-    private fun shouldShowWallpapersPalette(): Boolean = try {
-        resources.getBoolean(R.bool.show_wallpaper_palette_details)
-    } catch (e: Exception) {
-        true
-    }
+    private fun shouldShowWallpapersPalette(): Boolean =
+        boolean(R.bool.show_wallpaper_palette_details, true)
 
     open fun shouldShowDownloadOption() = true
     override val shouldChangeStatusBarLightStatus: Boolean = false

@@ -3,13 +3,15 @@ package dev.jahir.frames.ui.activities
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.AboutItem
+import dev.jahir.frames.extensions.color
 import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.resolveColor
+import dev.jahir.frames.extensions.string
+import dev.jahir.frames.extensions.stringArray
 import dev.jahir.frames.ui.activities.base.BaseThemedActivity
 import dev.jahir.frames.ui.adapters.AboutAdapter
 import dev.jahir.frames.utils.Prefs
@@ -32,15 +34,9 @@ open class AboutActivity : BaseThemedActivity<Prefs>() {
             it.setDisplayShowHomeEnabled(true)
         }
 
-        toolbar?.tintIcons(
-            resolveColor(
-                R.attr.colorOnPrimary,
-                ContextCompat.getColor(this, R.color.onPrimary)
-            )
-        )
+        toolbar?.tintIcons(resolveColor(R.attr.colorOnPrimary, color(R.color.onPrimary)))
 
         val adapter = AboutAdapter(getDesignerAboutItems(), getInternalAboutItems())
-
         recyclerView?.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         recyclerView?.adapter = adapter
     }
@@ -53,35 +49,11 @@ open class AboutActivity : BaseThemedActivity<Prefs>() {
     private fun getDesignerAboutItems(): ArrayList<AboutItem> {
         val items = ArrayList<AboutItem>()
 
-        val itemsNames = try {
-            resources.getStringArray(R.array.credits_titles)
-        } catch (e: Exception) {
-            arrayOf<String>()
-        }
-
-        val itemsDescriptions = try {
-            resources.getStringArray(R.array.credits_descriptions)
-        } catch (e: Exception) {
-            arrayOf<String>()
-        }
-
-        val itemsPhotos = try {
-            resources.getStringArray(R.array.credits_photos)
-        } catch (e: Exception) {
-            arrayOf<String>()
-        }
-
-        val itemsButtonsTexts = try {
-            resources.getStringArray(R.array.credits_buttons)
-        } catch (e: Exception) {
-            arrayOf<String>()
-        }
-
-        val itemsButtonsLinks = try {
-            resources.getStringArray(R.array.credits_links)
-        } catch (e: Exception) {
-            arrayOf<String>()
-        }
+        val itemsNames = stringArray(R.array.credits_titles)
+        val itemsDescriptions = stringArray(R.array.credits_descriptions)
+        val itemsPhotos = stringArray(R.array.credits_photos)
+        val itemsButtonsTexts = stringArray(R.array.credits_buttons)
+        val itemsButtonsLinks = stringArray(R.array.credits_links)
 
         val namesCount = itemsNames.size
         val descriptionsCount = itemsDescriptions.size
@@ -113,7 +85,7 @@ open class AboutActivity : BaseThemedActivity<Prefs>() {
         items.add(
             AboutItem(
                 "Jahir Fiquitiva",
-                getString(R.string.jahir_description),
+                string(R.string.jahir_description),
                 "https://jahir.dev/assets/images/me/me.jpg",
                 arrayListOf(
                     "Website" to "https://jahir.dev",
@@ -126,7 +98,7 @@ open class AboutActivity : BaseThemedActivity<Prefs>() {
             items.add(
                 AboutItem(
                     "Eduardo Pratti",
-                    getString(R.string.eduardo_description),
+                    string(R.string.eduardo_description),
                     "https://pbs.twimg.com/profile_images/560688750247051264/seXz0Y25_400x400.jpeg",
                     arrayListOf(
                         "Website" to "https://pratti.design/",

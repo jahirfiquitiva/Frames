@@ -16,6 +16,7 @@ import dev.jahir.frames.extensions.buildTitleTransitionName
 import dev.jahir.frames.extensions.context
 import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.loadFramesPic
+import dev.jahir.frames.extensions.string
 import dev.jahir.frames.extensions.visible
 import dev.jahir.frames.extensions.withAlpha
 import dev.jahir.frames.ui.widgets.FavoriteCheckbox
@@ -68,7 +69,7 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
         image?.loadFramesPic(
             wallpaper.url,
             wallpaper.thumbnail,
-            context.getString(R.string.wallpapers_placeholder),
+            context.string(R.string.wallpapers_placeholder),
             doWithPalette = if (shouldColorTiles) generatePalette else null
         )
     }

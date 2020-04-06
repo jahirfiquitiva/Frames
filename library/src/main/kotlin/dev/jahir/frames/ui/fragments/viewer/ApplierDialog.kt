@@ -10,6 +10,7 @@ import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.getUri
 import dev.jahir.frames.extensions.prefs
+import dev.jahir.frames.extensions.string
 import dev.jahir.frames.utils.ensureBackgroundThread
 import java.io.File
 
@@ -26,10 +27,10 @@ class ApplierDialog : DownloadToApplyDialog() {
     override fun onCompleted(download: Download) {
         super.onCompleted(download)
         val text = try {
-            requireContext().getString(R.string.applying_wallpaper, wallpaper?.name.orEmpty())
+            string(R.string.applying_wallpaper, wallpaper?.name.orEmpty())
         } catch (e: Exception) {
             try {
-                requireContext().getString(R.string.applying_wallpaper_def)
+                string(R.string.applying_wallpaper_def)
             } catch (e: Exception) {
                 ""
             }
@@ -97,7 +98,7 @@ class ApplierDialog : DownloadToApplyDialog() {
                     setWall.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     try {
                         startActivityForResult(
-                            Intent.createChooser(setWall, getString(R.string.apply_w_external_app)),
+                            Intent.createChooser(setWall, string(R.string.apply_w_external_app)),
                             WITH_OTHER_APP_CODE
                         )
                     } catch (e: Exception) {

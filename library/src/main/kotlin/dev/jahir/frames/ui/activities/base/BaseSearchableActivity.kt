@@ -5,8 +5,8 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.MenuRes
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
+import dev.jahir.frames.extensions.color
 import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.resolveColor
 import dev.jahir.frames.ui.widgets.CleanSearchView
@@ -41,12 +41,7 @@ abstract class BaseSearchableActivity<out P : Prefs> : BaseFavoritesConnectedAct
             searchView?.bindToItem(searchItem)
             updateSearchHint()
 
-            toolbar?.tintIcons(
-                resolveColor(
-                    R.attr.colorOnPrimary,
-                    ContextCompat.getColor(this, R.color.onPrimary)
-                )
-            )
+            toolbar?.tintIcons(resolveColor(R.attr.colorOnPrimary, color(R.color.onPrimary)))
             searchItem?.isVisible = canShowSearch(currentItemId)
         }
 

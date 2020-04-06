@@ -11,16 +11,20 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.github.javiersantos.piracychecker.activities.getAppName
 import com.tonyodev.fetch2.*
 import com.tonyodev.fetch2.util.DEFAULT_NOTIFICATION_TIMEOUT_AFTER
 import com.tonyodev.fetch2.util.DEFAULT_NOTIFICATION_TIMEOUT_AFTER_RESET
 import com.tonyodev.fetch2.util.onDownloadNotificationActionTriggered
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.lower
+import dev.jahir.frames.extensions.string
 import java.lang.ref.WeakReference
 
-abstract class WallpaperDownloadNotificationManager(private val weakContext: WeakReference<Context>) :
-    FetchNotificationManager {
+abstract class WallpaperDownloadNotificationManager(
+    private val weakContext: WeakReference<Context?>,
+    private val shouldDismissAfterCompleted: Boolean = false
+) : FetchNotificationManager {
 
     private val context: Context by lazy { weakContext.get()!!.applicationContext }
     private val notificationManager =
@@ -69,7 +73,7 @@ abstract class WallpaperDownloadNotificationManager(private val weakContext: Wea
             var channel: NotificationChannel? =
                 notificationManager.getNotificationChannel(channelId)
             if (channel == null) {
-                val channelName = context.getString(R.string.downloads)
+                val channelName = context.string(R.string.downloads)
                 channel =
                     NotificationChannel(
                         channelId,
@@ -84,7 +88,8 @@ abstract class WallpaperDownloadNotificationManager(private val weakContext: Wea
     }
 
     override fun getChannelId(notificationId: Int, context: Context): String {
-        return "${context.packageName}_${context.getString(R.string.app_name)}".replace(" ", "_")
+        return "${context.packageName}_${context.getAppName()}"
+            .replace(" ", "_")
             .lower()
     }
 
@@ -101,7 +106,7 @@ abstract class WallpaperDownloadNotificationManager(private val weakContext: Wea
         }
         notificationBuilder.setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setSmallIcon(android.R.drawable.stat_sys_download_done)
-            .setContentTitle(context.getString(R.string.fetch_notification_default_channel_name))
+            .setContentTitle(context.string(R.string.fetch_notification_default_channel_name))
             .setContentText("")
             .setStyle(style)
             .setGroup(groupId.toString())
@@ -129,6 +134,9 @@ abstract class WallpaperDownloadNotificationManager(private val weakContext: Wea
         if (downloadNotification.isFailed || downloadNotification.isCompleted) {
             notificationBuilder.setProgress(0, 0, false)
             notificationBuilder.setAutoCancel(true)
+            if (shouldDismissAfterCompleted) {
+                postDelayed(50) { cancelNotification(downloadNotification.notificationId) }
+            }
         } else {
             val progressIndeterminate = downloadNotification.progressIndeterminate
             val maxProgress = if (downloadNotification.progressIndeterminate) 0 else 100
@@ -397,11 +405,11 @@ abstract class WallpaperDownloadNotificationManager(private val weakContext: Wea
         downloadNotification: DownloadNotification
     ): String {
         return when {
-            downloadNotification.isCompleted -> context.getString(R.string.fetch_notification_download_complete)
-            downloadNotification.isFailed -> context.getString(R.string.fetch_notification_download_failed)
-            downloadNotification.isPaused -> context.getString(R.string.fetch_notification_download_paused)
-            downloadNotification.isQueued -> context.getString(R.string.fetch_notification_download_starting)
-            downloadNotification.etaInMilliSeconds < 0 -> context.getString(R.string.fetch_notification_download_downloading)
+            downloadNotification.isCompleted -> context.string(R.string.fetch_notification_download_complete)
+            downloadNotification.isFailed -> context.string(R.string.fetch_notification_download_failed)
+            downloadNotification.isPaused -> context.string(R.string.fetch_notification_download_paused)
+            downloadNotification.isQueued -> context.string(R.string.fetch_notification_download_starting)
+            downloadNotification.etaInMilliSeconds < 0 -> context.string(R.string.fetch_notification_download_downloading)
             else -> getEtaText(context, downloadNotification.etaInMilliSeconds)
         }
     }
@@ -413,18 +421,18 @@ abstract class WallpaperDownloadNotificationManager(private val weakContext: Wea
         val minutes = (seconds / 60)
         seconds -= (minutes * 60)
         return when {
-            hours > 0 -> context.getString(
+            hours > 0 -> context.string(
                 R.string.fetch_notification_download_eta_hrs,
                 hours,
                 minutes,
                 seconds
             )
-            minutes > 0 -> context.getString(
+            minutes > 0 -> context.string(
                 R.string.fetch_notification_download_eta_min,
                 minutes,
                 seconds
             )
-            else -> context.getString(R.string.fetch_notification_download_eta_sec, seconds)
+            else -> context.string(R.string.fetch_notification_download_eta_sec, seconds)
         }
     }
 

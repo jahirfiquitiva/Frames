@@ -47,7 +47,7 @@ fun AppCompatImageView.loadFramesPic(
     if (!url.hasContent()) return
     val isForPalette = doWithPalette?.let { true } ?: false
     val saturatingTarget = buildTarget { addListener { doWithPalette?.invoke(it) } }
-    val placeholder = context.getDrawable(placeholderName)
+    val placeholder = context.drawable(placeholderName)
     val shouldLoadThumbnail = thumbnail?.let { it.hasContent() && it != url } ?: false
     if (shouldLoadThumbnail) {
         if (context.prefs.shouldLoadFullResPictures || forceLoadFullRes) {

@@ -11,11 +11,12 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
+import dev.jahir.frames.extensions.drawable
 import dev.jahir.frames.extensions.gone
 import dev.jahir.frames.extensions.prefs
+import dev.jahir.frames.extensions.string
 import dev.jahir.frames.extensions.visible
 import dev.jahir.frames.extensions.visibleIf
 
@@ -122,7 +123,7 @@ open class StatefulRecyclerView @JvmOverloads constructor(
         stateRootLayout?.visibleIf(state != State.NORMAL)
         visibleIf(state == State.NORMAL)
 
-        stateTextView?.text = context.getString(
+        stateTextView?.text = context.string(
             when (state) {
                 State.LOADING -> loadingText
                 else -> if (searching) noSearchResultsText else emptyText
@@ -133,10 +134,7 @@ open class StatefulRecyclerView @JvmOverloads constructor(
         stateTextView?.visibleIf(state != State.NORMAL)
 
         val drawable: Drawable? = when (state) {
-            State.EMPTY -> ContextCompat.getDrawable(
-                context,
-                if (searching) noSearchResultsDrawable else emptyDrawable
-            )
+            State.EMPTY -> context.drawable(if (searching) noSearchResultsDrawable else emptyDrawable)
             else -> null
         }
         stateImageView?.setImageDrawable(

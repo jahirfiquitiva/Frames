@@ -6,6 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
+import dev.jahir.frames.extensions.integer
 import dev.jahir.frames.extensions.lower
 import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
@@ -19,7 +20,7 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val columnsCount = context?.resources?.getInteger(R.integer.collections_columns_count) ?: 1
+        val columnsCount = context?.integer(R.integer.collections_columns_count, 1) ?: 1
         recyclerView?.layoutManager =
             GridLayoutManager(context, columnsCount, GridLayoutManager.VERTICAL, false)
         recyclerView?.adapter = collectionsAdapter

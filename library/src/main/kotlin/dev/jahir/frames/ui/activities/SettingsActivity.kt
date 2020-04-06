@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
+import dev.jahir.frames.extensions.color
 import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.resolveColor
 import dev.jahir.frames.extensions.setDefaultDashboardTheme
@@ -49,13 +49,7 @@ open class SettingsActivity : BaseThemedActivity<Prefs>() {
             it.setDisplayShowHomeEnabled(true)
         }
 
-        toolbar?.tintIcons(
-            resolveColor(
-                R.attr.colorOnPrimary,
-                ContextCompat.getColor(this, R.color.onPrimary)
-            )
-        )
-
+        toolbar?.tintIcons(resolveColor(R.attr.colorOnPrimary, color(R.color.onPrimary)))
         replaceFragment(getSettingsFragment(), SettingsFragment.TAG)
     }
 

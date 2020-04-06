@@ -19,6 +19,7 @@ import dev.jahir.frames.extensions.findView
 import dev.jahir.frames.extensions.getAppName
 import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.extensions.invisible
+import dev.jahir.frames.extensions.string
 import dev.jahir.frames.extensions.visible
 import dev.jahir.frames.ui.activities.base.BaseBillingActivity
 import dev.jahir.frames.ui.fragments.CollectionsFragment
@@ -87,10 +88,10 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
     }
 
     override fun getSearchHint(itemId: Int): String = when (itemId) {
-        R.id.wallpapers -> getString(R.string.search_wallpapers)
-        R.id.collections -> getString(R.string.search_collections)
-        R.id.favorites -> getString(R.string.search_favorites)
-        else -> getString(R.string.search_x)
+        R.id.wallpapers -> string(R.string.search_wallpapers)
+        R.id.collections -> string(R.string.search_collections)
+        R.id.favorites -> string(R.string.search_favorites)
+        else -> string(R.string.search_x)
     }
 
     open fun getToolbarTitleForItem(itemId: Int): String? = null

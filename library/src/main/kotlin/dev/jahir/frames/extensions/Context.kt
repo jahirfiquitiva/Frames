@@ -9,11 +9,18 @@ import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.widget.Toast
+import androidx.annotation.ArrayRes
 import androidx.annotation.AttrRes
+import androidx.annotation.BoolRes
 import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.IntegerRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
 import dev.jahir.frames.ui.activities.base.BaseThemedActivity
@@ -56,7 +63,7 @@ fun Context.isNetworkAvailable(): Boolean {
     }
 }
 
-fun Context.resolveColor(@AttrRes attr: Int, fallback: Int = 0): Int {
+fun Context.resolveColor(@AttrRes attr: Int, @ColorInt fallback: Int = 0): Int {
     val a = theme.obtainStyledAttributes(intArrayOf(attr))
     try {
         return a.getColor(0, fallback)
@@ -65,11 +72,67 @@ fun Context.resolveColor(@AttrRes attr: Int, fallback: Int = 0): Int {
     }
 }
 
-fun Context.getDrawable(name: String?): Drawable? {
+fun Context.stringArray(@ArrayRes resId: Int, fallback: Array<String> = arrayOf()) =
+    try {
+        resources.getStringArray(resId)
+    } catch (e: Exception) {
+        fallback
+    }
+
+fun Context.string(@StringRes resId: Int, vararg formatArgs: Any? = arrayOf()): String =
+    try {
+        getString(resId, *formatArgs.map { it.toString() }.toTypedArray())
+    } catch (e: Exception) {
+        ""
+    }
+
+fun Context.color(@ColorRes id: Int, @ColorInt fallback: Int = 0): Int =
+    try {
+        ContextCompat.getColor(this, id)
+    } catch (e: Exception) {
+        fallback
+    }
+
+fun Context.boolean(@BoolRes id: Int, fallback: Boolean = false): Boolean =
+    try {
+        resources.getBoolean(id)
+    } catch (e: Exception) {
+        fallback
+    }
+
+fun Context.integer(@IntegerRes id: Int, fallback: Int = 0): Int =
+    try {
+        resources.getInteger(id)
+    } catch (e: Exception) {
+        fallback
+    }
+
+fun Context.dimen(@DimenRes id: Int, fallback: Float = 0F): Float =
+    try {
+        resources.getDimension(id)
+    } catch (e: Exception) {
+        fallback
+    }
+
+fun Context.dimenPixelSize(@DimenRes id: Int, fallback: Int = 0): Int =
+    try {
+        resources.getDimensionPixelSize(id)
+    } catch (e: Exception) {
+        fallback
+    }
+
+fun Context.drawable(@DrawableRes resId: Int, fallback: Drawable? = null): Drawable? =
+    try {
+        AppCompatResources.getDrawable(this, resId)
+    } catch (e: Exception) {
+        fallback
+    }
+
+fun Context.drawable(name: String?): Drawable? {
     name ?: return null
     if (!name.hasContent()) return null
     return try {
-        ContextCompat.getDrawable(this, resources.getIdentifier(name, "drawable", packageName))
+        drawable(resources.getIdentifier(name, "drawable", packageName))
     } catch (e: Exception) {
         null
     }
@@ -87,7 +150,7 @@ fun Context.toast(content: String, duration: Int = Toast.LENGTH_SHORT) {
 fun Context.getRightNavigationBarColor(): Int =
     if (prefs.shouldColorNavbar && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         try {
-            resolveColor(R.attr.colorSurface, ContextCompat.getColor(this, R.color.surface))
+            resolveColor(R.attr.colorSurface, color(R.color.surface))
         } catch (e: Exception) {
             Color.parseColor("#000000")
         }
@@ -127,13 +190,13 @@ fun Context.getAppName(defName: String = ""): String {
     name = if (stringRes == 0) {
         applicationInfo?.nonLocalizedLabel?.toString() ?: ""
     } else {
-        getString(stringRes)
+        string(stringRes)
     }
 
     if (name.hasContent()) return name
     if (defName.hasContent()) return defName
 
-    val def = getString(R.string.app_name)
+    val def = string(R.string.app_name)
     return if (def.hasContent()) def else "Unknown"
 }
 

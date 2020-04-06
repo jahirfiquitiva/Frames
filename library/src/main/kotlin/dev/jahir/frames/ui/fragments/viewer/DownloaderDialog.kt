@@ -11,7 +11,9 @@ import dev.jahir.frames.R
 import dev.jahir.frames.extensions.cancelable
 import dev.jahir.frames.extensions.gone
 import dev.jahir.frames.extensions.mdDialog
+import dev.jahir.frames.extensions.string
 import dev.jahir.frames.extensions.view
+import dev.jahir.frames.utils.postDelayed
 
 class DownloaderDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -21,10 +23,19 @@ class DownloaderDialog : DialogFragment() {
             cancelable(false)
         }
         isCancelable = false
+        dialog.setOnShowListener {
+            postDelayed(2500) {
+                dialog.setCancelable(true)
+                isCancelable = true
+            }
+        }
         return dialog
     }
 
-    internal fun showFinalMessage(@StringRes message: Int = R.string.unexpected_error_occurred) {
+    internal fun showFinalMessage(@StringRes message: Int = R.string.unexpected_error_occurred) =
+        showFinalMessage(string(message))
+
+    internal fun showFinalMessage(message: String) {
         activity?.runOnUiThread {
             try {
                 val progress: ProgressBar? = dialog?.findViewById(R.id.loading)
@@ -33,15 +44,11 @@ class DownloaderDialog : DialogFragment() {
             }
             setMessage(message)
         }
+        dialog?.setCancelable(true)
         isCancelable = true
     }
 
-    internal fun setMessage(@StringRes res: Int) {
-        try {
-            setMessage(requireContext().getString(res))
-        } catch (e: Exception) {
-        }
-    }
+    internal fun setMessage(@StringRes res: Int) = setMessage(string(res))
 
     internal fun setMessage(message: String) {
         try {
@@ -49,10 +56,6 @@ class DownloaderDialog : DialogFragment() {
             textView?.text = message
         } catch (e: Exception) {
         }
-    }
-
-    internal fun setOnShowListener(what: () -> Unit) {
-        dialog?.setOnShowListener { what() }
     }
 
     fun show(activity: FragmentActivity) {

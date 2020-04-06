@@ -23,9 +23,12 @@ import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.cancelable
 import dev.jahir.frames.extensions.gone
 import dev.jahir.frames.extensions.mdDialog
+import dev.jahir.frames.extensions.string
 import dev.jahir.frames.extensions.view
 import dev.jahir.frames.utils.WallpaperDownloadNotificationManager
+import dev.jahir.frames.utils.postDelayed
 import java.io.File
+import java.lang.ref.WeakReference
 
 open class DownloadToApplyDialog : DialogFragment(), BaseFetchListener {
 
@@ -40,7 +43,10 @@ open class DownloadToApplyDialog : DialogFragment(), BaseFetchListener {
 
     private val fetchConfig: FetchConfiguration by lazy {
         FetchConfiguration.Builder(requireContext())
-            .setDownloadConcurrentLimit(3)
+            .setNotificationManager(object :
+                WallpaperDownloadNotificationManager(WeakReference(context), true) {
+                override fun getFetchInstanceForNamespace(namespace: String): Fetch = fetch
+            })
             .build()
     }
     private val fetch: Fetch by lazy {
@@ -77,6 +83,10 @@ open class DownloadToApplyDialog : DialogFragment(), BaseFetchListener {
             )
             showFinalMessage()
         })
+        postDelayed(5000) {
+            dialog?.setCancelable(true)
+            isCancelable = true
+        }
     }
 
     open fun showFinalMessage(@StringRes message: Int = R.string.unexpected_error_occurred) {
@@ -95,15 +105,12 @@ open class DownloadToApplyDialog : DialogFragment(), BaseFetchListener {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        fetch.cancel(request.id)
+        clearAndCancelDownload()
         applyToOption = -1
     }
 
     private fun setMessage(@StringRes res: Int) {
-        try {
-            setMessage(requireContext().getString(res))
-        } catch (e: Exception) {
-        }
+        setMessage(string(res))
     }
 
     internal fun setMessage(message: String) {
@@ -128,10 +135,25 @@ open class DownloadToApplyDialog : DialogFragment(), BaseFetchListener {
         showFinalMessage()
     }
 
+    override fun onCompleted(download: Download) {
+        super.onCompleted(download)
+        clearAndCancelDownload()
+    }
+
     override fun dismiss() {
         super.dismiss()
+        clearAndCancelDownload(true)
+        fetch.close()
+    }
+
+    private fun clearAndCancelDownload(removeListener: Boolean = false) {
         fetch.cancel(request.id)
-        fetch.removeListener(this)
+        fetch.cancelAll()
+        fetch.remove(request.id)
+        fetch.removeAll()
+        fetch.delete(request.id)
+        fetch.deleteAll()
+        if (removeListener) fetch.removeListener(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -7,7 +7,8 @@ import com.google.android.material.snackbar.Snackbar
 import dev.jahir.frames.R
 import dev.jahir.frames.data.listeners.BasePermissionRequestListener
 import dev.jahir.frames.extensions.getAppName
-import dev.jahir.frames.extensions.showSnackbar
+import dev.jahir.frames.extensions.snackbar
+import dev.jahir.frames.extensions.string
 import dev.jahir.frames.utils.Prefs
 
 abstract class BaseStoragePermissionRequestActivity<out P : Prefs> : BaseThemedActivity<P>() {
@@ -21,12 +22,12 @@ abstract class BaseStoragePermissionRequestActivity<out P : Prefs> : BaseThemedA
 
             override fun onPermissionsDenied(result: List<PermissionStatus>) {
                 super.onPermissionsDenied(result)
-                showSnackbar(R.string.permission_denied, Snackbar.LENGTH_INDEFINITE)
+                snackbar(R.string.permission_denied, Snackbar.LENGTH_INDEFINITE)
             }
 
             override fun onPermissionsPermanentlyDenied(result: List<PermissionStatus>) {
                 super.onPermissionsPermanentlyDenied(result)
-                showSnackbar(R.string.permission_permanently_denied, Snackbar.LENGTH_INDEFINITE)
+                snackbar(R.string.permission_permanently_denied, Snackbar.LENGTH_INDEFINITE)
             }
 
             override fun onPermissionsShouldShowRationale(result: List<PermissionStatus>) {
@@ -47,7 +48,7 @@ abstract class BaseStoragePermissionRequestActivity<out P : Prefs> : BaseThemedA
     }
 
     private fun showPermissionRationale() {
-        showSnackbar(getPermissionRationaleMessage(), Snackbar.LENGTH_INDEFINITE) {
+        snackbar(getPermissionRationaleMessage(), Snackbar.LENGTH_INDEFINITE) {
             setAction(android.R.string.ok) { requestStoragePermission() }
         }
     }
@@ -55,7 +56,7 @@ abstract class BaseStoragePermissionRequestActivity<out P : Prefs> : BaseThemedA
     open fun internalOnPermissionsGranted(result: List<PermissionStatus>) {}
 
     open fun getPermissionRationaleMessage(): String =
-        getString(R.string.permission_request, getAppName())
+        string(R.string.permission_request, getAppName())
 
     override fun onDestroy() {
         super.onDestroy()

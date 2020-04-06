@@ -7,6 +7,7 @@ import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.extensions.gone
 import dev.jahir.frames.extensions.hasContent
+import dev.jahir.frames.extensions.string
 import dev.jahir.frames.ui.activities.base.BaseChangelogDialogActivity
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.utils.Prefs
@@ -65,7 +66,7 @@ open class CollectionActivity : BaseChangelogDialogActivity<Prefs>() {
 
     override fun getMenuRes(): Int = R.menu.toolbar_menu_simple
 
-    override fun getSearchHint(itemId: Int): String = getString(R.string.search_wallpapers)
+    override fun getSearchHint(itemId: Int): String = string(R.string.search_wallpapers)
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) supportFinishAfterTransition()
