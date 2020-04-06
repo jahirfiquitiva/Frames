@@ -8,7 +8,9 @@ import androidx.appcompat.widget.Toolbar
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.color
 import dev.jahir.frames.extensions.findView
+import dev.jahir.frames.extensions.gone
 import dev.jahir.frames.extensions.resolveColor
+import dev.jahir.frames.extensions.visible
 import dev.jahir.frames.ui.widgets.CleanSearchView
 import dev.jahir.frames.utils.Prefs
 import dev.jahir.frames.utils.postDelayed
@@ -32,9 +34,14 @@ abstract class BaseSearchableActivity<out P : Prefs> : BaseFavoritesConnectedAct
         menu?.let {
             searchItem = it.findItem(R.id.search)
             searchView = searchItem?.actionView as? CleanSearchView
+            searchView?.onExpand = {
+                it.findItem(R.id.search).isVisible = false
+                bottomNavigation?.gone()
+            }
             searchView?.onCollapse = {
                 doSearch(closed = true)
                 invalidateOptionsMenu()
+                bottomNavigation?.visible()
             }
             searchView?.onQueryChanged = { query -> doSearch(query) }
             searchView?.onQuerySubmit = { query -> doSearch(query) }
