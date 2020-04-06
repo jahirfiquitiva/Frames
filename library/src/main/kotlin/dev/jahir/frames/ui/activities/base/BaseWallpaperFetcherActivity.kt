@@ -119,7 +119,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Prefs> :
 
     override fun onDestroy() {
         super.onDestroy()
-        dismissDownloadDialog(true, false)
+        dismissDownloadDialog(cancelDownload = true, removeDownload = false)
         fetch.removeListener(fetchListener)
         fetch.close()
     }

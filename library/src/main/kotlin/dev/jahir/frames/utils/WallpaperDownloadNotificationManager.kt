@@ -325,7 +325,7 @@ abstract class WallpaperDownloadNotificationManager(
     }
 
     override fun shouldCancelNotification(downloadNotification: DownloadNotification): Boolean {
-        return downloadNotification.isPaused
+        return downloadNotification.isPaused || (downloadNotification.isCompleted && shouldDismissAfterCompleted)
     }
 
     override fun postDownloadUpdate(download: Download): Boolean {
