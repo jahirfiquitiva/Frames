@@ -5,8 +5,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.annotation.StringRes
 import dev.jahir.frames.R
+import dev.jahir.frames.extensions.boolean
 import dev.jahir.frames.extensions.createIfDidNotExist
 import dev.jahir.frames.extensions.getDefaultWallpapersDownloadFolder
+import dev.jahir.frames.extensions.integer
 import java.io.File
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -22,11 +24,19 @@ open class Prefs(private val context: Context) {
         set(value) = prefsEditor.putLong(LAST_VERSION, value).apply()
 
     var currentTheme: ThemeKey
-        get() = ThemeKey.fromValue(prefs.getInt(CURRENT_THEME, getDefaultThemeKey().value))
+        get() = ThemeKey.fromValue(
+            prefs.getInt(
+                CURRENT_THEME,
+                context.integer(R.integer.default_theme, getDefaultThemeKey().value)
+            )
+        )
         set(value) = prefsEditor.putInt(CURRENT_THEME, value.value).apply()
 
     var usesAmoledTheme: Boolean
-        get() = prefs.getBoolean(USES_AMOLED_THEME, false)
+        get() = prefs.getBoolean(
+            USES_AMOLED_THEME,
+            context.boolean(R.bool.amoled_theme_enabled_by_default)
+        )
         set(value) = prefsEditor.putBoolean(USES_AMOLED_THEME, value).apply()
 
     var shouldColorNavbar: Boolean

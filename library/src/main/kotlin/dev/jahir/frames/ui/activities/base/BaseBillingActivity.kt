@@ -9,6 +9,7 @@ import dev.jahir.frames.data.models.CleanSkuDetails
 import dev.jahir.frames.data.models.DetailedPurchaseRecord
 import dev.jahir.frames.data.viewmodels.BillingViewModel
 import dev.jahir.frames.extensions.getAppName
+import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.extensions.lazyViewModel
 import dev.jahir.frames.extensions.mdDialog
 import dev.jahir.frames.extensions.message
@@ -16,6 +17,7 @@ import dev.jahir.frames.extensions.negativeButton
 import dev.jahir.frames.extensions.positiveButton
 import dev.jahir.frames.extensions.singleChoiceItems
 import dev.jahir.frames.extensions.string
+import dev.jahir.frames.extensions.stringArray
 import dev.jahir.frames.extensions.title
 import dev.jahir.frames.ui.fragments.viewer.DownloaderDialog
 import dev.jahir.frames.utils.Prefs
@@ -120,7 +122,7 @@ abstract class BaseBillingActivity<out P : Prefs> : BaseLicenseCheckerActivity<P
     }
 
     open fun getInAppPurchasesItemsIds(): List<String> = try {
-        resources.getStringArray(R.array.donation_items).asList()
+        stringArray(R.array.donation_items).filter { it.hasContent() }
     } catch (e: Exception) {
         listOf()
     }
