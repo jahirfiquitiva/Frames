@@ -107,6 +107,14 @@ val Context.currentVersionCode: Long
         -1L
     }
 
+@Suppress("DEPRECATION")
+val Context.currentVersionName: String?
+    get() = try {
+        packageManager.getPackageInfo(packageName, 0).versionName
+    } catch (e: Exception) {
+        "Unknown"
+    }
+
 fun Context.getAppName(defName: String = ""): String {
     var name: String = try {
         (packageManager?.getApplicationLabel(applicationInfo) ?: "").toString()

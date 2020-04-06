@@ -9,9 +9,13 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceScreen
 import androidx.preference.SwitchPreference
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dev.jahir.frames.BuildConfig
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.clearDataAndCache
+import dev.jahir.frames.extensions.currentVersionCode
+import dev.jahir.frames.extensions.currentVersionName
 import dev.jahir.frames.extensions.dataCacheSize
+import dev.jahir.frames.extensions.getAppName
 import dev.jahir.frames.extensions.hasContent
 import dev.jahir.frames.extensions.mdDialog
 import dev.jahir.frames.extensions.openLink
@@ -96,6 +100,14 @@ open class SettingsFragment : BasePreferenceFragment() {
         notificationsPrefs?.setOnCheckedChangeListener {
             prefs.notificationsEnabled = it
         }
+
+        val appVersionPrefs = findPreference<Preference?>("app_version")
+        appVersionPrefs?.title = context?.getAppName("App") ?: "App"
+        appVersionPrefs?.summary = "${context?.currentVersionName} (${context?.currentVersionCode})"
+
+        val dashboardVersionPrefs = findPreference<Preference?>("dashboard_version")
+        dashboardVersionPrefs?.title = BuildConfig.DASHBOARD_NAME
+        dashboardVersionPrefs?.summary = BuildConfig.DASHBOARD_VERSION
 
         setupLegalLinks()
     }

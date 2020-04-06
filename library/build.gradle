@@ -41,6 +41,10 @@ android {
     }
 
     buildTypes {
+        buildTypes.each {
+            it.buildConfigField("String", "DASHBOARD_NAME", "\"Frames\"")
+            it.buildConfigField("String", "DASHBOARD_VERSION", "\"$Frames.versionName\"")
+        }
         release {
             minifyEnabled false
             proguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
