@@ -55,7 +55,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Prefs> :
     private val fetch: Fetch by lazy {
         val fetchConfig = FetchConfiguration.Builder(this)
             .setNotificationManager(object :
-                WallpaperDownloadNotificationManager(WeakReference(this@BaseWallpaperFetcherActivity)) {
+                WallpaperDownloadNotificationManager(WeakReference(applicationContext)) {
                 override fun getFetchInstanceForNamespace(namespace: String): Fetch = fetch
             })
             .build()
@@ -90,20 +90,25 @@ abstract class BaseWallpaperFetcherActivity<out P : Prefs> :
         } ?: { dismissDownloadDialog(true) }()
     }
 
-    internal fun cancelDownload() {
+    internal fun cancelDownload(remove: Boolean = true) {
         try {
             fetch.cancel(request?.id ?: -1)
             fetch.cancelAll()
-            fetch.remove(request?.id ?: -1)
-            fetch.removeAll()
-            fetch.delete(request?.id ?: -1)
-            fetch.deleteAll()
+            if (remove) {
+                fetch.remove(request?.id ?: -1)
+                fetch.removeAll()
+                fetch.delete(request?.id ?: -1)
+                fetch.deleteAll()
+            }
         } catch (e: Exception) {
         }
     }
 
-    private fun dismissDownloadDialog(cancelDownload: Boolean = false) {
-        if (cancelDownload) cancelDownload()
+    private fun dismissDownloadDialog(
+        cancelDownload: Boolean = false,
+        removeDownload: Boolean = true
+    ) {
+        if (cancelDownload) cancelDownload(removeDownload)
         postDelayed(50) {
             try {
                 downloaderDialog.dismiss()
@@ -114,7 +119,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Prefs> :
 
     override fun onDestroy() {
         super.onDestroy()
-        dismissDownloadDialog(true)
+        dismissDownloadDialog(true, false)
         fetch.removeListener(fetchListener)
         fetch.close()
     }

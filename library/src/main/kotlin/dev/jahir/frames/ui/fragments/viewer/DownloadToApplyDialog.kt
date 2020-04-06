@@ -43,10 +43,13 @@ open class DownloadToApplyDialog : DialogFragment(), BaseFetchListener {
 
     private val fetchConfig: FetchConfiguration by lazy {
         FetchConfiguration.Builder(requireContext())
-            .setNotificationManager(object :
-                WallpaperDownloadNotificationManager(WeakReference(context), true) {
-                override fun getFetchInstanceForNamespace(namespace: String): Fetch = fetch
-            })
+            .setNotificationManager(
+                object : WallpaperDownloadNotificationManager(
+                    WeakReference(context?.applicationContext), true
+                ) {
+                    override fun getFetchInstanceForNamespace(namespace: String): Fetch = fetch
+                }
+            )
             .build()
     }
     private val fetch: Fetch by lazy {
