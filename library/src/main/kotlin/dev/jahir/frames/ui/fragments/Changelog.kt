@@ -1,4 +1,4 @@
-package dev.jahir.frames.utils
+package dev.jahir.frames.ui.fragments
 
 import android.content.Context
 import android.content.res.XmlResourceParser
@@ -11,22 +11,21 @@ import androidx.annotation.StringRes
 import androidx.annotation.XmlRes
 import androidx.appcompat.app.AlertDialog
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.adapter
-import dev.jahir.frames.extensions.findView
-import dev.jahir.frames.extensions.hasContent
-import dev.jahir.frames.extensions.inflate
-import dev.jahir.frames.extensions.mdDialog
-import dev.jahir.frames.extensions.positiveButton
-import dev.jahir.frames.extensions.string
-import dev.jahir.frames.extensions.title
+import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.extensions.fragments.adapter
+import dev.jahir.frames.extensions.fragments.mdDialog
+import dev.jahir.frames.extensions.fragments.positiveButton
+import dev.jahir.frames.extensions.fragments.title
+import dev.jahir.frames.extensions.resources.hasContent
+import dev.jahir.frames.extensions.views.findView
+import dev.jahir.frames.extensions.views.inflate
 import org.xmlpull.v1.XmlPullParser
 
 /**
- * Utils originally created by Allan Wang
+ * Created by Allan Wang
  * Available at https://github.com/AllanWang/KAU
- * I have added them here (copy/pasted) because this lib doesn't really uses/needs all its features
+ * I have added (copy/pasted) this because this lib doesn't really uses/needs all its features
  * at a 100%.
- * Anyway, full credits go to Allan, for these awesome extensions
  */
 
 /**

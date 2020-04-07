@@ -3,8 +3,8 @@ package dev.jahir.frames.ui.decorations
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import dev.jahir.frames.extensions.MAX_FRAMES_PALETTE_COLORS
-import dev.jahir.frames.extensions.dpToPx
+import dev.jahir.frames.extensions.resources.dpToPx
+import dev.jahir.frames.extensions.utils.MAX_FRAMES_PALETTE_COLORS
 import dev.jahir.frames.ui.adapters.WallpaperDetailsAdapter
 import kotlin.math.roundToInt
 

@@ -1,4 +1,4 @@
-package dev.jahir.frames.extensions
+package dev.jahir.frames.extensions.fragments
 
 import android.content.Context
 import android.content.DialogInterface

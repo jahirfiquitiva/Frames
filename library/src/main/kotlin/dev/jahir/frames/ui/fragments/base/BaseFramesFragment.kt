@@ -12,12 +12,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.hasContent
-import dev.jahir.frames.extensions.lighten
-import dev.jahir.frames.extensions.resolveColor
+import dev.jahir.frames.extensions.context.resolveColor
+import dev.jahir.frames.extensions.resources.hasContent
+import dev.jahir.frames.extensions.resources.lighten
+import dev.jahir.frames.extensions.resources.tint
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.widgets.StatefulRecyclerView
-import dev.jahir.frames.utils.tint
 
 abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_recyclerview),
     StatefulRecyclerView.StateDrawableModifier {

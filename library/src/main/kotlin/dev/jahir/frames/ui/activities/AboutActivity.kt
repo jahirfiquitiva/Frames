@@ -6,20 +6,18 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
+import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.models.AboutItem
-import dev.jahir.frames.extensions.color
-import dev.jahir.frames.extensions.findView
-import dev.jahir.frames.extensions.resolveColor
-import dev.jahir.frames.extensions.string
-import dev.jahir.frames.extensions.stringArray
+import dev.jahir.frames.extensions.context.findView
+import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.extensions.context.stringArray
+import dev.jahir.frames.extensions.views.tint
 import dev.jahir.frames.ui.activities.base.BaseThemedActivity
 import dev.jahir.frames.ui.adapters.AboutAdapter
-import dev.jahir.frames.utils.Prefs
-import dev.jahir.frames.utils.tintIcons
 
-open class AboutActivity : BaseThemedActivity<Prefs>() {
+open class AboutActivity : BaseThemedActivity<Preferences>() {
 
-    override val prefs: Prefs by lazy { Prefs(this) }
+    override val preferences: Preferences by lazy { Preferences(this) }
     private val toolbar: Toolbar? by findView(R.id.toolbar)
     private val recyclerView: RecyclerView? by findView(R.id.recycler_view)
 
@@ -33,8 +31,7 @@ open class AboutActivity : BaseThemedActivity<Prefs>() {
             it.setDisplayHomeAsUpEnabled(true)
             it.setDisplayShowHomeEnabled(true)
         }
-
-        toolbar?.tintIcons(resolveColor(R.attr.colorOnPrimary, color(R.color.onPrimary)))
+        toolbar?.tint()
 
         val adapter = AboutAdapter(getDesignerAboutItems(), getInternalAboutItems())
         recyclerView?.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)

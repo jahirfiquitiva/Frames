@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package dev.jahir.frames.extensions
+package dev.jahir.frames.extensions.resources
 
 import android.graphics.Color
 import androidx.annotation.ColorInt

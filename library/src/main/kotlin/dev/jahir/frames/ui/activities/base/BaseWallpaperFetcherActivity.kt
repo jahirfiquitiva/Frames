@@ -11,18 +11,18 @@ import com.tonyodev.fetch2.Request
 import com.tonyodev.fetch2core.DownloadBlock
 import com.tonyodev.fetch2core.Func
 import dev.jahir.frames.R
+import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.listeners.BaseFetchListener
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.extensions.snackbar
-import dev.jahir.frames.extensions.string
+import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.extensions.utils.postDelayed
+import dev.jahir.frames.extensions.views.snackbar
 import dev.jahir.frames.ui.fragments.viewer.DownloaderDialog
-import dev.jahir.frames.utils.Prefs
-import dev.jahir.frames.utils.WallpaperDownloadNotificationManager
-import dev.jahir.frames.utils.postDelayed
+import dev.jahir.frames.ui.notifications.WallpaperDownloadNotificationManager
 import java.io.File
 import java.lang.ref.WeakReference
 
-abstract class BaseWallpaperFetcherActivity<out P : Prefs> :
+abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
     BaseStoragePermissionRequestActivity<P>() {
 
     private val fetchListener: BaseFetchListener by lazy {
@@ -68,7 +68,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Prefs> :
 
     internal fun initFetch(wallpaper: Wallpaper?) {
         wallpaper ?: return
-        val folder = prefs.downloadsFolder ?: externalCacheDir ?: cacheDir
+        val folder = preferences.downloadsFolder ?: externalCacheDir ?: cacheDir
         val filename = wallpaper.url.substring(wallpaper.url.lastIndexOf("/") + 1)
 
         request = Request(wallpaper.url, "$folder${File.separator}$filename")

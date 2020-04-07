@@ -1,4 +1,4 @@
-package dev.jahir.frames.extensions
+package dev.jahir.frames.extensions.views
 
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView

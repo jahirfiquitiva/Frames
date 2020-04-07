@@ -3,7 +3,7 @@ package dev.jahir.frames.ui
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDexApplication
-import dev.jahir.frames.extensions.setDefaultDashboardTheme
+import dev.jahir.frames.extensions.context.setDefaultDashboardTheme
 
 open class FramesApplication : MultiDexApplication() {
     override fun attachBaseContext(base: Context?) {

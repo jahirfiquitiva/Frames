@@ -5,10 +5,10 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.findView
-import dev.jahir.frames.extensions.hasContent
-import dev.jahir.frames.extensions.string
-import dev.jahir.frames.extensions.visibleIf
+import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.extensions.resources.hasContent
+import dev.jahir.frames.extensions.views.findView
+import dev.jahir.frames.extensions.views.visibleIf
 
 class SectionHeaderViewHolder(view: View) : SectionedViewHolder(view) {
     private val titleTextView: TextView? by view.findView(R.id.section_title)

@@ -6,8 +6,8 @@ import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.hasContent
-import dev.jahir.frames.extensions.toReadableByteCount
+import dev.jahir.frames.extensions.resources.hasContent
+import dev.jahir.frames.extensions.resources.toReadableByteCount
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 

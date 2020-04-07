@@ -1,4 +1,6 @@
-package dev.jahir.frames.extensions
+@file:Suppress("unused")
+
+package dev.jahir.frames.extensions.views
 
 import android.app.Activity
 import android.view.View
@@ -9,6 +11,7 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import dev.jahir.frames.R
+import dev.jahir.frames.extensions.context.string
 
 fun View.snackbar(
     text: CharSequence,

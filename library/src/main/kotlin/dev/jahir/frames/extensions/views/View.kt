@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package dev.jahir.frames.extensions
+package dev.jahir.frames.extensions.views
 
 import android.view.LayoutInflater
 import android.view.View

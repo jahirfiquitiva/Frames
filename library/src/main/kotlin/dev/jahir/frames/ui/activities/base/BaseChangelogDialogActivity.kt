@@ -3,11 +3,11 @@ package dev.jahir.frames.ui.activities.base
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.isUpdate
-import dev.jahir.frames.utils.Prefs
-import dev.jahir.frames.utils.buildChangelogDialog
+import dev.jahir.frames.data.Preferences
+import dev.jahir.frames.extensions.context.isUpdate
+import dev.jahir.frames.ui.fragments.buildChangelogDialog
 
-abstract class BaseChangelogDialogActivity<out P : Prefs> : BaseSearchableActivity<P>() {
+abstract class BaseChangelogDialogActivity<out P : Preferences> : BaseSearchableActivity<P>() {
 
     private val changelogDialog: AlertDialog? by lazy { buildChangelogDialog() }
 

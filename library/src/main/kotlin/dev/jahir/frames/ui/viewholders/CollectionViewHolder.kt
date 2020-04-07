@@ -6,13 +6,13 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.palette.graphics.Palette
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
-import dev.jahir.frames.extensions.bestTextColor
-import dev.jahir.frames.extensions.boolean
-import dev.jahir.frames.extensions.context
-import dev.jahir.frames.extensions.findView
-import dev.jahir.frames.extensions.loadFramesPic
-import dev.jahir.frames.extensions.string
-import dev.jahir.frames.extensions.withAlpha
+import dev.jahir.frames.extensions.context.boolean
+import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.extensions.resources.withAlpha
+import dev.jahir.frames.extensions.utils.bestTextColor
+import dev.jahir.frames.extensions.views.context
+import dev.jahir.frames.extensions.views.findView
+import dev.jahir.frames.extensions.views.loadFramesPic
 
 class CollectionViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
 

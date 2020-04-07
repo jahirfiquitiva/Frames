@@ -4,17 +4,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import dev.jahir.frames.R
+import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.models.Collection
-import dev.jahir.frames.extensions.gone
-import dev.jahir.frames.extensions.hasContent
-import dev.jahir.frames.extensions.string
+import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.extensions.resources.hasContent
+import dev.jahir.frames.extensions.views.gone
 import dev.jahir.frames.ui.activities.base.BaseChangelogDialogActivity
 import dev.jahir.frames.ui.fragments.WallpapersFragment
-import dev.jahir.frames.utils.Prefs
 
-open class CollectionActivity : BaseChangelogDialogActivity<Prefs>() {
+open class CollectionActivity : BaseChangelogDialogActivity<Preferences>() {
 
-    override val prefs: Prefs by lazy { Prefs(this) }
+    override val preferences: Preferences by lazy { Preferences(this) }
 
     open val wallpapersFragment: WallpapersFragment by lazy {
         WallpapersFragment.create(canModifyFavorites = canModifyFavorites())

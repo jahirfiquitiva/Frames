@@ -8,10 +8,10 @@ import android.os.Build
 import com.tonyodev.fetch2.Download
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.extensions.getUri
-import dev.jahir.frames.extensions.prefs
-import dev.jahir.frames.extensions.string
-import dev.jahir.frames.utils.ensureBackgroundThread
+import dev.jahir.frames.extensions.fragments.preferences
+import dev.jahir.frames.extensions.fragments.string
+import dev.jahir.frames.extensions.resources.getUri
+import dev.jahir.frames.extensions.utils.ensureBackgroundThread
 import java.io.File
 
 class ApplierDialog : DownloadToApplyDialog() {
@@ -60,7 +60,7 @@ class ApplierDialog : DownloadToApplyDialog() {
                     null
                 }
 
-                val scaledBitmap = if (context?.prefs?.shouldCropWallpaperBeforeApply == true) {
+                val scaledBitmap = if (preferences.shouldCropWallpaperBeforeApply == true) {
                     bitmap?.let {
                         try {
                             val wantedHeight = wm?.desiredMinimumHeight ?: 0

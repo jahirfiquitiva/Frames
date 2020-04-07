@@ -1,10 +1,11 @@
-package dev.jahir.frames.extensions
+package dev.jahir.frames.extensions.resources
 
 import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import androidx.core.content.FileProvider
+import com.github.javiersantos.piracychecker.activities.getAppName
 import java.io.File
 
 fun File.getUri(context: Context?): Uri? {

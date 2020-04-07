@@ -1,4 +1,4 @@
-package dev.jahir.frames.utils
+package dev.jahir.frames.extensions.utils
 
 import android.os.Handler
 import android.os.Looper
@@ -7,9 +7,9 @@ fun postDelayed(delay: Long, action: () -> Unit) {
     Handler().postDelayed(action, delay)
 }
 
-fun isOnMainThread() = Looper.myLooper() == Looper.getMainLooper()
+private fun isOnMainThread() = Looper.myLooper() == Looper.getMainLooper()
 
-fun ensureBackgroundThread(callback: () -> Unit) {
+internal fun ensureBackgroundThread(callback: () -> Unit) {
     if (isOnMainThread()) {
         Thread { callback() }.start()
     } else {

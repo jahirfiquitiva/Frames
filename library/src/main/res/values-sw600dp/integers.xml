@@ -2,4 +2,5 @@
 <resources>
     <integer name="wallpapers_columns_count">4</integer>
     <integer name="collections_columns_count">2</integer>
+    <bool name="is_landscape">false</bool>
 </resources>

@@ -6,11 +6,11 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.extensions.mdDialog
-import dev.jahir.frames.extensions.negativeButton
-import dev.jahir.frames.extensions.positiveButton
-import dev.jahir.frames.extensions.singleChoiceItems
-import dev.jahir.frames.extensions.title
+import dev.jahir.frames.extensions.fragments.mdDialog
+import dev.jahir.frames.extensions.fragments.negativeButton
+import dev.jahir.frames.extensions.fragments.positiveButton
+import dev.jahir.frames.extensions.fragments.singleChoiceItems
+import dev.jahir.frames.extensions.fragments.title
 import dev.jahir.frames.ui.activities.ViewerActivity
 
 class SetAsOptionsDialog : DialogFragment() {

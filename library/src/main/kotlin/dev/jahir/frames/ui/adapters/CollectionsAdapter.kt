@@ -4,8 +4,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
-import dev.jahir.frames.extensions.boolean
-import dev.jahir.frames.extensions.inflate
+import dev.jahir.frames.extensions.context.boolean
+import dev.jahir.frames.extensions.views.inflate
 import dev.jahir.frames.ui.viewholders.CollectionViewHolder
 
 class CollectionsAdapter(private val onClick: ((collection: Collection) -> Unit)? = null) :

@@ -4,26 +4,26 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AlertDialog
 import dev.jahir.frames.R
+import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.listeners.BillingProcessesListener
 import dev.jahir.frames.data.models.CleanSkuDetails
 import dev.jahir.frames.data.models.DetailedPurchaseRecord
 import dev.jahir.frames.data.viewmodels.BillingViewModel
-import dev.jahir.frames.extensions.getAppName
-import dev.jahir.frames.extensions.hasContent
-import dev.jahir.frames.extensions.lazyViewModel
-import dev.jahir.frames.extensions.mdDialog
-import dev.jahir.frames.extensions.message
-import dev.jahir.frames.extensions.negativeButton
-import dev.jahir.frames.extensions.positiveButton
-import dev.jahir.frames.extensions.singleChoiceItems
-import dev.jahir.frames.extensions.string
-import dev.jahir.frames.extensions.stringArray
-import dev.jahir.frames.extensions.title
+import dev.jahir.frames.extensions.context.getAppName
+import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.extensions.context.stringArray
+import dev.jahir.frames.extensions.fragments.mdDialog
+import dev.jahir.frames.extensions.fragments.message
+import dev.jahir.frames.extensions.fragments.negativeButton
+import dev.jahir.frames.extensions.fragments.positiveButton
+import dev.jahir.frames.extensions.fragments.singleChoiceItems
+import dev.jahir.frames.extensions.fragments.title
+import dev.jahir.frames.extensions.resources.hasContent
+import dev.jahir.frames.extensions.utils.lazyViewModel
 import dev.jahir.frames.ui.fragments.viewer.DownloaderDialog
-import dev.jahir.frames.utils.Prefs
 
 @Suppress("MemberVisibilityCanBePrivate")
-abstract class BaseBillingActivity<out P : Prefs> : BaseLicenseCheckerActivity<P>(),
+abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActivity<P>(),
     BillingProcessesListener {
 
     val billingViewModel: BillingViewModel by lazyViewModel()

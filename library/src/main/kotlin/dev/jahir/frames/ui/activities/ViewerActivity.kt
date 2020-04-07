@@ -21,8 +21,34 @@ import androidx.fragment.app.DialogFragment
 import androidx.palette.graphics.Palette
 import com.fondesa.kpermissions.PermissionStatus
 import dev.jahir.frames.R
+import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.extensions.*
+import dev.jahir.frames.extensions.context.boolean
+import dev.jahir.frames.extensions.context.color
+import dev.jahir.frames.extensions.context.compliesWithMinTime
+import dev.jahir.frames.extensions.context.findView
+import dev.jahir.frames.extensions.context.firstInstallTime
+import dev.jahir.frames.extensions.context.navigationBarLight
+import dev.jahir.frames.extensions.context.statusBarLight
+import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.extensions.fragments.mdDialog
+import dev.jahir.frames.extensions.fragments.message
+import dev.jahir.frames.extensions.fragments.positiveButton
+import dev.jahir.frames.extensions.fragments.title
+import dev.jahir.frames.extensions.frames.buildAuthorTransitionName
+import dev.jahir.frames.extensions.frames.buildImageTransitionName
+import dev.jahir.frames.extensions.frames.buildTitleTransitionName
+import dev.jahir.frames.extensions.resources.asBitmap
+import dev.jahir.frames.extensions.resources.toReadableTime
+import dev.jahir.frames.extensions.utils.MAX_FRAMES_PALETTE_COLORS
+import dev.jahir.frames.extensions.utils.bestSwatch
+import dev.jahir.frames.extensions.views.gone
+import dev.jahir.frames.extensions.views.loadFramesPic
+import dev.jahir.frames.extensions.views.setMarginBottom
+import dev.jahir.frames.extensions.views.setMarginTop
+import dev.jahir.frames.extensions.views.setPaddingLeft
+import dev.jahir.frames.extensions.views.setPaddingRight
+import dev.jahir.frames.extensions.views.tint
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.viewer.ApplierDialog
@@ -30,12 +56,10 @@ import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
 import dev.jahir.frames.ui.fragments.viewer.DownloadToApplyDialog
 import dev.jahir.frames.ui.fragments.viewer.SetAsOptionsDialog
 import dev.jahir.frames.ui.widgets.FramesPhotoView
-import dev.jahir.frames.utils.Prefs
-import dev.jahir.frames.utils.tint
 
-open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
+open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
 
-    override val prefs: Prefs by lazy { Prefs(this) }
+    override val preferences: Preferences by lazy { Preferences(this) }
 
     private val toolbar: Toolbar? by findView(R.id.toolbar)
     private val image: AppCompatImageView? by findView(R.id.wallpaper)
@@ -237,6 +261,14 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Prefs>() {
             appbar?.let { appbar ->
                 ViewCompat.setOnApplyWindowInsetsListener(appbar) { _, insets ->
                     appbar.setMarginTop(insets.systemWindowInsetTop)
+                    appbar.setPaddingLeft(
+                        if (boolean(R.bool.is_landscape)) insets.systemWindowInsetLeft
+                        else 0
+                    )
+                    appbar.setPaddingRight(
+                        if (boolean(R.bool.is_landscape)) insets.systemWindowInsetRight
+                        else 0
+                    )
                     insets
                 }
             }

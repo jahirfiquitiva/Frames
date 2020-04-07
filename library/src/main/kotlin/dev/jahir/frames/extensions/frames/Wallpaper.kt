@@ -1,4 +1,4 @@
-package dev.jahir.frames.extensions
+package dev.jahir.frames.extensions.frames
 
 import dev.jahir.frames.data.models.Wallpaper
 

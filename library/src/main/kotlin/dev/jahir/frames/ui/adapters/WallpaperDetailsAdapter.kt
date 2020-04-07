@@ -6,8 +6,8 @@ import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.extensions.MAX_FRAMES_PALETTE_COLORS
-import dev.jahir.frames.extensions.inflate
+import dev.jahir.frames.extensions.utils.MAX_FRAMES_PALETTE_COLORS
+import dev.jahir.frames.extensions.views.inflate
 import dev.jahir.frames.ui.viewholders.SectionHeaderViewHolder
 import dev.jahir.frames.ui.viewholders.WallpaperDetailViewHolder
 import dev.jahir.frames.ui.viewholders.WallpaperPaletteColorViewHolder

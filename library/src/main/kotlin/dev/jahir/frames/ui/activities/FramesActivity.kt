@@ -3,34 +3,24 @@ package dev.jahir.frames.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
-import android.view.animation.AnimationSet
-import android.view.animation.DecelerateInterpolator
-import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import dev.jahir.frames.R
+import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.extensions.findView
-import dev.jahir.frames.extensions.getAppName
-import dev.jahir.frames.extensions.hasContent
-import dev.jahir.frames.extensions.invisible
-import dev.jahir.frames.extensions.string
-import dev.jahir.frames.extensions.visible
+import dev.jahir.frames.extensions.context.getAppName
+import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.ui.activities.base.BaseBillingActivity
 import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
-import dev.jahir.frames.utils.Prefs
 
 @Suppress("LeakingThis", "MemberVisibilityCanBePrivate")
-abstract class FramesActivity : BaseBillingActivity<Prefs>() {
+abstract class FramesActivity : BaseBillingActivity<Preferences>() {
 
-    override val prefs: Prefs by lazy { Prefs(this) }
+    override val preferences: Preferences by lazy { Preferences(this) }
 
     open val wallpapersFragment: WallpapersFragment? by lazy {
         WallpapersFragment.create(ArrayList(wallpapersViewModel.wallpapers), canModifyFavorites())
@@ -119,23 +109,12 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
                     currentItemId = itemId
                     currentTag = nextFragmentTag
                     loadFragment(nextFragment, currentTag, force, animate)
-                    supportActionBar?.title =
-                        getToolbarTitleForItem(itemId) ?: getAppName("MyWallApp")
+                    supportActionBar?.title = getToolbarTitleForItem(itemId) ?: getAppName()
                 }
                 shouldSelectItem
             } ?: false
         }
         return false
-    }
-
-    private fun internalLoadFragment(fragment: Fragment?, tag: String, force: Boolean = false) {
-        fragment ?: return
-        if (currentFragment !== fragment || force) {
-            replaceFragment(fragment, tag)
-            currentFragment = fragment
-            invalidateOptionsMenu()
-            updateSearchHint()
-        }
     }
 
     private fun loadFragment(
@@ -144,45 +123,12 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
         force: Boolean = false,
         animate: Boolean = true
     ) {
-        if (animate && prefs.animationsEnabled)
-            fadeFragmentTransition { internalLoadFragment(fragment, tag, force) }
-        else internalLoadFragment(fragment, tag, force)
-    }
-
-    private fun fadeFragmentTransition(
-        @IdRes viewId: Int = R.id.fragments_container,
-        fragmentTransaction: () -> Unit = {}
-    ) {
-        val fragmentsContainer by findView<View>(viewId)
-
-        fragmentsContainer?.let { container ->
-            val fadeOut = AlphaAnimation(1F, 0F)
-            fadeOut.interpolator = DecelerateInterpolator()
-            fadeOut.duration = FRAGMENT_TRANSITION_DURATION
-
-            fadeOut.setAnimationListener(object : Animation.AnimationListener {
-                override fun onAnimationEnd(p0: Animation?) {
-                    container.invisible()
-                    fragmentTransaction()
-
-                    val fadeIn = AlphaAnimation(0F, 1F)
-                    fadeIn.interpolator = AccelerateInterpolator()
-                    fadeIn.startOffset = FRAGMENT_TRANSITION_DURATION
-                    fadeIn.duration = FRAGMENT_TRANSITION_DURATION
-
-                    val animation = AnimationSet(false)
-                    animation.addAnimation(fadeIn)
-                    container.visible()
-                    container.animation = animation
-                }
-
-                override fun onAnimationRepeat(p0: Animation?) {}
-                override fun onAnimationStart(p0: Animation?) {}
-            })
-
-            val animation = AnimationSet(false)
-            animation.addAnimation(fadeOut)
-            container.animation = animation
+        fragment ?: return
+        if (currentFragment !== fragment || force) {
+            replaceFragment(fragment, tag, animate = animate)
+            currentFragment = fragment
+            invalidateOptionsMenu()
+            updateSearchHint()
         }
     }
 
@@ -211,6 +157,5 @@ abstract class FramesActivity : BaseBillingActivity<Prefs>() {
 
     companion object {
         private const val CURRENT_FRAGMENT_KEY = "current_fragment"
-        private const val FRAGMENT_TRANSITION_DURATION = 100L
     }
 }

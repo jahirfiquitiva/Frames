@@ -6,8 +6,8 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
-import dev.jahir.frames.extensions.integer
-import dev.jahir.frames.extensions.lower
+import dev.jahir.frames.extensions.context.integer
+import dev.jahir.frames.extensions.resources.lower
 import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity

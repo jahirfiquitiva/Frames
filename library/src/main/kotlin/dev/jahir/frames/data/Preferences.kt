@@ -1,18 +1,18 @@
-package dev.jahir.frames.utils
+package dev.jahir.frames.data
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.annotation.StringRes
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.boolean
-import dev.jahir.frames.extensions.createIfDidNotExist
-import dev.jahir.frames.extensions.getDefaultWallpapersDownloadFolder
-import dev.jahir.frames.extensions.integer
+import dev.jahir.frames.extensions.context.boolean
+import dev.jahir.frames.extensions.context.integer
+import dev.jahir.frames.extensions.resources.createIfDidNotExist
+import dev.jahir.frames.extensions.resources.getDefaultWallpapersDownloadFolder
 import java.io.File
 
 @Suppress("MemberVisibilityCanBePrivate")
-open class Prefs(private val context: Context) {
+open class Preferences(private val context: Context) {
     val prefs: SharedPreferences =
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 

@@ -1,4 +1,4 @@
-package dev.jahir.frames.extensions
+package dev.jahir.frames.extensions.resources
 
 import java.util.concurrent.TimeUnit
 import kotlin.math.ln

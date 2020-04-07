@@ -6,10 +6,10 @@ import androidx.appcompat.widget.AppCompatImageView
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.AboutItem
-import dev.jahir.frames.extensions.findView
-import dev.jahir.frames.extensions.hasContent
-import dev.jahir.frames.extensions.loadFramesPic
-import dev.jahir.frames.extensions.visibleIf
+import dev.jahir.frames.extensions.resources.hasContent
+import dev.jahir.frames.extensions.views.findView
+import dev.jahir.frames.extensions.views.loadFramesPic
+import dev.jahir.frames.extensions.views.visibleIf
 import dev.jahir.frames.ui.widgets.AboutButtonsLayout
 
 class AboutViewHolder(view: View) : SectionedViewHolder(view) {

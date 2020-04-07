@@ -8,11 +8,11 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.palette.graphics.Palette
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.bestTextColor
-import dev.jahir.frames.extensions.context
-import dev.jahir.frames.extensions.findView
-import dev.jahir.frames.extensions.toHexString
-import dev.jahir.frames.extensions.toast
+import dev.jahir.frames.extensions.context.toast
+import dev.jahir.frames.extensions.resources.toHexString
+import dev.jahir.frames.extensions.utils.bestTextColor
+import dev.jahir.frames.extensions.views.context
+import dev.jahir.frames.extensions.views.findView
 
 class WallpaperPaletteColorViewHolder(view: View) : SectionedViewHolder(view) {
 

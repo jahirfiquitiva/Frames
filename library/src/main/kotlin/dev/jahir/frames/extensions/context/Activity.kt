@@ -1,4 +1,4 @@
-package dev.jahir.frames.extensions
+package dev.jahir.frames.extensions.context
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -11,6 +11,7 @@ import androidx.annotation.IdRes
 import androidx.core.util.Pair
 import androidx.core.view.ViewCompat
 import dev.jahir.frames.R
+import dev.jahir.frames.extensions.resources.hasContent
 
 inline fun Activity.restart(intentBuilder: Intent.() -> Unit = {}) {
     val i = Intent(this, this::class.java)

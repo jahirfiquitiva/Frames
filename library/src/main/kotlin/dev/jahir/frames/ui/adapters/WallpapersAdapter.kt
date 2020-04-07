@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.extensions.inflate
+import dev.jahir.frames.extensions.views.inflate
 import dev.jahir.frames.ui.viewholders.WallpaperViewHolder
 
 internal class WallpapersAdapter(

@@ -5,13 +5,13 @@ import com.fondesa.kpermissions.PermissionStatus
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.google.android.material.snackbar.Snackbar
 import dev.jahir.frames.R
+import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.listeners.BasePermissionRequestListener
-import dev.jahir.frames.extensions.getAppName
-import dev.jahir.frames.extensions.snackbar
-import dev.jahir.frames.extensions.string
-import dev.jahir.frames.utils.Prefs
+import dev.jahir.frames.extensions.context.getAppName
+import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.extensions.views.snackbar
 
-abstract class BaseStoragePermissionRequestActivity<out P : Prefs> : BaseThemedActivity<P>() {
+abstract class BaseStoragePermissionRequestActivity<out P : Preferences> : BaseThemedActivity<P>() {
 
     private val permissionRequestListener: BasePermissionRequestListener by lazy {
         object : BasePermissionRequestListener {

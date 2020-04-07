@@ -1,4 +1,4 @@
-package dev.jahir.frames.extensions
+package dev.jahir.frames.extensions.utils
 
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData

@@ -10,21 +10,21 @@ import com.github.javiersantos.piracychecker.enums.PirateApp
 import com.github.javiersantos.piracychecker.onError
 import com.github.javiersantos.piracychecker.piracyChecker
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.getAppName
-import dev.jahir.frames.extensions.hasContent
-import dev.jahir.frames.extensions.isUpdate
-import dev.jahir.frames.extensions.mdDialog
-import dev.jahir.frames.extensions.message
-import dev.jahir.frames.extensions.negativeButton
-import dev.jahir.frames.extensions.openLink
-import dev.jahir.frames.extensions.positiveButton
-import dev.jahir.frames.extensions.snackbar
-import dev.jahir.frames.extensions.string
-import dev.jahir.frames.extensions.title
-import dev.jahir.frames.utils.Prefs
-import dev.jahir.frames.utils.postDelayed
+import dev.jahir.frames.data.Preferences
+import dev.jahir.frames.extensions.context.getAppName
+import dev.jahir.frames.extensions.context.isUpdate
+import dev.jahir.frames.extensions.context.openLink
+import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.extensions.fragments.mdDialog
+import dev.jahir.frames.extensions.fragments.message
+import dev.jahir.frames.extensions.fragments.negativeButton
+import dev.jahir.frames.extensions.fragments.positiveButton
+import dev.jahir.frames.extensions.fragments.title
+import dev.jahir.frames.extensions.resources.hasContent
+import dev.jahir.frames.extensions.utils.postDelayed
+import dev.jahir.frames.extensions.views.snackbar
 
-abstract class BaseLicenseCheckerActivity<out P : Prefs> : BaseChangelogDialogActivity<P>() {
+abstract class BaseLicenseCheckerActivity<out P : Preferences> : BaseChangelogDialogActivity<P>() {
 
     var licenseCheckEnabled: Boolean = false
         private set
@@ -60,7 +60,7 @@ abstract class BaseLicenseCheckerActivity<out P : Prefs> : BaseChangelogDialogAc
         checker = getLicenseChecker()
         checker?.let {
             licenseCheckEnabled = true
-            if (isUpdate || !prefs.functionalDashboard || force) {
+            if (isUpdate || !preferences.functionalDashboard || force) {
                 with(it) {
                     callback {
                         allow { showLicensedSnack(isUpdate, force) }
@@ -72,7 +72,7 @@ abstract class BaseLicenseCheckerActivity<out P : Prefs> : BaseChangelogDialogAc
             }
         } ?: {
             licenseCheckEnabled = false
-            prefs.functionalDashboard = true
+            preferences.functionalDashboard = true
             if (isUpdate) showChangelog()
         }()
     }
@@ -93,7 +93,7 @@ abstract class BaseLicenseCheckerActivity<out P : Prefs> : BaseChangelogDialogAc
 
     private fun showLicensedSnack(update: Boolean, force: Boolean = false) {
         licenseCheckDialog?.dismiss()
-        prefs.functionalDashboard = true
+        preferences.functionalDashboard = true
         if (!update || force) {
             snackbar(string(R.string.license_valid_snack, getAppName()))
         } else {
@@ -103,7 +103,7 @@ abstract class BaseLicenseCheckerActivity<out P : Prefs> : BaseChangelogDialogAc
 
     private fun showNotLicensedDialog(pirateApp: PirateApp?) {
         licenseCheckDialog?.dismiss()
-        prefs.functionalDashboard = false
+        preferences.functionalDashboard = false
         val pirateAppName = pirateApp?.name ?: ""
         val content = if (pirateAppName.hasContent()) {
             string(
@@ -117,21 +117,21 @@ abstract class BaseLicenseCheckerActivity<out P : Prefs> : BaseChangelogDialogAc
             title(R.string.license_invalid_title)
             message(content)
             positiveButton(android.R.string.ok) {
-                prefs.functionalDashboard = false
+                preferences.functionalDashboard = false
                 finish()
             }
             negativeButton(R.string.download) {
-                prefs.functionalDashboard = false
+                preferences.functionalDashboard = false
                 openLink(PLAY_STORE_LINK_PREFIX + packageName)
                 finish()
             }
         }
         licenseCheckDialog?.setOnDismissListener {
-            prefs.functionalDashboard = false
+            preferences.functionalDashboard = false
             finish()
         }
         licenseCheckDialog?.setOnCancelListener {
-            prefs.functionalDashboard = false
+            preferences.functionalDashboard = false
             finish()
         }
         licenseCheckDialog?.show()
@@ -139,25 +139,25 @@ abstract class BaseLicenseCheckerActivity<out P : Prefs> : BaseChangelogDialogAc
 
     private fun showLicenseErrorDialog() {
         licenseCheckDialog?.dismiss()
-        prefs.functionalDashboard = false
+        preferences.functionalDashboard = false
         licenseCheckDialog = mdDialog {
             title(R.string.error)
             message(R.string.license_error_content)
             positiveButton(android.R.string.ok) {
-                prefs.functionalDashboard = false
+                preferences.functionalDashboard = false
                 finish()
             }
             negativeButton(R.string.try_now) {
-                prefs.functionalDashboard = false
+                preferences.functionalDashboard = false
                 startLicenseCheck(true)
             }
         }
         licenseCheckDialog?.setOnDismissListener {
-            prefs.functionalDashboard = false
+            preferences.functionalDashboard = false
             finish()
         }
         licenseCheckDialog?.setOnCancelListener {
-            prefs.functionalDashboard = false
+            preferences.functionalDashboard = false
             finish()
         }
         licenseCheckDialog?.show()

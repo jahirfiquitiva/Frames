@@ -1,6 +1,5 @@
 package dev.jahir.frames.ui.fragments
 
-import android.os.Build
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
@@ -11,10 +10,25 @@ import androidx.preference.SwitchPreference
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.jahir.frames.BuildConfig
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.*
+import dev.jahir.frames.data.Preferences
+import dev.jahir.frames.extensions.context.boolean
+import dev.jahir.frames.extensions.context.clearDataAndCache
+import dev.jahir.frames.extensions.context.currentVersionCode
+import dev.jahir.frames.extensions.context.currentVersionName
+import dev.jahir.frames.extensions.context.dataCacheSize
+import dev.jahir.frames.extensions.context.getAppName
+import dev.jahir.frames.extensions.context.openLink
+import dev.jahir.frames.extensions.fragments.mdDialog
+import dev.jahir.frames.extensions.fragments.positiveButton
+import dev.jahir.frames.extensions.fragments.preferences
+import dev.jahir.frames.extensions.fragments.singleChoiceItems
+import dev.jahir.frames.extensions.fragments.string
+import dev.jahir.frames.extensions.fragments.title
+import dev.jahir.frames.extensions.resources.hasContent
+import dev.jahir.frames.extensions.utils.setOnCheckedChangeListener
+import dev.jahir.frames.extensions.utils.setOnClickListener
 import dev.jahir.frames.ui.activities.SettingsActivity
 import dev.jahir.frames.ui.fragments.base.BasePreferenceFragment
-import dev.jahir.frames.utils.Prefs
 
 open class SettingsFragment : BasePreferenceFragment() {
 
@@ -24,11 +38,9 @@ open class SettingsFragment : BasePreferenceFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        val interfacePreferences = findPreference<PreferenceCategory?>("interface_prefs")
-
-        currentThemeKey = prefs.currentTheme.value
+        currentThemeKey = preferences.currentTheme.value
         val themePreference = findPreference<Preference?>("app_theme")
-        themePreference?.setSummary(Prefs.ThemeKey.fromValue(currentThemeKey).stringResId)
+        themePreference?.setSummary(Preferences.ThemeKey.fromValue(currentThemeKey).stringResId)
         themePreference?.setOnClickListener {
             showDialog {
                 title(R.string.app_theme)
@@ -36,43 +48,39 @@ open class SettingsFragment : BasePreferenceFragment() {
                     currentThemeKey = which
                 }
                 positiveButton(android.R.string.ok) {
-                    prefs.currentTheme = Prefs.ThemeKey.fromValue(currentThemeKey)
+                    preferences.currentTheme = Preferences.ThemeKey.fromValue(currentThemeKey)
                     it.dismiss()
                 }
             }
         }
 
         val amoledPreference = findPreference<SwitchPreference?>("use_amoled")
-        amoledPreference?.isChecked = prefs.usesAmoledTheme
-        amoledPreference?.setOnCheckedChangeListener { prefs.usesAmoledTheme = it }
+        amoledPreference?.isChecked = preferences.usesAmoledTheme
+        amoledPreference?.setOnCheckedChangeListener { preferences.usesAmoledTheme = it }
 
         val coloredNavbarPref = findPreference<SwitchPreference?>("colored_navigation_bar")
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
-            interfacePreferences?.removePreference(coloredNavbarPref)
-        else {
-            coloredNavbarPref?.isChecked = prefs.shouldColorNavbar
-            coloredNavbarPref?.setOnCheckedChangeListener { prefs.shouldColorNavbar = it }
-        }
+        coloredNavbarPref?.isChecked = preferences.shouldColorNavbar
+        coloredNavbarPref?.setOnCheckedChangeListener { preferences.shouldColorNavbar = it }
 
         val animationsPref = findPreference<SwitchPreference?>("interface_animations")
-        animationsPref?.isChecked = prefs.animationsEnabled
-        animationsPref?.setOnCheckedChangeListener { prefs.animationsEnabled = it }
+        animationsPref?.isChecked = preferences.animationsEnabled
+        animationsPref?.setOnCheckedChangeListener { preferences.animationsEnabled = it }
 
         val fullResPicturesPref = findPreference<SwitchPreference?>("full_res_previews")
-        fullResPicturesPref?.isChecked = prefs.shouldLoadFullResPictures
+        fullResPicturesPref?.isChecked = preferences.shouldLoadFullResPictures
         fullResPicturesPref?.setOnCheckedChangeListener {
-            prefs.shouldLoadFullResPictures = it
+            preferences.shouldLoadFullResPictures = it
         }
 
         val cropPicturesPrefs = findPreference<SwitchPreference?>("crop_pictures")
-        cropPicturesPrefs?.isChecked = prefs.shouldCropWallpaperBeforeApply
+        cropPicturesPrefs?.isChecked = preferences.shouldCropWallpaperBeforeApply
         cropPicturesPrefs?.setOnCheckedChangeListener {
-            prefs.shouldCropWallpaperBeforeApply = it
+            preferences.shouldCropWallpaperBeforeApply = it
         }
 
         val downloadLocationPref = findPreference<Preference?>("download_location")
         downloadLocationPref?.summary =
-            string(R.string.download_location_summary) + "\n${prefs.downloadsFolder}"
+            string(R.string.download_location_summary) + "\n${preferences.downloadsFolder}"
 
         val clearCachePref = findPreference<Preference?>("clear_data_cache")
         clearCachePref?.summary =
@@ -84,14 +92,14 @@ open class SettingsFragment : BasePreferenceFragment() {
         }
 
         val notificationsPrefs = findPreference<SwitchPreference?>("notifications")
-        notificationsPrefs?.isChecked = prefs.notificationsEnabled
+        notificationsPrefs?.isChecked = preferences.notificationsEnabled
         notificationsPrefs?.setOnCheckedChangeListener {
-            prefs.notificationsEnabled = it
+            preferences.notificationsEnabled = it
         }
 
         if (context?.boolean(R.bool.show_versions_in_settings, true) == true) {
             val appVersionPrefs = findPreference<Preference?>("app_version")
-            appVersionPrefs?.title = context?.getAppName("App") ?: "App"
+            appVersionPrefs?.title = context?.getAppName()
             appVersionPrefs?.summary =
                 "${context?.currentVersionName} (${context?.currentVersionCode})"
 
@@ -109,7 +117,7 @@ open class SettingsFragment : BasePreferenceFragment() {
         val privacyLink = string(R.string.privacy_policy_link)
         val termsLink = string(R.string.terms_conditions_link)
 
-        val prefsScreen = findPreference<PreferenceScreen?>("prefs")
+        val prefsScreen = findPreference<PreferenceScreen?>("preferences")
         val legalCategory = findPreference<PreferenceCategory?>("legal")
 
         if (privacyLink.hasContent() || termsLink.hasContent()) {

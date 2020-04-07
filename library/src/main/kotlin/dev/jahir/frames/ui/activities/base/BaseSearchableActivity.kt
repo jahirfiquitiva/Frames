@@ -6,18 +6,16 @@ import android.view.MenuItem
 import androidx.annotation.MenuRes
 import androidx.appcompat.widget.Toolbar
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.color
-import dev.jahir.frames.extensions.findView
-import dev.jahir.frames.extensions.gone
-import dev.jahir.frames.extensions.resolveColor
-import dev.jahir.frames.extensions.visible
+import dev.jahir.frames.data.Preferences
+import dev.jahir.frames.extensions.context.findView
+import dev.jahir.frames.extensions.utils.postDelayed
+import dev.jahir.frames.extensions.views.gone
+import dev.jahir.frames.extensions.views.tint
+import dev.jahir.frames.extensions.views.visible
 import dev.jahir.frames.ui.widgets.CleanSearchView
-import dev.jahir.frames.utils.Prefs
-import dev.jahir.frames.utils.postDelayed
-import dev.jahir.frames.utils.tintIcons
 
 @Suppress("LeakingThis")
-abstract class BaseSearchableActivity<out P : Prefs> : BaseFavoritesConnectedActivity<P>() {
+abstract class BaseSearchableActivity<out P : Preferences> : BaseFavoritesConnectedActivity<P>() {
 
     val toolbar: Toolbar? by findView(R.id.toolbar)
 
@@ -48,7 +46,7 @@ abstract class BaseSearchableActivity<out P : Prefs> : BaseFavoritesConnectedAct
             searchView?.bindToItem(searchItem)
             updateSearchHint()
 
-            toolbar?.tintIcons(resolveColor(R.attr.colorOnPrimary, color(R.color.onPrimary)))
+            toolbar?.tint()
             searchItem?.isVisible = canShowSearch(currentItemId)
         }
 

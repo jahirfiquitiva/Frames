@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.extensions.MAX_FRAMES_PALETTE_COLORS
-import dev.jahir.frames.extensions.bestSwatches
-import dev.jahir.frames.extensions.dpToPx
-import dev.jahir.frames.extensions.findView
+import dev.jahir.frames.extensions.resources.dpToPx
+import dev.jahir.frames.extensions.utils.MAX_FRAMES_PALETTE_COLORS
+import dev.jahir.frames.extensions.utils.bestSwatches
+import dev.jahir.frames.extensions.views.findView
 import dev.jahir.frames.ui.adapters.WallpaperDetailsAdapter
 import dev.jahir.frames.ui.decorations.DetailsGridSpacingItemDecoration
 import dev.jahir.frames.ui.fragments.base.BaseBottomSheet

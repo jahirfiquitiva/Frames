@@ -12,9 +12,9 @@ import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.data.models.Favorite
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.data.network.WallpapersJSONService
-import dev.jahir.frames.extensions.hasContent
-import dev.jahir.frames.extensions.isNetworkAvailable
-import dev.jahir.frames.extensions.lazyMutableLiveData
+import dev.jahir.frames.extensions.context.isNetworkAvailable
+import dev.jahir.frames.extensions.resources.hasContent
+import dev.jahir.frames.extensions.utils.lazyMutableLiveData
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

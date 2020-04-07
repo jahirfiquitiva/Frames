@@ -1,6 +1,10 @@
-package dev.jahir.frames.extensions
+package dev.jahir.frames.extensions.utils
 
 import androidx.palette.graphics.Palette
+import dev.jahir.frames.extensions.resources.getDarker
+import dev.jahir.frames.extensions.resources.getLighter
+import dev.jahir.frames.extensions.resources.isDark
+import dev.jahir.frames.extensions.resources.withMinAlpha
 import java.util.*
 
 internal const val MAX_FRAMES_PALETTE_COLORS = 6

@@ -7,14 +7,8 @@ import androidx.preference.PreferenceGroup
 import androidx.preference.PreferenceGroupAdapter
 import androidx.preference.PreferenceScreen
 import androidx.recyclerview.widget.RecyclerView
-import dev.jahir.frames.ui.activities.base.BaseThemedActivity
-import dev.jahir.frames.utils.Prefs
 
 abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
-
-    val prefs: Prefs
-        get() = (activity as? BaseThemedActivity<*>)?.prefs ?: Prefs(requireContext())
-
     private fun setAllPreferencesToAvoidHavingExtraSpace(preference: Preference) {
         preference.isIconSpaceReserved = false
         if (preference is PreferenceGroup)

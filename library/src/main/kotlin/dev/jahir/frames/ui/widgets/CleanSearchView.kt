@@ -3,28 +3,21 @@ package dev.jahir.frames.ui.widgets
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MenuItem
-import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.annotation.ColorInt
 import androidx.appcompat.widget.SearchView
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.color
-import dev.jahir.frames.extensions.findView
-import dev.jahir.frames.extensions.gone
-import dev.jahir.frames.extensions.resolveColor
-import dev.jahir.frames.extensions.withAlpha
-import dev.jahir.frames.utils.tint
+import dev.jahir.frames.extensions.context.color
+import dev.jahir.frames.extensions.context.resolveColor
+import dev.jahir.frames.extensions.resources.tint
+import dev.jahir.frames.extensions.views.gone
 
 class CleanSearchView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     style: Int = 0
 ) : SearchView(context, attributeSet, style) {
-
-    private var tintColor: Int = 0
 
     var isOpen = false
         private set
@@ -62,8 +55,6 @@ class CleanSearchView @JvmOverloads constructor(
                 return true
             }
         })
-
-        tint(context.resolveColor(R.attr.colorOnPrimary, context.color(R.color.onPrimary)))
     }
 
     private fun removeSearchIcon() {
@@ -73,36 +64,6 @@ class CleanSearchView @JvmOverloads constructor(
             magImage?.gone()
         } catch (e: Exception) {
         }
-    }
-
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun tint(@ColorInt color: Int, @ColorInt hintColor: Int = color) {
-        this.tintColor = color
-
-        val field: EditText? by findView(R.id.search_src_text)
-        field?.setTextColor(color)
-        field?.setHintTextColor(
-            if (hintColor == color) hintColor.withAlpha(0.5F) else hintColor
-        )
-        field?.tint(color)
-
-        val plate: View? by findView(R.id.search_plate)
-        plate?.background = null
-
-        val searchIcon: ImageView? by findView(R.id.search_button)
-        searchIcon?.tint(color)
-
-        val closeIcon: ImageView? by findView(R.id.search_close_btn)
-        closeIcon?.tint(color)
-
-        val goIcon: ImageView? by findView(R.id.search_go_btn)
-        goIcon?.tint(color)
-
-        val voiceIcon: ImageView? by findView(R.id.search_voice_btn)
-        voiceIcon?.tint(color)
-
-        val collapsedIcon: ImageView? by findView(R.id.search_mag_icon)
-        collapsedIcon?.tint(color)
     }
 
     override fun setIconified(iconify: Boolean) {

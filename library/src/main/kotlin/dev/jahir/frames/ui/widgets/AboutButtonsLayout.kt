@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.google.android.material.button.MaterialButton
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.inflate
-import dev.jahir.frames.extensions.openLink
+import dev.jahir.frames.extensions.context.openLink
+import dev.jahir.frames.extensions.views.inflate
 
 /**
  * Originally created by Aidan Follestad (@afollestad)

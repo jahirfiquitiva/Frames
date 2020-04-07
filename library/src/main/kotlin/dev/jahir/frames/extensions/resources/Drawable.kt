@@ -1,9 +1,13 @@
-package dev.jahir.frames.extensions
+package dev.jahir.frames.extensions.resources
 
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.widget.ImageView
+import androidx.annotation.ColorInt
+import androidx.core.graphics.drawable.DrawableCompat
 
 fun Drawable.asBitmap(
     scaling: Float = 1F,
@@ -25,4 +29,26 @@ fun Drawable.asBitmap(
     setBounds(0, 0, canvas.width, canvas.height)
     draw(canvas)
     return bitmap
+}
+
+fun ImageView.tint(@ColorInt color: Int) {
+    if (drawable != null) setImageDrawable(drawable.tint(color))
+}
+
+/**
+ * Wrap the color into a state and tint the drawable
+ */
+fun Drawable.tint(@ColorInt color: Int): Drawable {
+    val drawable = DrawableCompat.wrap(mutate())
+    DrawableCompat.setTint(drawable, color)
+    return drawable
+}
+
+/**
+ * Tint the drawable with a given color state list
+ */
+fun Drawable.tint(state: ColorStateList): Drawable {
+    val drawable = DrawableCompat.wrap(mutate())
+    DrawableCompat.setTintList(drawable, state)
+    return drawable
 }

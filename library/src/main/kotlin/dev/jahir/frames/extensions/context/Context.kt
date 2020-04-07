@@ -1,4 +1,4 @@
-package dev.jahir.frames.extensions
+package dev.jahir.frames.extensions.context
 
 import android.content.Context
 import android.content.Intent
@@ -23,8 +23,11 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import dev.jahir.frames.R
+import dev.jahir.frames.data.Preferences
+import dev.jahir.frames.extensions.resources.deleteEverything
+import dev.jahir.frames.extensions.resources.dirSize
+import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.ui.activities.base.BaseThemedActivity
-import dev.jahir.frames.utils.Prefs
 import java.io.File
 
 @Suppress("DEPRECATION")
@@ -148,7 +151,7 @@ fun Context.toast(content: String, duration: Int = Toast.LENGTH_SHORT) {
 
 @ColorInt
 fun Context.getRightNavigationBarColor(): Int =
-    if (prefs.shouldColorNavbar && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    if (preferences.shouldColorNavbar && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         try {
             resolveColor(R.attr.colorSurface, color(R.color.surface))
         } catch (e: Exception) {
@@ -178,7 +181,7 @@ val Context.currentVersionName: String?
         "Unknown"
     }
 
-fun Context.getAppName(defName: String = ""): String {
+fun Context.getAppName(): String {
     var name: String = try {
         (packageManager?.getApplicationLabel(applicationInfo) ?: "").toString()
     } catch (e: Exception) {
@@ -192,9 +195,7 @@ fun Context.getAppName(defName: String = ""): String {
     } else {
         string(stringRes)
     }
-
     if (name.hasContent()) return name
-    if (defName.hasContent()) return defName
 
     val def = string(R.string.app_name)
     return if (def.hasContent()) def else "Unknown"
@@ -202,8 +203,8 @@ fun Context.getAppName(defName: String = ""): String {
 
 val Context.isUpdate: Boolean
     get() {
-        val prevVersion = prefs.lastVersion
-        prefs.lastVersion = currentVersionCode
+        val prevVersion = preferences.lastVersion
+        preferences.lastVersion = currentVersionCode
         return currentVersionCode > prevVersion
     }
 
@@ -271,15 +272,15 @@ fun Context.clearCache() {
     }
 }
 
-val Context.prefs: Prefs
-    get() = (this as? BaseThemedActivity<*>)?.prefs ?: Prefs(this)
+val Context.preferences: Preferences
+    get() = (this as? BaseThemedActivity<*>)?.preferences ?: Preferences(this)
 
-fun Context.setDefaultDashboardTheme() {
+internal fun Context.setDefaultDashboardTheme() {
     try {
         AppCompatDelegate.setDefaultNightMode(
-            when (prefs.currentTheme) {
-                Prefs.ThemeKey.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
-                Prefs.ThemeKey.DARK -> AppCompatDelegate.MODE_NIGHT_YES
+            when (preferences.currentTheme) {
+                Preferences.ThemeKey.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+                Preferences.ThemeKey.DARK -> AppCompatDelegate.MODE_NIGHT_YES
                 else -> AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY or AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
             }
         )

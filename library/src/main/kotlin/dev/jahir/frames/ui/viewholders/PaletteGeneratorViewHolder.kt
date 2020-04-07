@@ -5,10 +5,10 @@ import android.view.View
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.asBitmap
-import dev.jahir.frames.extensions.bestSwatch
-import dev.jahir.frames.extensions.boolean
-import dev.jahir.frames.extensions.context
+import dev.jahir.frames.extensions.context.boolean
+import dev.jahir.frames.extensions.resources.asBitmap
+import dev.jahir.frames.extensions.utils.bestSwatch
+import dev.jahir.frames.extensions.views.context
 
 abstract class PaletteGeneratorViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 

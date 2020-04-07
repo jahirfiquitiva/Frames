@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import androidx.annotation.IdRes
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.resolveColor
+import dev.jahir.frames.extensions.context.resolveColor
 
 class FramesBottomNavigationView @JvmOverloads constructor(
     context: Context,

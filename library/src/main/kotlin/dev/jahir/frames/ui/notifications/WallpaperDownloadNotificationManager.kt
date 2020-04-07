@@ -1,4 +1,4 @@
-package dev.jahir.frames.utils
+package dev.jahir.frames.ui.notifications
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
@@ -17,8 +17,9 @@ import com.tonyodev.fetch2.util.DEFAULT_NOTIFICATION_TIMEOUT_AFTER
 import com.tonyodev.fetch2.util.DEFAULT_NOTIFICATION_TIMEOUT_AFTER_RESET
 import com.tonyodev.fetch2.util.onDownloadNotificationActionTriggered
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.lower
-import dev.jahir.frames.extensions.string
+import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.extensions.resources.lower
+import dev.jahir.frames.extensions.utils.postDelayed
 import java.lang.ref.WeakReference
 
 abstract class WallpaperDownloadNotificationManager(

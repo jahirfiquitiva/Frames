@@ -18,8 +18,8 @@ import com.android.billingclient.api.SkuDetails
 import com.android.billingclient.api.SkuDetailsParams
 import dev.jahir.frames.data.listeners.BillingProcessesListener
 import dev.jahir.frames.data.models.DetailedPurchaseRecord
-import dev.jahir.frames.extensions.asDetailedPurchase
-import dev.jahir.frames.extensions.lazyMutableLiveData
+import dev.jahir.frames.extensions.utils.asDetailedPurchase
+import dev.jahir.frames.extensions.utils.lazyMutableLiveData
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

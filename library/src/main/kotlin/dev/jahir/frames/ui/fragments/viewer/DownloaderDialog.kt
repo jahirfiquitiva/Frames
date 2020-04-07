@@ -2,18 +2,18 @@ package dev.jahir.frames.ui.fragments.viewer
 
 import android.app.Dialog
 import android.os.Bundle
-import android.widget.ProgressBar
+import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.cancelable
-import dev.jahir.frames.extensions.gone
-import dev.jahir.frames.extensions.mdDialog
-import dev.jahir.frames.extensions.string
-import dev.jahir.frames.extensions.view
-import dev.jahir.frames.utils.postDelayed
+import dev.jahir.frames.extensions.fragments.cancelable
+import dev.jahir.frames.extensions.fragments.mdDialog
+import dev.jahir.frames.extensions.fragments.string
+import dev.jahir.frames.extensions.fragments.view
+import dev.jahir.frames.extensions.utils.postDelayed
+import dev.jahir.frames.extensions.views.gone
 
 class DownloaderDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -37,11 +37,7 @@ class DownloaderDialog : DialogFragment() {
 
     internal fun showFinalMessage(message: String) {
         activity?.runOnUiThread {
-            try {
-                val progress: ProgressBar? = dialog?.findViewById(R.id.loading)
-                progress?.gone()
-            } catch (e: Exception) {
-            }
+            dialog?.findViewById<View?>(R.id.loading)?.gone()
             setMessage(message)
         }
         dialog?.setCancelable(true)

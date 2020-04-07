@@ -4,7 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.ProgressBar
+import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.fragment.app.DialogFragment
@@ -20,13 +20,13 @@ import com.tonyodev.fetch2core.Func
 import dev.jahir.frames.R
 import dev.jahir.frames.data.listeners.BaseFetchListener
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.extensions.cancelable
-import dev.jahir.frames.extensions.gone
-import dev.jahir.frames.extensions.mdDialog
-import dev.jahir.frames.extensions.string
-import dev.jahir.frames.extensions.view
-import dev.jahir.frames.utils.WallpaperDownloadNotificationManager
-import dev.jahir.frames.utils.postDelayed
+import dev.jahir.frames.extensions.fragments.cancelable
+import dev.jahir.frames.extensions.fragments.mdDialog
+import dev.jahir.frames.extensions.fragments.string
+import dev.jahir.frames.extensions.fragments.view
+import dev.jahir.frames.extensions.utils.postDelayed
+import dev.jahir.frames.extensions.views.gone
+import dev.jahir.frames.ui.notifications.WallpaperDownloadNotificationManager
 import java.io.File
 import java.lang.ref.WeakReference
 
@@ -94,11 +94,7 @@ open class DownloadToApplyDialog : DialogFragment(), BaseFetchListener {
 
     open fun showFinalMessage(@StringRes message: Int = R.string.unexpected_error_occurred) {
         activity?.runOnUiThread {
-            try {
-                val progress: ProgressBar? = dialog?.findViewById(R.id.loading)
-                progress?.gone()
-            } catch (e: Exception) {
-            }
+            dialog?.findViewById<View?>(R.id.loading)?.gone()
             setMessage(message)
             dialog?.setCancelable(true)
         }

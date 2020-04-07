@@ -11,10 +11,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.getRightNavigationBarColor
-import dev.jahir.frames.extensions.isDark
-import dev.jahir.frames.extensions.navigationBarLight
-import dev.jahir.frames.utils.postDelayed
+import dev.jahir.frames.extensions.context.getRightNavigationBarColor
+import dev.jahir.frames.extensions.context.navigationBarLight
+import dev.jahir.frames.extensions.resources.isDark
+import dev.jahir.frames.extensions.utils.postDelayed
 
 open class BaseBottomSheet : BottomSheetDialogFragment() {
 
@@ -53,7 +53,7 @@ open class BaseBottomSheet : BottomSheetDialogFragment() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 (dialogInterface as? BottomSheetDialog)?.apply {
                     window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                    val navigationBarColor = requireContext().getRightNavigationBarColor()
+                    val navigationBarColor = context.getRightNavigationBarColor()
                     window?.navigationBarColor = navigationBarColor
                     window?.navigationBarLight = !navigationBarColor.isDark
                 }

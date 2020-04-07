@@ -13,12 +13,12 @@ import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.drawable
-import dev.jahir.frames.extensions.gone
-import dev.jahir.frames.extensions.prefs
-import dev.jahir.frames.extensions.string
-import dev.jahir.frames.extensions.visible
-import dev.jahir.frames.extensions.visibleIf
+import dev.jahir.frames.extensions.context.drawable
+import dev.jahir.frames.extensions.context.preferences
+import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.extensions.views.gone
+import dev.jahir.frames.extensions.views.visible
+import dev.jahir.frames.extensions.views.visibleIf
 
 open class StatefulRecyclerView @JvmOverloads constructor(
     context: Context,
@@ -141,7 +141,7 @@ open class StatefulRecyclerView @JvmOverloads constructor(
             stateDrawableModifier?.modifyDrawable(drawable) ?: drawable
         )
         if (state == State.EMPTY) {
-            stateImageView?.visible(context.prefs.animationsEnabled)
+            stateImageView?.visible(context.preferences.animationsEnabled)
         } else stateImageView?.gone()
     }
 

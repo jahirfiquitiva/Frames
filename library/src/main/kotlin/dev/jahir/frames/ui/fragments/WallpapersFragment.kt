@@ -7,12 +7,15 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.extensions.buildTransitionOptions
-import dev.jahir.frames.extensions.dimenPixelSize
-import dev.jahir.frames.extensions.dpToPx
-import dev.jahir.frames.extensions.integer
-import dev.jahir.frames.extensions.lower
-import dev.jahir.frames.extensions.prefs
+import dev.jahir.frames.extensions.context.buildTransitionOptions
+import dev.jahir.frames.extensions.context.dimenPixelSize
+import dev.jahir.frames.extensions.context.integer
+import dev.jahir.frames.extensions.fragments.preferences
+import dev.jahir.frames.extensions.frames.onClick
+import dev.jahir.frames.extensions.frames.onFavClick
+import dev.jahir.frames.extensions.frames.wallpapersAdapter
+import dev.jahir.frames.extensions.resources.dpToPx
+import dev.jahir.frames.extensions.resources.lower
 import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
@@ -21,9 +24,6 @@ import dev.jahir.frames.ui.adapters.WallpapersAdapter
 import dev.jahir.frames.ui.decorations.GridSpacingItemDecoration
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
 import dev.jahir.frames.ui.viewholders.WallpaperViewHolder
-import dev.jahir.frames.utils.onClick
-import dev.jahir.frames.utils.onFavClick
-import dev.jahir.frames.utils.wallpapersAdapter
 
 open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
@@ -83,7 +83,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     }
 
     private fun launchViewer(wallpaper: Wallpaper, holder: WallpaperViewHolder) {
-        val options = if (context?.prefs?.animationsEnabled == true) {
+        val options = if (preferences.animationsEnabled == true) {
             try {
                 activity?.let {
                     ActivityOptionsCompat.makeSceneTransitionAnimation(

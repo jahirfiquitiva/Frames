@@ -6,31 +6,29 @@ import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import dev.jahir.frames.R
-import dev.jahir.frames.extensions.color
-import dev.jahir.frames.extensions.findView
-import dev.jahir.frames.extensions.resolveColor
-import dev.jahir.frames.extensions.setDefaultDashboardTheme
+import dev.jahir.frames.data.Preferences
+import dev.jahir.frames.extensions.context.findView
+import dev.jahir.frames.extensions.context.setDefaultDashboardTheme
+import dev.jahir.frames.extensions.views.tint
 import dev.jahir.frames.ui.activities.base.BaseThemedActivity
 import dev.jahir.frames.ui.fragments.SettingsFragment
-import dev.jahir.frames.utils.Prefs
-import dev.jahir.frames.utils.tintIcons
 
-open class SettingsActivity : BaseThemedActivity<Prefs>() {
+open class SettingsActivity : BaseThemedActivity<Preferences>() {
 
     private val preferencesListener: SharedPreferences.OnSharedPreferenceChangeListener by lazy {
         SharedPreferences.OnSharedPreferenceChangeListener { _, prefKey ->
             prefKey ?: return@OnSharedPreferenceChangeListener
             when (prefKey) {
-                Prefs.CURRENT_THEME -> {
+                Preferences.CURRENT_THEME -> {
                     setDefaultDashboardTheme()
                     onThemeChanged()
                 }
-                Prefs.USES_AMOLED_THEME, Prefs.SHOULD_COLOR_NAVBAR -> onThemeChanged()
+                Preferences.USES_AMOLED_THEME, Preferences.SHOULD_COLOR_NAVBAR -> onThemeChanged()
             }
         }
     }
 
-    override val prefs: Prefs by lazy { Prefs(this) }
+    override val preferences: Preferences by lazy { Preferences(this) }
     private val toolbar: Toolbar? by findView(R.id.toolbar)
 
     open fun getSettingsFragment(): SettingsFragment = SettingsFragment()
@@ -39,7 +37,7 @@ open class SettingsActivity : BaseThemedActivity<Prefs>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        prefs.registerOnSharedPreferenceChangeListener(preferencesListener)
+        preferences.registerOnSharedPreferenceChangeListener(preferencesListener)
         setContentView(R.layout.activity_fragments)
 
         setSupportActionBar(toolbar)
@@ -48,8 +46,8 @@ open class SettingsActivity : BaseThemedActivity<Prefs>() {
             it.setDisplayHomeAsUpEnabled(true)
             it.setDisplayShowHomeEnabled(true)
         }
+        toolbar?.tint()
 
-        toolbar?.tintIcons(resolveColor(R.attr.colorOnPrimary, color(R.color.onPrimary)))
         replaceFragment(getSettingsFragment(), SettingsFragment.TAG)
     }
 
@@ -66,7 +64,7 @@ open class SettingsActivity : BaseThemedActivity<Prefs>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        prefs.unregisterOnSharedPreferenceChangeListener(preferencesListener)
+        preferences.unregisterOnSharedPreferenceChangeListener(preferencesListener)
         preferenceDialog?.dismiss()
     }
 }
