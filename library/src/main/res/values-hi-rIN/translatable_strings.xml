@@ -46,6 +46,8 @@
     <string name="applying_wallpaper_def">लागू हो रहा…</string>
     <string name="applying_applied">वॉलपेपर को सफलतापूर्वक लागू किया गया</string>
     <string name="search">खोजें</string>
+    <string name="about">हमारे बारे में</string>
+    <string name="settings">सेटिंग्स</string>
     <string name="search_x">खोजें...</string>
     <string name="prevent_download_content">सुरक्षा कारणों से, वॉलपेपर डाउनलोड करना अगले %1$s घंटों के लिए संभव नहीं है। बाद में पुन: प्रयास करें।</string>
     <string name="license_valid_title">लाइसेंस मान्य</string>
