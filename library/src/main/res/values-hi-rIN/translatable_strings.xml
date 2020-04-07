@@ -42,6 +42,7 @@
     <string name="home_screen">होम स्क्रीन</string>
     <string name="lock_screen">लॉक स्क्रीन</string>
     <string name="both">दोनों</string>
+    <string name="applying_downloading">डाउनलोड हो रहा है</string>
     <string name="applying_wallpaper_def">लागू हो रहा…</string>
     <string name="applying_applied">वॉलपेपर को सफलतापूर्वक लागू किया गया</string>
     <string name="search">खोजें</string>
@@ -59,6 +60,7 @@
     <string name="legal">कानूनी</string>
     <string name="privacy_policy">गोपनीयता नीति</string>
     <string name="terms_conditions">नियम व शर्तें</string>
+    <string name="versions">संस्करण</string>
     <string name="dashboard">डैशबोर्ड</string>
     <string name="donate_success_title">धन्यवाद!</string>
     <string name="donate_error_unknown">अज्ञात कारणों</string>
