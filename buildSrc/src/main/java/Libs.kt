@@ -48,6 +48,10 @@ object Libs {
     private const val sectionedRecyclerView =
         "com.jahirfiquitiva:sectioned-recyclerview:${Versions.sectionedRecyclerView}@aar"
 
+    // FastScroll RecyclerView
+    private const val fastScrollRecyclerView =
+        "com.simplecityapps:recyclerview-fastscroll:${Versions.fastScrollRecyclerView}"
+
     // File Downloader
     private const val fetch = "androidx.tonyodev.fetch2:xfetch2:${Versions.fetch}"
 
@@ -90,6 +94,7 @@ object Libs {
         coil,
         photoView,
         sectionedRecyclerView,
+        fastScrollRecyclerView,
         fetch,
         permissions,
         licenseChecker,

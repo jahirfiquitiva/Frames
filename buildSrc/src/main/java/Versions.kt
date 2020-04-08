@@ -44,6 +44,9 @@ object Versions {
     // Sectioned RecyclerView
     const val sectionedRecyclerView = "b4a7763"
 
+    // FastScroll RecyclerView
+    const val fastScrollRecyclerView = "2.0.1"
+
     // File Downloader
     const val fetch = "3.1.4"
 

@@ -1,5 +1,6 @@
 package dev.jahir.frames.ui.fragments.base
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -16,7 +17,9 @@ import dev.jahir.frames.extensions.context.resolveColor
 import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.resources.lighten
 import dev.jahir.frames.extensions.resources.tint
+import dev.jahir.frames.extensions.views.attachSwipeRefreshLayout
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
+import dev.jahir.frames.ui.activities.base.BaseSystemUIVisibilityActivity
 import dev.jahir.frames.ui.widgets.StatefulRecyclerView
 
 abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_recyclerview),
@@ -26,9 +29,15 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_recyclerview),
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     var recyclerView: StatefulRecyclerView? = null
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        setupRecyclerViewMargin()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.recycler_view)
+        setupRecyclerViewMargin()
         recyclerView?.stateDrawableModifier = this
 
         recyclerView?.emptyText = getEmptyText()
@@ -48,7 +57,15 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_recyclerview),
         swipeRefreshLayout?.setProgressBackgroundColorSchemeColor(
             (context?.resolveColor(R.attr.colorSurface, 0) ?: 0).lighten(.1F)
         )
+        recyclerView?.attachSwipeRefreshLayout(swipeRefreshLayout)
+
         (activity as? BaseFavoritesConnectedActivity<*>)?.repostWallpapersData(getRepostKey())
+    }
+
+    private fun setupRecyclerViewMargin() {
+        recyclerView?.attachBottomNavigationView(
+            (context as? BaseSystemUIVisibilityActivity<*>)?.bottomNavigation
+        )
     }
 
     internal fun setRefreshEnabled(enabled: Boolean) {
