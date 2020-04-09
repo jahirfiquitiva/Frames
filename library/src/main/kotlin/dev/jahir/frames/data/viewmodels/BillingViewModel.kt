@@ -133,10 +133,14 @@ class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdat
         actualPurchases.addAll(newPurchases)
         when (skuType) {
             BillingClient.SkuType.INAPP -> {
-                inAppPurchasesHistoryData.postValue(actualPurchases)
+                inAppPurchasesHistoryData.postValue(
+                    actualPurchases.sortedByDescending { it.purchaseTime }
+                )
             }
             BillingClient.SkuType.SUBS -> {
-                subscriptionsPurchasesHistoryData.postValue(actualPurchases)
+                subscriptionsPurchasesHistoryData.postValue(
+                    actualPurchases.sortedByDescending { it.purchaseTime }
+                )
             }
         }
     }

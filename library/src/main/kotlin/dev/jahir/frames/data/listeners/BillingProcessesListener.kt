@@ -8,8 +8,8 @@ interface BillingProcessesListener {
     fun onBillingClientDisconnected() {}
     fun onInAppSkuDetailsListUpdated(skuDetailsList: List<SkuDetails>) {}
     fun onSubscriptionsSkuDetailsListUpdated(skuDetailsList: List<SkuDetails>) {}
-    fun onInAppPurchasesHistoryUpdated(skuDetailsList: List<DetailedPurchaseRecord>) {}
-    fun onSubscriptionsPurchasesHistoryUpdated(skuDetailsList: List<DetailedPurchaseRecord>) {}
+    fun onInAppPurchasesHistoryUpdated(inAppPurchasesHistory: List<DetailedPurchaseRecord>) {}
+    fun onSubscriptionsPurchasesHistoryUpdated(subscriptionsPurchasesHistory: List<DetailedPurchaseRecord>) {}
     fun onSkuPurchaseSuccess(purchase: DetailedPurchaseRecord? = null)
     fun onSkuPurchaseError(purchase: DetailedPurchaseRecord? = null)
 }
