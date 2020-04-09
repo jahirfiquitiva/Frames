@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 import org.json.JSONObject
 
 @Parcelize
-internal data class PseudoDetailedPurchaseRecord(
+data class PseudoDetailedPurchaseRecord(
     val productId: String? = "",
     val purchaseTime: Long? = 0L,
     val acknowledged: Boolean? = false,
@@ -15,7 +15,7 @@ internal data class PseudoDetailedPurchaseRecord(
 ) : Parcelable
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-internal data class InternalDetailedPurchaseRecord(
+data class InternalDetailedPurchaseRecord(
     private val pseudoDetailedRecord: PseudoDetailedPurchaseRecord? = null,
     private val originalPurchaseRecord: Purchase? = null,
     val isAsync: Boolean = false
