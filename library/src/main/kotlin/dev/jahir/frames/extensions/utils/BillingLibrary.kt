@@ -1,6 +1,5 @@
 package dev.jahir.frames.extensions.utils
 
-import android.util.Log
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchaseHistoryRecord
 import com.google.gson.Gson
@@ -15,7 +14,6 @@ fun Purchase.asDetailedPurchase(): DetailedPurchaseRecord? =
         val internalDetailedRecord = InternalDetailedPurchaseRecord(pseudoDetailedRecord, this)
         Gson().fromJson(internalDetailedRecord.toJSONString(0), DetailedPurchaseRecord::class.java)
     } catch (e: Exception) {
-        Log.e("Frames", e.message, e)
         null
     }
 
@@ -28,7 +26,6 @@ fun PurchaseHistoryRecord.asDetailedPurchase(): DetailedPurchaseRecord? =
             InternalDetailedPurchaseRecord(pseudoDetailedRecord, purchase, true)
         Gson().fromJson(internalDetailedRecord.toJSONString(0), DetailedPurchaseRecord::class.java)
     } catch (e: Exception) {
-        Log.e("Frames", e.message, e)
         null
     }
 

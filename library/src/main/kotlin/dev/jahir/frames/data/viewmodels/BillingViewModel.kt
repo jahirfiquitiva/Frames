@@ -1,7 +1,6 @@
 package dev.jahir.frames.data.viewmodels
 
 import android.content.Context
-import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -153,8 +152,6 @@ class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdat
                     postPurchasesHistory(skuType,
                         it.purchasesList.orEmpty()
                             .mapNotNull { purchase -> purchase.asDetailedPurchase() })
-                } else {
-                    Log.e("Frames", "Billing Response Code: ${it.billingResult?.responseCode}")
                 }
             }
         }
@@ -168,8 +165,6 @@ class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdat
                     postPurchasesHistory(skuType,
                         purchaseHistoryRecordList.orEmpty()
                             .mapNotNull { purchase -> purchase.asDetailedPurchase() })
-                } else {
-                    Log.e("Frames", "Billing Response Code: ${billingResult?.responseCode}")
                 }
             }
         }
