@@ -59,7 +59,6 @@ internal data class InternalDetailedPurchaseRecord(
 
     val toJson: JSONObject
         get() = JSONObject().apply {
-            put("isAsync", isAsync)
             put("sku", sku)
             put("productId", productId)
             put("developerPayload", developerPayload)
@@ -73,6 +72,7 @@ internal data class InternalDetailedPurchaseRecord(
             put("purchaseToken", purchaseToken)
             put("signature", signature)
             put("originalJson", originalJson)
+            put("isAsync", isAsync)
         }
 
     override fun toString(): String {

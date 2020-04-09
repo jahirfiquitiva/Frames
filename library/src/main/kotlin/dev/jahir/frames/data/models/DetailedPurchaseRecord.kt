@@ -7,7 +7,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class DetailedPurchaseRecord(
-    val isAsync: Boolean? = null,
     val sku: String? = null,
     val productId: String? = null,
     val developerPayload: String? = null,
@@ -20,5 +19,6 @@ data class DetailedPurchaseRecord(
     val purchaseTime: Long? = null,
     val purchaseToken: String? = null,
     val signature: String? = null,
-    val originalJson: String? = null
+    val originalJson: String? = null,
+    val isAsync: Boolean? = null
 ) : Parcelable

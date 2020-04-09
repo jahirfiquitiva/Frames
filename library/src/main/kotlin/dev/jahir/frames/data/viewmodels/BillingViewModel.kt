@@ -118,29 +118,36 @@ class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdat
         )
     }
 
-    private suspend fun queryPurchases(
+    private fun postPurchasesHistory(
         @BillingClient.SkuType skuType: String,
-        initialPreviousPurchases: MutableList<DetailedPurchaseRecord> = mutableListOf()
+        newPurchases: List<DetailedPurchaseRecord>
     ) {
+        val actualPurchases = ArrayList(
+            when (skuType) {
+                BillingClient.SkuType.INAPP -> inAppPurchasesHistory
+                BillingClient.SkuType.SUBS -> subscriptionsPurchasesHistory
+                else -> listOf()
+            }
+        )
+        actualPurchases.addAll(newPurchases)
+        when (skuType) {
+            BillingClient.SkuType.INAPP -> {
+                inAppPurchasesHistoryData.postValue(actualPurchases)
+            }
+            BillingClient.SkuType.SUBS -> {
+                subscriptionsPurchasesHistoryData.postValue(actualPurchases)
+            }
+        }
+    }
+
+    private suspend fun queryPurchases(@BillingClient.SkuType skuType: String) {
         if (!isBillingClientReady) return
         withContext(Default) {
             billingClient?.queryPurchases(skuType)?.let {
                 if (it.billingResult?.responseCode == BillingClient.BillingResponseCode.OK) {
-                    initialPreviousPurchases.addAll(
+                    postPurchasesHistory(skuType,
                         it.purchasesList.orEmpty()
-                            .mapNotNull { purchase -> purchase.asDetailedPurchase() }
-                    )
-                }
-
-                val rightPreviousPurchases =
-                    initialPreviousPurchases.sortedBy { purchase -> purchase.purchaseTime }
-                when (skuType) {
-                    BillingClient.SkuType.INAPP -> {
-                        inAppPurchasesHistoryData.postValue(rightPreviousPurchases)
-                    }
-                    BillingClient.SkuType.SUBS -> {
-                        subscriptionsPurchasesHistoryData.postValue(rightPreviousPurchases)
-                    }
+                            .mapNotNull { purchase -> purchase.asDetailedPurchase() })
                 }
             }
         }
@@ -148,26 +155,23 @@ class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdat
 
     private suspend fun queryPurchasesHistory(@BillingClient.SkuType skuType: String) {
         if (!isBillingClientReady) return
-        val previousPurchases = mutableListOf<DetailedPurchaseRecord>()
-        var previousPurchasesReady = false
         withContext(Default) {
             billingClient?.queryPurchaseHistoryAsync(skuType) { billingResult, purchaseHistoryRecordList ->
                 if (billingResult?.responseCode == BillingClient.BillingResponseCode.OK) {
-                    previousPurchases.addAll(
+                    postPurchasesHistory(skuType,
                         purchaseHistoryRecordList.orEmpty()
-                            .mapNotNull { it.asDetailedPurchase() }
-                    )
+                            .mapNotNull { purchase -> purchase.asDetailedPurchase() })
                 }
-                previousPurchasesReady = true
             }
-            if (previousPurchasesReady) queryPurchases(skuType, previousPurchases)
         }
     }
 
     fun loadPastPurchases() {
         viewModelScope.launch {
             queryPurchasesHistory(BillingClient.SkuType.SUBS)
+            queryPurchases(BillingClient.SkuType.SUBS)
             queryPurchasesHistory(BillingClient.SkuType.INAPP)
+            queryPurchases(BillingClient.SkuType.INAPP)
         }
     }
 
