@@ -247,7 +247,8 @@ abstract class WallpapersDataViewModel : ViewModel() {
         collectionsData.postValue(result)
     }
 
-    private fun postFavorites(result: List<Wallpaper>) {
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun postFavorites(result: List<Wallpaper>) {
         favoritesData.value = null
         favoritesData.postValue(result)
     }
