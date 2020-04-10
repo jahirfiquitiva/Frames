@@ -22,6 +22,8 @@ class CleanSearchView @JvmOverloads constructor(
     var isOpen = false
         private set
 
+    var allowKeyboardHideOnSubmit = false
+
     var onExpand: () -> Unit = {}
     var onCollapse: () -> Unit = {}
 
@@ -52,6 +54,7 @@ class CleanSearchView @JvmOverloads constructor(
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let { onQuerySubmit(it.trim()) }
+                if (allowKeyboardHideOnSubmit) clearFocus()
                 return true
             }
         })

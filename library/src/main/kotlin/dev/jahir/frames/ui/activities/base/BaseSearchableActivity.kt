@@ -32,6 +32,7 @@ abstract class BaseSearchableActivity<out P : Preferences> : BaseFavoritesConnec
         menu?.let {
             searchItem = it.findItem(R.id.search)
             searchView = searchItem?.actionView as? CleanSearchView
+            searchView?.allowKeyboardHideOnSubmit = true
             searchView?.onExpand = {
                 it.findItem(R.id.search).isVisible = false
                 bottomNavigation?.gone()
