@@ -139,7 +139,7 @@
     <style name="TextAppearance.Frames.Caption" parent="TextAppearance.MaterialComponents.Caption">
         <item name="android:textSize">12sp</item>
         <item name="lineHeight">16sp</item>
-        <item name="android:letterSpacing" tools:ignore="NewApi">0.08335</item>
+        <item name="android:letterSpacing" tools:ignore="NewApi">0.045</item>
     </style>
 
     <style name="TextStyle.Frames.Caption">
