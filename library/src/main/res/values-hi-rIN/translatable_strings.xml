@@ -58,6 +58,7 @@
     <string name="license_error_content">क्षमा करें, आपका लाइसेंस जांचते समय एक त्रुटि हुई थी। कृपया बाद में पुन: प्रयास करें ।</string>
     <string name="try_now">अब कोशिश करे</string>
     <string name="interface_title">इंटरफेस</string>
+    <string name="dark_theme">डार्क</string>
     <string name="notifications">सूचनाएँ</string>
     <string name="legal">कानूनी</string>
     <string name="privacy_policy">गोपनीयता नीति</string>
