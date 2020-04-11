@@ -96,6 +96,8 @@ open class WallpapersDataViewModel : ViewModel() {
     private suspend fun saveWallpapers(context: Context, wallpapers: List<Wallpaper>) =
         withContext(IO) {
             try {
+                deleteAllWallpapers(context)
+                delay(10)
                 FramesDatabase.getAppDatabase(context)?.wallpapersDao()?.insertAll(wallpapers)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -270,12 +272,12 @@ open class WallpapersDataViewModel : ViewModel() {
     private fun repostAllData(context: Context?) {
         context ?: return
         viewModelScope.launch {
-            postWallpapers(wallpapers)
+            postWallpapers(ArrayList(wallpapers))
             val favorites = getFavorites(context)
             val actualFavorites =
                 wallpapers.filter { wllppr -> favorites.any { fav -> fav.url == wllppr.url } }
             postFavorites(actualFavorites)
-            postCollections(collections)
+            postCollections(ArrayList(collections))
         }
     }
 
@@ -283,8 +285,8 @@ open class WallpapersDataViewModel : ViewModel() {
         context ?: return
         viewModelScope.launch {
             when (key) {
-                1 -> postCollections(collections)
-                0 -> postWallpapers(wallpapers)
+                1 -> postCollections(ArrayList(collections))
+                0 -> postWallpapers(ArrayList(wallpapers))
                 else -> repostAllData(context)
             }
         }
