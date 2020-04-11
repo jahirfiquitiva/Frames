@@ -232,8 +232,7 @@ open class WallpapersDataViewModel : ViewModel() {
         force: Boolean = false
     ) {
         context ?: return
-        if (!context.isNetworkAvailable()) return
-        if (!url.hasContent()) return
+        if (!context.isNetworkAvailable() || !url.hasContent()) return
         try {
             val remoteWallpapers = service.getJSON(url)
             handleWallpapersData(context, loadCollections, loadFavorites, remoteWallpapers, force)
