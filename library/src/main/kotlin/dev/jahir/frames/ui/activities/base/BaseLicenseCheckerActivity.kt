@@ -46,7 +46,10 @@ abstract class BaseLicenseCheckerActivity<out P : Preferences> : BaseChangelogDi
     override fun onDestroy() {
         super.onDestroy()
         destroyChecker()
-        licenseCheckDialog?.dismiss()
+        try {
+            licenseCheckDialog?.dismiss()
+        } catch (e: Exception) {
+        }
         licenseCheckDialog = null
     }
 

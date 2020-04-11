@@ -54,11 +54,7 @@ open class Preferences(private val context: Context) {
     var animationsEnabled: Boolean
         get() = prefs.getBoolean(
             ANIMATIONS_ENABLED,
-            try {
-                context.resources.getBoolean(R.bool.animations_enabled_by_default)
-            } catch (e: Exception) {
-                true
-            }
+            context.boolean(R.bool.animations_enabled_by_default, true)
         )
         set(value) = prefsEditor.putBoolean(ANIMATIONS_ENABLED, value).apply()
 
@@ -82,11 +78,7 @@ open class Preferences(private val context: Context) {
     var notificationsEnabled: Boolean
         get() = prefs.getBoolean(
             NOTIFICATIONS_ENABLED,
-            try {
-                context.resources.getBoolean(R.bool.notifications_enabled_by_default)
-            } catch (e: Exception) {
-                true
-            }
+            context.boolean(R.bool.notifications_enabled_by_default, true)
         )
         set(value) = prefsEditor.putBoolean(NOTIFICATIONS_ENABLED, value).apply()
 

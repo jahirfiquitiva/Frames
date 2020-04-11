@@ -21,7 +21,10 @@ abstract class BaseChangelogDialogActivity<out P : Preferences> : BaseSearchable
     }
 
     override fun onDestroy() {
-        changelogDialog?.dismiss()
         super.onDestroy()
+        try {
+            changelogDialog?.dismiss()
+        } catch (e: Exception) {
+        }
     }
 }

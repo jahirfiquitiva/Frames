@@ -2,6 +2,7 @@ package dev.jahir.frames.extensions.context
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.XmlResourceParser
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
@@ -18,6 +19,7 @@ import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.IntegerRes
 import androidx.annotation.StringRes
+import androidx.annotation.XmlRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
@@ -138,6 +140,20 @@ fun Context.drawable(name: String?): Drawable? {
         drawable(resources.getIdentifier(name, "drawable", packageName))
     } catch (e: Exception) {
         null
+    }
+}
+
+fun Context.xml(@XmlRes xmlRes: Int): XmlResourceParser? =
+    try {
+        resources.getXml(xmlRes)
+    } catch (e: Exception) {
+        null
+    }
+
+fun Context.withXml(@XmlRes xmlRes: Int, what: (parser: XmlResourceParser) -> Unit) {
+    try {
+        xml(xmlRes)?.use(what)
+    } catch (e: Exception) {
     }
 }
 

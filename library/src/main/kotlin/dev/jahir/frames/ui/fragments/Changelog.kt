@@ -12,11 +12,14 @@ import androidx.annotation.XmlRes
 import androidx.appcompat.app.AlertDialog
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.extensions.context.withXml
 import dev.jahir.frames.extensions.fragments.adapter
 import dev.jahir.frames.extensions.fragments.mdDialog
 import dev.jahir.frames.extensions.fragments.positiveButton
 import dev.jahir.frames.extensions.fragments.title
+import dev.jahir.frames.extensions.resources.getAttributeValue
 import dev.jahir.frames.extensions.resources.hasContent
+import dev.jahir.frames.extensions.resources.nextOrNull
 import dev.jahir.frames.extensions.views.findView
 import dev.jahir.frames.extensions.views.inflate
 import org.xmlpull.v1.XmlPullParser
@@ -60,27 +63,13 @@ fun Context.buildChangelogDialog(
 
 fun parse(context: Context, @XmlRes xmlRes: Int): List<Pair<String, ChangelogType>> {
     val items = mutableListOf<Pair<String, ChangelogType>>()
-    val parser: XmlResourceParser? = try {
-        context.resources.getXml(xmlRes)
-    } catch (ignored: Exception) {
-        null
-    }
-    var closed = false
-    try {
-        var eventType = parser?.eventType
+    context.withXml(xmlRes) { parser ->
+        var eventType: Int? = parser.eventType
         while (eventType != XmlPullParser.END_DOCUMENT && eventType != null) {
             if (eventType == XmlPullParser.START_TAG)
-                ChangelogType.values.any { type -> parser?.let { type.add(it, items) } ?: false }
-            eventType = parser?.next()
+                ChangelogType.values.any { type -> type.add(parser, items) }
+            eventType = parser.nextOrNull()
         }
-    } catch (ignored: Exception) {
-        closed = true
-        try {
-            parser?.close()
-        } catch (ignored: Exception) {
-        }
-    } finally {
-        if (!closed) parser?.close()
     }
     return items
 }
@@ -132,8 +121,8 @@ enum class ChangelogType(
      */
     fun add(parser: XmlResourceParser, list: MutableList<Pair<String, ChangelogType>>): Boolean {
         if (parser.name != tag) return false
-        if (parser.getAttributeValue(null, attr).toString().hasContent())
-            list.add(Pair(parser.getAttributeValue(null, attr), this))
+        val value = parser.getAttributeValue(attr).orEmpty()
+        if (value.hasContent()) list.add(Pair(value, this))
         return true
     }
 }

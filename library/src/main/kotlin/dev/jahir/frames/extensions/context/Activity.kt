@@ -27,7 +27,6 @@ inline fun Activity.restart(intentBuilder: Intent.() -> Unit = {}) {
 inline var Activity.statusBarColor: Int
     get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.statusBarColor else Color.BLACK
     set(value) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
         window.statusBarColor = value
     }
 
@@ -51,7 +50,6 @@ inline var Activity.statusBarLight: Boolean
 inline var Activity.navigationBarColor: Int
     get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) window.navigationBarColor else Color.BLACK
     set(value) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
         window.navigationBarColor = value
     }
 
@@ -95,8 +93,6 @@ inline fun <reified T : View> Activity.findView(
 }
 
 fun Activity?.buildTransitionOptions(transitionViews: ArrayList<View?> = ArrayList()): Array<Pair<View?, String>> {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return arrayOf()
-
     val statusBar: View? = this?.window?.decorView?.findViewById(android.R.id.statusBarBackground)
     val navigationBar: View? =
         this?.window?.decorView?.findViewById(android.R.id.navigationBarBackground)
