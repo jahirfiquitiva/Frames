@@ -53,7 +53,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
             )
         )
         recyclerView?.adapter = wallsAdapter
-        (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData(true)
+        (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData()
     }
 
     override fun loadData() {
@@ -88,7 +88,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     }
 
     private fun launchViewer(wallpaper: Wallpaper, holder: WallpaperViewHolder) {
-        val options = if (preferences.animationsEnabled == true) {
+        val options = if (preferences.animationsEnabled) {
             try {
                 activity?.let {
                     ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -127,7 +127,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         if (requestCode == ViewerActivity.REQUEST_CODE &&
             resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT) {
             (activity as? CollectionActivity)?.setFavoritesModified()
-            (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData()
+            (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData(true)
         }
     }
 
