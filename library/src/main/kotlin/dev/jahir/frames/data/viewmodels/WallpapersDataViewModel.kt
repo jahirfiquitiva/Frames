@@ -195,9 +195,6 @@ open class WallpapersDataViewModel : ViewModel() {
             newWallpapers.filter { it.url.hasContent() }.distinctBy { it.url }
         } else localWallpapers
 
-        val areTheSame = areTheSameWallpapersLists(localWallpapers, filteredWallpapers)
-        if (areTheSame && wallpapers.isNotEmpty() && !force) return
-
         val favorites = if (loadFavorites) getFavorites(context) else ArrayList()
         val actualNewWallpapers =
             filteredWallpapers.map { wall ->
@@ -207,15 +204,22 @@ open class WallpapersDataViewModel : ViewModel() {
             }
 
         if (loadCollections) {
-            val collections = transformWallpapersToCollections(actualNewWallpapers)
-            postCollections(collections)
+            val newCollections = transformWallpapersToCollections(actualNewWallpapers)
+            val areTheSameCollections = areTheSameLists(collections, newCollections)
+            if (!areTheSameCollections || collections.isNullOrEmpty() || force)
+                postCollections(newCollections)
         }
-        postWallpapers(actualNewWallpapers)
+
+        val areTheSameWallpapers = areTheSameLists(localWallpapers, actualNewWallpapers)
+        if (!areTheSameWallpapers || wallpapers.isNullOrEmpty() || force)
+            postWallpapers(actualNewWallpapers)
 
         if (loadFavorites) {
             val actualFavorites =
                 actualNewWallpapers.filter { wllppr -> favorites.any { fav -> fav.url == wllppr.url } }
-            postFavorites(actualFavorites)
+            val areTheSameFavorites = areTheSameLists(favorites, actualFavorites)
+            if (!areTheSameFavorites || favorites.isNullOrEmpty() || force)
+                postFavorites(actualFavorites)
         }
         saveWallpapers(context, actualNewWallpapers)
     }
@@ -246,6 +250,7 @@ open class WallpapersDataViewModel : ViewModel() {
     ) {
         context ?: return
         viewModelScope.launch {
+            delay(10)
             handleWallpapersData(context, loadCollections, loadFavorites, listOf(), force)
             loadRemoteData(context, url, loadCollections, loadFavorites, force)
         }
@@ -266,29 +271,6 @@ open class WallpapersDataViewModel : ViewModel() {
             removeFromFavorites(context, wallpaper)
             delay(10)
             loadData(context, "", loadCollections = false, loadFavorites = true, force = true)
-        }
-    }
-
-    private fun repostAllData(context: Context?) {
-        context ?: return
-        viewModelScope.launch {
-            postWallpapers(ArrayList(wallpapers))
-            val favorites = getFavorites(context)
-            val actualFavorites =
-                wallpapers.filter { wllppr -> favorites.any { fav -> fav.url == wllppr.url } }
-            postFavorites(actualFavorites)
-            postCollections(ArrayList(collections))
-        }
-    }
-
-    fun repostData(context: Context?, key: Int) {
-        context ?: return
-        viewModelScope.launch {
-            when (key) {
-                1 -> postCollections(ArrayList(collections))
-                0 -> postWallpapers(ArrayList(wallpapers))
-                else -> repostAllData(context)
-            }
         }
     }
 
@@ -326,10 +308,7 @@ open class WallpapersDataViewModel : ViewModel() {
         favoritesData.removeObservers(owner)
     }
 
-    private fun areTheSameWallpapersLists(
-        local: List<Wallpaper>,
-        remote: List<Wallpaper>
-    ): Boolean {
+    private fun <T> areTheSameLists(local: List<T>, remote: List<T>): Boolean {
         try {
             var areTheSame = true
             for ((index, wallpaper) in remote.withIndex()) {
@@ -339,7 +318,7 @@ open class WallpapersDataViewModel : ViewModel() {
                 }
             }
             if (!areTheSame) return false
-            val difference = ArrayList(remote).apply { removeAll(local) }.size
+            val difference = ArrayList<T>(remote).apply { removeAll(local) }.size
             return difference <= 0 && remote.size == local.size
         } catch (e: Exception) {
             return false

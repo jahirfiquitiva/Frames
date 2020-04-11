@@ -44,23 +44,25 @@ abstract class BaseFavoritesConnectedActivity<out P : Preferences> :
     }
 
     internal fun loadWallpapersData() {
-        wallpapersViewModel.loadData(this, getDataUrl())
+        wallpapersViewModel.loadData(
+            this,
+            getDataUrl(),
+            loadCollections = shouldLoadCollections(),
+            loadFavorites = shouldLoadFavorites() && canShowFavoritesButton()
+        )
     }
 
     internal fun reloadWallpapersData() {
-        try {
-            wallpapersViewModel.loadData(this)
-        } catch (e: Exception) {
-        }
+        wallpapersViewModel.loadData(
+            this,
+            loadCollections = shouldLoadCollections(),
+            loadFavorites = shouldLoadFavorites() && canShowFavoritesButton(),
+            force = true
+        )
     }
 
-    internal fun repostWallpapersData(key: Int) {
-        try {
-            wallpapersViewModel.repostData(this, key)
-        } catch (e: Exception) {
-        }
-    }
-
+    open fun shouldLoadCollections(): Boolean = true
+    open fun shouldLoadFavorites(): Boolean = true
     open fun canShowFavoritesButton(): Boolean = true
     open fun canModifyFavorites(): Boolean = true
     open fun onFavoritesLocked() {}

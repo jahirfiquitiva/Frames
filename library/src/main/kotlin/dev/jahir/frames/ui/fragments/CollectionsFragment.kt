@@ -24,6 +24,7 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
         recyclerView?.layoutManager =
             GridLayoutManager(context, columnsCount, GridLayoutManager.VERTICAL, false)
         recyclerView?.adapter = collectionsAdapter
+        (activity as? BaseFavoritesConnectedActivity<*>)?.reloadWallpapersData()
     }
 
     override fun updateItemsInAdapter(items: ArrayList<Collection>) {
@@ -53,8 +54,6 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
             (activity as? BaseFavoritesConnectedActivity<*>)?.reloadWallpapersData()
         }
     }
-
-    override fun getRepostKey(): Int = 1
 
     override fun getTargetActivityIntent(): Intent =
         Intent(activity, CollectionActivity::class.java)

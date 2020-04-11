@@ -152,7 +152,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
             if (isInFavorites) R.id.favorites else R.id.details,
             false
         )
-        wallpapersViewModel.loadData(this)
+        wallpapersViewModel.loadData(this, loadCollections = false, loadFavorites = true)
 
         bottomNavigation?.setOnNavigationItemSelectedListener {
             handleNavigationItemSelected(it.itemId, wallpaper)

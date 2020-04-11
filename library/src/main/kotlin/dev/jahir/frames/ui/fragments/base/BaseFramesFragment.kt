@@ -58,8 +58,6 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_recyclerview),
             (context?.resolveColor(R.attr.colorSurface, 0) ?: 0).lighten(.1F)
         )
         recyclerView?.attachSwipeRefreshLayout(swipeRefreshLayout)
-
-        (activity as? BaseFavoritesConnectedActivity<*>)?.repostWallpapersData(getRepostKey())
     }
 
     private fun setupRecyclerViewMargin() {
@@ -121,7 +119,6 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_recyclerview),
 
     abstract fun getFilteredItems(originalItems: ArrayList<T>, filter: String): ArrayList<T>
     abstract fun updateItemsInAdapter(items: ArrayList<T>)
-    open fun getRepostKey(): Int = -1
     open fun getTargetActivityIntent(): Intent? = null
 
     @StringRes

@@ -53,6 +53,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
             )
         )
         recyclerView?.adapter = wallsAdapter
+        (activity as? BaseFavoritesConnectedActivity<*>)?.reloadWallpapersData()
     }
 
     override fun updateItemsInAdapter(items: ArrayList<Wallpaper>) {
@@ -126,7 +127,6 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         }
     }
 
-    override fun getRepostKey(): Int = if (isForFavs) 2 else 0
     override fun getTargetActivityIntent(): Intent = Intent(activity, ViewerActivity::class.java)
 
     open fun notifyCanModifyFavorites(canModify: Boolean = true) {
