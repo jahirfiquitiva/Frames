@@ -8,7 +8,6 @@ import android.os.Handler
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -17,8 +16,8 @@ import dev.jahir.frames.extensions.context.resolveColor
 import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.resources.lighten
 import dev.jahir.frames.extensions.resources.tint
+import dev.jahir.frames.extensions.utils.postDelayed
 import dev.jahir.frames.extensions.views.attachSwipeRefreshLayout
-import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.activities.base.BaseSystemUIVisibilityActivity
 import dev.jahir.frames.ui.widgets.StatefulRecyclerView
 
@@ -81,19 +80,20 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_recyclerview),
     }
 
     private fun startRefreshing() {
-        val isRefreshing = swipeRefreshLayout?.isRefreshing ?: false
-        if (isRefreshing) stopRefreshing()
         swipeRefreshLayout?.isRefreshing = true
         recyclerView?.loading = true
-        loadData()
+        try {
+            loadData()
+            postDelayed(500) { stopRefreshing() }
+        } catch (e: Exception) {
+            stopRefreshing()
+        }
     }
 
-    open fun loadData() {
-        (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData()
-    }
+    abstract fun loadData()
 
     internal fun stopRefreshing() {
-        Handler().postDelayed(10) {
+        Handler().post {
             swipeRefreshLayout?.isRefreshing = false
             recyclerView?.loading = false
         }

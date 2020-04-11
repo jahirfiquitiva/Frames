@@ -152,7 +152,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
             if (isInFavorites) R.id.favorites else R.id.details,
             false
         )
-        wallpapersViewModel.loadData(this, loadCollections = false, loadFavorites = true)
+        loadWallpapersData()
 
         bottomNavigation?.setOnNavigationItemSelectedListener {
             handleNavigationItemSelected(it.itemId, wallpaper)
@@ -347,6 +347,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
         boolean(R.bool.show_wallpaper_palette_details, true)
 
     open fun shouldShowDownloadOption() = true
+    override fun shouldLoadCollections(): Boolean = false
     override val shouldChangeStatusBarLightStatus: Boolean = false
     override val shouldChangeNavigationBarLightStatus: Boolean = false
 

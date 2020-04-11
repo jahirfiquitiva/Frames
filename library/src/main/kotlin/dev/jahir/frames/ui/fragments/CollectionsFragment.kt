@@ -24,7 +24,7 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
         recyclerView?.layoutManager =
             GridLayoutManager(context, columnsCount, GridLayoutManager.VERTICAL, false)
         recyclerView?.adapter = collectionsAdapter
-        (activity as? BaseFavoritesConnectedActivity<*>)?.reloadWallpapersData()
+        (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData()
     }
 
     override fun updateItemsInAdapter(items: ArrayList<Collection>) {
@@ -51,8 +51,12 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CollectionActivity.REQUEST_CODE &&
             resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT) {
-            (activity as? BaseFavoritesConnectedActivity<*>)?.reloadWallpapersData()
+            (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData(true)
         }
+    }
+
+    override fun loadData() {
+        (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData(true)
     }
 
     override fun getTargetActivityIntent(): Intent =

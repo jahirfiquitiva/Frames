@@ -48,14 +48,14 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
         setContentView(getLayoutRes())
 
         setSupportActionBar(toolbar)
-        changeFragment(initialItemId, true, false)
+        changeFragment(initialItemId, force = true)
 
         bottomNavigation?.selectedItemId = initialItemId
         bottomNavigation?.setOnNavigationItemSelectedListener { changeFragment(it.itemId) }
 
         wallpapersViewModel.observeWallpapers(this) { wallpapersFragment?.updateItems(ArrayList(it)) }
         wallpapersViewModel.observeCollections(this, ::handleCollectionsUpdate)
-        loadWallpapersData()
+        loadWallpapersData(true)
     }
 
     @LayoutRes

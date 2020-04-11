@@ -15,7 +15,8 @@ abstract class BaseFavoritesConnectedActivity<out P : Preferences> :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        wallpapersViewModel.observeFavorites(this, ::onFavoritesUpdated)
+        if (shouldLoadFavorites() && canShowFavoritesButton())
+            wallpapersViewModel.observeFavorites(this, ::onFavoritesUpdated)
     }
 
     internal fun addToFavorites(wallpaper: Wallpaper): Boolean {
@@ -43,18 +44,10 @@ abstract class BaseFavoritesConnectedActivity<out P : Preferences> :
         wallpapersViewModel.destroy(this)
     }
 
-    internal fun loadWallpapersData() {
+    internal fun loadWallpapersData(remote: Boolean = false) {
         wallpapersViewModel.loadData(
             this,
-            getDataUrl(),
-            loadCollections = shouldLoadCollections(),
-            loadFavorites = shouldLoadFavorites() && canShowFavoritesButton()
-        )
-    }
-
-    internal fun reloadWallpapersData() {
-        wallpapersViewModel.loadData(
-            this,
+            if (remote) getDataUrl() else "",
             loadCollections = shouldLoadCollections(),
             loadFavorites = shouldLoadFavorites() && canShowFavoritesButton(),
             force = true

@@ -54,7 +54,7 @@ open class CollectionActivity : BaseChangelogDialogActivity<Preferences>() {
             }
             wallpapersFragment.updateItems(ArrayList(rightCollection?.wallpapers.orEmpty()))
         }
-        wallpapersViewModel.loadData(this)
+        loadWallpapersData()
 
         replaceFragment(wallpapersFragment, WallpapersFragment.IN_COLLECTION_TAG)
     }

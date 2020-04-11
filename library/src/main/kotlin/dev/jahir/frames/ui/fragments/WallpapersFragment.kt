@@ -53,7 +53,11 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
             )
         )
         recyclerView?.adapter = wallsAdapter
-        (activity as? BaseFavoritesConnectedActivity<*>)?.reloadWallpapersData()
+        (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData(true)
+    }
+
+    override fun loadData() {
+        (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData(true)
     }
 
     override fun updateItemsInAdapter(items: ArrayList<Wallpaper>) {
@@ -123,7 +127,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         if (requestCode == ViewerActivity.REQUEST_CODE &&
             resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT) {
             (activity as? CollectionActivity)?.setFavoritesModified()
-            (activity as? BaseFavoritesConnectedActivity<*>)?.reloadWallpapersData()
+            (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData()
         }
     }
 
