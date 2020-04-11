@@ -16,6 +16,7 @@ import dev.jahir.frames.extensions.context.isNetworkAvailable
 import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.utils.lazyMutableLiveData
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
@@ -23,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
 @Suppress("unused", "RemoveExplicitTypeArguments")
-abstract class WallpapersDataViewModel : ViewModel() {
+open class WallpapersDataViewModel : ViewModel() {
 
     private val wallpapersData: MutableLiveData<List<Wallpaper>> by lazyMutableLiveData()
     val wallpapers: List<Wallpaper>
@@ -45,7 +46,30 @@ abstract class WallpapersDataViewModel : ViewModel() {
             .build().create(WallpapersJSONService::class.java)
     }
 
-    abstract fun internalTransformWallpapersToCollections(wallpapers: List<Wallpaper>): List<Collection>
+    open fun internalTransformWallpapersToCollections(wallpapers: List<Wallpaper>): List<Collection> {
+        val collections =
+            wallpapers.joinToString(",") { it.collections ?: "" }
+                .replace("|", ",")
+                .split(",")
+                .distinct()
+        val importantCollectionsNames = listOf(
+            "all", "featured", "new", "wallpaper of the day", "wallpaper of the week"
+        )
+        val sortedCollectionsNames =
+            listOf(importantCollectionsNames, collections).flatten().distinct()
+
+        var usedCovers = ArrayList<String>()
+        val actualCollections: ArrayList<Collection> = ArrayList()
+        sortedCollectionsNames.forEach { collectionName ->
+            val collection = Collection(collectionName)
+            wallpapers.filter { it.collections.orEmpty().contains(collectionName, true) }
+                .distinctBy { it.url }
+                .forEach { collection.push(it) }
+            usedCovers = collection.setupCover(usedCovers)
+            if (collection.count > 0) actualCollections.add(collection)
+        }
+        return actualCollections
+    }
 
     private suspend fun transformWallpapersToCollections(wallpapers: List<Wallpaper>): ArrayList<Collection> =
         withContext(IO) { ArrayList(internalTransformWallpapersToCollections(wallpapers)) }
@@ -72,7 +96,6 @@ abstract class WallpapersDataViewModel : ViewModel() {
     private suspend fun saveWallpapers(context: Context, wallpapers: List<Wallpaper>) =
         withContext(IO) {
             try {
-                deleteAllWallpapers(context)
                 FramesDatabase.getAppDatabase(context)?.wallpapersDao()?.insertAll(wallpapers)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -152,44 +175,77 @@ abstract class WallpapersDataViewModel : ViewModel() {
             }
         }
 
-    fun loadData(context: Context, url: String = "") {
-        viewModelScope.launch {
-            val favorites = getFavorites(context)
+    private suspend fun handleWallpapersData(
+        context: Context? = null,
+        loadCollections: Boolean = true,
+        loadFavorites: Boolean = true,
+        newWallpapers: List<Wallpaper> = listOf(),
+        force: Boolean = false
+    ) {
+        context ?: return
+        val localWallpapers = try {
+            getWallpapersFromDatabase(context)
+        } catch (e: Exception) {
+            arrayListOf<Wallpaper>()
+        }
 
-            val remoteWallpapers: List<Wallpaper> =
-                if (context.isNetworkAvailable() && url.hasContent()) {
-                    try {
-                        service.getJSON(url)
-                    } catch (e: Exception) {
-                        arrayListOf<Wallpaper>()
-                    }
-                } else arrayListOf<Wallpaper>()
+        val filteredWallpapers = if (newWallpapers.isNotEmpty()) {
+            newWallpapers.filter { it.url.hasContent() }.distinctBy { it.url }
+        } else localWallpapers
 
-            val localWallpapers = try {
-                getWallpapersFromDatabase(context)
-            } catch (e: Exception) {
-                arrayListOf<Wallpaper>()
+        val areTheSame = areTheSameWallpapersLists(localWallpapers, filteredWallpapers)
+        if (areTheSame && wallpapers.isNotEmpty() && !force) return
+
+        val favorites = if (loadFavorites) getFavorites(context) else ArrayList()
+        val actualNewWallpapers =
+            filteredWallpapers.map { wall ->
+                wall.apply {
+                    this.isInFavorites = favorites.any { fav -> fav.url == wall.url }
+                }
             }
 
-            val wallpapers =
-                (if (remoteWallpapers.isNotEmpty()) remoteWallpapers else localWallpapers)
-                    .filter { it.url.hasContent() }
-                    .distinctBy { it.url }
-                    .map { wall ->
-                        wall.apply {
-                            this.isInFavorites = favorites.any { fav -> fav.url == wall.url }
-                        }
-                    }
-
-            saveWallpapers(context, wallpapers)
-            postWallpapers(wallpapers)
-
-            val actualFavorites =
-                wallpapers.filter { wllppr -> favorites.any { fav -> fav.url == wllppr.url } }
-            postFavorites(actualFavorites)
-
-            val collections = transformWallpapersToCollections(wallpapers)
+        if (loadCollections) {
+            val collections = transformWallpapersToCollections(actualNewWallpapers)
             postCollections(collections)
+        }
+        postWallpapers(actualNewWallpapers)
+
+        if (loadFavorites) {
+            val actualFavorites =
+                actualNewWallpapers.filter { wllppr -> favorites.any { fav -> fav.url == wllppr.url } }
+            postFavorites(actualFavorites)
+        }
+        saveWallpapers(context, actualNewWallpapers)
+    }
+
+    private suspend fun loadRemoteData(
+        context: Context? = null,
+        url: String = "",
+        loadCollections: Boolean = true,
+        loadFavorites: Boolean = true,
+        force: Boolean = false
+    ) {
+        context ?: return
+        if (!context.isNetworkAvailable()) return
+        if (!url.hasContent()) return
+        try {
+            val remoteWallpapers = service.getJSON(url)
+            handleWallpapersData(context, loadCollections, loadFavorites, remoteWallpapers, force)
+        } catch (e: Exception) {
+        }
+    }
+
+    fun loadData(
+        context: Context? = null,
+        url: String = "",
+        loadCollections: Boolean = true,
+        loadFavorites: Boolean = true,
+        force: Boolean = false
+    ) {
+        context ?: return
+        viewModelScope.launch {
+            handleWallpapersData(context, loadCollections, loadFavorites, listOf(), force)
+            loadRemoteData(context, url, loadCollections, loadFavorites, force)
         }
     }
 
@@ -197,20 +253,17 @@ abstract class WallpapersDataViewModel : ViewModel() {
         context ?: return
         viewModelScope.launch {
             addToFavorites(context, wallpaper)
-            loadData(context)
+            delay(10)
+            loadData(context, "", loadCollections = false, loadFavorites = true, force = true)
         }
     }
 
-    @Suppress("BlockingMethodInNonBlockingContext")
     fun removeFromFavorites(context: Context?, wallpaper: Wallpaper) {
         context ?: return
         viewModelScope.launch {
             removeFromFavorites(context, wallpaper)
-            try {
-                Thread.sleep(10)
-            } catch (e: Exception) {
-            }
-            loadData(context)
+            delay(10)
+            loadData(context, "", loadCollections = false, loadFavorites = true, force = true)
         }
     }
 
@@ -269,5 +322,25 @@ abstract class WallpapersDataViewModel : ViewModel() {
         wallpapersData.removeObservers(owner)
         collectionsData.removeObservers(owner)
         favoritesData.removeObservers(owner)
+    }
+
+    private fun areTheSameWallpapersLists(
+        local: List<Wallpaper>,
+        remote: List<Wallpaper>
+    ): Boolean {
+        try {
+            var areTheSame = true
+            for ((index, wallpaper) in remote.withIndex()) {
+                if (local.indexOf(wallpaper) != index) {
+                    areTheSame = false
+                    break
+                }
+            }
+            if (!areTheSame) return false
+            val difference = ArrayList(remote).apply { removeAll(local) }.size
+            return difference <= 0 && remote.size == local.size
+        } catch (e: Exception) {
+            return false
+        }
     }
 }
