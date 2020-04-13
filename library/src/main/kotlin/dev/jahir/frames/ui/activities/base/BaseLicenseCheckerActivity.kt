@@ -98,7 +98,7 @@ abstract class BaseLicenseCheckerActivity<out P : Preferences> : BaseChangelogDi
         licenseCheckDialog?.dismiss()
         preferences.functionalDashboard = true
         if (!update || force) {
-            snackbar(string(R.string.license_valid_snack, getAppName()))
+            snackbar(string(R.string.license_valid_snack, getAppName()), snackbarAnchorId)
         } else {
             showChangelog()
         }

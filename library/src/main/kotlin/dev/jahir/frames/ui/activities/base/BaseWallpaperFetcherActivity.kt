@@ -40,7 +40,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
                 super.onCompleted(download)
                 snackbar(
                     string(R.string.download_successful, download.file),
-                    Snackbar.LENGTH_LONG
+                    Snackbar.LENGTH_LONG, snackbarAnchorId
                 )
                 dismissDownloadDialog()
             }
