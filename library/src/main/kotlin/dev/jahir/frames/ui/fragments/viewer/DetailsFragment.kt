@@ -10,6 +10,8 @@ import dev.jahir.frames.extensions.resources.dpToPx
 import dev.jahir.frames.extensions.utils.MAX_FRAMES_PALETTE_COLORS
 import dev.jahir.frames.extensions.utils.bestSwatches
 import dev.jahir.frames.extensions.views.findView
+import dev.jahir.frames.extensions.views.setPaddingLeft
+import dev.jahir.frames.extensions.views.setPaddingRight
 import dev.jahir.frames.ui.adapters.WallpaperDetailsAdapter
 import dev.jahir.frames.ui.decorations.DetailsGridSpacingItemDecoration
 import dev.jahir.frames.ui.fragments.base.BaseBottomSheet
@@ -37,9 +39,11 @@ class DetailsFragment : BaseBottomSheet() {
     }
 
     override fun getContentView(): View? {
-        val view = View.inflate(context, R.layout.fragment_wallpaper_details, null)
+        val view = View.inflate(context, R.layout.fragment_recyclerview, null)
 
         val recyclerView: RecyclerView? by view.findView(R.id.recycler_view)
+        recyclerView?.setPaddingLeft(8.dpToPx)
+        recyclerView?.setPaddingRight(8.dpToPx)
         val columns = (MAX_FRAMES_PALETTE_COLORS / 2.0).roundToInt()
         val decoration = DetailsGridSpacingItemDecoration(8.dpToPx)
         val lm = GridLayoutManager(context, columns)

@@ -21,7 +21,7 @@ import dev.jahir.frames.extensions.views.attachSwipeRefreshLayout
 import dev.jahir.frames.ui.activities.base.BaseSystemUIVisibilityActivity
 import dev.jahir.frames.ui.widgets.StatefulRecyclerView
 
-abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_recyclerview),
+abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyclerview),
     StatefulRecyclerView.StateDrawableModifier {
 
     private val originalItems: ArrayList<T> = ArrayList()

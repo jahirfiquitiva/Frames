@@ -21,8 +21,19 @@ class SectionHeaderViewHolder(view: View) : SectionedViewHolder(view) {
         bind(actualTitle, actualSubtitle, showDivider)
     }
 
+    fun bind(@StringRes title: Int, subtitle: String, showDivider: Boolean = true) {
+        val actualTitle = itemView.context.string(title)
+        bind(actualTitle, subtitle, showDivider)
+    }
+
+    fun bind(title: String, @StringRes subtitle: Int, showDivider: Boolean = true) {
+        val actualSubtitle = itemView.context.string(subtitle)
+        bind(title, actualSubtitle, showDivider)
+    }
+
     fun bind(title: String, subtitle: String, showDivider: Boolean = true) {
         titleTextView?.text = title
+        titleTextView?.visibleIf(title.hasContent())
         subtitleTextView?.text = subtitle
         subtitleTextView?.visibleIf(subtitle.hasContent())
         divider?.visibleIf(showDivider)
