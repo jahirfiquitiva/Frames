@@ -24,6 +24,7 @@ import dev.jahir.frames.extensions.views.tint
 import dev.jahir.frames.extensions.views.visible
 import dev.jahir.frames.extensions.views.visibleIf
 
+@Suppress("MemberVisibilityCanBePrivate")
 open class StatefulRecyclerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -105,12 +106,15 @@ open class StatefulRecyclerView @JvmOverloads constructor(
         }
     }
 
-    fun attachBottomNavigationView(bottomNavigationView: BottomNavigationView?) {
+    fun setupBottomOffset(offset: Int) {
         post {
-            val bottomNavigationViewHeight = bottomNavigationView?.measuredHeight ?: 0
-            setPaddingBottom(bottomNavigationViewHeight)
-            stateRootLayout?.setMarginBottom(bottomNavigationViewHeight)
+            setPaddingBottom(offset)
+            stateRootLayout?.setMarginBottom(offset)
         }
+    }
+
+    fun attachBottomNavigationView(bottomNavigationView: BottomNavigationView?) {
+        setupBottomOffset(bottomNavigationView?.measuredHeight ?: 0)
     }
 
     override fun onAttachedToWindow() {

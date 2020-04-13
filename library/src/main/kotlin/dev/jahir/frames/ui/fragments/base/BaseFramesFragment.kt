@@ -21,6 +21,7 @@ import dev.jahir.frames.extensions.views.attachSwipeRefreshLayout
 import dev.jahir.frames.ui.activities.base.BaseSystemUIVisibilityActivity
 import dev.jahir.frames.ui.widgets.StatefulRecyclerView
 
+@Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyclerview),
     StatefulRecyclerView.StateDrawableModifier {
 
@@ -36,7 +37,7 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.recycler_view)
-        setupRecyclerViewMargin()
+        setupRecyclerViewMargin(view)
         recyclerView?.stateDrawableModifier = this
 
         recyclerView?.emptyText = getEmptyText()
@@ -59,10 +60,8 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
         recyclerView?.attachSwipeRefreshLayout(swipeRefreshLayout)
     }
 
-    private fun setupRecyclerViewMargin() {
-        recyclerView?.attachBottomNavigationView(
-            (context as? BaseSystemUIVisibilityActivity<*>)?.bottomNavigation
-        )
+    open fun setupRecyclerViewMargin(view: View? = null) {
+        recyclerView?.attachBottomNavigationView((context as? BaseSystemUIVisibilityActivity<*>)?.bottomNavigation)
     }
 
     internal fun setRefreshEnabled(enabled: Boolean) {
