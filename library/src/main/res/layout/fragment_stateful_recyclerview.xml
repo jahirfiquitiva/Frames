@@ -23,11 +23,11 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipChildren="false"
             android:clipToPadding="false"
             android:overScrollMode="ifContentScrolls"
             android:splitMotionEvents="false"
             android:visibility="gone"
-            app:fastScrollThumbColor="?colorAccent"
             app:stateRootLayout="@id/state_root_layout" />
 
     </FrameLayout>

@@ -11,7 +11,6 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.context.drawable
@@ -24,7 +23,7 @@ import dev.jahir.frames.extensions.views.tint
 import dev.jahir.frames.extensions.views.visible
 import dev.jahir.frames.extensions.views.visibleIf
 
-@Suppress("MemberVisibilityCanBePrivate")
+@Suppress("MemberVisibilityCanBePrivate", "unused")
 open class StatefulRecyclerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -111,10 +110,6 @@ open class StatefulRecyclerView @JvmOverloads constructor(
             setPaddingBottom(offset)
             stateRootLayout?.setMarginBottom(offset)
         }
-    }
-
-    fun attachBottomNavigationView(bottomNavigationView: BottomNavigationView?) {
-        setupBottomOffset(bottomNavigationView?.measuredHeight ?: 0)
     }
 
     override fun onAttachedToWindow() {
