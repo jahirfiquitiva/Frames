@@ -114,11 +114,13 @@ open class SettingsFragment : BasePreferenceFragment() {
         setupLegalLinks()
     }
 
+    @Suppress("RemoveExplicitTypeArguments")
     private fun setupLegalLinks() {
         val privacyLink = string(R.string.privacy_policy_link)
         val termsLink = string(R.string.terms_conditions_link)
 
         val prefsScreen = findPreference<PreferenceScreen?>("preferences")
+            ?: findPreference<PreferenceScreen?>("prefs")
         val legalCategory = findPreference<PreferenceCategory?>("legal")
 
         if (privacyLink.hasContent() || termsLink.hasContent()) {
