@@ -1,7 +1,9 @@
 package dev.jahir.frames.ui.activities.base
 
+import android.content.Context
 import android.content.Intent
 import android.media.MediaScannerConnection
+import android.net.Uri
 import com.google.android.material.snackbar.Snackbar
 import com.tonyodev.fetch2.Download
 import com.tonyodev.fetch2.Error
@@ -24,6 +26,7 @@ import dev.jahir.frames.ui.fragments.viewer.DownloaderDialog
 import dev.jahir.frames.ui.notifications.WallpaperDownloadNotificationManager
 import java.io.File
 import java.lang.ref.WeakReference
+import java.net.URLConnection
 
 
 abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
@@ -43,22 +46,11 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
             override fun onCompleted(download: Download) {
                 super.onCompleted(download)
                 ensureBackgroundThread {
-                    try {
-                        MediaScannerConnection.scanFile(
-                            this@BaseWallpaperFetcherActivity,
-                            arrayOf(download.file), arrayOf("image/*")
-                        ) { _, _ -> }
-                    } catch (e: Exception) {
-                    }
-                    try {
-                        this@BaseWallpaperFetcherActivity.sendBroadcast(
-                            Intent(
-                                Intent.ACTION_MEDIA_MOUNTED,
-                                download.fileUri
-                            )
-                        )
-                    } catch (e: Exception) {
-                    }
+                    FramesMediaScanner(
+                        this@BaseWallpaperFetcherActivity,
+                        download.file,
+                        download.fileUri
+                    )
                 }
                 snackbar(
                     string(R.string.download_successful, download.file),
@@ -144,5 +136,58 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
         dismissDownloadDialog(cancelDownload = true, removeDownload = false)
         fetch.removeListener(fetchListener)
         fetch.close()
+    }
+
+    private class FramesMediaScanner(
+        private var context: Context?,
+        private var path: String?,
+        private var uri: Uri?
+    ) : MediaScannerConnection.MediaScannerConnectionClient {
+
+        private var connection: MediaScannerConnection? = MediaScannerConnection(context, this)
+
+        init {
+            connection?.connect()
+        }
+
+        override fun onMediaScannerConnected() {
+            try {
+                connection?.scanFile(path, URLConnection.guessContentTypeFromName(path))
+            } catch (e: Exception) {
+                broadcastScanFile(uri)
+                broadcastMediaMounted(uri)
+            } finally {
+                clean()
+            }
+        }
+
+        override fun onScanCompleted(scannedPath: String?, scannedUri: Uri?) {
+            broadcastScanFile(scannedUri)
+            broadcastMediaMounted(scannedUri)
+            clean()
+        }
+
+        private fun broadcastMediaMounted(uri: Uri?) {
+            try {
+                context?.sendBroadcast(Intent(Intent.ACTION_MEDIA_MOUNTED, uri))
+            } catch (e: Exception) {
+            }
+        }
+
+        @Suppress("DEPRECATION")
+        private fun broadcastScanFile(uri: Uri?) {
+            try {
+                context?.sendBroadcast(
+                    Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).apply { data = uri })
+            } catch (e: Exception) {
+            }
+        }
+
+        private fun clean() {
+            uri = null
+            path = null
+            context = null
+            connection?.disconnect()
+        }
     }
 }
