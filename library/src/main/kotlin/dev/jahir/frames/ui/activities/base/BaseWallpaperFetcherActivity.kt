@@ -1,5 +1,7 @@
 package dev.jahir.frames.ui.activities.base
 
+import android.content.Intent
+import android.media.MediaScannerConnection
 import com.google.android.material.snackbar.Snackbar
 import com.tonyodev.fetch2.Download
 import com.tonyodev.fetch2.Error
@@ -15,12 +17,14 @@ import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.listeners.BaseFetchListener
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.extensions.utils.ensureBackgroundThread
 import dev.jahir.frames.extensions.utils.postDelayed
 import dev.jahir.frames.extensions.views.snackbar
 import dev.jahir.frames.ui.fragments.viewer.DownloaderDialog
 import dev.jahir.frames.ui.notifications.WallpaperDownloadNotificationManager
 import java.io.File
 import java.lang.ref.WeakReference
+
 
 abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
     BaseStoragePermissionRequestActivity<P>() {
@@ -38,6 +42,24 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
 
             override fun onCompleted(download: Download) {
                 super.onCompleted(download)
+                ensureBackgroundThread {
+                    try {
+                        MediaScannerConnection.scanFile(
+                            this@BaseWallpaperFetcherActivity,
+                            arrayOf(download.file), arrayOf("image/*")
+                        ) { _, _ -> }
+                    } catch (e: Exception) {
+                    }
+                    try {
+                        this@BaseWallpaperFetcherActivity.sendBroadcast(
+                            Intent(
+                                Intent.ACTION_MEDIA_MOUNTED,
+                                download.fileUri
+                            )
+                        )
+                    } catch (e: Exception) {
+                    }
+                }
                 snackbar(
                     string(R.string.download_successful, download.file),
                     Snackbar.LENGTH_LONG, snackbarAnchorId
