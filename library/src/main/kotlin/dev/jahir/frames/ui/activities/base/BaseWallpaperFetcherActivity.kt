@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.Uri
+import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
 import com.tonyodev.fetch2.Download
 import com.tonyodev.fetch2.Error
@@ -19,6 +20,7 @@ import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.listeners.BaseFetchListener
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.utils.ensureBackgroundThread
 import dev.jahir.frames.extensions.utils.postDelayed
 import dev.jahir.frames.extensions.views.snackbar
@@ -29,6 +31,7 @@ import java.lang.ref.WeakReference
 import java.net.URLConnection
 
 
+@Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
     BaseStoragePermissionRequestActivity<P>() {
 
@@ -45,18 +48,14 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
 
             override fun onCompleted(download: Download) {
                 super.onCompleted(download)
-                ensureBackgroundThread {
-                    FramesMediaScanner(
-                        this@BaseWallpaperFetcherActivity,
-                        download.file,
-                        download.fileUri
-                    )
-                }
+                dismissDownloadDialog()
                 snackbar(
                     string(R.string.download_successful, download.file),
                     Snackbar.LENGTH_LONG, snackbarAnchorId
                 )
-                dismissDownloadDialog()
+                ensureBackgroundThread {
+                    MediaScanner.scan(this@BaseWallpaperFetcherActivity, download)
+                }
             }
 
             override fun onError(download: Download, error: Error, throwable: Throwable?) {
@@ -138,36 +137,8 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
         fetch.close()
     }
 
-    private class FramesMediaScanner(
-        private var context: Context?,
-        private var path: String?,
-        private var uri: Uri?
-    ) : MediaScannerConnection.MediaScannerConnectionClient {
-
-        private var connection: MediaScannerConnection? = MediaScannerConnection(context, this)
-
-        init {
-            connection?.connect()
-        }
-
-        override fun onMediaScannerConnected() {
-            try {
-                connection?.scanFile(path, URLConnection.guessContentTypeFromName(path))
-            } catch (e: Exception) {
-                broadcastScanFile(uri)
-                broadcastMediaMounted(uri)
-            } finally {
-                clean()
-            }
-        }
-
-        override fun onScanCompleted(scannedPath: String?, scannedUri: Uri?) {
-            broadcastScanFile(scannedUri)
-            broadcastMediaMounted(scannedUri)
-            clean()
-        }
-
-        private fun broadcastMediaMounted(uri: Uri?) {
+    private object MediaScanner {
+        private fun broadcastMediaMounted(context: Context?, uri: Uri?) {
             try {
                 context?.sendBroadcast(Intent(Intent.ACTION_MEDIA_MOUNTED, uri))
             } catch (e: Exception) {
@@ -175,7 +146,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
         }
 
         @Suppress("DEPRECATION")
-        private fun broadcastScanFile(uri: Uri?) {
+        private fun broadcastScanFile(context: Context?, uri: Uri?) {
             try {
                 context?.sendBroadcast(
                     Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).apply { data = uri })
@@ -183,11 +154,21 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
             }
         }
 
-        private fun clean() {
-            uri = null
-            path = null
-            context = null
-            connection?.disconnect()
+        private fun sendBroadcasts(context: Context?, uri: Uri?) {
+            broadcastMediaMounted(context, uri)
+            broadcastScanFile(context, uri)
+        }
+
+        fun scan(activity: FragmentActivity?, download: Download) {
+            var mimeType = URLConnection.guessContentTypeFromName(download.file).orEmpty()
+            if (!mimeType.hasContent()) mimeType = "image/*"
+            try {
+                MediaScannerConnection.scanFile(
+                    activity, arrayOf(download.file), arrayOf(mimeType)
+                ) { _, uri -> sendBroadcasts(activity, uri) }
+            } catch (e: Exception) {
+                sendBroadcasts(activity, download.fileUri)
+            }
         }
     }
 }
