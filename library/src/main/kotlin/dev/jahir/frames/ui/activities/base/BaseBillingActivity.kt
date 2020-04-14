@@ -45,7 +45,8 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val created = super.onCreateOptionsMenu(menu)
-        menu?.findItem(R.id.donate)?.isVisible = isBillingClientReady
+        menu?.findItem(R.id.donate)?.isVisible =
+            isBillingClientReady && getDonationItemsIds().isNotEmpty()
         return created
     }
 
@@ -67,13 +68,13 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
         billingViewModel.destroy(this)
     }
 
-    fun showInAppPurchasesDialog() {
+    fun showDonationsDialog() {
         if (!isBillingClientReady) {
             onSkuPurchaseError()
             return
         }
-        val skuDetailsList =
-            billingViewModel.inAppSkuDetails.map { CleanSkuDetails(it) }.orEmpty()
+        val skuDetailsList = billingViewModel.inAppSkuDetails.map { CleanSkuDetails(it) }
+            .filter { getDonationItemsIds().contains(it.originalDetails.sku) }
         if (skuDetailsList.isEmpty()) return
         dismissDialogs()
         purchasesDialog = mdDialog {
@@ -112,7 +113,9 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
     override fun onBillingClientReady() {
         super.onBillingClientReady()
         invalidateOptionsMenu()
-        billingViewModel.queryInAppSkuDetailsList(getInAppPurchasesItemsIds())
+        val inAppItems =
+            ArrayList(getDonationItemsIds()).apply { addAll(getInAppPurchasesItemsIds()) }
+        billingViewModel.queryInAppSkuDetailsList(inAppItems)
         billingViewModel.querySubscriptionsSkuDetailsList(getSubscriptionsItemsIds())
     }
 
@@ -121,11 +124,12 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
         invalidateOptionsMenu()
     }
 
-    open fun getInAppPurchasesItemsIds(): List<String> = try {
+    open fun getDonationItemsIds(): List<String> = try {
         stringArray(R.array.donation_items).filter { it.hasContent() }
     } catch (e: Exception) {
         listOf()
     }
 
+    open fun getInAppPurchasesItemsIds(): List<String> = listOf()
     open fun getSubscriptionsItemsIds(): List<String> = listOf()
 }

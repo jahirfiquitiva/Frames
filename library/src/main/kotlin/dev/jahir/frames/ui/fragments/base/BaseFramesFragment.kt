@@ -19,6 +19,7 @@ import dev.jahir.frames.extensions.resources.tint
 import dev.jahir.frames.extensions.utils.postDelayed
 import dev.jahir.frames.extensions.views.attachSwipeRefreshLayout
 import dev.jahir.frames.extensions.views.setMarginBottom
+import dev.jahir.frames.extensions.views.setPaddingBottom
 import dev.jahir.frames.ui.activities.base.BaseSystemUIVisibilityActivity
 import dev.jahir.frames.ui.widgets.StatefulRecyclerView
 
@@ -64,7 +65,7 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
     open fun setupRecyclerViewMargin(view: View? = null) {
         (context as? BaseSystemUIVisibilityActivity<*>)?.bottomNavigation?.let {
             it.post {
-                (view ?: getView())?.setMarginBottom(it.measuredHeight)
+                (view ?: getView())?.setPaddingBottom(it.measuredHeight)
             }
         }
     }

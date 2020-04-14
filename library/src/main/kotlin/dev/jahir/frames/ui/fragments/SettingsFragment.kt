@@ -8,7 +8,6 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceScreen
 import androidx.preference.SwitchPreference
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dev.jahir.frames.BuildConfig
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.extensions.context.boolean
@@ -32,6 +31,8 @@ import dev.jahir.frames.ui.fragments.base.BasePreferenceFragment
 
 open class SettingsFragment : BasePreferenceFragment() {
 
+    private var dashboardName: String = "Unknown"
+    private var dashboardVersion: String = "-1"
     private var currentThemeKey: Int = -1
 
     @CallSuper
@@ -104,8 +105,8 @@ open class SettingsFragment : BasePreferenceFragment() {
                 "${context?.currentVersionName} (${context?.currentVersionCode})"
 
             val dashboardVersionPrefs = findPreference<Preference?>("dashboard_version")
-            dashboardVersionPrefs?.title = BuildConfig.DASHBOARD_NAME
-            dashboardVersionPrefs?.summary = BuildConfig.DASHBOARD_VERSION
+            dashboardVersionPrefs?.title = dashboardName
+            dashboardVersionPrefs?.summary = dashboardVersion
         } else {
             preferenceScreen?.removePreference(findPreference("versions"))
         }
@@ -163,5 +164,10 @@ open class SettingsFragment : BasePreferenceFragment() {
 
     companion object {
         internal const val TAG = "settings_fragment"
+
+        fun create(dashboardName: String, dashboardVersion: String) = SettingsFragment().apply {
+            this.dashboardName = dashboardName
+            this.dashboardVersion = dashboardVersion
+        }
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import dev.jahir.frames.BuildConfig
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.extensions.context.findView
@@ -31,7 +32,8 @@ open class SettingsActivity : BaseThemedActivity<Preferences>() {
     override val preferences: Preferences by lazy { Preferences(this) }
     private val toolbar: Toolbar? by findView(R.id.toolbar)
 
-    open fun getSettingsFragment(): SettingsFragment = SettingsFragment()
+    open fun getSettingsFragment(): SettingsFragment =
+        SettingsFragment.create(dashboardName, dashboardVersion)
 
     private var preferenceDialog: AlertDialog? = null
 
@@ -67,4 +69,7 @@ open class SettingsActivity : BaseThemedActivity<Preferences>() {
         preferences.unregisterOnSharedPreferenceChangeListener(preferencesListener)
         preferenceDialog?.dismiss()
     }
+
+    open val dashboardName: String = BuildConfig.DASHBOARD_NAME
+    open val dashboardVersion: String = BuildConfig.DASHBOARD_VERSION
 }

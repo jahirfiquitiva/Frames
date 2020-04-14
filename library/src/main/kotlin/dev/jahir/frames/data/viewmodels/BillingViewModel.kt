@@ -29,8 +29,7 @@ class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdat
 
     var billingProcessesListener: BillingProcessesListener? = null
 
-    var billingClient: BillingClient? = null
-        private set
+    private var billingClient: BillingClient? = null
 
     private val subscriptionsPurchasesHistoryData: MutableLiveData<List<DetailedPurchaseRecord>> by lazyMutableLiveData()
     val subscriptionsPurchasesHistory: List<DetailedPurchaseRecord>
