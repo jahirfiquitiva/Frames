@@ -84,7 +84,12 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
         else -> string(R.string.search_x)
     }
 
-    open fun getToolbarTitleForItem(itemId: Int): String? = null
+    open fun getToolbarTitleForItem(itemId: Int): String? =
+        when (itemId) {
+            R.id.collections -> string(R.string.collections)
+            R.id.favorites -> string(R.string.favorites)
+            else -> null
+        }
 
     open fun getNextFragment(itemId: Int): Pair<Pair<String?, Fragment?>?, Boolean>? =
         when (itemId) {
