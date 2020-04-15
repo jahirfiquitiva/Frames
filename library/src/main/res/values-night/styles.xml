@@ -38,7 +38,6 @@
         <item name="colorOnSurface">@color/amoledThemeOnSurface</item>
 
         <item name="android:windowBackground">@color/amoledThemeBackground</item>
-        <item name="android:background">@color/amoledThemeBackground</item>
         <item name="colorBackgroundFloating">@color/amoledThemeBackground</item>
         <item name="colorOnBackground">@color/amoledThemeOnBackground</item>
     </style>
