@@ -167,7 +167,8 @@ fun Context.toast(content: String, duration: Int = Toast.LENGTH_SHORT) {
 
 @ColorInt
 fun Context.getRightNavigationBarColor(): Int =
-    if (preferences.shouldColorNavbar && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    if (preferences.shouldColorNavbar && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+        && !preferences.usesAmoledTheme) {
         try {
             resolveColor(R.attr.colorSurface, color(R.color.surface))
         } catch (e: Exception) {

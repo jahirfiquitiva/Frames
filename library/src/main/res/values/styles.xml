@@ -33,6 +33,7 @@
 
     <style name="BaseFramesTheme" parent="BaseFramesSplashScreenTheme" tools:ignore="NewApi">
         <item name="android:windowBackground">@color/background</item>
+        <item name="android:background">@color/background</item>
 
         <item name="textAppearanceHeadline3">@style/TextAppearance.Frames.Headline3</item>
         <item name="textAppearanceHeadline4">@style/TextAppearance.Frames.Headline4</item>
