@@ -13,7 +13,7 @@ import dev.jahir.frames.extensions.views.visibleIf
 class SectionHeaderViewHolder(view: View) : SectionedViewHolder(view) {
     private val titleTextView: TextView? by view.findView(R.id.section_title)
     private val subtitleTextView: TextView? by view.findView(R.id.section_subtitle)
-    private val divider: View? by view.findView(R.id.divider)
+    private val divider: View? by view.findView(R.id.divider_layout)
 
     fun bind(@StringRes title: Int, @StringRes subtitle: Int, showDivider: Boolean = true) {
         val actualTitle = itemView.context.string(title)
