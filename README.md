@@ -3,7 +3,7 @@
 Frames
 ======
 
-![API](https://img.shields.io/badge/API-16%2B-34bf49.svg)
+![API](https://img.shields.io/badge/API-21%2B-34bf49.svg)
 [![JitPack](https://jitpack.io/v/dev.jahir/Frames.svg)](https://jitpack.io/#dev.jahir/Frames)
 [![Build Status](https://travis-ci.com/jahirfiquitiva/Frames.svg?branch=master)](https://travis-ci.com/jahirfiquitiva/Frames)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9747a594949f49b9a8146909868adfba)](https://www.codacy.com/app/jahirfiquitiva/Frames?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jahirfiquitiva/Frames&amp;utm_campaign=Badge_Grade)
@@ -79,7 +79,7 @@ Free, feature-rich, easily customizable Android dashboard for wallpapers apps
 	- Option to clear app cache.
 - Tablet layouts.
 - Lots of customizations.
-- Works with Android 4.1 and newer.
+- Works with Android 5.0 and newer.
 
 ## Help translating
 
