@@ -45,12 +45,15 @@ open class SettingsFragment : BasePreferenceFragment() {
         themePreference?.setOnClickListener {
             showDialog {
                 title(R.string.app_theme)
-                singleChoiceItems(R.array.app_themes, currentThemeKey) { _, which ->
-                    currentThemeKey = which
-                }
-                positiveButton(android.R.string.ok) {
-                    preferences.currentTheme = Preferences.ThemeKey.fromValue(currentThemeKey)
-                    it.dismiss()
+                singleChoiceItems(R.array.app_themes, currentThemeKey)
+                positiveButton(android.R.string.ok) { dialog ->
+                    val listView = (dialog as? AlertDialog)?.listView
+                    if ((listView?.checkedItemCount ?: 0) > 0) {
+                        val checkedItemPosition = listView?.checkedItemPosition ?: -1
+                        currentThemeKey = checkedItemPosition
+                        preferences.currentTheme = Preferences.ThemeKey.fromValue(currentThemeKey)
+                    }
+                    dialog.dismiss()
                 }
             }
         }
