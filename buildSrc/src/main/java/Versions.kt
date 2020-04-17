@@ -24,8 +24,8 @@ object Versions {
     const val recyclerView = "1.1.0"
     const val swipeRefreshLayout = "1.0.0"
     const val palette = "1.0.0"
-    const val preference = "1.1.0"
-    const val materialComponents = "1.1.0"
+    const val preference = "1.1.1"
+    const val materialComponents = "1.2.0-alpha06"
 
     // ViewModel and LiveData
     const val lifecycle = "2.2.0"
@@ -51,13 +51,13 @@ object Versions {
     const val fetch = "3.1.4"
 
     // Permissions
-    const val permissions = "3.1.0"
+    const val permissions = "3.1.2"
 
     // License Checker
     const val licenseChecker = "1.2.6"
 
     // In-App Billing
-    const val inAppBilling = "2.0.3"
+    const val inAppBilling = "2.2.0"
 
     // MultiDex
     const val multidex = "2.0.1"

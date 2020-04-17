@@ -32,7 +32,7 @@ open class BaseBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    @SuppressLint("RestrictedApi")
+    @SuppressLint("RestrictedApi", "VisibleForTests")
     override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style)
 
@@ -41,12 +41,12 @@ open class BaseBottomSheet : BottomSheetDialogFragment() {
 
         val params =
             (content?.parent as? View)?.layoutParams as? CoordinatorLayout.LayoutParams
-        val parentBehavior = params?.behavior
 
-        if (parentBehavior != null && parentBehavior is BottomSheetBehavior<*>) {
-            behavior = parentBehavior
-            behavior?.saveFlags = BottomSheetBehavior.SAVE_ALL
-            behavior?.addBottomSheetCallback(sheetCallback)
+        (params?.behavior as? BottomSheetBehavior<*>)?.let {
+            it.saveFlags = BottomSheetBehavior.SAVE_ALL
+            // Important to keep the shape style
+            it.disableShapeAnimations()
+            it.addBottomSheetCallback(sheetCallback)
         }
 
         dialog.setOnShowListener { dialogInterface ->
@@ -58,7 +58,7 @@ open class BaseBottomSheet : BottomSheetDialogFragment() {
                     window?.navigationBarLight = !navigationBarColor.isDark
                 }
             }
-            if (shouldExpandOnShow()) expand()
+            expand()
         }
     }
 
@@ -80,12 +80,8 @@ open class BaseBottomSheet : BottomSheetDialogFragment() {
 
     fun hide() {
         behavior?.state = BottomSheetBehavior.STATE_COLLAPSED
-        postDelayed(10) {
-            behavior?.state = BottomSheetBehavior.STATE_HIDDEN
-        }
+        postDelayed(10) { behavior?.state = BottomSheetBehavior.STATE_HIDDEN }
     }
 
     open fun getContentView(): View? = null
-    open fun shouldExpandOnShow(): Boolean = false
-
 }

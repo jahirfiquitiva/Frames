@@ -105,7 +105,7 @@
         <item name="backgroundTint">@color/text_btn_bg_color</item>
         <item name="rippleColor">@color/text_btn_ripple_color</item>
         <item name="android:minWidth">56dp</item>
-        <item name="android:textColor">?colorAccent</item>
+        <item name="android:textColor">?colorSecondary</item>
     </style>
 
     <style name="Widget.Frames.ColoredButton" parent="Widget.MaterialComponents.Button">

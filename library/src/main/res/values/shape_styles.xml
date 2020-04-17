@@ -17,6 +17,13 @@
     </style>
 
     <style name="ShapeAppearance.Frames.CardView" parent="ShapeAppearance.Frames.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/cards_corner_size</item>
+    </style>
+
+    <!-- Should match ShapeAppearance.Frames.CardView -->
+    <style name="ShapeAppearance.Frames.Wallpapers" parent="">
+        <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/cards_corner_size</item>
     </style>
 
@@ -26,7 +33,7 @@
     </style>
 
     <style name="Frames.Dialogs" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="colorPrimary">?colorAccent</item>
+        <item name="colorPrimary">?colorSecondary</item>
         <item name="materialButtonStyle">@style/Frames.Dialogs.Button</item>
     </style>
 

@@ -56,8 +56,6 @@ class DetailsFragment : BaseBottomSheet() {
         return view
     }
 
-    override fun shouldExpandOnShow(): Boolean = true
-
     companion object {
         @JvmStatic
         fun create(

@@ -164,7 +164,7 @@
     <!-- Overline -->
 
     <style name="Frames.Dialogs.Button" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">?colorAccent</item>
+        <item name="android:textColor">?colorSecondary</item>
     </style>
 
     <style name="TextStyle.Frames.CollectionTitle" parent="TextStyle.Frames.Headline6">
