@@ -3,13 +3,11 @@ package dev.jahir.frames.ui.viewholders
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.palette.graphics.Palette
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.extensions.context.boolean
 import dev.jahir.frames.extensions.context.string
 import dev.jahir.frames.extensions.resources.withAlpha
-import dev.jahir.frames.extensions.utils.bestTextColor
 import dev.jahir.frames.extensions.views.context
 import dev.jahir.frames.extensions.views.findView
 import dev.jahir.frames.extensions.views.loadFramesPic
@@ -38,16 +36,16 @@ class CollectionViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
         }
     }
 
-    override fun doWithBestSwatch(swatch: Palette.Swatch) {
+    override fun doWithColors(bgColor: Int, textColor: Int) {
         detailsBackground?.setBackgroundColor(
-            swatch.rgb.withAlpha(
+            bgColor.withAlpha(
                 if (context.boolean(R.bool.enable_filled_collection_preview))
                     FILLED_COLORED_TILES_ALPHA
                 else WallpaperViewHolder.COLORED_TILES_ALPHA
             )
         )
-        title?.setTextColor(swatch.bestTextColor)
-        count?.setTextColor(swatch.bestTextColor)
+        title?.setTextColor(textColor)
+        count?.setTextColor(textColor)
     }
 
     companion object {

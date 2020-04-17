@@ -1,11 +1,12 @@
 package dev.jahir.frames.extensions.utils
 
 import androidx.palette.graphics.Palette
+import com.apitiphy.harmoniccolorextractor.HarmonicColors
 import dev.jahir.frames.extensions.resources.getDarker
 import dev.jahir.frames.extensions.resources.getLighter
 import dev.jahir.frames.extensions.resources.isDark
 import dev.jahir.frames.extensions.resources.withMinAlpha
-import java.util.*
+import dev.jahir.frames.ui.viewholders.WallpaperViewHolder.Companion.MIN_TEXT_ALPHA
 
 internal const val MAX_FRAMES_PALETTE_COLORS = 6
 
@@ -36,5 +37,19 @@ val Palette.Swatch.bestTextColor: Int
     get() {
         return (if (rgb.isDark) titleTextColor.getLighter(bodyTextColor)
         else titleTextColor.getDarker(bodyTextColor))
-            .withMinAlpha(.85F)
+            .withMinAlpha(MIN_TEXT_ALPHA)
+    }
+
+val HarmonicColors.primaryTextColor: Int
+    get() = firstForegroundColor
+
+val HarmonicColors.secondaryTextColor: Int
+    get() = secondForegroundColor
+
+val HarmonicColors.bestTextColor: Int
+    get() {
+        val preTextColor =
+            if (backgroundColor.isDark) primaryTextColor.getLighter(secondaryTextColor)
+            else primaryTextColor.getDarker(secondaryTextColor)
+        return preTextColor.withMinAlpha(MIN_TEXT_ALPHA)
     }

@@ -2,12 +2,13 @@ package dev.jahir.frames.ui.viewholders
 
 import android.graphics.drawable.Drawable
 import android.view.View
-import androidx.palette.graphics.Palette
+import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
+import com.apitiphy.harmoniccolorextractor.HarmonicColorExtractor
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.context.boolean
 import dev.jahir.frames.extensions.resources.asBitmap
-import dev.jahir.frames.extensions.utils.bestSwatch
+import dev.jahir.frames.extensions.utils.bestTextColor
 import dev.jahir.frames.extensions.views.context
 
 abstract class PaletteGeneratorViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -17,16 +18,17 @@ abstract class PaletteGeneratorViewHolder(view: View) : RecyclerView.ViewHolder(
     }
 
     internal val generatePalette: (drawable: Drawable?) -> Unit by lazy {
-        val listener: ((drawable: Drawable?) -> Unit) = {
-            it?.asBitmap()?.let { bmp ->
-                Palette.from(bmp)
-                    .generate { plt ->
-                        plt?.bestSwatch?.let { swatch -> doWithBestSwatch(swatch) }
-                    }
-            }
+        val listener: ((drawable: Drawable?) -> Unit) = { drwb ->
+            val bitmap = drwb?.asBitmap()
+            HarmonicColorExtractor().Builder()
+                .setBitmap(bitmap)
+                .setBottomSide()
+                .colors.let { harmonic ->
+                    doWithColors(harmonic.backgroundColor, harmonic.bestTextColor)
+                }
         }
         listener
     }
 
-    abstract fun doWithBestSwatch(swatch: Palette.Swatch)
+    abstract fun doWithColors(@ColorInt bgColor: Int, @ColorInt textColor: Int)
 }
