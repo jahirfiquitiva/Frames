@@ -19,16 +19,20 @@ abstract class PaletteGeneratorViewHolder(view: View) : RecyclerView.ViewHolder(
 
     internal val generatePalette: (drawable: Drawable?) -> Unit by lazy {
         val listener: ((drawable: Drawable?) -> Unit) = { drwb ->
-            val bitmap = drwb?.asBitmap()
-            HarmonicColorExtractor().Builder()
-                .setBitmap(bitmap)
-                .setBottomSide()
-                .colors.let { harmonic ->
-                    doWithColors(harmonic.backgroundColor, harmonic.bestTextColor)
-                }
+            onDrawableReady(drwb)
+            if (shouldColorTiles) {
+                val bitmap = drwb?.asBitmap()
+                HarmonicColorExtractor().Builder()
+                    .setBitmap(bitmap)
+                    .setBottomSide()
+                    .colors.let { harmonic ->
+                        doWithColors(harmonic.backgroundColor, harmonic.bestTextColor)
+                    }
+            }
         }
         listener
     }
 
+    open fun onDrawableReady(drawable: Drawable?) {}
     abstract fun doWithColors(@ColorInt bgColor: Int, @ColorInt textColor: Int)
 }

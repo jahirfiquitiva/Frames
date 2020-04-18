@@ -2,6 +2,7 @@ package dev.jahir.frames.ui.viewholders
 
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
@@ -29,7 +30,6 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
     internal val title: TextView? by view.findView(R.id.wallpaper_name)
     internal val author: TextView? by view.findView(R.id.wallpaper_author)
     internal val favorite: FavoriteCheckbox? by view.findView(R.id.fav_button)
-    private val overlay: View? by view.findView(R.id.wallpaper_overlay)
     private val detailsBackground: View? by view.findView(R.id.wallpaper_details_background)
 
     fun bind(
@@ -73,10 +73,11 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
             wallpaper.url,
             wallpaper.thumbnail,
             context.string(R.string.wallpapers_placeholder),
-            doWithPalette = if (shouldColorTiles) generatePalette else null
+            doWithPalette = generatePalette
         )
     }
 
+    @Suppress("ConstantConditionIf")
     override fun doWithColors(bgColor: Int, textColor: Int) {
         val bgDrawable = GradientDrawable(
             GradientDrawable.Orientation.TOP_BOTTOM,
@@ -86,8 +87,10 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
                 bgColor.withAlpha(GRADIENT_END_ALPHA)
             )
         )
-        overlay?.background = ColorDrawable(bgColor.withAlpha(OVERLAY_ALPHA))
-        detailsBackground?.setPaddingTop(144.dpToPx)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            image?.foreground = ColorDrawable(bgColor.withAlpha(OVERLAY_ALPHA))
+        if (GRADIENT_CENTER_ALPHA <= .5F)
+            detailsBackground?.setPaddingTop(144.dpToPx)
         detailsBackground?.background = bgDrawable
         title?.setTextColor(textColor)
         author?.setTextColor(textColor)
@@ -103,7 +106,7 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
         internal const val GRADIENT_START_ALPHA = .9F
         internal const val GRADIENT_CENTER_ALPHA = .9F
         internal const val GRADIENT_END_ALPHA = .9F
-        internal const val OVERLAY_ALPHA = .12F
+        internal const val OVERLAY_ALPHA = .15F
         internal const val MIN_TEXT_ALPHA = 1F
     }
 }
