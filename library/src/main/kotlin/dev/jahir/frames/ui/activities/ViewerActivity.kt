@@ -1,7 +1,6 @@
 package dev.jahir.frames.ui.activities
 
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -56,6 +55,7 @@ import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
 import dev.jahir.frames.ui.fragments.viewer.DownloadToApplyDialog
 import dev.jahir.frames.ui.fragments.viewer.SetAsOptionsDialog
 import dev.jahir.frames.ui.widgets.FramesPhotoView
+import dev.jahir.frames.ui.widgets.ZoomableImageView
 
 open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
 
@@ -134,10 +134,16 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
         initWindow()
         toolbar?.tint(color(R.color.white))
 
-        (image as? FramesPhotoView)?.setOnPhotoTapListener { _, _, _ -> toggleSystemUI() }
+        (image as? FramesPhotoView)?.setOnViewTapListener { _, _, _ -> toggleSystemUI() }
+            ?: (image as? ZoomableImageView)?.setOnSingleTapListener { toggleSystemUI();true }
             ?: image?.setOnClickListener { toggleSystemUI() }
-        image?.loadFramesPic(wallpaper.url, wallpaper.thumbnail, null, true) { generatePalette(it) }
-
+        image?.loadFramesPic(
+            wallpaper.url,
+            wallpaper.thumbnail,
+            forceLoadFullRes = true,
+            cropAsCircle = false,
+            saturate = false
+        ) { generatePalette(it) }
         supportStartPostponedEnterTransition()
 
         isInFavorites =
@@ -157,6 +163,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
         bottomNavigation?.setOnNavigationItemSelectedListener {
             handleNavigationItemSelected(it.itemId, wallpaper)
         }
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -212,27 +219,20 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
     override fun onDestroy() {
         super.onDestroy()
         (image as? FramesPhotoView)?.setScale(1F, true)
+        (image as? ZoomableImageView)?.setZoom(1F)
         dismissApplierDialog()
         dismissDownloadBlockedDialog()
-        try {
-            val bmp = (image?.drawable as? BitmapDrawable?)?.bitmap
-            if (bmp?.isRecycled == false) bmp.recycle()
-        } catch (e: Exception) {
-        }
-        try {
-            image?.setImageDrawable(null)
-        } catch (e: Exception) {
-        }
     }
 
-    private fun generatePalette(drawable: Drawable?) {
+    private fun generatePalette(drawable: Drawable? = null) {
+        image?.setImageDrawable(drawable)
         supportStartPostponedEnterTransition()
         findViewById<View?>(R.id.loading)?.gone()
         if (!shouldShowWallpapersPalette()) {
             setBackgroundColor()
             return
         }
-        drawable?.asBitmap()?.let { bitmap ->
+        (drawable ?: image?.drawable)?.asBitmap()?.let { bitmap ->
             Palette.from(bitmap)
                 .maximumColorCount(MAX_FRAMES_PALETTE_COLORS * 2)
                 .generate {
@@ -351,8 +351,8 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
     override val shouldChangeStatusBarLightStatus: Boolean = false
     override val shouldChangeNavigationBarLightStatus: Boolean = false
 
-    override fun canToggleSystemUIVisibility(): Boolean =
-        intent?.getBooleanExtra(CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY, true) ?: true
+    override fun canToggleSystemUIVisibility(): Boolean = false
+    // intent?.getBooleanExtra(CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY, true) ?: true
 
     companion object {
         internal const val MIN_TIME: Long = 3 * 60 * 60000

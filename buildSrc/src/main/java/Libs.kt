@@ -44,6 +44,9 @@ object Libs {
     private const val coil = "io.coil-kt:coil:${Versions.coil}"
     private const val photoView = "com.github.chrisbanes:PhotoView:${Versions.photoView}"
 
+    // Harmonic colors
+    private const val harmonicColors = "com.github.LeonardoSM04:HarmonicColorExtractor:${Versions.harmonicColors}"
+
     // Sectioned RecyclerView
     private const val sectionedRecyclerView =
         "com.jahirfiquitiva:sectioned-recyclerview:${Versions.sectionedRecyclerView}@aar"
@@ -93,6 +96,7 @@ object Libs {
         retrofitScalarsConverter,
         coil,
         photoView,
+        harmonicColors,
         sectionedRecyclerView,
         fastScrollRecyclerView,
         fetch,

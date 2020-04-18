@@ -41,6 +41,7 @@ abstract class BaseSystemUIVisibilityActivity<out P : Preferences> :
 
     private fun setSystemUIVisibility(visible: Boolean, withSystemBars: Boolean = true) {
         if (!canToggleSystemUIVisibility()) return
+        beforeTogglingSystemUIVisibility()
         Handler().post {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && withSystemBars) {
                 window.decorView.systemUiVisibility = if (visible)
@@ -58,6 +59,7 @@ abstract class BaseSystemUIVisibilityActivity<out P : Preferences> :
             }
             changeBarsVisibility(visible)
             visibleSystemUI = visible
+            afterTogglingSystemUIVisibility()
         }
     }
 
@@ -107,6 +109,8 @@ abstract class BaseSystemUIVisibilityActivity<out P : Preferences> :
     }
 
     open fun canToggleSystemUIVisibility(): Boolean = false
+    open fun beforeTogglingSystemUIVisibility(){}
+    open fun afterTogglingSystemUIVisibility(){}
 
     companion object {
         private const val VISIBLE_SYSTEM_UI_KEY = "visible_system_ui"

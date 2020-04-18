@@ -41,6 +41,9 @@ object Versions {
     const val coil = "0.9.5"
     const val photoView = "2.3.0"
 
+    // Harmonic Colors
+    const val harmonicColors = "1.0.0"
+
     // Sectioned RecyclerView
     const val sectionedRecyclerView = "b4a7763"
 

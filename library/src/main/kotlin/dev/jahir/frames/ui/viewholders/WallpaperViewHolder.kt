@@ -1,8 +1,6 @@
 package dev.jahir.frames.ui.viewholders
 
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
-import android.os.Build
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
@@ -30,6 +28,7 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
     internal val title: TextView? by view.findView(R.id.wallpaper_name)
     internal val author: TextView? by view.findView(R.id.wallpaper_author)
     internal val favorite: FavoriteCheckbox? by view.findView(R.id.fav_button)
+    private val overlay: View? by view.findView(R.id.wallpaper_overlay)
     private val detailsBackground: View? by view.findView(R.id.wallpaper_details_background)
 
     fun bind(
@@ -73,7 +72,7 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
             wallpaper.url,
             wallpaper.thumbnail,
             context.string(R.string.wallpapers_placeholder),
-            doWithPalette = generatePalette
+            onImageLoaded = generatePalette
         )
     }
 
@@ -87,8 +86,7 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
                 bgColor.withAlpha(GRADIENT_END_ALPHA)
             )
         )
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            image?.foreground = ColorDrawable(bgColor.withAlpha(OVERLAY_ALPHA))
+        overlay?.setBackgroundColor(bgColor.withAlpha(OVERLAY_ALPHA))
         if (GRADIENT_CENTER_ALPHA <= .5F)
             detailsBackground?.setPaddingTop(144.dpToPx)
         detailsBackground?.background = bgDrawable

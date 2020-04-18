@@ -24,6 +24,12 @@
         app:heightMultiplier="@dimen/heightMultiplier"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Frames.Wallpapers" />
 
+    <View
+        android:id="@+id/wallpaper_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/wallpaper_overlay" />
+
     <LinearLayout
         android:id="@+id/wallpaper_details_background"
         android:layout_width="match_parent"

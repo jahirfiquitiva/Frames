@@ -31,7 +31,7 @@ class CollectionViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
                 it.url,
                 it.thumbnail,
                 context.string(R.string.collections_placeholder),
-                doWithPalette = if (shouldColorTiles) generatePalette else null
+                onImageLoaded = generatePalette
             )
         }
     }

@@ -75,7 +75,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.github.LeonardoSM04:HarmonicColorExtractor:1.0.0'
     api Libs.dependencies
     kapt Libs.kaptDependencies
 }
