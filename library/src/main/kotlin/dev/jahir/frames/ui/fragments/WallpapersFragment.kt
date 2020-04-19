@@ -110,7 +110,8 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
                     ActivityOptionsCompat.makeSceneTransitionAnimation(
                         it,
                         *(it.buildTransitionOptions(
-                            arrayListOf(holder.title, holder.author) // , holder.image
+                            // TODO: Enable image shared transition
+                            arrayListOf(holder.title, holder.author) // , holder.image)
                         ))
                     )
                 }
