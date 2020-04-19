@@ -60,29 +60,48 @@ private fun ImageView.internalLoadFrames(
 fun ImageView.loadFramesPic(
     url: String,
     thumbnailUrl: String? = url,
-    placeholderName: String? = "",
+    placeholder: Drawable? = null,
     forceLoadFullRes: Boolean = false,
     cropAsCircle: Boolean = false,
     saturate: Boolean = true,
     onImageLoaded: ((drawable: Drawable?) -> Unit)? = null
 ) {
     val shouldLoadThumbnail = thumbnailUrl?.let { it.hasContent() && it != url } ?: false
-    val thumbnail = context.drawable(placeholderName)
-
     if (shouldLoadThumbnail) {
         if (context.preferences.shouldLoadFullResPictures || forceLoadFullRes) {
-            internalLoadFrames(thumbnailUrl, thumbnail, cropAsCircle, saturate) {
+            internalLoadFrames(thumbnailUrl, placeholder, cropAsCircle, saturate) {
                 onImageLoaded?.invoke(it)
                 internalLoadFrames(url, it, cropAsCircle, false, onImageLoaded)
             }
         } else {
             internalLoadFrames(
-                thumbnailUrl, thumbnail, cropAsCircle, saturate, onImageLoaded
+                thumbnailUrl, placeholder, cropAsCircle, saturate, onImageLoaded
             )
         }
     } else {
-        internalLoadFrames(url, thumbnail, cropAsCircle, saturate, onImageLoaded)
+        internalLoadFrames(url, placeholder, cropAsCircle, saturate, onImageLoaded)
     }
+}
+
+fun ImageView.loadFramesPicResPlaceholder(
+    url: String,
+    thumbnailUrl: String? = url,
+    placeholderName: String? = "",
+    forceLoadFullRes: Boolean = false,
+    cropAsCircle: Boolean = false,
+    saturate: Boolean = true,
+    onImageLoaded: ((drawable: Drawable?) -> Unit)? = null
+) {
+    val placeholder = context.drawable(placeholderName)
+    loadFramesPic(
+        url,
+        thumbnailUrl,
+        placeholder,
+        forceLoadFullRes,
+        cropAsCircle,
+        saturate,
+        onImageLoaded
+    )
 }
 
 fun ImageView.startAnimatable() {

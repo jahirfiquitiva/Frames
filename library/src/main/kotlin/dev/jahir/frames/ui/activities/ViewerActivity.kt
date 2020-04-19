@@ -1,7 +1,7 @@
 package dev.jahir.frames.ui.activities
 
 import android.content.Intent
-import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -81,7 +81,6 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
 
     private var downloadBlockedDialog: AlertDialog? = null
     private var applierDialog: DialogFragment? = null
-    private var zoomReset = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -225,11 +224,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
     }
 
     private fun generatePalette(drawable: Drawable? = null) {
-        imageView?.setImageDrawable(drawable)
-        if (!zoomReset) {
-            imageView?.resetZoom()
-            zoomReset = true
-        }
+        // imageView?.setImageDrawable(drawable, false)
         supportStartPostponedEnterTransition()
         findViewById<View?>(R.id.loading)?.gone()
         if (!shouldShowWallpapersPalette()) {
@@ -251,10 +246,10 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
     }
 
     private fun loadWallpaper(wallpaper: Wallpaper?) {
+        var placeholder: Drawable? = null
         try {
             openFileInput(SHARED_IMAGE_NAME)?.use {
-                imageView?.setImageBitmap(BitmapFactory.decodeStream(it))
-                imageView?.resetZoom()
+                placeholder = BitmapDrawable(resources, it)
             }
         } catch (e: Exception) {
         }
@@ -262,6 +257,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
             imageView?.loadFramesPic(
                 wallpaper.url,
                 wallpaper.thumbnail,
+                placeholder,
                 forceLoadFullRes = true,
                 cropAsCircle = false,
                 saturate = false
