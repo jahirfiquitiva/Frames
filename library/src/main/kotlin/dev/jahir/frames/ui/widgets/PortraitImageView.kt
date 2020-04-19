@@ -42,7 +42,7 @@ open class PortraitImageView @JvmOverloads constructor(
         val a = context.obtainStyledAttributes(attributeSet, R.styleable.PortraitImageView, 0, 0)
         try {
             heightMultiplier = a.getFloat(R.styleable.PortraitImageView_heightMultiplier, 1.25F)
-            setOverlayColor(a.getColor(R.styleable.PortraitImageView_overlayColor, Color.RED))
+            setOverlayColor(a.getColor(R.styleable.PortraitImageView_overlayColor, Color.TRANSPARENT))
         } finally {
             a.recycle()
         }
