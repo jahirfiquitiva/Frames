@@ -32,7 +32,7 @@ open class PortraitImageView @JvmOverloads constructor(
     private var overlayGradientModel: ShapeAppearanceModel = ShapeAppearanceModel()
     private val overlayGradientBounds: RectF = RectF()
     private val overlayGradientPath: Path = Path()
-    private val gradientColors: IntArray = intArrayOf(0x80000000.toInt(), 0x33000000, 0x00000000)
+    private var gradientColors: IntArray = intArrayOf(0x80000000.toInt(), 0x33000000, 0x00000000)
 
     init {
         init(context, attributeSet)
@@ -50,6 +50,12 @@ open class PortraitImageView @JvmOverloads constructor(
 
     fun setOverlayColor(color: Int) {
         overlay.color = color
+    }
+
+    fun setGradientColors(colors: IntArray) {
+        gradientColors = colors
+        updateGradientParams()
+        invalidate()
     }
 
     override fun onAttachedToWindow() {

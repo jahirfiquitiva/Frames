@@ -78,18 +78,15 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
 
     @Suppress("ConstantConditionIf")
     override fun doWithColors(bgColor: Int, textColor: Int) {
-        val bgDrawable = GradientDrawable(
-            GradientDrawable.Orientation.TOP_BOTTOM,
-            intArrayOf(
+        val colors: IntArray = intArrayOf(
                 bgColor.withAlpha(GRADIENT_START_ALPHA),
                 bgColor.withAlpha(GRADIENT_CENTER_ALPHA),
                 bgColor.withAlpha(GRADIENT_END_ALPHA)
             )
-        )
         image?.setOverlayColor(bgColor.withAlpha(OVERLAY_ALPHA))
         if (GRADIENT_CENTER_ALPHA <= .5F)
             detailsBackground?.setPaddingTop(144.dpToPx)
-        detailsBackground?.background = bgDrawable
+        image?.setGradientColors(colors)
         title?.setTextColor(textColor)
         author?.setTextColor(textColor)
         favorite?.let { favBtn ->
