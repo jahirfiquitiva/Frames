@@ -22,9 +22,7 @@
     </style>
 
     <!-- Should match ShapeAppearance.Frames.CardView -->
-    <style name="ShapeAppearance.Frames.Wallpapers" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">@dimen/cards_corner_size</item>
+    <style name="ShapeAppearance.Frames.Wallpapers" parent="ShapeAppearance.Frames.CardView">
     </style>
 
     <style name="Widget.Frames.MaterialCardView" parent="Widget.MaterialComponents.CardView">

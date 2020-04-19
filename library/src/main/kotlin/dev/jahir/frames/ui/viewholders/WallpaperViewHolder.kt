@@ -22,13 +22,13 @@ import dev.jahir.frames.extensions.views.loadFramesPic
 import dev.jahir.frames.extensions.views.setPaddingTop
 import dev.jahir.frames.extensions.views.visible
 import dev.jahir.frames.ui.widgets.FavoriteCheckbox
+import dev.jahir.frames.ui.widgets.PortraitImageView
 
 class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
-    internal val image: AppCompatImageView? by view.findView(R.id.wallpaper_image)
+    internal val image: PortraitImageView? by view.findView(R.id.wallpaper_image)
     internal val title: TextView? by view.findView(R.id.wallpaper_name)
     internal val author: TextView? by view.findView(R.id.wallpaper_author)
     internal val favorite: FavoriteCheckbox? by view.findView(R.id.fav_button)
-    private val overlay: View? by view.findView(R.id.wallpaper_overlay)
     private val detailsBackground: View? by view.findView(R.id.wallpaper_details_background)
 
     fun bind(
@@ -86,7 +86,7 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
                 bgColor.withAlpha(GRADIENT_END_ALPHA)
             )
         )
-        overlay?.setBackgroundColor(bgColor.withAlpha(OVERLAY_ALPHA))
+        image?.setOverlayColor(bgColor.withAlpha(OVERLAY_ALPHA))
         if (GRADIENT_CENTER_ALPHA <= .5F)
             detailsBackground?.setPaddingTop(144.dpToPx)
         detailsBackground?.background = bgDrawable
