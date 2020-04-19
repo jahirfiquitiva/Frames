@@ -1,6 +1,7 @@
 package dev.jahir.frames.ui.activities
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -80,6 +81,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
 
     private var downloadBlockedDialog: AlertDialog? = null
     private var applierDialog: DialogFragment? = null
+    private var zoomReset = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,14 +142,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
                 return super.onSingleTapConfirmed(e)
             }
         })
-        imageView?.loadFramesPic(
-            wallpaper.url,
-            wallpaper.thumbnail,
-            forceLoadFullRes = true,
-            cropAsCircle = false,
-            saturate = false
-        ) { generatePalette(it) }
-        supportStartPostponedEnterTransition()
+        loadWallpaper(wallpaper)
 
         isInFavorites =
             intent?.extras?.getBoolean(WallpapersFragment.WALLPAPER_IN_FAVS_EXTRA, false)
@@ -231,8 +226,10 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
 
     private fun generatePalette(drawable: Drawable? = null) {
         imageView?.setImageDrawable(drawable)
-        // imageView?.resetZoom()
-        imageView?.isZoomEnabled = true
+        if (!zoomReset) {
+            imageView?.resetZoom()
+            zoomReset = true
+        }
         supportStartPostponedEnterTransition()
         findViewById<View?>(R.id.loading)?.gone()
         if (!shouldShowWallpapersPalette()) {
@@ -251,6 +248,26 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
 
     private fun setBackgroundColor(@ColorInt color: Int = 0) {
         findViewById<View?>(R.id.activity_root_view)?.setBackgroundColor(color)
+    }
+
+    private fun loadWallpaper(wallpaper: Wallpaper?) {
+        try {
+            openFileInput(SHARED_IMAGE_NAME)?.use {
+                imageView?.setImageBitmap(BitmapFactory.decodeStream(it))
+                imageView?.resetZoom()
+            }
+        } catch (e: Exception) {
+        }
+        wallpaper?.let {
+            imageView?.loadFramesPic(
+                wallpaper.url,
+                wallpaper.thumbnail,
+                forceLoadFullRes = true,
+                cropAsCircle = false,
+                saturate = false
+            ) { generatePalette(it) }
+        }
+        supportStartPostponedEnterTransition()
     }
 
     private fun initWindow() {
@@ -370,6 +387,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
         internal const val CURRENT_WALL_POSITION = "curr_wall_pos"
         internal const val LICENSE_CHECK_ENABLED = "license_check_enabled"
         internal const val CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY = "can_toggle_visibility"
+        internal const val SHARED_IMAGE_NAME = "thumb.jpg"
         private const val CLOSING_KEY = "closing"
         private const val TRANSITIONED_KEY = "transitioned"
         private const val IS_IN_FAVORITES_KEY = "is_in_favorites"
