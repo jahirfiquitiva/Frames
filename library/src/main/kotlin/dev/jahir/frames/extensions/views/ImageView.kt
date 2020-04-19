@@ -3,7 +3,6 @@ package dev.jahir.frames.extensions.views
 import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.postDelayed
 import coil.Coil
 import coil.api.load
@@ -16,11 +15,11 @@ import dev.jahir.frames.ui.animations.SaturatingImageViewTarget
 
 private const val CROSSFADE_DURATION = 200
 
-private fun AppCompatImageView.buildSaturatingTarget(
+private fun ImageView.buildSaturatingTarget(
     block: SaturatingImageViewTarget.() -> Unit
 ): SaturatingImageViewTarget = SaturatingImageViewTarget(this).apply(block)
 
-private fun AppCompatImageView.buildRequestBuilder(
+private fun ImageView.buildRequestBuilder(
     thumbnail: Drawable?,
     cropAsCircle: Boolean,
     saturate: Boolean,
@@ -45,7 +44,7 @@ private fun AppCompatImageView.buildRequestBuilder(
     listener(saturationTarget)
 }
 
-private fun AppCompatImageView.internalLoadFrames(
+private fun ImageView.internalLoadFrames(
     url: String?,
     thumbnail: Drawable?,
     cropAsCircle: Boolean,
@@ -58,7 +57,7 @@ private fun AppCompatImageView.internalLoadFrames(
     )
 }
 
-fun AppCompatImageView.loadFramesPic(
+fun ImageView.loadFramesPic(
     url: String,
     thumbnailUrl: String? = url,
     placeholderName: String? = "",

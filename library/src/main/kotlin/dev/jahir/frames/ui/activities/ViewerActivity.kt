@@ -4,7 +4,9 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.view.GestureDetector
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -13,12 +15,12 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.palette.graphics.Palette
 import com.fondesa.kpermissions.PermissionStatus
+import com.ortiz.touchview.TouchImageView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.models.Wallpaper
@@ -54,15 +56,13 @@ import dev.jahir.frames.ui.fragments.viewer.ApplierDialog
 import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
 import dev.jahir.frames.ui.fragments.viewer.DownloadToApplyDialog
 import dev.jahir.frames.ui.fragments.viewer.SetAsOptionsDialog
-import dev.jahir.frames.ui.widgets.FramesPhotoView
-import dev.jahir.frames.ui.widgets.ZoomableImageView
 
 open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
 
     override val preferences: Preferences by lazy { Preferences(this) }
 
     private val toolbar: Toolbar? by findView(R.id.toolbar)
-    private val image: AppCompatImageView? by findView(R.id.wallpaper)
+    private val imageView: TouchImageView? by findView(R.id.wallpaper)
 
     private var transitioned: Boolean = false
     private var closing: Boolean = false
@@ -118,7 +118,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
                 wallpaper.buildAuthorTransitionName(currentWallPosition)
             )
         }
-        image?.let {
+        imageView?.let {
             ViewCompat.setTransitionName(
                 it,
                 wallpaper.buildImageTransitionName(currentWallPosition)
@@ -134,10 +134,13 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
         initWindow()
         toolbar?.tint(color(R.color.white))
 
-        (image as? FramesPhotoView)?.setOnViewTapListener { _, _, _ -> toggleSystemUI() }
-            ?: (image as? ZoomableImageView)?.setOnSingleTapListener { toggleSystemUI();true }
-            ?: image?.setOnClickListener { toggleSystemUI() }
-        image?.loadFramesPic(
+        imageView?.setOnDoubleTapListener(object : GestureDetector.SimpleOnGestureListener() {
+            override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+                toggleSystemUI()
+                return super.onSingleTapConfirmed(e)
+            }
+        })
+        imageView?.loadFramesPic(
             wallpaper.url,
             wallpaper.thumbnail,
             forceLoadFullRes = true,
@@ -163,7 +166,6 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
         bottomNavigation?.setOnNavigationItemSelectedListener {
             handleNavigationItemSelected(it.itemId, wallpaper)
         }
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -187,6 +189,11 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) supportFinishAfterTransition()
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun finish() {
+        imageView?.setZoom(1F)
+        super.finish()
     }
 
     override fun onFinish() {
@@ -218,21 +225,21 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        (image as? FramesPhotoView)?.setScale(1F, true)
-        (image as? ZoomableImageView)?.setZoom(1F)
         dismissApplierDialog()
         dismissDownloadBlockedDialog()
     }
 
     private fun generatePalette(drawable: Drawable? = null) {
-        image?.setImageDrawable(drawable)
+        imageView?.setImageDrawable(drawable)
+        // imageView?.resetZoom()
+        imageView?.isZoomEnabled = true
         supportStartPostponedEnterTransition()
         findViewById<View?>(R.id.loading)?.gone()
         if (!shouldShowWallpapersPalette()) {
             setBackgroundColor()
             return
         }
-        (drawable ?: image?.drawable)?.asBitmap()?.let { bitmap ->
+        (drawable ?: imageView?.drawable)?.asBitmap()?.let { bitmap ->
             Palette.from(bitmap)
                 .maximumColorCount(MAX_FRAMES_PALETTE_COLORS * 2)
                 .generate {
@@ -351,7 +358,7 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
     override val shouldChangeStatusBarLightStatus: Boolean = false
     override val shouldChangeNavigationBarLightStatus: Boolean = false
 
-    override fun canToggleSystemUIVisibility(): Boolean = false
+    override fun canToggleSystemUIVisibility(): Boolean = true
     // intent?.getBooleanExtra(CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY, true) ?: true
 
     companion object {

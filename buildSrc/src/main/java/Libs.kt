@@ -40,9 +40,9 @@ object Libs {
     private const val retrofitScalarsConverter =
         "com.squareup.retrofit2:converter-scalars:${Versions.retrofit}"
 
-    // Image loading and Photo View
+    // Image loading and Touch Image View
     private const val coil = "io.coil-kt:coil:${Versions.coil}"
-    private const val photoView = "com.github.chrisbanes:PhotoView:${Versions.photoView}"
+    private const val touchImageView = "com.github.MikeOrtiz:TouchImageView:${Versions.touchImageView}"
 
     // Harmonic colors
     private const val harmonicColors = "com.github.LeonardoSM04:HarmonicColorExtractor:${Versions.harmonicColors}"
@@ -95,7 +95,7 @@ object Libs {
         retrofitGsonConverter,
         retrofitScalarsConverter,
         coil,
-        photoView,
+        touchImageView,
         harmonicColors,
         sectionedRecyclerView,
         fastScrollRecyclerView,

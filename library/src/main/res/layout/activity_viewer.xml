@@ -16,11 +16,12 @@
         android:focusable="false"
         android:gravity="center" />
 
-    <dev.jahir.frames.ui.widgets.FramesPhotoView
+    <com.ortiz.touchview.TouchImageView
         android:id="@+id/wallpaper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        app:zoom_enabled="false" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"

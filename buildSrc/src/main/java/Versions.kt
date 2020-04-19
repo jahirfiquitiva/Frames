@@ -37,9 +37,9 @@ object Versions {
     const val gson = "2.8.6"
     const val retrofit = "2.8.1"
 
-    // Image loading and Photo View
+    // Image loading and Touch Image View
     const val coil = "0.9.5"
-    const val photoView = "2.3.0"
+    const val touchImageView = "2.3.3"
 
     // Harmonic Colors
     const val harmonicColors = "1.0.0"
