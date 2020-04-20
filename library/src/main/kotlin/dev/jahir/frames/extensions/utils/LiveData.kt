@@ -4,7 +4,10 @@ package dev.jahir.frames.extensions.utils
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
@@ -26,3 +29,15 @@ inline fun <reified T : ViewModel> ViewModelStoreOwner.getViewModel(clazz: Class
 
 inline fun <reified T : ViewModel> ViewModelStoreOwner.getViewModel(): T =
     getViewModel<T>(T::class.java)
+
+inline fun <T> LiveData<T>.tryToObserve(
+    owner: LifecycleOwner,
+    crossinline onChanged: (t: T) -> Unit
+) {
+    observe(owner, Observer<T> { t ->
+        try {
+            onChanged.invoke(t)
+        } catch (e: Exception) {
+        }
+    })
+}

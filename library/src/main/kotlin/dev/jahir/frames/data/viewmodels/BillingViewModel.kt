@@ -5,7 +5,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.observe
 import androidx.lifecycle.viewModelScope
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
@@ -20,6 +19,7 @@ import dev.jahir.frames.data.listeners.BillingProcessesListener
 import dev.jahir.frames.data.models.DetailedPurchaseRecord
 import dev.jahir.frames.extensions.utils.asDetailedPurchase
 import dev.jahir.frames.extensions.utils.lazyMutableLiveData
+import dev.jahir.frames.extensions.utils.tryToObserve
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -170,6 +170,7 @@ class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdat
     }
 
     fun loadPastPurchases() {
+        if (!isBillingClientReady) return
         viewModelScope.launch {
             queryPurchasesHistory(BillingClient.SkuType.SUBS)
             queryPurchases(BillingClient.SkuType.SUBS)
@@ -231,22 +232,22 @@ class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdat
     private fun internalInitializeObservers(owner: LifecycleOwner?) {
         owner ?: return
         try {
-            billingClientReadyData.observe(owner) { ready ->
+            billingClientReadyData.tryToObserve(owner) { ready ->
                 if (ready) {
                     loadPastPurchases()
                     billingProcessesListener?.onBillingClientReady()
                 } else billingProcessesListener?.onBillingClientDisconnected()
             }
-            inAppSkuDetailsData.observe(owner) {
+            inAppSkuDetailsData.tryToObserve(owner) {
                 billingProcessesListener?.onInAppSkuDetailsListUpdated(it)
             }
-            inAppPurchasesHistoryData.observe(owner) {
+            inAppPurchasesHistoryData.tryToObserve(owner) {
                 billingProcessesListener?.onInAppPurchasesHistoryUpdated(it)
             }
-            subscriptionsSkuDetailsData.observe(owner) {
+            subscriptionsSkuDetailsData.tryToObserve(owner) {
                 billingProcessesListener?.onSubscriptionsSkuDetailsListUpdated(it)
             }
-            subscriptionsPurchasesHistoryData.observe(owner) {
+            subscriptionsPurchasesHistoryData.tryToObserve(owner) {
                 billingProcessesListener?.onSubscriptionsPurchasesHistoryUpdated(it)
             }
         } catch (e: Exception) {

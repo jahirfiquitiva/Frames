@@ -3,7 +3,6 @@ package dev.jahir.frames.data.viewmodels
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.GsonBuilder
@@ -15,6 +14,7 @@ import dev.jahir.frames.data.network.WallpapersJSONService
 import dev.jahir.frames.extensions.context.isNetworkAvailable
 import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.utils.lazyMutableLiveData
+import dev.jahir.frames.extensions.utils.tryToObserve
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -290,15 +290,15 @@ open class WallpapersDataViewModel : ViewModel() {
     }
 
     fun observeWallpapers(owner: LifecycleOwner, onUpdated: (List<Wallpaper>) -> Unit) {
-        wallpapersData.observe(owner, Observer { r -> r?.let { onUpdated(it) } })
+        wallpapersData.tryToObserve(owner, onUpdated)
     }
 
     fun observeCollections(owner: LifecycleOwner, onUpdated: (ArrayList<Collection>) -> Unit) {
-        collectionsData.observe(owner, Observer { r -> r?.let { onUpdated(it) } })
+        collectionsData.tryToObserve(owner, onUpdated)
     }
 
     fun observeFavorites(owner: LifecycleOwner, onUpdated: (List<Wallpaper>) -> Unit) {
-        favoritesData.observe(owner, Observer { r -> r?.let { onUpdated(it) } })
+        favoritesData.tryToObserve(owner, onUpdated)
     }
 
     fun destroy(owner: LifecycleOwner) {
