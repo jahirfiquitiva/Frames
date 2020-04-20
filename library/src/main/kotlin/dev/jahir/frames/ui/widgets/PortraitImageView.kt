@@ -15,7 +15,6 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.shape.ShapeAppearancePathProvider
 import dev.jahir.frames.R
-import kotlin.math.max
 
 open class PortraitImageView @JvmOverloads constructor(
     context: Context,
@@ -95,10 +94,8 @@ open class PortraitImageView @JvmOverloads constructor(
             0
         }
         val gradientEnd: Float = measuredHeight.toFloat()
-        val allegedGradientStart: Float = gradientEnd * 0.7F
-        val gradientStart: Float = if (textsHeight > 0) {
-            max(gradientEnd - textsHeight.toFloat(), allegedGradientStart)
-        } else allegedGradientStart
+        val gradientStart: Float =
+            if (textsHeight > 0) (gradientEnd - textsHeight.toFloat()) else (gradientEnd * 0.7F)
         overlayGradientBounds.set(0F, gradientStart, measuredWidth.toFloat(), gradientEnd)
         overlayGradient.shader = LinearGradient(
             0F, gradientEnd, 0F, gradientStart,

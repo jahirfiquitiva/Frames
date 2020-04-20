@@ -1,9 +1,7 @@
 package dev.jahir.frames.ui.viewholders
 
-import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.ViewCompat
 import androidx.core.view.postDelayed
 import androidx.core.widget.CompoundButtonCompat
@@ -18,7 +16,6 @@ import dev.jahir.frames.extensions.resources.tint
 import dev.jahir.frames.extensions.resources.withAlpha
 import dev.jahir.frames.extensions.views.context
 import dev.jahir.frames.extensions.views.findView
-import dev.jahir.frames.extensions.views.loadFramesPic
 import dev.jahir.frames.extensions.views.loadFramesPicResPlaceholder
 import dev.jahir.frames.extensions.views.setPaddingTop
 import dev.jahir.frames.extensions.views.visible
@@ -79,15 +76,12 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
 
     @Suppress("ConstantConditionIf")
     override fun doWithColors(bgColor: Int, textColor: Int) {
-        val colors: IntArray = intArrayOf(
-                bgColor.withAlpha(GRADIENT_START_ALPHA),
-                bgColor.withAlpha(GRADIENT_CENTER_ALPHA),
-                bgColor.withAlpha(GRADIENT_END_ALPHA)
-            )
-        image?.setOverlayColor(bgColor.withAlpha(OVERLAY_ALPHA))
-        if (GRADIENT_CENTER_ALPHA <= .5F)
-            detailsBackground?.setPaddingTop(144.dpToPx)
-        image?.setGradientColors(colors)
+        if (GRADIENT_CENTER_ALPHA <= .5F) {
+            detailsBackground?.post {
+                detailsBackground?.setPaddingTop(96.dpToPx)
+                image?.postDelayed(2) { updateImageColors(bgColor) }
+            }
+        } else updateImageColors(bgColor)
         title?.setTextColor(textColor)
         author?.setTextColor(textColor)
         favorite?.let { favBtn ->
@@ -96,13 +90,23 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
         }
     }
 
+    private fun updateImageColors(bgColor: Int) {
+        image?.setOverlayColor(bgColor.withAlpha(OVERLAY_ALPHA))
+        image?.setGradientColors(
+            intArrayOf(
+                bgColor.withAlpha(GRADIENT_END_ALPHA),
+                bgColor.withAlpha(GRADIENT_CENTER_ALPHA),
+                bgColor.withAlpha(GRADIENT_START_ALPHA)
+            )
+        )
+    }
+
     companion object {
         private const val FAV_DELAY = 100L
         internal const val COLORED_TILES_ALPHA = .9F
-        internal const val GRADIENT_START_ALPHA = .9F
-        internal const val GRADIENT_CENTER_ALPHA = .9F
-        internal const val GRADIENT_END_ALPHA = .9F
-        internal const val OVERLAY_ALPHA = .15F
-        internal const val MIN_TEXT_ALPHA = 1F
+        private const val GRADIENT_START_ALPHA = .9F
+        private const val GRADIENT_CENTER_ALPHA = .9F
+        private const val GRADIENT_END_ALPHA = .9F
+        private const val OVERLAY_ALPHA = .15F
     }
 }
