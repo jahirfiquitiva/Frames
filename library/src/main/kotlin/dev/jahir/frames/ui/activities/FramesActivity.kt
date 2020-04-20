@@ -9,6 +9,7 @@ import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.data.models.Wallpaper
+import dev.jahir.frames.extensions.context.drawable
 import dev.jahir.frames.extensions.context.getAppName
 import dev.jahir.frames.extensions.context.string
 import dev.jahir.frames.extensions.resources.hasContent
@@ -56,6 +57,22 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
         wallpapersViewModel.observeWallpapers(this) { wallpapersFragment?.updateItems(ArrayList(it)) }
         wallpapersViewModel.observeCollections(this, ::handleCollectionsUpdate)
         loadWallpapersData(true)
+    }
+
+    private fun updateToolbarTitle(itemId: Int = currentItemId) {
+        var logoSet = false
+        if (itemId == initialItemId) {
+            drawable(string(R.string.toolbar_logo))?.let {
+                supportActionBar?.setDisplayShowTitleEnabled(false)
+                supportActionBar?.setLogo(it)
+                logoSet = true
+            }
+        }
+        if (!logoSet) {
+            supportActionBar?.setDisplayShowTitleEnabled(true)
+            supportActionBar?.setLogo(null)
+            supportActionBar?.title = getToolbarTitleForItem(itemId) ?: getAppName()
+        }
     }
 
     @LayoutRes
@@ -114,7 +131,7 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
                     currentItemId = itemId
                     currentTag = nextFragmentTag
                     loadFragment(nextFragment, currentTag, force, animate)
-                    supportActionBar?.title = getToolbarTitleForItem(itemId) ?: getAppName()
+                    updateToolbarTitle(itemId)
                 }
                 shouldSelectItem
             } ?: false
