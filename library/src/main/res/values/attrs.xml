@@ -6,6 +6,7 @@
 
     <declare-styleable name="PortraitImageView">
         <attr name="heightMultiplier" format="reference|dimension" />
+        <attr name="overlayColor" format="reference|color" />
     </declare-styleable>
 
     <declare-styleable name="FramesBottomNavigationView">

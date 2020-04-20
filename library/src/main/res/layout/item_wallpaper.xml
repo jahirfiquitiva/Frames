@@ -8,7 +8,7 @@
     android:focusable="true"
     android:foreground="?selectableItemBackground"
     android:hapticFeedbackEnabled="true"
-    app:cardPreventCornerOverlap="true">
+    app:cardPreventCornerOverlap="false">
 
     <ProgressBar
         style="@style/Widget.AppCompat.ProgressBar"
@@ -22,20 +22,14 @@
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         app:heightMultiplier="@dimen/heightMultiplier"
+        app:overlayColor="@color/wallpaper_overlay"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Frames.Wallpapers" />
-
-    <View
-        android:id="@+id/wallpaper_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/wallpaper_overlay" />
 
     <LinearLayout
         android:id="@+id/wallpaper_details_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@drawable/gradient"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="16dp"

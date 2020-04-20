@@ -6,9 +6,9 @@ import dev.jahir.frames.extensions.resources.getDarker
 import dev.jahir.frames.extensions.resources.getLighter
 import dev.jahir.frames.extensions.resources.isDark
 import dev.jahir.frames.extensions.resources.withMinAlpha
-import dev.jahir.frames.ui.viewholders.WallpaperViewHolder.Companion.MIN_TEXT_ALPHA
 
 internal const val MAX_FRAMES_PALETTE_COLORS = 6
+private const val MIN_TEXT_ALPHA = 1F
 
 val Palette.bestSwatch: Palette.Swatch?
     get() = bestSwatches.firstOrNull()
