@@ -33,6 +33,9 @@ object Versions {
     // Room Database
     const val room = "2.2.5"
 
+    // Work Manager
+    const val work= "2.3.4"
+
     // Network & Serialization
     const val gson = "2.8.6"
     const val retrofit = "2.8.1"

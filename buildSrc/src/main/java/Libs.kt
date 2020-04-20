@@ -32,6 +32,9 @@ object Libs {
     private const val room = "androidx.room:room-ktx:${Versions.room}"
     private const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
 
+    // Work Manager
+    private const val work = "androidx.work:work-runtime-ktx:${Versions.work}"
+
     // Network & Serialization
     private const val gson = "com.google.code.gson:gson:${Versions.gson}"
     private const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
@@ -42,10 +45,12 @@ object Libs {
 
     // Image loading and Touch Image View
     private const val coil = "io.coil-kt:coil:${Versions.coil}"
-    private const val touchImageView = "com.github.MikeOrtiz:TouchImageView:${Versions.touchImageView}"
+    private const val touchImageView =
+        "com.github.MikeOrtiz:TouchImageView:${Versions.touchImageView}"
 
     // Harmonic colors
-    private const val harmonicColors = "com.github.LeonardoSM04:HarmonicColorExtractor:${Versions.harmonicColors}"
+    private const val harmonicColors =
+        "com.github.LeonardoSM04:HarmonicColorExtractor:${Versions.harmonicColors}"
 
     // Sectioned RecyclerView
     private const val sectionedRecyclerView =
@@ -90,6 +95,7 @@ object Libs {
         livedataKtx,
         viewmodelKtx,
         room,
+        work,
         gson,
         retrofit,
         retrofitGsonConverter,

@@ -99,10 +99,11 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
             finish()
             return
         }
+
         if (wallpaper.downloadable == false || !shouldShowDownloadOption())
             bottomNavigation?.removeItem(R.id.download)
 
-        initFetch(wallpaper)
+        initDownload(wallpaper)
         detailsFragment.wallpaper = wallpaper
 
         findViewById<View?>(R.id.toolbar_title)?.let {
@@ -224,7 +225,6 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
     }
 
     private fun generatePalette(drawable: Drawable? = null) {
-        // imageView?.setImageDrawable(drawable, false)
         supportStartPostponedEnterTransition()
         findViewById<View?>(R.id.loading)?.gone()
         if (!shouldShowWallpapersPalette()) {
@@ -371,8 +371,8 @@ open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
     override val shouldChangeStatusBarLightStatus: Boolean = false
     override val shouldChangeNavigationBarLightStatus: Boolean = false
 
-    override fun canToggleSystemUIVisibility(): Boolean = true
-    // intent?.getBooleanExtra(CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY, true) ?: true
+    override fun canToggleSystemUIVisibility(): Boolean =
+        intent?.getBooleanExtra(CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY, true) ?: true
 
     companion object {
         internal const val MIN_TIME: Long = 3 * 60 * 60000

@@ -11,6 +11,8 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import dev.jahir.frames.R
+import dev.jahir.frames.extensions.context.color
+import dev.jahir.frames.extensions.context.resolveColor
 import dev.jahir.frames.extensions.context.string
 
 fun View.snackbar(
@@ -27,6 +29,24 @@ fun View.snackbar(
     val textView: TextView? by snack.view.findView(R.id.snackbar_text)
     textView?.maxLines = 3
     snack.apply(config)
+    snack.setBackgroundTint(
+        context.resolveColor(
+            R.attr.colorSurface,
+            context.color(R.color.surface)
+        )
+    )
+    textView?.setTextColor(
+        context.resolveColor(
+            R.attr.colorOnSurface,
+            context.color(R.color.onSurface)
+        )
+    )
+    snack.setActionTextColor(
+        context.resolveColor(
+            R.attr.colorSecondary,
+            context.color(R.color.accent)
+        )
+    )
     if (!snack.isShownOrQueued) snack.show()
 }
 

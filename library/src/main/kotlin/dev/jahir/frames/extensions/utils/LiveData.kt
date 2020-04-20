@@ -11,6 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.work.WorkManager
+import java.util.*
 
 inline fun <reified T> lazyMutableLiveData(): Lazy<MutableLiveData<T>> {
     return lazy { MutableLiveData<T>() }
@@ -41,3 +43,6 @@ inline fun <T> LiveData<T>.tryToObserve(
         }
     })
 }
+
+fun WorkManager.getWorkInfoValue(uuid: UUID) =
+    getWorkInfoByIdLiveData(uuid).value
