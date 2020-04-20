@@ -10,7 +10,7 @@ import dev.jahir.frames.extensions.context.string
 import dev.jahir.frames.extensions.resources.withAlpha
 import dev.jahir.frames.extensions.views.context
 import dev.jahir.frames.extensions.views.findView
-import dev.jahir.frames.extensions.views.loadFramesPic
+import dev.jahir.frames.extensions.views.loadFramesPicResPlaceholder
 
 class CollectionViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
 
@@ -27,7 +27,7 @@ class CollectionViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
         count?.text = collection.count.toString()
         itemView.setOnClickListener { onClick?.invoke(collection) }
         collection.cover?.let {
-            image?.loadFramesPic(
+            image?.loadFramesPicResPlaceholder(
                 it.url,
                 it.thumbnail,
                 context.string(R.string.collections_placeholder),

@@ -25,6 +25,7 @@ import coil.decode.DataSource
 import coil.request.Request
 import coil.target.PoolableViewTarget
 import coil.target.Target
+import com.ortiz.touchview.TouchImageView
 import dev.jahir.frames.extensions.context.preferences
 
 /**
@@ -70,7 +71,9 @@ open class SaturatingImageViewTarget(
 
     private fun setDrawable(drawable: Drawable?) {
         (view.drawable as? Animatable)?.stop()
-        view.setImageDrawable(drawable)
+        // TODO: Enable
+        (view as? TouchImageView)?.setImageDrawable(drawable) // , false)
+            ?: view.setImageDrawable(drawable)
         updateAnimation()
     }
 

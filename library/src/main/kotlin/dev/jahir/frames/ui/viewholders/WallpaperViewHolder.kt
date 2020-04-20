@@ -19,6 +19,7 @@ import dev.jahir.frames.extensions.resources.withAlpha
 import dev.jahir.frames.extensions.views.context
 import dev.jahir.frames.extensions.views.findView
 import dev.jahir.frames.extensions.views.loadFramesPic
+import dev.jahir.frames.extensions.views.loadFramesPicResPlaceholder
 import dev.jahir.frames.extensions.views.setPaddingTop
 import dev.jahir.frames.extensions.views.visible
 import dev.jahir.frames.ui.widgets.FavoriteCheckbox
@@ -68,7 +69,7 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
         title?.text = wallpaper.name
         author?.text = wallpaper.author
         itemView.setOnClickListener { onClick(wallpaper, this) }
-        image?.loadFramesPic(
+        image?.loadFramesPicResPlaceholder(
             wallpaper.url,
             wallpaper.thumbnail,
             context.string(R.string.wallpapers_placeholder),

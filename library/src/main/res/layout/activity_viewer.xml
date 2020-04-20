@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_root_view"
@@ -28,6 +28,7 @@
         android:layout_height="wrap_content"
         android:background="@color/transparent"
         android:clipChildren="false"
+        android:clipToPadding="false"
         android:transitionName="appbar"
         app:elevation="0dp"
         tools:ignore="UnusedAttribute">
@@ -36,9 +37,12 @@
             android:id="@+id/toolbar"
             style="?toolbarStyle"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
+            android:layout_height="wrap_content"
             android:background="@drawable/gradient_reversed"
-            android:minHeight="?actionBarSize">
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:minHeight="?actionBarSize"
+            android:paddingBottom="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,4 +86,4 @@
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_actions_menu" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>
