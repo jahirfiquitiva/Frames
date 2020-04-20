@@ -21,8 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
-        app:overlayColor="@color/wallpaper_overlay"
         app:heightMultiplier="@dimen/heightMultiplier"
+        app:overlayColor="@color/wallpaper_overlay"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Frames.Wallpapers" />
 
     <LinearLayout

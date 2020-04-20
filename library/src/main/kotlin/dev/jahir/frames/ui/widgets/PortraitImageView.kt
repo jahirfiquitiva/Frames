@@ -9,10 +9,13 @@ import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Shader
 import android.util.AttributeSet
+import android.view.View
+import android.view.ViewGroup
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.shape.ShapeAppearancePathProvider
 import dev.jahir.frames.R
+import kotlin.math.max
 
 open class PortraitImageView @JvmOverloads constructor(
     context: Context,
@@ -42,7 +45,9 @@ open class PortraitImageView @JvmOverloads constructor(
         val a = context.obtainStyledAttributes(attributeSet, R.styleable.PortraitImageView, 0, 0)
         try {
             heightMultiplier = a.getFloat(R.styleable.PortraitImageView_heightMultiplier, 1.25F)
-            setOverlayColor(a.getColor(R.styleable.PortraitImageView_overlayColor, Color.TRANSPARENT))
+            setOverlayColor(
+                a.getColor(R.styleable.PortraitImageView_overlayColor, Color.TRANSPARENT)
+            )
         } finally {
             a.recycle()
         }
@@ -71,26 +76,39 @@ open class PortraitImageView @JvmOverloads constructor(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val targetHeight: Int = (MeasureSpec.getSize(widthMeasureSpec) * heightMultiplier).toInt()
         super.onMeasure(widthMeasureSpec, targetHeight or MeasureSpec.EXACTLY)
-        setMeasuredDimension(measuredWidth, (measuredHeight ))
         updateOverlayParams()
         updateGradientParams()
     }
 
     private fun updateOverlayParams() {
-        overlayBounds.set(0f, 0f, measuredWidth.toFloat(), measuredHeight.toFloat())
+        overlayBounds.set(0F, 0F, measuredWidth.toFloat(), measuredHeight.toFloat())
         overlayPath.reset()
-        pathProvider.calculatePath(shapeAppearanceModel, 1f, overlayBounds, overlayPath)
+        pathProvider.calculatePath(shapeAppearanceModel, 1F, overlayBounds, overlayPath)
     }
 
     private fun updateGradientParams() {
+        val textsHeight: Int = try {
+            (parent?.parent as? ViewGroup)
+                ?.findViewById<View?>(R.id.wallpaper_details_background)
+                ?.measuredHeight ?: 0
+        } catch (e: Exception) {
+            0
+        }
         val gradientEnd: Float = measuredHeight.toFloat()
-        val gradientStart: Float = gradientEnd * 0.7f
-        overlayGradientBounds.set(0f, gradientStart, measuredWidth.toFloat(), gradientEnd)
-        overlayGradient.shader = LinearGradient(0f, gradientEnd, 0f, gradientStart,
-            gradientColors, floatArrayOf(0f, 0.5f, 1f), Shader.TileMode.CLAMP)
+        val allegedGradientStart: Float = gradientEnd * 0.7F
+        val gradientStart: Float = if (textsHeight > 0) {
+            max(gradientEnd - textsHeight.toFloat(), allegedGradientStart)
+        } else allegedGradientStart
+        overlayGradientBounds.set(0F, gradientStart, measuredWidth.toFloat(), gradientEnd)
+        overlayGradient.shader = LinearGradient(
+            0F, gradientEnd, 0F, gradientStart,
+            gradientColors, floatArrayOf(0F, 0.5F, 1F), Shader.TileMode.CLAMP
+        )
         overlayGradientPath.reset()
-        pathProvider.calculatePath(overlayGradientModel, 1f, overlayGradientBounds,
-            overlayGradientPath)
+        pathProvider.calculatePath(
+            overlayGradientModel, 1F, overlayGradientBounds,
+            overlayGradientPath
+        )
     }
 
     private fun updateOverlayModel() {
@@ -107,5 +125,4 @@ open class PortraitImageView @JvmOverloads constructor(
         canvas.drawPath(overlayPath, overlay)
         canvas.drawPath(overlayGradientPath, overlayGradient)
     }
-
 }
