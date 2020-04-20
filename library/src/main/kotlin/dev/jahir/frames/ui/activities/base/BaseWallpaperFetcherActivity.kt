@@ -23,7 +23,7 @@ import java.net.URLConnection
 
 @Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
-    BaseStoragePermissionRequestActivity<P>() {
+    BaseFavoritesConnectedActivity<P>() {
 
     private val wallpapersDownloadWorker: WorkManager by lazy { WorkManager.getInstance(this) }
     private var wallpaperDownloadUrl: String = ""

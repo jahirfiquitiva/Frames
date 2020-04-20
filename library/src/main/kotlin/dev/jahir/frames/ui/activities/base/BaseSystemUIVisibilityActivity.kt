@@ -16,7 +16,7 @@ import dev.jahir.frames.extensions.views.visible
 import dev.jahir.frames.ui.widgets.FramesBottomNavigationView
 
 abstract class BaseSystemUIVisibilityActivity<out P : Preferences> :
-    BaseWallpaperFetcherActivity<P>() {
+    BaseStoragePermissionRequestActivity<P>() {
 
     internal val appbar: AppBarLayout? by findView(R.id.appbar)
     val bottomNavigation: FramesBottomNavigationView? by findView(R.id.bottom_navigation)
@@ -109,8 +109,8 @@ abstract class BaseSystemUIVisibilityActivity<out P : Preferences> :
     }
 
     open fun canToggleSystemUIVisibility(): Boolean = false
-    open fun beforeTogglingSystemUIVisibility(){}
-    open fun afterTogglingSystemUIVisibility(){}
+    open fun beforeTogglingSystemUIVisibility() {}
+    open fun afterTogglingSystemUIVisibility() {}
 
     companion object {
         private const val VISIBLE_SYSTEM_UI_KEY = "visible_system_ui"

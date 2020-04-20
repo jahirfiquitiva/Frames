@@ -51,14 +51,14 @@ import dev.jahir.frames.extensions.views.setMarginTop
 import dev.jahir.frames.extensions.views.setPaddingLeft
 import dev.jahir.frames.extensions.views.setPaddingRight
 import dev.jahir.frames.extensions.views.tint
-import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
+import dev.jahir.frames.ui.activities.base.BaseWallpaperFetcherActivity
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.viewer.ApplierDialog
 import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
 import dev.jahir.frames.ui.fragments.viewer.DownloadToApplyDialog
 import dev.jahir.frames.ui.fragments.viewer.SetAsOptionsDialog
 
-open class ViewerActivity : BaseFavoritesConnectedActivity<Preferences>() {
+open class ViewerActivity : BaseWallpaperFetcherActivity<Preferences>() {
 
     override val preferences: Preferences by lazy { Preferences(this) }
 
