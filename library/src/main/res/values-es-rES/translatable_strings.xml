@@ -38,7 +38,6 @@
     <string name="download_paused">Se ha pausado la descarga del fondo de pantalla</string>
     <string name="download_resume">Reanudar</string>
     <string name="download_retry">Reintentar</string>
-    <string name="download_starting">Iniciando descarga</string>
     <string name="download_cancel">Cancelar</string>
     <string name="download_downloading">Descarga en progreso…</string>
     <string name="download_eta_hrs">%1$dh %2$dm %3$ds restantes</string>
