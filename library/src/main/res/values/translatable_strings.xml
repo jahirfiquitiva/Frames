@@ -33,25 +33,12 @@
     <string name="permission_request">%1$s requires access to storage in order to be able to apply and save wallpapers</string>
     <string name="allow">Allow</string>
 
+    <string name="cancel">Cancel</string>
+    <string name="unexpected_error_occurred">An unexpected error occurred</string>
     <string name="downloading_wallpaper">Downloading \'%1$s\'…</string>
     <string name="download_successful">Wallpaper downloaded successfully to \'%1$s\'</string>
     <string name="download_successful_short">Wallpaper downloaded successfully</string>
-    <string name="cancel">Cancel</string>
-
-    <string name="unexpected_error_occurred">An unexpected error occurred</string>
-    <string name="download_already_in_progress">There\'s a download already in progress</string>
-    <string name="download_canceled">Download cancelled</string>
-
-    <string name="downloads">Downloads</string>
-    <string name="download_failed">Wallpaper download has failed</string>
-    <string name="download_pause">Pause download</string>
-    <string name="download_paused">Wallpaper download has been paused</string>
-    <string name="download_resume">Resume</string>
-    <string name="download_retry">Retry</string>
     <string name="download_starting">Starting download…</string>
-    <string name="download_starting_detailed">Starting download…\nWallpaper will be available at: %1$S</string>
-    <string name="download_cancel">Cancel</string>
-    <string name="download_downloading">Download in progress…</string>
     <string name="downloaded_previously">Wallpaper downloaded previously</string>
 
     <string name="download_eta_hrs">%1$dh %2$dm %3$ds left</string>
@@ -67,7 +54,6 @@
 
     <string name="applying_wallpaper">Applying \'%1$s\'…</string>
     <string name="applying_preparing">Preparing…</string>
-    <string name="applying_downloading">Downloading…</string>
     <string name="applying_wallpaper_def">Applying…</string>
     <string name="applying_applied">Wallpaper applied successfully</string>
 

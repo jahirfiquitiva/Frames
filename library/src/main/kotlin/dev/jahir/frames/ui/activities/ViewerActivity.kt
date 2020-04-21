@@ -324,9 +324,10 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
 
     private fun checkForDownload() {
         if (!shouldShowDownloadOption()) return
-        val actuallyComplies = if (intent?.getBooleanExtra(LICENSE_CHECK_ENABLED, false) == true)
-            compliesWithMinTime(MIN_TIME) || boolean(R.bool.allow_immediate_downloads)
-        else true
+        val actuallyComplies =
+            if (intent?.getBooleanExtra(LICENSE_CHECK_ENABLED, false) == true)
+                compliesWithMinTime(MIN_TIME) || boolean(R.bool.allow_immediate_downloads)
+            else true
         if (actuallyComplies) {
             requestStoragePermission()
         } else {
