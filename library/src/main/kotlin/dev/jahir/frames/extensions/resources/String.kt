@@ -1,6 +1,6 @@
 package dev.jahir.frames.extensions.resources
 
-import java.util.*
+import java.util.Locale
 
 fun String?.hasContent(): Boolean = orEmpty().isNotBlank() && orEmpty().isNotEmpty()
 

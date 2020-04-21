@@ -24,6 +24,7 @@ private fun ImageView.buildRequestBuilder(
     saturate: Boolean,
     extra: ((drawable: Drawable?) -> Unit)? = null
 ): LoadRequestBuilder.() -> Unit = {
+    fallback(thumbnail)
     placeholder(thumbnail)
     error(thumbnail)
 
@@ -68,9 +69,7 @@ fun ImageView.loadFramesPic(
                 internalLoadFrames(url, it, cropAsCircle, false, onImageLoaded)
             }
         } else {
-            internalLoadFrames(
-                thumbnailUrl, placeholder, cropAsCircle, saturate, onImageLoaded
-            )
+            internalLoadFrames(thumbnailUrl, placeholder, cropAsCircle, saturate, onImageLoaded)
         }
     } else {
         internalLoadFrames(url, placeholder, cropAsCircle, saturate, onImageLoaded)
@@ -85,18 +84,12 @@ fun ImageView.loadFramesPicResPlaceholder(
     cropAsCircle: Boolean = false,
     saturate: Boolean = true,
     onImageLoaded: ((drawable: Drawable?) -> Unit)? = null
-) {
-    val placeholder = context.drawable(placeholderName)
-    loadFramesPic(
-        url,
-        thumbnailUrl,
-        placeholder,
-        forceLoadFullRes,
-        cropAsCircle,
-        saturate,
-        onImageLoaded
-    )
-}
+) = loadFramesPic(
+    url, thumbnailUrl,
+    context.drawable(placeholderName),
+    forceLoadFullRes, cropAsCircle, saturate,
+    onImageLoaded
+)
 
 fun ImageView.startAnimatable() {
     postDelayed(IMAGEVIEW_ANIMATABLE_DELAY) { (drawable as? Animatable)?.start() }

@@ -12,12 +12,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.work.WorkManager
 import java.util.UUID
+
+inline fun <reified T> lazyMutableLiveData(): Lazy<MutableLiveData<T>> {
+    return lazy { MutableLiveData<T>() }
+}
 
 @MainThread
 inline fun <reified VM : ViewModel> ComponentActivity.lazyViewModel(
