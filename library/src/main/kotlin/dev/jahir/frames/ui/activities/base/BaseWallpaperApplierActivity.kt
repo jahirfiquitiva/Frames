@@ -30,11 +30,12 @@ abstract class BaseWallpaperApplierActivity<out P : Preferences> :
                     if (info != null) {
                         if (info.state.isFinished) {
                             if (info.state == WorkInfo.State.SUCCEEDED) {
-                                val path = info.outputData.getString(DOWNLOAD_PATH_KEY) ?: ""
                                 val option = info.outputData.getInt(APPLY_OPTION_KEY, -1)
-                                if (option == APPLY_EXTERNAL_KEY)
-                                    onWallpaperReadyToBeApplied(path)
-                                else onWallpaperApplied()
+                                if (option == APPLY_EXTERNAL_KEY) {
+                                    onWallpaperReadyToBeApplied(
+                                        info.outputData.getString(DOWNLOAD_PATH_KEY) ?: ""
+                                    )
+                                } else onWallpaperApplied()
                             } else if (info.state == WorkInfo.State.FAILED) {
                                 onDownloadError()
                             }
