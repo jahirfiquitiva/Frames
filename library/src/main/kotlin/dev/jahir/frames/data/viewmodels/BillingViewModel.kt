@@ -147,7 +147,7 @@ class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdat
         if (!isBillingClientReady) return
         withContext(Default) {
             billingClient?.queryPurchases(skuType)?.let {
-                if (it.billingResult?.responseCode == BillingClient.BillingResponseCode.OK) {
+                if (it.billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     postPurchasesHistory(skuType,
                         it.purchasesList.orEmpty()
                             .mapNotNull { purchase -> purchase.asDetailedPurchase() })
