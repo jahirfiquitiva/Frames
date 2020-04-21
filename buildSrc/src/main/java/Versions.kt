@@ -34,7 +34,7 @@ object Versions {
     const val room = "2.2.5"
 
     // Work Manager
-    const val work= "2.3.4"
+    const val work = "2.3.4"
 
     // Network & Serialization
     const val gson = "2.8.6"
@@ -52,9 +52,6 @@ object Versions {
 
     // FastScroll RecyclerView
     const val fastScrollRecyclerView = "2.0.1"
-
-    // File Downloader
-    const val fetch = "3.1.4"
 
     // Permissions
     const val permissions = "3.1.2"

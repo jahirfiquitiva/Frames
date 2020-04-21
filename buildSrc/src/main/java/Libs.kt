@@ -60,9 +60,6 @@ object Libs {
     private const val fastScrollRecyclerView =
         "com.simplecityapps:recyclerview-fastscroll:${Versions.fastScrollRecyclerView}"
 
-    // File Downloader
-    private const val fetch = "androidx.tonyodev.fetch2:xfetch2:${Versions.fetch}"
-
     // Permissions
     private const val permissions = "com.github.fondesa:kpermissions:${Versions.permissions}"
 
@@ -105,7 +102,6 @@ object Libs {
         harmonicColors,
         sectionedRecyclerView,
         fastScrollRecyclerView,
-        fetch,
         permissions,
         licenseChecker,
         inAppBilling,
