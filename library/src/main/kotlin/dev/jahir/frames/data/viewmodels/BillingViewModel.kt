@@ -1,10 +1,10 @@
 package dev.jahir.frames.data.viewmodels
 
-import android.content.Context
+import android.app.Application
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
@@ -18,6 +18,7 @@ import com.android.billingclient.api.SkuDetailsParams
 import dev.jahir.frames.data.listeners.BillingProcessesListener
 import dev.jahir.frames.data.models.DetailedPurchaseRecord
 import dev.jahir.frames.extensions.utils.asDetailedPurchase
+import dev.jahir.frames.extensions.utils.context
 import dev.jahir.frames.extensions.utils.lazyMutableLiveData
 import dev.jahir.frames.extensions.utils.tryToObserve
 import kotlinx.coroutines.Dispatchers.Default
@@ -25,7 +26,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
-class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdatedListener {
+class BillingViewModel(application: Application) : AndroidViewModel(application),
+    BillingClientStateListener, PurchasesUpdatedListener {
 
     var billingProcessesListener: BillingProcessesListener? = null
 
@@ -51,21 +53,16 @@ class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdat
     val isBillingClientReady: Boolean
         get() = billingClientReadyData.value == true && billingClient?.isReady == true
 
-    fun initialize(context: Context?, owner: LifecycleOwner?) {
-        context ?: return
+    fun initialize(owner: LifecycleOwner?) {
+        destroy(owner)
         billingClient = BillingClient
             .newBuilder(context)
             .setListener(this)
             .enablePendingPurchases()
             .build()
-        owner?.let {
-            destroy(it, false)
-            internalInitializeObservers(it)
-        }
+        internalInitializeObservers(owner)
         billingClient?.startConnection(this)
     }
-
-    fun initialize(activity: FragmentActivity?) = initialize(activity, activity)
 
     private fun buildSkuDetailsParams(
         skuItemsIds: List<String>,
@@ -255,12 +252,14 @@ class BillingViewModel : ViewModel(), BillingClientStateListener, PurchasesUpdat
         }
     }
 
-    fun destroy(owner: LifecycleOwner, shouldDestroyBillingClient: Boolean = true) {
-        inAppSkuDetailsData.removeObservers(owner)
-        inAppPurchasesHistoryData.removeObservers(owner)
-        subscriptionsSkuDetailsData.removeObservers(owner)
-        subscriptionsPurchasesHistoryData.removeObservers(owner)
-        billingClientReadyData.removeObservers(owner)
+    fun destroy(owner: LifecycleOwner?, shouldDestroyBillingClient: Boolean = true) {
+        owner?.let {
+            inAppSkuDetailsData.removeObservers(owner)
+            inAppPurchasesHistoryData.removeObservers(owner)
+            subscriptionsSkuDetailsData.removeObservers(owner)
+            subscriptionsPurchasesHistoryData.removeObservers(owner)
+            billingClientReadyData.removeObservers(owner)
+        }
         if (shouldDestroyBillingClient) {
             billingClient?.endConnection()
             billingClient = null
