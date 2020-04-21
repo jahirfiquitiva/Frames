@@ -1,4 +1,4 @@
-package dev.jahir.frames.data.network
+package dev.jahir.frames.data.workers
 
 import android.app.WallpaperManager
 import android.content.Context
@@ -13,7 +13,10 @@ import androidx.work.workDataOf
 import dev.jahir.frames.extensions.context.preferences
 import dev.jahir.frames.extensions.resources.createIfDidNotExist
 import dev.jahir.frames.extensions.resources.hasContent
-import dev.jahir.frames.extensions.utils.ensureBackgroundThread
+import dev.jahir.frames.extensions.utils.ensureBackgroundThreadSuspended
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -73,11 +76,11 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
         return result != 0
     }
 
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result = coroutineScope {
         val url: String = inputData.getString(WallpaperDownloader.DOWNLOAD_URL_KEY) ?: ""
         val applyOption: Int = inputData.getInt(APPLY_OPTION_KEY, -1)
-        if (!url.hasContent()) return Result.failure()
-        if (applyOption < 0) return Result.failure()
+        if (!url.hasContent()) return@coroutineScope Result.failure()
+        if (applyOption < 0) return@coroutineScope Result.failure()
 
         val filename = url.substring(url.lastIndexOf("/") + 1)
         val filePath = "${context?.cacheDir}${File.separator}$filename"
@@ -86,39 +89,40 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
         try {
             file.parentFile?.createIfDidNotExist()
             file.delete()
-            try {
-                file.createNewFile()
-            } catch (e: Exception) {
+            withContext(IO) {
+                try {
+                    file.createNewFile()
+                } catch (e: Exception) {
+                }
+                val downloadURL = URL(url)
+                val urlConnection: URLConnection = downloadURL.openConnection().apply { connect() }
+                val fos = FileOutputStream(file)
+                val inputStream: InputStream = urlConnection.getInputStream()
+                val buffer = ByteArray(1024)
+                var len1: Int
+                var total: Long = 0
+                while (inputStream.read(buffer).also { len1 = it } > 0) {
+                    total += len1.toLong()
+                    fos.write(buffer, 0, len1)
+                }
+                fos.close()
+                inputStream.close()
             }
-            val downloadURL = URL(url)
-            val urlConnection: URLConnection = downloadURL.openConnection()
-            urlConnection.connect()
-            val fos = FileOutputStream(file)
-            val inputStream: InputStream = urlConnection.getInputStream()
-            val buffer = ByteArray(1024)
-            var len1: Int
-            var total: Long = 0
-            while (inputStream.read(buffer).also { len1 = it } > 0) {
-                total += len1.toLong()
-                fos.write(buffer, 0, len1)
-            }
-            fos.close()
-            inputStream.close()
         } catch (e: Exception) {
             e.printStackTrace()
-            return Result.failure()
+            return@coroutineScope Result.failure()
         }
 
         val outputData = workDataOf(
             WallpaperDownloader.DOWNLOAD_PATH_KEY to filePath,
             APPLY_OPTION_KEY to applyOption
         )
-        if (applyOption == APPLY_EXTERNAL_KEY) return Result.success(outputData)
+        if (applyOption == APPLY_EXTERNAL_KEY) return@coroutineScope Result.success(outputData)
         var success = false
-        ensureBackgroundThread {
+        ensureBackgroundThreadSuspended {
             success = applyWallpaper(filePath, applyOption)
         }
-        return if (success) Result.success(outputData) else Result.failure()
+        return@coroutineScope if (success) Result.success(outputData) else Result.failure()
     }
 
     companion object {

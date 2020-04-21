@@ -1,4 +1,4 @@
-package dev.jahir.frames.data.network
+package dev.jahir.frames.data.workers
 
 import android.app.DownloadManager
 import android.content.Context
@@ -10,15 +10,19 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import dev.jahir.frames.R
+import dev.jahir.frames.data.network.DownloadListenerThread
+import dev.jahir.frames.data.network.MediaScanner
 import dev.jahir.frames.extensions.context.preferences
 import dev.jahir.frames.extensions.context.string
 import dev.jahir.frames.extensions.context.toast
 import dev.jahir.frames.extensions.resources.createIfDidNotExist
 import dev.jahir.frames.extensions.resources.hasContent
+import kotlinx.coroutines.coroutineScope
 import java.io.File
 
 class WallpaperDownloader(context: Context, params: WorkerParameters) :
-    ContextAwareWorker(context, params), DownloadListenerThread.DownloadListener {
+    ContextAwareWorker(context, params),
+    DownloadListenerThread.DownloadListener {
 
     @Suppress("DEPRECATION")
     private fun downloadUsingNotificationManager(url: String, file: File): Long {
@@ -57,9 +61,9 @@ class WallpaperDownloader(context: Context, params: WorkerParameters) :
         return downloadId
     }
 
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result = coroutineScope {
         val url: String = inputData.getString(DOWNLOAD_URL_KEY) ?: ""
-        if (!url.hasContent()) return Result.failure()
+        if (!url.hasContent()) return@coroutineScope Result.failure()
 
         val filename = url.substring(url.lastIndexOf("/") + 1)
         val folder = context?.preferences?.downloadsFolder
@@ -73,21 +77,21 @@ class WallpaperDownloader(context: Context, params: WorkerParameters) :
                 DOWNLOAD_PATH_KEY to file.absolutePath,
                 DOWNLOAD_FILE_EXISTED to true
             )
-            return Result.success(outputData)
+            return@coroutineScope Result.success(outputData)
         }
 
         file.parentFile?.createIfDidNotExist()
         file.delete()
 
         val downloadId = downloadUsingNotificationManager(url, file)
-        if (downloadId == -1L) return Result.failure()
+        if (downloadId == -1L) return@coroutineScope Result.failure()
 
         val outputData = workDataOf(
             DOWNLOAD_PATH_KEY to filePath,
             DOWNLOAD_TASK_KEY to downloadId,
             DOWNLOAD_FILE_EXISTED to false
         )
-        return Result.success(outputData)
+        return@coroutineScope Result.success(outputData)
     }
 
     override fun onSuccess(path: String) {

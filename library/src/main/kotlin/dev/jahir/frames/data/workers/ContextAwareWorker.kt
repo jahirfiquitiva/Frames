@@ -1,12 +1,12 @@
-package dev.jahir.frames.data.network
+package dev.jahir.frames.data.workers
 
 import android.content.Context
-import androidx.work.Worker
+import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import java.lang.ref.WeakReference
 
 abstract class ContextAwareWorker(context: Context, parameters: WorkerParameters) :
-    Worker(context, parameters) {
+    CoroutineWorker(context, parameters) {
     private var weakContext: WeakReference<Context?>? = null
     val context: Context?
         get() = weakContext?.get()

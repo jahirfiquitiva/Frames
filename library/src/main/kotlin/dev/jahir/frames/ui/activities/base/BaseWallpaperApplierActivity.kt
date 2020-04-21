@@ -4,12 +4,13 @@ import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
+import com.google.android.material.snackbar.Snackbar
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
-import dev.jahir.frames.data.network.WallpaperDownloader.Companion.DOWNLOAD_PATH_KEY
-import dev.jahir.frames.data.network.WallpaperApplier
-import dev.jahir.frames.data.network.WallpaperApplier.Companion.APPLY_EXTERNAL_KEY
-import dev.jahir.frames.data.network.WallpaperApplier.Companion.APPLY_OPTION_KEY
+import dev.jahir.frames.data.workers.WallpaperApplier
+import dev.jahir.frames.data.workers.WallpaperApplier.Companion.APPLY_EXTERNAL_KEY
+import dev.jahir.frames.data.workers.WallpaperApplier.Companion.APPLY_OPTION_KEY
+import dev.jahir.frames.data.workers.WallpaperDownloader.Companion.DOWNLOAD_PATH_KEY
 import dev.jahir.frames.extensions.context.string
 import dev.jahir.frames.extensions.resources.getUri
 import dev.jahir.frames.extensions.views.snackbar
@@ -50,7 +51,8 @@ abstract class BaseWallpaperApplierActivity<out P : Preferences> :
             snackbar(
                 if (applyOption == APPLY_EXTERNAL_KEY) R.string.applying_preparing
                 else R.string.applying_wallpaper_def,
-                anchorViewId = snackbarAnchorId
+                Snackbar.LENGTH_INDEFINITE,
+                snackbarAnchorId
             )
         } catch (e: Exception) {
         }

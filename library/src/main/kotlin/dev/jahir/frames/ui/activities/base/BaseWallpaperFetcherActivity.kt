@@ -10,9 +10,9 @@ import com.google.android.material.snackbar.Snackbar
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.data.network.WallpaperDownloader
-import dev.jahir.frames.data.network.WallpaperDownloader.Companion.DOWNLOAD_FILE_EXISTED
-import dev.jahir.frames.data.network.WallpaperDownloader.Companion.DOWNLOAD_PATH_KEY
+import dev.jahir.frames.data.workers.WallpaperDownloader
+import dev.jahir.frames.data.workers.WallpaperDownloader.Companion.DOWNLOAD_FILE_EXISTED
+import dev.jahir.frames.data.workers.WallpaperDownloader.Companion.DOWNLOAD_PATH_KEY
 import dev.jahir.frames.extensions.context.toast
 import dev.jahir.frames.extensions.resources.getUri
 import dev.jahir.frames.extensions.resources.hasContent
