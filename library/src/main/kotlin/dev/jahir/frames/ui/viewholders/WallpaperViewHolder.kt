@@ -16,6 +16,7 @@ import dev.jahir.frames.extensions.resources.tint
 import dev.jahir.frames.extensions.resources.withAlpha
 import dev.jahir.frames.extensions.views.context
 import dev.jahir.frames.extensions.views.findView
+import dev.jahir.frames.extensions.views.gone
 import dev.jahir.frames.extensions.views.loadFramesPicResPlaceholder
 import dev.jahir.frames.extensions.views.setPaddingTop
 import dev.jahir.frames.extensions.views.visible
@@ -51,7 +52,7 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
             }
             favorite?.onDisabledClickListener = { onFavClick(wallpaper.isInFavorites, wallpaper) }
             favorite?.visible()
-        }
+        } else favorite?.gone()
 
         title?.let {
             ViewCompat.setTransitionName(it, wallpaper.buildTitleTransitionName(adapterPosition))
