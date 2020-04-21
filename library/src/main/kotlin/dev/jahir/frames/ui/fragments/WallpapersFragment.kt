@@ -66,7 +66,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     }
 
     override fun updateItemsInAdapter(items: ArrayList<Wallpaper>) {
-        wallsAdapter.wallpapers = items
+        wallsAdapter.submitList(items)
     }
 
     override fun getFilteredItems(

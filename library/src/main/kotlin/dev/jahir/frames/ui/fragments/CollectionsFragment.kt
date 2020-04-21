@@ -28,7 +28,7 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
     }
 
     override fun updateItemsInAdapter(items: ArrayList<Collection>) {
-        collectionsAdapter.collections = items
+        collectionsAdapter.submitList(items)
     }
 
     override fun getFilteredItems(
