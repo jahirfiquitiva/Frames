@@ -28,16 +28,4 @@ open class Collection(
         cover?.let { usedUrls.add(it.url) }
         return usedUrls
     }
-
-    override fun equals(other: Any?): Boolean {
-        if (other is Collection) {
-            return this.name == other.name && this.displayName == other.displayName
-                    && this.wallpapers == other.wallpapers
-        }
-        return false
-    }
-
-    override fun hashCode(): Int {
-        return arrayOf(name, displayName, wallpapers).contentHashCode()
-    }
 }
