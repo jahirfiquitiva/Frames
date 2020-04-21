@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_root_view"
@@ -86,4 +86,4 @@
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_actions_menu" />
 
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
