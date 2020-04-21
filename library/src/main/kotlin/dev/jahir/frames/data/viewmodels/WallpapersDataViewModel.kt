@@ -1,9 +1,9 @@
 package dev.jahir.frames.data.viewmodels
 
-import android.content.Context
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.GsonBuilder
 import dev.jahir.frames.data.db.FramesDatabase
@@ -13,6 +13,7 @@ import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.data.network.WallpapersJSONService
 import dev.jahir.frames.extensions.context.isNetworkAvailable
 import dev.jahir.frames.extensions.resources.hasContent
+import dev.jahir.frames.extensions.utils.context
 import dev.jahir.frames.extensions.utils.lazyMutableLiveData
 import dev.jahir.frames.extensions.utils.tryToObserve
 import kotlinx.coroutines.Dispatchers.IO
@@ -24,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
 @Suppress("unused", "RemoveExplicitTypeArguments")
-open class WallpapersDataViewModel : ViewModel() {
+open class WallpapersDataViewModel(application: Application) : AndroidViewModel(application) {
 
     private val wallpapersData: MutableLiveData<List<Wallpaper>> by lazyMutableLiveData()
     val wallpapers: List<Wallpaper>
@@ -74,7 +75,7 @@ open class WallpapersDataViewModel : ViewModel() {
     private suspend fun transformWallpapersToCollections(wallpapers: List<Wallpaper>): ArrayList<Collection> =
         withContext(IO) { ArrayList(internalTransformWallpapersToCollections(wallpapers)) }
 
-    private suspend fun getWallpapersFromDatabase(context: Context): List<Wallpaper> =
+    private suspend fun getWallpapersFromDatabase(): List<Wallpaper> =
         withContext(IO) {
             try {
                 FramesDatabase.getAppDatabase(context)?.wallpapersDao()?.getAllWallpapers()
@@ -84,7 +85,7 @@ open class WallpapersDataViewModel : ViewModel() {
             }
         }
 
-    private suspend fun deleteAllWallpapers(context: Context) =
+    private suspend fun deleteAllWallpapers() =
         withContext(IO) {
             try {
                 FramesDatabase.getAppDatabase(context)?.wallpapersDao()?.nuke()
@@ -93,10 +94,10 @@ open class WallpapersDataViewModel : ViewModel() {
             }
         }
 
-    private suspend fun saveWallpapers(context: Context, wallpapers: List<Wallpaper>) =
+    private suspend fun saveWallpapers(wallpapers: List<Wallpaper>) =
         withContext(IO) {
             try {
-                deleteAllWallpapers(context)
+                deleteAllWallpapers()
                 delay(10)
                 FramesDatabase.getAppDatabase(context)?.wallpapersDao()?.insertAll(wallpapers)
             } catch (e: Exception) {
@@ -104,89 +105,84 @@ open class WallpapersDataViewModel : ViewModel() {
             }
         }
 
-    private fun internalAddToLocalFavorites(
-        context: Context,
-        wallpapers: List<Wallpaper>
-    ): Boolean {
+    private fun internalAddToLocalFavorites(wallpapers: List<Wallpaper>): Boolean {
         FramesDatabase.getAppDatabase(context)?.favoritesDao()
             ?.insertAll(wallpapers.map { Favorite(it.url) })
         return true
     }
 
-    private fun internalNukeAllLocalFavorites(context: Context): Boolean {
+    private fun internalNukeAllLocalFavorites(): Boolean {
         FramesDatabase.getAppDatabase(context)?.favoritesDao()?.nuke()
         return true
     }
 
-    open suspend fun internalGetFavorites(context: Context): List<Favorite> =
+    open suspend fun internalGetFavorites(): List<Favorite> =
         FramesDatabase.getAppDatabase(context)?.favoritesDao()?.getAllFavorites().orEmpty()
 
-    open suspend fun internalAddToFavorites(context: Context, wallpaper: Wallpaper): Boolean {
+    open suspend fun internalAddToFavorites(wallpaper: Wallpaper): Boolean {
         FramesDatabase.getAppDatabase(context)?.favoritesDao()?.insert(Favorite(wallpaper.url))
         return true
     }
 
-    open suspend fun internalRemoveFromFavorites(context: Context, wallpaper: Wallpaper): Boolean {
+    open suspend fun internalRemoveFromFavorites(wallpaper: Wallpaper): Boolean {
         FramesDatabase.getAppDatabase(context)?.favoritesDao()?.delete(Favorite(wallpaper.url))
         return true
     }
 
-    suspend fun addAllToLocalFavorites(context: Context, wallpapers: List<Wallpaper>): Boolean =
+    suspend fun addAllToLocalFavorites(wallpapers: List<Wallpaper>): Boolean =
         withContext(IO) {
             try {
-                internalAddToLocalFavorites(context, wallpapers)
+                internalAddToLocalFavorites(wallpapers)
             } catch (e: Exception) {
                 false
             }
         }
 
-    suspend fun nukeLocalFavorites(context: Context): Boolean =
+    suspend fun nukeLocalFavorites(): Boolean =
         withContext(IO) {
             try {
-                internalNukeAllLocalFavorites(context)
+                internalNukeAllLocalFavorites()
             } catch (e: Exception) {
                 false
             }
         }
 
-    private suspend fun getFavorites(context: Context): List<Favorite> =
+    private suspend fun getFavorites(): List<Favorite> =
         withContext(IO) {
             val result = try {
-                internalGetFavorites(context)
+                internalGetFavorites()
             } catch (e: Exception) {
                 listOf<Favorite>()
             }
             result
         }
 
-    private suspend fun addToFavorites(context: Context, wallpaper: Wallpaper): Boolean =
+    private suspend fun safeAddToFavorites(wallpaper: Wallpaper): Boolean =
         withContext(IO) {
             try {
-                internalAddToFavorites(context, wallpaper)
+                internalAddToFavorites(wallpaper)
             } catch (e: Exception) {
                 false
             }
         }
 
-    private suspend fun removeFromFavorites(context: Context, wallpaper: Wallpaper): Boolean =
+    private suspend fun safeRemoveFromFavorites(wallpaper: Wallpaper): Boolean =
         withContext(IO) {
             try {
-                internalRemoveFromFavorites(context, wallpaper)
+                internalRemoveFromFavorites(wallpaper)
             } catch (e: Exception) {
                 false
             }
         }
 
     private suspend fun handleWallpapersData(
-        context: Context? = null,
         loadCollections: Boolean = true,
         loadFavorites: Boolean = true,
         newWallpapers: List<Wallpaper> = listOf(),
         force: Boolean = false
     ) {
-        context ?: return
         val localWallpapers = try {
-            getWallpapersFromDatabase(context)
+            getWallpapersFromDatabase()
         } catch (e: Exception) {
             arrayListOf<Wallpaper>()
         }
@@ -195,7 +191,7 @@ open class WallpapersDataViewModel : ViewModel() {
             newWallpapers.filter { it.url.hasContent() }.distinctBy { it.url }
         } else localWallpapers
 
-        val favorites = if (loadFavorites) getFavorites(context) else ArrayList()
+        val favorites = if (loadFavorites) getFavorites() else ArrayList()
         val actualNewWallpapers =
             filteredWallpapers.map { wall ->
                 wall.apply {
@@ -221,56 +217,54 @@ open class WallpapersDataViewModel : ViewModel() {
             if (!areTheSameFavorites || favorites.isNullOrEmpty() || force)
                 postFavorites(actualFavorites)
         }
-        saveWallpapers(context, actualNewWallpapers)
+        saveWallpapers(actualNewWallpapers)
     }
 
     private suspend fun loadRemoteData(
-        context: Context? = null,
         url: String = "",
         loadCollections: Boolean = true,
         loadFavorites: Boolean = true,
         force: Boolean = false
     ) {
-        context ?: return
         if (!context.isNetworkAvailable() || !url.hasContent()) return
         try {
             val remoteWallpapers = service.getJSON(url)
-            handleWallpapersData(context, loadCollections, loadFavorites, remoteWallpapers, force)
+            handleWallpapersData(loadCollections, loadFavorites, remoteWallpapers, force)
         } catch (e: Exception) {
         }
     }
 
     fun loadData(
-        context: Context? = null,
         url: String = "",
         loadCollections: Boolean = true,
         loadFavorites: Boolean = true,
         force: Boolean = false
     ) {
-        context ?: return
         viewModelScope.launch {
             delay(10)
-            handleWallpapersData(context, loadCollections, loadFavorites, listOf(), force)
-            loadRemoteData(context, url, loadCollections, loadFavorites, force)
+            handleWallpapersData(loadCollections, loadFavorites, listOf(), force)
+            loadRemoteData(url, loadCollections, loadFavorites, force)
         }
     }
 
-    fun addToFavorites(context: Context?, wallpaper: Wallpaper) {
-        context ?: return
+    fun addToFavorites(wallpaper: Wallpaper): Boolean {
+        var success = false
         viewModelScope.launch {
-            addToFavorites(context, wallpaper)
+            success = safeAddToFavorites(wallpaper)
             delay(10)
-            loadData(context, "", loadCollections = false, loadFavorites = true, force = true)
+            loadData("", loadCollections = false, loadFavorites = true, force = true)
         }
+        return success
     }
 
-    fun removeFromFavorites(context: Context?, wallpaper: Wallpaper) {
-        context ?: return
+    fun removeFromFavorites(wallpaper: Wallpaper): Boolean {
+        var success = false
         viewModelScope.launch {
-            removeFromFavorites(context, wallpaper)
+            success = safeRemoveFromFavorites(wallpaper)
             delay(10)
-            loadData(context, "", loadCollections = false, loadFavorites = true, force = true)
+            loadData("", loadCollections = false, loadFavorites = true, force = true)
         }
+        return success
     }
 
     private fun postWallpapers(result: List<Wallpaper>) {

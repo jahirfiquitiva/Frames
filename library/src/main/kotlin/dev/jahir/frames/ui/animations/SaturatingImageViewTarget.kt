@@ -43,7 +43,7 @@ open class SaturatingImageViewTarget(
 
     override fun onSuccess(result: Drawable) = setDrawable(result)
 
-    override fun onSuccess(data: Any, source: DataSource) {
+    override fun onSuccess(request: Request, source: DataSource) {
         // This is called after onSuccess(Drawable) above, so we can assume the image has
         // already been set
         if ((source == DataSource.DISK || source == DataSource.NETWORK) &&

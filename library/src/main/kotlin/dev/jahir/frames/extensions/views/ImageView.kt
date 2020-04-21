@@ -4,7 +4,6 @@ import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.core.view.postDelayed
-import coil.Coil
 import coil.api.load
 import coil.request.LoadRequestBuilder
 import coil.transform.CircleCropTransformation
@@ -25,15 +24,13 @@ private fun ImageView.buildRequestBuilder(
     saturate: Boolean,
     extra: ((drawable: Drawable?) -> Unit)? = null
 ): LoadRequestBuilder.() -> Unit = {
-    allowHardware(false)
     placeholder(thumbnail)
     error(thumbnail)
 
     if (thumbnail == null) crossfade(CROSSFADE_DURATION)
     else crossfade(false)
 
-    if (cropAsCircle)
-        transformations(CircleCropTransformation())
+    if (cropAsCircle) transformations(CircleCropTransformation())
 
     val saturationTarget = buildSaturatingTarget {
         shouldActuallySaturate = saturate
@@ -51,10 +48,7 @@ private fun ImageView.internalLoadFrames(
     saturate: Boolean,
     extra: ((drawable: Drawable?) -> Unit)? = null
 ) {
-    Coil.load(
-        context, url,
-        builder = buildRequestBuilder(thumbnail, cropAsCircle, saturate, extra)
-    )
+    load(url, builder = buildRequestBuilder(thumbnail, cropAsCircle, saturate, extra))
 }
 
 fun ImageView.loadFramesPic(

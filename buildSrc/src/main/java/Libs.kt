@@ -20,6 +20,8 @@ object Libs {
     private const val preference = "androidx.preference:preference:${Versions.preference}"
     private const val materialComponents =
         "com.google.android.material:material:${Versions.materialComponents}"
+    private const val activityKtx = "androidx.activity:activity-ktx:${Versions.activityKtx}"
+    private const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragmentKtx}"
 
     // ViewModel and LiveData
     private const val lifecycle = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
@@ -88,6 +90,8 @@ object Libs {
         palette,
         preference,
         materialComponents,
+        activityKtx,
+        fragmentKtx,
         lifecycle,
         livedataKtx,
         viewmodelKtx,

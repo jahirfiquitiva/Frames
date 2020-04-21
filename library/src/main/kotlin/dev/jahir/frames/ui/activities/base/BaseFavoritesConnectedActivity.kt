@@ -22,7 +22,7 @@ abstract class BaseFavoritesConnectedActivity<out P : Preferences> :
     internal fun addToFavorites(wallpaper: Wallpaper): Boolean {
         if (!canShowFavoritesButton()) return false
         if (canModifyFavorites()) {
-            wallpapersViewModel.addToFavorites(this, wallpaper)
+            wallpapersViewModel.addToFavorites(wallpaper)
             return true
         }
         onFavoritesLocked()
@@ -32,7 +32,7 @@ abstract class BaseFavoritesConnectedActivity<out P : Preferences> :
     internal fun removeFromFavorites(wallpaper: Wallpaper): Boolean {
         if (!canShowFavoritesButton()) return false
         if (canModifyFavorites()) {
-            wallpapersViewModel.removeFromFavorites(this, wallpaper)
+            wallpapersViewModel.removeFromFavorites(wallpaper)
             return true
         }
         onFavoritesLocked()
@@ -46,7 +46,6 @@ abstract class BaseFavoritesConnectedActivity<out P : Preferences> :
 
     internal fun loadWallpapersData(remote: Boolean = false) {
         wallpapersViewModel.loadData(
-            this,
             if (remote) getDataUrl() else "",
             loadCollections = shouldLoadCollections(),
             loadFavorites = shouldLoadFavorites() && canShowFavoritesButton(),

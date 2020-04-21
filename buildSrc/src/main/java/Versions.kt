@@ -3,7 +3,7 @@
 object Versions {
     // Plugins
     const val gradle = "3.6.2"
-    const val kotlin = "1.3.71"
+    const val kotlin = "1.3.72"
     const val jitpack = "2.1"
 
     // OneSignal
@@ -26,6 +26,8 @@ object Versions {
     const val palette = "1.0.0"
     const val preference = "1.1.1"
     const val materialComponents = "1.2.0-alpha06"
+    const val activityKtx = "1.1.0"
+    const val fragmentKtx = "1.2.4"
 
     // ViewModel and LiveData
     const val lifecycle = "2.2.0"
@@ -41,7 +43,7 @@ object Versions {
     const val retrofit = "2.8.1"
 
     // Image loading and Touch Image View
-    const val coil = "0.9.5"
+    const val coil = "0.10.0"
     const val touchImageView = "3.0.1"
 
     // Harmonic Colors
