@@ -17,7 +17,7 @@ import dev.jahir.frames.extensions.resources.createIfDidNotExist
 import dev.jahir.frames.extensions.resources.hasContent
 import java.io.File
 
-class DownloadWallpaperWorker(context: Context, params: WorkerParameters) :
+class WallpaperDownloader(context: Context, params: WorkerParameters) :
     ContextAwareWorker(context, params), DownloadListenerThread.DownloadListener {
 
     @Suppress("DEPRECATION")
@@ -115,7 +115,7 @@ class DownloadWallpaperWorker(context: Context, params: WorkerParameters) :
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
             val data = workDataOf(DOWNLOAD_URL_KEY to url)
-            return OneTimeWorkRequest.Builder(DownloadWallpaperWorker::class.java)
+            return OneTimeWorkRequest.Builder(WallpaperDownloader::class.java)
                 .setConstraints(constraints)
                 .setInputData(data)
                 .build()

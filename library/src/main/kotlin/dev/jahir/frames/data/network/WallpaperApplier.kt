@@ -74,7 +74,7 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
     }
 
     override fun doWork(): Result {
-        val url: String = inputData.getString(DownloadWallpaperWorker.DOWNLOAD_URL_KEY) ?: ""
+        val url: String = inputData.getString(WallpaperDownloader.DOWNLOAD_URL_KEY) ?: ""
         val applyOption: Int = inputData.getInt(APPLY_OPTION_KEY, -1)
         if (!url.hasContent()) return Result.failure()
         if (applyOption < 0) return Result.failure()
@@ -110,7 +110,7 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
         }
 
         val outputData = workDataOf(
-            DownloadWallpaperWorker.DOWNLOAD_PATH_KEY to filePath,
+            WallpaperDownloader.DOWNLOAD_PATH_KEY to filePath,
             APPLY_OPTION_KEY to applyOption
         )
         if (applyOption == APPLY_EXTERNAL_KEY) return Result.success(outputData)
@@ -131,7 +131,7 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
             val data = workDataOf(
-                DownloadWallpaperWorker.DOWNLOAD_URL_KEY to url,
+                WallpaperDownloader.DOWNLOAD_URL_KEY to url,
                 APPLY_OPTION_KEY to applyOption
             )
             return OneTimeWorkRequest.Builder(WallpaperApplier::class.java)

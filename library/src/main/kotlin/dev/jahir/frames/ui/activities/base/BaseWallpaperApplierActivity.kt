@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
-import dev.jahir.frames.data.network.DownloadWallpaperWorker.Companion.DOWNLOAD_PATH_KEY
+import dev.jahir.frames.data.network.WallpaperDownloader.Companion.DOWNLOAD_PATH_KEY
 import dev.jahir.frames.data.network.WallpaperApplier
 import dev.jahir.frames.data.network.WallpaperApplier.Companion.APPLY_EXTERNAL_KEY
 import dev.jahir.frames.data.network.WallpaperApplier.Companion.APPLY_OPTION_KEY
