@@ -40,7 +40,6 @@
     <string name="download_paused">Завантаження шпалер призупинено</string>
     <string name="download_resume">Продовжити</string>
     <string name="download_retry">Повторити</string>
-    <string name="download_starting">Початок завантаження</string>
     <string name="download_cancel">Скасувати</string>
     <string name="download_downloading">Завантаження триває…</string>
     <string name="download_eta_hrs">лишилося %1$dгод %2$dм. %3$dс</string>
