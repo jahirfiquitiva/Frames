@@ -10,6 +10,7 @@ import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.extensions.context.findView
 import dev.jahir.frames.extensions.utils.postDelayed
 import dev.jahir.frames.extensions.views.gone
+import dev.jahir.frames.extensions.views.goneIf
 import dev.jahir.frames.extensions.views.tint
 import dev.jahir.frames.extensions.views.visible
 import dev.jahir.frames.ui.widgets.CleanSearchView
@@ -25,6 +26,9 @@ abstract class BaseSearchableActivity<out P : Preferences> : BaseFavoritesConnec
 
     private var searchItem: MenuItem? = null
     private var searchView: CleanSearchView? = null
+
+    private val searchOpen: Boolean
+        get() = searchView?.isOpen ?: false
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(getMenuRes(), menu)
@@ -82,6 +86,16 @@ abstract class BaseSearchableActivity<out P : Preferences> : BaseFavoritesConnec
         super.onRestoreInstanceState(savedInstanceState)
         currentItemId = savedInstanceState.getInt(CURRENT_ITEM_KEY, initialItemId)
         bottomNavigation?.selectedItemId = currentItemId
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bottomNavigation?.goneIf(canShowSearch(currentItemId) && searchOpen)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        bottomNavigation?.gone()
     }
 
     companion object {

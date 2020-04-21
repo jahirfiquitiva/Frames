@@ -18,7 +18,6 @@ import dev.jahir.frames.extensions.resources.lighten
 import dev.jahir.frames.extensions.resources.tint
 import dev.jahir.frames.extensions.utils.postDelayed
 import dev.jahir.frames.extensions.views.attachSwipeRefreshLayout
-import dev.jahir.frames.extensions.views.setMarginBottom
 import dev.jahir.frames.extensions.views.setPaddingBottom
 import dev.jahir.frames.ui.activities.base.BaseSystemUIVisibilityActivity
 import dev.jahir.frames.ui.widgets.StatefulRecyclerView
@@ -33,13 +32,13 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        setupRecyclerViewMargin()
+        setupContentBottomOffset()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.recycler_view)
-        setupRecyclerViewMargin(view)
+        setupContentBottomOffset(view)
         recyclerView?.stateDrawableModifier = this
 
         recyclerView?.emptyText = getEmptyText()
@@ -62,7 +61,15 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
         recyclerView?.attachSwipeRefreshLayout(swipeRefreshLayout)
     }
 
+    @Deprecated(
+        "Deprecated in favor of setupContentBottomOffset",
+        replaceWith = ReplaceWith("setupContentBottomOffset")
+    )
     open fun setupRecyclerViewMargin(view: View? = null) {
+        setupContentBottomOffset(view)
+    }
+
+    open fun setupContentBottomOffset(view: View? = null) {
         (context as? BaseSystemUIVisibilityActivity<*>)?.bottomNavigation?.let {
             it.post {
                 (view ?: getView())?.setPaddingBottom(it.measuredHeight)
@@ -70,11 +77,16 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
         }
     }
 
+    open fun clearContentBottomOffset(view: View? = null) {
+        (view ?: getView())?.let { it.post { it.setPaddingBottom(0) } }
+    }
+
     internal fun setRefreshEnabled(enabled: Boolean) {
         swipeRefreshLayout?.isEnabled = enabled
     }
 
     internal fun applyFilter(filter: String, closed: Boolean) {
+        if (closed) setupContentBottomOffset() else clearContentBottomOffset()
         recyclerView?.searching = filter.hasContent() && !closed
         updateItemsInAdapter(
             if (filter.hasContent() && !closed)
