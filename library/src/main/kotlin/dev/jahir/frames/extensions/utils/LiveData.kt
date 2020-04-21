@@ -20,9 +20,8 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.work.WorkManager
 import java.util.UUID
 
-inline fun <reified T> lazyMutableLiveData(): Lazy<MutableLiveData<T>> {
-    return lazy { MutableLiveData<T>() }
-}
+inline fun <reified MLD> lazyMutableLiveData(): Lazy<MutableLiveData<MLD>> =
+    lazy { MutableLiveData<MLD>() }
 
 @MainThread
 inline fun <reified VM : ViewModel> ComponentActivity.lazyViewModel(
