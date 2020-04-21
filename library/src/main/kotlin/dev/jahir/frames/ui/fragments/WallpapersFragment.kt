@@ -98,7 +98,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
             var fos: FileOutputStream? = null
             try {
                 fos = activity?.openFileOutput(SHARED_IMAGE_NAME, Context.MODE_PRIVATE)
-                holder.image?.drawable?.toBitmap()?.compress(Bitmap.CompressFormat.JPEG, 25, fos)
+                holder.image?.drawable?.toBitmap()?.compress(Bitmap.CompressFormat.JPEG, 30, fos)
             } catch (ignored: Exception) {
             } finally {
                 fos?.flush()
