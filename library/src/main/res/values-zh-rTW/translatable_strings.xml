@@ -25,7 +25,7 @@
     <string name="permission_permanently_denied">儲存空間存取權限被拒。您需手動至設定啟用。</string>
     <string name="permission_request">%1$s 需要儲存空間存取權限以套用及儲存桌布</string>
     <string name="allow">允許</string>
+    <string name="cancel">取消</string>
     <string name="downloading_wallpaper">正在下載「%1$s」…</string>
     <string name="download_successful_short">桌布下載成功</string>
-    <string name="cancel">取消</string>
 </resources>
