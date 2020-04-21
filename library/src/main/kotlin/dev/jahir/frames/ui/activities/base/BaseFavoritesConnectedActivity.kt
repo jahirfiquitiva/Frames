@@ -21,20 +21,14 @@ abstract class BaseFavoritesConnectedActivity<out P : Preferences> :
 
     internal fun addToFavorites(wallpaper: Wallpaper): Boolean {
         if (!canShowFavoritesButton()) return false
-        if (canModifyFavorites()) {
-            wallpapersViewModel.addToFavorites(wallpaper)
-            return true
-        }
+        if (canModifyFavorites()) return wallpapersViewModel.addToFavorites(wallpaper)
         onFavoritesLocked()
         return false
     }
 
     internal fun removeFromFavorites(wallpaper: Wallpaper): Boolean {
         if (!canShowFavoritesButton()) return false
-        if (canModifyFavorites()) {
-            wallpapersViewModel.removeFromFavorites(wallpaper)
-            return true
-        }
+        if (canModifyFavorites()) return wallpapersViewModel.removeFromFavorites(wallpaper)
         onFavoritesLocked()
         return false
     }
