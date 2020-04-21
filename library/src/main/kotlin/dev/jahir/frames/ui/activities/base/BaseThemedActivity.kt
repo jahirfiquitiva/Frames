@@ -24,10 +24,10 @@ abstract class BaseThemedActivity<out P : Preferences> : BaseFinishResultActivit
     private var coloredNavbar: Boolean = false
 
     @StyleRes
-    open fun defaultTheme(): Int = R.style.BaseFramesTheme
+    open fun defaultTheme(): Int = R.style.Frames_Default
 
     @StyleRes
-    open fun amoledTheme(): Int = R.style.BaseFramesTheme_Amoled
+    open fun amoledTheme(): Int = R.style.Frames_Default_Amoled
 
     abstract val preferences: P
 

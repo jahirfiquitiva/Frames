@@ -76,13 +76,11 @@
 
     <dev.jahir.frames.ui.widgets.FramesBottomNavigationView
         android:id="@+id/bottom_navigation"
-        style="@style/ViewerBottomNavigation"
+        style="@style/Widget.Frames.ViewerBottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@drawable/gradient"
-        app:itemIconTint="@drawable/bottom_actions_states"
-        app:itemTextColor="@drawable/bottom_actions_states"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_actions_menu" />
 

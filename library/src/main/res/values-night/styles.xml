@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="BaseFramesSplashScreenTheme.Amoled" parent="BaseFramesSplashScreenTheme" tools:ignore="NewApi">
+    <style name="Frames.SplashScreen.Amoled" parent="Frames.SplashScreen" tools:ignore="NewApi">
         <item name="android:windowBackground">@drawable/splash_screen_amoled</item>
 
         <item name="colorPrimary">@color/amoledThemePrimary</item>
@@ -22,7 +22,7 @@
         <item name="colorOnBackground">@color/amoledThemeOnBackground</item>
     </style>
 
-    <style name="BaseFramesTheme.Amoled" parent="BaseFramesTheme" tools:ignore="NewApi">
+    <style name="Frames.Default.Amoled" parent="Frames.Default" tools:ignore="NewApi">
         <item name="colorPrimary">@color/amoledThemePrimary</item>
         <item name="colorPrimaryDark">@color/amoledThemePrimaryDark</item>
         <item name="colorAccent">@color/amoledThemeAccent</item>

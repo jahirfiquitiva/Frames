@@ -19,4 +19,7 @@
         <attr name="stateImageView" format="reference" />
         <attr name="stateProgressBar" format="reference" />
     </declare-styleable>
+
+    <attr name="customFontNormal" format="reference" />
+    <attr name="customFontBold" format="reference" />
 </resources>

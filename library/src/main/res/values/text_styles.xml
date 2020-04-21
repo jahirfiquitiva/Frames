@@ -49,7 +49,7 @@
 
     <!-- Headline6 -->
     <style name="TextAppearance.Frames.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">@font/manrope_bold_fam</item>
+        <item name="fontFamily">?attr/customFontBold</item>
         <item name="android:textSize">20sp</item>
         <item name="lineHeight">32sp</item>
         <item name="android:letterSpacing" tools:ignore="NewApi">0.0075</item>
@@ -64,7 +64,7 @@
 
     <!-- Subtitle1 -->
     <style name="TextAppearance.Frames.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/manrope_medium_fam</item>
+        <item name="fontFamily">?attr/customFontNormal</item>
         <item name="android:textSize">16sp</item>
         <item name="lineHeight">24sp</item>
         <item name="android:letterSpacing" tools:ignore="NewApi">0.009375</item>
@@ -79,7 +79,7 @@
 
     <!-- Subtitle2 -->
     <style name="TextAppearance.Frames.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/manrope_medium_fam</item>
+        <item name="fontFamily">?attr/customFontNormal</item>
         <item name="android:textSize">14sp</item>
         <item name="lineHeight">24sp</item>
         <item name="android:letterSpacing" tools:ignore="NewApi">0.007145</item>
@@ -94,7 +94,7 @@
 
     <!-- Button -->
     <style name="TextAppearance.Frames.Button" parent="TextAppearance.MaterialComponents.Button">
-        <item name="fontFamily">@font/manrope_bold_fam</item>
+        <item name="fontFamily">?attr/customFontBold</item>
         <item name="android:textSize">14sp</item>
         <item name="lineHeight">20sp</item>
         <item name="android:letterSpacing" tools:ignore="NewApi">0.05715</item>
@@ -184,7 +184,7 @@
     </style>
 
     <style name="TextAppearance.Frames.ToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="fontFamily">@font/manrope_bold_fam</item>
+        <item name="fontFamily">?attr/customFontBold</item>
         <item name="android:textColor">?colorOnPrimary</item>
     </style>
 

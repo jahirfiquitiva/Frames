@@ -21,6 +21,7 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.palette.graphics.Palette
 import com.fondesa.kpermissions.PermissionStatus
+import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import com.ortiz.touchview.TouchImageView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
@@ -85,6 +86,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         statusBarLight = false
         navigationBarLight = false
         setContentView(R.layout.activity_viewer)
+        bottomNavigation?.labelVisibilityMode = LabelVisibilityMode.LABEL_VISIBILITY_LABELED
 
         supportPostponeEnterTransition()
 

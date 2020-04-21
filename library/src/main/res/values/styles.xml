@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="BaseFramesSplashScreenTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar" tools:ignore="NewApi">
+    <style name="Frames" />
+
+    <style name="Frames.SplashScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar" tools:ignore="NewApi">
         <item name="android:windowBackground">@drawable/splash_screen</item>
 
         <item name="colorPrimary">@color/primary</item>
@@ -27,11 +29,14 @@
         <item name="android:navigationBarColor">?colorSurface</item>
         <item name="android:navigationBarDividerColor">@color/transparent</item>
         <item name="android:colorEdgeEffect">?colorSecondary</item>
+
+        <item name="customFontBold">@font/manrope_bold_fam</item>
+        <item name="customFontNormal">@font/manrope_normal_fam</item>
     </style>
 
-    <style name="BaseFramesSplashScreenTheme.Amoled" parent="BaseFramesSplashScreenTheme" tools:ignore="NewApi" />
+    <style name="Frames.SplashScreen.Amoled" parent="Frames.SplashScreen" tools:ignore="NewApi" />
 
-    <style name="BaseFramesTheme" parent="BaseFramesSplashScreenTheme" tools:ignore="NewApi">
+    <style name="Frames.Default" parent="Frames.SplashScreen" tools:ignore="NewApi">
         <item name="android:windowBackground">@color/background</item>
 
         <item name="textAppearanceHeadline3">@style/TextAppearance.Frames.Headline3</item>
@@ -58,6 +63,7 @@
         <item name="bottomSheetDialogTheme">@style/Frames.BottomSheetDialog</item>
         <item name="navigationViewStyle">@style/Widget.Frames.NavigationView</item>
         <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.PrimarySurface</item>
+        <item name="bottomNavigationStyle">@style/Widget.Frames.BottomNavigationView</item>
 
         <item name="shapeAppearanceSmallComponent">
             @style/ShapeAppearance.Frames.SmallComponent
@@ -68,12 +74,22 @@
         <item name="shapeAppearanceLargeComponent">
             @style/ShapeAppearance.Frames.LargeComponent
         </item>
+
+        <item name="customFontBold">@font/manrope_bold_fam</item>
+        <item name="customFontNormal">@font/manrope_normal_fam</item>
     </style>
 
-    <style name="BaseFramesTheme.Amoled" parent="BaseFramesTheme" tools:ignore="NewApi" />
+    <style name="Frames.Default.Amoled" parent="Frames.Default" tools:ignore="NewApi" />
 
-    <style name="ViewerBottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
+    <style name="Widget.Frames.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@drawable/bottom_navigation_states</item>
+        <item name="itemTextColor">@drawable/bottom_navigation_states</item>
+    </style>
+
+    <style name="Widget.Frames.ViewerBottomNavigationView" parent="Widget.Frames.BottomNavigationView">
         <item name="itemRippleColor">@color/viewer_item_ripple</item>
+        <item name="itemIconTint">@drawable/bottom_actions_states</item>
+        <item name="itemTextColor">@drawable/bottom_actions_states</item>
     </style>
 
     <!-- Bottom Sheet Dialogs -->
