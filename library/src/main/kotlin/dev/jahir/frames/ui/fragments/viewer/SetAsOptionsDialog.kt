@@ -3,9 +3,9 @@ package dev.jahir.frames.ui.fragments.viewer
 import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import dev.jahir.frames.R
-import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.fragments.mdDialog
 import dev.jahir.frames.extensions.fragments.negativeButton
 import dev.jahir.frames.extensions.fragments.positiveButton
@@ -15,23 +15,25 @@ import dev.jahir.frames.ui.activities.ViewerActivity
 
 class SetAsOptionsDialog : DialogFragment() {
 
-    private var selectedOption = -1
-    private var wallpaper: Wallpaper? = null
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
         return requireContext().mdDialog {
             title(R.string.apply_to)
             singleChoiceItems(
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) R.array.set_wallpaper_options
-                else R.array.set_wallpaper_options_pre_nougat, selectedOption
-            ) { _, option ->
-                this@SetAsOptionsDialog.selectedOption =
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) option else option + 2
-            }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                    R.array.set_wallpaper_options
+                else R.array.set_wallpaper_options_pre_nougat,
+                -1
+            )
             positiveButton(android.R.string.ok) {
-                if (selectedOption >= 0)
-                    (activity as? ViewerActivity)?.showApplierDialog(wallpaper, selectedOption)
+                val listView = (dialog as? AlertDialog)?.listView
+                if ((listView?.checkedItemCount ?: 0) > 0) {
+                    val checkedItemPosition = listView?.checkedItemPosition ?: -1
+                    val actualOption =
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) checkedItemPosition
+                        else checkedItemPosition + 2
+                    (activity as? ViewerActivity)?.startApply(actualOption)
+                }
                 dismiss()
             }
             negativeButton(android.R.string.cancel) { dismiss() }
@@ -39,8 +41,6 @@ class SetAsOptionsDialog : DialogFragment() {
     }
 
     override fun dismiss() {
-        wallpaper = null
-        selectedOption = -1
         try {
             super.dismiss()
         } catch (e: Exception) {
@@ -48,8 +48,6 @@ class SetAsOptionsDialog : DialogFragment() {
     }
 
     companion object {
-        internal const val TAG = "SET_WALLPAPER_OPTIONS_DIALOG"
-        fun create(wallpaper: Wallpaper? = null) =
-            SetAsOptionsDialog().apply { this.wallpaper = wallpaper }
+        internal const val TAG = "set_wallpaper_options_dialog"
     }
 }

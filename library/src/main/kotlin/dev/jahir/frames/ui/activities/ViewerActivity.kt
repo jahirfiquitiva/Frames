@@ -51,14 +51,12 @@ import dev.jahir.frames.extensions.views.setMarginTop
 import dev.jahir.frames.extensions.views.setPaddingLeft
 import dev.jahir.frames.extensions.views.setPaddingRight
 import dev.jahir.frames.extensions.views.tint
-import dev.jahir.frames.ui.activities.base.BaseWallpaperFetcherActivity
+import dev.jahir.frames.ui.activities.base.BaseWallpaperApplierActivity
 import dev.jahir.frames.ui.fragments.WallpapersFragment
-import dev.jahir.frames.ui.fragments.viewer.ApplierDialog
 import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
-import dev.jahir.frames.ui.fragments.viewer.DownloadToApplyDialog
 import dev.jahir.frames.ui.fragments.viewer.SetAsOptionsDialog
 
-open class ViewerActivity : BaseWallpaperFetcherActivity<Preferences>() {
+open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
 
     override val preferences: Preferences by lazy { Preferences(this) }
 
@@ -352,15 +350,8 @@ open class ViewerActivity : BaseWallpaperFetcherActivity<Preferences>() {
     private fun applyWallpaper(wallpaper: Wallpaper?) {
         wallpaper ?: return
         dismissApplierDialog()
-        applierDialog = SetAsOptionsDialog.create(wallpaper)
+        applierDialog = SetAsOptionsDialog()
         applierDialog?.show(supportFragmentManager, SetAsOptionsDialog.TAG)
-    }
-
-    internal fun showApplierDialog(wallpaper: Wallpaper?, selectedOption: Int = -1) {
-        wallpaper ?: return
-        dismissApplierDialog()
-        applierDialog = ApplierDialog.create(wallpaper, selectedOption)
-        applierDialog?.show(supportFragmentManager, DownloadToApplyDialog.TAG)
     }
 
     private fun shouldShowWallpapersPalette(): Boolean =

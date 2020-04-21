@@ -12,46 +12,40 @@ import dev.jahir.frames.extensions.fragments.cancelable
 import dev.jahir.frames.extensions.fragments.mdDialog
 import dev.jahir.frames.extensions.fragments.string
 import dev.jahir.frames.extensions.fragments.view
-import dev.jahir.frames.extensions.utils.postDelayed
-import dev.jahir.frames.extensions.views.gone
+import dev.jahir.frames.extensions.views.visibleIf
 
-class DownloaderDialog : DialogFragment() {
+@Suppress("MemberVisibilityCanBePrivate", "unused")
+class IndeterminateProgressDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
         val dialog = requireContext().mdDialog {
-            view(R.layout.dialog_apply)
+            view(R.layout.dialog_progress)
             cancelable(false)
         }
         isCancelable = false
-        dialog.setOnShowListener {
-            postDelayed(2500) {
-                dialog.setCancelable(true)
-                isCancelable = true
-            }
-        }
         return dialog
     }
 
-    internal fun showFinalMessage(@StringRes message: Int = R.string.unexpected_error_occurred) =
-        showFinalMessage(string(message))
-
-    internal fun showFinalMessage(message: String) {
-        activity?.runOnUiThread {
-            dialog?.findViewById<View?>(R.id.loading)?.gone()
-            setMessage(message)
-        }
-        dialog?.setCancelable(true)
-        isCancelable = true
+    fun setMessage(@StringRes stringRes: Int, showProgressBar: Boolean, cancelable: Boolean) {
+        setMessage(string(stringRes), showProgressBar, cancelable)
     }
 
-    internal fun setMessage(@StringRes res: Int) = setMessage(string(res))
-
-    internal fun setMessage(message: String) {
-        try {
-            val textView: TextView? = dialog?.findViewById(R.id.dialog_apply_message)
-            textView?.text = message
-        } catch (e: Exception) {
+    fun setMessage(message: String, showProgressBar: Boolean, cancelable: Boolean) {
+        activity?.runOnUiThread {
+            dialog?.findViewById<View?>(R.id.progress_bar)?.visibleIf(showProgressBar)
+            try {
+                val textView: TextView? = dialog?.findViewById(R.id.progress_message)
+                textView?.text = message
+            } catch (e: Exception) {
+            }
         }
+        dialog?.setCancelable(cancelable)
+        isCancelable = cancelable
+    }
+
+    override fun setCancelable(cancelable: Boolean) {
+        super.setCancelable(cancelable)
+        dialog?.setCancelable(cancelable)
     }
 
     fun show(activity: FragmentActivity) {
@@ -61,7 +55,7 @@ class DownloaderDialog : DialogFragment() {
     companion object {
         private const val TAG = "WALLPAPER_DOWNLOAD_DIALOG"
 
-        fun create() = DownloaderDialog()
+        fun create() = IndeterminateProgressDialog()
 
         fun show(activity: FragmentActivity) =
             create().show(activity.supportFragmentManager, TAG)

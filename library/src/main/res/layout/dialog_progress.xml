@@ -9,8 +9,7 @@
     android:padding="?dialogPreferredPadding">
 
     <ProgressBar
-        android:id="@+id/loading"
-        style="?android:progressBarStyle"
+        android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -18,11 +17,10 @@
         android:focusable="false"
         android:gravity="center"
         android:paddingEnd="16dp"
-        android:paddingRight="16dp"
         tools:ignore="RtlSymmetry" />
 
     <TextView
-        android:id="@+id/dialog_apply_message"
+        android:id="@+id/progress_message"
         style="@style/TextStyle.Frames.Body2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

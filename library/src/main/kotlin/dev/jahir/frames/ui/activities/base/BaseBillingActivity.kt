@@ -20,7 +20,7 @@ import dev.jahir.frames.extensions.fragments.singleChoiceItems
 import dev.jahir.frames.extensions.fragments.title
 import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.utils.lazyViewModel
-import dev.jahir.frames.ui.fragments.viewer.DownloaderDialog
+import dev.jahir.frames.ui.fragments.viewer.IndeterminateProgressDialog
 
 @Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActivity<P>(),
@@ -30,7 +30,7 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
     val isBillingClientReady: Boolean
         get() = billingEnabled && billingViewModel.isBillingClientReady
 
-    private val loadingDialog: DownloaderDialog by lazy { DownloaderDialog.create() }
+    private val billingLoadingDialog: IndeterminateProgressDialog by lazy { IndeterminateProgressDialog.create() }
     private var purchasesDialog: AlertDialog? = null
 
     open val billingEnabled: Boolean = false
@@ -52,7 +52,7 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
 
     private fun dismissDialogs() {
         try {
-            loadingDialog.dismiss()
+            billingLoadingDialog.dismiss()
         } catch (e: Exception) {
         }
         try {

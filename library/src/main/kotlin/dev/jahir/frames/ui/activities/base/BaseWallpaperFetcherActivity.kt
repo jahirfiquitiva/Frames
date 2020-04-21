@@ -13,7 +13,6 @@ import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.data.network.DownloadWallpaperWorker
 import dev.jahir.frames.data.network.DownloadWallpaperWorker.Companion.DOWNLOAD_FILE_EXISTED
 import dev.jahir.frames.data.network.DownloadWallpaperWorker.Companion.DOWNLOAD_PATH_KEY
-import dev.jahir.frames.data.network.DownloadWallpaperWorker.Companion.DOWNLOAD_TO_APPLY_KEY
 import dev.jahir.frames.extensions.context.toast
 import dev.jahir.frames.extensions.resources.getUri
 import dev.jahir.frames.extensions.resources.hasContent
@@ -25,31 +24,26 @@ import java.net.URLConnection
 abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
     BaseFavoritesConnectedActivity<P>() {
 
-    private val wallpapersDownloadWorker: WorkManager by lazy { WorkManager.getInstance(this) }
-    private var wallpaperDownloadUrl: String = ""
+    internal val workManager: WorkManager by lazy { WorkManager.getInstance(this) }
+    internal var wallpaperDownloadUrl: String = ""
 
     internal fun initDownload(wallpaper: Wallpaper?) {
         wallpaperDownloadUrl = wallpaper?.url.orEmpty()
     }
 
     internal fun startDownload() {
-        destroyDownloadTask()
-        val newDownloadTask = DownloadWallpaperWorker.buildRequest(wallpaperDownloadUrl, false)
+        cancelWorkManagerTasks()
+        val newDownloadTask = DownloadWallpaperWorker.buildRequest(wallpaperDownloadUrl)
         newDownloadTask?.let { task ->
-            wallpapersDownloadWorker.enqueue(newDownloadTask)
-            wallpapersDownloadWorker.getWorkInfoByIdLiveData(task.id)
+            workManager.enqueue(newDownloadTask)
+            workManager.getWorkInfoByIdLiveData(task.id)
                 .observe(this, Observer { info ->
                     if (info != null && info.state.isFinished) {
                         if (info.state == WorkInfo.State.SUCCEEDED) {
                             val path = info.outputData.getString(DOWNLOAD_PATH_KEY) ?: ""
-                            val toApply = info.outputData.getBoolean(DOWNLOAD_TO_APPLY_KEY, false)
                             val existed = info.outputData.getBoolean(DOWNLOAD_FILE_EXISTED, false)
-                            if (!toApply) {
-                                if (existed) onDownloadExistent(path)
-                                else onDownloadQueued()
-                            } else {
-                                onDownloadToApplyFinished(path)
-                            }
+                            if (existed) onDownloadExistent(path)
+                            else onDownloadQueued()
                         } else if (info.state == WorkInfo.State.FAILED) {
                             onDownloadError()
                         }
@@ -60,12 +54,12 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
 
     override fun onDestroy() {
         super.onDestroy()
-        destroyDownloadTask()
+        cancelWorkManagerTasks()
     }
 
-    private fun destroyDownloadTask() {
-        wallpapersDownloadWorker.cancelAllWork()
-        wallpapersDownloadWorker.pruneWork()
+    internal fun cancelWorkManagerTasks() {
+        workManager.cancelAllWork()
+        workManager.pruneWork()
     }
 
     private fun onDownloadQueued() {
@@ -73,7 +67,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
             snackbar(R.string.download_starting, anchorViewId = snackbarAnchorId)
         } catch (e: Exception) {
         }
-        destroyDownloadTask()
+        cancelWorkManagerTasks()
     }
 
     private fun onDownloadExistent(path: String) {
@@ -99,18 +93,16 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
             }
         } catch (e: Exception) {
         }
-        destroyDownloadTask()
+        cancelWorkManagerTasks()
     }
 
-    private fun onDownloadError() {
+    internal fun onDownloadError() {
         try {
-            snackbar(R.string.error, anchorViewId = snackbarAnchorId)
+            snackbar(R.string.unexpected_error_occurred, anchorViewId = snackbarAnchorId)
         } catch (e: Exception) {
         }
-        destroyDownloadTask()
+        cancelWorkManagerTasks()
     }
-
-    open fun onDownloadToApplyFinished(path: String) {}
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString(WALLPAPER_URL_KEY, wallpaperDownloadUrl)
