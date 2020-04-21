@@ -59,7 +59,7 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
         loadWallpapersData(true)
     }
 
-    private fun updateToolbarTitle(itemId: Int = currentItemId) {
+    fun updateToolbarTitle(itemId: Int = currentItemId) {
         var logoSet = false
         if (shouldShowToolbarLogo(itemId)) {
             drawable(string(R.string.toolbar_logo))?.let {
