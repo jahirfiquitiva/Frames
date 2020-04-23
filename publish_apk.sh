@@ -64,7 +64,7 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
         printf "\n\n"
         curl -g "${telegramUrl}"
 
-        curl -XPOST -H "Content-type: application/json" -d echo '{ "repo": "'"$repoName}"'", "tag": "'"$releaseName"'", "token": "'"$NOTIFIER_KEY"'" }' 'https://jfs-dash-bot.herokuapp.com/api/updates/notify'
+        curl -XPOST -H "Content-type: application/json" -d '{ "repo": "'"$repoName"'", "tag": "'"$releaseName"'", "token": "'"$NOTIFIER_KEY"'" }' 'https://jfs-dash-bot.herokuapp.com/api/updates/notify'
 
         printf "\n\nFinished uploading APK(s) and sending notifications\n"
       else
