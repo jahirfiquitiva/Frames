@@ -109,7 +109,7 @@ where `{latest version}` corresponds to published version in   [![JitPack](https
 :page_with_curl: Everything you need to know can be found in the **[Wiki Docs](https://github.com/jahirfiquitiva/Frames/wiki/)**
 
 ## Still need help :question:
-Just join our Discord Server and make a post. We'll help you as soon as possible. [![Discord Server](https://img.shields.io/badge/Discord-Server-7289da.svg)](https://discord.gg/78h7xgj)
+Just join our Discord Server and make a post. We'll help you as soon as possible. [![Join chat on Discord](https://badgen.net/badge/discord/join%20chat/7289DA?icon=discord)](https://discord.gg/78h7xgj)
 
 ---
 
