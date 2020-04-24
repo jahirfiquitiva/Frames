@@ -52,7 +52,7 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
       if [[ ! -z "$url" && "$url" != " " && "$url" != "null" ]]; then
         printf "\nAPK url: $url"
         message=$"*New ${repoName} update available! (${releaseName})* 🚀${ln}${ln}*Changes:*${ln}${changes}"
-        btns=$"{\"inline_keyboard\":[[{\"text\":\"How to update?\",\"url\":\"https://github.com/${TRAVIS_REPO_SLUG}/wiki/How-to-update\"}],[{\"text\":\"Download sample APK\",\"url\":\"${url}\"}],[{\"text\":\"Donate & support future development\",\"url\":\"https://jahir.dev/donate\"}]]}"
+        btns=$"{\"inline_keyboard\":[[{\"text\":\"How to update\",\"url\":\"https://github.com/${TRAVIS_REPO_SLUG}/wiki/How-to-update\"}],[{\"text\":\"Download sample APK\",\"url\":\"${url}\"}],[{\"text\":\"Donate\",\"url\":\"https://jahir.dev/donate\"}]]}"
 
         printf "\n\nSending message to Telegram channel…\n"
         telegramUrl="https://api.telegram.org/bot${TEL_BOT_KEY}/sendMessage?chat_id=@JFsDashSupport&text=${message}&parse_mode=Markdown&reply_markup=${btns}"
