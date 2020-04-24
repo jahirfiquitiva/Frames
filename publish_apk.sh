@@ -64,7 +64,21 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
         printf "\n\n"
         curl -g "${telegramUrl}"
 
-        curl -XPOST -H "Content-type: application/json" -d '{ "repo": "'"$repoName"'", "tag": "'"$releaseName"'", "token": "'"$NOTIFIER_KEY"'", "apk": "'"$url"'" }' 'https://jfs-dash-bot.herokuapp.com/api/updates/notify'
+        # curl -XPOST -H "Content-type: application/json" -d '{ "repo": "'"$repoName"'", "tag": "'"$releaseName"'", "token": "'"$NOTIFIER_KEY"'", "apk": "'"$url"'" }' 'https://jfs-dash-bot.herokuapp.com/api/updates/notify'
+
+        messageBody="**Changes:**\n$changes"
+        messageBody+="\n\n**Useful links:**"
+        messageBody+="\n* [How to update?](https://github.com/jahirfiquitiva/$repoName/wiki/How-to-update)"
+        messageBody+="\n* [Download sample APK]("
+        messageBody+="$url"
+        messageBody+=")\n* [Donate & support future development](https://jahir.dev/donate)"
+        curl -X POST -H 'Content-Type: application/json' -d '{
+              "embeds": [{
+                  "title": "New update available! ('"$releaseName"')",
+                  "description": "'"$messageBody"'",
+                  "color": 15844367
+              }]
+          }' -v -i $UPDATE_DISCORD_WEBHOOK
 
         printf "\n\nFinished uploading APK(s) and sending notifications\n"
       else
