@@ -2,6 +2,6 @@
 
 object MyApp {
     const val appId = "dev.jahir.frames.app"
-    const val version = 320
-    const val versionName = "3.2.0"
+    const val version = 323
+    const val versionName = "3.2.3"
 }
