@@ -11,6 +11,7 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import dev.jahir.frames.extensions.context.preferences
+import dev.jahir.frames.extensions.frames.filenameAndExtension
 import dev.jahir.frames.extensions.resources.createIfDidNotExist
 import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.utils.ensureBackgroundThreadSuspended
@@ -82,8 +83,8 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
         if (!url.hasContent()) return@coroutineScope Result.failure()
         if (applyOption < 0) return@coroutineScope Result.failure()
 
-        val filename = url.substring(url.lastIndexOf("/") + 1)
-        val filePath = "${context?.cacheDir}${File.separator}$filename"
+        val (_, extension) = url.filenameAndExtension
+        val filePath = "${context?.cacheDir}${File.separator}to-apply$extension"
 
         val file = File(filePath)
         try {
@@ -127,7 +128,7 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
 
     companion object {
         internal const val APPLY_OPTION_KEY = "apply_option_key"
-        internal const val APPLY_EXTERNAL_KEY = 3
+        const val APPLY_EXTERNAL_KEY = 3
 
         fun buildRequest(url: String, applyOption: Int = -1): OneTimeWorkRequest? {
             if (!url.hasContent()) return null

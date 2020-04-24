@@ -15,6 +15,7 @@ import dev.jahir.frames.data.network.MediaScanner
 import dev.jahir.frames.extensions.context.preferences
 import dev.jahir.frames.extensions.context.string
 import dev.jahir.frames.extensions.context.toast
+import dev.jahir.frames.extensions.frames.filenameAndExtension
 import dev.jahir.frames.extensions.resources.createIfDidNotExist
 import dev.jahir.frames.extensions.resources.hasContent
 import kotlinx.coroutines.coroutineScope
@@ -65,10 +66,10 @@ class WallpaperDownloader(context: Context, params: WorkerParameters) :
         val url: String = inputData.getString(DOWNLOAD_URL_KEY) ?: ""
         if (!url.hasContent()) return@coroutineScope Result.failure()
 
-        val filename = url.substring(url.lastIndexOf("/") + 1)
+        val (filename, extension) = url.filenameAndExtension
         val folder = context?.preferences?.downloadsFolder
             ?: context?.externalCacheDir ?: context?.cacheDir
-        val filePath = "$folder${File.separator}$filename"
+        val filePath = "$folder${File.separator}$filename$extension"
 
         val file = File(filePath)
         if (file.exists() && file.length() > 0L) {
