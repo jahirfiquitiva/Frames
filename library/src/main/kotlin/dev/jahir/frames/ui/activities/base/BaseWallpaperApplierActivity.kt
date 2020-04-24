@@ -49,7 +49,7 @@ abstract class BaseWallpaperApplierActivity<out P : Preferences> :
 
     private fun onWallpaperApplicationEnqueued(applyOption: Int) {
         try {
-            snackbar(
+            currentSnackbar = snackbar(
                 if (applyOption == APPLY_EXTERNAL_KEY) R.string.applying_preparing
                 else R.string.applying_wallpaper_def,
                 Snackbar.LENGTH_INDEFINITE,
@@ -61,7 +61,7 @@ abstract class BaseWallpaperApplierActivity<out P : Preferences> :
 
     private fun onWallpaperApplied() {
         try {
-            snackbar(R.string.applying_applied, anchorViewId = snackbarAnchorId)
+            currentSnackbar = snackbar(R.string.applying_applied, anchorViewId = snackbarAnchorId)
         } catch (e: Exception) {
         }
         cancelWorkManagerTasks()

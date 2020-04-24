@@ -20,7 +20,7 @@ fun View.snackbar(
     duration: Int = Snackbar.LENGTH_SHORT,
     @IdRes anchorViewId: Int = R.id.bottom_navigation,
     config: Snackbar.() -> Unit = {}
-) {
+): Snackbar {
     val snack = Snackbar.make(this, text, duration)
     try {
         snack.setAnchorView(anchorViewId)
@@ -48,6 +48,7 @@ fun View.snackbar(
         )
     )
     if (!snack.isShownOrQueued) snack.show()
+    return snack
 }
 
 fun View.snackbar(
@@ -55,46 +56,40 @@ fun View.snackbar(
     duration: Int = Snackbar.LENGTH_SHORT,
     @IdRes anchorViewId: Int = R.id.bottom_navigation,
     config: Snackbar.() -> Unit = {}
-) {
-    snackbar(context.string(text), duration, anchorViewId, config)
-}
+): Snackbar = snackbar(context.string(text), duration, anchorViewId, config)
+
 
 fun Activity.snackbar(
     text: CharSequence,
     duration: Int = Snackbar.LENGTH_SHORT,
     @IdRes anchorViewId: Int = R.id.bottom_navigation,
     config: Snackbar.() -> Unit = {}
-) {
-    contentView?.snackbar(text, duration, anchorViewId, config)
-}
+): Snackbar? = contentView?.snackbar(text, duration, anchorViewId, config)
+
 
 fun Activity.snackbar(
     @StringRes text: Int,
     duration: Int = Snackbar.LENGTH_SHORT,
     @IdRes anchorViewId: Int = R.id.bottom_navigation,
     config: Snackbar.() -> Unit = {}
-) {
-    snackbar(string(text), duration, anchorViewId, config)
-}
+): Snackbar? = snackbar(string(text), duration, anchorViewId, config)
 
 fun Fragment.snackbar(
     text: CharSequence,
     duration: Int = Snackbar.LENGTH_SHORT,
     @IdRes anchorViewId: Int = R.id.bottom_navigation,
     config: Snackbar.() -> Unit = {}
-) {
+): Snackbar? =
     activity?.snackbar(text, duration, anchorViewId, config)
         ?: view?.snackbar(text, duration, anchorViewId, config)
-}
+
 
 fun Fragment.snackbar(
     @StringRes text: Int,
     duration: Int = Snackbar.LENGTH_SHORT,
     @IdRes anchorViewId: Int = R.id.bottom_navigation,
     config: Snackbar.() -> Unit = {}
-) {
-    snackbar(context?.string(text).orEmpty(), duration, anchorViewId, config)
-}
+): Snackbar? = snackbar(context?.string(text).orEmpty(), duration, anchorViewId, config)
 
 inline val Activity.contentView: View?
     get() = (findViewById(android.R.id.content) as? ViewGroup)?.getChildAt(0)

@@ -14,6 +14,8 @@ import dev.jahir.frames.extensions.views.snackbar
 
 abstract class BaseStoragePermissionRequestActivity<out P : Preferences> : BaseThemedActivity<P>() {
 
+    var currentSnackbar: Snackbar? = null
+
     private val permissionRequestListener: BasePermissionRequestListener by lazy {
         object : BasePermissionRequestListener {
             override fun onPermissionsGranted(result: List<PermissionStatus>) {
@@ -23,12 +25,12 @@ abstract class BaseStoragePermissionRequestActivity<out P : Preferences> : BaseT
 
             override fun onPermissionsDenied(result: List<PermissionStatus>) {
                 super.onPermissionsDenied(result)
-                snackbar(R.string.permission_denied, Snackbar.LENGTH_LONG, snackbarAnchorId)
+                currentSnackbar = snackbar(R.string.permission_denied, Snackbar.LENGTH_LONG, snackbarAnchorId)
             }
 
             override fun onPermissionsPermanentlyDenied(result: List<PermissionStatus>) {
                 super.onPermissionsPermanentlyDenied(result)
-                snackbar(
+                currentSnackbar = snackbar(
                     R.string.permission_permanently_denied,
                     Snackbar.LENGTH_LONG, snackbarAnchorId
                 )
@@ -52,8 +54,11 @@ abstract class BaseStoragePermissionRequestActivity<out P : Preferences> : BaseT
     }
 
     private fun showPermissionRationale() {
-        snackbar(getPermissionRationaleMessage(), Snackbar.LENGTH_INDEFINITE, snackbarAnchorId) {
-            setAction(android.R.string.ok) { requestStoragePermission() }
+        currentSnackbar = snackbar(getPermissionRationaleMessage(), Snackbar.LENGTH_INDEFINITE, snackbarAnchorId) {
+            setAction(android.R.string.ok) {
+                requestStoragePermission()
+                dismiss()
+            }
         }
     }
 
