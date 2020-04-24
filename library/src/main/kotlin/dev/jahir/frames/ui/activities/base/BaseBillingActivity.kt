@@ -3,6 +3,7 @@ package dev.jahir.frames.ui.activities.base
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AlertDialog
+import com.android.billingclient.api.SkuDetails
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.listeners.BillingProcessesListener
@@ -18,7 +19,6 @@ import dev.jahir.frames.extensions.fragments.negativeButton
 import dev.jahir.frames.extensions.fragments.positiveButton
 import dev.jahir.frames.extensions.fragments.singleChoiceItems
 import dev.jahir.frames.extensions.fragments.title
-import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.utils.lazyViewModel
 import dev.jahir.frames.ui.fragments.viewer.IndeterminateProgressDialog
 
@@ -39,7 +39,8 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
         super.onCreate(savedInstanceState)
         if (billingEnabled) {
             billingViewModel.billingProcessesListener = this
-            billingViewModel.initialize(this)
+            billingViewModel.observe(this)
+            billingViewModel.initialize()
         }
     }
 
@@ -75,7 +76,10 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
         }
         val skuDetailsList = billingViewModel.inAppSkuDetails.map { CleanSkuDetails(it) }
             .filter { getDonationItemsIds().contains(it.originalDetails.sku) }
-        if (skuDetailsList.isEmpty()) return
+        if (skuDetailsList.isEmpty()) {
+            onSkuPurchaseError()
+            return
+        }
         dismissDialogs()
         purchasesDialog = mdDialog {
             title(R.string.donate)
@@ -119,13 +123,23 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
         billingViewModel.querySubscriptionsSkuDetailsList(getSubscriptionsItemsIds())
     }
 
+    override fun onInAppSkuDetailsListUpdated(skuDetailsList: List<SkuDetails>) {
+        super.onInAppSkuDetailsListUpdated(skuDetailsList)
+        invalidateOptionsMenu()
+    }
+
+    override fun onSubscriptionsSkuDetailsListUpdated(skuDetailsList: List<SkuDetails>) {
+        super.onSubscriptionsSkuDetailsListUpdated(skuDetailsList)
+        invalidateOptionsMenu()
+    }
+
     override fun onBillingClientDisconnected() {
         super.onBillingClientDisconnected()
         invalidateOptionsMenu()
     }
 
     open fun getDonationItemsIds(): List<String> = try {
-        stringArray(R.array.donation_items).filter { it.hasContent() }
+        listOf(*stringArray(R.array.donation_items))
     } catch (e: Exception) {
         listOf()
     }
