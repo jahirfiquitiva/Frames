@@ -16,14 +16,18 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
     releaseName=$(echo ${releaseNameOrg} | cut -d "\"" -f 2)
 
     ln=$"%0D%0A"
+    sln=$"\n"
     tab=$"%09"
 
     changes="$(echo "$tagInfo" | jq --compact-output ".body")"
-    defaultChanges="$changes"
     changes=$(echo ${changes} | cut -d "\"" -f 2)
+    defaultChanges="$changes"
     changes=$(echo "${changes//\"\r\n\"/$ln}")
     changes=$(echo "${changes//'\r\n'/$ln}")
     changes=$(echo "${changes//\\r\\n/$ln}")
+    # defaultChanges=$(echo "${defaultChanges//\"\r\n\"/$sln}")
+    # defaultChanges=$(echo "${defaultChanges//'\r\n'/$sln}")
+    # defaultChanges=$(echo "${defaultChanges//\\r\\n/$sln}")
 
     repoName=$(echo ${TRAVIS_REPO_SLUG} | cut -d / -f 2)
 
@@ -67,7 +71,8 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
         messageBody+="\n* [Download sample APK]("
         messageBody+="$url"
         messageBody+=")\n* [Donate & support future development](https://jahir.dev/donate)"
-        curl -X POST -H 'Content-Type: application/json' -d '{ "embeds": [{ "title": "**New update available! ('"$releaseName"')** 🚀", "description": "'"$messageBody"'", "color": 15844367 }] }' -v -i $UPDATE_DISCORD_WEBHOOK
+        echo $messageBody
+        curl -X POST -H 'Content-Type: application/json' -d '{ "embeds": [{ "title": "**New update available! ('"$releaseName"')** 🚀", "description": "'"$messageBody"'", "color": 15844367 }] }' $UPDATE_DISCORD_WEBHOOK
 
         printf "\n\nFinished uploading APK(s) and sending notifications\n"
       else
