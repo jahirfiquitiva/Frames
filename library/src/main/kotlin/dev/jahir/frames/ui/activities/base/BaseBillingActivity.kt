@@ -139,7 +139,7 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
     }
 
     open fun getDonationItemsIds(): List<String> = try {
-        listOf(*stringArray(R.array.donation_items))
+        stringArray(R.array.donation_items).filter { it.hasContent() }
     } catch (e: Exception) {
         listOf()
     }
