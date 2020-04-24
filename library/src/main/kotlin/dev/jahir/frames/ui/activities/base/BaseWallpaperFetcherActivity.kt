@@ -57,7 +57,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
         cancelWorkManagerTasks()
     }
 
-    internal fun cancelWorkManagerTasks() {
+    fun cancelWorkManagerTasks() {
         workManager.cancelAllWork()
         workManager.pruneWork()
     }

@@ -20,7 +20,7 @@ import java.io.File
 abstract class BaseWallpaperApplierActivity<out P : Preferences> :
     BaseWallpaperFetcherActivity<P>() {
 
-    internal fun startApply(applyOption: Int) {
+    fun startApply(applyOption: Int) {
         cancelWorkManagerTasks()
         val newApplyTask = WallpaperApplier.buildRequest(wallpaperDownloadUrl, applyOption)
         newApplyTask?.let { task ->
