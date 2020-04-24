@@ -67,7 +67,7 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
         messageBody+="\n* [Download sample APK]("
         messageBody+="$url"
         messageBody+=")\n* [Donate & support future development](https://jahir.dev/donate)"
-        curl -X POST -H 'Content-Type: application/json' -d '{ "embeds": [{ "title": "New update available! ('"$releaseName"')", "description": "'"$messageBody"'", "color": 15844367 }] }' -v -i $UPDATE_DISCORD_WEBHOOK
+        curl -X POST -H 'Content-Type: application/json' -d '{ "embeds": [{ "title": "**New update available! ('"$releaseName"')** 🚀", "description": "'"$messageBody"'", "color": 15844367 }] }' -v -i $UPDATE_DISCORD_WEBHOOK
 
         printf "\n\nFinished uploading APK(s) and sending notifications\n"
       else
