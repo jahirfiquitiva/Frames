@@ -51,7 +51,7 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
 
       if [[ ! -z "$url" && "$url" != " " && "$url" != "null" ]]; then
         printf "\nAPK url: $url"
-        message=$"*New ${repoName} update available now!*${ln}*Version:*${ln}${tab}${releaseName}${ln}*Changes:*${ln}${changes}"
+        message=$"*New ${repoName} update available! (${releaseName})* 🚀${ln}${ln}*Changes:*${ln}${changes}"
         btns=$"{\"inline_keyboard\":[[{\"text\":\"How to update?\",\"url\":\"https://github.com/${TRAVIS_REPO_SLUG}/wiki/How-to-update\"}],[{\"text\":\"Download sample APK\",\"url\":\"${url}\"}],[{\"text\":\"Donate & support future development\",\"url\":\"https://jahir.dev/donate\"}]]}"
 
         printf "\n\nSending message to Telegram channel…\n"
