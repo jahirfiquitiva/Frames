@@ -217,8 +217,7 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
     ) {
         billingResult ?: return
         purchases ?: return
-        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK &&
-            purchases.isNotEmpty()) {
+        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases.isNotEmpty()) {
             purchases.forEach { handlePurchase(it) }
             loadPastPurchases()
         }
