@@ -8,7 +8,7 @@ object Versions {
 
     // OneSignal
     const val oneSignalPlugin = "0.12.6"
-    const val oneSignal = "3.12.7"
+    const val oneSignal = "3.13.2"
 
     // App
     const val minSdk = 21
