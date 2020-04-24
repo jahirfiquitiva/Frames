@@ -9,11 +9,13 @@ import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.context.color
 import dev.jahir.frames.extensions.context.resolveColor
 import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.ui.activities.base.BaseStoragePermissionRequestActivity
 
 fun View.snackbar(
     text: CharSequence,
@@ -64,12 +66,20 @@ fun Activity.snackbar(
     duration: Int = Snackbar.LENGTH_SHORT,
     @IdRes anchorViewId: Int = R.id.bottom_navigation,
     config: Snackbar.() -> Unit = {}
-): Snackbar? = contentView?.snackbar(text, duration, anchorViewId, config)
+): Snackbar? {
+    (this as? BaseStoragePermissionRequestActivity<*>)?.let {
+        try {
+            it.currentSnackbar?.dismiss()
+        } catch (e: Exception) {
+        }
+    }
+    return contentView?.snackbar(text, duration, anchorViewId, config)
+}
 
 
 fun Activity.snackbar(
     @StringRes text: Int,
-    duration: Int = Snackbar.LENGTH_SHORT,
+    @BaseTransientBottomBar.Duration duration: Int = Snackbar.LENGTH_SHORT,
     @IdRes anchorViewId: Int = R.id.bottom_navigation,
     config: Snackbar.() -> Unit = {}
 ): Snackbar? = snackbar(string(text), duration, anchorViewId, config)

@@ -64,7 +64,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
 
     private fun onDownloadQueued() {
         try {
-            snackbar(R.string.download_starting, anchorViewId = snackbarAnchorId)
+            currentSnackbar = snackbar(R.string.download_starting, anchorViewId = snackbarAnchorId)
         } catch (e: Exception) {
         }
         cancelWorkManagerTasks()
@@ -74,23 +74,24 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
         try {
             val file = File(path)
             val fileUri: Uri? = file.getUri(this) ?: Uri.fromFile(file)
-            snackbar(R.string.downloaded_previously, Snackbar.LENGTH_LONG, snackbarAnchorId) {
-                fileUri?.let {
-                    var mimeType = URLConnection.guessContentTypeFromName(file.name).orEmpty()
-                    if (!mimeType.hasContent()) mimeType = "image/*"
-                    setAction(R.string.open) {
-                        try {
-                            startActivity(Intent().apply {
-                                action = Intent.ACTION_VIEW
-                                setDataAndType(fileUri, mimeType)
-                                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            })
-                        } catch (e: Exception) {
-                            toast(R.string.error)
+            currentSnackbar =
+                snackbar(R.string.downloaded_previously, Snackbar.LENGTH_LONG, snackbarAnchorId) {
+                    fileUri?.let {
+                        var mimeType = URLConnection.guessContentTypeFromName(file.name).orEmpty()
+                        if (!mimeType.hasContent()) mimeType = "image/*"
+                        setAction(R.string.open) {
+                            try {
+                                startActivity(Intent().apply {
+                                    action = Intent.ACTION_VIEW
+                                    setDataAndType(fileUri, mimeType)
+                                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                })
+                            } catch (e: Exception) {
+                                toast(R.string.error)
+                            }
                         }
                     }
                 }
-            }
         } catch (e: Exception) {
         }
         cancelWorkManagerTasks()
@@ -98,7 +99,8 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
 
     internal fun onDownloadError() {
         try {
-            snackbar(R.string.unexpected_error_occurred, anchorViewId = snackbarAnchorId)
+            currentSnackbar =
+                snackbar(R.string.unexpected_error_occurred, anchorViewId = snackbarAnchorId)
         } catch (e: Exception) {
         }
         cancelWorkManagerTasks()
