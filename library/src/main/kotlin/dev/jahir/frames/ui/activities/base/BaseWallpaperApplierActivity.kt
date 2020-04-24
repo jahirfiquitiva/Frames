@@ -68,6 +68,7 @@ abstract class BaseWallpaperApplierActivity<out P : Preferences> :
     }
 
     open fun onWallpaperReadyToBeApplied(path: String) {
+        currentSnackbar?.dismiss()
         val file = File(path)
         val fileUri: Uri? = file.getUri(this) ?: Uri.fromFile(file)
         fileUri?.let {
