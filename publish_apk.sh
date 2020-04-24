@@ -16,7 +16,6 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
     releaseName=$(echo ${releaseNameOrg} | cut -d "\"" -f 2)
 
     ln=$"%0D%0A"
-    sln=$"\n"
     tab=$"%09"
 
     changes="$(echo "$tagInfo" | jq --compact-output ".body")"
@@ -25,9 +24,6 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
     changes=$(echo "${changes//\"\r\n\"/$ln}")
     changes=$(echo "${changes//'\r\n'/$ln}")
     changes=$(echo "${changes//\\r\\n/$ln}")
-    # defaultChanges=$(echo "${defaultChanges//\"\r\n\"/$sln}")
-    # defaultChanges=$(echo "${defaultChanges//'\r\n'/$sln}")
-    # defaultChanges=$(echo "${defaultChanges//\\r\\n/$sln}")
 
     repoName=$(echo ${TRAVIS_REPO_SLUG} | cut -d / -f 2)
 
