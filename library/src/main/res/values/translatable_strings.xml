@@ -37,7 +37,7 @@
     <string name="unexpected_error_occurred">An unexpected error occurred</string>
     <string name="downloading_wallpaper">Downloading \'%1$s\'…</string>
     <string name="download_successful">Wallpaper downloaded successfully to \'%1$s\'</string>
-    <string name="download_successful_short">Wallpaper downloaded successfully</string>
+    <string name="download_successful_short">Wallpaper downloaded successfully!</string>
     <string name="download_starting">Starting download…</string>
     <string name="downloaded_previously">Wallpaper downloaded previously</string>
 
@@ -55,7 +55,7 @@
     <string name="applying_wallpaper">Applying \'%1$s\'…</string>
     <string name="applying_preparing">Preparing…</string>
     <string name="applying_wallpaper_def">Applying…</string>
-    <string name="applying_applied">Wallpaper applied successfully</string>
+    <string name="applying_applied">Wallpaper applied successfully!</string>
 
     <string name="search">Search</string>
     <string name="changelog">Changelog</string>

@@ -22,4 +22,8 @@
 
     <attr name="customFontNormal" format="reference" />
     <attr name="customFontBold" format="reference" />
+
+    <attr name="snackbarBackgroundColor" format="reference|color" />
+    <attr name="snackbarTextColor" format="reference|color" />
+    <attr name="snackbarButtonColor" format="reference|color" />
 </resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:override="true">
+    <color name="design_dark_default_color_on_background">@color/darkThemeOnBackground</color>
+    <color name="design_dark_default_color_on_primary">@color/darkThemeOnPrimary</color>
+    <color name="design_dark_default_color_on_secondary">@color/darkThemeOnAccent</color>
+    <color name="design_dark_default_color_on_surface">@color/darkThemeOnSurface</color>
+
+    <color name="design_dark_default_color_background">@color/darkThemeBackground</color>
+    <color name="design_dark_default_color_primary">@color/darkThemePrimary</color>
+    <color name="design_dark_default_color_primary_dark">@color/darkThemePrimaryDark</color>
+    <color name="design_dark_default_color_primary_variant">@color/darkThemePrimaryDark</color>
+    <color name="design_dark_default_color_secondary">@color/darkThemeAccent</color>
+    <color name="design_dark_default_color_secondary_variant">@color/darkThemeAccent</color>
+    <color name="design_dark_default_color_surface">@color/darkThemeSurface</color>
+
+    <color name="design_default_color_on_background">@color/onBackground</color>
+    <color name="design_default_color_on_primary">@color/onPrimary</color>
+    <color name="design_default_color_on_secondary">@color/onAccent</color>
+    <color name="design_default_color_on_surface">@color/onSurface</color>
+
+    <color name="design_default_color_background">@color/background</color>
+    <color name="design_default_color_primary">@color/primary</color>
+    <color name="design_default_color_primary_dark">@color/primaryDark</color>
+    <color name="design_default_color_primary_variant">@color/primaryDark</color>
+    <color name="design_default_color_secondary">@color/accent</color>
+    <color name="design_default_color_secondary_variant">@color/accent</color>
+    <color name="design_default_color_surface">@color/surface</color>
+</resources>

@@ -15,4 +15,8 @@
 
     <color name="background">@color/darkThemeBackground</color>
     <color name="onBackground">@color/darkThemeOnBackground</color>
+
+    <color name="snackbarBackgroundColor">@color/darkThemeSnackbarBackgroundColor</color>
+    <color name="snackbarTextColor">@color/darkThemeSnackbarTextColor</color>
+    <color name="snackbarButtonColor">@color/darkThemeSnackbarButtonColor</color>
 </resources>

@@ -33,20 +33,20 @@ fun View.snackbar(
     snack.apply(config)
     snack.setBackgroundTint(
         context.resolveColor(
-            R.attr.colorSurface,
-            context.color(R.color.surface)
+            R.attr.snackbarBackgroundColor,
+            context.resolveColor(R.attr.colorSurface, context.color(R.color.surface))
         )
     )
     textView?.setTextColor(
         context.resolveColor(
-            R.attr.colorOnSurface,
-            context.color(R.color.onSurface)
+            R.attr.snackbarTextColor,
+            context.resolveColor(R.attr.colorOnSurface, context.color(R.color.onSurface))
         )
     )
     snack.setActionTextColor(
         context.resolveColor(
-            R.attr.colorSecondary,
-            context.color(R.color.accent)
+            R.attr.snackbarButtonColor,
+            context.resolveColor(R.attr.colorSecondary, context.color(R.color.accent))
         )
     )
     if (!snack.isShownOrQueued) snack.show()
