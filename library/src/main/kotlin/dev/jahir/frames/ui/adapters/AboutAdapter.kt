@@ -44,7 +44,7 @@ class AboutAdapter(
             1 -> R.string.dashboard
             else -> 0
         }
-        (holder as? SectionHeaderViewHolder)?.bind(titleRes, 0, section > 0)
+        (holder as? SectionHeaderViewHolder)?.bind(titleRes, 0, section > 0 && getItemCount(0) > 0)
     }
 
     override fun onBindViewHolder(
