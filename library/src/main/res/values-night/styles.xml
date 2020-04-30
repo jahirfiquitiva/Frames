@@ -20,6 +20,10 @@
 
         <item name="colorBackgroundFloating">@color/amoledThemeBackground</item>
         <item name="colorOnBackground">@color/amoledThemeOnBackground</item>
+
+        <item name="snackbarBackgroundColor">@color/amoledThemeSnackbarBackgroundColor</item>
+        <item name="snackbarTextColor">@color/amoledThemeSnackbarTextColor</item>
+        <item name="snackbarButtonColor">@color/amoledThemeSnackbarButtonColor</item>
     </style>
 
     <style name="Frames.Default.Amoled" parent="Frames.Default" tools:ignore="NewApi">
@@ -40,6 +44,10 @@
         <item name="android:windowBackground">@color/amoledThemeBackground</item>
         <item name="colorBackgroundFloating">@color/amoledThemeBackground</item>
         <item name="colorOnBackground">@color/amoledThemeOnBackground</item>
+
+        <item name="snackbarBackgroundColor">@color/amoledThemeSnackbarBackgroundColor</item>
+        <item name="snackbarTextColor">@color/amoledThemeSnackbarTextColor</item>
+        <item name="snackbarButtonColor">@color/amoledThemeSnackbarButtonColor</item>
     </style>
 
 </resources>

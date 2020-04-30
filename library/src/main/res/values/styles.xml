@@ -32,6 +32,10 @@
 
         <item name="customFontBold">@font/manrope_bold_fam</item>
         <item name="customFontNormal">@font/manrope_normal_fam</item>
+
+        <item name="snackbarBackgroundColor">@color/snackbarBackgroundColor</item>
+        <item name="snackbarTextColor">@color/snackbarTextColor</item>
+        <item name="snackbarButtonColor">@color/snackbarButtonColor</item>
     </style>
 
     <style name="Frames.SplashScreen.Amoled" parent="Frames.SplashScreen" tools:ignore="NewApi" />
@@ -74,9 +78,6 @@
         <item name="shapeAppearanceLargeComponent">
             @style/ShapeAppearance.Frames.LargeComponent
         </item>
-
-        <item name="customFontBold">@font/manrope_bold_fam</item>
-        <item name="customFontNormal">@font/manrope_normal_fam</item>
     </style>
 
     <style name="Frames.Default.Amoled" parent="Frames.Default" tools:ignore="NewApi" />

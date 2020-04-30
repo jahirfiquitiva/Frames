@@ -21,9 +21,7 @@
         <item name="cornerSize">@dimen/cards_corner_size</item>
     </style>
 
-    <!-- Should match ShapeAppearance.Frames.CardView -->
-    <style name="ShapeAppearance.Frames.Wallpapers" parent="ShapeAppearance.Frames.CardView">
-    </style>
+    <style name="ShapeAppearance.Frames.Wallpapers" parent="ShapeAppearance.Frames.CardView" />
 
     <style name="Widget.Frames.MaterialCardView" parent="Widget.MaterialComponents.CardView">
         <item name="shapeAppearance">@style/ShapeAppearance.Frames.CardView</item>

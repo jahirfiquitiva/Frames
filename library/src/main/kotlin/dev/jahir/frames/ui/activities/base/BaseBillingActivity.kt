@@ -3,6 +3,7 @@ package dev.jahir.frames.ui.activities.base
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AlertDialog
+import com.android.billingclient.api.SkuDetails
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.listeners.BillingProcessesListener
@@ -39,7 +40,8 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
         super.onCreate(savedInstanceState)
         if (billingEnabled) {
             billingViewModel.billingProcessesListener = this
-            billingViewModel.initialize(this)
+            billingViewModel.observe(this)
+            billingViewModel.initialize()
         }
     }
 
@@ -75,7 +77,10 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
         }
         val skuDetailsList = billingViewModel.inAppSkuDetails.map { CleanSkuDetails(it) }
             .filter { getDonationItemsIds().contains(it.originalDetails.sku) }
-        if (skuDetailsList.isEmpty()) return
+        if (skuDetailsList.isEmpty()) {
+            onSkuPurchaseError()
+            return
+        }
         dismissDialogs()
         purchasesDialog = mdDialog {
             title(R.string.donate)
@@ -117,6 +122,16 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
             ArrayList(getDonationItemsIds()).apply { addAll(getInAppPurchasesItemsIds()) }
         billingViewModel.queryInAppSkuDetailsList(inAppItems)
         billingViewModel.querySubscriptionsSkuDetailsList(getSubscriptionsItemsIds())
+    }
+
+    override fun onInAppSkuDetailsListUpdated(skuDetailsList: List<SkuDetails>) {
+        super.onInAppSkuDetailsListUpdated(skuDetailsList)
+        invalidateOptionsMenu()
+    }
+
+    override fun onSubscriptionsSkuDetailsListUpdated(skuDetailsList: List<SkuDetails>) {
+        super.onSubscriptionsSkuDetailsListUpdated(skuDetailsList)
+        invalidateOptionsMenu()
     }
 
     override fun onBillingClientDisconnected() {

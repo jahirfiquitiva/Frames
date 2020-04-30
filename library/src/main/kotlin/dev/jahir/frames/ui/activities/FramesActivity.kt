@@ -59,9 +59,9 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
         loadWallpapersData(true)
     }
 
-    private fun updateToolbarTitle(itemId: Int = currentItemId) {
+    fun updateToolbarTitle(itemId: Int = currentItemId) {
         var logoSet = false
-        if (itemId == initialItemId) {
+        if (shouldShowToolbarLogo(itemId)) {
             drawable(string(R.string.toolbar_logo))?.let {
                 supportActionBar?.setDisplayShowTitleEnabled(false)
                 supportActionBar?.setLogo(it)
@@ -69,11 +69,13 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
             }
         }
         if (!logoSet) {
-            supportActionBar?.setDisplayShowTitleEnabled(true)
             supportActionBar?.setLogo(null)
             supportActionBar?.title = getToolbarTitleForItem(itemId) ?: getAppName()
+            supportActionBar?.setDisplayShowTitleEnabled(true)
         }
     }
+
+    open fun shouldShowToolbarLogo(itemId: Int): Boolean = itemId == initialItemId
 
     @LayoutRes
     open fun getLayoutRes(): Int = R.layout.activity_fragments_bottom_navigation

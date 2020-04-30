@@ -40,7 +40,7 @@ abstract class BaseLicenseCheckerActivity<out P : Preferences> : BaseChangelogDi
 
     override fun setContentView(layoutResID: Int) {
         super.setContentView(layoutResID)
-        postDelayed(50) { startLicenseCheck() }
+        postDelayed(100) { startLicenseCheck() }
     }
 
     override fun onDestroy() {
@@ -98,7 +98,11 @@ abstract class BaseLicenseCheckerActivity<out P : Preferences> : BaseChangelogDi
         licenseCheckDialog?.dismiss()
         preferences.functionalDashboard = true
         if (!update || force) {
-            snackbar(string(R.string.license_valid_snack, getAppName()), snackbarAnchorId)
+            currentSnackbar =
+                snackbar(
+                    string(R.string.license_valid_snack, getAppName()),
+                    anchorViewId = snackbarAnchorId
+                )
         } else {
             showChangelog()
         }

@@ -74,7 +74,7 @@
             android:background="?actionBarItemBackground"
             android:button="@drawable/ic_favorite_check"
             android:checked="false"
-            android:visibility="visible"
+            android:visibility="gone"
             tools:ignore="RtlSymmetry" />
 
     </LinearLayout>

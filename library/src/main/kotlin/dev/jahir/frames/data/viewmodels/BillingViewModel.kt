@@ -21,7 +21,7 @@ import dev.jahir.frames.extensions.utils.asDetailedPurchase
 import dev.jahir.frames.extensions.utils.context
 import dev.jahir.frames.extensions.utils.lazyMutableLiveData
 import dev.jahir.frames.extensions.utils.tryToObserve
-import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -53,14 +53,12 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
     val isBillingClientReady: Boolean
         get() = billingClientReadyData.value == true && billingClient?.isReady == true
 
-    fun initialize(owner: LifecycleOwner?) {
-        destroy(owner)
+    fun initialize() {
         billingClient = BillingClient
             .newBuilder(context)
             .setListener(this)
             .enablePendingPurchases()
             .build()
-        internalInitializeObservers(owner)
         billingClient?.startConnection(this)
     }
 
@@ -75,7 +73,7 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
         @BillingClient.SkuType skuType: String
     ) {
         if (!isBillingClientReady || skuItemsIds.isNullOrEmpty()) return
-        withContext(Default) {
+        withContext(IO) {
             billingClient?.querySkuDetailsAsync(
                 buildSkuDetailsParams(skuItemsIds, skuType)
             ) { billingResult2, detailsList ->
@@ -142,7 +140,7 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
 
     private suspend fun queryPurchases(@BillingClient.SkuType skuType: String) {
         if (!isBillingClientReady) return
-        withContext(Default) {
+        withContext(IO) {
             billingClient?.queryPurchases(skuType)?.let {
                 if (it.billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     postPurchasesHistory(skuType,
@@ -155,7 +153,7 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
 
     private suspend fun queryPurchasesHistory(@BillingClient.SkuType skuType: String) {
         if (!isBillingClientReady) return
-        withContext(Default) {
+        withContext(IO) {
             billingClient?.queryPurchaseHistoryAsync(skuType) { billingResult, purchaseHistoryRecordList ->
                 if (billingResult?.responseCode == BillingClient.BillingResponseCode.OK) {
                     postPurchasesHistory(skuType,
@@ -219,15 +217,15 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
     ) {
         billingResult ?: return
         purchases ?: return
-        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK &&
-            purchases.isNotEmpty()) {
+        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases.isNotEmpty()) {
             purchases.forEach { handlePurchase(it) }
             loadPastPurchases()
         }
     }
 
-    private fun internalInitializeObservers(owner: LifecycleOwner?) {
+    fun observe(owner: LifecycleOwner?) {
         owner ?: return
+        destroy(owner, false)
         try {
             billingClientReadyData.tryToObserve(owner) { ready ->
                 if (ready) {
