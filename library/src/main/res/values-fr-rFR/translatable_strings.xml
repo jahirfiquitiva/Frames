@@ -31,7 +31,7 @@
     <string name="unexpected_error_occurred">Une erreur inattendue s’est produite</string>
     <string name="downloading_wallpaper">Téléchargement de \'%1$s\'…</string>
     <string name="download_successful">Fond d\'écran téléchargé avec succès pour \'%1$s\'</string>
-    <string name="download_successful_short">Fond d\'écran téléchargé avec succès</string>
+    <string name="download_successful_short">Fond d\'écran téléchargé avec succès!</string>
     <string name="download_starting">Début du téléchargement…</string>
     <string name="downloaded_previously">Fond d\'écran téléchargé précédemment</string>
     <string name="download_eta_hrs">%1$dh %2$dm %3$ds restantes</string>
@@ -46,7 +46,7 @@
     <string name="applying_wallpaper">Application de \'%1$s\'…</string>
     <string name="applying_preparing">Préparation…</string>
     <string name="applying_wallpaper_def">Application de…</string>
-    <string name="applying_applied">Fond d\'écran appliqué avec succès</string>
+    <string name="applying_applied">Fond d\'écran appliqué avec succès!</string>
     <string name="search">Recherche</string>
     <string name="changelog">Journal des modifications</string>
     <string name="donate">Faire un don</string>
