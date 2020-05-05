@@ -23,6 +23,6 @@
         android:id="@+id/favorites"
         android:icon="@drawable/ic_favorite_check"
         android:orderInCategory="400"
-        android:title="@string/favorites"
+        android:title="@string/favorite"
         app:showAsAction="ifRoom" />
 </menu>

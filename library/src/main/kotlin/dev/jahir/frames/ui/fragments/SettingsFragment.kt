@@ -84,7 +84,7 @@ open class SettingsFragment : BasePreferenceFragment() {
 
         val downloadLocationPref = findPreference<Preference?>("download_location")
         downloadLocationPref?.summary =
-            string(R.string.download_location_summary) + "\n${preferences.downloadsFolder}"
+            "${preferences.downloadsFolder}"
 
         val clearCachePref = findPreference<Preference?>("clear_data_cache")
         clearCachePref?.summary =
