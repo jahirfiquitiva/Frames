@@ -86,8 +86,8 @@
     <string name="license_valid_content">License valid.</string>
     <string name="license_valid_snack">@string/license_valid_content</string>
     <string name="license_invalid_title">License Invalid</string>
-    <string name="license_invalid_content">Your license is invalid and/or you’re using %2$s. Delete patching apps and retry.</string>
-    <string name="license_invalid_content_extra">“%1$s”</string>
+    <string name="license_invalid_content_patching_app">Delete “%1$s” and retry.</string>
+    <string name="license_invalid_content_ungenuine_installation">Get “%1$s” from Google Play.</string>
     <string name="error">Error</string>
     <string name="action_error_content">Something went wrong.</string>
     <string name="license_error_content">Can’t check license.</string>
@@ -97,6 +97,7 @@
     <string name="donate_error">Something went wrong. Error code: %1$s.</string>
     <string name="close">Close</string>
     <string name="open">Open</string>
+    <string name="get">Get</string>
     <string name="jahir_description">I am a passionate and creative full-stack developer.</string>
     <string name="eduardo_description">UI designer. Defender of negative space.</string>
     <string name="lumiq_description">It’s just got harder to build a bad product.</string>
