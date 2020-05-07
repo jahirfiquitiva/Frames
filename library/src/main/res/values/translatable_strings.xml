@@ -25,7 +25,7 @@
     <string name="copyright">License</string>
     <string name="allow">Allow</string>
     <string name="unexpected_error_occurred">Something went wrong.</string>
-    <string name="downloading_wallpaper">Downloading "%1$s"…</string>
+    <string name="downloading_wallpaper">Downloading “%1$s”…</string>
     <string name="cancel">Cancel</string>
     <string name="search">Search</string>
     <string name="changelog">Changelog</string>
@@ -71,12 +71,12 @@
     <string name="download_eta_hrs">%1$dh %2$dm %3$ds left.</string>
     <string name="download_eta_min">%1$dm %2$ds left.</string>
     <string name="download_eta_sec">%1$ds left.</string>
-    <string name="download_successful">Wallpapers saved to "%1$s".</string>
+    <string name="download_successful">Wallpapers saved to “%1$s”.</string>
     <string name="download_successful_short">Wallpaper saved.</string>
     <string name="downloaded_previously">Wallpaper already saved.</string>
     <string name="both">Both</string>
     <string name="applying_applied">Wallpaper applied.</string>
-    <string name="applying_wallpaper">Applying "%1$s"…</string>
+    <string name="applying_wallpaper">Applying “%1$s”…</string>
     <string name="applying_preparing">Preparing wallpaper…</string>
     <string name="applying_wallpaper_def">Applying…</string>
     <string name="apply_w_external_app">Set With…</string>
@@ -86,11 +86,11 @@
     <string name="license_valid_content">License valid.</string>
     <string name="license_valid_snack">@string/license_valid_content</string>
     <string name="license_invalid_title">License Invalid</string>
-    <string name="license_invalid_content_patching_app">Delete "%1$s" and retry.</string>
-    <string name="license_invalid_content_ungenuine_installation">Get "%1$s" from Google Play.</string>
+    <string name="license_invalid_content_patching_app">Delete “%1$s” and retry.</string>
+    <string name="license_invalid_content_ungenuine_installation">Get “%1$s” from Google Play.</string>
     <string name="error">Error</string>
     <string name="action_error_content">Something went wrong.</string>
-    <string name="license_error_content">Can\'t check license.</string>
+    <string name="license_error_content">Can’t check license.</string>
     <string name="try_now">Retry</string>
     <string name="donate_success_title">Donation Sent</string>
     <string name="donate_success_content">Thank you for your support.</string>
@@ -100,5 +100,5 @@
     <string name="get">Get</string>
     <string name="jahir_description">I am a passionate and creative full-stack developer.</string>
     <string name="eduardo_description">UI designer. Defender of negative space.</string>
-    <string name="lumiq_description">It\'s just got harder to build a bad product.</string>
+    <string name="lumiq_description">It’s just got harder to build a bad product.</string>
 </resources>
