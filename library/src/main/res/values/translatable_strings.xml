@@ -45,7 +45,7 @@
     <string name="display_full_res_previews_summary">This uses more data.</string>
     <string name="crop_pictures">Scale to Fit</string>
     <string name="crop_pictures_summary">Resize wallpapers to match screen resolution.</string>
-    <string name="download_location">Save Wallpapers To</string>
+    <string name="download_location">Wallpapers Saved To</string>
     <string name="clear_data_cache">Clear App Data</string>
     <string name="clear_data_cache_summary">Free up %1$s of space.</string>
     <string name="notifications">Notifications</string>
