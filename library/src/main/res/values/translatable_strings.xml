@@ -3,126 +3,102 @@
     <string name="wallpapers">Wallpapers</string>
     <string name="collections">Collections</string>
     <string name="favorites">Favorites</string>
-    <string name="all">All</string>
-
+    <string name="all">Wallpapers</string>
     <string name="loading">Loading…</string>
-    <string name="no_wallpapers_found">No wallpapers found!</string>
-    <string name="no_collections_found">No collections found!</string>
-    <string name="no_favorites_found">No favorites found!</string>
-    <string name="no_results_found">No results found!</string>
-    <string name="nothing_found">Nothing found!</string>
-
-    <string name="details">Details</string>
+    <string name="no_wallpapers_found">No Wallpapers</string>
+    <string name="no_collections_found">No Collections</string>
+    <string name="no_favorites_found">No Favorites</string>
+    <string name="no_results_found">No Results</string>
+    <string name="nothing_found">Nothing Found</string>
+    <string name="details">Info</string>
     <string name="save">Save</string>
-    <string name="download">Download</string>
+    <string name="download">Save</string>
     <string name="apply">Apply</string>
     <string name="favorite">Favorite</string>
-
-    <string name="palette">Palette</string>
-    <string name="tap_to_copy">Tap to copy</string>
-    <string name="copied_to_clipboard">Copied color to clipboard</string>
-
+    <string name="palette">Colors</string>
+    <string name="tap_to_copy">Tap swatches to copy.</string>
+    <string name="copied_to_clipboard">Color copied to clipboard.</string>
     <string name="dimensions">Dimensions</string>
     <string name="author">Author</string>
     <string name="name">Name</string>
-    <string name="file_size">File size</string>
-    <string name="copyright">Copyright</string>
-
-    <string name="permission_denied">Access to storage permission has been denied</string>
-    <string name="permission_permanently_denied">Access to storage permission has been denied previously. You will have to manually enable it in Settings.</string>
-    <string name="permission_request">%1$s requires access to storage in order to be able to apply and save wallpapers</string>
+    <string name="file_size">Size</string>
+    <string name="copyright">License</string>
     <string name="allow">Allow</string>
-
+    <string name="unexpected_error_occurred">Something went wrong.</string>
+    <string name="downloading_wallpaper">Downloading “%1$s”…</string>
     <string name="cancel">Cancel</string>
-    <string name="unexpected_error_occurred">An unexpected error occurred</string>
-    <string name="downloading_wallpaper">Downloading \'%1$s\'…</string>
-    <string name="download_successful">Wallpaper downloaded successfully to \'%1$s\'</string>
-    <string name="download_successful_short">Wallpaper downloaded successfully!</string>
-    <string name="download_starting">Starting download…</string>
-    <string name="downloaded_previously">Wallpaper downloaded previously</string>
-
-    <string name="download_eta_hrs">%1$dh %2$dm %3$ds left</string>
-    <string name="download_eta_min">%1$dm %2$ds left</string>
-    <string name="download_eta_sec">%1$ds left</string>
-
-    <string name="apply_to">Apply to</string>
-    <string name="home_screen">Home screen</string>
-    <string name="lock_screen">Lock screen</string>
-    <string name="home_and_lock_screens">Home and lock screens</string>
-    <string name="apply_w_external_app">Apply with external app</string>
-    <string name="both">Both</string>
-
-    <string name="applying_wallpaper">Applying \'%1$s\'…</string>
-    <string name="applying_preparing">Preparing…</string>
-    <string name="applying_wallpaper_def">Applying…</string>
-    <string name="applying_applied">Wallpaper applied successfully!</string>
-
     <string name="search">Search</string>
     <string name="changelog">Changelog</string>
     <string name="donate">Donate</string>
     <string name="about">About</string>
     <string name="settings">Settings</string>
-
-    <string name="search_x">Search…</string>
-    <string name="search_wallpapers">Search wallpapers…</string>
-    <string name="search_collections">Search collections…</string>
-    <string name="search_favorites">Search favorites…</string>
-
-    <string name="prevent_download_title">Downloads locked</string>
-    <string name="prevent_download_content">For security reasons, downloading wallpapers isn\'t possible for the next %1$s hours. Please try again later.</string>
-
-    <string name="license_valid_title">License valid</string>
-    <string name="license_valid_content">Thanks for downloading %1$s from a valid store. Enjoy it!</string>
-    <string name="license_valid_snack">License valid. Thanks for downloading %1$s. Enjoy!</string>
-
-    <string name="license_invalid_title">You shall not pass!</string>
-    <string name="license_invalid_content">Sorry, but we have detected that your license for %1$s is not valid. This can also be because you are using pirate apps. %2$s. If you think this is an error, please try again later. Otherwise, please download the app from a valid store.</string>
-    <string name="license_invalid_content_extra">Or specifically: \'%1$s\' app, so please uninstall it</string>
-
-    <string name="error">Error</string>
-    <string name="action_error_content">Sorry, an unexpected error occurred while trying to complete this action.</string>
-    <string name="license_error_content">Sorry, there was an error while checking your license. Please try again later.</string>
-    <string name="try_now">Try now</string>
-
-    <string name="interface_title">Interface</string>
-    <string name="app_theme">App theme</string>
+    <string name="app_theme">Appearance</string>
     <string name="light_theme">Light</string>
     <string name="dark_theme">Dark</string>
-    <string name="follow_system_theme">Follow system</string>
-    <string name="use_amoled_theme">Use AMOLED theme</string>
-    <string name="use_amoled_theme_summary">Requires dark theme enabled either in app or system-wide</string>
-    <string name="colored_navigation_bar">Colored navigation bar</string>
-    <string name="interface_animations">Interface animations</string>
-    <string name="interface_animations_summary">Disable if you\'re experiencing poor performance</string>
-
-    <string name="data_and_storage">Data and storage</string>
-    <string name="display_full_res_previews">Display full resolution previews</string>
-    <string name="display_full_res_previews_summary">This consumes more data</string>
-    <string name="crop_pictures">Scale when applying</string>
-    <string name="crop_pictures_summary">Scale image to match the device\'s resolution</string>
-    <string name="download_location">Download location</string>
-    <string name="download_location_summary">Currently storing wallpapers in:</string>
-    <string name="clear_data_cache">Clear app data and cache</string>
-    <string name="clear_data_cache_summary">Current cache size: %1$s</string>
-
+    <string name="follow_system_theme">Set by System</string>
+    <string name="use_amoled_theme">Use Black</string>
+    <string name="use_amoled_theme_summary">Black backgrounds in Dark Mode.</string>
+    <string name="colored_navigation_bar">Colored Navigation Bar</string>
+    <string name="interface_animations">Animations</string>
+    <string name="interface_animations_summary">Disable for better performance.</string>
+    <string name="display_full_res_previews">High-Quality Thumbnails</string>
+    <string name="display_full_res_previews_summary">This uses more data.</string>
+    <string name="crop_pictures">Scale to Fit</string>
+    <string name="crop_pictures_summary">Resize wallpapers to match screen resolution.</string>
+    <string name="download_location">Wallpapers Saved To</string>
+    <string name="clear_data_cache">Clear App Data</string>
+    <string name="clear_data_cache_summary">Free up %1$s of space.</string>
     <string name="notifications">Notifications</string>
-    <string name="enable_notifications">Enable notifications</string>
-
+    <string name="enable_notifications">Allow Notifications</string>
+    <string name="versions">Versions</string>
+    <string name="interface_title">Appearance</string>
+    <string name="data_and_storage">Storage</string>
+    <string name="apply_to">Apply</string>
+    <string name="home_screen">Set Home Screen</string>
+    <string name="lock_screen">Set Lock Screen</string>
+    <string name="home_and_lock_screens">Set Both</string>
+    <string name="search_x">Search</string>
+    <string name="search_wallpapers">Search Wallpapers</string>
+    <string name="search_collections">Search Collections</string>
+    <string name="search_favorites">Search Favorites</string>
     <string name="legal">Legal</string>
     <string name="privacy_policy">Privacy Policy</string>
-    <string name="terms_conditions">Terms and Conditions</string>
-
-    <string name="versions">Versions</string>
-
+    <string name="terms_conditions">Terms of Use</string>
+    <string name="permission_denied">Storage permission not granted.</string>
+    <string name="permission_permanently_denied">Storage permission denied. Grant it in Settings.</string>
+    <string name="permission_request">%1$s uses the Storage permission to set wallpapers.</string>
+    <string name="download_starting">Saving…</string>
+    <string name="download_eta_hrs">%1$dh %2$dm %3$ds left.</string>
+    <string name="download_eta_min">%1$dm %2$ds left.</string>
+    <string name="download_eta_sec">%1$ds left.</string>
+    <string name="download_successful">Wallpapers saved to “%1$s”.</string>
+    <string name="download_successful_short">Wallpaper saved.</string>
+    <string name="downloaded_previously">Wallpaper already saved.</string>
+    <string name="both">Both</string>
+    <string name="applying_applied">Wallpaper applied.</string>
+    <string name="applying_wallpaper">Applying “%1$s”…</string>
+    <string name="applying_preparing">Preparing wallpaper…</string>
+    <string name="applying_wallpaper_def">Applying…</string>
+    <string name="apply_w_external_app">Set With…</string>
     <string name="dashboard">Dashboard</string>
-    <string name="jahir_description">I am a passionate and creative full-stack developer.</string>
-    <string name="eduardo_description">UI designer. Defender of negative space.</string>
-
-    <string name="donate_success_title">Thank you</string>
-    <string name="donate_success_content">Thank you so much for your donation. I really appreciate it and I\'m glad you\'re enjoying %1$s.</string>
-    <string name="donate_error">Unexpected error with code %1$s occurred due to %2$s</string>
-    <string name="donate_error_unknown">unknown reasons</string>
-
+    <string name="prevent_download_title">Saving Locked</string>
+    <string name="prevent_download_content">Saving locked to prevent abuse. You may save wallpapers in %1$s hours.</string>
+    <string name="license_valid_content">License valid.</string>
+    <string name="license_valid_snack">@string/license_valid_content</string>
+    <string name="license_invalid_title">License Invalid</string>
+    <string name="license_invalid_content_patching_app">Delete “%1$s” and retry.</string>
+    <string name="license_invalid_content_ungenuine_installation">Get “%1$s” from Google Play.</string>
+    <string name="error">Error</string>
+    <string name="action_error_content">Something went wrong.</string>
+    <string name="license_error_content">Can’t check license.</string>
+    <string name="try_now">Retry</string>
+    <string name="donate_success_title">Donation Sent</string>
+    <string name="donate_success_content">Thank you for your support.</string>
+    <string name="donate_error">Something went wrong. Error code: %1$s.</string>
     <string name="close">Close</string>
     <string name="open">Open</string>
+    <string name="get">Get</string>
+    <string name="jahir_description">I am a passionate and creative full-stack developer.</string>
+    <string name="eduardo_description">UI designer. Defender of negative space.</string>
+    <string name="lumiq_description">It’s just got harder to build a bad product.</string>
 </resources>

@@ -25,7 +25,8 @@ abstract class BaseStoragePermissionRequestActivity<out P : Preferences> : BaseT
 
             override fun onPermissionsDenied(result: List<PermissionStatus>) {
                 super.onPermissionsDenied(result)
-                currentSnackbar = snackbar(R.string.permission_denied, Snackbar.LENGTH_LONG, snackbarAnchorId)
+                currentSnackbar =
+                    snackbar(R.string.permission_denied, Snackbar.LENGTH_LONG, snackbarAnchorId)
             }
 
             override fun onPermissionsPermanentlyDenied(result: List<PermissionStatus>) {
@@ -54,7 +55,11 @@ abstract class BaseStoragePermissionRequestActivity<out P : Preferences> : BaseT
     }
 
     private fun showPermissionRationale() {
-        currentSnackbar = snackbar(getPermissionRationaleMessage(), Snackbar.LENGTH_INDEFINITE, snackbarAnchorId) {
+        currentSnackbar = snackbar(
+            getPermissionRationaleMessage(),
+            Snackbar.LENGTH_INDEFINITE,
+            snackbarAnchorId
+        ) {
             setAction(android.R.string.ok) {
                 requestStoragePermission()
                 dismiss()

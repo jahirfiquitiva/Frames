@@ -114,11 +114,10 @@ abstract class BaseLicenseCheckerActivity<out P : Preferences> : BaseChangelogDi
         val pirateAppName = pirateApp?.name ?: ""
         val content = if (pirateAppName.hasContent()) {
             string(
-                R.string.license_invalid_content, getAppName(),
-                string(R.string.license_invalid_content_extra, pirateAppName)
+                R.string.license_invalid_content_patching_app, pirateAppName
             )
         } else {
-            string(R.string.license_invalid_content, getAppName(), "~")
+            string(R.string.license_invalid_content_ungenuine_installation, getAppName())
         }
         licenseCheckDialog = mdDialog {
             title(R.string.license_invalid_title)
@@ -127,7 +126,7 @@ abstract class BaseLicenseCheckerActivity<out P : Preferences> : BaseChangelogDi
                 preferences.functionalDashboard = false
                 finish()
             }
-            negativeButton(R.string.download) {
+            negativeButton(R.string.get) {
                 preferences.functionalDashboard = false
                 openLink(PLAY_STORE_LINK_PREFIX + packageName)
                 finish()
