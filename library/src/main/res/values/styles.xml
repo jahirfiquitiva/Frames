@@ -25,7 +25,6 @@
 
         <item name="android:textColorPrimary">?colorOnSurface</item>
 
-        <item name="android:windowActivityTransitions">true</item>
         <item name="android:navigationBarColor">?colorSurface</item>
         <item name="android:navigationBarDividerColor">@color/transparent</item>
         <item name="android:colorEdgeEffect">?colorSecondary</item>
@@ -36,6 +35,10 @@
         <item name="snackbarBackgroundColor">@color/snackbarBackgroundColor</item>
         <item name="snackbarTextColor">@color/snackbarTextColor</item>
         <item name="snackbarButtonColor">@color/snackbarButtonColor</item>
+
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">false</item>
     </style>
 
     <style name="Frames.SplashScreen.Amoled" parent="Frames.SplashScreen" tools:ignore="NewApi" />
