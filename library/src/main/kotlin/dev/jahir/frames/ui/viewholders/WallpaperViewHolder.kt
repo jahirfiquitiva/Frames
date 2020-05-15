@@ -12,6 +12,7 @@ import dev.jahir.frames.extensions.frames.buildAuthorTransitionName
 import dev.jahir.frames.extensions.frames.buildImageTransitionName
 import dev.jahir.frames.extensions.frames.buildTitleTransitionName
 import dev.jahir.frames.extensions.resources.dpToPx
+import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.resources.tint
 import dev.jahir.frames.extensions.resources.withAlpha
 import dev.jahir.frames.extensions.views.context
@@ -20,6 +21,7 @@ import dev.jahir.frames.extensions.views.gone
 import dev.jahir.frames.extensions.views.loadFramesPicResPlaceholder
 import dev.jahir.frames.extensions.views.setPaddingTop
 import dev.jahir.frames.extensions.views.visible
+import dev.jahir.frames.extensions.views.visibleIf
 import dev.jahir.frames.ui.widgets.FavoriteCheckbox
 import dev.jahir.frames.ui.widgets.PortraitImageView
 
@@ -66,6 +68,7 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
 
         title?.text = wallpaper.name
         author?.text = wallpaper.author
+        author?.visibleIf(wallpaper.author.hasContent())
         itemView.setOnClickListener { onClick(wallpaper, this) }
         image?.loadFramesPicResPlaceholder(
             wallpaper.url,

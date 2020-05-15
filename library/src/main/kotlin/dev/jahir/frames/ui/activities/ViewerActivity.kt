@@ -42,6 +42,7 @@ import dev.jahir.frames.extensions.frames.buildAuthorTransitionName
 import dev.jahir.frames.extensions.frames.buildImageTransitionName
 import dev.jahir.frames.extensions.frames.buildTitleTransitionName
 import dev.jahir.frames.extensions.resources.asBitmap
+import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.resources.toReadableTime
 import dev.jahir.frames.extensions.utils.MAX_FRAMES_PALETTE_COLORS
 import dev.jahir.frames.extensions.utils.bestSwatch
@@ -52,6 +53,7 @@ import dev.jahir.frames.extensions.views.setMarginTop
 import dev.jahir.frames.extensions.views.setPaddingLeft
 import dev.jahir.frames.extensions.views.setPaddingRight
 import dev.jahir.frames.extensions.views.tint
+import dev.jahir.frames.extensions.views.visibleIf
 import dev.jahir.frames.ui.activities.base.BaseWallpaperApplierActivity
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
@@ -115,6 +117,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         }
         findViewById<View?>(R.id.toolbar_subtitle)?.let {
             (it as? TextView)?.text = wallpaper.author
+            it.visibleIf(wallpaper.author.hasContent())
             ViewCompat.setTransitionName(
                 it,
                 wallpaper.buildAuthorTransitionName(currentWallPosition)
