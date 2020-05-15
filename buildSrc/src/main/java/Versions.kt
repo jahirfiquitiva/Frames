@@ -53,7 +53,7 @@ object Versions {
     const val sectionedRecyclerView = "b4a7763"
 
     // FastScroll RecyclerView
-    const val fastScrollRecyclerView = "2.0.1"
+    const val fastScrollRecyclerView = "-SNAPSHOT"
 
     // Permissions
     const val permissions = "3.1.2"

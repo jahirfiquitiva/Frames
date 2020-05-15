@@ -60,7 +60,7 @@ object Libs {
 
     // FastScroll RecyclerView
     private const val fastScrollRecyclerView =
-        "com.simplecityapps:recyclerview-fastscroll:${Versions.fastScrollRecyclerView}"
+        "com.github.jahirfiquitiva:RecyclerView-FastScroll:${Versions.fastScrollRecyclerView}"
 
     // Permissions
     private const val permissions = "com.github.fondesa:kpermissions:${Versions.permissions}"
