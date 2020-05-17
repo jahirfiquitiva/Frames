@@ -7,7 +7,7 @@ object Versions {
     const val jitpack = "2.1"
 
     // OneSignal
-    const val oneSignalPlugin = "0.12.6"
+    const val oneSignalPlugin = "0.12.7"
     const val oneSignal = "3.13.2"
 
     // App
@@ -43,7 +43,7 @@ object Versions {
     const val retrofit = "2.8.1"
 
     // Image loading and Touch Image View
-    const val coil = "0.10.1"
+    const val coil = "0.11.0"
     const val touchImageView = "3.0.2"
 
     // Harmonic Colors
