@@ -84,7 +84,6 @@
     <string name="prevent_download_title">Saving Locked</string>
     <string name="prevent_download_content">Saving locked to prevent abuse. You may save wallpapers in %1$s hours.</string>
     <string name="license_valid_content">License valid.</string>
-    <string name="license_valid_snack">@string/license_valid_content</string>
     <string name="license_invalid_title">License Invalid</string>
     <string name="license_invalid_content_patching_app">Delete “%1$s” and retry.</string>
     <string name="license_invalid_content_ungenuine_installation">Get “%1$s” from Google Play.</string>
