@@ -84,7 +84,6 @@
     <string name="prevent_download_title">Opslaan vergrendeld</string>
     <string name="prevent_download_content">Opslaan vergrendeld om misbruik te voorkomen. Je kunt achtergronden opslaan over %1$s uur.</string>
     <string name="license_valid_content">Licentie geldig.</string>
-    <string name="license_valid_snack">@string/license_valid_content</string>
     <string name="license_invalid_title">Licentie ongeldig</string>
     <string name="license_invalid_content_patching_app">Verwijder \"%1$s\" en probeer het opnieuw.</string>
     <string name="license_invalid_content_ungenuine_installation">Get “%1$s” from Google Play.</string>
