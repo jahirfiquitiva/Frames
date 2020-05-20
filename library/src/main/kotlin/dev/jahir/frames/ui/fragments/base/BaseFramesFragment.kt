@@ -72,10 +72,10 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
     open fun setupContentBottomOffset(view: View? = null) {
         (view ?: getView())?.let { v ->
             v.post {
-                val bottomNavigationHeight =
-                    (context as? BaseSystemUIVisibilityActivity<*>)?.bottomNavigation?.measuredHeight
+                v.setPaddingBottom(
+                    (activity as? BaseSystemUIVisibilityActivity<*>)?.bottomNavigation?.measuredHeight
                         ?: 0
-                v.setPaddingBottom(bottomNavigationHeight)
+                )
             }
         }
     }
