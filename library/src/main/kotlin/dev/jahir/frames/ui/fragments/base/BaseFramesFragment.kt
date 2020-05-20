@@ -30,6 +30,11 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     var recyclerView: StatefulRecyclerView? = null
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        setupContentBottomOffset()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.recycler_view)
