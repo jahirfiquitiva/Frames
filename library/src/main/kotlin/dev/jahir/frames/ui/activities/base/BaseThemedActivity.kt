@@ -50,7 +50,6 @@ abstract class BaseThemedActivity<out P : Preferences> : BaseFinishResultActivit
     }
 
     internal fun onThemeChanged() {
-        delegate.applyDayNight()
         postDelayed(2) { restart() }
     }
 
