@@ -59,6 +59,11 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
         loadWallpapersData(true)
     }
 
+    override fun onBackPressed() {
+        if (currentItemId != initialItemId) bottomNavigation?.selectedItemId = initialItemId
+        else super.onBackPressed()
+    }
+
     fun updateToolbarTitle(itemId: Int = currentItemId) {
         var logoSet = false
         if (shouldShowToolbarLogo(itemId)) {
