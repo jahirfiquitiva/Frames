@@ -78,6 +78,9 @@ object Libs {
     // OneSignal
     const val oneSignal = "com.onesignal:OneSignal:${Versions.oneSignal}"
 
+    // Muzei API
+    const val muzei = "com.google.android.apps.muzei:muzei-api:${Versions.muzei}"
+
     // Dependencies (must use api for they to work)
     val dependencies = arrayOf(
         kotlin,
@@ -109,7 +112,8 @@ object Libs {
         permissions,
         licenseChecker,
         inAppBilling,
-        multidex
+        multidex,
+        muzei
     )
 
     // Kapt dependencies

@@ -2,7 +2,7 @@
 
 object Versions {
     // Plugins
-    const val gradle = "3.6.3"
+    const val gradle = "4.0.0"
     const val kotlin = "1.3.72"
     const val jitpack = "2.1"
 
@@ -25,7 +25,7 @@ object Versions {
     const val swipeRefreshLayout = "1.0.0"
     const val palette = "1.0.0"
     const val preference = "1.1.1"
-    const val materialComponents = "1.2.0-alpha06"
+    const val materialComponents = "1.2.0-beta01"
     const val activityKtx = "1.1.0"
     const val fragmentKtx = "1.2.4"
 
@@ -66,4 +66,7 @@ object Versions {
 
     // MultiDex
     const val multidex = "2.0.1"
+
+    // Muzei
+    const val muzei = "3.3.0"
 }
