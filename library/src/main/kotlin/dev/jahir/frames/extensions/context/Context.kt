@@ -68,6 +68,38 @@ fun Context.isNetworkAvailable(): Boolean {
     }
 }
 
+@Suppress("DEPRECATION")
+inline val Context.isWifiConnected: Boolean
+    get() {
+        try {
+            var connectivityManager: ConnectivityManager? = try {
+                ContextCompat.getSystemService(this, ConnectivityManager::class.java)
+            } catch (ignored: Exception) {
+                null
+            }
+            if (connectivityManager == null)
+                try {
+                    connectivityManager =
+                        getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager?
+                } catch (ignored: Exception) {
+                }
+            connectivityManager ?: return false
+
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val activeNetwork = connectivityManager.activeNetwork ?: return false
+                val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
+                capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ?: false
+            } else {
+                val activeNetworkInfo = connectivityManager.activeNetworkInfo ?: return false
+                val connected =
+                    activeNetworkInfo.isAvailable && activeNetworkInfo.isConnectedOrConnecting
+                return connected && activeNetworkInfo.type == ConnectivityManager.TYPE_WIFI
+            }
+        } catch (ignored: Exception) {
+            return false
+        }
+    }
+
 fun Context.resolveColor(@AttrRes attr: Int, @ColorInt fallback: Int = 0): Int {
     val a = theme.obtainStyledAttributes(intArrayOf(attr))
     try {

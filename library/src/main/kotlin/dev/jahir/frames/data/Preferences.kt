@@ -82,6 +82,14 @@ open class Preferences(private val context: Context) {
         )
         set(value) = prefsEditor.putBoolean(NOTIFICATIONS_ENABLED, value).apply()
 
+    var refreshMuzeiOnWiFiOnly: Boolean
+        get() = prefs.getBoolean(REFRESH_MUZEI_ON_WIFI_ONLY, false)
+        set(value) = prefsEditor.putBoolean(REFRESH_MUZEI_ON_WIFI_ONLY, value).apply()
+
+    var muzeiCollections: String
+        get() = prefs.getString(MUZEI_COLLECTIONS, "").orEmpty()
+        set(value) = prefsEditor.putString(MUZEI_COLLECTIONS, value).apply()
+
     open fun getDefaultThemeKey(): ThemeKey = ThemeKey.FOLLOW_SYSTEM
 
     fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
@@ -118,5 +126,7 @@ open class Preferences(private val context: Context) {
         private const val DOWNLOADS_FOLDER = "downloads_folder"
         private const val FUNCTIONAL_DASHBOARD = "functional_dashboard"
         private const val NOTIFICATIONS_ENABLED = "notifications_enabled"
+        private const val REFRESH_MUZEI_ON_WIFI_ONLY = "refresh_muzei_on_wifi_only"
+        private const val MUZEI_COLLECTIONS = "muzei_collections"
     }
 }

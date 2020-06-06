@@ -100,4 +100,7 @@
     <string name="jahir_description">I am a passionate and creative full-stack developer.</string>
     <string name="eduardo_description">UI designer. Defender of negative space.</string>
     <string name="lumiq_description">It’s just got harder to build a bad product.</string>
+    <string name="share">Share</string>
+    <!-- Do NOT remove or change the %1$s (or with any other number) -->
+    <string name="share_text">My wallpaper for today is %1$s by %2$s, from %3$s.\nGet it now at %4$s</string>
 </resources>

@@ -15,6 +15,7 @@ import dev.jahir.frames.extensions.context.isNetworkAvailable
 import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.utils.context
 import dev.jahir.frames.extensions.utils.lazyMutableLiveData
+import dev.jahir.frames.extensions.utils.postDelayed
 import dev.jahir.frames.extensions.utils.tryToObserve
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.delay
@@ -38,6 +39,8 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
     private val favoritesData: MutableLiveData<List<Wallpaper>> by lazyMutableLiveData()
     val favorites: List<Wallpaper>
         get() = favoritesData.value.orEmpty()
+
+    internal var whenReady: (() -> Unit)? = null
 
     private val service by lazy {
         Retrofit.Builder()
@@ -218,6 +221,7 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
                 postFavorites(actualFavorites)
         }
         saveWallpapers(actualNewWallpapers)
+        postDelayed(10) { whenReady?.invoke() }
     }
 
     private suspend fun loadRemoteData(
