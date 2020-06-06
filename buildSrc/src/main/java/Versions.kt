@@ -68,5 +68,5 @@ object Versions {
     const val multidex = "2.0.1"
 
     // Muzei
-    const val muzei = "3.3.0"
+    const val muzei = "3.2.0"
 }
