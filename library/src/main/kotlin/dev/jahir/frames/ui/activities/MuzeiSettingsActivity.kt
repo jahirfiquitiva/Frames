@@ -68,7 +68,7 @@ open class MuzeiSettingsActivity : BaseThemedActivity<Preferences>() {
         collsSummaryText?.text = getString(R.string.choose_collections_summary, selectedCollections)
 
         if (shouldShowCollections()) {
-            findViewById<View?>(R.id.choose_collections).setOnClickListener {
+            findViewById<View?>(R.id.choose_collections)?.setOnClickListener {
                 if (isNetworkAvailable()) {
                     if (viewModel.collections.isNotEmpty())
                         showChooseCollectionsDialog()
@@ -77,7 +77,7 @@ open class MuzeiSettingsActivity : BaseThemedActivity<Preferences>() {
                 }
             }
         } else {
-            findViewById<View?>(R.id.choose_collections).gone()
+            findViewById<View?>(R.id.choose_collections)?.gone()
         }
     }
 
