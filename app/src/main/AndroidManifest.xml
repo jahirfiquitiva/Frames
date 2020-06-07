@@ -72,6 +72,26 @@
                 android:resource="@xml/file_providers" />
         </provider>
 
+        <!-- Muzei Service -->
+        <provider
+            android:name=".MuzeiService"
+            android:authorities="${applicationId}.muzei"
+            android:exported="true"
+            android:icon="@drawable/ic_muzei_icon"
+            android:label="@string/app_name"
+            android:permission="com.google.android.apps.muzei.api.ACCESS_PROVIDER">
+            <intent-filter>
+                <action android:name="com.google.android.apps.muzei.api.MuzeiArtProvider" />
+            </intent-filter>
+
+            <meta-data
+                android:name="color"
+                android:value="@color/accent" />
+            <meta-data
+                android:name="settingsActivity"
+                android:value="dev.jahir.frames.ui.activities.MuzeiSettingsActivity" />
+        </provider>
+
         <!-- OneSignal Notifications Service -->
         <!-- TODO: Remove comment marks to enable
         <service

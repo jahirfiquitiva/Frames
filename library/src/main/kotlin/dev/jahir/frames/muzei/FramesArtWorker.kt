@@ -33,29 +33,24 @@ open class FramesArtWorker : LifecycleOwner {
 
         destroy()
         if (viewModel == null) viewModel = initViewModel(context)
-        val shouldLoadFavs = prefs.muzeiCollections.contains("favorites", true)
+        val selectedCollections = getSelectedCollections(prefs)
+        val shouldLoadFavs = selectedCollections.any { it.equals("favorites", true) }
 
         viewModel?.whenReady = {
             val wallpapers: ArrayList<Wallpaper> =
                 ArrayList(if (shouldLoadFavs) viewModel?.favorites.orEmpty() else listOf())
-            val selectedCollections = getSelectedCollections(prefs)
             val collections =
-                viewModel?.collections?.filter { selectedCollections.contains(it.name) }
+                viewModel?.collections?.filter {
+                    selectedCollections.any { co -> co.equals(it.displayName, true) }
+                }
             collections?.forEach { wallpapers.addAll(it.wallpapers) }
             postWallpapers(context, wallpapers)
         }
         viewModel?.loadData(context.string(R.string.json_url), true, shouldLoadFavs)
     }
 
-    private fun getSelectedCollections(prefs: Preferences): List<String> {
-        val collections = prefs.muzeiCollections.replace("|", ",")
-            .split(",")
-            .distinct()
-        val importantCollectionsNames = listOf(
-            "all", "featured", "new", "wallpaper of the day", "wallpaper of the week"
-        )
-        return listOf(importantCollectionsNames, collections).flatten().distinct()
-    }
+    private fun getSelectedCollections(prefs: Preferences): List<String> =
+        prefs.muzeiCollections.split(",").map { it.trim() }.distinct()
 
     private fun postWallpapers(context: Context, wallpapers: ArrayList<Wallpaper>) {
         val client: String by lazy { "${context.packageName}.muzei" }
