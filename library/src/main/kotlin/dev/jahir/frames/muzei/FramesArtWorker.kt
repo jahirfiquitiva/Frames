@@ -39,10 +39,11 @@ open class FramesArtWorker : LifecycleOwner {
         viewModel?.whenReady = {
             val wallpapers: ArrayList<Wallpaper> =
                 ArrayList(if (shouldLoadFavs) viewModel?.favorites.orEmpty() else listOf())
-            val collections =
+            val collections = if (selectedCollections.isNotEmpty()) {
                 viewModel?.collections?.filter {
                     selectedCollections.any { co -> co.equals(it.displayName, true) }
                 }
+            } else viewModel?.collections.orEmpty()
             collections?.forEach { wallpapers.addAll(it.wallpapers) }
             postWallpapers(context, wallpapers)
         }
