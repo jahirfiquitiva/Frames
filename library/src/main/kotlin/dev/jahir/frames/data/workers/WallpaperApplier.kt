@@ -24,19 +24,12 @@ import java.io.InputStream
 import java.net.URL
 import java.net.URLConnection
 
+@Suppress("BlockingMethodInNonBlockingContext")
 class WallpaperApplier(context: Context, params: WorkerParameters) :
     ContextAwareWorker(context, params) {
 
     private fun applyWallpaper(filePath: String, option: Int = -1): Boolean {
         if (option !in 0..2) return false
-
-        val applyFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            when (option) {
-                0 -> WallpaperManager.FLAG_SYSTEM
-                1 -> WallpaperManager.FLAG_LOCK
-                else -> -1
-            }
-        } else -1
 
         val bitmap = try {
             BitmapFactory.decodeFile(filePath)
@@ -67,9 +60,18 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
         scaledBitmap ?: return false
 
         val result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            if (applyFlag >= 0) {
-                wallpaperManager.setBitmap(scaledBitmap, null, true, applyFlag)
-            } else wallpaperManager.setBitmap(scaledBitmap, null, true)
+            var result = 0
+            if (option == 0 || option == 2) {
+                result +=
+                    wallpaperManager.setBitmap(
+                        scaledBitmap, null, true, WallpaperManager.FLAG_SYSTEM
+                    )
+            }
+            if (option == 1 || option == 2) {
+                result +=
+                    wallpaperManager.setBitmap(scaledBitmap, null, true, WallpaperManager.FLAG_LOCK)
+            }
+            result
         } else {
             wallpaperManager.setBitmap(scaledBitmap)
             -1
