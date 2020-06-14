@@ -76,15 +76,14 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
         withContext(IO) {
             billingClient?.querySkuDetailsAsync(
                 buildSkuDetailsParams(skuItemsIds, skuType)
-            ) { billingResult2, detailsList ->
-                if (billingResult2.responseCode == BillingClient.BillingResponseCode.OK) {
-                    when (skuType) {
-                        BillingClient.SkuType.INAPP -> {
-                            inAppSkuDetailsData.postValue(detailsList.sortedBy { it.priceAmountMicros })
-                        }
-                        BillingClient.SkuType.SUBS -> {
-                            subscriptionsSkuDetailsData.postValue(detailsList.sortedBy { it.priceAmountMicros })
-                        }
+            ) { _, detailsList ->
+                val details = detailsList.orEmpty().sortedBy { it.priceAmountMicros }
+                when (skuType) {
+                    BillingClient.SkuType.INAPP -> {
+                        inAppSkuDetailsData.postValue(details)
+                    }
+                    BillingClient.SkuType.SUBS -> {
+                        subscriptionsSkuDetailsData.postValue(details)
                     }
                 }
             }
@@ -155,7 +154,7 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
         if (!isBillingClientReady) return
         withContext(IO) {
             billingClient?.queryPurchaseHistoryAsync(skuType) { billingResult, purchaseHistoryRecordList ->
-                if (billingResult?.responseCode == BillingClient.BillingResponseCode.OK) {
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     postPurchasesHistory(skuType,
                         purchaseHistoryRecordList.orEmpty()
                             .mapNotNull { purchase -> purchase.asDetailedPurchase() })
@@ -199,8 +198,8 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    override fun onBillingSetupFinished(billingResult: BillingResult?) {
-        billingClientReadyData.postValue(billingResult?.responseCode == BillingClient.BillingResponseCode.OK)
+    override fun onBillingSetupFinished(billingResult: BillingResult) {
+        billingClientReadyData.postValue(billingResult.responseCode == BillingClient.BillingResponseCode.OK)
     }
 
     override fun onBillingServiceDisconnected() {
@@ -212,10 +211,9 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
     }
 
     override fun onPurchasesUpdated(
-        billingResult: BillingResult?,
+        billingResult: BillingResult,
         purchases: MutableList<Purchase>?
     ) {
-        billingResult ?: return
         purchases ?: return
         if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases.isNotEmpty()) {
             purchases.forEach { handlePurchase(it) }
