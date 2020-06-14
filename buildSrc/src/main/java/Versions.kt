@@ -8,7 +8,7 @@ object Versions {
 
     // OneSignal
     const val oneSignalPlugin = "0.12.7"
-    const val oneSignal = "3.14.0"
+    const val oneSignal = "3.14.1"
 
     // App
     const val minSdk = 21
@@ -27,7 +27,7 @@ object Versions {
     const val preference = "1.1.1"
     const val materialComponents = "1.2.0-beta01"
     const val activityKtx = "1.1.0"
-    const val fragmentKtx = "1.2.4"
+    const val fragmentKtx = "1.2.5"
 
     // ViewModel and LiveData
     const val lifecycle = "2.2.0"
@@ -40,7 +40,7 @@ object Versions {
 
     // Network & Serialization
     const val gson = "2.8.6"
-    const val retrofit = "2.8.1"
+    const val retrofit = "2.9.0"
 
     // Image loading and Touch Image View
     const val coil = "0.11.0"
@@ -62,7 +62,7 @@ object Versions {
     const val licenseChecker = "1.2.6"
 
     // In-App Billing
-    const val inAppBilling = "2.2.1"
+    const val inAppBilling = "3.0.0"
 
     // MultiDex
     const val multidex = "2.0.1"
