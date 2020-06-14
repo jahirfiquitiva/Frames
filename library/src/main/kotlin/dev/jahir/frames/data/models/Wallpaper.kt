@@ -17,7 +17,7 @@ data class Wallpaper(
     val name: String,
     @PrimaryKey
     val url: String,
-    val author: String = "",
+    val author: String? = "",
     @SerializedName(value = "thumbnail", alternate = ["thumbUrl", "thumb", "url-thumb"])
     val thumbnail: String? = "",
     @SerializedName(value = "collections", alternate = ["categories", "category"])
@@ -38,12 +38,13 @@ data class Wallpaper(
     val details: ArrayList<Pair<Int, String>>
         get() {
             val list = arrayListOf(Pair(R.string.name, name))
-            if (author.hasContent()) list.add(Pair(R.string.author, author))
-            if (dimensions.orEmpty().hasContent())
+            if (author.hasContent())
+                list.add(Pair(R.string.author, author.orEmpty()))
+            if (dimensions.hasContent())
                 list.add(Pair(R.string.dimensions, dimensions.orEmpty()))
             if ((size ?: 0L) > 0L)
                 list.add(Pair(R.string.file_size, (size ?: 0L).toReadableByteCount()))
-            if (copyright.orEmpty().hasContent())
+            if (copyright.hasContent())
                 list.add(Pair(R.string.copyright, copyright.orEmpty()))
             return list
         }
