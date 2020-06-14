@@ -91,7 +91,7 @@ open class AboutActivity : BaseThemedActivity<Preferences>() {
                 )
             )
         )
-        if (shouldIncludeContributors())
+        if (shouldIncludeContributors()) {
             items.add(
                 AboutItem(
                     "Eduardo Pratti",
@@ -103,17 +103,18 @@ open class AboutActivity : BaseThemedActivity<Preferences>() {
                     )
                 )
             )
-        items.add(
-            AboutItem(
-                "Lumiq Creative",
-                string(R.string.lumiq_description),
-                "https://raw.githubusercontent.com/lumiqcreative/brand/master/word-mark/word-mark-on-yellow.png",
-                arrayListOf(
-                    "Website" to "https://lumiqcreative.com/",
-                    "Twitter" to "https://twitter.com/lumiqcreative"
+            items.add(
+                AboutItem(
+                    "Lumiq Creative",
+                    string(R.string.lumiq_description),
+                    "https://raw.githubusercontent.com/lumiqcreative/brand/master/word-mark/word-mark-on-yellow.png",
+                    arrayListOf(
+                        "Website" to "https://lumiqcreative.com/",
+                        "Twitter" to "https://twitter.com/lumiqcreative"
+                    )
                 )
             )
-        )
+        }
         return items
     }
 
