@@ -100,4 +100,25 @@
     <string name="jahir_description">Jestem pasjonatym i kreatywnym programistą.</string>
     <string name="eduardo_description">Projektant interfejsu użytkownika. Obrońca przestrzeni negatywnej.</string>
     <string name="lumiq_description">Wyprodukowanie złego produktu właśnie stało się trudniejsze.</string>
+    <string name="share">Udostępnij</string>
+    <!-- Do NOT remove or change the %1$s (or with any other number) -->
+    <string name="share_text">Moja tapeta na dziś to %1$s przez %2$s, z %3$s.\nZdobądź ją teraz w %4$s</string>
+    <!-- Muzei Settings -->
+    <string name="muzei_settings">Ustawienia Muzei</string>
+    <!-- Please use this character … -->
+    <string name="refresh_wallpapers_every">Odśwież tapety…</string>
+    <string name="every_x">Co %1$s</string>
+    <string name="minutes">Minut</string>
+    <string name="hours">Godzin</string>
+    <string name="days">Dni</string>
+    <string name="refresh_only_on_wifi">Odśwież tylko przez Wi-Fi</string>
+    <string name="refresh_only_on_wifi_summary">Odświeżaj tapety tylko gdy urządzenie jest połączone z siecią WiFi.</string>
+    <string name="choose_collections_title">Wybierz kolekcje</string>
+    <string name="choose_collections_summary">Wybierz kolekcje do pobrania tapety.\nAktualnie wybrane kolekcje: %1$s</string>
+    <string name="muzei_not_connected_title">Brak połączenia z internetem</string>
+    <string name="muzei_not_connected_content">Przepraszamy, ale do wybierania lub zmieniania kolekcji, z których chcesz pobierać tapety wymagane jest połączenie z internetem. Prosimy spróbować później.</string>
+    <string name="sure_to_exit">Wyjdź</string>
+    <string name="sure_to_exit_content">Czy chcesz zapisać ustawienia przed wyjściem?</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
 </resources>
