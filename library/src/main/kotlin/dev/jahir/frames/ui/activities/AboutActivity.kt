@@ -107,7 +107,7 @@ open class AboutActivity : BaseThemedActivity<Preferences>() {
                 AboutItem(
                     "Lumiq Creative",
                     string(R.string.lumiq_description),
-                    "https://raw.githubusercontent.com/lumiqcreative/brand/master/word-mark/word-mark-on-yellow.png",
+                    "https://raw.githubusercontent.com/lumiqcreative/brand/master/q-mark/q-mark-on-purple.png",
                     arrayListOf(
                         "Website" to "https://lumiqcreative.com/",
                         "Twitter" to "https://twitter.com/lumiqcreative"
