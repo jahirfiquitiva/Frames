@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="wallpapers">Wallpapers</string>
+    <string name="wallpapers">Achtergronden</string>
     <string name="collections">Collecties</string>
     <string name="favorites">Favorieten</string>
     <string name="all">Alle</string>
@@ -99,5 +99,26 @@
     <string name="get">Get</string>
     <string name="jahir_description">I am a passionate and creative full-stack developer.</string>
     <string name="eduardo_description">UI designer. Defender of negative space.</string>
-    <string name="lumiq_description">It’s just got harder to build a bad product.</string>
+    <string name="lumiq_description">Ik organiseer vormen, commandeer computers, en zet woorden samen.</string>
+    <string name="share">Deel</string>
+    <!-- Do NOT remove or change the %1$s (or with any other number) -->
+    <string name="share_text">Mijn achtergrond voor vandaag is %1$s door %2$s, van %3$s.\nVerkrijg het nu bij %4$s</string>
+    <!-- Muzei Settings -->
+    <string name="muzei_settings">Muzei Instellingen</string>
+    <!-- Please use this character … -->
+    <string name="refresh_wallpapers_every">Herlaad achtergronden…</string>
+    <string name="every_x">Elke %1$s</string>
+    <string name="minutes">Minuten</string>
+    <string name="hours">Uren</string>
+    <string name="days">Dagen</string>
+    <string name="refresh_only_on_wifi">Herlaad alleen op WiFi</string>
+    <string name="refresh_only_on_wifi_summary">Herlaad achtergronden alleen wanneer apparaat is verbonden met een WiFi netwerk.</string>
+    <string name="choose_collections_title">Kies collecties</string>
+    <string name="choose_collections_summary">Kies de collecties om achtergronden van te nemen.\nHuidige geselecteerde collecties: %1$s</string>
+    <string name="muzei_not_connected_title">Niet verbonden met het internet</string>
+    <string name="muzei_not_connected_content">Sorry, maar om verzamelingen te kunnen kiezen of wijzigen waaruit de app achtergronden wil halen, moet je verbonden zijn met internet. Probeer het later nog eens.</string>
+    <string name="sure_to_exit">Sluiten</string>
+    <string name="sure_to_exit_content">Wil je je instellingen opslaan voor het afsluiten?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nee</string>
 </resources>
