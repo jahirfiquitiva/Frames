@@ -104,19 +104,17 @@
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
     <string name="share_text">My wallpaper for today is %1$s by %2$s, from %3$s.\nGet it now at %4$s</string>
     <!-- Muzei Settings -->
-    <string name="muzei_settings">Muzei Settings</string>
+    <string name="muzei_settings">Muzei Integration</string>
     <!-- Please use this character … -->
     <string name="refresh_wallpapers_every">Refresh wallpapers…</string>
     <string name="every_x">Every %1$s</string>
     <string name="minutes">Minutes</string>
     <string name="hours">Hours</string>
     <string name="days">Days</string>
-    <string name="refresh_only_on_wifi">Refresh on WiFi only</string>
-    <string name="refresh_only_on_wifi_summary">Refresh wallpapers only when device is connected to a WiFi network.</string>
-    <string name="choose_collections_title">Choose collections</string>
-    <string name="choose_collections_summary">Choose the collections to take wallpapers from.\nCurrent selected collections: %1$s</string>
-    <string name="muzei_not_connected_title">Not connected to Internet</string>
-    <string name="muzei_not_connected_content">Sorry, but to be able to choose or change the collections you want the app to take wallpapers from, you must be connected to Internet. Please try again later.</string>
+    <string name="refresh_only_on_wifi">Refresh on Wi-Fi Only</string>
+    <string name="choose_collections_title">Show Wallpapers From</string>
+    <string name="no_collections_selected">No Collections Selected</string>
+    <string name="muzei_not_connected_content">Connect to the internet to select collections.</string>
     <string name="sure_to_exit">Exit</string>
     <string name="sure_to_exit_content">Do you want to save your settings before exit?</string>
     <string name="yes">Yes</string>
