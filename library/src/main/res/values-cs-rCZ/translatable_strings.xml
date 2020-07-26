@@ -104,19 +104,17 @@
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
     <string name="share_text">Moje tapeta pro dnešek je %1$s od %2$s, z %3$s.\nZískejte ji hned na %4$s</string>
     <!-- Muzei Settings -->
-    <string name="muzei_settings">Nastavení Muzei</string>
+    <string name="muzei_settings">Integrace Muzei</string>
     <!-- Please use this character … -->
     <string name="refresh_wallpapers_every">Obnovit tapety…</string>
     <string name="every_x">Každých %1$s</string>
     <string name="minutes">minut</string>
     <string name="hours">hodin</string>
     <string name="days">dní</string>
-    <string name="refresh_only_on_wifi">Obnovit pouze na WiFi</string>
-    <string name="refresh_only_on_wifi_summary">Obnovit tapety pouze v případě, že je zařízení připojeno k Wi-Fi síti.</string>
-    <string name="choose_collections_title">Vybrat sbírky</string>
-    <string name="choose_collections_summary">Vyberte sbírky, ze kterých můžete získat tapety.\nAktuálně vybrané sbírky: %1$s</string>
-    <string name="muzei_not_connected_title">Nelze se připojit k internetu</string>
-    <string name="muzei_not_connected_content">Je nám líto, ale abyste mohli vybrat nebo změnit sbírky, z nichž má aplikace získávat tapety, musíte být připojeni k Internetu. Prosím, zkuste to znovu později.</string>
+    <string name="refresh_only_on_wifi">Obnovit pouze na Wi-Fi</string>
+    <string name="choose_collections_title">Zobrazit tapety od</string>
+    <string name="no_collections_selected">Nebyly vybrány žádné kolekce</string>
+    <string name="muzei_not_connected_content">Připojte se k internetu a vyberte sbírky.</string>
     <string name="sure_to_exit">Ukončit</string>
     <string name="sure_to_exit_content">Chcete svoje nastavení před odchodem uložit?</string>
     <string name="yes">Ano</string>
