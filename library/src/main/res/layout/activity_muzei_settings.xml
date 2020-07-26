@@ -38,7 +38,6 @@
                 android:id="@+id/wifi_only"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:background="?selectableItemBackground"
                 android:descendantFocusability="blocksDescendants"
                 android:orientation="horizontal"
@@ -47,36 +46,21 @@
                 android:paddingBottom="16dp"
                 tools:ignore="RtlSymmetry">
 
-                <LinearLayout
-                    android:layout_width="0dip"
+                <TextView
+                    android:id="@+id/wifi_only_title"
+                    style="@style/TextStyle.Frames.Body1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingEnd="8dp">
-
-                    <TextView
-                        android:id="@+id/wifi_only_title"
-                        style="@style/TextStyle.Frames.Body1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/refresh_only_on_wifi"
-                        android:textColor="?colorOnSurface"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/wifi_only_summary"
-                        style="@style/TextStyle.Frames.Body2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-                        android:text="@string/refresh_only_on_wifi_summary" />
-
-                </LinearLayout>
+                    android:paddingEnd="8dp"
+                    android:text="@string/refresh_only_on_wifi"
+                    android:textColor="?colorOnSurface"
+                    android:textSize="18sp" />
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/wifi_checkbox"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:clickable="false"
                     android:gravity="center"
@@ -114,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="8dp"
-                    android:text="@string/choose_collections_summary" />
+                    android:text="@string/no_collections_selected" />
 
             </LinearLayout>
 

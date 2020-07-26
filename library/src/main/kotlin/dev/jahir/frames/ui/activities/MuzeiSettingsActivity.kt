@@ -22,6 +22,7 @@ import dev.jahir.frames.extensions.fragments.message
 import dev.jahir.frames.extensions.fragments.negativeButton
 import dev.jahir.frames.extensions.fragments.positiveButton
 import dev.jahir.frames.extensions.fragments.title
+import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.utils.lazyViewModel
 import dev.jahir.frames.extensions.views.gone
 import dev.jahir.frames.extensions.views.goneIf
@@ -65,7 +66,12 @@ open class MuzeiSettingsActivity : BaseThemedActivity<Preferences>() {
             checkBox?.toggle()
             saveChanges()
         }
-        collsSummaryText?.text = getString(R.string.choose_collections_summary, selectedCollections)
+
+        if (selectedCollections.hasContent()) {
+            collsSummaryText?.text = selectedCollections
+        } else {
+            collsSummaryText?.text = getString(R.string.no_collections_selected)
+        }
 
         if (shouldShowCollections()) {
             findViewById<View?>(R.id.choose_collections)?.setOnClickListener {
@@ -96,7 +102,6 @@ open class MuzeiSettingsActivity : BaseThemedActivity<Preferences>() {
     private fun showNotConnectedDialog() {
         destroyDialog()
         dialog = mdDialog {
-            title(R.string.muzei_not_connected_title)
             message(R.string.muzei_not_connected_content)
             positiveButton(android.R.string.ok)
         }
@@ -125,9 +130,11 @@ open class MuzeiSettingsActivity : BaseThemedActivity<Preferences>() {
             positiveButton(android.R.string.ok) { d ->
                 selectedCollections = mappedCollections.filter { it.second }
                     .joinToString(", ") { it.first.displayName }
-                collsSummaryText?.text = getString(
-                    R.string.choose_collections_summary, selectedCollections
-                )
+                if (selectedCollections.hasContent()) {
+                    collsSummaryText?.text = selectedCollections
+                } else {
+                    collsSummaryText?.text = getString(R.string.no_collections_selected)
+                }
                 saveChanges()
                 d.dismiss()
             }
