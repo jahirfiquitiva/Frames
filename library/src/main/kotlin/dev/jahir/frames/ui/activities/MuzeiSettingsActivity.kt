@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.AppCompatCheckBox
+import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
@@ -38,7 +38,7 @@ open class MuzeiSettingsActivity : BaseThemedActivity<Preferences>() {
     private var selectedCollections = ""
 
     private val collsSummaryText: TextView? by findView(R.id.choose_collections_summary)
-    private val checkBox: AppCompatCheckBox? by findView(R.id.wifi_checkbox)
+    private val wifiOnlyRefreshSwitch: SwitchCompat? by findView(R.id.wifi_only_refresh_switch)
 
     open val viewModel: WallpapersDataViewModel by lazyViewModel()
 
@@ -52,7 +52,7 @@ open class MuzeiSettingsActivity : BaseThemedActivity<Preferences>() {
         )
 
         selectedCollections = preferences.muzeiCollections
-        checkBox?.isChecked = preferences.refreshMuzeiOnWiFiOnly
+        wifiOnlyRefreshSwitch?.isChecked = preferences.refreshMuzeiOnWiFiOnly
 
         val toolbar: Toolbar? by findView(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -63,7 +63,7 @@ open class MuzeiSettingsActivity : BaseThemedActivity<Preferences>() {
         findViewById<View?>(R.id.other_divider)?.goneIf(!shouldShowCollections())
 
         findViewById<LinearLayout>(R.id.wifi_only).setOnClickListener {
-            checkBox?.toggle()
+            wifiOnlyRefreshSwitch?.toggle()
             saveChanges()
         }
 
@@ -95,7 +95,7 @@ open class MuzeiSettingsActivity : BaseThemedActivity<Preferences>() {
     override fun onBackPressed() = doFinish()
 
     private fun saveChanges() {
-        preferences.refreshMuzeiOnWiFiOnly = checkBox?.isChecked ?: false
+        preferences.refreshMuzeiOnWiFiOnly = wifiOnlyRefreshSwitch?.isChecked ?: false
         preferences.muzeiCollections = selectedCollections
     }
 
