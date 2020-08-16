@@ -24,7 +24,7 @@
     <string name="file_size">Velikost</string>
     <string name="copyright">Licence</string>
     <string name="allow">Povolit</string>
-    <string name="unexpected_error_occurred">Něco se pokazilo.</string>
+    <string name="unexpected_error_occurred">Něco se nepovedlo.</string>
     <string name="downloading_wallpaper">Stahování „%1$s“…</string>
     <string name="cancel">Zrušit</string>
     <string name="search">Hledat</string>
