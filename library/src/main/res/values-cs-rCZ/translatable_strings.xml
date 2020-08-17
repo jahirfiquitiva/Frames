@@ -24,7 +24,7 @@
     <string name="file_size">Velikost</string>
     <string name="copyright">Licence</string>
     <string name="allow">Povolit</string>
-    <string name="unexpected_error_occurred">Něco se pokazilo.</string>
+    <string name="unexpected_error_occurred">Něco se nepovedlo.</string>
     <string name="downloading_wallpaper">Stahování „%1$s“…</string>
     <string name="cancel">Zrušit</string>
     <string name="search">Hledat</string>
@@ -40,10 +40,10 @@
     <string name="use_amoled_theme_summary">Černé pozadí v tmavém režimu.</string>
     <string name="colored_navigation_bar">Barevný navigační panel</string>
     <string name="interface_animations">Animace</string>
-    <string name="interface_animations_summary">Vypnout pro lepší výkon.</string>
-    <string name="display_full_res_previews">Vysoce kvalitní náhledy</string>
+    <string name="interface_animations_summary">Vypněte pro lepší výkon.</string>
+    <string name="display_full_res_previews">Náhledy ve vysoké kvalitě</string>
     <string name="display_full_res_previews_summary">Používá více dat.</string>
-    <string name="crop_pictures">Zobrazit vše</string>
+    <string name="crop_pictures">Přizpůsobit velikosti</string>
     <string name="crop_pictures_summary">Změňte velikost tapet tak, aby odpovídala rozlišení obrazovky.</string>
     <string name="download_location">Tapety byly uloženy do</string>
     <string name="clear_data_cache">Vyčistit mezipaměť</string>
@@ -60,7 +60,7 @@
     <string name="search_x">Hledat</string>
     <string name="search_wallpapers">Hledat tapety</string>
     <string name="search_collections">Hledat sbírky</string>
-    <string name="search_favorites">Vyhledat v oblíbených</string>
+    <string name="search_favorites">Hledat v oblíbených</string>
     <string name="legal">Právní předpisy</string>
     <string name="privacy_policy">Ochrana osobních údajů</string>
     <string name="terms_conditions">Podmínky použití</string>
