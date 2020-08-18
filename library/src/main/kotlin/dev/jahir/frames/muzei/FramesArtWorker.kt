@@ -75,7 +75,6 @@ open class FramesArtWorker : LifecycleOwner {
             viewModel?.destroy(this)
             if (makeNull) viewModel = null
         } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 }
