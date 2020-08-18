@@ -41,11 +41,7 @@ fun Int.toHexString(withAlpha: Boolean = false, withHexPrefix: Boolean = true): 
 }
 
 fun Int.toRgbaString(): String =
-    "rgba(${Color.red(this)}, ${Color.green(this)}, ${Color.blue(this)}, ${
-        (Color.alpha(
-            this
-        ) / 255f).round(3)
-    })"
+    "rgba(${Color.red(this)}, ${Color.green(this)}, ${Color.blue(this)}, ${(Color.alpha(this) / 255f).round(3)})"
 
 fun FloatArray.toColor(): Int = Color.HSVToColor(this)
 
