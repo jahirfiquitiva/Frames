@@ -2,7 +2,6 @@ package dev.jahir.frames.ui.activities.base
 
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.google.android.material.appbar.AppBarLayout
@@ -10,6 +9,7 @@ import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.extensions.context.findView
 import dev.jahir.frames.extensions.resources.dpToPx
+import dev.jahir.frames.extensions.utils.SafeHandler
 import dev.jahir.frames.extensions.views.gone
 import dev.jahir.frames.extensions.views.setMarginTop
 import dev.jahir.frames.extensions.views.visible
@@ -41,7 +41,7 @@ abstract class BaseSystemUIVisibilityActivity<out P : Preferences> :
 
     private fun setSystemUIVisibility(visible: Boolean, withSystemBars: Boolean = true) {
         if (!canToggleSystemUIVisibility()) return
-        Handler().post {
+        SafeHandler().post {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && withSystemBars) {
                 window.decorView.systemUiVisibility = if (visible)
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE or

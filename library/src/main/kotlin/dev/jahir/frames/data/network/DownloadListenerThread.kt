@@ -4,7 +4,7 @@ import android.app.DownloadManager
 import android.content.Context
 import android.database.CursorIndexOutOfBoundsException
 import android.os.Handler
-import android.os.Looper
+import dev.jahir.frames.extensions.utils.SafeHandler
 import java.io.File
 import java.lang.ref.WeakReference
 
@@ -24,7 +24,7 @@ class DownloadListenerThread(
         get() = weakContext?.get()
 
     private val handler: Handler
-        get() = Handler(Looper.getMainLooper())
+        get() = SafeHandler()
 
     init {
         weakContext = WeakReference(context)

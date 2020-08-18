@@ -234,7 +234,7 @@ open class StatefulRecyclerView @JvmOverloads constructor(
         var loading: Boolean = true
         var stateValue: Int = State.LOADING.value
 
-        internal constructor(superState: Parcelable?) : super(superState)
+        constructor(superState: Parcelable?) : super(superState)
         private constructor(parcel: Parcel?) : super(parcel) {
             loading = (parcel?.readInt() ?: 1) == 1
             stateValue = (parcel?.readInt() ?: 0)

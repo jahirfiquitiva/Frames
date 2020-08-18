@@ -5,8 +5,10 @@ import android.os.Looper
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.withContext
 
+class SafeHandler : Handler(Looper.myLooper() ?: Looper.getMainLooper())
+
 fun postDelayed(delay: Long, action: () -> Unit) {
-    Handler().postDelayed(action, delay)
+    SafeHandler().postDelayed(action, delay)
 }
 
 private fun isOnMainThread() = Looper.myLooper() == Looper.getMainLooper()
@@ -20,9 +22,5 @@ internal fun ensureBackgroundThread(callback: () -> Unit) {
 }
 
 internal suspend fun ensureBackgroundThreadSuspended(callback: () -> Unit) = withContext(Default) {
-    if (isOnMainThread()) {
-        Thread { callback() }.start()
-    } else {
-        callback()
-    }
+    ensureBackgroundThread(callback)
 }

@@ -71,7 +71,11 @@ open class FramesArtWorker : LifecycleOwner {
     }
 
     internal fun destroy(makeNull: Boolean = false) {
-        viewModel?.destroy(this)
-        if (makeNull) viewModel = null
+        try {
+            viewModel?.destroy(this)
+            if (makeNull) viewModel = null
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }

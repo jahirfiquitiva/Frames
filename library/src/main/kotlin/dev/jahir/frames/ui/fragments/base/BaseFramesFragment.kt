@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -16,6 +15,7 @@ import dev.jahir.frames.extensions.context.resolveColor
 import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.resources.lighten
 import dev.jahir.frames.extensions.resources.tint
+import dev.jahir.frames.extensions.utils.SafeHandler
 import dev.jahir.frames.extensions.utils.postDelayed
 import dev.jahir.frames.extensions.views.attachSwipeRefreshLayout
 import dev.jahir.frames.extensions.views.setPaddingBottom
@@ -113,7 +113,7 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
     abstract fun loadData()
 
     internal fun stopRefreshing() {
-        Handler().post {
+        SafeHandler().post {
             swipeRefreshLayout?.isRefreshing = false
             recyclerView?.loading = false
         }
