@@ -57,16 +57,15 @@ open class FramesArtWorker : LifecycleOwner {
         val client: String by lazy { "${context.packageName}.muzei" }
         val providerClient = ProviderContract.getProviderClient(context, client)
         providerClient.addArtwork(wallpapers.map { wallpaper ->
-            Artwork().apply {
-                token = wallpaper.url
-                title = wallpaper.name
-                byline = wallpaper.author
-                attribution =
-                    if (wallpaper.copyright.hasContent()) wallpaper.copyright else wallpaper.author
-                persistentUri = Uri.parse(wallpaper.url)
-                webUri = Uri.parse(wallpaper.url)
-                metadata = wallpaper.url
-            }
+            Artwork(
+                token = wallpaper.url,
+                title = wallpaper.name,
+                byline = wallpaper.author,
+                attribution = if (wallpaper.copyright.hasContent()) wallpaper.copyright else wallpaper.author,
+                persistentUri = Uri.parse(wallpaper.url),
+                webUri = Uri.parse(wallpaper.url),
+                metadata = wallpaper.url,
+            )
         })
         destroy()
     }
