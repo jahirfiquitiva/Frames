@@ -32,7 +32,6 @@ android {
     }
 
     compileSdkVersion Versions.targetSdk
-    buildToolsVersion Versions.buildTools
 
     defaultConfig {
         manifestPlaceholders = [
