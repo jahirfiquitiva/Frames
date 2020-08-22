@@ -80,7 +80,7 @@
     <string name="applying_preparing">Se pregătește imaginea de fundal…</string>
     <string name="applying_wallpaper_def">Se aplică…</string>
     <string name="apply_w_external_app">Setează cu…</string>
-    <string name="dashboard">Panou de bord</string>
+    <string name="dashboard">Tablou de bord</string>
     <string name="prevent_download_title">Salvare blocată</string>
     <string name="prevent_download_content">Salvarea este blocată pentru a preveni utilizarea abuzivă. Poți salva imaginile de fundal în %1$s ore.</string>
     <string name="license_valid_content">Licență validă.</string>
