@@ -9,7 +9,7 @@ Frames
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9747a594949f49b9a8146909868adfba)](https://www.codacy.com/app/jahirfiquitiva/Frames?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jahirfiquitiva/Frames&amp;utm_campaign=Badge_Grade)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/Frames/localized.svg)](https://crowdin.com/project/Frames/invite)
 
-Free, feature-rich, easily customizable Android dashboard for wallpapers apps
+Free, feature-rich, easily customizable Android dashboard for wallpaper app
 
 <a target="_blank" href="http://jahir.dev/gh-releases/frames">
 <img src="https://jahir.dev/share/download_sample.svg?maxAge=432000" width="200"/>
