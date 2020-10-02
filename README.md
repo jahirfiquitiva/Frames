@@ -64,7 +64,7 @@ Free, feature-rich, easily customizable Android dashboard for wallpapers apps
 - Cloud based (only) wallpapers.
 - App can work offline.
 - Categories section.
-- Favorites section.
+- Favourites section.
 - Wallpapers can be applied and downloaded.
 - Wallpapers include a full-screen viewer with zooming capabilities and detailed info viewer.
 - Credits section.
