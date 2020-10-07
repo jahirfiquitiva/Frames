@@ -98,7 +98,8 @@
 
         <activity
             android:name=".ui.activities.MuzeiSettingsActivity"
-            android:exported="true" />
+            android:exported="true"
+            tools:replace="android:exported" />
 
     </application>
 
