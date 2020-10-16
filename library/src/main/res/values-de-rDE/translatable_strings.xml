@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="wallpapers">Wallpaper</string>
-    <string name="collections">Sammlungen</string>
+    <string name="collections">Kollektionen</string>
     <string name="favorites">Favoriten</string>
     <string name="all">Wallpaper</string>
     <string name="loading">Lade…</string>
     <string name="no_wallpapers_found">Keine Wallpaper</string>
-    <string name="no_collections_found">Keine Sammlungen</string>
+    <string name="no_collections_found">Keine Kollektionen</string>
     <string name="no_favorites_found">Keine Favoriten</string>
     <string name="no_results_found">Keine Ergebnisse</string>
     <string name="nothing_found">Nichts gefunden</string>
@@ -16,7 +16,7 @@
     <string name="apply">Übernehmen</string>
     <string name="favorite">Favorit</string>
     <string name="palette">Farben</string>
-    <string name="tap_to_copy">Knöpfe drücken, um die Farbe zu kopieren.</string>
+    <string name="tap_to_copy">Farbfeld berühren, um die Farbe zu kopieren.</string>
     <string name="copied_to_clipboard">Farbe in die Zwischenablage kopiert.</string>
     <string name="dimensions">Abmessungen</string>
     <string name="author">Autor</string>
@@ -25,7 +25,7 @@
     <string name="copyright">Lizenz</string>
     <string name="allow">Erlauben</string>
     <string name="unexpected_error_occurred">Irgendetwas ist schiefgelaufen.</string>
-    <string name="downloading_wallpaper">Lade herunter: “%1$s“…</string>
+    <string name="downloading_wallpaper">Lade “%1$s“ herunter...</string>
     <string name="cancel">Abbrechen</string>
     <string name="search">Suche</string>
     <string name="changelog">Changelog</string>
