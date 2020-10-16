@@ -99,5 +99,24 @@
     <string name="get">Obtener</string>
     <string name="jahir_description">Soy un desarrollador full-stack apasionado y creativo.</string>
     <string name="eduardo_description">Diseñador de IU. Defensor del espacio negativo.</string>
-    <string name="lumiq_description">Es cada vez más difícil construir un mal producto.</string>
+    <string name="lumiq_description">Yo organizo formas, ordeno computadoras y ensamblo palabras.</string>
+    <string name="share">Compartir</string>
+    <!-- Do NOT remove or change the %1$s (or with any other number) -->
+    <string name="share_text">Mi fondo de pantalla de hoy es %1$s por %2$s, de %3$s.\nConsíguelo ahora en %4$s</string>
+    <!-- Muzei Settings -->
+    <string name="muzei_settings">Integración de muzei</string>
+    <!-- Please use this character … -->
+    <string name="refresh_wallpapers_every">Refrescar fondos de pantalla…</string>
+    <string name="every_x">Cada %1$s</string>
+    <string name="minutes">Minutos</string>
+    <string name="hours">Horas</string>
+    <string name="days">Días</string>
+    <string name="refresh_only_on_wifi">Refrescar solo en Wi-Fi</string>
+    <string name="choose_collections_title">Mostrar Fondos de Pantalla De</string>
+    <string name="no_collections_selected">No Hay Colecciones Seleccionadas</string>
+    <string name="muzei_not_connected_content">Conéctate a Internet para seleccionar las colecciones.</string>
+    <string name="sure_to_exit">Salir</string>
+    <string name="sure_to_exit_content">¿Quiere guardar su configuración antes de salir?</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
 </resources>
