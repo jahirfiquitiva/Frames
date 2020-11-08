@@ -56,7 +56,7 @@ open class FramesArtWorker : LifecycleOwner {
     private fun postWallpapers(context: Context, wallpapers: ArrayList<Wallpaper>) {
         val client: String by lazy { "${context.packageName}.muzei" }
         val providerClient = ProviderContract.getProviderClient(context, client)
-        providerClient.addArtwork(wallpapers.map { wallpaper ->
+        providerClient.setArtwork(wallpapers.map { wallpaper ->
             Artwork(
                 token = wallpaper.url,
                 title = wallpaper.name,
