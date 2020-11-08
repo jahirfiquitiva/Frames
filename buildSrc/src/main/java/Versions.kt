@@ -2,13 +2,13 @@
 
 object Versions {
     // Plugins
-    const val gradle = "4.0.1"
-    const val kotlin = "1.4.0"
+    const val gradle = "4.1.0"
+    const val kotlin = "1.4.10"
     const val jitpack = "2.1"
 
     // OneSignal
-    const val oneSignalPlugin = "0.12.8"
-    const val oneSignal = "3.15.2"
+    const val oneSignalPlugin = "0.12.9"
+    const val oneSignal = "3.15.4"
 
     // App
     const val minSdk = 21
@@ -16,7 +16,7 @@ object Versions {
     const val buildTools = "29.0.3"
 
     // Coroutines
-    const val coroutines = "1.3.9"
+    const val coroutines = "1.4.1"
 
     // Android UI
     const val appcompat = "1.2.0"
@@ -25,7 +25,7 @@ object Versions {
     const val swipeRefreshLayout = "1.1.0"
     const val palette = "1.0.0"
     const val preference = "1.1.1"
-    const val materialComponents = "1.2.0"
+    const val materialComponents = "1.2.1"
     const val activityKtx = "1.1.0"
     const val fragmentKtx = "1.2.5"
 
@@ -43,14 +43,14 @@ object Versions {
     const val retrofit = "2.9.0"
 
     // Image loading and Touch Image View
-    const val coil = "0.11.0"
+    const val coil = "1.0.0"
     const val touchImageView = "3.0.3"
 
     // Harmonic Colors
     const val harmonicColors = "1.0.0"
 
     // Sectioned RecyclerView
-    const val sectionedRecyclerView = "b4a7763"
+    const val sectionedRecyclerView = "ea9a5cb"
 
     // FastScroll RecyclerView
     const val fastScrollRecyclerView = "-SNAPSHOT"
@@ -59,7 +59,7 @@ object Versions {
     const val permissions = "3.1.2"
 
     // License Checker
-    const val licenseChecker = "1.2.6"
+    const val licenseChecker = "1.2.8"
 
     // In-App Billing
     const val inAppBilling = "3.0.0"

@@ -4,8 +4,8 @@ import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.core.view.postDelayed
-import coil.api.load
-import coil.request.LoadRequestBuilder
+import coil.load
+import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import dev.jahir.frames.extensions.context.drawable
 import dev.jahir.frames.extensions.context.preferences
@@ -23,7 +23,7 @@ private fun ImageView.buildRequestBuilder(
     cropAsCircle: Boolean,
     saturate: Boolean,
     extra: ((drawable: Drawable?) -> Unit)? = null
-): LoadRequestBuilder.() -> Unit = {
+): ImageRequest.Builder.() -> Unit = {
     fallback(thumbnail)
     placeholder(thumbnail)
     error(thumbnail)
