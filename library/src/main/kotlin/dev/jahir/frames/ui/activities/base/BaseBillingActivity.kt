@@ -84,14 +84,19 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
         dismissDialogs()
         purchasesDialog = mdDialog {
             title(R.string.donate)
-            singleChoiceItems(skuDetailsList, 0) { _, which ->
-                billingViewModel.launchBillingFlow(
-                    this@BaseBillingActivity,
-                    skuDetailsList[which].originalDetails
-                )
-            }
+            singleChoiceItems(skuDetailsList, 0)
             negativeButton(android.R.string.cancel)
-            positiveButton(R.string.donate)
+            positiveButton(R.string.donate) { dialog ->
+                val listView = (dialog as? AlertDialog)?.listView
+                if ((listView?.checkedItemCount ?: 0) > 0) {
+                    val checkedItemPosition = listView?.checkedItemPosition ?: -1
+                    billingViewModel.launchBillingFlow(
+                        this@BaseBillingActivity,
+                        skuDetailsList[checkedItemPosition].originalDetails
+                    )
+                }
+                dialog.dismiss()
+            }
         }
         purchasesDialog?.show()
     }
