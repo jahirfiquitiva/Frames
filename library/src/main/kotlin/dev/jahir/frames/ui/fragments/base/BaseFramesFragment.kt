@@ -38,6 +38,7 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.recycler_view)
+        recyclerView?.allowFirstRunCheck = allowCheckingFirstRun()
         setupContentBottomOffset(view)
         recyclerView?.stateDrawableModifier = this
 
@@ -155,4 +156,6 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
 
     @DrawableRes
     open fun getNoSearchResultsDrawable(): Int = R.drawable.ic_empty_results
+
+    open fun allowCheckingFirstRun(): Boolean = false
 }

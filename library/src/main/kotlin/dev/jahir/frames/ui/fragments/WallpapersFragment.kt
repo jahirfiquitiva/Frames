@@ -161,6 +161,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         if (isForFavs) R.drawable.ic_empty_favorites else super.getEmptyDrawable()
 
     open fun canToggleSystemUIVisibility(): Boolean = true
+    override fun allowCheckingFirstRun(): Boolean = true
 
     companion object {
         const val TAG = "wallpapers_fragment"

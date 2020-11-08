@@ -10,6 +10,7 @@ import dev.jahir.frames.data.listeners.BillingProcessesListener
 import dev.jahir.frames.data.models.CleanSkuDetails
 import dev.jahir.frames.data.models.DetailedPurchaseRecord
 import dev.jahir.frames.data.viewmodels.BillingViewModel
+import dev.jahir.frames.extensions.context.firstInstallTime
 import dev.jahir.frames.extensions.context.getAppName
 import dev.jahir.frames.extensions.context.string
 import dev.jahir.frames.extensions.context.stringArray
@@ -42,6 +43,13 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
             billingViewModel.billingProcessesListener = this
             billingViewModel.observe(this)
             billingViewModel.initialize()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (preferences.isFirstRun && firstInstallTime > 10000) {
+            preferences.isFirstRun = false
         }
     }
 

@@ -63,6 +63,7 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
         Intent(activity, CollectionActivity::class.java)
 
     override fun getEmptyText(): Int = R.string.no_collections_found
+    override fun allowCheckingFirstRun(): Boolean = true
 
     companion object {
         const val TAG = "collections_fragment"

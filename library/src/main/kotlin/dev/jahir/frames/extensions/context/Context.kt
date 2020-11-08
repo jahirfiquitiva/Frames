@@ -250,6 +250,15 @@ fun Context.getAppName(): String {
     return if (def.hasContent()) def else "Unknown"
 }
 
+val Context.isFirstRun: Boolean
+    get() {
+        return try {
+            preferences.isFirstRun
+        } catch (e: Exception) {
+            true
+        }
+    }
+
 val Context.isUpdate: Boolean
     get() {
         val prevVersion = preferences.lastVersion

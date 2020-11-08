@@ -19,6 +19,10 @@ open class Preferences(private val context: Context) {
     @SuppressLint("CommitPrefEdits")
     val prefsEditor: SharedPreferences.Editor = prefs.edit()
 
+    var isFirstRun: Boolean
+        get() = prefs.getBoolean(FIRST_RUN, true)
+        set(_) = prefsEditor.putBoolean(FIRST_RUN, false).apply()
+
     var lastVersion: Long
         get() = prefs.getLong(LAST_VERSION, -1L)
         set(value) = prefsEditor.putLong(LAST_VERSION, value).apply()
@@ -116,6 +120,7 @@ open class Preferences(private val context: Context) {
 
     companion object {
         private const val PREFS_NAME = "jfdb_confs"
+        private const val FIRST_RUN = "first_run"
         private const val LAST_VERSION = "last_version"
         internal const val CURRENT_THEME = "current_theme"
         internal const val USES_AMOLED_THEME = "uses_amoled_theme"
