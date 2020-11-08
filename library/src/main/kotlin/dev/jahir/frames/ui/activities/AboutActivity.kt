@@ -86,7 +86,6 @@ open class AboutActivity : BaseThemedActivity<Preferences>() {
                 "https://jahir.dev/assets/images/me/me.jpg",
                 arrayListOf(
                     "Website" to "https://jahir.dev",
-                    "Twitter" to "https://twitter.com/jahirfiquitiva",
                     "GitHub" to "https://github.com/jahirfiquitiva"
                 )
             )
@@ -97,10 +96,7 @@ open class AboutActivity : BaseThemedActivity<Preferences>() {
                     "Eduardo Pratti",
                     string(R.string.eduardo_description),
                     "https://pbs.twimg.com/profile_images/560688750247051264/seXz0Y25_400x400.jpeg",
-                    arrayListOf(
-                        "Website" to "https://pratti.design/",
-                        "Twitter" to "https://twitter.com/edpratti"
-                    )
+                    arrayListOf("Website" to "https://pratti.design/")
                 )
             )
             items.add(
