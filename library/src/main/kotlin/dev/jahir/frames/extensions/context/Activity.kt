@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package dev.jahir.frames.extensions.context
 
 import android.annotation.SuppressLint

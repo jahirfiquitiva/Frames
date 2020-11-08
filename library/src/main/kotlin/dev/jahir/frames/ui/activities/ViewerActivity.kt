@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package dev.jahir.frames.ui.activities
 
 import android.content.Intent
