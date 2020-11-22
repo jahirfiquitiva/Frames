@@ -14,11 +14,10 @@ import dev.jahir.frames.data.workers.WallpaperDownloader
 import dev.jahir.frames.data.workers.WallpaperDownloader.Companion.DOWNLOAD_FILE_EXISTED
 import dev.jahir.frames.data.workers.WallpaperDownloader.Companion.DOWNLOAD_PATH_KEY
 import dev.jahir.frames.extensions.context.toast
+import dev.jahir.frames.extensions.resources.getMimeType
 import dev.jahir.frames.extensions.resources.getUri
-import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.views.snackbar
 import java.io.File
-import java.net.URLConnection
 
 @Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
@@ -77,13 +76,11 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
             currentSnackbar =
                 snackbar(R.string.downloaded_previously, Snackbar.LENGTH_LONG, snackbarAnchorId) {
                     fileUri?.let {
-                        var mimeType = URLConnection.guessContentTypeFromName(file.name).orEmpty()
-                        if (!mimeType.hasContent()) mimeType = "image/*"
                         setAction(R.string.open) {
                             try {
                                 startActivity(Intent().apply {
                                     action = Intent.ACTION_VIEW
-                                    setDataAndType(fileUri, mimeType)
+                                    setDataAndType(fileUri, file.getMimeType("image/*"))
                                     addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                                 })
                             } catch (e: Exception) {

@@ -7,6 +7,7 @@ import android.os.Environment
 import androidx.core.content.FileProvider
 import dev.jahir.frames.extensions.context.getAppName
 import java.io.File
+import java.net.URLConnection
 
 fun File.getUri(context: Context?): Uri? {
     context ?: return null
@@ -72,3 +73,11 @@ fun File.deleteEverything() {
         list()?.forEach { File(this, it).deleteEverything() }
     } else delete()
 }
+
+fun File?.getMimeType(defaultMimeType: String = ""): String =
+    try {
+        val preMimeType = URLConnection.guessContentTypeFromName(this?.name.orEmpty()).orEmpty()
+        if (preMimeType.hasContent()) preMimeType else defaultMimeType
+    } catch (e: Exception) {
+        defaultMimeType
+    }
