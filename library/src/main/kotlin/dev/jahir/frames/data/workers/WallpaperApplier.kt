@@ -18,10 +18,10 @@ import dev.jahir.frames.extensions.utils.ensureBackgroundThreadSuspended
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.io.FileOutputStream
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.io.File
+import java.io.FileOutputStream
 
 @Suppress("BlockingMethodInNonBlockingContext")
 class WallpaperApplier(context: Context, params: WorkerParameters) :
@@ -140,5 +140,4 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
                 .build()
         }
     }
-
 }
