@@ -20,9 +20,8 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
-import java.io.InputStream
-import java.net.URL
-import java.net.URLConnection
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 @Suppress("BlockingMethodInNonBlockingContext")
 class WallpaperApplier(context: Context, params: WorkerParameters) :
@@ -97,19 +96,13 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
                     file.createNewFile()
                 } catch (e: Exception) {
                 }
-                val downloadURL = URL(url)
-                val urlConnection: URLConnection = downloadURL.openConnection().apply { connect() }
+                val client = OkHttpClient()
+                val request = Request.Builder().url(url)
+                    .build()
+                val response = client.newCall(request).execute()
                 val fos = FileOutputStream(file)
-                val inputStream: InputStream = urlConnection.getInputStream()
-                val buffer = ByteArray(1024)
-                var len1: Int
-                var total: Long = 0
-                while (inputStream.read(buffer).also { len1 = it } > 0) {
-                    total += len1.toLong()
-                    fos.write(buffer, 0, len1)
-                }
+                fos.write(response.body()?.bytes())
                 fos.close()
-                inputStream.close()
             }
         } catch (e: Exception) {
             e.printStackTrace()
