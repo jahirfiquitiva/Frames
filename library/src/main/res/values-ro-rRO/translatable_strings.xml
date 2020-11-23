@@ -42,7 +42,7 @@
     <string name="interface_animations">Animații</string>
     <string name="interface_animations_summary">Dezactivează pentru o performanță mai bună.</string>
     <string name="display_full_res_previews">Miniaturi de înaltă calitate</string>
-    <string name="display_full_res_previews_summary">Acest lucru utilizează mai multe date.</string>
+    <string name="display_full_res_previews_summary">Această opțiune utilizează mai multe date.</string>
     <string name="crop_pictures">Scalare pentru a se potrivi</string>
     <string name="crop_pictures_summary">Redimensionează imaginile de fundal pentru a se potrivi cu rezoluția ecranului.</string>
     <string name="download_location">Imagini de fundal salvate în</string>
@@ -61,7 +61,7 @@
     <string name="search_wallpapers">Caută imagini de fundal</string>
     <string name="search_collections">Caută colecții</string>
     <string name="search_favorites">Caută favorite</string>
-    <string name="legal">Aspecte legale</string>
+    <string name="legal">Aspecte juridice</string>
     <string name="privacy_policy">Politică de confidențialitate</string>
     <string name="terms_conditions">Condiții de utilizare</string>
     <string name="permission_denied">Permisiunea de stocare nu este acordată.</string>
