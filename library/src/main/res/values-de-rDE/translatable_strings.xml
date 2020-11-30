@@ -99,7 +99,7 @@
     <string name="get">Herunterladen</string>
     <string name="jahir_description">Ich bin ein leidenschaftlicher und kreativer Full-Stack-Entwickler.</string>
     <string name="eduardo_description">UI Designer. Verteider von negativem Raum.</string>
-    <string name="patryk_description">Ich arrangiere Formen, befehlige Computer und setze Wörter zusammen.</string>
+    <string name="patryk_description">Ich ordne Formen, befehlige Computer und setze Wörter zusammen.</string>
     <string name="share">Teilen</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
     <string name="share_text">Mein heutiges Wallpaper ist %1$s von %2$s, von %3$s.\nLade es dir bei %4$s herunter.</string>
