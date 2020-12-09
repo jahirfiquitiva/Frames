@@ -88,7 +88,7 @@
     <string name="license_invalid_content_patching_app">Smažte “%1$s” a pokus opakujte.</string>
     <string name="license_invalid_content_ungenuine_installation">Získejte “%1$s”z Obchodu Play.</string>
     <string name="error">Chyba</string>
-    <string name="action_error_content">Něco se pokazilo.</string>
+    <string name="action_error_content">Něco se nepovedlo.</string>
     <string name="license_error_content">Nelze zkontrolovat licenci.</string>
     <string name="try_now">Opakovat</string>
     <string name="donate_success_title">Příspěvek odeslán</string>
