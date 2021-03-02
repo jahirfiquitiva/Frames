@@ -78,4 +78,11 @@ dependencies {
     kapt Libs.kaptDependencies
 }
 
+ext {
+    PUBLISH_GROUP_ID = 'dev.jahir'
+    PUBLISH_VERSION = Frames.version
+    PUBLISH_ARTIFACT_ID = 'Frames'
+}
+
 apply from: '../lib-artifacts.gradle'
+apply from: "${rootProject.projectDir}/scripts/publish-mavencentral.gradle"
