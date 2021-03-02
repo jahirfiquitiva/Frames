@@ -28,10 +28,10 @@ jobs:
 
         # Builds the release artifacts of the library
       - name: Release build
-        run: ./gradlew :stream-chat-android-client:assembleRelease
+        run: ./gradlew :library:assembleRelease
 
         # Generates other artifacts (javadocJar is optional)
-      - name: Source jar and dokka
+      - name: Source jar
         run: ./gradlew androidSourcesJar javadocJar
 
         # Runs upload, and then closes & releases the repository
