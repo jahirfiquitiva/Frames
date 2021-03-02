@@ -1,7 +1,10 @@
 package dev.jahir.frames.ui.activities.base
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
 import com.google.android.material.snackbar.Snackbar
@@ -76,24 +79,19 @@ abstract class BaseWallpaperApplierActivity<out P : Preferences> :
             setWall.setDataAndType(it, "image/*")
             setWall.putExtra("mimeType", "image/*")
             setWall.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+            val externalApplyLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {result->
+                if (result.resultCode != 0) onWallpaperApplied()
+                else onDownloadError()
+            }
+            val chooserIntent = Intent.createChooser(setWall, string(R.string.apply_w_external_app))
             try {
-                startActivityForResult(
-                    Intent.createChooser(setWall, string(R.string.apply_w_external_app)),
-                    APPLY_WITH_OTHER_APP_CODE
-                )
+                externalApplyLauncher.launch(chooserIntent)
             } catch (e: Exception) {
                 onDownloadError()
             }
         } ?: { onDownloadError() }()
         cancelWorkManagerTasks()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == APPLY_WITH_OTHER_APP_CODE) {
-            if (resultCode != 0) onWallpaperApplied()
-            else onDownloadError()
-        }
     }
 
     companion object {

@@ -3,6 +3,8 @@ package dev.jahir.frames.ui.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
@@ -17,6 +19,16 @@ import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
 open class CollectionsFragment : BaseFramesFragment<Collection>() {
 
     private val collectionsAdapter: CollectionsAdapter by lazy { CollectionsAdapter { onClicked(it) } }
+    private var openActivityLauncher : ActivityResultLauncher<Intent?>? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        openActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT) {
+                (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData(true)
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,20 +50,14 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
         ArrayList(originalItems.filter { it.name.lower().contains(filter.lower()) })
 
     open fun onClicked(collection: Collection) {
-        startActivityForResult(
-            getTargetActivityIntent()
-                .apply {
-                    putExtra(CollectionActivity.COLLECTION_KEY, collection)
-                    putExtra(CollectionActivity.COLLECTION_NAME_KEY, collection.name)
-                }, CollectionActivity.REQUEST_CODE
-        )
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CollectionActivity.REQUEST_CODE &&
-            resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT) {
-            (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData(true)
+        val intent = getTargetActivityIntent()
+            .apply {
+                putExtra(CollectionActivity.COLLECTION_KEY, collection)
+                putExtra(CollectionActivity.COLLECTION_NAME_KEY, collection.name)
+            }
+        try {
+            openActivityLauncher?.launch(intent)
+        } catch (e: Exception) {
         }
     }
 

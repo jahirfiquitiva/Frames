@@ -5,6 +5,9 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult.EXTRA_ACTIVITY_OPTIONS_BUNDLE
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.GridLayoutManager
@@ -34,6 +37,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
     var isForFavs: Boolean = false
     open val canShowFavoritesButton: Boolean = true
+    private var openActivityLauncher : ActivityResultLauncher<Intent?>? = null
 
     private val wallsAdapter: WallpapersAdapter by lazy {
         wallpapersAdapter(
@@ -43,6 +47,16 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
             onClick { wall, holder -> launchViewer(wall, holder) }
             onFavClick { checked, wallpaper ->
                 this@WallpapersFragment.onFavClick(checked, wallpaper)
+            }
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        openActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT) {
+                (activity as? CollectionActivity)?.setFavoritesModified()
+                (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData(true)
             }
         }
     }
@@ -119,31 +133,25 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
                 null
             }
         } else null
-        startActivityForResult(
-            targetIntent.apply {
-                putExtra(
-                    ViewerActivity.CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
-                    canToggleSystemUIVisibility()
-                )
-                putExtra(WALLPAPER_EXTRA, wallpaper)
-                putExtra(WALLPAPER_IN_FAVS_EXTRA, wallpaper.isInFavorites)
-                putExtra(ViewerActivity.CURRENT_WALL_POSITION, holder.adapterPosition)
-                putExtra(
-                    ViewerActivity.LICENSE_CHECK_ENABLED,
-                    (activity as? BaseLicenseCheckerActivity<*>)?.licenseCheckEnabled ?: false
-                )
-            },
-            ViewerActivity.REQUEST_CODE,
-            options?.toBundle()
-        )
-    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == ViewerActivity.REQUEST_CODE &&
-            resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT) {
-            (activity as? CollectionActivity)?.setFavoritesModified()
-            (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData(true)
+        val intent = targetIntent.apply {
+            putExtra(
+                ViewerActivity.CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
+                canToggleSystemUIVisibility()
+            )
+            putExtra(WALLPAPER_EXTRA, wallpaper)
+            putExtra(WALLPAPER_IN_FAVS_EXTRA, wallpaper.isInFavorites)
+            putExtra(ViewerActivity.CURRENT_WALL_POSITION, holder.adapterPosition)
+            putExtra(
+                ViewerActivity.LICENSE_CHECK_ENABLED,
+                (activity as? BaseLicenseCheckerActivity<*>)?.licenseCheckEnabled ?: false
+            )
+            putExtra(EXTRA_ACTIVITY_OPTIONS_BUNDLE, options?.toBundle())
+        }
+
+        try {
+            openActivityLauncher?.launch(intent)
+        } catch (e: Exception) {
         }
     }
 
