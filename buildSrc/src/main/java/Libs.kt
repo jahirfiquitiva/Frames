@@ -70,7 +70,8 @@ object Libs {
         "com.github.javiersantos:PiracyChecker:${Versions.licenseChecker}"
 
     // In-App Billing
-    private const val inAppBilling = "com.android.billingclient:billing:${Versions.inAppBilling}"
+    private const val inAppBilling =
+        "com.android.billingclient:billing-ktx:${Versions.inAppBilling}"
 
     // MultiDex
     private const val multidex = "androidx.multidex:multidex:${Versions.multidex}"
