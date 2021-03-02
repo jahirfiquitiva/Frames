@@ -31,6 +31,7 @@ object Versions {
 
     // ViewModel and LiveData
     const val lifecycle = "2.3.0"
+    const val lifecycleExt = "2.2.0"
 
     // Room Database
     const val room = "2.2.6"
