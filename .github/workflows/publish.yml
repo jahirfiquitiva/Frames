@@ -3,10 +3,19 @@ name: Publish
 on:
   workflow_dispatch:
   release:
-    # We'll run this workflow when a new GitHub release is created
-    types: [released]
+# We'll run this workflow when a new GitHub release is created
+# types: [released]
 
 jobs:
+  log-event:
+    name: Log all events
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log event
+        run: echo "$EVENT"
+        env:
+          EVENT: ${{ toJson(github.event) }}
+
   publish:
     name: Release build and publish
     runs-on: ubuntu-latest
@@ -37,7 +46,7 @@ jobs:
 
         # Runs upload, and then closes & releases the repository
       - name: Publish to MavenCentral
-        run: ./gradlew publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseRepository
+        run: ./gradlew publishReleasePublicationToSonatypeRepository --max-workers 1 publishToSonatype closeAndReleaseStagingRepository
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
