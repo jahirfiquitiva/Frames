@@ -3,6 +3,8 @@ package dev.jahir.frames.ui.activities.base
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
@@ -22,6 +24,16 @@ import java.io.File
 @Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseWallpaperApplierActivity<out P : Preferences> :
     BaseWallpaperFetcherActivity<P>() {
+
+    private var externalApplyLauncher : ActivityResultLauncher<Intent?>? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        externalApplyLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {result->
+            if (result.resultCode != 0) onWallpaperApplied()
+            else onDownloadError()
+        }
+    }
 
     fun startApply(applyOption: Int) {
         cancelWorkManagerTasks()
@@ -80,13 +92,9 @@ abstract class BaseWallpaperApplierActivity<out P : Preferences> :
             setWall.putExtra("mimeType", "image/*")
             setWall.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
-            val externalApplyLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {result->
-                if (result.resultCode != 0) onWallpaperApplied()
-                else onDownloadError()
-            }
             val chooserIntent = Intent.createChooser(setWall, string(R.string.apply_w_external_app))
             try {
-                externalApplyLauncher.launch(chooserIntent)
+                externalApplyLauncher?.launch(chooserIntent)
             } catch (e: Exception) {
                 onDownloadError()
             }
