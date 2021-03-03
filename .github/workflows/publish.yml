@@ -5,19 +5,8 @@ on:
   release:
     types:
       - released
-# We'll run this workflow when a new GitHub release is created
-# types: [released]
 
 jobs:
-  log-event:
-    name: Log all events
-    runs-on: ubuntu-latest
-    steps:
-      - name: Log event
-        run: echo "$EVENT"
-        env:
-          EVENT: ${{ toJson(github.event) }}
-
   publish:
     name: Release build and publish
     runs-on: ubuntu-latest
