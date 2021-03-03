@@ -3,6 +3,8 @@ name: Publish
 on:
   workflow_dispatch:
   release:
+    types:
+      - released
 # We'll run this workflow when a new GitHub release is created
 # types: [released]
 
@@ -46,7 +48,7 @@ jobs:
 
         # Runs upload, and then closes & releases the repository
       - name: Publish to MavenCentral
-        run: ./gradlew publishReleasePublicationToSonatypeRepository --max-workers 1 publishToSonatype closeAndReleaseStagingRepository
+        run: ./gradlew publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseSonatypeStagingRepository
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
