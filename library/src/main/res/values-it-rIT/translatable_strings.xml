@@ -99,24 +99,22 @@
     <string name="get">Ottieni</string>
     <string name="jahir_description">Sono uno sviluppatore full-stack appassionato e creativo.</string>
     <string name="eduardo_description">UI designer. Difensore dello spazio negativo.</string>
-    <string name="patryk_description">È appena diventato più difficile creare un cattivo prodotto.</string>
+    <string name="patryk_description">Organizzo forme, controllo computer e metto insieme parole.</string>
     <string name="share">Condividi</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
     <string name="share_text">Il mio sfondo di oggi è %1$s di %2$s, da %3$s.\nScaricalo ora da %4$s</string>
     <!-- Muzei Settings -->
-    <string name="muzei_settings">Impostazioni Muzei</string>
+    <string name="muzei_settings">Integrazione con Muzei</string>
     <!-- Please use this character … -->
     <string name="refresh_wallpapers_every">Aggiorna sfondi…</string>
     <string name="every_x">Ogni %1$s</string>
     <string name="minutes">Minuti</string>
     <string name="hours">Ore</string>
     <string name="days">Giorni</string>
-    <string name="refresh_only_on_wifi">Aggiorna solo da WiFi</string>
-    <string name="refresh_only_on_wifi_summary">Aggiorna gli sfondi solo quando il dispositivo è connesso a una rete WiFi.</string>
-    <string name="choose_collections_title">Scegli collezioni</string>
-    <string name="choose_collections_summary">Scegli le collezioni da cui prendere gli sfondi.\nCollezioni selezionate: %1$s</string>
-    <string name="muzei_not_connected_title">Nessuna connessione a Internet</string>
-    <string name="muzei_not_connected_content">Spiacenti, ma per poter scegliere o modificare le collezioni dalle quali vuoi che l\'app prenda gli sfondi, devi essere collegato a Internet. Per favore riprova più tardi.</string>
+    <string name="refresh_only_on_wifi">Aggiorna solo su Wi-Fi</string>
+    <string name="choose_collections_title">Mostra Sfondi Da</string>
+    <string name="no_collections_selected">Nessuna Collezione Selezionata</string>
+    <string name="muzei_not_connected_content">Connettiti a internet per selezionare le collezioni.</string>
     <string name="sure_to_exit">Esci</string>
     <string name="sure_to_exit_content">Vuoi salvare le tue impostazioni prima di uscire?</string>
     <string name="yes">Sì</string>
