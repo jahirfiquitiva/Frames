@@ -108,12 +108,17 @@ publishing {
     }
 }
 
-nexusStaging {
-    packageGroup = PUBLISH_GROUP_ID
-    stagingProfileId = sonatypeStagingProfileId
-    username = ossrhUsername
-    password = ossrhPassword
-    serverUrl = "https://s01.oss.sonatype.org/service/local/"
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            packageGroup = PUBLISH_GROUP_ID
+            stagingProfileId = sonatypeStagingProfileId
+            username = ossrhUsername
+            password = ossrhPassword
+        }
+    }
 }
 
 signing {
