@@ -16,5 +16,5 @@ object Plugins {
 
     // Sonatype
     const val sonatype =
-        "io.github.gradle-nexus:publish-plugin:${Versions.sonatype}"
+        "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:${Versions.sonatype}"
 }
