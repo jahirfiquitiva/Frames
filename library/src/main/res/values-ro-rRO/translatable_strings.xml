@@ -5,6 +5,8 @@
     <string name="favorites">Favorite</string>
     <string name="all">Imagini de fundal</string>
     <string name="loading">Se încarcă…</string>
+    <string name="data_error_network">Verifică-ți conexiunea la internet și încearcă din nou.</string>
+    <string name="data_error_format">Datele sunt probabil incorect formate. Contactați dezvoltatorul.</string>
     <string name="no_wallpapers_found">Nicio imagine de fundal</string>
     <string name="no_collections_found">Nicio colecție</string>
     <string name="no_favorites_found">Nu există favorite</string>
@@ -43,6 +45,8 @@
     <string name="interface_animations_summary">Dezactivează pentru o performanță mai bună.</string>
     <string name="display_full_res_previews">Miniaturi de înaltă calitate</string>
     <string name="display_full_res_previews_summary">Această opțiune utilizează mai multe date.</string>
+    <string name="download_on_wifi_only">Descarcă fundalurile doar pe Wi-Fi</string>
+    <string name="download_on_wifi_only_summary">Dezactivează pentru a utiliza și datele mobile.</string>
     <string name="crop_pictures">Scalare pentru a se potrivi</string>
     <string name="crop_pictures_summary">Redimensionează imaginile de fundal pentru a se potrivi cu rezoluția ecranului.</string>
     <string name="download_location">Imagini de fundal salvate în</string>
@@ -111,7 +115,7 @@
     <string name="minutes">Minute</string>
     <string name="hours">Ore</string>
     <string name="days">Zile</string>
-    <string name="refresh_only_on_wifi">Reîmprospătează doar prin Wi-Fi</string>
+    <string name="refresh_only_on_wifi">Reîmprospătează doar pe Wi-Fi</string>
     <string name="choose_collections_title">Arată imaginile de fundal din</string>
     <string name="no_collections_selected">Nicio colecție selectată</string>
     <string name="muzei_not_connected_content">Conectează-te la internet pentru a selecta colecțiile.</string>

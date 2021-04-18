@@ -5,6 +5,8 @@
     <string name="favorites">Oblíbené</string>
     <string name="all">Tapety</string>
     <string name="loading">Načítání…</string>
+    <string name="data_error_network">Zkontrolujte své připojení k Internetu a zkuste to znovu.</string>
+    <string name="data_error_format">Data jsou pravděpodobně poškozená. Kontaktujte vývojáře.</string>
     <string name="no_wallpapers_found">Žádné tapety</string>
     <string name="no_collections_found">Žádné sbírky</string>
     <string name="no_favorites_found">Žádné oblíbené</string>
@@ -43,6 +45,8 @@
     <string name="interface_animations_summary">Vypněte pro lepší výkon.</string>
     <string name="display_full_res_previews">Náhledy ve vysoké kvalitě</string>
     <string name="display_full_res_previews_summary">Používá více dat.</string>
+    <string name="download_on_wifi_only">Stahovat tapety pouze přes Wi-Fi</string>
+    <string name="download_on_wifi_only_summary">Vypněte pokud chcete používat i mobilní data.</string>
     <string name="crop_pictures">Přizpůsobit velikosti</string>
     <string name="crop_pictures_summary">Změňte velikost tapet tak, aby odpovídala rozlišení obrazovky.</string>
     <string name="download_location">Tapety byly uloženy do</string>
@@ -111,7 +115,7 @@
     <string name="minutes">minut</string>
     <string name="hours">hodin</string>
     <string name="days">dní</string>
-    <string name="refresh_only_on_wifi">Obnovit pouze na Wi-Fi</string>
+    <string name="refresh_only_on_wifi">Obnovit pouze přes Wi-Fi</string>
     <string name="choose_collections_title">Zobrazit tapety od</string>
     <string name="no_collections_selected">Nebyly vybrány žádné kolekce</string>
     <string name="muzei_not_connected_content">Připojte se k internetu a vyberte sbírky.</string>
