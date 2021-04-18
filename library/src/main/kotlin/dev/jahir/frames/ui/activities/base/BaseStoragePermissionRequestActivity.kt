@@ -1,6 +1,7 @@
 package dev.jahir.frames.ui.activities.base
 
 import android.Manifest
+import android.os.Build
 import androidx.annotation.IdRes
 import com.fondesa.kpermissions.PermissionStatus
 import com.fondesa.kpermissions.extension.permissionsBuilder
@@ -51,7 +52,9 @@ abstract class BaseStoragePermissionRequestActivity<out P : Preferences> : BaseT
     }
 
     fun requestStoragePermission() {
-        permissionRequest.send()
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q)
+            permissionRequest.send()
+        else internalOnPermissionsGranted()
     }
 
     private fun showPermissionRationale() {
@@ -67,7 +70,7 @@ abstract class BaseStoragePermissionRequestActivity<out P : Preferences> : BaseT
         }
     }
 
-    open fun internalOnPermissionsGranted(result: List<PermissionStatus>) {}
+    open fun internalOnPermissionsGranted(result: List<PermissionStatus> = listOf()) {}
 
     open fun getPermissionRationaleMessage(): String =
         string(R.string.permission_request, getAppName())
