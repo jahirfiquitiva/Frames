@@ -51,6 +51,13 @@ open class Preferences(private val context: Context) {
         get() = prefs.getBoolean(SHOULD_LOAD_FULL_RES_PICTURES, false)
         set(value) = prefsEditor.putBoolean(SHOULD_LOAD_FULL_RES_PICTURES, value).apply()
 
+    var shouldDownloadOnMobile: Boolean
+        get() =  prefs.getBoolean(
+            SHOULD_DOWNLOAD_ON_MOBILE,
+            context.boolean(R.bool.downloads_on_mobile_data_enabled_by_default, false)
+        )
+        set(value) = prefsEditor.putBoolean(SHOULD_DOWNLOAD_ON_MOBILE, value).apply()
+
     var shouldCropWallpaperBeforeApply: Boolean
         get() = prefs.getBoolean(SHOULD_CROP_WALLPAPER_BEFORE_APPLY, true)
         set(value) = prefsEditor.putBoolean(SHOULD_CROP_WALLPAPER_BEFORE_APPLY, value).apply()
@@ -126,6 +133,7 @@ open class Preferences(private val context: Context) {
         internal const val USES_AMOLED_THEME = "uses_amoled_theme"
         internal const val SHOULD_COLOR_NAVBAR = "should_color_navbar"
         private const val SHOULD_LOAD_FULL_RES_PICTURES = "should_load_full_res_pictures"
+        private const val SHOULD_DOWNLOAD_ON_MOBILE = "should_download_on_mobile"
         private const val SHOULD_CROP_WALLPAPER_BEFORE_APPLY = "should_crop_wallpaper_before_apply"
         private const val ANIMATIONS_ENABLED = "animations_enabled"
         private const val DOWNLOADS_FOLDER = "downloads_folder"

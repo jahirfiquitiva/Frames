@@ -35,7 +35,7 @@ class WallpaperDownloader(context: Context, params: WorkerParameters) :
                 setTitle(file.name)
                 setDescription(context?.string(R.string.downloading_wallpaper, file.name))
                 setDestinationUri(fileUri)
-                setAllowedOverRoaming(false)
+                setAllowedOverRoaming(context?.preferences?.shouldDownloadOnMobile ?: false)
                 setNotificationVisibility(
                     DownloadManager.Request.VISIBILITY_VISIBLE
                             or DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED

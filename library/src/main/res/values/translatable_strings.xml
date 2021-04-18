@@ -43,6 +43,8 @@
     <string name="interface_animations_summary">Disable for better performance.</string>
     <string name="display_full_res_previews">High-Quality Thumbnails</string>
     <string name="display_full_res_previews_summary">This uses more data.</string>
+    <string name="download_on_mobile">Download wallpapers using mobile data</string>
+    <string name="download_on_mobile_summary">When not connected to WiFi.</string>
     <string name="crop_pictures">Scale to Fit</string>
     <string name="crop_pictures_summary">Resize wallpapers to match screen resolution.</string>
     <string name="download_location">Wallpapers Saved To</string>
