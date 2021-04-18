@@ -52,7 +52,7 @@ open class Preferences(private val context: Context) {
         set(value) = prefsEditor.putBoolean(SHOULD_LOAD_FULL_RES_PICTURES, value).apply()
 
     var shouldDownloadOnWiFiOnly: Boolean
-        get() =  prefs.getBoolean(
+        get() = prefs.getBoolean(
             SHOULD_DOWNLOAD_ON_WIFI_ONLY,
             context.boolean(R.bool.downloads_on_wifi_only_enabled_by_default, true)
         )

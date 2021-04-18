@@ -1,11 +1,9 @@
 package dev.jahir.frames.ui.activities.base
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
@@ -25,14 +23,15 @@ import java.io.File
 abstract class BaseWallpaperApplierActivity<out P : Preferences> :
     BaseWallpaperFetcherActivity<P>() {
 
-    private var externalApplyLauncher : ActivityResultLauncher<Intent?>? = null
+    private var externalApplyLauncher: ActivityResultLauncher<Intent?>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        externalApplyLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {result->
-            if (result.resultCode != 0) onWallpaperApplied()
-            else onDownloadError()
-        }
+        externalApplyLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode != 0) onWallpaperApplied()
+                else onDownloadError()
+            }
     }
 
     fun startApply(applyOption: Int) {

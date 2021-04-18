@@ -13,11 +13,9 @@ import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.data.viewmodels.WallpapersDataViewModel
 import dev.jahir.frames.extensions.context.drawable
 import dev.jahir.frames.extensions.context.getAppName
-import dev.jahir.frames.extensions.context.isNetworkAvailable
 import dev.jahir.frames.extensions.context.string
 import dev.jahir.frames.extensions.context.toast
 import dev.jahir.frames.extensions.resources.hasContent
-import dev.jahir.frames.extensions.utils.context
 import dev.jahir.frames.ui.activities.base.BaseBillingActivity
 import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
