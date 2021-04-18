@@ -37,9 +37,9 @@
             android:title="@string/display_full_res_previews" />
 
         <androidx.preference.SwitchPreference
-            android:key="download_on_mobile"
-            android:summary="@string/download_on_mobile_summary"
-            android:title="@string/download_on_mobile" />
+            android:key="download_on_wifi_only"
+            android:summary="@string/download_on_wifi_only_summary"
+            android:title="@string/download_on_wifi_only" />
 
         <androidx.preference.SwitchPreference
             android:key="crop_pictures"

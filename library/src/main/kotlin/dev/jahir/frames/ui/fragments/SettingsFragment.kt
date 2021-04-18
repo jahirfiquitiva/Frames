@@ -76,10 +76,10 @@ open class SettingsFragment : BasePreferenceFragment() {
             preferences.shouldLoadFullResPictures = it
         }
 
-        val downloadOnMobilePref = findPreference<SwitchPreference?>("download_on_mobile")
-        downloadOnMobilePref?.isChecked = preferences.shouldDownloadOnMobile
-        downloadOnMobilePref?.setOnCheckedChangeListener {
-            preferences.shouldDownloadOnMobile = it
+        val downloadOnWiFiOnlyPref = findPreference<SwitchPreference?>("download_on_wifi_only")
+        downloadOnWiFiOnlyPref?.isChecked = preferences.shouldDownloadOnWiFiOnly
+        downloadOnWiFiOnlyPref?.setOnCheckedChangeListener {
+            preferences.shouldDownloadOnWiFiOnly = it
         }
 
         val cropPicturesPrefs = findPreference<SwitchPreference?>("crop_pictures")

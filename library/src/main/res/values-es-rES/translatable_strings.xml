@@ -43,8 +43,8 @@
     <string name="interface_animations_summary">Desactivar para un mejor rendimiento.</string>
     <string name="display_full_res_previews">Miniaturas de alta calidad</string>
     <string name="display_full_res_previews_summary">Esto consume más datos</string>
-    <string name="download_on_mobile">Descargar fondos usando datos móviles</string>
-    <string name="download_on_mobile_summary">Cuando no haya conexión WiFi.</string>
+    <string name="download_on_wifi_only">Descargar fondos sólo cuando use Wi-Fi</string>
+    <string name="download_on_wifi_only_summary">Deshabilitar para usar datos móviles también.</string>
     <string name="crop_pictures">Escalar para ajustar</string>
     <string name="crop_pictures_summary">Redimensionar los fondos de pantalla para que coincidan con la resolución de la pantalla.</string>
     <string name="download_location">Fondos guardados en</string>
