@@ -19,15 +19,16 @@ import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
 open class CollectionsFragment : BaseFramesFragment<Collection>() {
 
     private val collectionsAdapter: CollectionsAdapter by lazy { CollectionsAdapter { onClicked(it) } }
-    private var openActivityLauncher : ActivityResultLauncher<Intent?>? = null
+    private var openActivityLauncher: ActivityResultLauncher<Intent?>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        openActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT) {
-                (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData(true)
+        openActivityLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT) {
+                    (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData(true)
+                }
             }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,7 +37,6 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
         recyclerView?.layoutManager =
             GridLayoutManager(context, columnsCount, GridLayoutManager.VERTICAL, false)
         recyclerView?.adapter = collectionsAdapter
-        (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData()
     }
 
     override fun updateItemsInAdapter(items: ArrayList<Collection>) {

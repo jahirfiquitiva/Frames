@@ -5,6 +5,8 @@
     <string name="favorites">Favoritos</string>
     <string name="all">Fondos de Pantalla</string>
     <string name="loading">Cargando…</string>
+    <string name="data_error_network">Por favor verifica tu conexión a internet e intenta de nuevo.</string>
+    <string name="data_error_format">Error de formato. Comunícate con el desarrollador.</string>
     <string name="no_wallpapers_found">Sin fondos de pantalla</string>
     <string name="no_collections_found">Sin colecciones</string>
     <string name="no_favorites_found">Sin favoritos</string>

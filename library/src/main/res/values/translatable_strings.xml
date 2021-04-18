@@ -5,6 +5,8 @@
     <string name="favorites">Favorites</string>
     <string name="all">Wallpapers</string>
     <string name="loading">Loading…</string>
+    <string name="data_error_network">Please check your internet connection and try again.</string>
+    <string name="data_error_format">Data is possibly malformed. Contact developer.</string>
     <string name="no_wallpapers_found">No Wallpapers</string>
     <string name="no_collections_found">No Collections</string>
     <string name="no_favorites_found">No Favorites</string>

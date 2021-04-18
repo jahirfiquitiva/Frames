@@ -1,6 +1,7 @@
 package dev.jahir.frames.data.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -41,6 +42,7 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
         get() = favoritesData.value.orEmpty()
 
     internal var whenReady: (() -> Unit)? = null
+    internal var errorListener: ((error: DataError) -> Unit)? = null
 
     private val service by lazy {
         Retrofit.Builder()
@@ -182,7 +184,8 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
         loadCollections: Boolean = true,
         loadFavorites: Boolean = true,
         newWallpapers: List<Wallpaper> = listOf(),
-        force: Boolean = false
+        force: Boolean = false,
+        isPreload: Boolean = false,
     ) {
         val localWallpapers = try {
             getWallpapersFromDatabase()
@@ -210,8 +213,11 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
         }
 
         val areTheSameWallpapers = areTheSameLists(localWallpapers, actualNewWallpapers)
-        if (!areTheSameWallpapers || wallpapers.isNullOrEmpty() || force)
-            postWallpapers(actualNewWallpapers)
+        if (!areTheSameWallpapers || wallpapers.isNullOrEmpty() || force) {
+            if (!(localWallpapers.isEmpty() && actualNewWallpapers.isEmpty() && isPreload))
+                postWallpapers(actualNewWallpapers)
+        }
+
 
         if (loadFavorites) {
             val actualFavorites =
@@ -230,11 +236,17 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
         loadFavorites: Boolean = true,
         force: Boolean = false
     ) {
-        if (!context.isNetworkAvailable() || !url.hasContent()) return
+        if (!url.hasContent()) return
+        if (!context.isNetworkAvailable()) {
+            errorListener?.invoke(DataError.NoNetwork)
+            handleWallpapersData()
+            return
+        }
         try {
             val remoteWallpapers = service.getJSON(url)
             handleWallpapersData(loadCollections, loadFavorites, remoteWallpapers, force)
         } catch (e: Exception) {
+            errorListener?.invoke(DataError.MalformedJson)
         }
     }
 
@@ -246,7 +258,7 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
     ) {
         viewModelScope.launch {
             delay(10)
-            handleWallpapersData(loadCollections, loadFavorites, listOf(), force)
+            handleWallpapersData(loadCollections, loadFavorites, listOf(), force, true)
             loadRemoteData(url, loadCollections, loadFavorites, force)
         }
     }
@@ -320,5 +332,9 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
         } catch (e: Exception) {
             return false
         }
+    }
+
+    enum class DataError {
+        None, MalformedJson, NoNetwork, Unknown
     }
 }

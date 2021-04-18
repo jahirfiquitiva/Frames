@@ -37,7 +37,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
     var isForFavs: Boolean = false
     open val canShowFavoritesButton: Boolean = true
-    private var openActivityLauncher : ActivityResultLauncher<Intent?>? = null
+    private var openActivityLauncher: ActivityResultLauncher<Intent?>? = null
 
     private val wallsAdapter: WallpapersAdapter by lazy {
         wallpapersAdapter(
@@ -53,12 +53,13 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        openActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT) {
-                (activity as? CollectionActivity)?.setFavoritesModified()
-                (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData(true)
+        openActivityLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == ViewerActivity.FAVORITES_MODIFIED_RESULT) {
+                    (activity as? CollectionActivity)?.setFavoritesModified()
+                    (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData(true)
+                }
             }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,7 +73,6 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
             )
         )
         recyclerView?.adapter = wallsAdapter
-        (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData()
     }
 
     override fun loadData() {

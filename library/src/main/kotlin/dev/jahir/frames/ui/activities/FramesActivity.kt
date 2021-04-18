@@ -3,16 +3,21 @@ package dev.jahir.frames.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.data.models.Wallpaper
+import dev.jahir.frames.data.viewmodels.WallpapersDataViewModel
 import dev.jahir.frames.extensions.context.drawable
 import dev.jahir.frames.extensions.context.getAppName
+import dev.jahir.frames.extensions.context.isNetworkAvailable
 import dev.jahir.frames.extensions.context.string
+import dev.jahir.frames.extensions.context.toast
 import dev.jahir.frames.extensions.resources.hasContent
+import dev.jahir.frames.extensions.utils.context
 import dev.jahir.frames.ui.activities.base.BaseBillingActivity
 import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
@@ -54,8 +59,9 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
         bottomNavigation?.selectedItemId = initialItemId
         bottomNavigation?.setOnNavigationItemSelectedListener { changeFragment(it.itemId) }
 
-        wallpapersViewModel.observeWallpapers(this) { wallpapersFragment?.updateItems(ArrayList(it)) }
+        wallpapersViewModel.observeWallpapers(this, ::handleWallpapersUpdate)
         wallpapersViewModel.observeCollections(this, ::handleCollectionsUpdate)
+        wallpapersViewModel.errorListener = ::showDataErrorToastIfNeeded
         loadWallpapersData(true)
     }
 
@@ -178,6 +184,22 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
             it.setRefreshEnabled(!filter.hasContent())
             it.applyFilter(filter, closed)
         }
+    }
+
+    private fun showDataErrorToastIfNeeded(error: WallpapersDataViewModel.DataError) {
+        val message: Int? = when (error) {
+            WallpapersDataViewModel.DataError.None -> null
+            WallpapersDataViewModel.DataError.Unknown -> R.string.unexpected_error_occurred
+            WallpapersDataViewModel.DataError.MalformedJson -> R.string.data_error_format
+            WallpapersDataViewModel.DataError.NoNetwork -> R.string.data_error_network
+        }
+        message?.let {
+            toast(it, Toast.LENGTH_LONG)
+        }
+    }
+
+    open fun handleWallpapersUpdate(wallpapers: List<Wallpaper>) {
+        wallpapersFragment?.updateItems(ArrayList(wallpapers))
     }
 
     open fun handleCollectionsUpdate(collections: ArrayList<Collection>) {
