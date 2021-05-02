@@ -81,7 +81,7 @@ dependencies {
 
 ext {
     PUBLISH_GROUP_ID = 'dev.jahir'
-    PUBLISH_VERSION = Frames.version
+    PUBLISH_VERSION = Frames.versionName
     PUBLISH_ARTIFACT_ID = 'Frames'
 }
 
