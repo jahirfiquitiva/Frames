@@ -93,9 +93,9 @@ Free, feature-rich, easily customizable Android dashboard for wallpapers apps
 
 # Including in your project
 
-Frames is available via JitPack, so getting it as simple as adding it as a dependency, like this:
+Frames is available via Maven, so getting it as simple as adding it as a dependency, like this:
 
-1. Add JitPack repository to your root `build.gradle` file
+1. Add `MavenCentral` and `Jitpack` to your root `build.gradle` file
    
    ```gradle
    allprojects {
@@ -115,7 +115,7 @@ Frames is available via JitPack, so getting it as simple as adding it as a depen
    }
    ```
    
-   where `{latest version}` corresponds to published version in   [![JitPack](https://jitpack.io/v/dev.jahir/Frames.svg)](https://jitpack.io/#dev.jahir/Frames)
+   where `{latest version}` corresponds to published version in   [![Maven](https://badgen.net/maven/v/maven-central/dev.jahir/Frames)](https://search.maven.org/artifact/dev.jahir/Frames)
 
 ## How to implement
 
