@@ -9,7 +9,7 @@ object Versions {
 
     // OneSignal
     const val oneSignalPlugin = "0.12.10"
-    const val oneSignal = "4.3.0"
+    const val oneSignal = "4.3.3"
 
     // App
     const val minSdk = 21
@@ -28,14 +28,14 @@ object Versions {
     const val preference = "1.1.1"
     const val materialComponents = "1.3.0"
     const val activityKtx = "1.2.2"
-    const val fragmentKtx = "1.3.2"
+    const val fragmentKtx = "1.3.3"
 
     // ViewModel and LiveData
     const val lifecycle = "2.3.1"
     const val lifecycleExt = "2.2.0"
 
     // Room Database
-    const val room = "2.2.6"
+    const val room = "2.3.0"
 
     // Work Manager
     const val work = "2.5.0"
@@ -45,7 +45,7 @@ object Versions {
     const val retrofit = "2.9.0"
 
     // Image loading and Touch Image View
-    const val coil = "1.2.0"
+    const val coil = "1.2.1"
     const val touchImageView = "3.0.6"
 
     // Harmonic Colors
