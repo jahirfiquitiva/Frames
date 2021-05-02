@@ -100,6 +100,7 @@ Frames is available via JitPack, so getting it as simple as adding it as a depen
    ```gradle
    allprojects {
     repositories {
+        mavenCentral()
         maven { url 'https://jitpack.io' }
     }
    }
