@@ -233,11 +233,12 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
         url: String = "",
         loadCollections: Boolean = true,
         loadFavorites: Boolean = true,
-        force: Boolean = false
+        force: Boolean = false,
+        triggerErrorListener: Boolean = true,
     ) {
         if (!url.hasContent()) return
         if (!context.isNetworkAvailable()) {
-            errorListener?.invoke(DataError.NoNetwork)
+            if (triggerErrorListener) errorListener?.invoke(DataError.NoNetwork)
             handleWallpapersData()
             return
         }
@@ -245,7 +246,7 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
             val remoteWallpapers = service.getJSON(url)
             handleWallpapersData(loadCollections, loadFavorites, remoteWallpapers, force)
         } catch (e: Exception) {
-            errorListener?.invoke(DataError.MalformedJson)
+            if (triggerErrorListener) errorListener?.invoke(DataError.MalformedJson)
         }
     }
 
@@ -253,12 +254,13 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
         url: String = "",
         loadCollections: Boolean = true,
         loadFavorites: Boolean = true,
-        force: Boolean = false
+        force: Boolean = false,
+        triggerErrorListener: Boolean = true,
     ) {
         viewModelScope.launch {
             delay(10)
             handleWallpapersData(loadCollections, loadFavorites, listOf(), force, true)
-            loadRemoteData(url, loadCollections, loadFavorites, force)
+            loadRemoteData(url, loadCollections, loadFavorites, force, triggerErrorListener)
         }
     }
 

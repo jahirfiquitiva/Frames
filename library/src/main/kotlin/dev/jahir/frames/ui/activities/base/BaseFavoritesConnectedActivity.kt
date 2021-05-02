@@ -38,12 +38,13 @@ abstract class BaseFavoritesConnectedActivity<out P : Preferences> :
         wallpapersViewModel.destroy(this)
     }
 
-    internal fun loadWallpapersData(remote: Boolean = false) {
+    internal fun loadWallpapersData(remote: Boolean = false, triggerErrorListener: Boolean = true) {
         wallpapersViewModel.loadData(
             if (remote) getDataUrl() else "",
             loadCollections = shouldLoadCollections(),
             loadFavorites = shouldLoadFavorites() && canShowFavoritesButton(),
-            force = true
+            force = true,
+            triggerErrorListener = triggerErrorListener
         )
     }
 

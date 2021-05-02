@@ -73,6 +73,9 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
             )
         )
         recyclerView?.adapter = wallsAdapter
+        (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData(
+            triggerErrorListener = !isForFavs
+        )
     }
 
     override fun loadData() {

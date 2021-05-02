@@ -37,6 +37,9 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
         recyclerView?.layoutManager =
             GridLayoutManager(context, columnsCount, GridLayoutManager.VERTICAL, false)
         recyclerView?.adapter = collectionsAdapter
+        (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData(
+            triggerErrorListener = false
+        )
     }
 
     override fun updateItemsInAdapter(items: ArrayList<Collection>) {
