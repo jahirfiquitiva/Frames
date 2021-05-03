@@ -4,7 +4,7 @@ Frames
 ======
 
 ![API](https://img.shields.io/badge/API-21%2B-34bf49.svg)
-[![JitPack](https://jitpack.io/v/dev.jahir/Frames.svg)](https://jitpack.io/#dev.jahir/Frames)
+[![Maven](https://badgen.net/maven/v/maven-central/dev.jahir/Frames)](https://search.maven.org/artifact/dev.jahir/Frames)
 [![Build Status](https://travis-ci.com/jahirfiquitiva/Frames.svg?branch=master)](https://travis-ci.com/jahirfiquitiva/Frames)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9747a594949f49b9a8146909868adfba)](https://www.codacy.com/app/jahirfiquitiva/Frames?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jahirfiquitiva/Frames&amp;utm_campaign=Badge_Grade)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/Frames/localized.svg)](https://crowdin.com/project/Frames/invite)
@@ -85,9 +85,9 @@ Free, feature-rich, easily customizable Android dashboard for wallpapers apps
 ---
 
 # Including in your project
-Frames is available via JitPack, so getting it as simple as adding it as a dependency, like this:
+Frames is available via Maven, so getting it as simple as adding it as a dependency, like this:
 
-1. Add JitPack repository to your root `build.gradle` file
+1. Add `MavenCentral` and `Jitpack` to your root `build.gradle` file
 ```gradle
 allprojects {
     repositories {
@@ -104,7 +104,7 @@ dependencies {
     }
 }
 ```
-where `{latest version}` corresponds to published version in   [![JitPack](https://jitpack.io/v/dev.jahir/Frames.svg)](https://jitpack.io/#dev.jahir/Frames)
+where `{latest version}` corresponds to published version in   [![Maven](https://badgen.net/maven/v/maven-central/dev.jahir/Frames)](https://search.maven.org/artifact/dev.jahir/Frames)
 
 ## How to implement
 :page_with_curl: Everything you need to know can be found in the **[Wiki Docs](https://github.com/jahirfiquitiva/Frames/wiki/)**
