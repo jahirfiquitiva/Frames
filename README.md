@@ -4,7 +4,7 @@ Frames
 ======
 
 ![API](https://img.shields.io/badge/API-21%2B-34bf49.svg)
-[![Maven](https://badgen.net/maven/v/maven-central/dev.jahir/Frames)](https://search.maven.org/artifact/dev.jahir/Frames)
+[![GitHub Release](https://img.shields.io/github/v/release/jahirfiquitiva/Frames?label=Frames&sort=semver)](https://github.com/jahirfiquitiva/Frames/releases/latest)
 [![Build Status](https://travis-ci.com/jahirfiquitiva/Frames.svg?branch=master)](https://travis-ci.com/jahirfiquitiva/Frames)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9747a594949f49b9a8146909868adfba)](https://www.codacy.com/app/jahirfiquitiva/Frames?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jahirfiquitiva/Frames&amp;utm_campaign=Badge_Grade)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/Frames/localized.svg)](https://crowdin.com/project/Frames/invite)
@@ -115,7 +115,7 @@ Frames is available via Maven, so getting it as simple as adding it as a depende
    }
    ```
    
-   where `{latest version}` corresponds to published version in   [![Maven](https://badgen.net/maven/v/maven-central/dev.jahir/Frames)](https://search.maven.org/artifact/dev.jahir/Frames)
+   where `{latest version}` corresponds to published version in   [![GitHub Release](https://img.shields.io/github/v/release/jahirfiquitiva/Frames?label=Frames&sort=semver)](https://github.com/jahirfiquitiva/Frames/releases/latest)
 
 ## How to implement
 
