@@ -2,7 +2,7 @@
 
 object Versions {
     // Plugins
-    const val gradle = "4.1.3"
+    const val gradle = "4.2.0"
     const val kotlin = "1.4.32"
 
     // OneSignal
@@ -15,5 +15,5 @@ object Versions {
     const val buildTools = "30.0.2"
 
     // Frames
-    const val frames = "3.4.0"
+    const val frames = "3.4.1"
 }
