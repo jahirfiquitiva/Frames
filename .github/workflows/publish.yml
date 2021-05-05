@@ -2,11 +2,6 @@ name: Publish
 
 on:
   workflow_dispatch:
-    inputs:
-      name:
-        description: 'Person running workflow'
-        required: false
-        default: 'Jahir Fiquitiva'
   release:
     types:
       - released
