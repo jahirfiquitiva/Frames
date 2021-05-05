@@ -8,8 +8,8 @@ import com.google.gson.annotations.SerializedName
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.resources.toReadableByteCount
-import kotlinx.android.parcel.IgnoredOnParcel
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "wallpapers")
 @Parcelize

@@ -3,7 +3,7 @@ package dev.jahir.frames.data.models
 import android.os.Parcelable
 import com.android.billingclient.api.Purchase
 import dev.jahir.frames.extensions.utils.purchaseStateToText
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 
 @Parcelize

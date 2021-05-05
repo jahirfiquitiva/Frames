@@ -144,7 +144,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
             )
             putExtra(WALLPAPER_EXTRA, wallpaper)
             putExtra(WALLPAPER_IN_FAVS_EXTRA, wallpaper.isInFavorites)
-            putExtra(ViewerActivity.CURRENT_WALL_POSITION, holder.adapterPosition)
+            putExtra(ViewerActivity.CURRENT_WALL_POSITION, holder.absoluteAdapterPosition)
             putExtra(
                 ViewerActivity.LICENSE_CHECK_ENABLED,
                 (activity as? BaseLicenseCheckerActivity<*>)?.licenseCheckEnabled ?: false

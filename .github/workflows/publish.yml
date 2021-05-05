@@ -29,15 +29,15 @@ jobs:
 
         # Builds the release artifacts of the library
       - name: Release build
-        run: ./gradlew :library:assembleRelease
+        run: ./gradlew clean :library:assembleRelease --full-stacktrace
 
         # Generates other artifacts (javadocJar is optional)
       - name: Source jar
-        run: ./gradlew androidSourcesJar javadocJar
+        run: ./gradlew androidSourcesJar sourcesJar javadocJar
 
         # Runs upload, and then closes & releases the repository
       - name: Publish to MavenCentral
-        run: ./gradlew publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseStagingRepository
+        run: ./gradlew publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseSonatypeStagingRepository
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
