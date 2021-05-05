@@ -86,6 +86,10 @@ afterEvaluate {
                         def dependenciesNode = asNode().appendNode('dependencies')
 
                         project.configurations.implementation.allDependencies.each {
+                            if (it == null) return
+                            if (it.group == null) return
+                            if (it.name == null) return
+                            if (it.name == 'unspecified') return
                             def dependencyNode = dependenciesNode.appendNode('dependency')
                             dependencyNode.appendNode('groupId', it.group)
                             dependencyNode.appendNode('artifactId', it.name)
