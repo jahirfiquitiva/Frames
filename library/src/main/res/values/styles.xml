@@ -41,6 +41,7 @@
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
 
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="android:forceDarkAllowed">true</item>
     </style>
 
     <style name="Frames.SplashScreen.Amoled" parent="Frames.SplashScreen" tools:ignore="NewApi" />

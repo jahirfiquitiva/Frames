@@ -13,6 +13,7 @@ import dev.jahir.frames.extensions.context.navigationBarColor
 import dev.jahir.frames.extensions.context.navigationBarLight
 import dev.jahir.frames.extensions.context.resolveColor
 import dev.jahir.frames.extensions.context.restart
+import dev.jahir.frames.extensions.context.setDefaultDashboardTheme
 import dev.jahir.frames.extensions.context.statusBarColor
 import dev.jahir.frames.extensions.context.statusBarLight
 import dev.jahir.frames.extensions.resources.isDark
@@ -56,6 +57,7 @@ abstract class BaseThemedActivity<out P : Preferences> : BaseFinishResultActivit
     @Suppress("DEPRECATION")
     private fun setCustomTheme() {
         setTheme(if (preferences.usesAmoledTheme) amoledTheme() else defaultTheme())
+        setDefaultDashboardTheme()
         resolveColor(R.attr.colorPrimaryDark, color(R.color.primaryDark)).let {
             statusBarColor = it
             if (shouldChangeStatusBarLightStatus)
