@@ -2,14 +2,14 @@
 
 object Versions {
     // Plugins
-    const val gradle = "4.2.0"
-    const val kotlin = "1.4.32"
+    const val gradle = "4.2.1"
+    const val kotlin = "1.5.0"
     const val jitpack = "2.1"
     const val sonatype = "1.1.0"
 
     // OneSignal
     const val oneSignalPlugin = "0.12.10"
-    const val oneSignal = "4.3.3"
+    const val oneSignal = "4.3.4"
 
     // App
     const val minSdk = 21
@@ -17,7 +17,7 @@ object Versions {
     const val buildTools = "30.0.2"
 
     // Coroutines
-    const val coroutines = "1.4.3"
+    const val coroutines = "1.5.0"
 
     // Android UI
     const val appcompat = "1.2.0"
@@ -27,7 +27,7 @@ object Versions {
     const val palette = "1.0.0"
     const val preference = "1.1.1"
     const val materialComponents = "1.3.0"
-    const val activityKtx = "1.2.2"
+    const val activityKtx = "1.2.3"
     const val fragmentKtx = "1.3.3"
 
     // ViewModel and LiveData
@@ -46,7 +46,7 @@ object Versions {
 
     // Image loading and Touch Image View
     const val coil = "1.2.1"
-    const val touchImageView = "3.0.6"
+    const val touchImageView = "3.1.0"
 
     // Harmonic Colors
     const val harmonicColors = "1.0.0"
