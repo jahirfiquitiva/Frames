@@ -73,9 +73,7 @@ open class SaturatingImageViewTarget(
 
     private fun setDrawable(drawable: Drawable?) {
         (view.drawable as? Animatable)?.stop()
-        // TODO: Enable
-        (view as? TouchImageView)?.setImageDrawable(drawable) // , false)
-            ?: view.setImageDrawable(drawable)
+        (view as? TouchImageView)?.setImageDrawable(drawable) ?: view.setImageDrawable(drawable)
         updateAnimation()
     }
 

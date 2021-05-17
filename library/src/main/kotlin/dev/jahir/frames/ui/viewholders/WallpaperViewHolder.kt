@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.core.view.postDelayed
 import androidx.core.widget.CompoundButtonCompat
+import coil.annotation.ExperimentalCoilApi
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.context.string
@@ -32,6 +33,7 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
     internal val favorite: FavoriteCheckbox? by view.findView(R.id.fav_button)
     private val detailsBackground: View? by view.findView(R.id.wallpaper_details_background)
 
+    @ExperimentalCoilApi
     fun bind(
         wallpaper: Wallpaper,
         canShowFavoritesButton: Boolean,

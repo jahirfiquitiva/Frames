@@ -3,6 +3,7 @@ package dev.jahir.frames.ui.viewholders
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
+import coil.annotation.ExperimentalCoilApi
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.extensions.context.boolean
@@ -19,6 +20,7 @@ class CollectionViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
     private val count: TextView? by view.findView(R.id.collection_count)
     private val detailsBackground: View? by view.findView(R.id.collection_details_background)
 
+    @ExperimentalCoilApi
     fun bind(
         collection: Collection,
         onClick: ((collection: Collection) -> Unit)? = null

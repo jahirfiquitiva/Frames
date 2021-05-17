@@ -22,6 +22,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.palette.graphics.Palette
+import coil.annotation.ExperimentalCoilApi
 import com.fondesa.kpermissions.PermissionStatus
 import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import com.ortiz.touchview.TouchImageView
@@ -68,6 +69,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
     private val toolbar: Toolbar? by findView(R.id.toolbar)
     private val imageView: TouchImageView? by findView(R.id.wallpaper)
 
+    private var firstImageLoad: Boolean = true
     private var transitioned: Boolean = false
     private var closing: Boolean = false
     private var currentWallPosition: Int = 0
@@ -85,6 +87,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
     private var downloadBlockedDialog: AlertDialog? = null
     private var applierDialog: DialogFragment? = null
 
+    @ExperimentalCoilApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         statusBarLight = false
@@ -107,9 +110,6 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         if (wallpaper.downloadable == false || !shouldShowDownloadOption())
             bottomNavigation?.removeItem(R.id.download)
 
-        initDownload(wallpaper)
-        detailsFragment.wallpaper = wallpaper
-
         findViewById<View?>(R.id.toolbar_title)?.let {
             (it as? TextView)?.text = wallpaper.name
             ViewCompat.setTransitionName(
@@ -131,6 +131,9 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
                 wallpaper.buildImageTransitionName(currentWallPosition)
             )
         }
+
+        initDownload(wallpaper)
+        detailsFragment.wallpaper = wallpaper
 
         setSupportActionBar(toolbar)
         supportActionBar?.let {
@@ -243,13 +246,16 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
                     setBackgroundColor(it?.bestSwatch?.rgb ?: 0)
                     detailsFragment.palette = it
                 }
-        } ?: { setBackgroundColor() }()
+        } ?: run {
+            setBackgroundColor()
+        }
     }
 
     private fun setBackgroundColor(@ColorInt color: Int = 0) {
         findViewById<View?>(R.id.activity_root_view)?.setBackgroundColor(color)
     }
 
+    @ExperimentalCoilApi
     private fun loadWallpaper(wallpaper: Wallpaper?) {
         var placeholder: Drawable? = null
         try {
@@ -266,7 +272,13 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
                 forceLoadFullRes = true,
                 cropAsCircle = false,
                 saturate = false
-            ) { generatePalette(it) }
+            ) {
+                if (firstImageLoad) {
+                    firstImageLoad = false
+                    imageView?.resetZoomAnimated()
+                }
+                generatePalette(it)
+            }
         }
         supportStartPostponedEnterTransition()
     }

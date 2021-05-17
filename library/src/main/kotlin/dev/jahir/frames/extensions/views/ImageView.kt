@@ -4,9 +4,11 @@ import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.core.view.postDelayed
+import coil.annotation.ExperimentalCoilApi
 import coil.load
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
+import coil.transition.CrossfadeTransition
 import dev.jahir.frames.extensions.context.drawable
 import dev.jahir.frames.extensions.context.preferences
 import dev.jahir.frames.extensions.resources.hasContent
@@ -18,6 +20,7 @@ private fun ImageView.buildSaturatingTarget(
     block: SaturatingImageViewTarget.() -> Unit
 ): SaturatingImageViewTarget = SaturatingImageViewTarget(this).apply(block)
 
+@ExperimentalCoilApi
 private fun ImageView.buildRequestBuilder(
     thumbnail: Drawable?,
     cropAsCircle: Boolean,
@@ -28,8 +31,14 @@ private fun ImageView.buildRequestBuilder(
     placeholder(thumbnail)
     error(thumbnail)
 
-    if (thumbnail == null) crossfade(CROSSFADE_DURATION)
-    else crossfade(false)
+    if (thumbnail == null) {
+        transition(
+            CrossfadeTransition(
+                preferExactIntrinsicSize = true,
+                durationMillis = CROSSFADE_DURATION
+            )
+        )
+    } else crossfade(false)
 
     if (cropAsCircle) transformations(CircleCropTransformation())
 
@@ -42,6 +51,7 @@ private fun ImageView.buildRequestBuilder(
     listener(saturationTarget)
 }
 
+@ExperimentalCoilApi
 private fun ImageView.internalLoadFrames(
     url: String?,
     thumbnail: Drawable?,
@@ -52,6 +62,7 @@ private fun ImageView.internalLoadFrames(
     load(url, builder = buildRequestBuilder(thumbnail, cropAsCircle, saturate, extra))
 }
 
+@ExperimentalCoilApi
 fun ImageView.loadFramesPic(
     url: String,
     thumbnailUrl: String? = url,
@@ -76,6 +87,7 @@ fun ImageView.loadFramesPic(
     }
 }
 
+@ExperimentalCoilApi
 fun ImageView.loadFramesPicResPlaceholder(
     url: String,
     thumbnailUrl: String? = url,

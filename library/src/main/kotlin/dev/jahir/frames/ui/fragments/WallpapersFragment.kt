@@ -128,7 +128,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
                         it,
                         *(it.buildTransitionOptions(
                             // TODO: Enable image shared transition
-                            arrayListOf(holder.title, holder.author) // , holder.image)
+                            arrayListOf(holder.title, holder.author, holder.image)
                         ))
                     )
                 }
