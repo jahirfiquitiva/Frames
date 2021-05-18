@@ -2,6 +2,7 @@ package dev.jahir.frames.ui.adapters
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.annotation.ExperimentalCoilApi
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.extensions.context.boolean
@@ -18,6 +19,7 @@ class CollectionsAdapter(private val onClick: ((collection: Collection) -> Unit)
             notifyDataSetChanged()
         }
 
+    @ExperimentalCoilApi
     override fun onBindViewHolder(holder: CollectionViewHolder, position: Int) {
         holder.bind(collections[position], onClick)
     }

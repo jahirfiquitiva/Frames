@@ -97,7 +97,10 @@ class WallpaperDownloader(context: Context, params: WorkerParameters) :
 
     override fun onSuccess(path: String) {
         super.onSuccess(path)
-        MediaScanner.scan(context, path)
+        try {
+            MediaScanner.scan(context, path)
+        } catch (e: Exception) {
+        }
     }
 
     override fun onFailure(exception: Exception) {
@@ -116,14 +119,18 @@ class WallpaperDownloader(context: Context, params: WorkerParameters) :
 
         fun buildRequest(url: String): OneTimeWorkRequest? {
             if (!url.hasContent()) return null
-            val constraints = Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build()
-            val data = workDataOf(DOWNLOAD_URL_KEY to url)
-            return OneTimeWorkRequest.Builder(WallpaperDownloader::class.java)
-                .setConstraints(constraints)
-                .setInputData(data)
-                .build()
+            return try {
+                val constraints = Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build()
+                val data = workDataOf(DOWNLOAD_URL_KEY to url)
+                OneTimeWorkRequest.Builder(WallpaperDownloader::class.java)
+                    .setConstraints(constraints)
+                    .setInputData(data)
+                    .build()
+            } catch (e: Exception) {
+                null
+            }
         }
     }
 }

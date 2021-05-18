@@ -95,8 +95,8 @@ open class CollectionActivity : BaseChangelogDialogActivity<Preferences>() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(COLLECTION_NAME_KEY, collectionName)
         super.onSaveInstanceState(outState)
+        outState.putString(COLLECTION_NAME_KEY, collectionName)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {

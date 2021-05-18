@@ -166,8 +166,8 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(CURRENT_FRAGMENT_KEY, currentTag)
         super.onSaveInstanceState(outState)
+        outState.putString(CURRENT_FRAGMENT_KEY, currentTag)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {

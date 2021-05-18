@@ -2,8 +2,6 @@ package dev.jahir.frames.ui.widgets
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.os.Parcel
-import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ProgressBar
@@ -168,21 +166,6 @@ open class StatefulRecyclerView @JvmOverloads constructor(
         }
     }
 
-    override fun onSaveInstanceState(): Parcelable? {
-        val superState = super.onSaveInstanceState()
-        val myState = SavedState(superState)
-        myState.loading = this.loading
-        myState.stateValue = this.state.value
-        return myState
-    }
-
-    override fun onRestoreInstanceState(state: Parcelable) {
-        val savedState = state as? SavedState
-        super.onRestoreInstanceState(savedState?.superState)
-        this.loading = savedState?.loading ?: true
-        this.state = State.getForValue(savedState?.stateValue ?: -1)
-    }
-
     interface StateDrawableModifier {
         fun modifyDrawable(drawable: Drawable?): Drawable? = drawable
     }
@@ -232,28 +215,69 @@ open class StatefulRecyclerView @JvmOverloads constructor(
         }
     }
 
-    @Suppress("unused")
-    private class SavedState : BaseSavedState {
+    /*
+    override fun onSaveInstanceState(): Parcelable? {
+        val superState = super.onSaveInstanceState()
+        val myState = SavedState(superState)
+        myState.loading = this.loading
+        myState.stateValue = this.state.value
+        return myState
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable) {
+        try {
+            val savedState = state as? SavedState
+            super.onRestoreInstanceState(savedState?.superState)
+            this.loading = savedState?.loading ?: true
+            this.state = State.getForValue(savedState?.stateValue ?: -1)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            super.onRestoreInstanceState(state)
+        }
+        invalidate()
+    }
+
+    class SavedState : BaseSavedState {
         var loading: Boolean = true
         var stateValue: Int = State.LOADING.value
 
         constructor(superState: Parcelable?) : super(superState)
-        private constructor(parcel: Parcel?) : super(parcel) {
-            loading = (parcel?.readInt() ?: 1) == 1
-            stateValue = (parcel?.readInt() ?: 0)
+        constructor(parcel: Parcel) : super(parcel) {
+            try {
+                loading = try {
+                    (parcel.readInt()) == 1
+                } catch (e: Exception) {
+                    true
+                }
+                stateValue = try {
+                    (parcel.readInt())
+                } catch (e: Exception) {
+                    0
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
         override fun writeToParcel(out: Parcel, flags: Int) {
+            try {
+                out.writeInt(if (loading) 1 else 0)
+                out.writeInt(stateValue)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
             super.writeToParcel(out, flags)
-            out.writeInt(if (loading) 1 else 0)
-            out.writeInt(stateValue)
         }
 
+        override fun describeContents(): Int = 0
+
         companion object {
-            private val CREATOR = object : Parcelable.Creator<SavedState?> {
-                override fun createFromParcel(parcel: Parcel?): SavedState? = SavedState(parcel)
+            @JvmField
+            val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
+                override fun createFromParcel(parcel: Parcel): SavedState = SavedState(parcel)
                 override fun newArray(size: Int): Array<SavedState?> = arrayOfNulls(size)
             }
         }
     }
+    */
 }

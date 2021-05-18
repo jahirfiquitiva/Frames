@@ -11,6 +11,7 @@ open class Collection(
     val wallpapers: ArrayList<Wallpaper> = ArrayList()
 ) : Parcelable {
 
+    @IgnoredOnParcel
     val count: Int
         get() = wallpapers.size
 

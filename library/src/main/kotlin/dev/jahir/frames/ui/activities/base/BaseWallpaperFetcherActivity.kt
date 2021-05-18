@@ -3,7 +3,6 @@ package dev.jahir.frames.ui.activities.base
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.google.android.material.snackbar.Snackbar
@@ -36,7 +35,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
         newDownloadTask?.let { task ->
             workManager.enqueue(newDownloadTask)
             workManager.getWorkInfoByIdLiveData(task.id)
-                .observe(this, Observer { info ->
+                .observe(this, { info ->
                     if (info != null && info.state.isFinished) {
                         if (info.state == WorkInfo.State.SUCCEEDED) {
                             val path = info.outputData.getString(DOWNLOAD_PATH_KEY) ?: ""
@@ -57,8 +56,11 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
     }
 
     fun cancelWorkManagerTasks() {
-        workManager.cancelAllWork()
-        workManager.pruneWork()
+        try {
+            workManager.cancelAllWork()
+            workManager.pruneWork()
+        } catch (e: Exception) {
+        }
     }
 
     private fun onDownloadQueued() {
@@ -104,13 +106,19 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(WALLPAPER_URL_KEY, wallpaperDownloadUrl)
         super.onSaveInstanceState(outState)
+        try {
+            outState.putString(WALLPAPER_URL_KEY, wallpaperDownloadUrl)
+        } catch (e: Exception) {
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        wallpaperDownloadUrl = savedInstanceState.getString(WALLPAPER_URL_KEY, "") ?: ""
+        try {
+            wallpaperDownloadUrl = savedInstanceState.getString(WALLPAPER_URL_KEY, "") ?: ""
+        } catch (e: Exception) {
+        }
     }
 
     companion object {

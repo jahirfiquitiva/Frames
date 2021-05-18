@@ -89,7 +89,6 @@ abstract class BaseThemedActivity<out P : Preferences> : BaseFinishResultActivit
                 .replace(fragmentContainerId, fragment, fragmentTag)
                 .commit()
         } catch (e: Exception) {
-            Log.e("Frames", e.message, e)
         }
     }
 

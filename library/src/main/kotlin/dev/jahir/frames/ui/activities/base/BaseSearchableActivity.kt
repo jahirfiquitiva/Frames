@@ -78,8 +78,8 @@ abstract class BaseSearchableActivity<out P : Preferences> : BaseFavoritesConnec
     open fun internalDoSearch(filter: String = "", closed: Boolean = false) {}
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt(CURRENT_ITEM_KEY, currentItemId)
         super.onSaveInstanceState(outState)
+        outState.putInt(CURRENT_ITEM_KEY, currentItemId)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
