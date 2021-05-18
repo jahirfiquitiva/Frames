@@ -123,10 +123,9 @@ class WallpaperDownloader(context: Context, params: WorkerParameters) :
                 val constraints = Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build()
-                val data = workDataOf(DOWNLOAD_URL_KEY to url)
                 OneTimeWorkRequest.Builder(WallpaperDownloader::class.java)
                     .setConstraints(constraints)
-                    .setInputData(data)
+                    .setInputData(workDataOf(DOWNLOAD_URL_KEY to url))
                     .build()
             } catch (e: Exception) {
                 null
