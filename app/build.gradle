@@ -1,4 +1,5 @@
 // TODO: Remove comment marks to enable
+/*
 buildscript {
     repositories {
         google()
@@ -12,6 +13,7 @@ buildscript {
 }
 
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+ */
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -113,5 +115,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':library')
     // TODO: Remove comment marks to enable
-    implementation Libs.oneSignal
+    // implementation Libs.oneSignal
 }
