@@ -1,6 +1,7 @@
 package dev.jahir.frames.ui.adapters
 
 import android.view.ViewGroup
+import coil.annotation.ExperimentalCoilApi
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import dev.jahir.frames.R
@@ -47,6 +48,7 @@ class AboutAdapter(
         (holder as? SectionHeaderViewHolder)?.bind(titleRes, 0, section > 0 && getItemCount(0) > 0)
     }
 
+    @ExperimentalCoilApi
     override fun onBindViewHolder(
         holder: SectionedViewHolder?,
         section: Int,
