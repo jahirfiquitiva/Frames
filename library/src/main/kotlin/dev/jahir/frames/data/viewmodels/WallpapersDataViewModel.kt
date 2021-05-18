@@ -6,6 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.GsonBuilder
+import com.google.gson.stream.MalformedJsonException
 import dev.jahir.frames.data.db.FramesDatabase
 import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.data.models.Favorite
@@ -246,7 +247,8 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
             val remoteWallpapers = service.getJSON(url)
             handleWallpapersData(loadCollections, loadFavorites, remoteWallpapers, force)
         } catch (e: Exception) {
-            if (triggerErrorListener) errorListener?.invoke(DataError.MalformedJson)
+            if (triggerErrorListener && e is MalformedJsonException)
+                errorListener?.invoke(DataError.MalformedJson)
         }
     }
 
