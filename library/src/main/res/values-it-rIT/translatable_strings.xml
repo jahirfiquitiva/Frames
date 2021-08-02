@@ -5,6 +5,8 @@
     <string name="favorites">Preferiti</string>
     <string name="all">Sfondi</string>
     <string name="loading">Caricamento…</string>
+    <string name="data_error_network">Verifica la connessione a Internet e riprova.</string>
+    <string name="data_error_format">I dati potrebbero essere malformati. Contatta lo sviluppatore.</string>
     <string name="no_wallpapers_found">Nessuno Sfondo</string>
     <string name="no_collections_found">Nessuna Collezione</string>
     <string name="no_favorites_found">Nessun Preferito</string>
@@ -43,6 +45,8 @@
     <string name="interface_animations_summary">Disattiva per prestazioni migliori.</string>
     <string name="display_full_res_previews">Miniature ad Alta Qualità</string>
     <string name="display_full_res_previews_summary">Questo utilizza più dati.</string>
+    <string name="download_on_wifi_only">Scarica sfondi solo su Wi-Fi</string>
+    <string name="download_on_wifi_only_summary">Disabilita anche su rete mobile.</string>
     <string name="crop_pictures">Scala e Adatta</string>
     <string name="crop_pictures_summary">Ridimensiona gli sfondi in base alla risoluzione dello schermo.</string>
     <string name="download_location">Sfondi Salvati In</string>

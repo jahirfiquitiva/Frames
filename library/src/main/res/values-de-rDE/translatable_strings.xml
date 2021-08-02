@@ -5,6 +5,8 @@
     <string name="favorites">Favoriten</string>
     <string name="all">Wallpaper</string>
     <string name="loading">Lade…</string>
+    <string name="data_error_network">Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.</string>
+    <string name="data_error_format">Daten sind möglicherweise fehlerhaft. Kontaktiere den Entwickler.</string>
     <string name="no_wallpapers_found">Keine Wallpaper</string>
     <string name="no_collections_found">Keine Kollektionen</string>
     <string name="no_favorites_found">Keine Favoriten</string>
@@ -43,6 +45,8 @@
     <string name="interface_animations_summary">Für eine bessere Performance deaktivieren.</string>
     <string name="display_full_res_previews">Hochauflösende Thumbnails</string>
     <string name="display_full_res_previews_summary">Dies benutzt mehr Datenvolumen.</string>
+    <string name="download_on_wifi_only">Hintergrundbilder nur über WLAN herunterladen</string>
+    <string name="download_on_wifi_only_summary">Deaktivieren, um auch mobile Daten zu verwenden.</string>
     <string name="crop_pictures">Größe automatisch anpassen</string>
     <string name="crop_pictures_summary">Wallpaper-Größe anpassen, um zur Displayauflösung zu passen.</string>
     <string name="download_location">Wallpaper hier speichern</string>
