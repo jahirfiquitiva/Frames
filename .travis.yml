@@ -1,7 +1,18 @@
 language: android
 dist: trusty
 sudo: false
-jdk: oraclejdk11
+jdk:
+  - openjdk11
+  - openjdk-ea
+
+matrix:
+  allow_failures:
+    - jdk: openjdk-ea
+  include:
+    - jdk: openjdk11
+      before_install:
+        - rm "${JAVA_HOME}/lib/security/cacerts"
+        - ln -s /etc/ssl/certs/java/cacerts "${JAVA_HOME}/lib/security/cacerts"
 
 env:
   global:
@@ -21,6 +32,7 @@ android:
     - '.+'
 
 before_install:
+  - touch ~/.android/repositories.cfg
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
   - yes | sdkmanager "platforms;android-$ANDROID_API"

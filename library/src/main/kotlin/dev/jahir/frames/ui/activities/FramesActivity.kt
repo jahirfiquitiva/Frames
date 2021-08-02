@@ -55,7 +55,7 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
         changeFragment(initialItemId, force = true)
 
         bottomNavigation?.selectedItemId = initialItemId
-        bottomNavigation?.setOnNavigationItemSelectedListener { changeFragment(it.itemId) }
+        bottomNavigation?.setOnItemSelectedListener { changeFragment(it.itemId) }
 
         wallpapersViewModel.observeWallpapers(this, ::handleWallpapersUpdate)
         wallpapersViewModel.observeCollections(this, ::handleCollectionsUpdate)

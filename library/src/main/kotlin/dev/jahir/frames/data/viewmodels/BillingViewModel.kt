@@ -6,15 +6,16 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.ConsumeParams
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.SkuDetails
 import com.android.billingclient.api.SkuDetailsParams
+import com.android.billingclient.api.consumePurchase
 import dev.jahir.frames.data.listeners.BillingProcessesListener
 import dev.jahir.frames.data.models.DetailedPurchaseRecord
 import dev.jahir.frames.extensions.utils.asDetailedPurchase
@@ -140,11 +141,10 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
     private suspend fun queryPurchases(@BillingClient.SkuType skuType: String) {
         if (!isBillingClientReady) return
         withContext(IO) {
-            billingClient?.queryPurchases(skuType)?.let {
-                if (it.billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+            billingClient?.queryPurchasesAsync(skuType) { billingResult, purchasesList ->
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     postPurchasesHistory(skuType,
-                        it.purchasesList.orEmpty()
-                            .mapNotNull { purchase -> purchase.asDetailedPurchase() })
+                        purchasesList.mapNotNull { purchase -> purchase.asDetailedPurchase() })
                 }
             }
         }
@@ -173,9 +173,30 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    private fun handlePurchase(purchase: Purchase) {
+    private suspend fun handlePurchase(purchase: Purchase) {
         if (!isBillingClientReady) return
         if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
+            // Consumable Purchases (Can be consumed and purchased multiple times)
+            try {
+                val consumeParams =
+                    ConsumeParams.newBuilder()
+                        .setPurchaseToken(purchase.purchaseToken)
+                        .build()
+                val consumeResult = withContext(IO) {
+                    billingClient?.consumePurchase(consumeParams)
+                }
+                consumeResult?.billingResult?.let {
+                    if (it.responseCode == BillingClient.BillingResponseCode.OK) {
+                        billingProcessesListener?.onSkuPurchaseSuccess(purchase.asDetailedPurchase())
+                    } else {
+                        billingProcessesListener?.onSkuPurchaseError(purchase.asDetailedPurchase())
+                    }
+                } ?: billingProcessesListener?.onSkuPurchaseError(purchase.asDetailedPurchase())
+            } catch (e: Exception) {
+                billingProcessesListener?.onSkuPurchaseError(purchase.asDetailedPurchase())
+            }
+
+            /* Non-Consumable Purchases (One-time only purchases)
             if (!purchase.isAcknowledged) {
                 val acknowledgePurchaseParams =
                     AcknowledgePurchaseParams.newBuilder()
@@ -195,6 +216,7 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
                     billingProcessesListener?.onSkuPurchaseError(purchase.asDetailedPurchase())
                 }
             }
+            */
         }
     }
 
@@ -216,7 +238,11 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
     ) {
         purchases ?: return
         if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases.isNotEmpty()) {
-            purchases.forEach { handlePurchase(it) }
+            viewModelScope.launch {
+                purchases.forEach {
+                    handlePurchase(it)
+                }
+            }
             loadPastPurchases()
         }
     }
