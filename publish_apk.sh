@@ -1,15 +1,5 @@
 #!/usr/bin/env bash
-ls -la
-cd ./app
-ls -la
-cd ./build
-ls -la
-cd ./outputs
-ls -la
-cd ./apk
-ls -la
-cd ./release/
-ls -la
+cd ./app/build/outputs/apk/release/
 
     printf "\n\nGetting tag information\n"
     tagInfo=$(
@@ -49,7 +39,7 @@ ls -la
           "https://uploads.github.com/repos/${GITHUB_REPOSITORY}/releases/${releaseId}/assets?name=$(basename $FILE)&access_token=${GITHUB_API_KEY}"
       )
 
-      printf "\n\nUpload Result: $upload\n"
+      # printf "\n\nUpload Result: $upload\n"
 
       url="$(echo "$upload" | jq --compact-output ".browser_download_url")"
       url=$(echo ${url} | cut -d "\"" -f 2)

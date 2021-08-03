@@ -60,4 +60,5 @@ jobs:
       - name: Publish apk
         env:
           GITHUB_API_KEY: ${{ secrets.GITHUB_TOKEN }}
+          UPDATE_DISCORD_WEBHOOK: ${{ secrets.UPDATE_DISCORD_WEBHOOK }}
         run: chmod +x ./publish_apk.sh; ./publish_apk.sh
