@@ -30,12 +30,18 @@ class WallpaperDownloader(context: Context, params: WorkerParameters) :
         val fileUri: Uri? = Uri.fromFile(file)
         fileUri ?: return -1L
 
+        val downloadUsingWiFiOnly = context?.preferences?.shouldDownloadOnWiFiOnly ?: true
+        val allowedNetworkTypes =
+            if (downloadUsingWiFiOnly) DownloadManager.Request.NETWORK_WIFI
+            else (DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+
         val request = DownloadManager.Request(Uri.parse(url))
             .apply {
                 setTitle(file.name)
                 setDescription(context?.string(R.string.downloading_wallpaper, file.name))
                 setDestinationUri(fileUri)
-                setAllowedOverRoaming(!(context?.preferences?.shouldDownloadOnWiFiOnly ?: true))
+                setAllowedNetworkTypes(allowedNetworkTypes)
+                setAllowedOverRoaming(!downloadUsingWiFiOnly)
                 setNotificationVisibility(
                     DownloadManager.Request.VISIBILITY_VISIBLE
                             or DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
