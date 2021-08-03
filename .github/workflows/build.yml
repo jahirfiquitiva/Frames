@@ -7,8 +7,8 @@ on:
       - master
 
 jobs:
-  apk:
-    name: Build apk, upload to release and notify Discord
+  test:
+    name: Build app
     runs-on: ubuntu-18.04
     steps:
       - name: Check out code
@@ -51,31 +51,5 @@ jobs:
       - name: Make gradle wrapper executable
         run: chmod +x gradle/wrapper/gradle-wrapper.jar
 
-      # - name: Build
-      #   run: ./gradlew clean test --full-stacktrace
-
-      - name: Build master app
-        run: ./gradlew clean :app:assembleRelease --full-stacktrace
-
-      - name: Get release information
-        env:
-          GITHUB_API_KEY: ${{ secrets.GITHUB_TOKEN }}
-        run: chmod +x ./scripts/get_release_data.sh; ./scripts/get_release_data.sh
-
-      - name: Upload APK to release
-        id: upload_apk
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: "./app/build/outputs/apk/release/${{ env.apk_file }}"
-          asset_name: "Frames-${{ env.release_tag }}.apk"
-          tag: ${{ env.release_tag }}
-          overwrite: true
-
-      - name: Notify Discord server
-        env:
-          RELEASE_TAG: ${{ env.release_tag }}
-          APK_URL: ${{ steps.upload_apk.outputs.browser_download_url }}
-          CHANGELOG: ${{ env.release_changes }}
-          UPDATE_DISCORD_WEBHOOK: ${{ secrets.UPDATE_DISCORD_WEBHOOK }}
-        run: chmod +x ./scripts/notify_discord.sh; ./scripts/notify_discord.sh
+      - name: Build
+        run: ./gradlew clean test --full-stacktrace
