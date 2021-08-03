@@ -43,7 +43,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Delete previous outputs
-        run: rm -rf $TRAVIS_BUILD_DIR/app/build/outputs
+        run: rm -rf ./app/build/outputs
 
       - name: Make gradlew executable
         run: chmod +x gradlew
