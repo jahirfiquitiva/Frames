@@ -5,7 +5,7 @@ cd ./app/build/outputs/apk/release/
     tagInfo=$(
       curl \
         -H "Authorization: token $GITHUB_API_KEY" \
-        "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/releases/tags/3.4.3"
+        "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/releases/latest"
     )
     # printf "\n\nRelease data: $tagInfo\n"
     releaseId="$(echo "$tagInfo" | jq --compact-output ".id")"
@@ -39,8 +39,6 @@ cd ./app/build/outputs/apk/release/
           "https://uploads.github.com/repos/${GITHUB_REPOSITORY}/releases/${releaseId}/assets?name=$(basename $FILE)&access_token=${GITHUB_API_KEY}"
       )
 
-      # printf "\n\nUpload Result: $upload\n"
-
       url="$(echo "$upload" | jq --compact-output ".browser_download_url")"
       url=$(echo ${url} | cut -d "\"" -f 2)
       url=$(echo "${url//\"\r\n\"/$ln}")
@@ -60,6 +58,7 @@ cd ./app/build/outputs/apk/release/
 
         printf "\n\nFinished uploading APK(s) and sending notifications\n"
       else
+      	printf "\n\nUpload Result: $upload\n"
         printf "\n\nSkipping notifications because no file was uploaded\n"
       fi
     done

@@ -51,8 +51,8 @@ jobs:
       - name: Make gradle wrapper executable
         run: chmod +x gradle/wrapper/gradle-wrapper.jar
 
-      - name: Build
-        run: ./gradlew clean test --full-stacktrace
+      # - name: Build
+      #   run: ./gradlew clean test --full-stacktrace
 
       - name: Build master app
         run: ./gradlew clean :app:assembleRelease --full-stacktrace
