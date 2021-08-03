@@ -8,7 +8,7 @@ on:
 
 jobs:
   apk:
-    name: Test build
+    name: Build apk, upload to release and notify Discord
     runs-on: ubuntu-18.04
     steps:
       - name: Check out code

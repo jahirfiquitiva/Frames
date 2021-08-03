@@ -15,8 +15,7 @@ if [[ ! -z "$url" && "$url" != " " && "$url" != "null" ]]; then
 	message+=")\n* [Donate & support future development](https://jahir.dev/donate)"
 	curl -X POST -H 'Content-Type: application/json' -d '{ "embeds": [{ "title": "**New update available! ('"$RELEASE_TAG"')** 🚀", "description": "'"$message"'", "color": 15844367 }] }' $UPDATE_DISCORD_WEBHOOK
 
-	printf "\n\nFinished uploading APK(s) and sending notifications\n"
+	printf "\n\nFinished sending notifications\n"
 else
-	printf "\n\nUpload Result: $upload\n"
 	printf "\n\nSkipping notifications because no file was uploaded\n"
 fi
