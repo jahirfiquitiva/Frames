@@ -24,8 +24,8 @@ before_install:
   - touch ~/.android/repositories.cfg
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-  - yes | sdkmanager "platforms;android-$ANDROID_API"
-  - yes | sdkmanager "build-tools;$ANDROID_BUILD_TOOLS"
+  - yes | $ANDROID_HOME/tools/bin/sdkmanager "platforms;android-$ANDROID_API"
+  - yes | $ANDROID_HOME/tools/bin/sdkmanager "build-tools;$ANDROID_BUILD_TOOLS"
 
 script: if [[ "$TRAVIS_TAG" ]]; then ./gradlew clean :app:assembleRelease --full-stacktrace; else ./gradlew clean test --full-stacktrace; fi
 
