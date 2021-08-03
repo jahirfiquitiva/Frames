@@ -57,11 +57,20 @@ jobs:
       - name: Build master app
         run: ./gradlew clean :app:assembleRelease --full-stacktrace
 
-      - name: Publish apk
+      - name: Get release information
         env:
           GITHUB_API_KEY: ${{ secrets.GITHUB_TOKEN }}
           UPDATE_DISCORD_WEBHOOK: ${{ secrets.UPDATE_DISCORD_WEBHOOK }}
         run: chmod +x ./publish_apk.sh; ./publish_apk.sh
 
       - name: Use the value
-        run: echo "${{ env.apk_file }}"
+        run: echo "${{ env.apk_file }}"; echo "${{ env.release_tag }}"; echo "${{ env.release_changes }}"; echo "${{ env.secondary_changes }}"
+
+      - name: Upload APK to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: "./app/build/outputs/apk/release/${{ env.apk_file }}"
+          asset_name: "Frames-${{ env.release_tag }}.apk"
+          tag: ${{ env.release_tag }}
+          overwrite: true
