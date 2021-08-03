@@ -29,6 +29,9 @@ cd ./app/build/outputs/apk/release/
 
     for apk in $(find *.apk -type f); do
       FILE="$apk"
+
+      echo "apk_file=$FILE" >> $GITHUB_ENV
+
       printf "\n\nUploading: $FILE ... \n"
       upload=$(
         curl \
