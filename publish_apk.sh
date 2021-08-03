@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 ls -la
-cd ./app/build/outputs/apk/release/
+cd ./app
+ls -la
+cd ./build
+ls -la
+cd ./outputs
+ls -la
+cd ./apk
+ls -la
+cd ./release/
+ls -la
 
     printf "\n\nGetting tag information\n"
     tagInfo=$(
