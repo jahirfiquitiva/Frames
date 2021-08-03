@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation,ExtraTranslation">
     <string name="wallpapers">Imagini de fundal</string>
     <string name="collections">Colecții</string>
     <string name="favorites">Favorite</string>
     <string name="all">Imagini de fundal</string>
     <string name="loading">Se încarcă…</string>
     <string name="data_error_network">Verifică-ți conexiunea la internet și încearcă din nou.</string>
+    <string name="data_error_network_wifi_only">Conectează-te la Wi-Fi și încearcă din nou sau dezactivează această opțiune în Setări.</string>
     <string name="data_error_format">Datele sunt probabil incorect formate. Contactați dezvoltatorul.</string>
     <string name="no_wallpapers_found">Nicio imagine de fundal</string>
     <string name="no_collections_found">Nicio colecție</string>
