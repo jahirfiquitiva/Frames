@@ -7,7 +7,7 @@ on:
       - master
 
 jobs:
-  test:
+  apk:
     name: Test build
     runs-on: ubuntu-18.04
     steps:
@@ -60,13 +60,10 @@ jobs:
       - name: Get release information
         env:
           GITHUB_API_KEY: ${{ secrets.GITHUB_TOKEN }}
-          UPDATE_DISCORD_WEBHOOK: ${{ secrets.UPDATE_DISCORD_WEBHOOK }}
         run: chmod +x ./publish_apk.sh; ./publish_apk.sh
 
-      - name: Use the value
-        run: echo "${{ env.apk_file }}"; echo "${{ env.release_tag }}"; echo "${{ env.release_changes }}"; echo "${{ env.secondary_changes }}"
-
       - name: Upload APK to release
+        id: upload_apk
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -74,3 +71,11 @@ jobs:
           asset_name: "Frames-${{ env.release_tag }}.apk"
           tag: ${{ env.release_tag }}
           overwrite: true
+
+      - name: Notify Discord server
+        env:
+          RELEASE_TAG: ${{ env.release_tag }}
+          APK_URL: ${{ steps.upload_apk.outputs.browser_download_url }}
+          CHANGELOG: ${{ env.release_changes }}
+          UPDATE_DISCORD_WEBHOOK: ${{ secrets.UPDATE_DISCORD_WEBHOOK }}
+        run: chmod +x ./notify_discord.sh; ./notify_discord.sh

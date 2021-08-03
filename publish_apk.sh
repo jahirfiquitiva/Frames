@@ -33,7 +33,6 @@ cd ./app/build/outputs/apk/release/
       echo "release_tag=$releaseName" >> $GITHUB_ENV
       echo "apk_file=$FILE" >> $GITHUB_ENV
       echo "release_changes=$defaultChanges" >> $GITHUB_ENV
-      echo "second_changes=$changes" >> $GITHUB_ENV
 
       break
     done
