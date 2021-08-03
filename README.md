@@ -6,8 +6,7 @@ Frames
 ![API](https://img.shields.io/badge/API-21%2B-34bf49.svg)
 [![GitHub Release](https://img.shields.io/github/v/release/jahirfiquitiva/Frames?label=Frames&sort=semver)](https://github.com/jahirfiquitiva/Frames/releases/latest)
 [![Build Status](https://github.com/jahirfiquitiva/Frames/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/jahirfiquitiva/Frames/actions/workflows/build.yml)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9747a594949f49b9a8146909868adfba)](https://www.codacy.com/app/jahirfiquitiva/Frames?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jahirfiquitiva/Frames&amp;utm_campaign=Badge_Grade)
-[![Crowdin](https://d322cqt584bo4o.cloudfront.net/Frames/localized.svg)](https://crowdin.com/project/Frames/invite)
+[![Crowdin](https://badges.crowdin.net/Frames/localized.svg)](https://crowdin.com/project/Frames/invite)
 
 Free, feature-rich, easily customizable Android dashboard for wallpapers apps
 
