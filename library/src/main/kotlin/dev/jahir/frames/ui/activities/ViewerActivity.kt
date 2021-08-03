@@ -5,7 +5,6 @@ package dev.jahir.frames.ui.activities
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.MenuItem
@@ -24,7 +23,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.palette.graphics.Palette
 import coil.annotation.ExperimentalCoilApi
 import com.fondesa.kpermissions.PermissionStatus
-import com.google.android.material.bottomnavigation.LabelVisibilityMode
+import com.google.android.material.navigation.NavigationBarView
 import com.ortiz.touchview.TouchImageView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
@@ -34,6 +33,8 @@ import dev.jahir.frames.extensions.context.color
 import dev.jahir.frames.extensions.context.compliesWithMinTime
 import dev.jahir.frames.extensions.context.findView
 import dev.jahir.frames.extensions.context.firstInstallTime
+import dev.jahir.frames.extensions.context.isNetworkAvailable
+import dev.jahir.frames.extensions.context.isWifiConnected
 import dev.jahir.frames.extensions.context.navigationBarLight
 import dev.jahir.frames.extensions.context.statusBarLight
 import dev.jahir.frames.extensions.context.string
@@ -93,7 +94,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         statusBarLight = false
         navigationBarLight = false
         setContentView(R.layout.activity_viewer)
-        bottomNavigation?.labelVisibilityMode = LabelVisibilityMode.LABEL_VISIBILITY_LABELED
+        bottomNavigation?.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_LABELED
 
         supportPostponeEnterTransition()
 
@@ -284,42 +285,40 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
     }
 
     private fun initWindow() {
-        if (Build.VERSION.SDK_INT >= 21) {
-            window.decorView.systemUiVisibility =
-                SYSTEM_UI_FLAG_LAYOUT_STABLE or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                        SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        window.decorView.systemUiVisibility =
+            SYSTEM_UI_FLAG_LAYOUT_STABLE or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                    SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
 
-            val params: WindowManager.LayoutParams = window.attributes
-            params.flags = params.flags and WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS.inv()
-            window.attributes = params
+        val params: WindowManager.LayoutParams = window.attributes
+        params.flags = params.flags and WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS.inv()
+        window.attributes = params
 
-            appbar?.let { appbar ->
-                ViewCompat.setOnApplyWindowInsetsListener(appbar) { _, insets ->
-                    appbar.setMarginTop(insets.systemWindowInsetTop)
-                    appbar.setPaddingLeft(
-                        if (boolean(R.bool.is_landscape)) insets.systemWindowInsetLeft
-                        else 0
-                    )
-                    appbar.setPaddingRight(
-                        if (boolean(R.bool.is_landscape)) insets.systemWindowInsetRight
-                        else 0
-                    )
-                    insets
-                }
+        appbar?.let { appbar ->
+            ViewCompat.setOnApplyWindowInsetsListener(appbar) { _, insets ->
+                appbar.setMarginTop(insets.systemWindowInsetTop)
+                appbar.setPaddingLeft(
+                    if (boolean(R.bool.is_landscape)) insets.systemWindowInsetLeft
+                    else 0
+                )
+                appbar.setPaddingRight(
+                    if (boolean(R.bool.is_landscape)) insets.systemWindowInsetRight
+                    else 0
+                )
+                insets
             }
-
-            bottomNavigation?.let { bottomNavigation ->
-                ViewCompat.setOnApplyWindowInsetsListener(bottomNavigation) { _, insets ->
-                    bottomNavigation.setMarginBottom(insets.systemWindowInsetBottom)
-                    insets
-                }
-            }
-
-            window.statusBarColor = color(R.color.viewer_bars_colors)
-            window.navigationBarColor = color(R.color.viewer_bars_colors)
         }
+
+        bottomNavigation?.let { bottomNavigation ->
+            ViewCompat.setOnApplyWindowInsetsListener(bottomNavigation) { _, insets ->
+                bottomNavigation.setMarginBottom(insets.systemWindowInsetBottom)
+                insets
+            }
+        }
+
+        window.statusBarColor = color(R.color.viewer_bars_colors)
+        window.navigationBarColor = color(R.color.viewer_bars_colors)
     }
 
     open fun handleNavigationItemSelected(itemId: Int, wallpaper: Wallpaper?): Boolean {
@@ -339,6 +338,23 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         return false
     }
 
+    private fun checkForNetworkBeforeDownload(): Boolean {
+        val downloadUsingWiFiOnly = preferences.shouldDownloadOnWiFiOnly
+        val shouldShowNetworkDialog =
+            !isNetworkAvailable() || (downloadUsingWiFiOnly && !isWifiConnected)
+        if (shouldShowNetworkDialog) {
+            dismissDownloadBlockedDialog()
+            downloadBlockedDialog = mdDialog {
+                title(R.string.error)
+                message(R.string.data_error_network)
+                positiveButton(android.R.string.ok) { it.dismiss() }
+            }
+            downloadBlockedDialog?.show()
+            return false
+        }
+        return true
+    }
+
     private fun checkForDownload() {
         if (!shouldShowDownloadOption()) return
         val actuallyComplies =
@@ -346,6 +362,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
                 compliesWithMinTime(MIN_TIME) || boolean(R.bool.allow_immediate_downloads)
             else true
         if (actuallyComplies) {
+            if (!checkForNetworkBeforeDownload()) return
             requestStoragePermission()
         } else {
             val elapsedTime = System.currentTimeMillis() - firstInstallTime
