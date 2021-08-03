@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation,ExtraTranslation">
     <string name="wallpapers">Tapety</string>
     <string name="collections">Sbírky</string>
     <string name="favorites">Oblíbené</string>
     <string name="all">Tapety</string>
     <string name="loading">Načítání…</string>
     <string name="data_error_network">Zkontrolujte své připojení k Internetu a zkuste to znovu.</string>
+    <string name="data_error_network_wifi_only">Připojte se k Wi-Fi a zkuste to znovu nebo tuto možnost vypněte v Nastavení.</string>
     <string name="data_error_format">Data jsou pravděpodobně poškozená. Kontaktujte vývojáře.</string>
     <string name="no_wallpapers_found">Žádné tapety</string>
     <string name="no_collections_found">Žádné sbírky</string>
