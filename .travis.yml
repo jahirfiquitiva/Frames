@@ -1,18 +1,7 @@
 language: android
 dist: trusty
 sudo: false
-jdk:
-  - openjdk11
-  - openjdk-ea
-
-matrix:
-  allow_failures:
-    - jdk: openjdk-ea
-  include:
-    - jdk: openjdk11
-      before_install:
-        - rm "${JAVA_HOME}/lib/security/cacerts"
-        - ln -s /etc/ssl/certs/java/cacerts "${JAVA_HOME}/lib/security/cacerts"
+jdk: openjdk11
 
 env:
   global:
