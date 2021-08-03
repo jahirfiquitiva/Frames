@@ -60,7 +60,7 @@ jobs:
       - name: Get release information
         env:
           GITHUB_API_KEY: ${{ secrets.GITHUB_TOKEN }}
-        run: chmod +x ./publish_apk.sh; ./publish_apk.sh
+        run: chmod +x ./scripts/get_release_data.sh; ./scripts/get_release_data.sh
 
       - name: Upload APK to release
         id: upload_apk
@@ -78,4 +78,4 @@ jobs:
           APK_URL: ${{ steps.upload_apk.outputs.browser_download_url }}
           CHANGELOG: ${{ env.release_changes }}
           UPDATE_DISCORD_WEBHOOK: ${{ secrets.UPDATE_DISCORD_WEBHOOK }}
-        run: chmod +x ./notify_discord.sh; ./notify_discord.sh
+        run: chmod +x ./scripts/notify_discord.sh; ./scripts/notify_discord.sh

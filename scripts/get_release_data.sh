@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-cd ./app/build/outputs/apk/release/
-
-printf "\n\nGetting tag information\n"
+printf "\n\nGetting tag information...\n"
 tagInfo=$(
 	curl \
 		-H "Authorization: token $GITHUB_API_KEY" \
@@ -27,6 +25,8 @@ repoName=$(echo ${GITHUB_REPOSITORY} | cut -d / -f 2)
 
 printf "\n"
 
+cd ./app/build/outputs/apk/release/
+printf "\n\nGetting APK file name...\n"
 for apk in $(find *.apk -type f); do
 	FILE="$apk"
 
