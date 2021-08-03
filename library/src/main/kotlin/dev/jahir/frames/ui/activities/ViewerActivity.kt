@@ -338,15 +338,19 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         return false
     }
 
-    private fun checkForNetworkBeforeDownload(): Boolean {
+    private fun hasValidNetworkAvailable(): Boolean {
         val downloadUsingWiFiOnly = preferences.shouldDownloadOnWiFiOnly
-        val shouldShowNetworkDialog =
-            !isNetworkAvailable() || (downloadUsingWiFiOnly && !isWifiConnected)
+        val isConnected = isNetworkAvailable()
+        val usingMobileData = (downloadUsingWiFiOnly && !isWifiConnected) && isConnected
+        val shouldShowNetworkDialog = !isConnected || usingMobileData
         if (shouldShowNetworkDialog) {
             dismissDownloadBlockedDialog()
             downloadBlockedDialog = mdDialog {
                 title(R.string.error)
-                message(R.string.data_error_network)
+                message(
+                    if (usingMobileData) R.string.data_error_network_wifi_only
+                    else R.string.data_error_network
+                )
                 positiveButton(android.R.string.ok) { it.dismiss() }
             }
             downloadBlockedDialog?.show()
@@ -362,7 +366,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
                 compliesWithMinTime(MIN_TIME) || boolean(R.bool.allow_immediate_downloads)
             else true
         if (actuallyComplies) {
-            if (!checkForNetworkBeforeDownload()) return
+            if (!hasValidNetworkAvailable()) return
             requestStoragePermission()
         } else {
             val elapsedTime = System.currentTimeMillis() - firstInstallTime

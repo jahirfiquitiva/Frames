@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation,ExtraTranslation">
     <string name="wallpapers">Wallpapers</string>
     <string name="collections">Collections</string>
     <string name="favorites">Favorites</string>
     <string name="all">Wallpapers</string>
     <string name="loading">Loading…</string>
     <string name="data_error_network">Please check your internet connection and try again.</string>
+    <string name="data_error_network_wifi_only">Please connect to Wi-Fi and try again, or disable this option in Settings.</string>
     <string name="data_error_format">Data is possibly malformed. Contact developer.</string>
     <string name="no_wallpapers_found">No Wallpapers</string>
     <string name="no_collections_found">No Collections</string>
