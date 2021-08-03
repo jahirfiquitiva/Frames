@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+ls -la
 cd ./app/build/outputs/apk/release/
 
     printf "\n\nGetting tag information\n"
@@ -7,7 +8,7 @@ cd ./app/build/outputs/apk/release/
         -H "Authorization: token $GITHUB_API_KEY" \
         "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/releases/tags/3.4.3"
     )
-    printf "\n\nRelease data: $tagInfo\n"
+    # printf "\n\nRelease data: $tagInfo\n"
     releaseId="$(echo "$tagInfo" | jq --compact-output ".id")"
 
     releaseNameOrg="$(echo "$tagInfo" | jq --compact-output ".tag_name")"
