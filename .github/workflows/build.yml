@@ -50,3 +50,14 @@ jobs:
 
       - name: Build
         run: ./gradlew clean test --full-stacktrace
+
+      - name: Build master app
+        run: ./gradlew clean :app:assembleRelease --full-stacktrace;
+
+      - name: Build master library
+        run: ./gradlew clean :library:assembleRelease --full-stacktrace;
+
+      - name: Publish apk
+        env:
+          GITHUB_API_KEY: ${{ secrets.GITHUB_TOKEN }}
+        run: chmod +x ./publish_apk.sh; ./publish_apk.sh

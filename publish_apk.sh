@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
-if [ "$TRAVIS_PULL_REQUEST" = false ]; then
-  if [ "$TRAVIS_TAG" ]; then
-    cd $TRAVIS_BUILD_DIR/app/build/outputs/apk/release/
+cd ./app/build/outputs/apk/release/
 
     printf "\n\nGetting tag information\n"
     tagInfo=$(
       curl \
         -H "Authorization: token $GITHUB_API_KEY" \
-        "https://api.github.com/repos/${TRAVIS_REPO_SLUG}/releases/tags/${TRAVIS_TAG}"
+        "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/releases/tags/3.4.3"
     )
     printf "\n\nRelease data: $tagInfo\n"
     releaseId="$(echo "$tagInfo" | jq --compact-output ".id")"
@@ -25,7 +23,7 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
     changes=$(echo "${changes//'\r\n'/$ln}")
     changes=$(echo "${changes//\\r\\n/$ln}")
 
-    repoName=$(echo ${TRAVIS_REPO_SLUG} | cut -d / -f 2)
+    repoName=$(echo ${GITHUB_REPOSITORY} | cut -d / -f 2)
 
     printf "\n"
 
@@ -38,7 +36,7 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
           -H "Content-Type: $(file -b --mime-type $FILE)" \
           --data-binary @$FILE \
           --upload-file $FILE \
-          "https://uploads.github.com/repos/${TRAVIS_REPO_SLUG}/releases/${releaseId}/assets?name=$(basename $FILE)&access_token=${GITHUB_API_KEY}"
+          "https://uploads.github.com/repos/${GITHUB_REPOSITORY}/releases/${releaseId}/assets?name=$(basename $FILE)&access_token=${GITHUB_API_KEY}"
       )
 
       printf "\n\nUpload Result: $upload\n"
@@ -65,9 +63,3 @@ if [ "$TRAVIS_PULL_REQUEST" = false ]; then
         printf "\n\nSkipping notifications because no file was uploaded\n"
       fi
     done
-  else
-    printf "\n\nSkipping APK(s) upload because this commit does not have a tag\n"
-  fi
-else
-  printf "\n\nSkipping APK(s) upload because this is just a pull request\n"
-fi
