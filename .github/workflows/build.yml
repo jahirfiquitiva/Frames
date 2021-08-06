@@ -20,14 +20,8 @@ jobs:
           distribution: adopt
           java-version: 11
 
-      - name: Delete modules cache
-        run: rm -f ~/.gradle/caches/modules-2/modules-2.lock
-
-      - name: Delete plugin resolution cache
-        run: rm -fr ~/.gradle/caches/*/plugin-resolution/
-
-      - name: Copy CI gradle.properties
-        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+      - name: Delete some caches
+        run: rm -f ~/.gradle/caches/modules-2/modules-2.lock; rm -fr ~/.gradle/caches/*/plugin-resolution/
 
       - name: Cache Gradle
         uses: actions/cache@v2
@@ -42,14 +36,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Delete previous outputs
-        run: rm -rf ./app/build/outputs
-
       - name: Make gradlew executable
-        run: chmod +x gradlew
-
-      - name: Make gradle wrapper executable
-        run: chmod +x gradle/wrapper/gradle-wrapper.jar
+        run: chmod +x gradlew; chmod +x gradle/wrapper/gradle-wrapper.jar
 
       - name: Build
         run: ./gradlew clean test --full-stacktrace
