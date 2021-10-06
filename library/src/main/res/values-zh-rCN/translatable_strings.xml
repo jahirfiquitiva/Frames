@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation,ExtraTranslation">
     <string name="wallpapers">壁纸</string>
     <string name="collections">专辑</string>
     <string name="favorites">收藏</string>
     <string name="all">壁纸</string>
     <string name="loading">加载中...</string>
+    <string name="data_error_network">请检查您的网络连接并重试</string>
+    <string name="data_error_network_wifi_only">请连接到 Wi-Fi 后再试，或者在设置中禁用此选项</string>
+    <string name="data_error_format">数据格式可能不正确，请联系开发者</string>
     <string name="no_wallpapers_found">暂无壁纸</string>
     <string name="no_collections_found">暂无专辑</string>
     <string name="no_favorites_found">暂无收藏</string>
@@ -43,6 +46,8 @@
     <string name="interface_animations_summary">禁用以提高性能</string>
     <string name="display_full_res_previews">高清缩略图</string>
     <string name="display_full_res_previews_summary">这将占用更多缓存空间</string>
+    <string name="download_on_wifi_only">仅在连接 Wi-Fi 时下载壁纸</string>
+    <string name="download_on_wifi_only_summary">禁用即可通过移动数据下载</string>
     <string name="crop_pictures">自适应屏幕</string>
     <string name="crop_pictures_summary">调整壁纸大小以匹配屏幕分辨率</string>
     <string name="download_location">壁纸保存到</string>
@@ -111,7 +116,7 @@
     <string name="minutes">分钟</string>
     <string name="hours">小时</string>
     <string name="days">天</string>
-    <string name="refresh_only_on_wifi">仅在 Wi-Fi 环境下刷新</string>
+    <string name="refresh_only_on_wifi">仅在使用 Wi-Fi 时刷新</string>
     <string name="choose_collections_title">显示来自此处的壁纸：</string>
     <string name="no_collections_selected">未选择收藏集</string>
     <string name="muzei_not_connected_content">连接到互联网以选择收藏集</string>
