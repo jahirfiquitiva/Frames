@@ -1,6 +1,5 @@
 name: Report a Bug 🐛
 description: File a bug report
-title: "[Bug]: "
 labels: ["Status: Pending", "Type: Bug"]
 body:
   - type: markdown
