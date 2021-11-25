@@ -1,5 +1,5 @@
 ---
-name: Bug Report
+name: Old Bug Report
 about: Report any issues/bugs you're facing
 ---
 <!--
