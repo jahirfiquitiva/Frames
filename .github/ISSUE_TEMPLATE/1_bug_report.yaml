@@ -1,4 +1,4 @@
-name: Bug Report
+name: Report a Bug 🐛
 description: File a bug report
 title: "[Bug]: "
 labels: ["Status: Pending", "Type: Bug"]
@@ -11,7 +11,7 @@ body:
     id: requirements
     attributes:
       label: Requirements
-      description: Please make sure you have checked all of these:
+      description: Please make sure you have checked all of the following
       options:
         - label: I have verified there are no duplicate active or recent bugs, questions, or requests
           required: true
