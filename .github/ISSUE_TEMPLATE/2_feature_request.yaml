@@ -6,9 +6,6 @@ body:
     attributes:
       value: |
         *Thanks for taking the time to fill out this feature request!*
-        
-        ---
-        
   - type: markdown
     attributes:
       value: |
