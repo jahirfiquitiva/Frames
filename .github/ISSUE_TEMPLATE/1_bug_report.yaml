@@ -6,19 +6,24 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!
+        *Thanks for taking the time to fill out this bug report!*
+        
+        ---
+        
   - type: checkboxes
     id: requirements
     attributes:
       label: Requirements
-      description: Please make sure you have checked all of the following
+      description: "Please make sure you have checked all of the following:"
       options:
         - label: I have verified there are no duplicate active or recent bugs, questions, or requests
           required: true
   - type: markdown
     attributes:
       value: |
-        ## App and device information:
+        --- 
+        
+        # App and device information:
   - type: input
     id: version
     attributes:
@@ -51,6 +56,10 @@ body:
       placeholder: ex. Pixel 6
     validations:
       required: true
+  - type: markdown
+    attributes:
+      value: |
+        --- 
   - type: textarea
     id: what-happened
     attributes:
