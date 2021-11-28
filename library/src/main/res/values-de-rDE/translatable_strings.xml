@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation,ExtraTranslation">
     <string name="wallpapers">Wallpaper</string>
     <string name="collections">Kollektionen</string>
     <string name="favorites">Favoriten</string>
     <string name="all">Wallpaper</string>
     <string name="loading">Lade…</string>
     <string name="data_error_network">Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.</string>
+    <string name="data_error_network_wifi_only">Bitte verbinden Sie sich mit dem WLAN und versuchen es erneut oder deaktivieren Sie die Option in den Einstellungen.</string>
     <string name="data_error_format">Daten sind möglicherweise fehlerhaft. Kontaktiere den Entwickler.</string>
     <string name="no_wallpapers_found">Keine Wallpaper</string>
     <string name="no_collections_found">Keine Kollektionen</string>
