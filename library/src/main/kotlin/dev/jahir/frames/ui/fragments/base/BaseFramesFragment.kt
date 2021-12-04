@@ -124,7 +124,7 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
         recyclerView?.post { recyclerView?.smoothScrollToPosition(0) }
     }
 
-    fun updateItems(newItems: ArrayList<T>, stillLoading: Boolean = false) {
+    fun updateItems(newItems: List<T>, stillLoading: Boolean = false) {
         this.originalItems.clear()
         this.originalItems.addAll(newItems)
         updateItemsInAdapter(newItems)
@@ -139,7 +139,7 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
         }
 
     abstract fun getFilteredItems(originalItems: ArrayList<T>, filter: String): ArrayList<T>
-    abstract fun updateItemsInAdapter(items: ArrayList<T>)
+    abstract fun updateItemsInAdapter(items: List<T>)
     open fun getTargetActivityIntent(): Intent? = null
 
     @StringRes

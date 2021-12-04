@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 open class Collection(
     val name: String,
     var displayName: String = name,
-    val wallpapers: ArrayList<Wallpaper> = ArrayList()
+    val wallpapers: List<Wallpaper> = emptyList()
 ) : Parcelable {
 
     @IgnoredOnParcel
@@ -18,11 +18,6 @@ open class Collection(
     @IgnoredOnParcel
     var cover: Wallpaper? = null
         private set
-
-    fun push(wallpaper: Wallpaper) {
-        if (wallpapers.any { it.url == wallpaper.url }) return
-        wallpapers.add(wallpaper)
-    }
 
     fun setupCover(usedUrls: ArrayList<String>): ArrayList<String> {
         cover = wallpapers.firstOrNull { !usedUrls.contains(it.url) } ?: wallpapers.firstOrNull()

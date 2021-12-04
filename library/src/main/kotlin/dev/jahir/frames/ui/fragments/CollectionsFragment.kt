@@ -42,7 +42,7 @@ open class CollectionsFragment : BaseFramesFragment<Collection>() {
         )
     }
 
-    override fun updateItemsInAdapter(items: ArrayList<Collection>) {
+    override fun updateItemsInAdapter(items: List<Collection>) {
         collectionsAdapter.collections = items
     }
 

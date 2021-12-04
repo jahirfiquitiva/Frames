@@ -83,7 +83,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         (activity as? BaseFavoritesConnectedActivity<*>)?.loadWallpapersData(true)
     }
 
-    override fun updateItemsInAdapter(items: ArrayList<Wallpaper>) {
+    override fun updateItemsInAdapter(items: List<Wallpaper>) {
         wallsAdapter.wallpapers = items
     }
 

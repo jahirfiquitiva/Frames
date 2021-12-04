@@ -26,6 +26,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
+internal typealias CollectionWithWallpapers = Pair<String, List<Wallpaper>>
+
 @Suppress("unused", "RemoveExplicitTypeArguments")
 open class WallpapersDataViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -33,9 +35,9 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
     val wallpapers: List<Wallpaper>
         get() = wallpapersData.value.orEmpty()
 
-    private val collectionsData: MutableLiveData<ArrayList<Collection>> by lazyMutableLiveData()
-    val collections: ArrayList<Collection>
-        get() = ArrayList(collectionsData.value.orEmpty())
+    private val collectionsData: MutableLiveData<List<Collection>> by lazyMutableLiveData()
+    val collections: List<Collection>
+        get() = collectionsData.value.orEmpty()
 
     private val favoritesData: MutableLiveData<List<Wallpaper>> by lazyMutableLiveData()
     val favorites: List<Wallpaper>
@@ -53,32 +55,45 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
     }
 
     open fun internalTransformWallpapersToCollections(wallpapers: List<Wallpaper>): List<Collection> {
-        val collections =
-            wallpapers.joinToString(",") { it.collections ?: "" }
-                .replace("|", ",")
+        val collectionsMap: MutableMap<String, CollectionWithWallpapers> = hashMapOf()
+        wallpapers.forEach { wallpaper ->
+            val wallpaperCollections = (wallpaper.collections ?: "").replace("|", ",")
                 .split(",")
+                .map { it.trim() }
                 .distinct()
-        val importantCollectionsNames = listOf(
+            wallpaperCollections.forEach { collection ->
+                val collectionKey = collection.lowercase()
+                val currentItems = collectionsMap[collectionKey]?.second.orEmpty()
+                collectionsMap[collectionKey] =
+                    Pair(collection, ArrayList(currentItems).apply {
+                        add(wallpaper)
+                    })
+            }
+        }
+
+        val importantCollectionsNames = arrayOf(
             "all", "featured", "new", "wallpaper of the day", "wallpaper of the week"
         )
-        val sortedCollectionsNames =
-            listOf(importantCollectionsNames, collections).flatten().distinct()
+        val sortedCollections = arrayListOf<CollectionWithWallpapers?>()
+        importantCollectionsNames.forEach { key ->
+            sortedCollections.add(collectionsMap[key])
+            collectionsMap.remove(key)
+        }
+        sortedCollections.addAll(collectionsMap.map { it.value })
 
         var usedCovers = ArrayList<String>()
-        val actualCollections: ArrayList<Collection> = ArrayList()
-        sortedCollectionsNames.forEach { collectionName ->
-            val collection = Collection(collectionName)
-            wallpapers.filter { it.collections.orEmpty().contains(collectionName, true) }
-                .distinctBy { it.url }
-                .forEach { collection.push(it) }
-            usedCovers = collection.setupCover(usedCovers)
-            if (collection.count > 0) actualCollections.add(collection)
-        }
-        return actualCollections
+        return sortedCollections
+            .filterNotNull()
+            .filter { it.second.isNotEmpty() }
+            .map { it ->
+                Collection(it.first, wallpapers = it.second.distinctBy { it.url }).apply {
+                    usedCovers = setupCover(usedCovers)
+                }
+            }
     }
 
-    private suspend fun transformWallpapersToCollections(wallpapers: List<Wallpaper>): ArrayList<Collection> =
-        withContext(IO) { ArrayList(internalTransformWallpapersToCollections(wallpapers)) }
+    private suspend fun transformWallpapersToCollections(wallpapers: List<Wallpaper>): List<Collection> =
+        withContext(IO) { internalTransformWallpapersToCollections(wallpapers) }
 
     private suspend fun getWallpapersFromDatabase(): List<Wallpaper> =
         withContext(IO) {
@@ -291,7 +306,7 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
         wallpapersData.postValue(result)
     }
 
-    private fun postCollections(result: ArrayList<Collection>) {
+    private fun postCollections(result: List<Collection>) {
         collectionsData.value = null
         collectionsData.postValue(result)
     }
@@ -306,7 +321,7 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
         wallpapersData.tryToObserve(owner, onUpdated)
     }
 
-    fun observeCollections(owner: LifecycleOwner, onUpdated: (ArrayList<Collection>) -> Unit) {
+    fun observeCollections(owner: LifecycleOwner, onUpdated: (List<Collection>) -> Unit) {
         collectionsData.tryToObserve(owner, onUpdated)
     }
 

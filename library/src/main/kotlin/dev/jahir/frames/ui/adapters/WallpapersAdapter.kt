@@ -15,11 +15,10 @@ internal class WallpapersAdapter(
     var onFavClick: (Boolean, Wallpaper) -> Unit = { _, _ -> }
 ) : RecyclerView.Adapter<WallpaperViewHolder>() {
 
-    var wallpapers: ArrayList<Wallpaper> = ArrayList()
+    var wallpapers: List<Wallpaper> = emptyList()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
-            wallpapers.clear()
-            wallpapers.addAll(value)
+            field = value
             notifyDataSetChanged()
         }
 

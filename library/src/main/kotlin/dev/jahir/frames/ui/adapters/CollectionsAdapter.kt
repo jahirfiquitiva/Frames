@@ -12,11 +12,10 @@ import dev.jahir.frames.ui.viewholders.CollectionViewHolder
 class CollectionsAdapter(private val onClick: ((collection: Collection) -> Unit)? = null) :
     RecyclerView.Adapter<CollectionViewHolder>() {
 
-    var collections: ArrayList<Collection> = ArrayList()
+    var collections: List<Collection> = emptyList()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
-            collections.clear()
-            collections.addAll(value)
+            field = value
             notifyDataSetChanged()
         }
 

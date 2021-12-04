@@ -200,7 +200,7 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
         wallpapersFragment?.updateItems(ArrayList(wallpapers))
     }
 
-    open fun handleCollectionsUpdate(collections: ArrayList<Collection>) {
+    open fun handleCollectionsUpdate(collections: List<Collection>) {
         collectionsFragment?.updateItems(collections)
     }
 
