@@ -1,5 +1,6 @@
 package dev.jahir.frames.ui.fragments
 
+import android.os.Build
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
@@ -63,8 +64,13 @@ open class SettingsFragment : BasePreferenceFragment() {
         amoledPreference?.setOnCheckedChangeListener { preferences.usesAmoledTheme = it }
 
         val useMaterialYouPref = findPreference<SwitchPreference?>("use_material_you")
-        useMaterialYouPref?.isChecked = preferences.useMaterialYou
-        useMaterialYouPref?.setOnCheckedChangeListener { preferences.useMaterialYou = it }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            useMaterialYouPref?.isChecked = preferences.useMaterialYou
+            useMaterialYouPref?.setOnCheckedChangeListener { preferences.useMaterialYou = it }
+        } else {
+            findPreference<PreferenceCategory?>("interface_prefs")
+                ?.removePreference(useMaterialYouPref)
+        }
 
         val coloredNavbarPref = findPreference<SwitchPreference?>("colored_navigation_bar")
         coloredNavbarPref?.isChecked = preferences.shouldColorNavbar

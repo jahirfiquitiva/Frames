@@ -65,14 +65,6 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
         wallpapersViewModel.observeCollections(this, ::handleCollectionsUpdate)
         wallpapersViewModel.errorListener = ::showDataErrorToastIfNeeded
         loadWallpapersData(true)
-
-        postDelayed(1000) {
-            snackbar("Snackbar text", Snackbar.LENGTH_INDEFINITE) {
-                setAction("Snackbar button") {
-                    toast("Snackbar clicked")
-                }
-            }
-        }
     }
 
     override fun onBackPressed() {

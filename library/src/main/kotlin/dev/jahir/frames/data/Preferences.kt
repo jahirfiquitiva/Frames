@@ -3,6 +3,7 @@ package dev.jahir.frames.data
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import androidx.annotation.StringRes
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.context.boolean
@@ -44,7 +45,10 @@ open class Preferences(private val context: Context) {
         set(value) = prefsEditor.putBoolean(USES_AMOLED_THEME, value).apply()
 
     var useMaterialYou: Boolean
-        get() = prefs.getBoolean(MATERIAL_YOU_ENABLED, true)
+        get() = prefs.getBoolean(
+            MATERIAL_YOU_ENABLED,
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+        )
         set(value) = prefsEditor.putBoolean(MATERIAL_YOU_ENABLED, value).apply()
 
     var shouldColorNavbar: Boolean
