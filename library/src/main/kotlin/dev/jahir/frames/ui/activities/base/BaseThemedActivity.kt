@@ -21,19 +21,20 @@ import dev.jahir.frames.extensions.utils.postDelayed
 abstract class BaseThemedActivity<out P : Preferences> : BaseFinishResultActivity() {
 
     private var wasUsingAmoled: Boolean = false
+    private var useMaterialYou: Boolean = false
     private var coloredNavbar: Boolean = false
 
     @StyleRes
-    open fun defaultTheme(): Int = R.style.Frames_Default
+    open fun defaultTheme(): Int = R.style.MyApp_Default
 
     @StyleRes
-    open fun amoledTheme(): Int = R.style.Frames_Default_Amoled
+    open fun amoledTheme(): Int = R.style.MyApp_Default_Amoled
 
     @StyleRes
-    open fun defaultMaterialYouTheme(): Int = R.style.Frames_Default_MaterialYou
+    open fun defaultMaterialYouTheme(): Int = R.style.MyApp_Default_MaterialYou
 
     @StyleRes
-    open fun amoledMaterialYouTheme(): Int = R.style.Frames_Default_Amoled_MaterialYou
+    open fun amoledMaterialYouTheme(): Int = R.style.MyApp_Default_Amoled_MaterialYou
 
     abstract val preferences: P
 
@@ -45,13 +46,16 @@ abstract class BaseThemedActivity<out P : Preferences> : BaseFinishResultActivit
     override fun onResume() {
         super.onResume()
         if (wasUsingAmoled != preferences.usesAmoledTheme
-            || coloredNavbar != preferences.shouldColorNavbar)
+            || useMaterialYou != preferences.useMaterialYou
+            || coloredNavbar != preferences.shouldColorNavbar) {
             onThemeChanged()
+        }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         wasUsingAmoled = preferences.usesAmoledTheme
+        useMaterialYou = preferences.useMaterialYou
         coloredNavbar = preferences.shouldColorNavbar
     }
 

@@ -143,4 +143,12 @@
         <item name="android:textColor">?colorOnSurface</item>
     </style>
 
+    <style name="MyApp.Default" parent="Frames.Default" />
+
+    <style name="MyApp.Default.Amoled" parent="Frames.Default.Amoled" />
+
+    <style name="MyApp.Default.MaterialYou" parent="Frames.Default.MaterialYou" />
+
+    <style name="MyApp.Default.Amoled.MaterialYou" parent="Frames.Default.Amoled.MaterialYou" />
+
 </resources>

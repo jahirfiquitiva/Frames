@@ -24,7 +24,9 @@ open class SettingsActivity : BaseThemedActivity<Preferences>() {
                     setDefaultDashboardTheme()
                     onThemeChanged()
                 }
-                Preferences.USES_AMOLED_THEME, Preferences.SHOULD_COLOR_NAVBAR -> onThemeChanged()
+                Preferences.USES_AMOLED_THEME,
+                Preferences.MATERIAL_YOU_ENABLED,
+                Preferences.SHOULD_COLOR_NAVBAR -> onThemeChanged()
             }
         }
     }

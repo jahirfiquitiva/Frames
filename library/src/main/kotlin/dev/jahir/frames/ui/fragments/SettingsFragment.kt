@@ -62,6 +62,10 @@ open class SettingsFragment : BasePreferenceFragment() {
         amoledPreference?.isChecked = preferences.usesAmoledTheme
         amoledPreference?.setOnCheckedChangeListener { preferences.usesAmoledTheme = it }
 
+        val useMaterialYouPref = findPreference<SwitchPreference?>("use_material_you")
+        useMaterialYouPref?.isChecked = preferences.useMaterialYou
+        useMaterialYouPref?.setOnCheckedChangeListener { preferences.useMaterialYou = it }
+
         val coloredNavbarPref = findPreference<SwitchPreference?>("colored_navigation_bar")
         coloredNavbarPref?.isChecked = preferences.shouldColorNavbar
         coloredNavbarPref?.setOnCheckedChangeListener { preferences.shouldColorNavbar = it }

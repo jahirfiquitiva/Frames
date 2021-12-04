@@ -17,6 +17,10 @@
             android:title="@string/use_amoled_theme" />
 
         <androidx.preference.SwitchPreference
+            android:key="use_material_you"
+            android:title="Material You" />
+
+        <androidx.preference.SwitchPreference
             android:key="colored_navigation_bar"
             android:title="@string/colored_navigation_bar" />
 
