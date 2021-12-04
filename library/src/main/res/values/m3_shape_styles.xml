@@ -16,15 +16,15 @@
         <item name="cornerSize">@dimen/large_components_corner_size</item>
     </style>
 
-    <style name="ShapeAppearance.Frames.CardView.MaterialYou" parent="ShapeAppearance.Frames.MediumComponent">
+    <style name="ShapeAppearance.Frames.CardView.MaterialYou" parent="ShapeAppearance.Frames.MediumComponent.MaterialYou">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/cards_corner_size</item>
     </style>
 
-    <style name="ShapeAppearance.Frames.Wallpapers.MaterialYou" parent="ShapeAppearance.Frames.CardView" />
+    <style name="ShapeAppearance.Frames.Wallpapers.MaterialYou" parent="ShapeAppearance.Frames.CardView.MaterialYou" />
 
     <style name="Widget.Frames.MaterialCardView.MaterialYou" parent="Widget.Material3.CardView.Elevated">
-        <item name="shapeAppearance">@style/ShapeAppearance.Frames.CardView</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Frames.CardView.MaterialYou</item>
         <item name="cardElevation">@dimen/cards_elevation</item>
     </style>
 
