@@ -28,9 +28,14 @@
         <item name="cardElevation">@dimen/cards_elevation</item>
     </style>
 
+    <style name="Frames.Dialogs.Title" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="fontFamily">?attr/customFontBold</item>
+    </style>
+
     <style name="Frames.Dialogs" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="colorPrimary">?colorSecondary</item>
         <item name="materialButtonStyle">@style/Frames.Dialogs.Button</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/Frames.Dialogs.Title</item>
     </style>
 
 </resources>

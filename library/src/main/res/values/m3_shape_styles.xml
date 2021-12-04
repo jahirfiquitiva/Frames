@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ShapeAppearance.Frames.SmallComponent.MaterialYou" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/small_components_corner_size</item>
+    </style>
+
+    <style name="ShapeAppearance.Frames.MediumComponent.MaterialYou" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/medium_components_corner_size</item>
+    </style>
+
+    <style name="ShapeAppearance.Frames.LargeComponent.MaterialYou" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/large_components_corner_size</item>
+    </style>
+
+    <style name="ShapeAppearance.Frames.CardView.MaterialYou" parent="ShapeAppearance.Frames.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/cards_corner_size</item>
+    </style>
+
+    <style name="ShapeAppearance.Frames.Wallpapers.MaterialYou" parent="ShapeAppearance.Frames.CardView" />
+
+    <style name="Widget.Frames.MaterialCardView.MaterialYou" parent="Widget.Material3.CardView.Elevated">
+        <item name="shapeAppearance">@style/ShapeAppearance.Frames.CardView</item>
+        <item name="cardElevation">@dimen/cards_elevation</item>
+    </style>
+
+    <style name="Frames.Dialogs.Title.MaterialYou" parent="MaterialAlertDialog.Material3.Title.Text">
+        <item name="fontFamily">?attr/customFontBold</item>
+    </style>
+
+    <style name="Frames.Dialogs.TitlePanel.MaterialYou" parent="MaterialAlertDialog.Material3.Title.Panel">
+        <item name="android:layout_marginTop">16dp</item>
+    </style>
+
+    <style name="Frames.Dialogs.MaterialYou" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="colorPrimary">?colorSecondary</item>
+        <item name="android:background">?colorSurface</item>
+        <item name="materialButtonStyle">@style/Frames.Dialogs.Button</item>
+        <item name="materialAlertDialogTitleTextStyle">
+            @style/Frames.Dialogs.Title.MaterialYou
+        </item>
+        <item name="materialAlertDialogTitlePanelStyle">
+            @style/Frames.Dialogs.TitlePanel.MaterialYou
+        </item>
+    </style>
+
+</resources>

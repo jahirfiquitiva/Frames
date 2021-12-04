@@ -39,31 +39,26 @@
 
         <item name="textAppearanceButton">@style/TextAppearance.Frames.Button</item>
 
-        <item name="textAppearanceBody1">@style/TextAppearance.Frames.Body1</item>
-        <item name="textAppearanceBody2">@style/TextAppearance.Frames.Body2</item>
+        <item name="android:dialogTheme">@style/Frames.Dialogs.MaterialYou</item>
+        <item name="android:alertDialogTheme">@style/Frames.Dialogs.MaterialYou</item>
+        <item name="materialAlertDialogTheme">@style/Frames.Dialogs.MaterialYou</item>
 
-        <item name="textAppearanceCaption">@style/TextAppearance.Frames.Caption</item>
-        <item name="textAppearanceOverline">@style/TextAppearance.Frames.Overline</item>
-
-        <item name="android:dialogTheme">@style/Frames.Dialogs</item>
-        <item name="android:alertDialogTheme">@style/Frames.Dialogs</item>
-        <item name="materialAlertDialogTheme">@style/Frames.Dialogs</item>
-
-        <item name="materialCardViewStyle">@style/Widget.Frames.MaterialCardView</item>
+        <item name="materialCardViewStyle">@style/Widget.Frames.MaterialCardView.MaterialYou</item>
         <item name="bottomSheetDialogTheme">@style/Frames.BottomSheetDialog.MaterialYou</item>
         <item name="navigationViewStyle">@style/Widget.Frames.NavigationView.MaterialYou</item>
         <item name="toolbarStyle">@style/Widget.Material3.Toolbar.Surface</item>
-        <item name="bottomNavigationStyle">@style/Widget.Frames.BottomNavigationView.MaterialYou
+        <item name="bottomNavigationStyle">
+            @style/Widget.Frames.BottomNavigationView.MaterialYou
         </item>
 
         <item name="shapeAppearanceSmallComponent">
-            @style/ShapeAppearance.Frames.SmallComponent
+            @style/ShapeAppearance.Frames.SmallComponent.MaterialYou
         </item>
         <item name="shapeAppearanceMediumComponent">
-            @style/ShapeAppearance.Frames.MediumComponent
+            @style/ShapeAppearance.Frames.MediumComponent.MaterialYou
         </item>
         <item name="shapeAppearanceLargeComponent">
-            @style/ShapeAppearance.Frames.LargeComponent
+            @style/ShapeAppearance.Frames.LargeComponent.MaterialYou
         </item>
     </style>
 

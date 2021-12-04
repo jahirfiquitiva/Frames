@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import com.google.android.material.button.MaterialButton
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.context.openLink
+import dev.jahir.frames.extensions.context.preferences
 import dev.jahir.frames.extensions.views.inflate
 
 /**
@@ -52,6 +53,7 @@ open class AboutButtonsLayout @JvmOverloads constructor(
             it.maxLines = 1
             it.ellipsize = TextUtils.TruncateAt.END
             it.text = text
+            it.setSupportAllCaps(!context.preferences.useMaterialYou)
             addView(
                 it,
                 LayoutParams(
