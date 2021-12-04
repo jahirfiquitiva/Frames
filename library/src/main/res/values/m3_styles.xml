@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="NewApi">
+
+    <style name="Frames.SplashScreen.MaterialYou" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/m3_primary</item>
+        <item name="colorPrimaryDark">@color/m3_primaryDark</item>
+        <item name="colorAccent">@color/m3_accent</item>
+
+        <item name="colorPrimaryVariant">@color/m3_primaryDark</item>
+        <item name="colorOnPrimary">@color/m3_onPrimary</item>
+
+        <item name="colorSecondary">@color/m3_accent</item>
+        <item name="colorSecondaryVariant">@color/m3_accent</item>
+        <item name="colorOnSecondary">@color/m3_onAccent</item>
+
+        <item name="colorSurface">@color/m3_surface</item>
+        <item name="colorOnSurface">@color/m3_onSurface</item>
+
+        <item name="colorBackgroundFloating">@color/m3_background</item>
+        <item name="colorOnBackground">@color/m3_onBackground</item>
+
+        <item name="snackbarBackgroundColor">@color/m3_snackbarBackgroundColor</item>
+        <item name="snackbarTextColor">@color/m3_snackbarTextColor</item>
+        <item name="snackbarButtonColor">@color/m3_snackbarButtonColor</item>
+    </style>
+
+    <style name="Frames.SplashScreen.Amoled.MaterialYou" parent="Frames.SplashScreen.MaterialYou" />
+
+    <style name="Frames.Default.MaterialYou" parent="Frames.SplashScreen.MaterialYou">
+        <item name="android:windowBackground">@color/m3_background</item>
+
+        <item name="textAppearanceHeadline3">@style/TextAppearance.Frames.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.Frames.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.Frames.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.Frames.Headline6</item>
+
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.Frames.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.Frames.Subtitle2</item>
+
+        <item name="textAppearanceButton">@style/TextAppearance.Frames.Button</item>
+
+        <item name="textAppearanceBody1">@style/TextAppearance.Frames.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.Frames.Body2</item>
+
+        <item name="textAppearanceCaption">@style/TextAppearance.Frames.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.Frames.Overline</item>
+
+        <item name="android:dialogTheme">@style/Frames.Dialogs</item>
+        <item name="android:alertDialogTheme">@style/Frames.Dialogs</item>
+        <item name="materialAlertDialogTheme">@style/Frames.Dialogs</item>
+
+        <item name="materialCardViewStyle">@style/Widget.Frames.MaterialCardView</item>
+        <item name="bottomSheetDialogTheme">@style/Frames.BottomSheetDialog</item>
+        <item name="navigationViewStyle">@style/Widget.Frames.NavigationView</item>
+        <item name="toolbarStyle">@style/Widget.Material3.Toolbar.Surface</item>
+        <item name="bottomNavigationStyle">@style/Widget.Frames.BottomNavigationView</item>
+
+        <item name="shapeAppearanceSmallComponent">
+            @style/ShapeAppearance.Frames.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">
+            @style/ShapeAppearance.Frames.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">
+            @style/ShapeAppearance.Frames.LargeComponent
+        </item>
+    </style>
+
+    <style name="Frames.Default.Amoled.MaterialYou" parent="Frames.Default.MaterialYou" />
+
+</resources>

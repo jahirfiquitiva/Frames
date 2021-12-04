@@ -43,6 +43,10 @@ open class Preferences(private val context: Context) {
         )
         set(value) = prefsEditor.putBoolean(USES_AMOLED_THEME, value).apply()
 
+    var useMaterialYou: Boolean
+        get() = prefs.getBoolean(MATERIAL_YOU_ENABLED, true)
+        set(value) = prefsEditor.putBoolean(MATERIAL_YOU_ENABLED, value).apply()
+
     var shouldColorNavbar: Boolean
         get() = prefs.getBoolean(SHOULD_COLOR_NAVBAR, true)
         set(value) = prefsEditor.putBoolean(SHOULD_COLOR_NAVBAR, value).apply()
@@ -132,6 +136,7 @@ open class Preferences(private val context: Context) {
         internal const val CURRENT_THEME = "current_theme"
         internal const val USES_AMOLED_THEME = "uses_amoled_theme"
         internal const val SHOULD_COLOR_NAVBAR = "should_color_navbar"
+        internal const val MATERIAL_YOU_ENABLED = "material_you_enabled"
         private const val SHOULD_LOAD_FULL_RES_PICTURES = "should_load_full_res_pictures"
         private const val SHOULD_DOWNLOAD_ON_WIFI_ONLY = "should_download_on_wifi_only"
         private const val SHOULD_CROP_WALLPAPER_BEFORE_APPLY = "should_crop_wallpaper_before_apply"

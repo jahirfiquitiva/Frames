@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Light Theme Colors -->
+    <color name="m3_primary">@color/primary</color>
+    <color name="m3_primaryDark">@color/primaryDark</color>
+    <color name="m3_onPrimary">@color/onPrimary</color>
+
+    <color name="m3_accent">@color/accent</color>
+    <color name="m3_onAccent">@color/onAccent</color>
+
+    <color name="m3_surface">@color/surface</color>
+    <color name="m3_onSurface">@color/onSurface</color>
+    <color name="m3_onSurfaceVariant">@color/onSurfaceVariant</color>
+
+    <color name="m3_background">@color/background</color>
+    <color name="m3_onBackground">@color/onBackground</color>
+
+    <color name="m3_snackbarBackgroundColor">@color/snackbarBackgroundColor</color>
+    <color name="m3_snackbarTextColor">@color/snackbarTextColor</color>
+    <color name="m3_snackbarButtonColor">@color/snackbarButtonColor</color>
+
+    <!-- Dark Theme Colors -->
+    <color name="m3_darkThemePrimary">@color/darkThemePrimary</color>
+    <color name="m3_darkThemePrimaryDark">@color/darkThemePrimaryDark</color>
+    <color name="m3_darkThemeOnPrimary">@color/darkThemeOnPrimary</color>
+
+    <color name="m3_darkThemeAccent">@color/darkThemeAccent</color>
+    <color name="m3_darkThemeOnAccent">@color/darkThemeOnAccent</color>
+
+    <color name="m3_darkThemeSurface">@color/darkThemeSurface</color>
+    <color name="m3_darkThemeOnSurface">@color/darkThemeOnSurface</color>
+    <color name="m3_darkThemeOnSurfaceVariant">@color/darkThemeOnSurfaceVariant</color>
+
+    <color name="m3_darkThemeBackground">@color/darkThemeBackground</color>
+    <color name="m3_darkThemeOnBackground">@color/darkThemeOnBackground</color>
+
+    <color name="m3_darkThemeSnackbarBackgroundColor">
+        @color/darkThemeSnackbarBackgroundColor
+    </color>
+    <color name="m3_darkThemeSnackbarTextColor">@color/darkThemeSnackbarTextColor</color>
+    <color name="m3_darkThemeSnackbarButtonColor">@color/darkThemeSnackbarButtonColor</color>
+
+    <!-- Amoled Theme Colors -->
+    <color name="m3_amoledThemePrimary">@color/amoledThemePrimary</color>
+    <color name="m3_amoledThemePrimaryDark">@color/amoledThemePrimaryDark</color>
+    <color name="m3_amoledThemeOnPrimary">@color/amoledThemeOnPrimary</color>
+
+    <color name="m3_amoledThemeAccent">@color/amoledThemeAccent</color>
+    <color name="m3_amoledThemeOnAccent">@color/amoledThemeOnAccent</color>
+
+    <color name="m3_amoledThemeSurface">@color/amoledThemeSurface</color>
+    <color name="m3_amoledThemeOnSurface">@color/amoledThemeOnSurface</color>
+    <color name="m3_amoledThemeBackground">@color/amoledThemeBackground</color>
+
+    <color name="m3_amoledThemeOnSurfaceVariant">@color/amoledThemeOnSurfaceVariant</color>
+    <color name="m3_amoledThemeOnBackground">@color/amoledThemeOnBackground</color>
+
+    <color name="m3_amoledThemeSnackbarBackgroundColor">
+        @color/amoledThemeSnackbarBackgroundColor
+    </color>
+    <color name="m3_amoledThemeSnackbarTextColor">@color/amoledThemeSnackbarTextColor</color>
+    <color name="m3_amoledThemeSnackbarButtonColor">@color/amoledThemeSnackbarButtonColor</color>
+</resources>

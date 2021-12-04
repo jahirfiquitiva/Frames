@@ -29,6 +29,12 @@ abstract class BaseThemedActivity<out P : Preferences> : BaseFinishResultActivit
     @StyleRes
     open fun amoledTheme(): Int = R.style.Frames_Default_Amoled
 
+    @StyleRes
+    open fun defaultMaterialYouTheme(): Int = R.style.Frames_Default_MaterialYou
+
+    @StyleRes
+    open fun amoledMaterialYouTheme(): Int = R.style.Frames_Default_Amoled_MaterialYou
+
     abstract val preferences: P
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,9 +59,17 @@ abstract class BaseThemedActivity<out P : Preferences> : BaseFinishResultActivit
         postDelayed(2) { restart() }
     }
 
+    @StyleRes
+    private fun getRightTheme(): Int {
+        return if (preferences.useMaterialYou) {
+            if (preferences.usesAmoledTheme) amoledMaterialYouTheme() else defaultMaterialYouTheme()
+        } else
+            if (preferences.usesAmoledTheme) amoledTheme() else defaultTheme()
+    }
+
     @Suppress("DEPRECATION")
     private fun setCustomTheme() {
-        setTheme(if (preferences.usesAmoledTheme) amoledTheme() else defaultTheme())
+        setTheme(getRightTheme())
         setDefaultDashboardTheme()
         resolveColor(R.attr.colorPrimaryDark, color(R.color.primaryDark)).let {
             statusBarColor = it

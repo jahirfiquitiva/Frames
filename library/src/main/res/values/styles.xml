@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="NewApi">
 
     <style name="Frames" />
 
-    <style name="Frames.SplashScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar" tools:ignore="NewApi">
+    <style name="Frames.SplashScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
 
         <item name="colorPrimary">@color/primary</item>
@@ -44,9 +44,9 @@
         <item name="android:forceDarkAllowed">true</item>
     </style>
 
-    <style name="Frames.SplashScreen.Amoled" parent="Frames.SplashScreen" tools:ignore="NewApi" />
+    <style name="Frames.SplashScreen.Amoled" parent="Frames.SplashScreen" />
 
-    <style name="Frames.Default" parent="Frames.SplashScreen" tools:ignore="NewApi">
+    <style name="Frames.Default" parent="Frames.SplashScreen">
         <item name="android:windowBackground">@color/background</item>
 
         <item name="textAppearanceHeadline3">@style/TextAppearance.Frames.Headline3</item>
@@ -86,7 +86,7 @@
         </item>
     </style>
 
-    <style name="Frames.Default.Amoled" parent="Frames.Default" tools:ignore="NewApi" />
+    <style name="Frames.Default.Amoled" parent="Frames.Default" />
 
     <style name="Widget.Frames.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="itemIconTint">@drawable/bottom_navigation_states</item>
@@ -100,7 +100,7 @@
     </style>
 
     <!-- Bottom Sheet Dialogs -->
-    <style name="Frames.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Dialog" tools:ignore="NewApi">
+    <style name="Frames.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowAnimationStyle">@style/Frames.BottomSheet.Modal.Animation</item>

@@ -12,20 +12,20 @@
         - Frames.SplashScreen
         - Frames.SplashScreen.Amoled
     -->
-    <style name="MyApp.SplashScreen" parent="Frames.SplashScreen">
+    <style name="MyApp.SplashScreen" parent="Frames.SplashScreen.MaterialYou">
         <item name="customFontBold">@font/manrope_bold_fam</item>
         <item name="customFontNormal">@font/manrope_normal_fam</item>
     </style>
 
     <!-- Don't change the parent style -->
-    <style name="MyApp.Default" parent="Frames.Default">
+    <style name="MyApp.Default" parent="Frames.Default.MaterialYou">
         <item name="bottomNavigationStyle">@style/MyApp.BottomNavigationView</item>
         <item name="customFontBold">@font/manrope_bold_fam</item>
         <item name="customFontNormal">@font/manrope_normal_fam</item>
     </style>
 
     <!-- Don't change the parent style -->
-    <style name="MyApp.Default.Amoled" parent="Frames.Default.Amoled">
+    <style name="MyApp.Default.Amoled" parent="Frames.Default.Amoled.MaterialYou">
         <item name="bottomNavigationStyle">@style/MyApp.BottomNavigationView</item>
         <item name="customFontBold">@font/manrope_bold_fam</item>
         <item name="customFontNormal">@font/manrope_normal_fam</item>

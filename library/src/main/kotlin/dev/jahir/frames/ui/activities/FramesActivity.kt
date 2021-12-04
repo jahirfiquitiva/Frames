@@ -3,9 +3,11 @@ package dev.jahir.frames.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.models.Collection
@@ -16,6 +18,8 @@ import dev.jahir.frames.extensions.context.getAppName
 import dev.jahir.frames.extensions.context.string
 import dev.jahir.frames.extensions.context.toast
 import dev.jahir.frames.extensions.resources.hasContent
+import dev.jahir.frames.extensions.utils.postDelayed
+import dev.jahir.frames.extensions.views.snackbar
 import dev.jahir.frames.ui.activities.base.BaseBillingActivity
 import dev.jahir.frames.ui.fragments.CollectionsFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment
@@ -61,6 +65,14 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
         wallpapersViewModel.observeCollections(this, ::handleCollectionsUpdate)
         wallpapersViewModel.errorListener = ::showDataErrorToastIfNeeded
         loadWallpapersData(true)
+
+        postDelayed(1000) {
+            snackbar("Snackbar text", Snackbar.LENGTH_INDEFINITE) {
+                setAction("Snackbar button") {
+                    toast("Snackbar clicked")
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {

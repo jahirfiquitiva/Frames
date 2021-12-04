@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="m3_primary">@color/m3_darkThemePrimary</color>
+    <color name="m3_primaryDark">@color/m3_darkThemePrimaryDark</color>
+    <color name="m3_onPrimary">@color/m3_darkThemeOnPrimary</color>
+
+    <color name="m3_accent">@color/m3_darkThemeAccent</color>
+    <color name="m3_onAccent">@color/m3_darkThemeOnAccent</color>
+
+    <color name="m3_surface">@color/m3_darkThemeSurface</color>
+    <color name="m3_onSurface">@color/m3_darkThemeOnSurface</color>
+    <color name="m3_onSurfaceVariant">@color/m3_darkThemeOnSurfaceVariant</color>
+
+    <color name="m3_background">@color/m3_darkThemeBackground</color>
+    <color name="m3_onBackground">@color/m3_darkThemeOnBackground</color>
+
+    <color name="m3_snackbarBackgroundColor">@color/m3_darkThemeSnackbarBackgroundColor</color>
+    <color name="m3_snackbarTextColor">@color/m3_darkThemeSnackbarTextColor</color>
+    <color name="m3_snackbarButtonColor">@color/m3_darkThemeSnackbarButtonColor</color>
+</resources>

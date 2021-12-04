@@ -60,11 +60,11 @@ fun View.snackbar(
     config: Snackbar.() -> Unit = {}
 ): Snackbar = snackbar(context.string(text), duration, anchorViewId, config)
 
-
 fun Activity.snackbar(
     text: CharSequence,
     duration: Int = Snackbar.LENGTH_SHORT,
-    @IdRes anchorViewId: Int = R.id.bottom_navigation,
+    @IdRes anchorViewId: Int = (this as? BaseStoragePermissionRequestActivity<*>)?.snackbarAnchorId
+        ?: R.id.bottom_navigation,
     config: Snackbar.() -> Unit = {}
 ): Snackbar? {
     (this as? BaseStoragePermissionRequestActivity<*>)?.let {
@@ -76,11 +76,11 @@ fun Activity.snackbar(
     return contentView?.snackbar(text, duration, anchorViewId, config)
 }
 
-
 fun Activity.snackbar(
     @StringRes text: Int,
     @BaseTransientBottomBar.Duration duration: Int = Snackbar.LENGTH_SHORT,
-    @IdRes anchorViewId: Int = R.id.bottom_navigation,
+    @IdRes anchorViewId: Int = (this as? BaseStoragePermissionRequestActivity<*>)?.snackbarAnchorId
+        ?: R.id.bottom_navigation,
     config: Snackbar.() -> Unit = {}
 ): Snackbar? = snackbar(string(text), duration, anchorViewId, config)
 
@@ -92,7 +92,6 @@ fun Fragment.snackbar(
 ): Snackbar? =
     activity?.snackbar(text, duration, anchorViewId, config)
         ?: view?.snackbar(text, duration, anchorViewId, config)
-
 
 fun Fragment.snackbar(
     @StringRes text: Int,

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="NewApi">
+
+    <style name="Frames.SplashScreen.Amoled.MaterialYou" parent="Frames.SplashScreen.MaterialYou">
+        <item name="android:windowBackground">@drawable/splash_screen_amoled</item>
+
+        <item name="colorPrimary">@color/m3_amoledThemePrimary</item>
+        <item name="colorPrimaryDark">@color/m3_amoledThemePrimaryDark</item>
+        <item name="colorAccent">@color/m3_amoledThemeAccent</item>
+
+        <item name="colorPrimaryVariant">@color/m3_amoledThemePrimaryDark</item>
+        <item name="colorOnPrimary">@color/m3_amoledThemeOnPrimary</item>
+
+        <item name="colorSecondary">@color/m3_amoledThemeAccent</item>
+        <item name="colorSecondaryVariant">@color/m3_amoledThemeAccent</item>
+        <item name="colorOnSecondary">@color/m3_amoledThemeOnAccent</item>
+
+        <item name="colorSurface">@color/m3_amoledThemeSurface</item>
+        <item name="colorOnSurface">@color/m3_amoledThemeOnSurface</item>
+
+        <item name="colorBackgroundFloating">@color/m3_amoledThemeBackground</item>
+        <item name="colorOnBackground">@color/m3_amoledThemeOnBackground</item>
+
+        <item name="snackbarBackgroundColor">@color/m3_amoledThemeSnackbarBackgroundColor</item>
+        <item name="snackbarTextColor">@color/m3_amoledThemeSnackbarTextColor</item>
+        <item name="snackbarButtonColor">@color/m3_amoledThemeSnackbarButtonColor</item>
+    </style>
+
+    <style name="Frames.Default.Amoled.MaterialYou" parent="Frames.Default.MaterialYou">
+        <item name="colorPrimary">@color/m3_amoledThemePrimary</item>
+        <item name="colorPrimaryDark">@color/m3_amoledThemePrimaryDark</item>
+        <item name="colorAccent">@color/m3_amoledThemeAccent</item>
+
+        <item name="colorPrimaryVariant">@color/m3_amoledThemePrimaryDark</item>
+        <item name="colorOnPrimary">@color/m3_amoledThemeOnPrimary</item>
+
+        <item name="colorSecondary">@color/m3_amoledThemeAccent</item>
+        <item name="colorSecondaryVariant">@color/m3_amoledThemeAccent</item>
+        <item name="colorOnSecondary">@color/m3_amoledThemeOnAccent</item>
+
+        <item name="colorSurface">@color/m3_amoledThemeSurface</item>
+        <item name="colorOnSurface">@color/m3_amoledThemeOnSurface</item>
+
+        <item name="android:windowBackground">@color/m3_amoledThemeBackground</item>
+        <item name="colorBackgroundFloating">@color/m3_amoledThemeBackground</item>
+        <item name="colorOnBackground">@color/m3_amoledThemeOnBackground</item>
+
+        <item name="snackbarBackgroundColor">@color/m3_amoledThemeSnackbarBackgroundColor</item>
+        <item name="snackbarTextColor">@color/m3_amoledThemeSnackbarTextColor</item>
+        <item name="snackbarButtonColor">@color/m3_amoledThemeSnackbarButtonColor</item>
+    </style>
+
+</resources>
