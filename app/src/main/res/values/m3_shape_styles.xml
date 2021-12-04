@@ -7,22 +7,22 @@
         Important: do NOT change the style names, just the attributes/properties
     -->
 
-    <style name="ShapeAppearance.Frames.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+    <style name="ShapeAppearance.Frames.SmallComponent.MaterialYou" parent="ShapeAppearance.Material3.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/small_components_corner_size</item>
     </style>
 
-    <style name="ShapeAppearance.Frames.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+    <style name="ShapeAppearance.Frames.MediumComponent.MaterialYou" parent="ShapeAppearance.Material3.MediumComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/medium_components_corner_size</item>
     </style>
 
-    <style name="ShapeAppearance.Frames.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+    <style name="ShapeAppearance.Frames.LargeComponent.MaterialYou" parent="ShapeAppearance.Material3.LargeComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/large_components_corner_size</item>
     </style>
 
-    <style name="ShapeAppearance.Frames.CardView" parent="ShapeAppearance.Frames.MediumComponent">
+    <style name="ShapeAppearance.Frames.CardView.MaterialYou" parent="ShapeAppearance.Frames.MediumComponent.MaterialYou">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/cards_corner_size</item>
     </style>

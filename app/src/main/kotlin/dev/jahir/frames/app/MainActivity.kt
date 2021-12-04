@@ -29,9 +29,14 @@ class MainActivity : FramesActivity() {
      */
     override fun getLicenseChecker(): PiracyChecker? {
         destroyChecker() // Important
-        return if (BuildConfig.DEBUG) null else super.getLicenseChecker()
+        return null // Just for CI purposes
+        // return if (BuildConfig.DEBUG) null
+        // else super.getLicenseChecker()
     }
 
     override fun defaultTheme(): Int = R.style.MyApp_Default
     override fun amoledTheme(): Int = R.style.MyApp_Default_Amoled
+
+    override fun defaultMaterialYouTheme(): Int = R.style.MyApp_Default_MaterialYou
+    override fun amoledMaterialYouTheme(): Int = R.style.MyApp_Default_Amoled_MaterialYou
 }

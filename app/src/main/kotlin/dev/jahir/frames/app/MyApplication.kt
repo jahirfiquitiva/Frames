@@ -14,6 +14,7 @@ class MyApplication : FramesApplication() {
         /*
         OneSignal.initWithContext(this);
         OneSignal.setAppId(BuildConfig.ONESIGNAL_APP_ID);
+
         OneSignal.setNotificationWillShowInForegroundHandler { notificationReceivedEvent: OSNotificationReceivedEvent ->
             notificationReceivedEvent.complete(
                 if (preferences.notificationsEnabled)
@@ -21,6 +22,7 @@ class MyApplication : FramesApplication() {
                 else null
             )
         }
+
         OneSignal.unsubscribeWhenNotificationsAreDisabled(true)
         OneSignal.pauseInAppMessages(true)
         OneSignal.setLocationShared(false)
