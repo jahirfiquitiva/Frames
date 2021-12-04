@@ -17,4 +17,6 @@
     <color name="m3_snackbarBackgroundColor">@color/m3_darkThemeSnackbarBackgroundColor</color>
     <color name="m3_snackbarTextColor">@color/m3_darkThemeSnackbarTextColor</color>
     <color name="m3_snackbarButtonColor">@color/m3_darkThemeSnackbarButtonColor</color>
+
+    <color name="m3_bottomNavActiveIndicator">@color/m3_darkThemeBottomNavActiveIndicator</color>
 </resources>

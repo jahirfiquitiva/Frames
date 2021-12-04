@@ -19,6 +19,8 @@
     <color name="m3_snackbarTextColor">@color/snackbarTextColor</color>
     <color name="m3_snackbarButtonColor">@color/snackbarButtonColor</color>
 
+    <color name="m3_bottomNavActiveIndicator">@color/bottomNavActiveIndicator</color>
+
     <!-- Dark Theme Colors -->
     <color name="m3_darkThemePrimary">@color/darkThemePrimary</color>
     <color name="m3_darkThemePrimaryDark">@color/darkThemePrimaryDark</color>
@@ -40,6 +42,9 @@
     <color name="m3_darkThemeSnackbarTextColor">@color/darkThemeSnackbarTextColor</color>
     <color name="m3_darkThemeSnackbarButtonColor">@color/darkThemeSnackbarButtonColor</color>
 
+    <color name="m3_darkThemeBottomNavActiveIndicator">@color/darkThemeBottomNavActiveIndicator
+    </color>
+
     <!-- Amoled Theme Colors -->
     <color name="m3_amoledThemePrimary">@color/amoledThemePrimary</color>
     <color name="m3_amoledThemePrimaryDark">@color/amoledThemePrimaryDark</color>
@@ -60,4 +65,8 @@
     </color>
     <color name="m3_amoledThemeSnackbarTextColor">@color/amoledThemeSnackbarTextColor</color>
     <color name="m3_amoledThemeSnackbarButtonColor">@color/amoledThemeSnackbarButtonColor</color>
+
+    <color name="m3_amoledThemeBottomNavActiveIndicator">
+        @color/amoledThemeBottomNavActiveIndicator
+    </color>
 </resources>

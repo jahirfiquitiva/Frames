@@ -50,10 +50,11 @@
         <item name="materialAlertDialogTheme">@style/Frames.Dialogs</item>
 
         <item name="materialCardViewStyle">@style/Widget.Frames.MaterialCardView</item>
-        <item name="bottomSheetDialogTheme">@style/Frames.BottomSheetDialog</item>
-        <item name="navigationViewStyle">@style/Widget.Frames.NavigationView</item>
+        <item name="bottomSheetDialogTheme">@style/Frames.BottomSheetDialog.MaterialYou</item>
+        <item name="navigationViewStyle">@style/Widget.Frames.NavigationView.MaterialYou</item>
         <item name="toolbarStyle">@style/Widget.Material3.Toolbar.Surface</item>
-        <item name="bottomNavigationStyle">@style/Widget.Frames.BottomNavigationView</item>
+        <item name="bottomNavigationStyle">@style/Widget.Frames.BottomNavigationView.MaterialYou
+        </item>
 
         <item name="shapeAppearanceSmallComponent">
             @style/ShapeAppearance.Frames.SmallComponent
@@ -67,5 +68,67 @@
     </style>
 
     <style name="Frames.Default.Amoled.MaterialYou" parent="Frames.Default.MaterialYou" />
+
+    <style name="Widget.Frames.BottomNavigationView.MaterialYou.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/m3_bottomNavActiveIndicator</item>
+    </style>
+
+    <style name="Widget.Frames.BottomNavigationView.MaterialYou" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemIconTint">@drawable/bottom_navigation_states</item>
+        <item name="itemTextColor">@drawable/bottom_navigation_states</item>
+        <item name="itemActiveIndicatorStyle">
+            @style/Widget.Frames.BottomNavigationView.MaterialYou.ActiveIndicator
+        </item>
+    </style>
+
+    <style name="Widget.Frames.ViewerBottomNavigationView.MaterialYou" parent="Widget.Frames.BottomNavigationView">
+        <item name="itemRippleColor">@color/viewer_item_ripple</item>
+        <item name="itemIconTint">@drawable/bottom_actions_states</item>
+        <item name="itemTextColor">@drawable/bottom_actions_states</item>
+    </style>
+
+    <!-- Bottom Sheet Dialogs -->
+    <style name="Frames.BottomSheetDialog.MaterialYou" parent="ThemeOverlay.Material3.Dialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/Frames.BottomSheet.Modal.Animation</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="bottomSheetStyle">@style/Frames.BottomSheet.Modal</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="android:navigationBarDividerColor">@color/transparent</item>
+    </style>
+
+    <style name="Frames.BottomSheet.Modal.MaterialYou" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="shapeAppearance">?shapeAppearanceLargeComponent</item>
+    </style>
+
+    <style name="Frames.BottomSheet.Modal.Animation.MaterialYou" parent="Animation.AppCompat.Dialog">
+        <item name="android:windowEnterAnimation">@anim/bottom_sheet_slide_in</item>
+        <item name="android:windowExitAnimation">@anim/bottom_sheet_slide_out</item>
+    </style>
+
+    <!--Navigation Drawer-->
+    <style name="Widget.Frames.NavigationView.MaterialYou" parent="Widget.Material3.NavigationView">
+        <item name="itemTextAppearance">?textAppearanceBody2</item>
+    </style>
+
+    <style name="Widget.Frames.TextButton.MaterialYou" parent="Widget.Material3.Button.UnelevatedButton">
+        <item name="backgroundTint">@color/text_btn_bg_color</item>
+        <item name="rippleColor">@color/text_btn_ripple_color</item>
+        <item name="android:minWidth">56dp</item>
+        <item name="android:textColor">?colorSecondary</item>
+    </style>
+
+    <style name="Widget.Frames.ColoredButton.MaterialYou" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/colored_btn_bg_color</item>
+        <item name="rippleColor">@color/colored_btn_ripple_color</item>
+        <item name="android:textColor">?colorOnSecondary</item>
+    </style>
+
+    <style name="Widget.Frames.SurfaceButton.MaterialYou" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/surface_btn_bg_color</item>
+        <item name="rippleColor">@color/surface_btn_ripple_color</item>
+        <item name="android:textColor">?colorOnSurface</item>
+    </style>
 
 </resources>
