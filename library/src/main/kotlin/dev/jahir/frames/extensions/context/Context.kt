@@ -1,5 +1,6 @@
 package dev.jahir.frames.extensions.context
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.XmlResourceParser
@@ -29,6 +30,7 @@ import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.extensions.resources.deleteEverything
 import dev.jahir.frames.extensions.resources.dirSize
 import dev.jahir.frames.extensions.resources.hasContent
+import dev.jahir.frames.extensions.resources.isLink
 import dev.jahir.frames.ui.activities.base.BaseThemedActivity
 import java.io.File
 
@@ -109,7 +111,7 @@ fun Context.resolveColor(@AttrRes attr: Int, @ColorInt fallback: Int = 0): Int {
     }
 }
 
-fun Context.stringArray(@ArrayRes resId: Int, fallback: Array<String> = arrayOf()) =
+fun Context.stringArray(@ArrayRes resId: Int, fallback: Array<String> = arrayOf()): Array<String> =
     try {
         resources.getStringArray(resId)
     } catch (e: Exception) {
@@ -199,8 +201,7 @@ fun Context.toast(content: String, duration: Int = Toast.LENGTH_SHORT) {
 
 @ColorInt
 fun Context.getRightNavigationBarColor(): Int =
-    if (preferences.shouldColorNavbar && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-        && !preferences.usesAmoledTheme) {
+    if (preferences.shouldColorNavbar && !preferences.usesAmoledTheme) {
         try {
             resolveColor(R.attr.colorSurface, color(R.color.surface))
         } catch (e: Exception) {
@@ -278,12 +279,22 @@ val Context.firstInstallTime: Long
         }
     }
 
+@SuppressLint("QueryPermissionsNeeded")
 fun Context.openLink(url: String?) {
     val link = url ?: return
-    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
-    if (browserIntent.resolveActivity(packageManager) != null)
+    val actualLink = if (link.isLink()) link else "http://$link"
+    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(actualLink))
+    if (browserIntent.resolveActivity(packageManager) != null) {
         startActivity(browserIntent)
-    else toast("Cannot find a browser")
+    } else {
+        try {
+            browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(browserIntent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            toast("Cannot find a browser")
+        }
+    }
 }
 
 val Context.dataCacheSize: String
