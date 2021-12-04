@@ -9,6 +9,7 @@ import coil.util.CoilUtils
 import coil.util.DebugLogger
 import dev.jahir.frames.BuildConfig
 import dev.jahir.frames.extensions.context.setDefaultDashboardTheme
+import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 
 open class FramesApplication : MultiDexApplication(), ImageLoaderFactory {
@@ -25,11 +26,13 @@ open class FramesApplication : MultiDexApplication(), ImageLoaderFactory {
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(this)
             .allowHardware(false)
-            .availableMemoryPercentage(0.4)
-            .bitmapPoolPercentage(0.4)
+            .availableMemoryPercentage(0.3)
+            .bitmapPoolPercentage(0.3)
             .okHttpClient {
+                val dispatcher = Dispatcher().apply { maxRequestsPerHost = maxRequests }
                 OkHttpClient.Builder()
                     .cache(CoilUtils.createDefaultCache(this))
+                    .dispatcher(dispatcher)
                     .build()
             }
             .apply {

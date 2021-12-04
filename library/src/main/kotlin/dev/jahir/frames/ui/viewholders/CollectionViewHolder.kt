@@ -20,7 +20,6 @@ class CollectionViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
     private val count: TextView? by view.findView(R.id.collection_count)
     private val detailsBackground: View? by view.findView(R.id.collection_details_background)
 
-    @ExperimentalCoilApi
     fun bind(
         collection: Collection,
         onClick: ((collection: Collection) -> Unit)? = null

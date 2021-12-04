@@ -30,31 +30,27 @@ abstract class BaseSearchableActivity<out P : Preferences> : BaseFavoritesConnec
     private val searchOpen: Boolean
         get() = searchView?.isOpen ?: false
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(getMenuRes(), menu)
-
-        menu?.let {
-            searchItem = it.findItem(R.id.search)
-            searchView = searchItem?.actionView as? CleanSearchView
-            searchView?.allowKeyboardHideOnSubmit = true
-            searchView?.onExpand = {
-                it.findItem(R.id.search).isVisible = false
-                bottomNavigation?.gone()
-            }
-            searchView?.onCollapse = {
-                doSearch(closed = true)
-                invalidateOptionsMenu()
-                bottomNavigation?.visible()
-            }
-            searchView?.onQueryChanged = { query -> doSearch(query) }
-            searchView?.onQuerySubmit = { query -> doSearch(query) }
-            searchView?.bindToItem(searchItem)
-            updateSearchHint()
-
-            toolbar?.tint()
-            searchItem?.isVisible = canShowSearch(currentItemId)
+        searchItem = menu.findItem(R.id.search)
+        searchView = searchItem?.actionView as? CleanSearchView
+        searchView?.allowKeyboardHideOnSubmit = true
+        searchView?.onExpand = {
+            searchItem?.isVisible = false
+            bottomNavigation?.gone()
         }
+        searchView?.onCollapse = {
+            doSearch(closed = true)
+            invalidateOptionsMenu()
+            bottomNavigation?.visible()
+        }
+        searchView?.onQueryChanged = { query -> doSearch(query) }
+        searchView?.onQuerySubmit = { query -> doSearch(query) }
+        searchView?.bindToItem(searchItem)
+        updateSearchHint()
 
+        toolbar?.tint()
+        searchItem?.isVisible = canShowSearch(currentItemId)
         return super.onCreateOptionsMenu(menu)
     }
 

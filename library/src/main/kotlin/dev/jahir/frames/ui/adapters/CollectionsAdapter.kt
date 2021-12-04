@@ -1,8 +1,8 @@
 package dev.jahir.frames.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.annotation.ExperimentalCoilApi
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.extensions.context.boolean
@@ -13,13 +13,13 @@ class CollectionsAdapter(private val onClick: ((collection: Collection) -> Unit)
     RecyclerView.Adapter<CollectionViewHolder>() {
 
     var collections: ArrayList<Collection> = ArrayList()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             collections.clear()
             collections.addAll(value)
             notifyDataSetChanged()
         }
 
-    @ExperimentalCoilApi
     override fun onBindViewHolder(holder: CollectionViewHolder, position: Int) {
         holder.bind(collections[position], onClick)
     }

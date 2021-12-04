@@ -3,7 +3,6 @@ package dev.jahir.frames.ui.viewholders
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
-import coil.annotation.ExperimentalCoilApi
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.AboutItem
@@ -20,7 +19,6 @@ class AboutViewHolder(view: View) : SectionedViewHolder(view) {
     private val descriptionTextView: TextView? by view.findView(R.id.description)
     private val buttonsView: AboutButtonsLayout? by view.findView(R.id.buttons)
 
-    @ExperimentalCoilApi
     fun bind(aboutItem: AboutItem?) {
         aboutItem ?: return
         nameTextView?.text = aboutItem.name

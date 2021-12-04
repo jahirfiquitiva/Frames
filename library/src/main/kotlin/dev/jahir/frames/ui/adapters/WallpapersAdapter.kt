@@ -1,8 +1,8 @@
 package dev.jahir.frames.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.annotation.ExperimentalCoilApi
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.views.inflate
@@ -16,13 +16,13 @@ internal class WallpapersAdapter(
 ) : RecyclerView.Adapter<WallpaperViewHolder>() {
 
     var wallpapers: ArrayList<Wallpaper> = ArrayList()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             wallpapers.clear()
             wallpapers.addAll(value)
             notifyDataSetChanged()
         }
 
-    @ExperimentalCoilApi
     override fun onBindViewHolder(holder: WallpaperViewHolder, position: Int) {
         holder.bind(
             wallpapers[position],

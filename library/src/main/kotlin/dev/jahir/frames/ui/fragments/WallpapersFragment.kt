@@ -1,5 +1,6 @@
 package dev.jahir.frames.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -7,7 +8,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult.EXTRA_ACTIVITY_OPTIONS_BUNDLE
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult.Companion.EXTRA_ACTIVITY_OPTIONS_BUNDLE
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.GridLayoutManager
@@ -160,6 +161,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
     override fun getTargetActivityIntent(): Intent = Intent(activity, ViewerActivity::class.java)
 
+    @SuppressLint("NotifyDataSetChanged")
     open fun notifyCanModifyFavorites(canModify: Boolean = true) {
         wallsAdapter.canModifyFavorites = canModify
         wallsAdapter.notifyDataSetChanged()

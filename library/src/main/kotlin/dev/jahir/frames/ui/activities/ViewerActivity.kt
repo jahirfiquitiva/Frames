@@ -21,7 +21,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.palette.graphics.Palette
-import coil.annotation.ExperimentalCoilApi
 import com.fondesa.kpermissions.PermissionStatus
 import com.google.android.material.navigation.NavigationBarView
 import com.ortiz.touchview.TouchImageView
@@ -88,7 +87,6 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
     private var downloadBlockedDialog: AlertDialog? = null
     private var applierDialog: DialogFragment? = null
 
-    @ExperimentalCoilApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         statusBarLight = false
@@ -256,7 +254,6 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         findViewById<View?>(R.id.activity_root_view)?.setBackgroundColor(color)
     }
 
-    @ExperimentalCoilApi
     private fun loadWallpaper(wallpaper: Wallpaper?) {
         var placeholder: Drawable? = null
         try {
@@ -407,7 +404,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         intent?.getBooleanExtra(CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY, true) ?: true
 
     companion object {
-        internal const val MIN_TIME: Long = 3 * 60 * 60000
+        internal const val MIN_TIME: Long = 3L * 60L * 60000L
         internal const val REQUEST_CODE = 10
         internal const val FAVORITES_MODIFIED = "favorites_modified"
         internal const val FAVORITES_MODIFIED_RESULT = 1

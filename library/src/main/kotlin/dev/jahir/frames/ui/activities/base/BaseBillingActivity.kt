@@ -53,9 +53,9 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val created = super.onCreateOptionsMenu(menu)
-        menu?.findItem(R.id.donate)?.isVisible =
+        menu.findItem(R.id.donate)?.isVisible =
             isBillingClientReady && getDonationItemsIds().isNotEmpty()
         return created
     }

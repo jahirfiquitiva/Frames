@@ -83,7 +83,7 @@ open class AboutActivity : BaseThemedActivity<Preferences>() {
             AboutItem(
                 "Jahir Fiquitiva",
                 string(R.string.jahir_description),
-                "https://jahir.dev/assets/images/me/me.jpg",
+                "https://jahir.dev/static/images/jahir/jahir.jpg",
                 arrayListOf(
                     "Website" to "https://jahir.dev",
                     "GitHub" to "https://github.com/jahirfiquitiva"
