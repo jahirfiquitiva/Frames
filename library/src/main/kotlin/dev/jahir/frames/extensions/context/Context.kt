@@ -1,6 +1,7 @@
 package dev.jahir.frames.extensions.context
 
 import android.annotation.SuppressLint
+import android.app.UiModeManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.XmlResourceParser
@@ -33,6 +34,7 @@ import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.resources.isLink
 import dev.jahir.frames.ui.activities.base.BaseThemedActivity
 import java.io.File
+
 
 @Suppress("DEPRECATION")
 fun Context.isNetworkAvailable(): Boolean {
@@ -200,8 +202,13 @@ fun Context.toast(content: String, duration: Int = Toast.LENGTH_SHORT) {
 }
 
 @ColorInt
-fun Context.getRightNavigationBarColor(): Int =
-    if (preferences.shouldColorNavbar && !preferences.usesAmoledTheme) {
+fun Context.getRightNavigationBarColor(): Int {
+    val mode = (getSystemService(Context.UI_MODE_SERVICE) as? UiModeManager)?.nightMode
+    val isNightMode = mode == UiModeManager.MODE_NIGHT_YES
+            && preferences.currentTheme != Preferences.ThemeKey.LIGHT
+    val shouldBeBlack =
+        !preferences.shouldColorNavbar || (isNightMode && preferences.usesAmoledTheme)
+    return if (!shouldBeBlack) {
         try {
             resolveColor(R.attr.colorSurface, color(R.color.surface))
         } catch (e: Exception) {
@@ -210,6 +217,7 @@ fun Context.getRightNavigationBarColor(): Int =
     } else {
         Color.parseColor("#000000")
     }
+}
 
 @Suppress("DEPRECATION")
 val Context.currentVersionCode: Long

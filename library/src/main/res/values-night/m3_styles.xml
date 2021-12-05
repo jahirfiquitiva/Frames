@@ -24,6 +24,13 @@
         <item name="snackbarBackgroundColor">@color/m3_amoledThemeSnackbarBackgroundColor</item>
         <item name="snackbarTextColor">@color/m3_amoledThemeSnackbarTextColor</item>
         <item name="snackbarButtonColor">@color/m3_amoledThemeSnackbarButtonColor</item>
+
+        <item name="colorPrimaryContainer">@color/m3_amoledThemeAccent</item>
+        <item name="colorOnPrimaryContainer">@color/m3_amoledThemeOnAccent</item>
+        <item name="colorSecondaryContainer">@color/m3_amoledThemeSecondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/m3_amoledThemeOnSecondaryContainer</item>
+        <item name="colorTertiaryContainer">@color/m3_amoledThemeTertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/m3_amoledThemeOnTertiaryContainer</item>
     </style>
 
     <style name="Frames.Default.Amoled.MaterialYou" parent="Frames.Default.MaterialYou">
@@ -48,6 +55,13 @@
         <item name="snackbarBackgroundColor">@color/m3_amoledThemeSnackbarBackgroundColor</item>
         <item name="snackbarTextColor">@color/m3_amoledThemeSnackbarTextColor</item>
         <item name="snackbarButtonColor">@color/m3_amoledThemeSnackbarButtonColor</item>
+
+        <item name="colorPrimaryContainer">@color/m3_amoledThemeAccent</item>
+        <item name="colorOnPrimaryContainer">@color/m3_amoledThemeOnAccent</item>
+        <item name="colorSecondaryContainer">@color/m3_amoledThemeSecondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/m3_amoledThemeOnSecondaryContainer</item>
+        <item name="colorTertiaryContainer">@color/m3_amoledThemeTertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/m3_amoledThemeOnTertiaryContainer</item>
     </style>
 
 </resources>

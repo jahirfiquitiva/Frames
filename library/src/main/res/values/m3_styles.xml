@@ -2,6 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="NewApi">
 
     <style name="Frames.SplashScreen.MaterialYou" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+
         <item name="colorPrimary">@color/m3_primary</item>
         <item name="colorPrimaryDark">@color/m3_primaryDark</item>
         <item name="colorAccent">@color/m3_accent</item>
@@ -22,6 +24,29 @@
         <item name="snackbarBackgroundColor">@color/m3_snackbarBackgroundColor</item>
         <item name="snackbarTextColor">@color/m3_snackbarTextColor</item>
         <item name="snackbarButtonColor">@color/m3_snackbarButtonColor</item>
+
+        <item name="colorPrimaryContainer">@color/m3_accent</item>
+        <item name="colorOnPrimaryContainer">@color/m3_onAccent</item>
+        <item name="colorSecondaryContainer">@color/m3_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/m3_onSecondaryContainer</item>
+        <item name="colorTertiaryContainer">@color/m3_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/m3_onTertiaryContainer</item>
+
+        <item name="android:textColorPrimary">?colorOnSurface</item>
+
+        <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="android:navigationBarDividerColor">@color/transparent</item>
+        <item name="android:colorEdgeEffect">?colorSecondary</item>
+
+        <item name="customFontBold">@font/manrope_bold_fam</item>
+        <item name="customFontNormal">@font/manrope_normal_fam</item>
+
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">false</item>
+
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="android:forceDarkAllowed">true</item>
     </style>
 
     <style name="Frames.SplashScreen.Amoled.MaterialYou" parent="Frames.SplashScreen.MaterialYou" />

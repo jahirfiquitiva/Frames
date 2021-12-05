@@ -11,18 +11,13 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.context.color
-import dev.jahir.frames.extensions.context.preferences
 import dev.jahir.frames.extensions.context.resolveColor
 import dev.jahir.frames.extensions.context.string
 import dev.jahir.frames.extensions.resources.tint
 
 fun Toolbar.tint(
     @ColorInt color: Int =
-        context.resolveColor(
-            R.attr.colorOnPrimary,
-            if (context.preferences.useMaterialYou) context.color(R.color.m3_onPrimary)
-            else context.color(R.color.onPrimary)
-        )
+        context.resolveColor(R.attr.colorOnPrimary, context.color(R.color.onPrimary))
 ) {
     tintBackIcon(color)
     tintMenu(color)
@@ -30,11 +25,7 @@ fun Toolbar.tint(
 
 private fun Toolbar.tintBackIcon(
     @ColorInt color: Int =
-        context.resolveColor(
-            R.attr.colorOnPrimary,
-            if (context.preferences.useMaterialYou) context.color(R.color.m3_onPrimary)
-            else context.color(R.color.onPrimary)
-        )
+        context.resolveColor(R.attr.colorOnPrimary, context.color(R.color.onPrimary))
 ) {
     (0..childCount).forEach { i ->
         (getChildAt(i) as? ImageButton)?.drawable?.tint(color)
@@ -50,11 +41,7 @@ private fun Toolbar.tintBackIcon(
 
 private fun Toolbar.tintMenu(
     @ColorInt color: Int =
-        context.resolveColor(
-            R.attr.colorOnPrimary,
-            if (context.preferences.useMaterialYou) context.color(R.color.m3_onPrimary)
-            else context.color(R.color.onPrimary)
-        )
+        context.resolveColor(R.attr.colorOnPrimary, context.color(R.color.onPrimary))
 ) {
     menu?.tint(color)
     overflowIcon?.tint(color)

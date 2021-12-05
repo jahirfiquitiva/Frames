@@ -21,6 +21,11 @@
 
     <color name="m3_bottomNavActiveIndicator">@color/bottomNavActiveIndicator</color>
 
+    <color name="m3_secondaryContainer">@color/accent</color>
+    <color name="m3_onSecondaryContainer">@color/onAccent</color>
+    <color name="m3_tertiaryContainer">@color/accent</color>
+    <color name="m3_onTertiaryContainer">@color/onAccent</color>
+
     <!-- Dark Theme Colors -->
     <color name="m3_darkThemePrimary">@color/darkThemePrimary</color>
     <color name="m3_darkThemePrimaryDark">@color/darkThemePrimaryDark</color>
@@ -45,6 +50,11 @@
     <color name="m3_darkThemeBottomNavActiveIndicator">@color/darkThemeBottomNavActiveIndicator
     </color>
 
+    <color name="m3_darkThemeSecondaryContainer">@color/darkThemeAccent</color>
+    <color name="m3_darkThemeOnSecondaryContainer">@color/darkThemeOnAccent</color>
+    <color name="m3_darkThemeTertiaryContainer">@color/darkThemeAccent</color>
+    <color name="m3_darkThemeOnTertiaryContainer">@color/darkThemeOnAccent</color>
+
     <!-- Amoled Theme Colors -->
     <color name="m3_amoledThemePrimary">@color/amoledThemePrimary</color>
     <color name="m3_amoledThemePrimaryDark">@color/amoledThemePrimaryDark</color>
@@ -67,6 +77,11 @@
     <color name="m3_amoledThemeSnackbarButtonColor">@color/amoledThemeSnackbarButtonColor</color>
 
     <color name="m3_amoledThemeBottomNavActiveIndicator">
-        @color/amoledThemeBottomNavActiveIndicator
+        @color/m3_darkThemeBottomNavActiveIndicator
     </color>
+
+    <color name="m3_amoledThemeSecondaryContainer">@color/m3_darkThemeSecondaryContainer</color>
+    <color name="m3_amoledThemeOnSecondaryContainer">@color/m3_darkThemeOnSecondaryContainer</color>
+    <color name="m3_amoledThemeTertiaryContainer">@color/m3_darkThemeTertiaryContainer</color>
+    <color name="m3_amoledThemeOnTertiaryContainer">@color/m3_darkThemeOnTertiaryContainer</color>
 </resources>

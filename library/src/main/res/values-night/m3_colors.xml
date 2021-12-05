@@ -19,4 +19,9 @@
     <color name="m3_snackbarButtonColor">@color/m3_darkThemeSnackbarButtonColor</color>
 
     <color name="m3_bottomNavActiveIndicator">@color/m3_darkThemeBottomNavActiveIndicator</color>
+
+    <color name="m3_secondaryContainer">@color/m3_darkThemeSecondaryContainer</color>
+    <color name="m3_onSecondaryContainer">@color/m3_darkThemeOnSecondaryContainer</color>
+    <color name="m3_tertiaryContainer">@color/m3_darkThemeTertiaryContainer</color>
+    <color name="m3_onTertiaryContainer">@color/m3_darkThemeOnTertiaryContainer</color>
 </resources>
