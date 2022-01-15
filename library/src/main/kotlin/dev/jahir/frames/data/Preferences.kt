@@ -47,7 +47,8 @@ open class Preferences(private val context: Context) {
     var useMaterialYou: Boolean
         get() = prefs.getBoolean(
             MATERIAL_YOU_ENABLED,
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+                    context.boolean(R.bool.material_you_enabled_by_default, true)
         )
         set(value) = prefsEditor.putBoolean(MATERIAL_YOU_ENABLED, value).apply()
 
