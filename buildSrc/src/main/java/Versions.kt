@@ -2,13 +2,13 @@
 
 object Versions {
     // Plugins
-    const val gradle = "7.0.3"
+    const val gradle = "7.0.4"
     const val kotlin = "1.5.31"
     const val sonatype = "1.1.0"
 
     // OneSignal
     const val oneSignalPlugin = "0.14.0"
-    const val oneSignal = "4.6.3"
+    const val oneSignal = "4.6.5"
 
     // App
     const val minSdk = 21
@@ -19,13 +19,13 @@ object Versions {
     const val coroutines = "1.5.2"
 
     // Android UI
-    const val appcompat = "1.4.0"
+    const val appcompat = "1.4.1"
     const val cardView = "1.0.0"
     const val recyclerView = "1.2.1"
     const val swipeRefreshLayout = "1.1.0"
     const val palette = "1.0.0"
     const val preference = "1.1.1"
-    const val materialComponents = "1.5.0-beta01"
+    const val materialComponents = "1.5.0"
     const val activityKtx = "1.4.0"
     const val fragmentKtx = "1.4.0"
 
@@ -34,7 +34,7 @@ object Versions {
     const val lifecycleExt = "2.2.0"
 
     // Room Database
-    const val room = "2.3.0"
+    const val room = "2.4.1"
 
     // Work Manager
     const val work = "2.7.1"
