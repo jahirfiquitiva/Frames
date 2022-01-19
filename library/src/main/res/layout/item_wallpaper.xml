@@ -55,14 +55,7 @@
                 android:maxLines="1"
                 tools:text="Wallpaper Name" />
 
-            <TextView
-                android:id="@+id/wallpaper_author"
-                style="@style/TextStyle.Frames.WallpaperSubtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                tools:text="Wallpaper Author" />
+        
 
         </LinearLayout>
 
