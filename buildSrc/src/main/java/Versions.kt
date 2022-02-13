@@ -2,18 +2,18 @@
 
 object Versions {
     // Plugins
-    const val gradle = "7.0.4"
+    const val gradle = "7.1.1"
     const val kotlin = "1.5.31"
     const val sonatype = "1.1.0"
 
     // OneSignal
     const val oneSignalPlugin = "0.14.0"
-    const val oneSignal = "4.6.5"
+    const val oneSignal = "4.6.7"
 
     // App
     const val minSdk = 21
     const val targetSdk = 31
-    const val buildTools = "30.0.2"
+    const val buildTools = "30.0.3"
 
     // Coroutines
     const val coroutines = "1.5.2"
@@ -24,13 +24,13 @@ object Versions {
     const val recyclerView = "1.2.1"
     const val swipeRefreshLayout = "1.1.0"
     const val palette = "1.0.0"
-    const val preference = "1.1.1"
+    const val preference = "1.2.0"
     const val materialComponents = "1.5.0"
     const val activityKtx = "1.4.0"
-    const val fragmentKtx = "1.4.0"
+    const val fragmentKtx = "1.4.1"
 
     // ViewModel and LiveData
-    const val lifecycle = "2.4.0"
+    const val lifecycle = "2.4.1"
     const val lifecycleExt = "2.2.0"
 
     // Room Database
@@ -40,7 +40,7 @@ object Versions {
     const val work = "2.7.1"
 
     // Network & Serialization
-    const val gson = "2.8.9"
+    const val gson = "2.9.0"
     const val retrofit = "2.9.0"
 
     // Image loading and Touch Image View
@@ -57,7 +57,7 @@ object Versions {
     const val fastScrollRecyclerView = "-SNAPSHOT"
 
     // Permissions
-    const val permissions = "3.2.1"
+    const val permissions = "3.3.0"
 
     // License Checker
     const val licenseChecker = "1.2.8"
@@ -69,5 +69,5 @@ object Versions {
     const val multidex = "2.0.1"
 
     // Muzei
-    const val muzei = "3.4.0"
+    const val muzei = "3.4.1"
 }

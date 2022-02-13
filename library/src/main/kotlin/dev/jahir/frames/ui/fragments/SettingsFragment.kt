@@ -25,6 +25,7 @@ import dev.jahir.frames.extensions.fragments.singleChoiceItems
 import dev.jahir.frames.extensions.fragments.string
 import dev.jahir.frames.extensions.fragments.title
 import dev.jahir.frames.extensions.resources.hasContent
+import dev.jahir.frames.extensions.utils.removePreference
 import dev.jahir.frames.extensions.utils.setOnCheckedChangeListener
 import dev.jahir.frames.extensions.utils.setOnClickListener
 import dev.jahir.frames.ui.activities.SettingsActivity

@@ -21,12 +21,13 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
         super.setPreferenceScreen(preferenceScreen)
     }
 
-    override fun onCreateAdapter(preferenceScreen: PreferenceScreen?): RecyclerView.Adapter<*> =
-        object : PreferenceGroupAdapter(preferenceScreen) {
-            @SuppressLint("RestrictedApi")
-            override fun onPreferenceHierarchyChange(preference: Preference?) {
-                if (preference != null) setAllPreferencesToAvoidHavingExtraSpace(preference)
+    @SuppressLint("RestrictedApi")
+    override fun onCreateAdapter(preferenceScreen: PreferenceScreen): RecyclerView.Adapter<*> {
+        return object : PreferenceGroupAdapter(preferenceScreen) {
+            override fun onPreferenceHierarchyChange(preference: Preference) {
+                setAllPreferencesToAvoidHavingExtraSpace(preference)
                 super.onPreferenceHierarchyChange(preference)
             }
         }
+    }
 }

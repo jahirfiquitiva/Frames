@@ -1,6 +1,7 @@
 package dev.jahir.frames.extensions.utils
 
 import androidx.preference.Preference
+import androidx.preference.PreferenceGroup
 
 fun Preference.setOnClickListener(onClick: () -> Unit = {}) {
     setOnPreferenceClickListener { onClick();true }
@@ -14,4 +15,9 @@ fun Preference.setOnCheckedChangeListener(onCheckedChange: (checked: Boolean) ->
         )
         true
     }
+}
+
+fun PreferenceGroup.removePreference(pref: Preference?) {
+    pref ?: return
+    this.removePreference(pref)
 }
