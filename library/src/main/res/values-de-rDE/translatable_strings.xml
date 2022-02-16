@@ -7,9 +7,9 @@
     <string name="loading">Laden…</string>
     <string name="data_error_network">Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.</string>
     <string name="data_error_network_wifi_only">Bitte verbinden Sie sich mit dem WLAN und versuchen es erneut oder deaktivieren Sie die Option in den Einstellungen.</string>
-    <string name="data_error_format">Daten sind möglicherweise fehlerhaft. Kontaktiere den Entwickler.</string>
-    <string name="no_wallpapers_found">Keine Wallpaper</string>
-    <string name="no_collections_found">Keine Kollektionen</string>
+    <string name="data_error_format">Daten sind möglicherweise fehlerhaft. Kontaktieren Sie den Entwickler.</string>
+    <string name="no_wallpapers_found">Keine Hintergrundbilder</string>
+    <string name="no_collections_found">Keine Sammlungen</string>
     <string name="no_favorites_found">Keine Favoriten</string>
     <string name="no_results_found">Keine Ergebnisse</string>
     <string name="nothing_found">Nichts gefunden</string>
