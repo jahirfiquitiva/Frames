@@ -77,9 +77,8 @@ open class AboutActivity : BaseThemedActivity<Preferences>() {
         return items
     }
 
-    private fun getInternalAboutItems(): ArrayList<AboutItem> {
-        val items = getAdditionalInternalAboutItems()
-        items.add(
+    private fun getInternalAboutItems() = getAdditionalInternalAboutItems().apply {
+        add(
             AboutItem(
                 "Jahir Fiquitiva",
                 string(R.string.jahir_description),
@@ -91,7 +90,7 @@ open class AboutActivity : BaseThemedActivity<Preferences>() {
             )
         )
         if (shouldIncludeContributors()) {
-            items.add(
+            add(
                 AboutItem(
                     "Eduardo Pratti",
                     string(R.string.eduardo_description),
@@ -99,7 +98,7 @@ open class AboutActivity : BaseThemedActivity<Preferences>() {
                     arrayListOf("Website" to "https://pratti.design/")
                 )
             )
-            items.add(
+            add(
                 AboutItem(
                     "Patryk Michalik",
                     string(R.string.patryk_description),
@@ -108,7 +107,6 @@ open class AboutActivity : BaseThemedActivity<Preferences>() {
                 )
             )
         }
-        return items
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
