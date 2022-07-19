@@ -40,7 +40,7 @@ android {
         }
     }
 
-    lintOptions {
+    lint {
         abortOnError false
         checkReleaseBuilds true
         disable 'MissingTranslation', 'GoogleAppIndexingWarning'
@@ -95,10 +95,14 @@ android {
     }
 
     packagingOptions {
-        pickFirst 'META-INF/core_debug.kotlin_module'
-        pickFirst 'META-INF/core_release.kotlin_module'
-        pickFirst 'META-INF/library_debug.kotlin_module'
-        pickFirst 'META-INF/library_release.kotlin_module'
+        resources {
+            pickFirsts += [
+                    'META-INF/core_debug.kotlin_module',
+                    'META-INF/core_release.kotlin_module',
+                    'META-INF/library_debug.kotlin_module',
+                    'META-INF/library_release.kotlin_module'
+            ]
+        }
     }
 
     compileOptions {
