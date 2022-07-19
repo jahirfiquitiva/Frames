@@ -117,6 +117,6 @@ object Libs {
         muzei
     )
 
-    // Kapt dependencies
-    val kaptDependencies = arrayOf(roomCompiler)
+    // KSP dependencies
+    val kspDependencies = arrayOf(roomCompiler)
 }
