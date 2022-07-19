@@ -17,25 +17,25 @@ object Versions {
     const val buildTools = "30.0.3"
 
     // Coroutines
-    const val coroutines = "1.5.2"
+    const val coroutines = "1.6.4"
 
     // Android UI
-    const val appcompat = "1.4.1"
+    const val appcompat = "1.4.2"
     const val cardView = "1.0.0"
     const val recyclerView = "1.2.1"
     const val swipeRefreshLayout = "1.1.0"
     const val palette = "1.0.0"
     const val preference = "1.2.0"
     const val materialComponents = "1.5.0"
-    const val activityKtx = "1.4.0"
-    const val fragmentKtx = "1.4.1"
+    const val activityKtx = "1.5.0"
+    const val fragmentKtx = "1.5.0"
 
     // ViewModel and LiveData
-    const val lifecycle = "2.4.1"
+    const val lifecycle = "2.5.0"
     const val lifecycleExt = "2.2.0"
 
     // Room Database
-    const val room = "2.4.1"
+    const val room = "2.4.2"
 
     // Work Manager
     const val work = "2.7.1"

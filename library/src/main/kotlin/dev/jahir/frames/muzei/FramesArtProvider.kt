@@ -32,25 +32,25 @@ open class FramesArtProvider : MuzeiArtProvider() {
         }
     }
 
-    private fun createShareAction(artwork: Artwork): RemoteActionCompat? {
-        val title = context?.getString(R.string.share) ?: "Share"
+    private fun createShareAction(artwork: Artwork) = context?.run {
+        val title = getString(R.string.share)
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"
         intent.putExtra(
             Intent.EXTRA_TEXT,
-            context?.getString(
+            getString(
                 R.string.share_text,
                 artwork.title.orEmpty(),
                 artwork.byline.orEmpty(),
-                context?.getAppName().orEmpty(),
-                PLAY_STORE_LINK_PREFIX + context?.packageName.orEmpty()
-            ).orEmpty()
+                getAppName(),
+                PLAY_STORE_LINK_PREFIX + packageName.orEmpty()
+            )
         )
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        return RemoteActionCompat(
-            IconCompat.createWithResource(context, R.drawable.ic_share),
+        RemoteActionCompat(
+            IconCompat.createWithResource(this, R.drawable.ic_share),
             title, title,
-            PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         )
     }
 
