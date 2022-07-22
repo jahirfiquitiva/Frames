@@ -13,8 +13,8 @@ object Versions {
 
     // App
     const val minSdk = 21
-    const val targetSdk = 31
-    const val buildTools = "30.0.3"
+    const val targetSdk = 32
+    const val buildTools = "32.0.0"
 
     // Coroutines
     const val coroutines = "1.6.4"
