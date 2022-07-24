@@ -9,7 +9,7 @@ object Versions {
 
     // OneSignal
     const val oneSignalPlugin = "0.14.0"
-    const val oneSignal = "4.6.7"
+    const val oneSignal = "4.8.1"
 
     // App
     const val minSdk = 21
@@ -26,7 +26,7 @@ object Versions {
     const val swipeRefreshLayout = "1.1.0"
     const val palette = "1.0.0"
     const val preference = "1.2.0"
-    const val materialComponents = "1.5.0"
+    const val materialComponents = "1.6.1"
     const val activityKtx = "1.5.0"
     const val fragmentKtx = "1.5.0"
 
@@ -46,7 +46,7 @@ object Versions {
 
     // Image loading and Touch Image View
     const val coil = "1.4.0"
-    const val touchImageView = "3.1.1"
+    const val touchImageView = "3.2.1"
 
     // Harmonic Colors
     const val harmonicColors = "1.0.0"
@@ -64,7 +64,7 @@ object Versions {
     const val licenseChecker = "1.2.8"
 
     // In-App Billing
-    const val inAppBilling = "4.0.0"
+    const val inAppBilling = "5.0.0"
 
     // MultiDex
     const val multidex = "2.0.1"
