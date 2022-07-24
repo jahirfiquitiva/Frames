@@ -3,8 +3,10 @@ package dev.jahir.frames.ui.adapters
 import android.view.ViewGroup
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
+import dev.jahir.frames.BuildConfig
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.AboutItem
+import dev.jahir.frames.extensions.context.string
 import dev.jahir.frames.extensions.views.inflate
 import dev.jahir.frames.ui.viewholders.AboutViewHolder
 import dev.jahir.frames.ui.viewholders.SectionHeaderViewHolder
@@ -44,7 +46,15 @@ class AboutAdapter(
             1 -> R.string.dashboard
             else -> 0
         }
-        (holder as? SectionHeaderViewHolder)?.bind(titleRes, 0, section > 0 && getItemCount(0) > 0)
+        (holder as? SectionHeaderViewHolder)?.bind(titleRes, { ctx ->
+            if (section == 0) ""
+            else {
+                val appName = ctx.string(R.string.app_name)
+                val dashboardName =
+                    "<a href=\"https://github.com/jahirfiquitiva/${BuildConfig.DASHBOARD_NAME}\">${BuildConfig.DASHBOARD_NAME}</a>"
+                ctx.string(R.string.dashboard_creators_disclaimer, appName, dashboardName)
+            }
+        }, section > 0 && getItemCount(0) > 0)
     }
 
     override fun onBindViewHolder(

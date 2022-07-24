@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
 import com.google.android.material.snackbar.Snackbar
 import dev.jahir.frames.R
@@ -40,7 +39,7 @@ abstract class BaseWallpaperApplierActivity<out P : Preferences> :
         newApplyTask?.let { task ->
             workManager.enqueue(newApplyTask)
             workManager.getWorkInfoByIdLiveData(task.id)
-                .observe(this, Observer { info ->
+                .observe(this) { info ->
                     if (info != null) {
                         if (info.state.isFinished) {
                             if (info.state == WorkInfo.State.SUCCEEDED) {
@@ -57,7 +56,7 @@ abstract class BaseWallpaperApplierActivity<out P : Preferences> :
                             onWallpaperApplicationEnqueued(applyOption)
                         }
                     }
-                })
+                }
         }
     }
 
@@ -97,7 +96,7 @@ abstract class BaseWallpaperApplierActivity<out P : Preferences> :
             } catch (e: Exception) {
                 onDownloadError()
             }
-        } ?: { onDownloadError() }()
+        } ?: run(::onDownloadError)
         cancelWorkManagerTasks()
     }
 

@@ -13,7 +13,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
@@ -26,29 +25,29 @@ inline fun <reified MLD> lazyMutableLiveData(): Lazy<MutableLiveData<MLD>> =
 @MainThread
 inline fun <reified VM : ViewModel> ComponentActivity.lazyViewModel(
     noinline factoryProducer: (() -> ViewModelProvider.Factory)? = null
-): Lazy<VM> = viewModels(factoryProducer)
+): Lazy<VM> = viewModels(factoryProducer = factoryProducer)
 
 @MainThread
 inline fun <reified VM : ViewModel> Fragment.lazyViewModel(
     noinline ownerProducer: () -> ViewModelStoreOwner = { this },
     noinline factoryProducer: (() -> ViewModelProvider.Factory)? = null
-): Lazy<VM> = viewModels(ownerProducer, factoryProducer)
+): Lazy<VM> = viewModels(ownerProducer = ownerProducer, factoryProducer = factoryProducer)
 
 @MainThread
 inline fun <reified VM : ViewModel> Fragment.lazyActivityViewModels(
     noinline factoryProducer: (() -> ViewModelProvider.Factory)? = null
-): Lazy<VM> = activityViewModels(factoryProducer)
+): Lazy<VM> = activityViewModels(factoryProducer = factoryProducer)
 
 inline fun <T> LiveData<T>.tryToObserve(
     owner: LifecycleOwner,
     crossinline onChanged: (t: T) -> Unit
 ) {
-    observe(owner, Observer<T> { t ->
+    observe(owner) { t ->
         try {
             onChanged.invoke(t)
         } catch (e: Exception) {
         }
-    })
+    }
 }
 
 fun WorkManager.getWorkInfoValue(uuid: UUID) =

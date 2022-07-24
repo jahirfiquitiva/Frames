@@ -22,4 +22,17 @@
         app:lastBaselineToBottomHeight="20sp"
         tools:text="Subheader" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/section_subtitle"
+        style="@style/TextStyle.Frames.Body2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="?colorOnSurface"
+        android:textColorLink="?colorSecondary"
+        android:visibility="gone"
+        app:lastBaselineToBottomHeight="20sp"
+        tools:text="Section description with information" />
+
 </LinearLayout>

@@ -35,7 +35,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
         newDownloadTask?.let { task ->
             workManager.enqueue(newDownloadTask)
             workManager.getWorkInfoByIdLiveData(task.id)
-                .observe(this, { info ->
+                .observe(this) { info ->
                     if (info != null && info.state.isFinished) {
                         if (info.state == WorkInfo.State.SUCCEEDED) {
                             val path = info.outputData.getString(DOWNLOAD_PATH_KEY) ?: ""
@@ -46,7 +46,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
                             onDownloadError()
                         }
                     }
-                })
+                }
         }
     }
 
