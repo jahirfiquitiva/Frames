@@ -124,4 +124,5 @@
     <string name="sure_to_exit_content">Do you want to save your settings before exit?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="dashboard_creators_disclaimer">%1$s is powered by the %2$s dashboard. Listed below are the creators of %2$s. If you have questions concerning %1$s, please contact its designer(s), listed above.</string>
 </resources>
