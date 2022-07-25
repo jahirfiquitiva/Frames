@@ -46,7 +46,7 @@
     <string name="interface_animations_summary">Matikan untuk performa lebih baik.</string>
     <string name="display_full_res_previews">Gambar mini Kualitas Tinggi</string>
     <string name="display_full_res_previews_summary">Ini akan menggunakan lebih banyak data.</string>
-    <string name="download_on_wifi_only">Unduh wallpaper menggunakan Wi-Fi saja</string>
+    <string name="download_on_wifi_only">Unduh wallpaper dengan Wi-Fi saja</string>
     <string name="download_on_wifi_only_summary">Matikan untuk menggunakan sambungan data juga.</string>
     <string name="crop_pictures">Sekala ke Sesuai</string>
     <string name="crop_pictures_summary">Ubah ukuran wallpaper ke resolusi layar yang sesuai.</string>
@@ -104,7 +104,7 @@
     <string name="get">Dapatkan</string>
     <string name="jahir_description">Saya adalah seorang pengembang full-stack yang bergairah dan kreatif.</string>
     <string name="eduardo_description">Desainer UI. Pembela ruang negatif.</string>
-    <string name="patryk_description">Saya mengatur bentuk, memerintah komputer, dan menyusun kata-kata.</string>
+    <string name="patryk_description">Saya mengetik simbol dan perintah komputer.</string>
     <string name="share">Bagikan</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
     <string name="share_text">Wallpaper saya untuk hari ini %1$s oleh %2$s, dari %3$s.\nDapatkan sekarang di %4$s</string>
@@ -124,4 +124,5 @@
     <string name="sure_to_exit_content">Apakah anda ingin menyimpan pengaturan anda sebelum keluar?</string>
     <string name="yes">Iya</string>
     <string name="no">Tidak</string>
+    <string name="dashboard_creators_disclaimer">%1$s didukung oleh dasbor %2$s. Di bawah ini tercantum pembuat %2$s. Jika Anda memiliki pertanyaan tentang %1$s, silahkan hubungi perancangnya, yang tercantum di atas.</string>
 </resources>
