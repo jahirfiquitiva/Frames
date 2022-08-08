@@ -34,27 +34,27 @@ Free, feature-rich, easily customizable Android dashboard for wallpapers apps
 ### Customizable styles
 
 <p align="center">
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/1.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/2.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/3.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/4.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/5.png" height="350"/>
+<img src="/art/1.png" height="332"/>
+<img src="/art/2.png" height="332"/>
+<img src="/art/3.png" height="332"/>
+<img src="/art/4.png" height="332"/>
+<img src="/art/5.png" height="332"/>
 </p>
 
 ### Full-screen Viewer / Multiple themes
 
 <p align="center">
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/6.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/7.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/8.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/9.png" height="350"/>
+<img src="/art/6.png" height="332"/>
+<img src="/art/7.png" height="332"/>
+<img src="/art/8.png" height="332"/>
+<img src="/art/9.png" height="332"/>
 </p>
 
 ### Credits / Settings
 
 <p align="center">
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/10.png" height="350"/>
-<img src="https://github.com/jahirfiquitiva/Frames/raw/master/art/11.png" height="350"/>
+<img src="/art/10.png" height="332"/>
+<img src="/art/11.png" height="332"/>
 </p>
 
 ---
@@ -151,7 +151,7 @@ If you found this app/library helpful and want to thank me, you can:
 - [Alexandre Piveteau](https://github.com/alexandrepiveteau) 💻
 - [Lukas Koller](https://github.com/kollerlukas) 🔌
 - [Patryk Goworowski](https://twitter.com/pgoworowski) 🎨
-- [Lumiq Creative](https://lumiqcreative.com/) 🎨
+- [Patryk Michalik](https://patrykmichalik.com) 💻
 - [Jackson Hayes](https://jacksonhayes.xyz/) 📖
 - [Kevin Aguilar](https://twitter.com/kevttob) 🎨
 - [Anthony Nguyen](https://twitter.com/link6155) 🎨
