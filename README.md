@@ -34,27 +34,27 @@ Free, feature-rich, easily customizable Android dashboard for wallpapers apps
 ### Customizable styles
 
 <p align="center">
-<img src="/art/1.png" height="332"/>
-<img src="/art/2.png" height="332"/>
-<img src="/art/3.png" height="332"/>
-<img src="/art/4.png" height="332"/>
-<img src="/art/5.png" height="332"/>
+<img src="/art/1.png" width="162" />
+<img src="/art/2.png" width="162" />
+<img src="/art/3.png" width="162" />
+<img src="/art/4.png" width="162" />
+<img src="/art/5.png" width="162" />
 </p>
 
 ### Full-screen Viewer / Multiple themes
 
 <p align="center">
-<img src="/art/6.png" height="332"/>
-<img src="/art/7.png" height="332"/>
-<img src="/art/8.png" height="332"/>
-<img src="/art/9.png" height="332"/>
+<img src="/art/6.png" width="162" />
+<img src="/art/7.png" width="162" />
+<img src="/art/8.png" width="162" />
+<img src="/art/9.png" width="162" />
 </p>
 
 ### Credits / Settings
 
 <p align="center">
-<img src="/art/10.png" height="332"/>
-<img src="/art/11.png" height="332"/>
+<img src="/art/10.png" width="162" />
+<img src="/art/11.png" width="162" />
 </p>
 
 ---
