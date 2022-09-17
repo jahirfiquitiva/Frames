@@ -144,7 +144,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         toolbar?.tint(color(R.color.white))
 
         imageView?.setOnDoubleTapListener(object : GestureDetector.SimpleOnGestureListener() {
-            override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+            override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                 toggleSystemUI()
                 return super.onSingleTapConfirmed(e)
             }

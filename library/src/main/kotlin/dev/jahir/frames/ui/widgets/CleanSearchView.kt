@@ -84,13 +84,13 @@ class CleanSearchView @JvmOverloads constructor(
 
     fun bindToItem(item: MenuItem?) {
         item?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+            override fun onMenuItemActionExpand(p0: MenuItem): Boolean {
                 onExpand()
                 isOpen = true
                 return true
             }
 
-            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+            override fun onMenuItemActionCollapse(p0: MenuItem): Boolean {
                 onCollapse()
                 isOpen = false
                 return true
