@@ -8,13 +8,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult.Companion.EXTRA_ACTIVITY_OPTIONS_BUNDLE
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.extensions.context.buildTransitionOptions
 import dev.jahir.frames.extensions.context.dimenPixelSize
 import dev.jahir.frames.extensions.context.integer
 import dev.jahir.frames.extensions.fragments.preferences
@@ -23,6 +21,7 @@ import dev.jahir.frames.extensions.frames.onFavClick
 import dev.jahir.frames.extensions.frames.wallpapersAdapter
 import dev.jahir.frames.extensions.resources.dpToPx
 import dev.jahir.frames.extensions.resources.lower
+import dev.jahir.frames.extensions.utils.ifNotNull
 import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
 import dev.jahir.frames.ui.activities.ViewerActivity.Companion.SHARED_IMAGE_NAME
@@ -111,34 +110,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     }
 
     private fun launchViewer(wallpaper: Wallpaper, holder: WallpaperViewHolder) {
-        val targetIntent = getTargetActivityIntent()
-        val options = if (preferences.animationsEnabled) {
-            var fos: FileOutputStream? = null
-            try {
-                fos = activity?.openFileOutput(SHARED_IMAGE_NAME, Context.MODE_PRIVATE)
-                holder.image?.drawable?.toBitmap()?.compress(Bitmap.CompressFormat.JPEG, 30, fos)
-            } catch (ignored: Exception) {
-            } finally {
-                fos?.flush()
-                fos?.close()
-            }
-
-            try {
-                activity?.let {
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        it,
-                        *(it.buildTransitionOptions(
-                            // TODO: Enable image shared transition
-                            arrayListOf(holder.title, holder.author, holder.image)
-                        ))
-                    )
-                }
-            } catch (e: Exception) {
-                null
-            }
-        } else null
-
-        val intent = targetIntent.apply {
+        val intent = getTargetActivityIntent().apply {
             putExtra(
                 ViewerActivity.CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
                 canToggleSystemUIVisibility()
@@ -150,13 +122,30 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
                 ViewerActivity.LICENSE_CHECK_ENABLED,
                 (activity as? BaseLicenseCheckerActivity<*>)?.licenseCheckEnabled ?: false
             )
-            putExtra(EXTRA_ACTIVITY_OPTIONS_BUNDLE, options?.toBundle())
         }
 
+        val options = ifNotNull(
+            a = holder.card,
+            b = activity,
+        ) { materialCardView, activity ->
+            ActivityOptionsCompat.makeSceneTransitionAnimation(
+                activity,
+                materialCardView,
+                ViewerActivity.TRANSITION_NAME,
+            )
+        }.takeIf { preferences.animationsEnabled }
+
+        var fos: FileOutputStream? = null
+
         try {
-            openActivityLauncher?.launch(intent)
-        } catch (e: Exception) {
+            fos = activity?.openFileOutput(SHARED_IMAGE_NAME, Context.MODE_PRIVATE)
+            holder.image?.drawable?.toBitmap()?.compress(Bitmap.CompressFormat.JPEG, 30, fos)
+        } finally {
+            fos?.flush()
+            fos?.close()
         }
+
+        openActivityLauncher?.launch(intent, options)
     }
 
     override fun getTargetActivityIntent(): Intent = Intent(activity, ViewerActivity::class.java)

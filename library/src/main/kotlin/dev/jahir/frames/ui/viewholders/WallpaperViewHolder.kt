@@ -2,15 +2,12 @@ package dev.jahir.frames.ui.viewholders
 
 import android.view.View
 import android.widget.TextView
-import androidx.core.view.ViewCompat
 import androidx.core.view.postDelayed
 import androidx.core.widget.CompoundButtonCompat
+import com.google.android.material.card.MaterialCardView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.extensions.context.string
-import dev.jahir.frames.extensions.frames.buildAuthorTransitionName
-import dev.jahir.frames.extensions.frames.buildImageTransitionName
-import dev.jahir.frames.extensions.frames.buildTitleTransitionName
 import dev.jahir.frames.extensions.resources.dpToPx
 import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.resources.tint
@@ -22,10 +19,12 @@ import dev.jahir.frames.extensions.views.loadFramesPicResPlaceholder
 import dev.jahir.frames.extensions.views.setPaddingTop
 import dev.jahir.frames.extensions.views.visible
 import dev.jahir.frames.extensions.views.visibleIf
+import dev.jahir.frames.ui.activities.ViewerActivity
 import dev.jahir.frames.ui.widgets.FavoriteCheckbox
 import dev.jahir.frames.ui.widgets.PortraitImageView
 
 class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
+    internal val card: MaterialCardView? by view.findView(R.id.card)
     internal val image: PortraitImageView? by view.findView(R.id.wallpaper_image)
     internal val title: TextView? by view.findView(R.id.wallpaper_name)
     internal val author: TextView? by view.findView(R.id.wallpaper_author)
@@ -56,25 +55,7 @@ class WallpaperViewHolder(view: View) : PaletteGeneratorViewHolder(view) {
             favorite?.visible()
         } else favorite?.gone()
 
-        title?.let {
-            ViewCompat.setTransitionName(
-                it,
-                wallpaper.buildTitleTransitionName(bindingAdapterPosition)
-            )
-        }
-        author?.let {
-            ViewCompat.setTransitionName(
-                it,
-                wallpaper.buildAuthorTransitionName(bindingAdapterPosition)
-            )
-        }
-        image?.let {
-            ViewCompat.setTransitionName(
-                it,
-                wallpaper.buildImageTransitionName(bindingAdapterPosition)
-            )
-        }
-
+        card?.transitionName = ViewerActivity.TRANSITION_NAME
         title?.text = wallpaper.name
         author?.text = wallpaper.author
         author?.visibleIf(wallpaper.author.hasContent())
