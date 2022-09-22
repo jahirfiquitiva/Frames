@@ -24,3 +24,7 @@ internal fun ensureBackgroundThread(callback: () -> Unit) {
 internal suspend fun ensureBackgroundThreadSuspended(callback: () -> Unit) = withContext(Default) {
     ensureBackgroundThread(callback)
 }
+
+fun <A, B, R> ifNotNull(a: A?, b: B?, block: (A, B) -> R) =
+    if (a != null && b != null) block(a, b)
+    else null

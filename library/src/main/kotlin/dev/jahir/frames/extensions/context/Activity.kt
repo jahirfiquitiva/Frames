@@ -10,10 +10,6 @@ import android.os.Build
 import android.view.View
 import android.view.Window
 import androidx.annotation.IdRes
-import androidx.core.util.Pair
-import androidx.core.view.ViewCompat
-import dev.jahir.frames.R
-import dev.jahir.frames.extensions.resources.hasContent
 
 inline fun Activity.restart(intentBuilder: Intent.() -> Unit = {}) {
     val i = Intent(this, this::class.java)
@@ -92,33 +88,4 @@ inline fun <reified T : View> Activity.findView(
             null
         }
     }
-}
-
-fun Activity?.buildTransitionOptions(transitionViews: ArrayList<View?> = ArrayList()): Array<Pair<View?, String>> {
-    val statusBar: View? = this?.window?.decorView?.findViewById(android.R.id.statusBarBackground)
-    val navigationBar: View? =
-        this?.window?.decorView?.findViewById(android.R.id.navigationBarBackground)
-
-    val pairs = ArrayList<Pair<View, String>>()
-    statusBar?.let {
-        pairs.add(Pair.create(it, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME))
-    }
-    navigationBar?.let {
-        pairs.add(Pair.create(it, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME))
-    }
-
-    val appBarLayout: View? = this?.window?.decorView?.findViewById(R.id.appbar)
-    appBarLayout?.let { pairs.add(Pair.create(it, "appbar")) }
-
-    val bottomNavigation: View? = this?.window?.decorView?.findViewById(R.id.bottom_navigation)
-    bottomNavigation?.let { pairs.add(Pair.create(it, "bottombar")) }
-
-    transitionViews.forEach {
-        it?.let {
-            val transitionName = ViewCompat.getTransitionName(it) ?: ""
-            if (transitionName.hasContent()) pairs.add(Pair.create(it, transitionName))
-        }
-    }
-
-    return pairs.toArray(arrayOfNulls(pairs.size))
 }
