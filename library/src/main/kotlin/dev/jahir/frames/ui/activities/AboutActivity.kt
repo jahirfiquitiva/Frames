@@ -103,7 +103,7 @@ open class AboutActivity : BaseThemedActivity<Preferences>() {
                 AboutItem(
                     "Patryk Michalik",
                     string(R.string.patryk_description),
-                    "https://raw.githubusercontent.com/patrykmichalik/brand/master/logo-on-indigo.png",
+                    "https://patrykmichalik.com/logo-on-indigo.png",
                     arrayListOf("Website" to "https://patrykmichalik.com")
                 )
             )
