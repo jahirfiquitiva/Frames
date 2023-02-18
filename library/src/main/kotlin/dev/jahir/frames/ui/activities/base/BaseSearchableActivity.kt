@@ -89,11 +89,6 @@ abstract class BaseSearchableActivity<out P : Preferences> : BaseFavoritesConnec
         bottomNavigation?.goneIf(canShowSearch(currentItemId) && searchOpen)
     }
 
-    override fun onPause() {
-        super.onPause()
-        bottomNavigation?.gone()
-    }
-
     companion object {
         private const val CURRENT_ITEM_KEY = "current_item"
     }

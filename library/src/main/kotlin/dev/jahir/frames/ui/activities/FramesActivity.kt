@@ -3,9 +3,11 @@ package dev.jahir.frames.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.Window
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.models.Collection
@@ -48,6 +50,9 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
     private var oldTag: String = initialFragmentTag
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        window.requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+        setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
+
         super.onCreate(savedInstanceState)
         setContentView(getLayoutRes())
 

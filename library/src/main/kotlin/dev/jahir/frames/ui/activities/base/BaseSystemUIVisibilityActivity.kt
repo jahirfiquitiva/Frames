@@ -13,7 +13,6 @@ import dev.jahir.frames.extensions.context.findView
 import dev.jahir.frames.extensions.resources.dpToPx
 import dev.jahir.frames.extensions.utils.SafeHandler
 import dev.jahir.frames.extensions.views.gone
-import dev.jahir.frames.extensions.views.setMarginTop
 import dev.jahir.frames.extensions.views.visible
 import dev.jahir.frames.ui.widgets.FramesBottomNavigationView
 
@@ -71,16 +70,6 @@ abstract class BaseSystemUIVisibilityActivity<out P : Preferences> :
 
     private fun changeAppBarVisibility(show: Boolean) {
         if (!canToggleSystemUIVisibility()) return
-        val extra = try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                window.decorView.rootWindowInsets.systemWindowInsetTop
-            } else {
-                25.dpToPx
-            }
-        } catch (e: Exception) {
-            0
-        }
-        appbar?.setMarginTop(if (show) extra else 0)
         val transY = (if (show) 0 else -(appbar?.height ?: 0 * 3)).toFloat()
         appbar?.animate()?.translationY(transY)
             ?.setInterpolator(AccelerateDecelerateInterpolator())

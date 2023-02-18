@@ -3,7 +3,6 @@ package dev.jahir.frames.ui.adapters
 import android.view.ViewGroup
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
 import com.afollestad.sectionedrecyclerview.SectionedViewHolder
-import dev.jahir.frames.BuildConfig
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.AboutItem
 import dev.jahir.frames.extensions.context.string
@@ -13,7 +12,8 @@ import dev.jahir.frames.ui.viewholders.SectionHeaderViewHolder
 
 class AboutAdapter(
     private val designerAboutItems: ArrayList<AboutItem>,
-    private val internalAboutItems: ArrayList<AboutItem>
+    private val internalAboutItems: ArrayList<AboutItem>,
+    private val dashboardName: String
 ) : SectionedRecyclerViewAdapter<SectionedViewHolder>() {
 
     init {
@@ -51,7 +51,7 @@ class AboutAdapter(
             else {
                 val appName = ctx.string(R.string.app_name)
                 val dashboardName =
-                    "<a href=\"https://github.com/jahirfiquitiva/${BuildConfig.DASHBOARD_NAME}\">${BuildConfig.DASHBOARD_NAME}</a>"
+                    "<a href=\"https://github.com/jahirfiquitiva/$dashboardName\">$dashboardName</a>"
                 ctx.string(R.string.dashboard_creators_disclaimer, appName, dashboardName)
             }
         }, section > 0 && getItemCount(0) > 0)

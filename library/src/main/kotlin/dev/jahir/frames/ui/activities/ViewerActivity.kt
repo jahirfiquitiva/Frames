@@ -13,6 +13,7 @@ import android.view.View
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+import android.view.Window
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.annotation.ColorInt
@@ -23,6 +24,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.palette.graphics.Palette
 import com.fondesa.kpermissions.PermissionStatus
 import com.google.android.material.navigation.NavigationBarView
+import com.google.android.material.transition.platform.MaterialContainerTransform
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.ortiz.touchview.TouchImageView
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
@@ -41,9 +44,6 @@ import dev.jahir.frames.extensions.fragments.mdDialog
 import dev.jahir.frames.extensions.fragments.message
 import dev.jahir.frames.extensions.fragments.positiveButton
 import dev.jahir.frames.extensions.fragments.title
-import dev.jahir.frames.extensions.frames.buildAuthorTransitionName
-import dev.jahir.frames.extensions.frames.buildImageTransitionName
-import dev.jahir.frames.extensions.frames.buildTitleTransitionName
 import dev.jahir.frames.extensions.resources.asBitmap
 import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.resources.toReadableTime
@@ -51,10 +51,10 @@ import dev.jahir.frames.extensions.utils.MAX_FRAMES_PALETTE_COLORS
 import dev.jahir.frames.extensions.utils.bestSwatch
 import dev.jahir.frames.extensions.views.gone
 import dev.jahir.frames.extensions.views.loadFramesPic
-import dev.jahir.frames.extensions.views.setMarginBottom
-import dev.jahir.frames.extensions.views.setMarginTop
+import dev.jahir.frames.extensions.views.setPaddingBottom
 import dev.jahir.frames.extensions.views.setPaddingLeft
 import dev.jahir.frames.extensions.views.setPaddingRight
+import dev.jahir.frames.extensions.views.setPaddingTop
 import dev.jahir.frames.extensions.views.tint
 import dev.jahir.frames.extensions.views.visibleIf
 import dev.jahir.frames.ui.activities.base.BaseWallpaperApplierActivity
@@ -88,13 +88,26 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
     private var applierDialog: DialogFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        window.requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+        window.decorView.setBackgroundColor(0)
+        findViewById<View>(android.R.id.content).transitionName = TRANSITION_NAME
+        setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
+
+        window.sharedElementEnterTransition = MaterialContainerTransform().apply {
+            addTarget(android.R.id.content)
+            duration = ENTER_TRANSITION_DURATION
+        }
+
+        window.sharedElementReturnTransition = MaterialContainerTransform().apply {
+            addTarget(android.R.id.content)
+            duration = RETURN_TRANSITION_DURATION
+        }
+
         super.onCreate(savedInstanceState)
         statusBarLight = false
         navigationBarLight = false
         setContentView(R.layout.activity_viewer)
         bottomNavigation?.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_LABELED
-
-        supportPostponeEnterTransition()
 
         currentWallPosition = intent?.extras?.getInt(CURRENT_WALL_POSITION, 0) ?: 0
 
@@ -111,24 +124,10 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
 
         findViewById<View?>(R.id.toolbar_title)?.let {
             (it as? TextView)?.text = wallpaper.name
-            ViewCompat.setTransitionName(
-                it,
-                wallpaper.buildTitleTransitionName(currentWallPosition)
-            )
         }
         findViewById<View?>(R.id.toolbar_subtitle)?.let {
             (it as? TextView)?.text = wallpaper.author
             it.visibleIf(wallpaper.author.hasContent())
-            ViewCompat.setTransitionName(
-                it,
-                wallpaper.buildAuthorTransitionName(currentWallPosition)
-            )
-        }
-        imageView?.let {
-            ViewCompat.setTransitionName(
-                it,
-                wallpaper.buildImageTransitionName(currentWallPosition)
-            )
         }
 
         initDownload(wallpaper)
@@ -144,7 +143,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         toolbar?.tint(color(R.color.white))
 
         imageView?.setOnDoubleTapListener(object : GestureDetector.SimpleOnGestureListener() {
-            override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+            override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                 toggleSystemUI()
                 return super.onSingleTapConfirmed(e)
             }
@@ -232,7 +231,6 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
     }
 
     private fun generatePalette(drawable: Drawable? = null) {
-        supportStartPostponedEnterTransition()
         findViewById<View?>(R.id.loading)?.gone()
         if (!shouldShowWallpapersPalette()) {
             setBackgroundColor()
@@ -278,7 +276,6 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
                 generatePalette(it)
             }
         }
-        supportStartPostponedEnterTransition()
     }
 
     private fun initWindow() {
@@ -294,7 +291,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
 
         appbar?.let { appbar ->
             ViewCompat.setOnApplyWindowInsetsListener(appbar) { _, insets ->
-                appbar.setMarginTop(insets.systemWindowInsetTop)
+                appbar.setPaddingTop(insets.systemWindowInsetTop)
                 appbar.setPaddingLeft(
                     if (boolean(R.bool.is_landscape)) insets.systemWindowInsetLeft
                     else 0
@@ -309,7 +306,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
 
         bottomNavigation?.let { bottomNavigation ->
             ViewCompat.setOnApplyWindowInsetsListener(bottomNavigation) { _, insets ->
-                bottomNavigation.setMarginBottom(insets.systemWindowInsetBottom)
+                bottomNavigation.setPaddingBottom(insets.systemWindowInsetBottom)
                 insets
             }
         }
@@ -405,7 +402,6 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
 
     companion object {
         internal const val MIN_TIME: Long = 3L * 60L * 60000L
-        internal const val REQUEST_CODE = 10
         internal const val FAVORITES_MODIFIED = "favorites_modified"
         internal const val FAVORITES_MODIFIED_RESULT = 1
         internal const val FAVORITES_NOT_MODIFIED_RESULT = 0
@@ -413,6 +409,9 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         internal const val LICENSE_CHECK_ENABLED = "license_check_enabled"
         internal const val CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY = "can_toggle_visibility"
         internal const val SHARED_IMAGE_NAME = "thumb.jpg"
+        internal const val TRANSITION_NAME = "wallpaper_transition_container"
+        private const val ENTER_TRANSITION_DURATION = 300L
+        private const val RETURN_TRANSITION_DURATION = 250L
         private const val CLOSING_KEY = "closing"
         private const val TRANSITIONED_KEY = "transitioned"
         private const val IS_IN_FAVORITES_KEY = "is_in_favorites"

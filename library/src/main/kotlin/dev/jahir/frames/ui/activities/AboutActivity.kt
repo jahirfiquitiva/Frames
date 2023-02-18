@@ -14,6 +14,7 @@ import dev.jahir.frames.extensions.context.stringArray
 import dev.jahir.frames.extensions.views.tint
 import dev.jahir.frames.ui.activities.base.BaseThemedActivity
 import dev.jahir.frames.ui.adapters.AboutAdapter
+import dev.jahir.frames.BuildConfig
 
 open class AboutActivity : BaseThemedActivity<Preferences>() {
 
@@ -33,7 +34,7 @@ open class AboutActivity : BaseThemedActivity<Preferences>() {
         }
         toolbar?.tint()
 
-        val adapter = AboutAdapter(getDesignerAboutItems(), getInternalAboutItems())
+        val adapter = AboutAdapter(getDesignerAboutItems(), getInternalAboutItems(), dashboardName)
         recyclerView?.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         recyclerView?.adapter = adapter
     }
@@ -102,7 +103,7 @@ open class AboutActivity : BaseThemedActivity<Preferences>() {
                 AboutItem(
                     "Patryk Michalik",
                     string(R.string.patryk_description),
-                    "https://raw.githubusercontent.com/patrykmichalik/brand/master/logo-on-indigo.png",
+                    "https://patrykmichalik.com/logo-on-indigo.png",
                     arrayListOf("Website" to "https://patrykmichalik.com")
                 )
             )
@@ -113,4 +114,6 @@ open class AboutActivity : BaseThemedActivity<Preferences>() {
     open fun getAdditionalInternalAboutItems(): ArrayList<AboutItem> = arrayListOf()
 
     open fun shouldIncludeContributors(): Boolean = true
+
+    open val dashboardName = BuildConfig.DASHBOARD_NAME
 }

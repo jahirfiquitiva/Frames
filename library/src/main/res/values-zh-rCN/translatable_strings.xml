@@ -104,7 +104,7 @@
     <string name="get">获取</string>
     <string name="jahir_description">我是一位充满热情和创造性的全栈开发者。</string>
     <string name="eduardo_description">UI设计师，负空间的拥护者。</string>
-    <string name="patryk_description">我安排形状，命令计算机，组合词语。</string>
+    <string name="patryk_description">我输入符号，控制电脑。</string>
     <string name="share">分享</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
     <string name="share_text">我今天的壁纸是 %2$s 的作品 %1$s ，来自 %3$s，\n下载请到 %4$s</string>
@@ -124,4 +124,5 @@
     <string name="sure_to_exit_content">您想在退出前保存设置吗？</string>
     <string name="yes">是</string>
     <string name="no">否</string>
+    <string name="dashboard_creators_disclaimer">%1$s 由 %2$s 面板驱动。下方所列为 %2$s 的创作者。如果您有关于 %1$s 的问题，请联系上方所列其设计师。</string>
 </resources>

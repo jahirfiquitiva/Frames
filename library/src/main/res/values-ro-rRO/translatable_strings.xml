@@ -7,7 +7,7 @@
     <string name="loading">Se încarcă…</string>
     <string name="data_error_network">Verifică-ți conexiunea la internet și încearcă din nou.</string>
     <string name="data_error_network_wifi_only">Conectează-te la Wi-Fi și încearcă din nou sau dezactivează această opțiune în Setări.</string>
-    <string name="data_error_format">Datele sunt probabil incorect formate. Contactați dezvoltatorul.</string>
+    <string name="data_error_format">Datele sunt probabil incorect formate. Contactează dezvoltatorul.</string>
     <string name="no_wallpapers_found">Nicio imagine de fundal</string>
     <string name="no_collections_found">Nicio colecție</string>
     <string name="no_favorites_found">Nu există favorite</string>
@@ -104,7 +104,7 @@
     <string name="get">Obține</string>
     <string name="jahir_description">Sunt un dezvoltator pasionat și creativ cu experiență diversificată.</string>
     <string name="eduardo_description">Proiectant UI. Apărător al spațiului negativ.</string>
-    <string name="patryk_description">Aranjez forme, controlez calculatoare și adun cuvinte la un loc.</string>
+    <string name="patryk_description">Tastez simboluri și controlez calculatoare.</string>
     <string name="share">Distribuie</string>
     <!-- Do NOT remove or change the %1$s (or with any other number) -->
     <string name="share_text">Imaginea mea de fundal pentru astăzi este %1$s de %2$s, de la %3$s.\nObține-o acum la %4$s</string>
@@ -124,4 +124,5 @@
     <string name="sure_to_exit_content">Vrei să-ți salvezi setările înainte de a ieși?</string>
     <string name="yes">Da</string>
     <string name="no">Nu</string>
+    <string name="dashboard_creators_disclaimer">%1$s este susținut de tabloul de bord %2$s. Mai jos sunt creatorii tabloului de bord %2$s. Dacă ai întrebări cu privire la %1$s, contactează creatorii acestuia, enumerați mai sus.</string>
 </resources>
