@@ -47,8 +47,8 @@
 
         <activity
             android:name=".ui.activities.SettingsActivity"
-            android:label="@string/settings"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/settings">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
                 <category android:name="android.intent.category.DEFAULT" />
