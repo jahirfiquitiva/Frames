@@ -94,14 +94,14 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
             withContext(IO) {
                 try {
                     file.createNewFile()
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                 }
                 val client = OkHttpClient()
                 val request = Request.Builder().url(url)
                     .build()
                 val response = client.newCall(request).execute()
                 val fos = FileOutputStream(file)
-                fos.write(response.body()?.bytes())
+                fos.write(response.body?.bytes())
                 fos.close()
             }
         } catch (e: Exception) {

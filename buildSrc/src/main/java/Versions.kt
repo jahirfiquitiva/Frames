@@ -44,7 +44,7 @@ object Versions {
     const val retrofit = "2.9.0"
 
     // Image loading and Touch Image View
-    const val coil = "1.4.0"
+    const val coil = "2.2.2"
     const val touchImageView = "3.3"
 
     // Harmonic Colors
