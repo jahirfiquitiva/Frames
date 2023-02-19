@@ -1,5 +1,6 @@
 package dev.jahir.frames.extensions.context
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.UiModeManager
 import android.content.Context
@@ -26,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import com.fondesa.kpermissions.extension.isPermissionGranted
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.extensions.resources.deleteEverything
@@ -35,7 +37,6 @@ import dev.jahir.frames.extensions.resources.isLink
 import dev.jahir.frames.ui.activities.base.BaseThemedActivity
 import java.io.File
 
-
 @Suppress("DEPRECATION")
 fun Context.isNetworkAvailable(): Boolean {
     try {
@@ -44,22 +45,22 @@ fun Context.isNetworkAvailable(): Boolean {
         } catch (ignored: Exception) {
             null
         }
-        if (connectivityManager == null)
-            try {
-                connectivityManager =
-                    getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager?
-            } catch (ignored: Exception) {
-            }
+        if (connectivityManager == null) try {
+            connectivityManager =
+                getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager?
+        } catch (ignored: Exception) {
+        }
         connectivityManager ?: return false
 
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val activeNetwork = connectivityManager.activeNetwork ?: return false
             val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
             capabilities?.let {
-                it.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-                        || it.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-                        || it.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
-                        || it.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                it.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || it.hasTransport(
+                    NetworkCapabilities.TRANSPORT_WIFI
+                ) || it.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) || it.hasCapability(
+                    NetworkCapabilities.NET_CAPABILITY_INTERNET
+                )
             } ?: false
         } else {
             val activeNetworkInfo = connectivityManager.activeNetworkInfo ?: return false
@@ -81,12 +82,11 @@ inline val Context.isWifiConnected: Boolean
             } catch (ignored: Exception) {
                 null
             }
-            if (connectivityManager == null)
-                try {
-                    connectivityManager =
-                        getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager?
-                } catch (ignored: Exception) {
-                }
+            if (connectivityManager == null) try {
+                connectivityManager =
+                    getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager?
+            } catch (ignored: Exception) {
+            }
             connectivityManager ?: return false
 
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -120,54 +120,47 @@ fun Context.stringArray(@ArrayRes resId: Int, fallback: Array<String> = arrayOf(
         fallback
     }
 
-fun Context.string(@StringRes resId: Int, vararg formatArgs: Any? = arrayOf()): String =
-    try {
-        getString(resId, *formatArgs.map { it.toString() }.toTypedArray())
-    } catch (e: Exception) {
-        ""
-    }
+fun Context.string(@StringRes resId: Int, vararg formatArgs: Any? = arrayOf()): String = try {
+    getString(resId, *formatArgs.map { it.toString() }.toTypedArray())
+} catch (e: Exception) {
+    ""
+}
 
-fun Context.color(@ColorRes id: Int, @ColorInt fallback: Int = 0): Int =
-    try {
-        ContextCompat.getColor(this, id)
-    } catch (e: Exception) {
-        fallback
-    }
+fun Context.color(@ColorRes id: Int, @ColorInt fallback: Int = 0): Int = try {
+    ContextCompat.getColor(this, id)
+} catch (e: Exception) {
+    fallback
+}
 
-fun Context.boolean(@BoolRes id: Int, fallback: Boolean = false): Boolean =
-    try {
-        resources.getBoolean(id)
-    } catch (e: Exception) {
-        fallback
-    }
+fun Context.boolean(@BoolRes id: Int, fallback: Boolean = false): Boolean = try {
+    resources.getBoolean(id)
+} catch (e: Exception) {
+    fallback
+}
 
-fun Context.integer(@IntegerRes id: Int, fallback: Int = 0): Int =
-    try {
-        resources.getInteger(id)
-    } catch (e: Exception) {
-        fallback
-    }
+fun Context.integer(@IntegerRes id: Int, fallback: Int = 0): Int = try {
+    resources.getInteger(id)
+} catch (e: Exception) {
+    fallback
+}
 
-fun Context.dimen(@DimenRes id: Int, fallback: Float = 0F): Float =
-    try {
-        resources.getDimension(id)
-    } catch (e: Exception) {
-        fallback
-    }
+fun Context.dimen(@DimenRes id: Int, fallback: Float = 0F): Float = try {
+    resources.getDimension(id)
+} catch (e: Exception) {
+    fallback
+}
 
-fun Context.dimenPixelSize(@DimenRes id: Int, fallback: Int = 0): Int =
-    try {
-        resources.getDimensionPixelSize(id)
-    } catch (e: Exception) {
-        fallback
-    }
+fun Context.dimenPixelSize(@DimenRes id: Int, fallback: Int = 0): Int = try {
+    resources.getDimensionPixelSize(id)
+} catch (e: Exception) {
+    fallback
+}
 
-fun Context.drawable(@DrawableRes resId: Int, fallback: Drawable? = null): Drawable? =
-    try {
-        AppCompatResources.getDrawable(this, resId)
-    } catch (e: Exception) {
-        fallback
-    }
+fun Context.drawable(@DrawableRes resId: Int, fallback: Drawable? = null): Drawable? = try {
+    AppCompatResources.getDrawable(this, resId)
+} catch (e: Exception) {
+    fallback
+}
 
 fun Context.drawable(name: String?): Drawable? {
     name ?: return null
@@ -179,12 +172,11 @@ fun Context.drawable(name: String?): Drawable? {
     }
 }
 
-fun Context.xml(@XmlRes xmlRes: Int): XmlResourceParser? =
-    try {
-        resources.getXml(xmlRes)
-    } catch (e: Exception) {
-        null
-    }
+fun Context.xml(@XmlRes xmlRes: Int): XmlResourceParser? = try {
+    resources.getXml(xmlRes)
+} catch (e: Exception) {
+    null
+}
 
 fun Context.withXml(@XmlRes xmlRes: Int, what: (parser: XmlResourceParser) -> Unit) {
     try {
@@ -204,8 +196,8 @@ fun Context.toast(content: String, duration: Int = Toast.LENGTH_SHORT) {
 @ColorInt
 fun Context.getRightNavigationBarColor(): Int {
     val mode = (getSystemService(Context.UI_MODE_SERVICE) as? UiModeManager)?.nightMode
-    val isNightMode = mode == UiModeManager.MODE_NIGHT_YES
-            && preferences.currentTheme != Preferences.ThemeKey.LIGHT
+    val isNightMode =
+        mode == UiModeManager.MODE_NIGHT_YES && preferences.currentTheme != Preferences.ThemeKey.LIGHT
     val shouldBeBlack =
         !preferences.shouldColorNavbar || (isNightMode && preferences.usesAmoledTheme)
     return if (!shouldBeBlack) {
@@ -365,3 +357,6 @@ internal fun Context.setDefaultDashboardTheme() {
     } catch (e: Exception) {
     }
 }
+
+val Context.hasNotificationsPermission: Boolean
+    get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) isPermissionGranted(Manifest.permission.POST_NOTIFICATIONS) else true

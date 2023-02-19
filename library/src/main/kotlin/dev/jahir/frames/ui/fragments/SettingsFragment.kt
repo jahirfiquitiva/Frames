@@ -17,6 +17,7 @@ import dev.jahir.frames.extensions.context.currentVersionCode
 import dev.jahir.frames.extensions.context.currentVersionName
 import dev.jahir.frames.extensions.context.dataCacheSize
 import dev.jahir.frames.extensions.context.getAppName
+import dev.jahir.frames.extensions.context.hasNotificationsPermission
 import dev.jahir.frames.extensions.context.openLink
 import dev.jahir.frames.extensions.fragments.mdDialog
 import dev.jahir.frames.extensions.fragments.positiveButton
@@ -29,6 +30,7 @@ import dev.jahir.frames.extensions.utils.removePreference
 import dev.jahir.frames.extensions.utils.setOnCheckedChangeListener
 import dev.jahir.frames.extensions.utils.setOnClickListener
 import dev.jahir.frames.ui.activities.SettingsActivity
+import dev.jahir.frames.ui.activities.base.BasePermissionsRequestActivity
 import dev.jahir.frames.ui.fragments.base.BasePreferenceFragment
 
 open class SettingsFragment : BasePreferenceFragment() {
@@ -115,6 +117,9 @@ open class SettingsFragment : BasePreferenceFragment() {
         notificationsPrefs?.isChecked = preferences.notificationsEnabled
         notificationsPrefs?.setOnCheckedChangeListener {
             preferences.notificationsEnabled = it
+            if (it && context?.hasNotificationsPermission == false) {
+                (activity as? BasePermissionsRequestActivity<*>)?.requestNotificationsPermission()
+            }
         }
 
         if (context?.boolean(R.bool.show_versions_in_settings, true) == true) {

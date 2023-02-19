@@ -66,6 +66,8 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
         wallpapersViewModel.observeCollections(this, ::handleCollectionsUpdate)
         wallpapersViewModel.errorListener = ::showDataErrorToastIfNeeded
         loadWallpapersData(true)
+
+        requestNotificationsPermission()
     }
 
     override fun onSafeBackPressed() {

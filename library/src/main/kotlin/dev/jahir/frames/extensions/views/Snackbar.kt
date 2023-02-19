@@ -15,7 +15,7 @@ import dev.jahir.frames.R
 import dev.jahir.frames.extensions.context.color
 import dev.jahir.frames.extensions.context.resolveColor
 import dev.jahir.frames.extensions.context.string
-import dev.jahir.frames.ui.activities.base.BaseStoragePermissionRequestActivity
+import dev.jahir.frames.ui.activities.base.BasePermissionsRequestActivity
 
 fun View.snackbar(
     text: CharSequence,
@@ -26,7 +26,7 @@ fun View.snackbar(
     val snack = Snackbar.make(this, text, duration)
     try {
         snack.setAnchorView(anchorViewId)
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
     val textView: TextView? by snack.view.findView(R.id.snackbar_text)
     textView?.maxLines = 3
@@ -63,14 +63,14 @@ fun View.snackbar(
 fun Activity.snackbar(
     text: CharSequence,
     duration: Int = Snackbar.LENGTH_SHORT,
-    @IdRes anchorViewId: Int = (this as? BaseStoragePermissionRequestActivity<*>)?.snackbarAnchorId
+    @IdRes anchorViewId: Int = (this as? BasePermissionsRequestActivity<*>)?.snackbarAnchorId
         ?: R.id.bottom_navigation,
     config: Snackbar.() -> Unit = {}
 ): Snackbar? {
-    (this as? BaseStoragePermissionRequestActivity<*>)?.let {
+    (this as? BasePermissionsRequestActivity<*>)?.let {
         try {
             it.currentSnackbar?.dismiss()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
     return contentView?.snackbar(text, duration, anchorViewId, config)
@@ -79,7 +79,7 @@ fun Activity.snackbar(
 fun Activity.snackbar(
     @StringRes text: Int,
     @BaseTransientBottomBar.Duration duration: Int = Snackbar.LENGTH_SHORT,
-    @IdRes anchorViewId: Int = (this as? BaseStoragePermissionRequestActivity<*>)?.snackbarAnchorId
+    @IdRes anchorViewId: Int = (this as? BasePermissionsRequestActivity<*>)?.snackbarAnchorId
         ?: R.id.bottom_navigation,
     config: Snackbar.() -> Unit = {}
 ): Snackbar? = snackbar(string(text), duration, anchorViewId, config)

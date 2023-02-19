@@ -2,6 +2,7 @@
 
 package dev.jahir.frames.ui.activities
 
+import android.Manifest
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -22,7 +23,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.palette.graphics.Palette
-import com.fondesa.kpermissions.PermissionStatus
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
@@ -377,9 +377,10 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         }
     }
 
-    override fun internalOnPermissionsGranted(result: List<PermissionStatus>) {
-        super.internalOnPermissionsGranted(result)
-        startDownload()
+    override fun internalOnPermissionsGranted(permission: String?) {
+        super.internalOnPermissionsGranted(permission)
+        if (permission == Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            startDownload()
     }
 
     private fun applyWallpaper(wallpaper: Wallpaper?) {
