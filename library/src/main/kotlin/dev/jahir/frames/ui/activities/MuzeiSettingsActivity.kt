@@ -92,7 +92,7 @@ open class MuzeiSettingsActivity : BaseThemedActivity<Preferences>() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onBackPressed() = doFinish()
+    override fun onSafeBackPressed() = doFinish()
 
     private fun saveChanges() {
         preferences.refreshMuzeiOnWiFiOnly = wifiOnlyRefreshSwitch?.isChecked ?: false

@@ -68,9 +68,9 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
         loadWallpapersData(true)
     }
 
-    override fun onBackPressed() {
+    override fun onSafeBackPressed() {
         if (currentItemId != initialItemId) bottomNavigation?.selectedItemId = initialItemId
-        else super.onBackPressed()
+        else super.onSafeBackPressed()
     }
 
     fun updateToolbarTitle(itemId: Int = currentItemId) {
