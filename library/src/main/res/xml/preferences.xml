@@ -7,6 +7,10 @@
         android:title="@string/interface_title">
 
         <androidx.preference.Preference
+            android:key="app_language"
+            android:title="@string/app_language" />
+
+        <androidx.preference.Preference
             android:key="app_theme"
             android:summary="@string/follow_system_theme"
             android:title="@string/app_theme" />
