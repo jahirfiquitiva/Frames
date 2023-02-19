@@ -12,6 +12,8 @@ object Libs {
 
     // Android UI
     private const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
+    private const val appcompatResources =
+        "androidx.appcompat:appcompat-resources:${Versions.appcompat}"
     private const val cardView = "androidx.cardview:cardview:${Versions.cardView}"
     private const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerView}"
     private const val swipeRefreshLayout =
@@ -88,6 +90,7 @@ object Libs {
         coroutines,
         coroutinesAndroid,
         appcompat,
+        appcompatResources,
         cardView,
         recyclerView,
         swipeRefreshLayout,

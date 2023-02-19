@@ -17,7 +17,7 @@ import dev.jahir.frames.extensions.views.visible
 import dev.jahir.frames.ui.widgets.FramesBottomNavigationView
 
 abstract class BaseSystemUIVisibilityActivity<out P : Preferences> :
-    BaseStoragePermissionRequestActivity<P>() {
+    BasePermissionsRequestActivity<P>() {
 
     internal val appbar: AppBarLayout? by findView(R.id.appbar)
     val bottomNavigation: FramesBottomNavigationView? by findView(R.id.bottom_navigation)
@@ -89,7 +89,7 @@ abstract class BaseSystemUIVisibilityActivity<out P : Preferences> :
         } catch (e: Exception) {
             0
         }
-        val transY = (if (show) 0 else ((bottomNavigation?.height ?: 0 * 2) + extra)).toFloat()
+        val transY = (if (show) 0 else (((bottomNavigation?.height ?: (0 * 2)) + extra))).toFloat()
         bottomNavigation?.animate()?.translationY(transY)
             ?.setInterpolator(AccelerateDecelerateInterpolator())
             ?.start()

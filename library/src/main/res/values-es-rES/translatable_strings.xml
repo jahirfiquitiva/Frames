@@ -124,4 +124,9 @@
     <string name="sure_to_exit_content">¿Quiere guardar su configuración antes de salir?</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
+    <string name="notifications_permission_denied">Permiso de notificaciones no concedido.</string>
+    <string name="notifications_permission_permanently_denied">Permiso de notificaciones denegado. Concede en Configuración.</string>
+    <string name="notifications_permission_request">%1$s utiliza el permiso de notificaciones para informarte de actualizaciones importantes.</string>
+    <string name="app_language">Idioma de la aplicación</string>
+    <string name="app_language_summary">Idioma actual: %1$s</string>
 </resources>

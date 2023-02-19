@@ -23,9 +23,9 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import coil.decode.DataSource
 import coil.request.ImageRequest
-import coil.request.ImageResult
-import coil.target.PoolableViewTarget
+import coil.request.SuccessResult
 import coil.target.Target
+import coil.target.ViewTarget
 import com.ortiz.touchview.TouchImageView
 import dev.jahir.frames.extensions.context.preferences
 
@@ -35,7 +35,7 @@ import dev.jahir.frames.extensions.context.preferences
 open class SaturatingImageViewTarget(
     override val view: ImageView,
     var shouldActuallySaturate: Boolean = true
-) : PoolableViewTarget<ImageView>, DefaultLifecycleObserver, ImageRequest.Listener {
+) : ViewTarget<ImageView>, DefaultLifecycleObserver, ImageRequest.Listener {
 
     private val afterSuccessListeners: ArrayList<((drawable: Drawable?) -> Unit)> = ArrayList()
     private var isStarted = false
@@ -44,8 +44,9 @@ open class SaturatingImageViewTarget(
 
     override fun onSuccess(result: Drawable) = setDrawable(result)
 
-    override fun onSuccess(request: ImageRequest, metadata: ImageResult.Metadata) {
-        val source = metadata.dataSource
+    override fun onSuccess(request: ImageRequest, result: SuccessResult) {
+        super<ImageRequest.Listener>.onSuccess(request, result)
+        val source = result.dataSource
         // This is called after onSuccess(Drawable) above, so we can assume the image has
         // already been set
         if ((source == DataSource.DISK || source == DataSource.NETWORK) &&
@@ -59,7 +60,10 @@ open class SaturatingImageViewTarget(
 
     override fun onError(error: Drawable?) = setDrawable(error)
 
-    override fun onClear() = setDrawable(null)
+    override fun onDestroy(owner: LifecycleOwner) {
+        super.onDestroy(owner)
+        setDrawable(null)
+    }
 
     override fun onStart(owner: LifecycleOwner) {
         isStarted = true

@@ -125,4 +125,9 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="dashboard_creators_disclaimer">%1$s is powered by the %2$s dashboard. Listed below are the creators of %2$s. If you have questions concerning %1$s, please contact its designer(s), listed above.</string>
+    <string name="notifications_permission_denied">Notifications permission not granted.</string>
+    <string name="notifications_permission_permanently_denied">Notifications permission denied. Grant it in Settings.</string>
+    <string name="notifications_permission_request">%1$s uses the Notifications permission to let you know of important updates.</string>
+    <string name="app_language">App language</string>
+    <string name="app_language_summary">Current language: %1$s</string>
 </resources>
