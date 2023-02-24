@@ -4,6 +4,7 @@ apply plugin: 'kotlin-parcelize'
 apply plugin: 'com.google.devtools.ksp'
 
 android {
+    namespace 'dev.jahir.frames'
     compileSdkVersion Versions.targetSdk
     buildToolsVersion Versions.buildTools
 
