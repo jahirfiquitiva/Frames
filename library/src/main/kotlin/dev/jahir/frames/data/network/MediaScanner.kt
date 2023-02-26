@@ -32,8 +32,8 @@ internal object MediaScanner {
 
     fun scan(context: Context?, path: String) {
         try {
-            val file: File? = File(path)
-            val fileUri: Uri? = file?.getUri(context) ?: Uri.fromFile(file)
+            val file = File(path)
+            val fileUri: Uri? = file.getUri(context) ?: Uri.fromFile(file)
             try {
                 MediaScannerConnection.scanFile(
                     context, arrayOf(path), arrayOf(file.getMimeType("image/*"))

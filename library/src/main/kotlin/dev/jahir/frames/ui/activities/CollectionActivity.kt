@@ -47,7 +47,7 @@ open class CollectionActivity : BaseChangelogDialogActivity<Preferences>() {
         wallpapersViewModel.observeCollections(this) {
             val rightCollection = try {
                 it.getOrNull(it.indexOfFirst { coll ->
-                    coll.name == collection?.name ?: collectionName
+                    coll.name == (collection?.name ?: collectionName)
                 })
             } catch (e: Exception) {
                 null

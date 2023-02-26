@@ -51,7 +51,7 @@ class SectionHeaderViewHolder(view: View) : SectionedViewHolder(view) {
         val subtitleText = subtitle?.invoke(context).orEmpty()
         bind(title, subtitle?.invoke(context).orEmpty(), showDivider)
         if (subtitleText.hasContent()) {
-            subtitleTextView?.movementMethod = LinkMovementMethod.getInstance();
+            subtitleTextView?.movementMethod = LinkMovementMethod.getInstance()
         }
     }
 }

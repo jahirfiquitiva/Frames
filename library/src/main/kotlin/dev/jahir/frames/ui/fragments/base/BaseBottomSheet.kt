@@ -2,7 +2,6 @@ package dev.jahir.frames.ui.fragments.base
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.os.Build
 import android.view.View
 import android.view.WindowManager
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -50,13 +49,11 @@ open class BaseBottomSheet : BottomSheetDialogFragment() {
         }
 
         dialog.setOnShowListener { dialogInterface ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                (dialogInterface as? BottomSheetDialog)?.apply {
-                    window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                    val navigationBarColor = context.getRightNavigationBarColor()
-                    window?.navigationBarColor = navigationBarColor
-                    window?.navigationBarLight = !navigationBarColor.isDark
-                }
+            (dialogInterface as? BottomSheetDialog)?.apply {
+                window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                val navigationBarColor = context.getRightNavigationBarColor()
+                window?.navigationBarColor = navigationBarColor
+                window?.navigationBarLight = !navigationBarColor.isDark
             }
             expand()
         }

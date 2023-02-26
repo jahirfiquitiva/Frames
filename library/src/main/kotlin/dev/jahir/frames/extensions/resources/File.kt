@@ -48,7 +48,7 @@ fun File.createIfDidNotExist(): Boolean = try {
     false
 }
 
-fun Context.getDefaultWallpapersDownloadFolder(): File? {
+fun Context.getDefaultWallpapersDownloadFolder(): File {
     val externalFolder = getExternalStorageFolder()
     val folder = File("$externalFolder${File.separator}${getAppName()}")
     folder.createIfDidNotExist()

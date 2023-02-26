@@ -5,6 +5,7 @@ import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dev.jahir.frames.BuildConfig
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.models.AboutItem
@@ -14,7 +15,6 @@ import dev.jahir.frames.extensions.context.stringArray
 import dev.jahir.frames.extensions.views.tint
 import dev.jahir.frames.ui.activities.base.BaseThemedActivity
 import dev.jahir.frames.ui.adapters.AboutAdapter
-import dev.jahir.frames.BuildConfig
 
 open class AboutActivity : BaseThemedActivity<Preferences>() {
 

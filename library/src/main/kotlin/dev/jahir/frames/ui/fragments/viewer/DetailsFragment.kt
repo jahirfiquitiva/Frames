@@ -1,5 +1,6 @@
 package dev.jahir.frames.ui.fragments.viewer
 
+import android.annotation.SuppressLint
 import android.view.View
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,6 +23,7 @@ class DetailsFragment : BaseBottomSheet() {
     private var shouldShowPaletteDetails: Boolean = true
 
     var wallpaper: Wallpaper? = null
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             wallpaperDetailsAdapter.wallpaper = value

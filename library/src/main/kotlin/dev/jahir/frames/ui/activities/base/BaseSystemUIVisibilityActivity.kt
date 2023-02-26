@@ -70,7 +70,7 @@ abstract class BaseSystemUIVisibilityActivity<out P : Preferences> :
 
     private fun changeAppBarVisibility(show: Boolean) {
         if (!canToggleSystemUIVisibility()) return
-        val transY = (if (show) 0 else -(appbar?.height ?: 0 * 3)).toFloat()
+        val transY = (if (show) 0 else -((appbar?.height ?: (0 * 3)))).toFloat()
         appbar?.animate()?.translationY(transY)
             ?.setInterpolator(AccelerateDecelerateInterpolator())
             ?.withStartAction { if (show) appbar?.visible() }

@@ -223,12 +223,12 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
         if (loadCollections) {
             val newCollections = transformWallpapersToCollections(actualNewWallpapers)
             val areTheSameCollections = areTheSameLists(collections, newCollections)
-            if (!areTheSameCollections || collections.isNullOrEmpty() || force)
+            if (!areTheSameCollections || collections.isEmpty() || force)
                 postCollections(newCollections)
         }
 
         val areTheSameWallpapers = areTheSameLists(localWallpapers, actualNewWallpapers)
-        if (!areTheSameWallpapers || wallpapers.isNullOrEmpty() || force) {
+        if (!areTheSameWallpapers || wallpapers.isEmpty() || force) {
             if (!(localWallpapers.isEmpty() && actualNewWallpapers.isEmpty() && isPreload))
                 postWallpapers(actualNewWallpapers)
         }
@@ -238,7 +238,7 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
             val actualFavorites =
                 actualNewWallpapers.filter { wllppr -> favorites.any { fav -> fav.url == wllppr.url } }
             val areTheSameFavorites = areTheSameLists(favorites, actualFavorites)
-            if (!areTheSameFavorites || favorites.isNullOrEmpty() || force)
+            if (!areTheSameFavorites || favorites.isEmpty() || force)
                 postFavorites(actualFavorites)
         }
         saveWallpapers(actualNewWallpapers)

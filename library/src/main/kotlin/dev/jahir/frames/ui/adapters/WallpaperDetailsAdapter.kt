@@ -1,5 +1,6 @@
 package dev.jahir.frames.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.palette.graphics.Palette
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter
@@ -19,6 +20,7 @@ class WallpaperDetailsAdapter(
 ) : SectionedRecyclerViewAdapter<SectionedViewHolder>() {
 
     var paletteSwatches: ArrayList<Palette.Swatch> = ArrayList()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field.clear()
             if (shouldShowPaletteDetails)
