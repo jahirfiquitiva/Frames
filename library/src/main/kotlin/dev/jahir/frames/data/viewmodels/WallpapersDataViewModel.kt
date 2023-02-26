@@ -345,7 +345,7 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
                 }
             }
             if (!areTheSame) return false
-            val difference = ArrayList<T>(remote).apply { removeAll(local) }.size
+            val difference = ArrayList<T>(remote).apply { removeAll(local.toSet()) }.size
             return difference <= 0 && remote.size == local.size
         } catch (e: Exception) {
             return false
