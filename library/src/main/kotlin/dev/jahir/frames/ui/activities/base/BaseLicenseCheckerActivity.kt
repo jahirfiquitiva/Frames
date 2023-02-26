@@ -48,7 +48,7 @@ abstract class BaseLicenseCheckerActivity<out P : Preferences> : BaseChangelogDi
         destroyChecker()
         try {
             licenseCheckDialog?.dismiss()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
         licenseCheckDialog = null
     }
@@ -73,11 +73,11 @@ abstract class BaseLicenseCheckerActivity<out P : Preferences> : BaseChangelogDi
                     start()
                 }
             }
-        } ?: {
+        } ?: run {
             licenseCheckEnabled = false
             preferences.functionalDashboard = true
             if (isUpdate) showChangelog()
-        }()
+        }
     }
 
     // Not really needed to override

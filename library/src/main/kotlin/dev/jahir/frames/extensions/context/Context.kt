@@ -162,6 +162,7 @@ fun Context.drawable(@DrawableRes resId: Int, fallback: Drawable? = null): Drawa
     fallback
 }
 
+@SuppressLint("DiscouragedApi")
 fun Context.drawable(name: String?): Drawable? {
     name ?: return null
     if (!name.hasContent()) return null

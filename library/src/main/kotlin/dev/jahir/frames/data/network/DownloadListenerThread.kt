@@ -2,6 +2,7 @@ package dev.jahir.frames.data.network
 
 import android.app.DownloadManager
 import android.content.Context
+import android.database.Cursor
 import android.database.CursorIndexOutOfBoundsException
 import android.os.Handler
 import dev.jahir.frames.extensions.utils.SafeHandler
@@ -33,7 +34,7 @@ class DownloadListenerThread(
     override fun run() {
         super.run()
         while (running) {
-            context ?: { cancel() }()
+            context ?: run { cancel() }
 
             val query = DownloadManager.Query()
             query.setFilterById(downloadId)
@@ -41,7 +42,7 @@ class DownloadListenerThread(
             downloadManager.query(query)?.let { cursor ->
                 cursor.moveToFirst()
                 try {
-                    when (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
+                    when (cursor.getInt(DownloadManager.COLUMN_STATUS)) {
                         DownloadManager.STATUS_FAILED -> {
                             handler.post { downloadListener?.onFailure(Exception("Download manager failed")) }
                             cancel()
@@ -52,12 +53,11 @@ class DownloadListenerThread(
                             cancel()
                             return
                         }
-                        else -> {
-                        }
                     }
-                    progress =
-                        ((cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)) * 100L)
-                                / cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))).toInt()
+                    val bytesDownloaded =
+                        cursor.getInt(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)
+                    val totalBytes = cursor.getInt(DownloadManager.COLUMN_TOTAL_SIZE_BYTES)
+                    progress = ((bytesDownloaded * 100L) / totalBytes).toInt()
                 } catch (e: CursorIndexOutOfBoundsException) {
                     e.printStackTrace()
                     handler.post {
@@ -89,5 +89,12 @@ class DownloadListenerThread(
         fun onFailure(exception: Exception) {
             exception.printStackTrace()
         }
+    }
+
+    private fun Cursor.getInt(columnName: String? = null): Int {
+        columnName ?: return 0
+        val columnIndex = getColumnIndex(columnName)
+        if (columnIndex < 0) return 0
+        return getInt(columnIndex)
     }
 }

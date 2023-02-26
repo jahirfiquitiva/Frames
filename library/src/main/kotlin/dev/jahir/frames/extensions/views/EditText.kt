@@ -3,7 +3,6 @@ package dev.jahir.frames.extensions.views
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.ColorInt
@@ -16,12 +15,11 @@ fun EditText.tint(@ColorInt color: Int) {
     val editTextColorStateList = ColorStateList.valueOf(color)
     if (this is AppCompatEditText) {
         supportBackgroundTintList = editTextColorStateList
-    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        backgroundTintList = editTextColorStateList
-    }
+    } else backgroundTintList = editTextColorStateList
     tintCursor(color)
 }
 
+@SuppressLint("DiscouragedPrivateApi", "SoonBlockedPrivateApi")
 fun EditText.tintCursor(@ColorInt color: Int) {
     try {
         val fCursorDrawableRes = TextView::class.java.getDeclaredField("mCursorDrawableRes")
@@ -39,6 +37,6 @@ fun EditText.tintCursor(@ColorInt color: Int) {
             drawable
         }
         fCursorDrawable.set(editor, drawables)
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
 }

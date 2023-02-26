@@ -3,11 +3,11 @@ package dev.jahir.frames.ui.activities.base
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AlertDialog
-import com.android.billingclient.api.SkuDetails
+import com.android.billingclient.api.ProductDetails
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.listeners.BillingProcessesListener
-import dev.jahir.frames.data.models.CleanSkuDetails
+import dev.jahir.frames.data.models.CleanProductDetails
 import dev.jahir.frames.data.models.DetailedPurchaseRecord
 import dev.jahir.frames.data.viewmodels.BillingViewModel
 import dev.jahir.frames.extensions.context.firstInstallTime
@@ -80,19 +80,20 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
 
     fun showDonationsDialog() {
         if (!isBillingClientReady) {
-            onSkuPurchaseError()
+            onProductPurchaseError()
             return
         }
-        val skuDetailsList = billingViewModel.inAppSkuDetails.map { CleanSkuDetails(it) }
-            .filter { getDonationItemsIds().contains(it.originalDetails.sku) }
-        if (skuDetailsList.isEmpty()) {
-            onSkuPurchaseError()
+        val productDetailsList =
+            billingViewModel.inAppProductDetails.map { CleanProductDetails(it) }
+                .filter { getDonationItemsIds().contains(it.originalDetails.productId) }
+        if (productDetailsList.isEmpty()) {
+            onProductPurchaseError()
             return
         }
         dismissDialogs()
         purchasesDialog = mdDialog {
             title(R.string.donate)
-            singleChoiceItems(skuDetailsList, 0)
+            singleChoiceItems(productDetailsList, 0)
             negativeButton(android.R.string.cancel)
             positiveButton(R.string.donate) { dialog ->
                 val listView = (dialog as? AlertDialog)?.listView
@@ -100,7 +101,7 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
                     val checkedItemPosition = listView?.checkedItemPosition ?: -1
                     billingViewModel.launchBillingFlow(
                         this@BaseBillingActivity,
-                        skuDetailsList[checkedItemPosition].originalDetails
+                        productDetailsList[checkedItemPosition].originalDetails
                     )
                 }
                 dialog.dismiss()
@@ -109,7 +110,7 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
         purchasesDialog?.show()
     }
 
-    override fun onSkuPurchaseSuccess(purchase: DetailedPurchaseRecord?) {
+    override fun onProductPurchaseSuccess(purchase: DetailedPurchaseRecord?) {
         dismissDialogs()
         purchasesDialog = mdDialog {
             title(R.string.donate_success_title)
@@ -119,7 +120,7 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
         purchasesDialog?.show()
     }
 
-    override fun onSkuPurchaseError(purchase: DetailedPurchaseRecord?) {
+    override fun onProductPurchaseError(purchase: DetailedPurchaseRecord?) {
         dismissDialogs()
         purchasesDialog = mdDialog {
             title(R.string.error)
@@ -133,17 +134,17 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
         invalidateOptionsMenu()
         val inAppItems =
             ArrayList(getDonationItemsIds()).apply { addAll(getInAppPurchasesItemsIds()) }
-        billingViewModel.queryInAppSkuDetailsList(inAppItems)
-        billingViewModel.querySubscriptionsSkuDetailsList(getSubscriptionsItemsIds())
+        billingViewModel.queryInAppProductDetailsList(inAppItems)
+        billingViewModel.querySubscriptionsProductDetailsList(getSubscriptionsItemsIds())
     }
 
-    override fun onInAppSkuDetailsListUpdated(skuDetailsList: List<SkuDetails>) {
-        super.onInAppSkuDetailsListUpdated(skuDetailsList)
+    override fun onInAppProductDetailsListUpdated(productDetailsList: List<ProductDetails>) {
+        super.onInAppProductDetailsListUpdated(productDetailsList)
         invalidateOptionsMenu()
     }
 
-    override fun onSubscriptionsSkuDetailsListUpdated(skuDetailsList: List<SkuDetails>) {
-        super.onSubscriptionsSkuDetailsListUpdated(skuDetailsList)
+    override fun onSubscriptionsProductDetailsListUpdated(productDetailsList: List<ProductDetails>) {
+        super.onSubscriptionsProductDetailsListUpdated(productDetailsList)
         invalidateOptionsMenu()
     }
 
