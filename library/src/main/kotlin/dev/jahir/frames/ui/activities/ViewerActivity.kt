@@ -130,7 +130,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
             it.visibleIf(wallpaper.author.hasContent())
         }
 
-        initDownload(wallpaper)
+        initWallpaperFetcher(wallpaper)
         detailsFragment.wallpaper = wallpaper
 
         setSupportActionBar(toolbar)
@@ -377,7 +377,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         }
     }
 
-    override fun internalOnPermissionsGranted(permission: String?) {
+    override fun internalOnPermissionsGranted(permission: String) {
         super.internalOnPermissionsGranted(permission)
         if (permission == Manifest.permission.WRITE_EXTERNAL_STORAGE)
             startDownload()

@@ -39,7 +39,7 @@ abstract class BasePermissionsRequestActivity<out P : Preferences> : BaseThemedA
         object : BasePermissionRequestListener {
             override fun onPermissionsGranted(result: List<PermissionStatus>) {
                 super.onPermissionsGranted(result)
-                internalOnPermissionsGranted(result.firstOrNull()?.permission)
+                result.firstOrNull()?.let { internalOnPermissionsGranted(it.permission) }
             }
 
             override fun onPermissionsDenied(result: List<PermissionStatus>) {
@@ -80,7 +80,7 @@ abstract class BasePermissionsRequestActivity<out P : Preferences> : BaseThemedA
 
     fun requestStoragePermission() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) permissionRequest.send()
-        else internalOnPermissionsGranted()
+        else internalOnPermissionsGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
     private val notificationsPermissionRequest by lazy {
@@ -108,7 +108,7 @@ abstract class BasePermissionsRequestActivity<out P : Preferences> : BaseThemedA
         }
     }
 
-    open fun internalOnPermissionsGranted(permission: String? = null) {}
+    open fun internalOnPermissionsGranted(permission: String) {}
 
     open fun getPermissionRationaleMessage(permissions: PermissionsResult): String {
         return string(

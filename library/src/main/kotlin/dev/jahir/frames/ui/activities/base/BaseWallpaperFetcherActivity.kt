@@ -25,7 +25,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
     internal val workManager: WorkManager by lazy { WorkManager.getInstance(this) }
     internal var wallpaperDownloadUrl: String = ""
 
-    internal fun initDownload(wallpaper: Wallpaper?) {
+    internal fun initWallpaperFetcher(wallpaper: Wallpaper?) {
         wallpaperDownloadUrl = wallpaper?.url.orEmpty()
     }
 
@@ -59,14 +59,14 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
         try {
             workManager.cancelAllWork()
             workManager.pruneWork()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 
     private fun onDownloadQueued() {
         try {
             currentSnackbar = snackbar(R.string.download_starting, anchorViewId = snackbarAnchorId)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
         cancelWorkManagerTasks()
     }
@@ -91,7 +91,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
                         }
                     }
                 }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
         cancelWorkManagerTasks()
     }
@@ -100,7 +100,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
         try {
             currentSnackbar =
                 snackbar(R.string.unexpected_error_occurred, anchorViewId = snackbarAnchorId)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
         cancelWorkManagerTasks()
     }
@@ -109,7 +109,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
         super.onSaveInstanceState(outState)
         try {
             outState.putString(WALLPAPER_URL_KEY, wallpaperDownloadUrl)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 
@@ -117,7 +117,7 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
         super.onRestoreInstanceState(savedInstanceState)
         try {
             wallpaperDownloadUrl = savedInstanceState.getString(WALLPAPER_URL_KEY, "") ?: ""
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 
