@@ -2,7 +2,7 @@
 
 object Versions {
     // Plugins
-    const val gradle = "7.4.2"
+    const val gradle = "8.0.1"
     const val kotlin = "1.8.21"
     const val sonatype = "1.3.0"
     const val ksp = "$kotlin-1.0.11"
