@@ -71,10 +71,11 @@ open class SettingsFragment : BasePreferenceFragment() {
                     val listView = (dialog as? AlertDialog)?.listView
                     if ((listView?.checkedItemCount ?: 0) > 0) {
                         val checkedItemPosition = listView?.checkedItemPosition ?: -1
+                        val localeList =
+                            LocaleListCompat.forLanguageTags(locales.getOrNull(checkedItemPosition)?.tag)
                         AppCompatDelegate.setApplicationLocales(
-                            LocaleListCompat.forLanguageTags(
-                                locales.getOrNull(checkedItemPosition)?.tag
-                            )
+                            if (!localeList.isEmpty) localeList
+                            else LocaleListCompat.getEmptyLocaleList()
                         )
                     }
                     dialog.dismiss()

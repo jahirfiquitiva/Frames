@@ -3,6 +3,7 @@ package dev.jahir.frames.muzei
 import android.app.Application
 import android.content.Context
 import android.net.Uri
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import com.google.android.apps.muzei.api.provider.Artwork
@@ -17,7 +18,8 @@ import dev.jahir.frames.extensions.resources.hasContent
 open class FramesArtWorker : LifecycleOwner {
 
     private val lcRegistry by lazy { LifecycleRegistry(this) }
-    override fun getLifecycle(): LifecycleRegistry = lcRegistry
+    override val lifecycle: Lifecycle
+        get() = lcRegistry
 
     open var viewModel: WallpapersDataViewModel? = null
 
@@ -74,7 +76,7 @@ open class FramesArtWorker : LifecycleOwner {
         try {
             viewModel?.destroy(this)
             if (makeNull) viewModel = null
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 }
