@@ -125,4 +125,9 @@
     <string name="yes">Ano</string>
     <string name="no">Ne</string>
     <string name="dashboard_creators_disclaimer">%1$s je ovládáno z Hlavní nabídky %2$s. Níže jsou uvedeni tvůrci %2$s. Máte-li dotazy týkající se %1$s, obraťte se na jeho tvůrce uvedené výše.</string>
+    <string name="notifications_permission_denied">Oprávnění k oznámením nebylo uděleno.</string>
+    <string name="notifications_permission_permanently_denied">Oprávnění k oznámení bylo zamítnuto. Udělte jej v nastavení.</string>
+    <string name="notifications_permission_request">Aplikace %1$s používá oprávnění k oznámením, aby vás informovala o důležitých aktualizacích.</string>
+    <string name="app_language">Jazyk aplikace</string>
+    <string name="app_language_summary">Aktuální jazyk: %1$s</string>
 </resources>
