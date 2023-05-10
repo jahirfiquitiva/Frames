@@ -125,4 +125,9 @@
     <string name="yes">Da</string>
     <string name="no">Nu</string>
     <string name="dashboard_creators_disclaimer">%1$s este susținut de tabloul de bord %2$s. Mai jos sunt creatorii tabloului de bord %2$s. Dacă ai întrebări cu privire la %1$s, contactează creatorii acestuia, enumerați mai sus.</string>
+    <string name="notifications_permission_denied">Permisiunea privind notificările nu a fost acordată.</string>
+    <string name="notifications_permission_permanently_denied">Permisiunea privind notificările a fost refuzată. Acordă permisiunea în Setări.</string>
+    <string name="notifications_permission_request">%1$s utilizează permisiunea privind notificările pentru a te informa cu privire la actualizări importante.</string>
+    <string name="app_language">Limba aplicației</string>
+    <string name="app_language_summary">Limba actuală: %1$s</string>
 </resources>
