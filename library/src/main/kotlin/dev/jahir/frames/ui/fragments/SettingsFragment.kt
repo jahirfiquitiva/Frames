@@ -36,6 +36,7 @@ import dev.jahir.frames.extensions.utils.setOnClickListener
 import dev.jahir.frames.ui.activities.SettingsActivity
 import dev.jahir.frames.ui.activities.base.BasePermissionsRequestActivity
 import dev.jahir.frames.ui.fragments.base.BasePreferenceFragment
+import java.util.Locale
 
 open class SettingsFragment : BasePreferenceFragment() {
 
@@ -50,6 +51,12 @@ open class SettingsFragment : BasePreferenceFragment() {
         localesViewModel.loadAppLocales()
     }
 
+    private fun getCurrentLocaleName(locale: Locale): String {
+        var localeName = locale.getDisplayName(locale)
+        if (localeName.isEmpty()) localeName = locale.displayName
+        return localeName
+    }
+
     @CallSuper
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
@@ -58,7 +65,7 @@ open class SettingsFragment : BasePreferenceFragment() {
         val langPreference = findPreference<Preference?>("app_language")
         if (currentLocale != null) {
             langPreference?.summary = string(
-                R.string.app_language_summary, currentLocale.displayName
+                R.string.app_language_summary, getCurrentLocaleName(currentLocale)
             )
         }
         langPreference?.setOnClickListener {

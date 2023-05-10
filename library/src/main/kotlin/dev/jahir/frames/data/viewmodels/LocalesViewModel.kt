@@ -36,7 +36,8 @@ class LocalesViewModel(application: Application) : AndroidViewModel(application)
                                 availableLocales.add(
                                     ReadableLocale(
                                         tag,
-                                        Locale.forLanguageTag(tag).displayName
+                                        Locale.forLanguageTag(tag)
+                                            .getDisplayName(Locale.forLanguageTag(tag))
                                     )
                                 )
                             } catch (_: Exception) {
