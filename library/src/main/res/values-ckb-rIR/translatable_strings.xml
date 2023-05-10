@@ -1,2 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"></resources>
+<resources>
+    <string name="wallpapers">وێنە پێشکەوتکراوەکان</string>
+    <string name="collections">کۆلێکشنەکان</string>
+    <string name="favorites">دڵخوازەکان</string>
+    <string name="all">هەموو وێنە پێشکەوتکراوەکان</string>
+    <string name="loading">بارکردن...</string>
+    <string name="data_error_network">تکایە پەیوەندییەکەت بە ئینتەرنێت چاولێگرە کەوە و دووبارە هەوڵ بدە.</string>
+    <string name="data_error_network_wifi_only">تکایە بە وای فای پەیوەندی بکە و دووبارە هەوڵ بدە یان ئەم هەڵبژاردنە لە ڕێکخستنەکان ناچالاک بکە.</string>
+    <string name="data_error_format">داتا لەوانەیە هەڵە بێت. بە پەیوەندی بگرە لەگەڵ پێکهاتەر.</string>
+    <string name="no_wallpapers_found">هیچ وێنەیەکی پێشکەوتکراو نەدۆزرایەوە</string>
+    <string name="no_collections_found">هیچ کۆلێکشنێک نەدۆزرایەوە</string>
+    <string name="no_favorites_found">هیچ دڵخوازێک نەدۆزرایەوە</string>
+    <string name="no_results_found">هیچ ئەنجامێک نەدۆزرایەوە</string>
+    <string name="nothing_found">هیچ شتێک نەدۆزرایەوە</string>
+    <string name="details">زانیاری</string>
+    <string name="save">پاشەکەوتکردن</string>
+    <string name="download">داگرتن</string>
+    <string name="apply">بەکارهێنان</string>
+    <string name="favorite">دڵخواز</string>
+    <string name="palette">ڕەنگەکان</string>
+    <string name="tap_to_copy">لەسەر ڕەنگەکە بنیکە بۆ کۆپیکردنی.</string>
+    <string name="copied_to_clipboard">ڕەنگەکە بۆ کلیپبۆرد کۆپیکرا.</string>
+    <string name="dimensions">دیمەنسیۆنەکان</string>
+    <string name="author">نووسەر</string>
+    <string name="name">ناو</string>
+    <string name="file_size">قەبارەی فایل</string>
+    <string name="copyright">مافی لەبەرگرتنەوە</string>
+    <string name="allow">ڕێگەدان</string>
+    <string name="unexpected_error_occurred">هەڵەیەکی نەچاوەڕوو ڕوویدا.</string>
+    <string name="downloading_wallpaper">"%1$s" دادەگرێت...</string>
+    <string name="cancel">هەڵوەشاندنەوە</string>
+    <string name="search">گەڕان</string>
+    <string name="changelog">لۆگی گۆڕانکاری</string>
+    <string name="donate">بەشداری</string>
+    <string name="about">دەربارە</string>
+    <string name="settings">ڕێکخستنەکان</string>
+    <string name="app_theme">ڕووکاری ئەپ</string>
+    <string name="light_theme">ڕووکاری روون</string>
+    <string name="dark_theme">ڕووکاری تاریک</string>
+    <string name="follow_system_theme">بەدوای سیستەم بچە</string>
+    <string name="use_amoled_theme">ڕووکاری سیاه بەکارببە</string>
+    <string name="use_amoled_theme_summary">پاشبنەمای سیاه لە حالەتی تاریکدا.</string>
+    <string name="colored_navigation_bar">ناوچە ڕەنگین</string>
+    <string name="interface_animations">ئەنیمەیشنەکان</string>
+    <string name="interface_animations_summary">ناچالاک بکە بۆ پێشکەوتنی باشتر.</string>
+    <string name="display_full_res_previews">پێشبینینی بەرزدەقەیی</string>
+    <string name="display_full_res_previews_summary">ئەمە زیاتر داتا بەکاردڕەنگەکان</string>
+    <string name="download_on_wifi_only">تەنها لەگەڵ WiFi وێنەی دیواری داگرە</string>
+    <string name="download_on_wifi_only_summary">ناچالاک بکە بۆ بەکارهێنانی داتای مۆبایل.</string>
+    <string name="crop_pictures">بە شێوەیەکی خۆکار گۆڕانی قەبارە</string>
+    <string name="crop_pictures_summary">قەبارەی وێنەی دیواری گۆڕە بۆ هاوکاتی دیسپلەی.</string>
+    <string name="download_location">شوێنی داگرتنی وێنەی دیواری</string>
+    <string name="clear_data_cache">کاشی داتای ئەپ پاک بکە</string>
+    <string name="clear_data_cache_summary">%1$s ی بیرگە خالی بکە.</string>
+    <string name="notifications">ئاگاداریەکان</string>
+    <string name="enable_notifications">ڕێگە بدە بۆ ئاگاداری</string>
+    <string name="versions">وەشانەکان</string>
+    <string name="interface_title">ڕووکار</string>
+    <string name="data_and_storage">داتا و بیرگە</string>
+    <string name="apply_to">بەکاربهێنە لە</string>
+    <string name="home_screen">ڕێکخستنی سەرەکی</string>
+    <string name="lock_screen">ڕێکخستنی داخستن</string>
+    <string name="home_and_lock_screens">ڕێکخستن بۆ هەردوو</string>
+    <string name="search_x">گەڕان</string>
+    <string name="search_wallpapers">گەڕان لە ناو وێنەی دیواری</string>
+    <string name="search_collections">گەڕان لە ناو بەشەکان</string>
+    <string name="search_favorites">گەڕان لە ناو دڵخوازەکان</string>
+    <string name="legal">قانونی</string>
+    <string name="privacy_policy">سیاسەتی تایبەتمەندی</string>
+    <string name="terms_conditions">مەرج و شەرتەکان</string>
+    <string name="permission_denied">دەسەڵاتی گەیشتن بە بیرگە پێ نەدرا.</string>
+    <string name="permission_permanently_denied">دەسەڵاتی گەیشتن بە بیرگە ڕەتکرا. لە ڕێکخستنەکان دەسەڵات بدە.</string>
+    <string name="permission_request">%1$s دەسەڵاتی گەیشتن بە بیرگە پێ دەوێت بۆ پاشەکەوتکردنی وێنەی دیواری لەوێ.</string>
+    <string name="download_starting">پاشەکەوتکردن…</string>
+    <string name="download_eta_hrs">%1$dh %2$dm %3$ds ماوەیە.</string>
+    <string name="download_eta_min">%1$dm %2$ds ماوەیە.</string>
+    <string name="download_eta_sec">%1$ds ماوەیە.</string>
+    <string name="download_successful">وێنەی دیواری لێرە پاشەکەوتکرا: “%1$s“.</string>
+    <string name="download_successful_short">وێنەی دیواری پاشەکەوتکرا.</string>
+    <string name="downloaded_previously">وێنەی دیواری پێشتر پاشەکەوتکراوە.</string>
+    <string name="both">هەردوو</string>
+    <string name="applying_applied">وێنەی دیواری چالاککرا.</string>
+    <string name="applying_wallpaper">دامەزراندنی “%1$s“…</string>
+    <string name="applying_preparing">ئامادەکردنی وێنەی دیواری…</string>
+    <string name="applying_wallpaper_def">چالاککردن…</string>
+    <string name="apply_w_external_app">چالاککردن بە…</string>
+    <string name="dashboard">داشبۆرد</string>
+    <string name="prevent_download_title">داگرتن بەستراوە</string>
+    <string name="prevent_download_content">داگرتن بەستراوە بۆ بەرگری لە سوتاو. دەتوانی لە %1$s کاتژمێردا دەست بکەیت بە داگرتن.</string>
+    <string name="license_valid_content">مۆڵەت ناوی.</string>
+    <string name="license_invalid_title">مۆڵەت نادروستە</string>
+    <string name="license_invalid_content_patching_app">“%1$s“ بسڕەوە و دووبارە هەوڵ بدە.</string>
+    <string name="license_invalid_content_ungenuine_installation">“%1$s“ لە Google Play داگرە.</string>
+    <string name="error">هەڵە</string>
+    <string name="action_error_content">هەڵەیەک ڕوویدا.</string>
+    <string name="license_error_content">نەتوانرا مۆڵەت بسەلمێنێت.</string>
+    <string name="try_now">دووبارە هەوڵ بدە</string>
+    <string name="donate_success_title">بەشداری سەرکەوتوو</string>
+    <string name="donate_success_content">سوپاس بۆ پشتگیری.</string>
+    <string name="donate_error">هەڵەیەک ڕوویدا. پەیامی هەڵە: %1$s.</string>
+    <string name="close">داخستن</string>
+    <string name="open">کردنەوە</string>
+    <string name="get">داگرتن</string>
+    <string name="jahir_description">من بەرگری پڕ و دوورازەیەکم و بەرهەمهێنەری خۆڵاوە.</string>
+    <string name="eduardo_description">دەزاینەری ڕووکار. پاراستنی بۆشایی نەبەر.</string>
+    <string name="patryk_description">من شکڵان دەڕێم، کۆمپیوتەرەکان فەرمان دەدەم و وشەکان پێکهێنم.</string>
+    <string name="share">هاوبەشی کردن</string>
+    <!-- Do NOT remove or change the %1$s (or with any other number) -->
+    <string name="share_text">وێنەی دیواری منی ئەمڕۆ %1$s لەلایەن %2$s, لە %3$s.\nداگرە لە %4$s.</string>
+    <!-- Muzei Settings -->
+    <string name="muzei_settings">دامەزراندنی Muzei</string>
+    <!-- Please use this character … -->
+    <string name="refresh_wallpapers_every">نوێکردنەوەی وێنەی دیواری…</string>
+    <string name="every_x">هەر %1$s</string>
+    <string name="minutes">خولەک</string>
+    <string name="hours">کاتژمێر</string>
+    <string name="days">ڕۆژ</string>
+    <string name="refresh_only_on_wifi">تەنها لەسەر وای فای نوێ بکەوە</string>
+    <string name="choose_collections_title">وێنەی دیواری پیشان بدە لە</string>
+    <string name="no_collections_selected">هیچ گۆڕانکاریەک دیاری نەکراوە</string>
+    <string name="muzei_not_connected_content">پەیوەندی بکە بە ئینتەرنێت بۆ دیاریکردنی گۆڕانکاریێک.</string>
+    <string name="sure_to_exit">دەرچوون</string>
+    <string name="sure_to_exit_content">ئایا دەتەوێت ڕێکخستنەکان پاشەکەوت بکەیت پێش دەرچوون؟</string>
+    <string name="yes">بەڵێ</string>
+    <string name="no">نەخێر</string>
+</resources>
+
+
+
+
+
