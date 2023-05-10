@@ -29,6 +29,7 @@
         android:localeConfig="@xml/locales_config"
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
+        android:configChanges="locale|layoutDirection"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
 
         <activity
