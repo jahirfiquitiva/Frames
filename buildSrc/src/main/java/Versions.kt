@@ -3,12 +3,12 @@
 object Versions {
     // Plugins
     const val gradle = "7.4.2"
-    const val kotlin = "1.8.0"
-    const val sonatype = "1.1.0"
-    const val ksp = "$kotlin-1.0.9"
+    const val kotlin = "1.8.21"
+    const val sonatype = "1.3.0"
+    const val ksp = "$kotlin-1.0.11"
 
     // OneSignal
-    const val oneSignal = "4.8.4"
+    const val oneSignal = "4.8.6"
 
     // App
     const val minSdk = 21
@@ -16,7 +16,7 @@ object Versions {
     const val buildTools = "33.0.2"
 
     // Coroutines
-    const val coroutines = "1.6.4"
+    const val coroutines = "1.7.1"
 
     // Android UI
     const val appcompat = "1.6.1"
@@ -63,7 +63,7 @@ object Versions {
     const val licenseChecker = "1.2.8"
 
     // In-App Billing
-    const val inAppBilling = "5.2.0"
+    const val inAppBilling = "6.0.0"
 
     // MultiDex
     const val multidex = "2.0.1"
