@@ -12,6 +12,7 @@ import dev.jahir.frames.data.listeners.BasePermissionRequestListener
 import dev.jahir.frames.extensions.context.getAppName
 import dev.jahir.frames.extensions.context.string
 import dev.jahir.frames.extensions.views.snackbar
+import dev.jahir.frames.ui.FramesApplication
 
 data class PermissionsResult(
     val storage: Boolean,
@@ -90,7 +91,16 @@ abstract class BasePermissionsRequestActivity<out P : Preferences> : BaseThemedA
         } else null
     }
 
+    private val oneSignalAppId by lazy {
+        try {
+            (application as? FramesApplication)?.oneSignalAppId
+        } catch (_: Exception) {
+            null
+        }
+    }
+
     fun requestNotificationsPermission() {
+        if (oneSignalAppId.isNullOrEmpty()) return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             notificationsPermissionRequest?.send()
     }

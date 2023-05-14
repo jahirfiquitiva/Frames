@@ -11,7 +11,9 @@ import coil.util.DebugLogger
 import dev.jahir.frames.BuildConfig
 import dev.jahir.frames.extensions.context.setDefaultDashboardTheme
 
-open class FramesApplication : MultiDexApplication(), ImageLoaderFactory {
+open class FramesApplication(val oneSignalAppId: String? = null) : MultiDexApplication(),
+    ImageLoaderFactory {
+
     override fun attachBaseContext(base: Context?) {
         base?.setDefaultDashboardTheme()
         super.attachBaseContext(base)
