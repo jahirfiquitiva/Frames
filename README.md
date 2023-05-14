@@ -7,6 +7,7 @@ Frames
 [![GitHub Release](https://img.shields.io/github/v/release/jahirfiquitiva/Frames?label=Frames&sort=semver)](https://github.com/jahirfiquitiva/Frames/releases/latest)
 [![Build Status](https://github.com/jahirfiquitiva/Frames/actions/workflows/build.yml/badge.svg?branch=sample)](https://github.com/jahirfiquitiva/Frames/actions/workflows/build.yml)
 [![Crowdin](https://badges.crowdin.net/Frames/localized.svg)](https://crowdin.com/project/Frames/invite)
+[![GitHub Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=ff69b4)](https://github.com/sponsors/jahirfiquitiva)
 
 Free, feature-rich, easily customizable Android dashboard for wallpapers apps
 
