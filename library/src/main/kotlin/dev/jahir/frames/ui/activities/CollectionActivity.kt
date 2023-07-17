@@ -8,6 +8,7 @@ import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.extensions.context.string
 import dev.jahir.frames.extensions.resources.hasContent
+import dev.jahir.frames.extensions.utils.parcelable
 import dev.jahir.frames.extensions.views.gone
 import dev.jahir.frames.ui.activities.base.BaseChangelogDialogActivity
 import dev.jahir.frames.ui.fragments.WallpapersFragment
@@ -35,7 +36,7 @@ open class CollectionActivity : BaseChangelogDialogActivity<Preferences>() {
             it.setDisplayShowHomeEnabled(true)
         }
 
-        collection = intent?.extras?.getParcelable(COLLECTION_KEY)
+        collection = intent?.extras?.parcelable(COLLECTION_KEY)
         collectionName = intent?.extras?.getString(COLLECTION_NAME_KEY, "") ?: ""
         if (!collectionName.hasContent()) {
             finish()

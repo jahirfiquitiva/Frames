@@ -24,7 +24,8 @@ class FramesBottomNavigationView @JvmOverloads constructor(
         try {
             val forceRightColor =
                 a.getBoolean(R.styleable.FramesBottomNavigationView_forceRightColor, false)
-            if (forceRightColor) setBackgroundColor(context.resolveColor(R.attr.colorSurface))
+            if (forceRightColor)
+                setBackgroundColor(context.resolveColor(com.google.android.material.R.attr.colorSurface))
         } finally {
             a.recycle()
         }

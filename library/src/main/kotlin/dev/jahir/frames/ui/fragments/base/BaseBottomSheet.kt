@@ -67,10 +67,10 @@ open class BaseBottomSheet : BottomSheetDialogFragment() {
         behavior?.state = BottomSheetBehavior.STATE_EXPANDED
         (dialog as? BottomSheetDialog)?.let {
             try {
-                val sheet = it.findViewById<View?>(R.id.design_bottom_sheet)
+                val sheet = it.findViewById<View?>(com.google.android.material.R.id.design_bottom_sheet)
                 sheet ?: return@let
                 BottomSheetBehavior.from(sheet).state = BottomSheetBehavior.STATE_EXPANDED
-            } catch (e: Exception) {
+            } catch (_: Exception) {
             }
         }
     }

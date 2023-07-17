@@ -21,7 +21,7 @@ data class InternalDetailedPurchaseRecord(
     val isAsync: Boolean = false
 ) {
     val sku: String?
-        get() = originalPurchaseRecord?.skus?.firstOrNull() ?: pseudoDetailedRecord?.productId
+        get() = originalPurchaseRecord?.products?.firstOrNull() ?: pseudoDetailedRecord?.productId
 
     val productId: String?
         get() = sku

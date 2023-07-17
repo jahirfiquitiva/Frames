@@ -54,10 +54,11 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
         swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh)
         swipeRefreshLayout?.setOnRefreshListener { startRefreshing() }
         swipeRefreshLayout?.setColorSchemeColors(
-            context?.resolveColor(R.attr.colorSecondary, 0) ?: 0
+            context?.resolveColor(com.google.android.material.R.attr.colorSecondary, 0) ?: 0
         )
         swipeRefreshLayout?.setProgressBackgroundColorSchemeColor(
-            (context?.resolveColor(R.attr.colorSurface, 0) ?: 0).lighten(.1F)
+            (context?.resolveColor(com.google.android.material.R.attr.colorSurface, 0)
+                ?: 0).lighten(.1F)
         )
         recyclerView?.attachSwipeRefreshLayout(swipeRefreshLayout)
     }
@@ -133,7 +134,12 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
 
     override fun modifyDrawable(drawable: Drawable?): Drawable? =
         try {
-            drawable?.tint(context?.resolveColor(R.attr.colorOnSurface, 0) ?: 0)
+            drawable?.tint(
+                context?.resolveColor(
+                    com.google.android.material.R.attr.colorOnSurface,
+                    0
+                ) ?: 0
+            )
         } catch (e: Exception) {
             drawable
         }
