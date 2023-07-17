@@ -22,8 +22,16 @@ fun FastScrollRecyclerView.attachSwipeRefreshLayout(swipeRefreshLayout: SwipeRef
 }
 
 fun FastScrollRecyclerView.tint() {
-    val trackColor = context.resolveColor(R.attr.colorOnSurface, context.color(R.color.onSurface))
-    setThumbColor(context.resolveColor(R.attr.colorAccent, context.color(R.color.accent)))
+    val trackColor = context.resolveColor(
+        com.google.android.material.R.attr.colorOnSurface,
+        context.color(R.color.onSurface)
+    )
+    setThumbColor(
+        context.resolveColor(
+            com.google.android.material.R.attr.colorAccent,
+            context.color(R.color.accent)
+        )
+    )
     setThumbInactiveColor(trackColor.withAlpha(.5F))
     setTrackColor(trackColor.withAlpha(.3F))
 }

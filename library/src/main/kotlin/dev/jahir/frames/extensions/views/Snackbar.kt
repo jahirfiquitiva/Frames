@@ -28,25 +28,34 @@ fun View.snackbar(
         snack.setAnchorView(anchorViewId)
     } catch (_: Exception) {
     }
-    val textView: TextView? by snack.view.findView(R.id.snackbar_text)
+    val textView: TextView? by snack.view.findView(com.google.android.material.R.id.snackbar_text)
     textView?.maxLines = 3
     snack.apply(config)
     snack.setBackgroundTint(
         context.resolveColor(
             R.attr.snackbarBackgroundColor,
-            context.resolveColor(R.attr.colorSurface, context.color(R.color.surface))
+            context.resolveColor(
+                com.google.android.material.R.attr.colorSurface,
+                context.color(R.color.surface)
+            )
         )
     )
     textView?.setTextColor(
         context.resolveColor(
             R.attr.snackbarTextColor,
-            context.resolveColor(R.attr.colorOnSurface, context.color(R.color.onSurface))
+            context.resolveColor(
+                com.google.android.material.R.attr.colorOnSurface,
+                context.color(R.color.onSurface)
+            )
         )
     )
     snack.setActionTextColor(
         context.resolveColor(
             R.attr.snackbarButtonColor,
-            context.resolveColor(R.attr.colorSecondary, context.color(R.color.accent))
+            context.resolveColor(
+                com.google.android.material.R.attr.colorSecondary,
+                context.color(R.color.accent)
+            )
         )
     )
     if (!snack.isShownOrQueued) snack.show()

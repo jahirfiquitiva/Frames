@@ -17,7 +17,10 @@ import dev.jahir.frames.extensions.resources.tint
 
 fun Toolbar.tint(
     @ColorInt color: Int =
-        context.resolveColor(R.attr.colorOnPrimary, context.color(R.color.onPrimary))
+        context.resolveColor(
+            com.google.android.material.R.attr.colorOnPrimary,
+            context.color(R.color.onPrimary)
+        )
 ) {
     tintBackIcon(color)
     tintMenu(color)
@@ -25,7 +28,10 @@ fun Toolbar.tint(
 
 private fun Toolbar.tintBackIcon(
     @ColorInt color: Int =
-        context.resolveColor(R.attr.colorOnPrimary, context.color(R.color.onPrimary))
+        context.resolveColor(
+            com.google.android.material.R.attr.colorOnPrimary,
+            context.color(R.color.onPrimary)
+        )
 ) {
     (0..childCount).forEach { i ->
         (getChildAt(i) as? ImageButton)?.drawable?.tint(color)
@@ -41,12 +47,16 @@ private fun Toolbar.tintBackIcon(
 
 private fun Toolbar.tintMenu(
     @ColorInt color: Int =
-        context.resolveColor(R.attr.colorOnPrimary, context.color(R.color.onPrimary))
+        context.resolveColor(
+            com.google.android.material.R.attr.colorOnPrimary,
+            context.color(R.color.onPrimary)
+        )
 ) {
     menu?.tint(color)
     overflowIcon?.tint(color)
     @SuppressLint("PrivateResource")
-    val overflowDescription = context.string(R.string.abc_action_menu_overflow_description)
+    val overflowDescription =
+        context.string(com.google.android.material.R.string.abc_action_menu_overflow_description)
     val outViews = ArrayList<View>()
     findViewsWithText(outViews, overflowDescription, View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION)
     if (outViews.isEmpty()) return

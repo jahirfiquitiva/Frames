@@ -97,7 +97,10 @@ class CleanSearchView @JvmOverloads constructor(
             }
         })
         item?.icon?.tint(
-            context.resolveColor(R.attr.colorOnPrimary, context.color(R.color.onPrimary))
+            context.resolveColor(
+                com.google.android.material.R.attr.colorOnPrimary,
+                context.color(R.color.onPrimary)
+            )
         )
     }
 }

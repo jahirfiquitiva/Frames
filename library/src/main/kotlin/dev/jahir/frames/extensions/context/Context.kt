@@ -5,6 +5,8 @@ import android.annotation.SuppressLint
 import android.app.UiModeManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.content.res.XmlResourceParser
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -203,7 +205,7 @@ fun Context.getRightNavigationBarColor(): Int {
         !preferences.shouldColorNavbar || (isNightMode && preferences.usesAmoledTheme)
     return if (!shouldBeBlack) {
         try {
-            resolveColor(R.attr.colorSurface, color(R.color.surface))
+            resolveColor(com.google.android.material.R.attr.colorSurface, color(R.color.surface))
         } catch (e: Exception) {
             Color.parseColor("#000000")
         }
@@ -212,22 +214,28 @@ fun Context.getRightNavigationBarColor(): Int {
     }
 }
 
+fun PackageManager.getPackageInfoCompat(packageName: String, flags: Int = 0): PackageInfo =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags.toLong()))
+    } else {
+        @Suppress("DEPRECATION") getPackageInfo(packageName, flags)
+    }
+
 @Suppress("DEPRECATION")
 val Context.currentVersionCode: Long
     get() = try {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            packageManager.getPackageInfo(packageName, 0).longVersionCode
+            packageManager.getPackageInfoCompat(packageName, 0).longVersionCode
         } else {
-            packageManager.getPackageInfo(packageName, 0).versionCode.toLong()
+            packageManager.getPackageInfoCompat(packageName, 0).versionCode.toLong()
         }
     } catch (e: Exception) {
         -1L
     }
 
-@Suppress("DEPRECATION")
 val Context.currentVersionName: String?
     get() = try {
-        packageManager.getPackageInfo(packageName, 0).versionName
+        packageManager.getPackageInfoCompat(packageName, 0).versionName
     } catch (e: Exception) {
         "Unknown"
     }
@@ -274,7 +282,7 @@ fun Context.compliesWithMinTime(time: Long): Boolean =
 val Context.firstInstallTime: Long
     get() {
         return try {
-            packageManager.getPackageInfo(packageName, 0).firstInstallTime
+            packageManager.getPackageInfoCompat(packageName, 0).firstInstallTime
         } catch (e: Exception) {
             -1
         }
