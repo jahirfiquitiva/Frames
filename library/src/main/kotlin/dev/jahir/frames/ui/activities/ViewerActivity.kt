@@ -106,6 +106,8 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         super.onCreate(savedInstanceState)
         statusBarLight = false
         navigationBarLight = false
+        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_viewer)
         bottomNavigation?.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_LABELED
 
