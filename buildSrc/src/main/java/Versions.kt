@@ -16,7 +16,7 @@ object Versions {
     const val buildTools = "33.0.2"
 
     // Coroutines
-    const val coroutines = "1.7.1"
+    const val coroutines = "1.7.2"
 
     // Android UI
     const val appcompat = "1.6.1"
@@ -26,15 +26,15 @@ object Versions {
     const val palette = "1.0.0"
     const val preference = "1.2.0"
     const val materialComponents = "1.9.0"
-    const val activityKtx = "1.7.1"
-    const val fragmentKtx = "1.5.7"
+    const val activityKtx = "1.7.2"
+    const val fragmentKtx = "1.6.0"
 
     // ViewModel and LiveData
     const val lifecycle = "2.6.1"
     const val lifecycleExt = "2.2.0"
 
     // Room Database
-    const val room = "2.5.1"
+    const val room = "2.5.2"
 
     // Work Manager
     const val work = "2.8.1"
@@ -44,8 +44,8 @@ object Versions {
     const val retrofit = "2.9.0"
 
     // Image loading and Touch Image View
-    const val coil = "2.3.0"
-    const val touchImageView = "3.3"
+    const val coil = "2.4.0"
+    const val touchImageView = "3.4"
 
     // Harmonic Colors
     const val harmonicColors = "1.0.0"
