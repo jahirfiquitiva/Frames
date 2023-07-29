@@ -125,4 +125,9 @@
     <string name="yes">Iya</string>
     <string name="no">Tidak</string>
     <string name="dashboard_creators_disclaimer">%1$s didukung oleh dasbor %2$s. Di bawah ini tercantum pembuat %2$s. Jika Anda memiliki pertanyaan tentang %1$s, silahkan hubungi perancangnya, yang tercantum di atas.</string>
+    <string name="notifications_permission_denied">Izin notifikasi tidak diberikan.</string>
+    <string name="notifications_permission_permanently_denied">Izin notifikasi ditolak. Izinkan di Pengaturan.</string>
+    <string name="notifications_permission_request">%1$s menggunakan izin Notifikasi untuk memberi tahu Anda tentang pembaruan penting.</string>
+    <string name="app_language">Bahasa aplikasi</string>
+    <string name="app_language_summary">Bahasa saat ini: %1$s</string>
 </resources>
