@@ -5,7 +5,7 @@ object Versions {
     const val gradle = "8.1.0"
     const val kotlin = "1.9.0"
     const val sonatype = "1.3.0"
-    const val ksp = "$kotlin-1.0.11"
+    const val ksp = "$kotlin-1.0.12"
 
     // OneSignal
     const val oneSignal = "4.8.6"
