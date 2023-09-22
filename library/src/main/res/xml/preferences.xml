@@ -15,20 +15,20 @@
             android:summary="@string/follow_system_theme"
             android:title="@string/app_theme" />
 
-        <androidx.preference.SwitchPreference
+        <androidx.preference.SwitchPreferenceCompat
             android:key="use_amoled"
             android:summary="@string/use_amoled_theme_summary"
             android:title="@string/use_amoled_theme" />
 
-        <androidx.preference.SwitchPreference
+        <androidx.preference.SwitchPreferenceCompat
             android:key="use_material_you"
             android:title="Material You" />
 
-        <androidx.preference.SwitchPreference
+        <androidx.preference.SwitchPreferenceCompat
             android:key="colored_navigation_bar"
             android:title="@string/colored_navigation_bar" />
 
-        <androidx.preference.SwitchPreference
+        <androidx.preference.SwitchPreferenceCompat
             android:key="interface_animations"
             android:summary="@string/interface_animations_summary"
             android:title="@string/interface_animations" />
@@ -39,17 +39,17 @@
         android:key="data_prefs"
         android:title="@string/data_and_storage">
 
-        <androidx.preference.SwitchPreference
+        <androidx.preference.SwitchPreferenceCompat
             android:key="full_res_previews"
             android:summary="@string/display_full_res_previews_summary"
             android:title="@string/display_full_res_previews" />
 
-        <androidx.preference.SwitchPreference
+        <androidx.preference.SwitchPreferenceCompat
             android:key="download_on_wifi_only"
             android:summary="@string/download_on_wifi_only_summary"
             android:title="@string/download_on_wifi_only" />
 
-        <androidx.preference.SwitchPreference
+        <androidx.preference.SwitchPreferenceCompat
             android:key="crop_pictures"
             android:summary="@string/crop_pictures_summary"
             android:title="@string/crop_pictures" />
@@ -69,7 +69,7 @@
         android:key="notifications_prefs"
         android:title="@string/notifications">
 
-        <androidx.preference.SwitchPreference
+        <androidx.preference.SwitchPreferenceCompat
             android:key="notifications"
             android:title="@string/enable_notifications" />
 

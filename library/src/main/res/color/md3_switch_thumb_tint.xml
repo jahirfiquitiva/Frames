@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- State Disabled, Unchecked -->
+    <item android:alpha="0.24" android:color="@macro/m3_comp_switch_disabled_unselected_handle_color" android:state_checked="false" android:state_enabled="false" />
+
+    <!-- State Disabled, Checked -->
+    <item android:alpha="1" android:color="?colorSecondary" android:state_checked="true" android:state_enabled="false" />
+
+    <!-- State Checked, Pressed -->
+    <item android:alpha="0.56" android:color="?colorOnSecondary" android:state_checked="true" android:state_pressed="true" />
+
+    <!-- State Checked -->
+    <item android:color="?colorOnSecondary" android:state_checked="true" />
+
+    <!-- State Unchecked, Pressed -->
+    <item android:color="?colorOnSurfaceVariant" android:state_pressed="true" />
+
+    <!-- State Unchecked -->
+    <item android:color="?colorSecondaryContainer" />
+</selector>

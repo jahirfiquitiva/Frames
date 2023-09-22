@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- State Disabled, Unchecked -->
+    <item
+        android:alpha="0.12"
+        android:color="?colorSecondaryContainer"
+        android:state_enabled="false" android:state_checked="false"/>
+    <!-- State Disabled, Checked -->
+    <item
+        android:alpha="0.12"
+        android:color="?colorSecondaryContainer"
+        android:state_enabled="false" android:state_checked="true"/>
+    <!-- State Checked -->
+    <item
+        android:color="?colorSecondary"
+        android:state_checked="true"/>
+
+    <!-- State Unchecked -->
+    <item
+        android:color="@color/m3_bottomNavActiveIndicator"
+        android:state_hovered="true" android:state_checked="false"/>
+    <item
+        android:color="@color/m3_bottomNavActiveIndicator"
+        android:state_focused="true" android:state_checked="false"/>
+    <item
+        android:color="@color/m3_bottomNavActiveIndicator"
+        android:state_pressed="true" android:state_checked="false"/>
+    <item
+        android:color="@color/m3_bottomNavActiveIndicator"
+        android:state_checked="false"/>
+</selector>

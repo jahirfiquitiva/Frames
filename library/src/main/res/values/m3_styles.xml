@@ -17,6 +17,7 @@
 
         <item name="colorSurface">@color/m3_surface</item>
         <item name="colorOnSurface">@color/m3_onSurface</item>
+        <item name="colorOnSurfaceVariant">@color/m3_onSurfaceVariant</item>
 
         <item name="colorBackgroundFloating">@color/m3_background</item>
         <item name="colorOnBackground">@color/m3_onBackground</item>
@@ -47,6 +48,8 @@
 
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="android:forceDarkAllowed">true</item>
+
+        <item name="preferenceTheme">@style/Widget.Frames.PreferenceThemeOverlay.MaterialYou</item>
     </style>
 
     <style name="Frames.SplashScreen.Amoled.MaterialYou" parent="Frames.SplashScreen.MaterialYou" />
@@ -149,6 +152,17 @@
         <item name="backgroundTint">@color/surface_btn_bg_color</item>
         <item name="rippleColor">@color/surface_btn_ripple_color</item>
         <item name="android:textColor">?colorOnSurface</item>
+    </style>
+
+    <style name="Widget.Frames.PreferenceThemeOverlay.MaterialYou" parent="@style/PreferenceThemeOverlay">
+        <item name="switchPreferenceCompatStyle">@style/Widget.Frames.SwitchPreference.MaterialYou</item>
+    </style>
+
+    <style name="Widget.Frames.SwitchPreference.MaterialYou" parent="@style/Preference.SwitchPreferenceCompat.Material">
+        <item name="widgetLayout">@layout/widget_material_switch</item>
+        <item name="trackTint">@color/md3_switch_track_tint</item>
+        <item name="thumbTint">@color/md3_switch_thumb_tint</item>
+        <item name="trackDecorationTint">@color/md3_switch_outline_tint</item>
     </style>
 
 </resources>

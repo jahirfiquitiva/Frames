@@ -9,7 +9,7 @@ import androidx.core.os.LocaleListCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceScreen
-import androidx.preference.SwitchPreference
+import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
@@ -109,11 +109,11 @@ open class SettingsFragment : BasePreferenceFragment() {
             }
         }
 
-        val amoledPreference = findPreference<SwitchPreference?>("use_amoled")
+        val amoledPreference = findPreference<SwitchPreferenceCompat?>("use_amoled")
         amoledPreference?.isChecked = preferences.usesAmoledTheme
         amoledPreference?.setOnCheckedChangeListener { preferences.usesAmoledTheme = it }
 
-        val useMaterialYouPref = findPreference<SwitchPreference?>("use_material_you")
+        val useMaterialYouPref = findPreference<SwitchPreferenceCompat?>("use_material_you")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             useMaterialYouPref?.isChecked = preferences.useMaterialYou
             useMaterialYouPref?.setOnCheckedChangeListener { preferences.useMaterialYou = it }
@@ -123,27 +123,27 @@ open class SettingsFragment : BasePreferenceFragment() {
             )
         }
 
-        val coloredNavbarPref = findPreference<SwitchPreference?>("colored_navigation_bar")
+        val coloredNavbarPref = findPreference<SwitchPreferenceCompat?>("colored_navigation_bar")
         coloredNavbarPref?.isChecked = preferences.shouldColorNavbar
         coloredNavbarPref?.setOnCheckedChangeListener { preferences.shouldColorNavbar = it }
 
-        val animationsPref = findPreference<SwitchPreference?>("interface_animations")
+        val animationsPref = findPreference<SwitchPreferenceCompat?>("interface_animations")
         animationsPref?.isChecked = preferences.animationsEnabled
         animationsPref?.setOnCheckedChangeListener { preferences.animationsEnabled = it }
 
-        val fullResPicturesPref = findPreference<SwitchPreference?>("full_res_previews")
+        val fullResPicturesPref = findPreference<SwitchPreferenceCompat?>("full_res_previews")
         fullResPicturesPref?.isChecked = preferences.shouldLoadFullResPictures
         fullResPicturesPref?.setOnCheckedChangeListener {
             preferences.shouldLoadFullResPictures = it
         }
 
-        val downloadOnWiFiOnlyPref = findPreference<SwitchPreference?>("download_on_wifi_only")
+        val downloadOnWiFiOnlyPref = findPreference<SwitchPreferenceCompat?>("download_on_wifi_only")
         downloadOnWiFiOnlyPref?.isChecked = preferences.shouldDownloadOnWiFiOnly
         downloadOnWiFiOnlyPref?.setOnCheckedChangeListener {
             preferences.shouldDownloadOnWiFiOnly = it
         }
 
-        val cropPicturesPrefs = findPreference<SwitchPreference?>("crop_pictures")
+        val cropPicturesPrefs = findPreference<SwitchPreferenceCompat?>("crop_pictures")
         cropPicturesPrefs?.isChecked = preferences.shouldCropWallpaperBeforeApply
         cropPicturesPrefs?.setOnCheckedChangeListener {
             preferences.shouldCropWallpaperBeforeApply = it
@@ -161,7 +161,7 @@ open class SettingsFragment : BasePreferenceFragment() {
                 string(R.string.clear_data_cache_summary, context?.dataCacheSize ?: "")
         }
 
-        val notificationsPrefs = findPreference<SwitchPreference?>("notifications")
+        val notificationsPrefs = findPreference<SwitchPreferenceCompat?>("notifications")
         notificationsPrefs?.isChecked = preferences.notificationsEnabled
         notificationsPrefs?.setOnCheckedChangeListener {
             preferences.notificationsEnabled = it
