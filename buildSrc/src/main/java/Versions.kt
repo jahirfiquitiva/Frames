@@ -2,18 +2,18 @@
 
 object Versions {
     // Plugins
-    const val gradle = "8.1.0"
-    const val kotlin = "1.9.0"
+    const val gradle = "8.1.1"
+    const val kotlin = "1.9.10"
     const val sonatype = "1.3.0"
-    const val ksp = "$kotlin-1.0.12"
+    const val ksp = "$kotlin-1.0.13"
 
     // OneSignal
     const val oneSignal = "4.8.6"
 
     // App
     const val minSdk = 21
-    const val targetSdk = 33
-    const val buildTools = "33.0.2"
+    const val targetSdk = 34
+    const val buildTools = "34.0.0"
 
     // Coroutines
     const val coroutines = "1.7.3"
@@ -30,7 +30,7 @@ object Versions {
     const val fragmentKtx = "1.6.1"
 
     // ViewModel and LiveData
-    const val lifecycle = "2.6.1"
+    const val lifecycle = "2.6.2"
     const val lifecycleExt = "2.2.0"
 
     // Room Database
@@ -45,7 +45,7 @@ object Versions {
 
     // Image loading and Touch Image View
     const val coil = "2.4.0"
-    const val touchImageView = "3.4"
+    const val touchImageView = "3.6"
 
     // Harmonic Colors
     const val harmonicColors = "1.0.0"
