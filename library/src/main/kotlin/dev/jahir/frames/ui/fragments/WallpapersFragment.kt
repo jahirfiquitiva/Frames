@@ -139,7 +139,8 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
         try {
             fos = activity?.openFileOutput(SHARED_IMAGE_NAME, Context.MODE_PRIVATE)
-            holder.image?.drawable?.toBitmap()?.compress(Bitmap.CompressFormat.JPEG, 30, fos)
+            if (fos != null)
+                holder.image?.drawable?.toBitmap()?.compress(Bitmap.CompressFormat.JPEG, 30, fos)
         } finally {
             fos?.flush()
             fos?.close()
