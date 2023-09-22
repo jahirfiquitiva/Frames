@@ -92,8 +92,6 @@ open class MuzeiSettingsActivity : BaseThemedActivity<Preferences>() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onSafeBackPressed() = doFinish()
-
     private fun saveChanges() {
         preferences.refreshMuzeiOnWiFiOnly = wifiOnlyRefreshSwitch?.isChecked ?: false
         preferences.muzeiCollections = selectedCollections
@@ -154,7 +152,7 @@ open class MuzeiSettingsActivity : BaseThemedActivity<Preferences>() {
             startService(getProviderIntent()?.apply {
                 putExtra("restart", true)
             })
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
         supportFinishAfterTransition()
     }

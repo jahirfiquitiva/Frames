@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.Window
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
@@ -49,18 +50,32 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
     private var currentTag: String = initialFragmentTag
     private var oldTag: String = initialFragmentTag
 
+    private val onBackPressedCallback = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            if (currentItemId != initialItemId)
+                bottomNavigation?.selectedItemId = initialItemId
+            else supportFinishAfterTransition()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         window.requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
         setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
 
         super.onCreate(savedInstanceState)
         setContentView(getLayoutRes())
+        onBackPressedDispatcher.addCallback(onBackPressedCallback)
 
         setSupportActionBar(toolbar)
         changeFragment(initialItemId, force = true)
 
         bottomNavigation?.selectedItemId = initialItemId
-        bottomNavigation?.setOnItemSelectedListener { changeFragment(it.itemId) }
+        bottomNavigation?.setOnItemSelectedListener {
+            val fragmentChanged = changeFragment(it.itemId)
+            if (fragmentChanged)
+                onBackPressedCallback.isEnabled = currentItemId != initialItemId
+            fragmentChanged
+        }
 
         wallpapersViewModel.observeWallpapers(this, ::handleWallpapersUpdate)
         wallpapersViewModel.observeCollections(this, ::handleCollectionsUpdate)
@@ -68,11 +83,6 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
         loadWallpapersData(true)
 
         requestNotificationsPermission()
-    }
-
-    override fun onSafeBackPressed() {
-        if (currentItemId != initialItemId) bottomNavigation?.selectedItemId = initialItemId
-        else super.onSafeBackPressed()
     }
 
     fun updateToolbarTitle(itemId: Int = currentItemId) {
@@ -181,6 +191,7 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
         super.onRestoreInstanceState(savedInstanceState)
         currentTag = savedInstanceState.getString(CURRENT_FRAGMENT_KEY, currentTag) ?: currentTag
         changeFragment(currentItemId, true)
+        onBackPressedCallback.isEnabled = currentItemId != initialItemId
     }
 
     override fun internalDoSearch(filter: String, closed: Boolean) {

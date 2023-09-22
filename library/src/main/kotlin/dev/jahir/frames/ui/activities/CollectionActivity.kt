@@ -80,8 +80,7 @@ open class CollectionActivity : BaseChangelogDialogActivity<Preferences>() {
         wallpapersFragment.applyFilter(filter, closed)
     }
 
-    override fun onFinish() {
-        super.onFinish()
+    override fun finish() {
         setResult(
             if (favoritesModified) ViewerActivity.FAVORITES_MODIFIED_RESULT
             else ViewerActivity.FAVORITES_NOT_MODIFIED_RESULT,
@@ -89,6 +88,7 @@ open class CollectionActivity : BaseChangelogDialogActivity<Preferences>() {
                 putExtra(ViewerActivity.FAVORITES_MODIFIED, favoritesModified)
             }
         )
+        super.finish()
     }
 
     internal fun setFavoritesModified() {

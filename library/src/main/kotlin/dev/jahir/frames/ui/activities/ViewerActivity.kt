@@ -196,11 +196,6 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
 
     override fun finish() {
         imageView?.setZoom(1F)
-        super.finish()
-    }
-
-    override fun onFinish() {
-        super.onFinish()
         setResult(
             if (favoritesModified) FAVORITES_MODIFIED_RESULT
             else FAVORITES_NOT_MODIFIED_RESULT,
@@ -208,12 +203,13 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
                 putExtra(FAVORITES_MODIFIED, favoritesModified)
             }
         )
+        super.finish()
     }
 
     private fun dismissApplierDialog() {
         try {
             applierDialog?.dismiss()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
         applierDialog = null
     }
@@ -221,7 +217,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
     private fun dismissDownloadBlockedDialog() {
         try {
             downloadBlockedDialog?.dismiss()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
         downloadBlockedDialog = null
     }

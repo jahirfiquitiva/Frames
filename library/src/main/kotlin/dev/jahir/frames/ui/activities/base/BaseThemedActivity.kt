@@ -3,6 +3,7 @@ package dev.jahir.frames.ui.activities.base
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.annotation.StyleRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
@@ -18,7 +19,7 @@ import dev.jahir.frames.extensions.context.statusBarLight
 import dev.jahir.frames.extensions.resources.isDark
 import dev.jahir.frames.extensions.utils.postDelayed
 
-abstract class BaseThemedActivity<out P : Preferences> : BaseFinishResultActivity() {
+abstract class BaseThemedActivity<out P : Preferences> : AppCompatActivity() {
 
     private var wasUsingAmoled: Boolean = false
     private var useMaterialYou: Boolean = false
@@ -71,11 +72,13 @@ abstract class BaseThemedActivity<out P : Preferences> : BaseFinishResultActivit
             if (preferences.usesAmoledTheme) amoledTheme() else defaultTheme()
     }
 
-    @Suppress("DEPRECATION")
     private fun setCustomTheme() {
         setTheme(getRightTheme())
         setDefaultDashboardTheme()
-        resolveColor(com.google.android.material.R.attr.colorPrimaryDark, color(R.color.primaryDark)).let {
+        resolveColor(
+            com.google.android.material.R.attr.colorPrimaryDark,
+            color(R.color.primaryDark)
+        ).let {
             statusBarColor = it
             if (shouldChangeStatusBarLightStatus)
                 statusBarLight = !it.isDark
@@ -105,7 +108,7 @@ abstract class BaseThemedActivity<out P : Preferences> : BaseFinishResultActivit
             transaction
                 .replace(fragmentContainerId, fragment, fragmentTag)
                 .commit()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 
