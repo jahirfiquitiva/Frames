@@ -17,8 +17,8 @@ android {
         }
     }
 
-    applicationVariants.all { variant ->
-        variant.outputs.all { output ->
+    applicationVariants.configureEach { variant ->
+        variant.outputs.configureEach { output ->
             outputFileName = defaultConfig.applicationId + "-v${variant.versionName}-${variant.name}.apk"
         }
     }
@@ -29,9 +29,6 @@ android {
         disable 'MissingTranslation', 'GoogleAppIndexingWarning'
     }
 
-    compileSdkVersion Versions.targetSdk
-    buildToolsVersion Versions.buildTools
-
     namespace Frames.appId
     defaultConfig {
         buildConfigField("String", "ONESIGNAL_APP_ID", "\"$OneSignal.appId\"")
@@ -41,6 +38,7 @@ android {
         ]
         applicationId Frames.appId
         minSdkVersion Versions.minSdk
+        compileSdk Versions.targetSdk
         targetSdkVersion Versions.targetSdk
         versionCode Frames.version
         versionName Frames.versionName
