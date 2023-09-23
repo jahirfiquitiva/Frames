@@ -51,11 +51,7 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
     private var oldTag: String = initialFragmentTag
 
     private val onBackPressedCallback = object : OnBackPressedCallback(false) {
-        override fun handleOnBackPressed() {
-            if (currentItemId != initialItemId)
-                bottomNavigation?.selectedItemId = initialItemId
-            else supportFinishAfterTransition()
-        }
+        override fun handleOnBackPressed() = this@FramesActivity.handleOnBackPressed()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,8 +68,7 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
         bottomNavigation?.selectedItemId = initialItemId
         bottomNavigation?.setOnItemSelectedListener {
             val fragmentChanged = changeFragment(it.itemId)
-            if (fragmentChanged)
-                onBackPressedCallback.isEnabled = currentItemId != initialItemId
+            enableOnBackPressedCallback(fragmentChanged && isBackPressedCallbackEnabled())
             fragmentChanged
         }
 
@@ -84,6 +79,18 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
 
         requestNotificationsPermission()
     }
+
+    fun enableOnBackPressedCallback(enabled: Boolean = isBackPressedCallbackEnabled()) {
+        onBackPressedCallback.isEnabled = enabled
+    }
+
+    open fun handleOnBackPressed() {
+        if (currentItemId != initialItemId)
+            bottomNavigation?.selectedItemId = initialItemId
+        else supportFinishAfterTransition()
+    }
+
+    open fun isBackPressedCallbackEnabled(): Boolean = currentItemId != initialItemId
 
     fun updateToolbarTitle(itemId: Int = currentItemId) {
         var logoSet = false
@@ -191,7 +198,7 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
         super.onRestoreInstanceState(savedInstanceState)
         currentTag = savedInstanceState.getString(CURRENT_FRAGMENT_KEY, currentTag) ?: currentTag
         changeFragment(currentItemId, true)
-        onBackPressedCallback.isEnabled = currentItemId != initialItemId
+        enableOnBackPressedCallback()
     }
 
     override fun internalDoSearch(filter: String, closed: Boolean) {
