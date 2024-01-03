@@ -56,7 +56,6 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
                 bitmap
             }
         } else bitmap
-        scaledBitmap ?: return false
 
         val result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             var result = 0
