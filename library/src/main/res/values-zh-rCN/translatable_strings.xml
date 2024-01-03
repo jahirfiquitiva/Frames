@@ -125,4 +125,9 @@
     <string name="yes">是</string>
     <string name="no">否</string>
     <string name="dashboard_creators_disclaimer">%1$s 由 %2$s 面板驱动。下方所列为 %2$s 的创作者。如果您有关于 %1$s 的问题，请联系上方所列其设计师。</string>
+    <string name="notifications_permission_denied">通知权限未授予。</string>
+    <string name="notifications_permission_permanently_denied">通知权限被拒绝。请在“设置”中授予。</string>
+    <string name="notifications_permission_request">%1$s 使用通知权限让您知道重要的更新。</string>
+    <string name="app_language">应用语言</string>
+    <string name="app_language_summary">当前语言： %1$s</string>
 </resources>
