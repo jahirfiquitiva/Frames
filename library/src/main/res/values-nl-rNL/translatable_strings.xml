@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation,ExtraTranslation">
     <string name="wallpapers">Achtergronden</string>
     <string name="collections">Collecties</string>
     <string name="favorites">Favorieten</string>
     <string name="all">Alle</string>
     <string name="loading">Laden...</string>
+    <string name="data_error_network">Controleer uw internetverbinding en probeer het opnieuw.</string>
+    <string name="data_error_network_wifi_only">Maak verbinding met Wi-Fi en probeer het opnieuw, of schakel deze optie uit in Instellingen.</string>
+    <string name="data_error_format">Gegevens zijn mogelijk niet correct. Contacteer ontwikkelaar.</string>
     <string name="no_wallpapers_found">Geen achtergronden gevonden!</string>
     <string name="no_collections_found">Geen collecties gevonden!</string>
     <string name="no_favorites_found">Geen favorieten aangetroffen!</string>
@@ -43,6 +46,8 @@
     <string name="interface_animations_summary">Uitschakelen voor betere prestaties.</string>
     <string name="display_full_res_previews">Hoge kwaliteit miniaturen</string>
     <string name="display_full_res_previews_summary">Dit gebruikt meer data.</string>
+    <string name="download_on_wifi_only">Download achtergronden alleen op Wi-Fi</string>
+    <string name="download_on_wifi_only_summary">Uitschakelen om mobiele data ook te gebruiken.</string>
     <string name="crop_pictures">Schaal om passend te maken</string>
     <string name="crop_pictures_summary">Achtergronden aanpassen aan schermresolutie.</string>
     <string name="download_location">Achtergronden opgeslagen in</string>
@@ -119,4 +124,10 @@
     <string name="sure_to_exit_content">Wil je je instellingen opslaan voor het afsluiten?</string>
     <string name="yes">Ja</string>
     <string name="no">Nee</string>
+    <string name="dashboard_creators_disclaimer">%1$s wordt aangedreven door het %2$s dashboard. Onderaan worden de makers van %2$sgenoemd. Als u vragen heeft over %1$s, neem dan contact op met de ontwerper(s), hierboven vermeld.</string>
+    <string name="notifications_permission_denied">Locatie toestemming niet verleend.</string>
+    <string name="notifications_permission_permanently_denied">Toegang tot de opslagruimte is geweigerd. Je zult het handmatig aan moet zetten in de instellingen.</string>
+    <string name="notifications_permission_request">%1$s maakt gebruik van de notificatie rechten om je op de hoogte te stellen van belangrijke updates.</string>
+    <string name="app_language">App taal</string>
+    <string name="app_language_summary">Huidige taal: %1$s</string>
 </resources>
