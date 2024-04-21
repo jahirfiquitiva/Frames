@@ -22,7 +22,7 @@ import java.io.File
 abstract class BaseWallpaperApplierActivity<out P : Preferences> :
     BaseWallpaperFetcherActivity<P>() {
 
-    private var externalApplyLauncher: ActivityResultLauncher<Intent?>? = null
+    private var externalApplyLauncher: ActivityResultLauncher<Intent>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +75,7 @@ abstract class BaseWallpaperApplierActivity<out P : Preferences> :
     private fun onWallpaperApplied() {
         try {
             currentSnackbar = snackbar(R.string.applying_applied, anchorViewId = snackbarAnchorId)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
         cancelWorkManagerTasks()
     }
