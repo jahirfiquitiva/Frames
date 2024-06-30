@@ -4,7 +4,7 @@ object Versions {
     // Plugins
     const val gradle = "8.5.0"
     const val kotlin = "2.0.0"
-    const val sonatype = "1.3.0"
+    const val sonatype = "2.0.0"
     const val ksp = "$kotlin-1.0.22"
 
     // OneSignal
