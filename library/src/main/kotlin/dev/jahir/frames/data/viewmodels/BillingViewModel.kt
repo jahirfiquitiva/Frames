@@ -11,6 +11,7 @@ import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.ConsumeParams
+import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
@@ -18,6 +19,7 @@ import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchaseHistoryParams
 import com.android.billingclient.api.QueryPurchasesParams
 import com.android.billingclient.api.consumePurchase
+import com.android.billingclient.api.queryPurchasesAsync
 import dev.jahir.frames.data.listeners.BillingProcessesListener
 import dev.jahir.frames.data.models.DetailedPurchaseRecord
 import dev.jahir.frames.extensions.utils.asDetailedPurchase
@@ -61,7 +63,10 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
         billingClient = BillingClient
             .newBuilder(context)
             .setListener(this)
-            .enablePendingPurchases()
+            .enablePendingPurchases(
+                PendingPurchasesParams.newBuilder()
+                    .enableOneTimeProducts().build()
+            )
             .build()
         billingClient?.startConnection(this)
     }
@@ -94,6 +99,7 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
                     BillingClient.ProductType.INAPP -> {
                         inAppProductDetailsData.postValue(details)
                     }
+
                     BillingClient.ProductType.SUBS -> {
                         subscriptionsProductDetailsData.postValue(details)
                     }
@@ -147,6 +153,7 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
                     actualPurchases.sortedByDescending { it.purchaseTime }
                 )
             }
+
             BillingClient.ProductType.SUBS -> {
                 subscriptionsPurchasesHistoryData.postValue(
                     actualPurchases.sortedByDescending { it.purchaseTime }
@@ -170,9 +177,9 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
 
     private suspend fun queryPurchasesHistory(@BillingClient.ProductType productType: String) {
         if (!isBillingClientReady) return
-        val params = QueryPurchaseHistoryParams.newBuilder().setProductType(productType).build()
+        val params = QueryPurchasesParams.newBuilder().setProductType(productType).build()
         withContext(IO) {
-            billingClient?.queryPurchaseHistoryAsync(params) { billingResult, purchaseHistoryRecordList ->
+            billingClient?.queryPurchasesAsync(params) { billingResult, purchaseHistoryRecordList ->
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     postPurchasesHistory(productType,
                         purchaseHistoryRecordList.orEmpty()
