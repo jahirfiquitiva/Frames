@@ -42,6 +42,7 @@
 
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="android:forceDarkAllowed">true</item>
+        <item name="popupMenuBackground">@drawable/menu_background</item>
     </style>
 
     <style name="Frames.SplashScreen.Amoled" parent="Frames.SplashScreen" />
