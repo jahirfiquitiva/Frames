@@ -26,7 +26,7 @@ abstract class FramesDatabase : RoomDatabase() {
                     FramesDatabase::class.java,
                     context.applicationInfo.name ?: "Frames"
                 )
-                    .fallbackToDestructiveMigration()
+                    .fallbackToDestructiveMigration(true)
                     .build()
             }
             return INSTANCE

@@ -52,6 +52,7 @@ open class BaseBottomSheet : BottomSheetDialogFragment() {
             (dialogInterface as? BottomSheetDialog)?.apply {
                 window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
                 val navigationBarColor = context.getRightNavigationBarColor()
+                @Suppress("DEPRECATION")
                 window?.navigationBarColor = navigationBarColor
                 window?.navigationBarLight = !navigationBarColor.isDark
             }
