@@ -253,13 +253,23 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
         triggerErrorListener: Boolean = true,
     ) {
         if (!url.hasContent()) return
-        if (!context.isNetworkAvailable()) {
+        val isLocalFile = url.startsWith("file://")
+        if (!isLocalFile && !context.isNetworkAvailable()) {
             if (triggerErrorListener) errorListener?.invoke(DataError.NoNetwork)
             handleWallpapersData()
             return
         }
         try {
-            val remoteWallpapers = service.getJSON(url)
+            val remoteWallpapers: List<Wallpaper>
+            if (isLocalFile) {
+                val jsonString = context.assets?.open(url.replace("file:///android_asset/", ""))
+                    ?.bufferedReader()
+                    ?.readText()
+                val listType: Type = object : TypeToken<List<Wallpaper?>?>() {}.type
+                remoteWallpapers = Gson().fromJson(jsonString, listType)
+            } else {
+                remoteWallpapers = service.getJSON(url)
+            }
             handleWallpapersData(loadCollections, loadFavorites, remoteWallpapers, force)
         } catch (e: Exception) {
             if (triggerErrorListener && e is MalformedJsonException)
