@@ -11,6 +11,7 @@ import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.models.Wallpaper
 import dev.jahir.frames.data.workers.WallpaperDownloader
 import dev.jahir.frames.data.workers.WallpaperDownloader.Companion.DOWNLOAD_FILE_EXISTED
+import dev.jahir.frames.data.workers.WallpaperDownloader.Companion.DOWNLOAD_IS_LOCAL
 import dev.jahir.frames.data.workers.WallpaperDownloader.Companion.DOWNLOAD_PATH_KEY
 import dev.jahir.frames.extensions.context.toast
 import dev.jahir.frames.extensions.resources.getMimeType
@@ -40,7 +41,9 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
                         if (info.state == WorkInfo.State.SUCCEEDED) {
                             val path = info.outputData.getString(DOWNLOAD_PATH_KEY) ?: ""
                             val existed = info.outputData.getBoolean(DOWNLOAD_FILE_EXISTED, false)
-                            if (existed) onDownloadExistent(path)
+                            val isLocal = info.outputData.getBoolean(DOWNLOAD_IS_LOCAL, false)
+                            if (existed) onDownloadComplete(path, true)
+                            else if (isLocal) onDownloadComplete(path, false)
                             else onDownloadQueued()
                         } else if (info.state == WorkInfo.State.FAILED) {
                             onDownloadError()
@@ -71,12 +74,16 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
         cancelWorkManagerTasks()
     }
 
-    private fun onDownloadExistent(path: String) {
+    private fun onDownloadComplete(path: String, existing: Boolean) {
         try {
             val file = File(path)
             val fileUri: Uri? = file.getUri(this) ?: Uri.fromFile(file)
             currentSnackbar =
-                snackbar(R.string.downloaded_previously, Snackbar.LENGTH_LONG, snackbarAnchorId) {
+                snackbar(
+                    if (existing) R.string.downloaded_previously else R.string.download_successful_short,
+                    Snackbar.LENGTH_LONG,
+                    snackbarAnchorId
+                ) {
                     fileUri?.let {
                         setAction(R.string.open) {
                             try {

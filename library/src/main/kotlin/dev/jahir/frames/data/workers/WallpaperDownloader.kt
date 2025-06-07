@@ -1,9 +1,13 @@
 package dev.jahir.frames.data.workers
 
+import android.R.attr.path
 import android.app.DownloadManager
 import android.content.Context
+import android.media.MediaScannerConnection
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
@@ -11,6 +15,7 @@ import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import dev.jahir.frames.R
 import dev.jahir.frames.data.network.DownloadListenerThread
+import dev.jahir.frames.data.network.LocalDownloadListenerThread
 import dev.jahir.frames.data.network.MediaScanner
 import dev.jahir.frames.extensions.context.preferences
 import dev.jahir.frames.extensions.context.string
@@ -20,6 +25,12 @@ import dev.jahir.frames.extensions.resources.createIfDidNotExist
 import dev.jahir.frames.extensions.resources.hasContent
 import kotlinx.coroutines.coroutineScope
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
+import kotlin.random.Random
+
 
 class WallpaperDownloader(context: Context, params: WorkerParameters) :
     ContextAwareWorker(context, params),
@@ -27,45 +38,52 @@ class WallpaperDownloader(context: Context, params: WorkerParameters) :
 
     @Suppress("DEPRECATION")
     private fun downloadUsingNotificationManager(url: String, file: File): Long {
-        val fileUri: Uri? = Uri.fromFile(file)
-        fileUri ?: return -1L
+        if (url.startsWith("file://")) {
+            val assetFilename = url.replace("file:///android_asset/", "")
+            val thread = LocalDownloadListenerThread(context, assetFilename, file, this)
+            thread.start()
+            return Random(assetFilename.hashCode()).nextLong()
+        } else {
+            val fileUri: Uri? = Uri.fromFile(file)
+            fileUri ?: return -1L
 
-        val downloadUsingWiFiOnly = context?.preferences?.shouldDownloadOnWiFiOnly ?: true
-        val allowedNetworkTypes =
-            if (downloadUsingWiFiOnly) DownloadManager.Request.NETWORK_WIFI
-            else (DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+            val downloadUsingWiFiOnly = context?.preferences?.shouldDownloadOnWiFiOnly ?: true
+            val allowedNetworkTypes =
+                if (downloadUsingWiFiOnly) DownloadManager.Request.NETWORK_WIFI
+                else (DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
 
-        val request = DownloadManager.Request(Uri.parse(url))
-            .apply {
-                setTitle(file.name)
-                setDescription(context?.string(R.string.downloading_wallpaper, file.name))
-                setDestinationUri(fileUri)
-                setAllowedNetworkTypes(allowedNetworkTypes)
-                setAllowedOverRoaming(!downloadUsingWiFiOnly)
-                setNotificationVisibility(
-                    DownloadManager.Request.VISIBILITY_VISIBLE
-                            or DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
-                )
-                allowScanningByMediaScanner()
+            val request = DownloadManager.Request(url.toUri())
+                .apply {
+                    setTitle(file.name)
+                    setDescription(context?.string(R.string.downloading_wallpaper, file.name))
+                    setDestinationUri(fileUri)
+                    setAllowedNetworkTypes(allowedNetworkTypes)
+                    setAllowedOverRoaming(!downloadUsingWiFiOnly)
+                    setNotificationVisibility(
+                        DownloadManager.Request.VISIBILITY_VISIBLE
+                                or DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
+                    )
+                    allowScanningByMediaScanner()
+                }
+
+            val downloadManager: DownloadManager? =
+                context?.getSystemService(Context.DOWNLOAD_SERVICE) as? DownloadManager
+            downloadManager ?: return -1L
+
+            val downloadId = try {
+                downloadManager.enqueue(request)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                return -1L
             }
 
-        val downloadManager: DownloadManager? =
-            context?.getSystemService(Context.DOWNLOAD_SERVICE) as? DownloadManager
-        downloadManager ?: return -1L
-
-        val downloadId = try {
-            downloadManager.enqueue(request)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return -1L
+            val thread =
+                DownloadListenerThread(
+                    context, downloadManager, downloadId, file.absolutePath, this
+                )
+            thread.start()
+            return downloadId
         }
-
-        val thread =
-            DownloadListenerThread(
-                context, downloadManager, downloadId, file.absolutePath, this
-            )
-        thread.start()
-        return downloadId
     }
 
     override suspend fun doWork(): Result = coroutineScope {
@@ -82,7 +100,8 @@ class WallpaperDownloader(context: Context, params: WorkerParameters) :
             onSuccess(filePath)
             val outputData = workDataOf(
                 DOWNLOAD_PATH_KEY to file.absolutePath,
-                DOWNLOAD_FILE_EXISTED to true
+                DOWNLOAD_FILE_EXISTED to true,
+                DOWNLOAD_IS_LOCAL to url.startsWith("file://"),
             )
             return@coroutineScope Result.success(outputData)
         }
@@ -96,7 +115,8 @@ class WallpaperDownloader(context: Context, params: WorkerParameters) :
         val outputData = workDataOf(
             DOWNLOAD_PATH_KEY to filePath,
             DOWNLOAD_TASK_KEY to downloadId,
-            DOWNLOAD_FILE_EXISTED to false
+            DOWNLOAD_FILE_EXISTED to false,
+            DOWNLOAD_IS_LOCAL to url.startsWith("file://"),
         )
         return@coroutineScope Result.success(outputData)
     }
@@ -105,7 +125,7 @@ class WallpaperDownloader(context: Context, params: WorkerParameters) :
         super.onSuccess(path)
         try {
             MediaScanner.scan(context, path)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 
@@ -113,7 +133,7 @@ class WallpaperDownloader(context: Context, params: WorkerParameters) :
         super.onFailure(exception)
         try {
             context?.toast(exception.message ?: "Unexpected error!", Toast.LENGTH_LONG)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 
@@ -122,6 +142,7 @@ class WallpaperDownloader(context: Context, params: WorkerParameters) :
         internal const val DOWNLOAD_URL_KEY = "download_url"
         internal const val DOWNLOAD_TASK_KEY = "download_task"
         internal const val DOWNLOAD_FILE_EXISTED = "download_file_existed"
+        internal const val DOWNLOAD_IS_LOCAL = "download_is_local"
 
         fun buildRequest(url: String): OneTimeWorkRequest? {
             if (!url.hasContent()) return null
@@ -131,7 +152,12 @@ class WallpaperDownloader(context: Context, params: WorkerParameters) :
                     .build()
                 OneTimeWorkRequest.Builder(WallpaperDownloader::class.java)
                     .setConstraints(constraints)
-                    .setInputData(workDataOf(DOWNLOAD_URL_KEY to url))
+                    .setInputData(
+                        workDataOf(
+                            DOWNLOAD_URL_KEY to url,
+                            DOWNLOAD_IS_LOCAL to url.startsWith("file://")
+                        )
+                    )
                     .build()
             } catch (e: Exception) {
                 null
