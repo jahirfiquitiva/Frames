@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Annie from Assets",
+    "author": "unsplash",
+    "url": "file:///android_asset/annie.jpg",
+    "dimensions": "3200x2560",
+    "copyright": "Free (do whatever you want)",
+    "collections": "assets"
+  },
+  {
+    "name": "Neom from Assets",
+    "author": "unsplash",
+    "url": "file:///android_asset/wallpapers/neom.jpg",
+    "dimensions": "3200x2560",
+    "copyright": "Free (do whatever you want)",
+    "collections": "assets"
+  }
+]
