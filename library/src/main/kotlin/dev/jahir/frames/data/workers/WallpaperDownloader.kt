@@ -146,16 +146,20 @@ class WallpaperDownloader(context: Context, params: WorkerParameters) :
 
         fun buildRequest(url: String): OneTimeWorkRequest? {
             if (!url.hasContent()) return null
+            val isLocalFile = url.startsWith("file://")
             return try {
                 val constraints = Constraints.Builder()
-                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .setRequiredNetworkType(
+                        if (isLocalFile) NetworkType.NOT_REQUIRED
+                        else NetworkType.CONNECTED
+                    )
                     .build()
                 OneTimeWorkRequest.Builder(WallpaperDownloader::class.java)
                     .setConstraints(constraints)
                     .setInputData(
                         workDataOf(
                             DOWNLOAD_URL_KEY to url,
-                            DOWNLOAD_IS_LOCAL to url.startsWith("file://")
+                            DOWNLOAD_IS_LOCAL to isLocalFile
                         )
                     )
                     .build()
