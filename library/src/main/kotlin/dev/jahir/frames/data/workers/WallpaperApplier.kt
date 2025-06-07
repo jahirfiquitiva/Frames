@@ -22,8 +22,10 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.File
 import java.io.FileOutputStream
+import androidx.core.graphics.scale
+import java.io.InputStream
+import java.io.OutputStream
 
-@Suppress("BlockingMethodInNonBlockingContext")
 class WallpaperApplier(context: Context, params: WorkerParameters) :
     ContextAwareWorker(context, params) {
 
@@ -51,7 +53,7 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
                 val wantedHeight = wallpaperManager.desiredMinimumHeight
                 val ratio = wantedHeight / bitmap.height.toFloat()
                 val wantedWidth = (bitmap.width * ratio).toInt()
-                Bitmap.createScaledBitmap(bitmap, wantedWidth, wantedHeight, true)
+                bitmap.scale(wantedWidth, wantedHeight)
             } catch (e: Exception) {
                 bitmap
             }
@@ -60,14 +62,14 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
         val result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             var result = 0
             if (option == 0 || option == 2) {
-                result +=
-                    wallpaperManager.setBitmap(
-                        scaledBitmap, null, true, WallpaperManager.FLAG_SYSTEM
-                    )
+                result += wallpaperManager.setBitmap(
+                    scaledBitmap, null, true, WallpaperManager.FLAG_SYSTEM
+                )
             }
             if (option == 1 || option == 2) {
-                result +=
-                    wallpaperManager.setBitmap(scaledBitmap, null, true, WallpaperManager.FLAG_LOCK)
+                result += wallpaperManager.setBitmap(
+                    scaledBitmap, null, true, WallpaperManager.FLAG_LOCK
+                )
             }
             result
         } else {
@@ -95,12 +97,29 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
                     file.createNewFile()
                 } catch (_: Exception) {
                 }
-                val client = OkHttpClient()
-                val request = Request.Builder().url(url)
-                    .build()
-                val response = client.newCall(request).execute()
-                val fos = FileOutputStream(file)
-                fos.write(response.body?.bytes())
+                val fos: OutputStream = FileOutputStream(file)
+                if (url.startsWith("file://")) {
+                    val assetFilename = url.replace("file:///android_asset/", "")
+                    val assetInputStream: InputStream? = context?.assets?.open(assetFilename)
+                    if (assetInputStream !== null) {
+                        try {
+                            val buffer = ByteArray(2048)
+                            var read: Int
+                            while ((assetInputStream.read(buffer).also { read = it }) != -1) {
+                                fos.write(buffer, 0, read)
+                            }
+                            assetInputStream.close()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                } else {
+                    val client = OkHttpClient()
+                    val request = Request.Builder().url(url).build()
+                    val response = client.newCall(request).execute()
+                    fos.write(response.body?.bytes())
+                }
+                fos.flush()
                 fos.close()
             }
         } catch (e: Exception) {
@@ -126,8 +145,12 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
 
         fun buildRequest(url: String, applyOption: Int = -1): OneTimeWorkRequest? {
             if (!url.hasContent()) return null
+            val isLocalFile = url.startsWith("file://")
             val constraints = Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .setRequiredNetworkType(
+                    if (isLocalFile) NetworkType.NOT_REQUIRED
+                    else NetworkType.CONNECTED
+                )
                 .build()
             val data = workDataOf(
                 WallpaperDownloader.DOWNLOAD_URL_KEY to url,
