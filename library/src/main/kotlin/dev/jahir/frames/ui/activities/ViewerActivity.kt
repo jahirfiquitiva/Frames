@@ -123,31 +123,6 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         setContentView(R.layout.activity_viewer)
         bottomNavigation?.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_LABELED
 
-        currentWallPosition = intent?.extras?.getInt(CURRENT_WALL_POSITION, 0) ?: 0
-
-        collectionName = intent?.extras?.getString(CollectionActivity.COLLECTION_NAME_KEY)
-        isForFavs = intent?.extras?.getBoolean(IS_FOR_FAVS, false) ?: false
-
-        val wallpaper = intent?.extras?.getParcelable<Wallpaper?>(WALLPAPER_EXTRA)
-        if (wallpaper == null) {
-            finish()
-            return
-        }
-
-        if (wallpaper.downloadable == false || !shouldShowDownloadOption())
-            bottomNavigation?.removeItem(R.id.download)
-
-        findViewById<View?>(R.id.toolbar_title)?.let {
-            (it as? TextView)?.text = wallpaper.name
-        }
-        findViewById<View?>(R.id.toolbar_subtitle)?.let {
-            (it as? TextView)?.text = wallpaper.author
-            it.visibleIf(wallpaper.author.hasContent())
-        }
-
-        initWallpaperFetcher(wallpaper)
-        detailsFragment.wallpaper = wallpaper
-
         setSupportActionBar(toolbar)
         supportActionBar?.let {
             it.setHomeButtonEnabled(true)
@@ -163,10 +138,50 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
                 return super.onSingleTapConfirmed(e)
             }
         })
+
+        // WALLPAPER SPECIFIC RELATED SETUP ↓
+        currentWallPosition = intent?.extras?.getInt(CURRENT_WALL_POSITION, 0) ?: 0
+
+        collectionName = intent?.extras?.getString(CollectionActivity.COLLECTION_NAME_KEY)
+        isForFavs = intent?.extras?.getBoolean(IS_FOR_FAVS, false) ?: false
+
+        val lastWallpaper = savedInstanceState?.getString(WALLPAPER_URL_KEY)
+        val wallpaperFromIntent = intent?.extras?.getParcelable<Wallpaper?>(WALLPAPER_EXTRA)?.url
+
+        lifecycleScope.launch {
+            configureUIForWallpaper(
+                wallpapersViewModel.findWallpaper(
+                    lastWallpaper ?: wallpaperFromIntent
+                )
+            )
+        }
+    }
+
+    private fun configureUIForWallpaper(wallpaper: Wallpaper?) {
+        if (wallpaper == null) {
+            finish()
+            return
+        }
+
+        bottomNavigation?.setItemVisible(
+            R.id.download,
+            !(wallpaper.downloadable == false || !shouldShowDownloadOption())
+        )
+
+        findViewById<View?>(R.id.toolbar_title)?.let {
+            (it as? TextView)?.text = wallpaper.name
+        }
+        findViewById<View?>(R.id.toolbar_subtitle)?.let {
+            (it as? TextView)?.text = wallpaper.author
+            it.visibleIf(wallpaper.author.hasContent())
+        }
+
+        initWallpaperFetcher(wallpaper)
+        detailsFragment.wallpaper = wallpaper
         loadWallpaper(wallpaper)
 
         isInFavorites =
-            intent?.extras?.getBoolean(WallpapersFragment.WALLPAPER_IN_FAVS_EXTRA, false)
+            intent?.extras?.getBoolean(WALLPAPER_IN_FAVS_EXTRA, false)
                 ?: wallpaper.isInFavorites
 
         wallpapersViewModel.observeFavorites(this) {
@@ -213,27 +228,28 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
     private fun navigateToWallpaper(wallpaper: Wallpaper?) {
         if (wallpaper == null) return
 
-        if (favoritesModified) {
-            // TODO: Update favorites in previous activity
-            loadWallpapersData(true)
-        }
+//        if (favoritesModified) {
+//            // TODO: Update favorites in previous activity
+//            loadWallpapersData(true)
+//        }
 
         val wallPosition = intent?.extras?.getInt(CURRENT_WALL_POSITION, -1) ?: -1
-        restart {
-            putExtra(
-                CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
-                canToggleSystemUIVisibility()
-            )
-            putExtra(WALLPAPER_EXTRA, wallpaper)
-            putExtra(WALLPAPER_IN_FAVS_EXTRA, isInFavorites)
-            putExtra(CURRENT_WALL_POSITION, wallPosition)
+        configureUIForWallpaper(wallpaper)
+//        restart {
 //            putExtra(
-//                ViewerActivity.LICENSE_CHECK_ENABLED,
-//                (activity as? BaseLicenseCheckerActivity<*>)?.licenseCheckEnabled ?: false
+//                CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
+//                canToggleSystemUIVisibility()
 //            )
-            putExtra(CollectionActivity.COLLECTION_NAME_KEY, collectionName)
-            putExtra(IS_FOR_FAVS, isForFavs)
-        }
+//            putExtra(WALLPAPER_EXTRA, wallpaper)
+//            putExtra(WALLPAPER_IN_FAVS_EXTRA, isInFavorites)
+//            putExtra(CURRENT_WALL_POSITION, wallPosition)
+////            putExtra(
+////                ViewerActivity.LICENSE_CHECK_ENABLED,
+////                (activity as? BaseLicenseCheckerActivity<*>)?.licenseCheckEnabled ?: false
+////            )
+//            putExtra(CollectionActivity.COLLECTION_NAME_KEY, collectionName)
+//            putExtra(IS_FOR_FAVS, isForFavs)
+//        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

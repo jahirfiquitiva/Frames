@@ -402,6 +402,13 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
         }
     }
 
+    suspend fun findWallpaper(url: String?): Wallpaper? =
+        withContext(IO) {
+            if (url == null) return@withContext null
+            FramesDatabase.getAppDatabase(context)?.wallpapersDao()
+                ?.getWallpaperByUrl(url)
+        }
+
     private fun <T> areTheSameLists(local: List<T>, remote: List<T>): Boolean {
         try {
             var areTheSame = true

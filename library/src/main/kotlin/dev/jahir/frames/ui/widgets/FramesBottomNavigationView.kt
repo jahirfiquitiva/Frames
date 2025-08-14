@@ -39,6 +39,13 @@ class FramesBottomNavigationView @JvmOverloads constructor(
         }
     }
 
+    fun setItemVisible(@IdRes itemId: Int, visible:Boolean) {
+        try {
+            menu.findItem(itemId).setVisible(visible)
+        } catch (e: Exception) {
+        }
+    }
+
     fun removeItem(@IdRes itemId: Int) {
         try {
             menu.removeItem(itemId)

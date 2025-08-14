@@ -129,6 +129,6 @@ abstract class BaseWallpaperFetcherActivity<out P : Preferences> :
     }
 
     companion object {
-        private const val WALLPAPER_URL_KEY = "wallpaper_download_url"
+        internal const val WALLPAPER_URL_KEY = "wallpaper_download_url"
     }
 }
