@@ -129,4 +129,6 @@
     <string name="notifications_permission_request">%1$s utiliza el permiso de notificaciones para informarte de actualizaciones importantes.</string>
     <string name="app_language">Idioma de la aplicación</string>
     <string name="app_language_summary">Idioma actual: %1$s</string>
+    <string name="go_to_previous_wallpaper">Ir al anterior fondo de pantalla</string>
+    <string name="go_to_next_wallpaper">Ir al siguiente fondo de pantalla</string>
 </resources>

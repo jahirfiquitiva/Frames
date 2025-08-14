@@ -20,7 +20,7 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.ViewCompat
@@ -196,7 +196,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
             handleNavigationItemSelected(it.itemId, wallpaper)
         }
 
-        findViewById<AppCompatButton>(R.id.go_previous)?.setOnClickListener {
+        findViewById<AppCompatImageButton>(R.id.go_previous)?.setOnClickListener {
             lifecycleScope.launch {
                 val previousWallpaper = if (isForFavs) {
                     wallpapersViewModel.getPreviousFavoriteWallpaper(wallpaper.url)
@@ -207,7 +207,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
             }
         }
 
-        findViewById<AppCompatButton>(R.id.go_next)?.setOnClickListener {
+        findViewById<AppCompatImageButton>(R.id.go_next)?.setOnClickListener {
             lifecycleScope.launch {
                 val nextWallpaper = if (isForFavs) {
                     wallpapersViewModel.getNextFavoriteWallpaper(wallpaper.url)

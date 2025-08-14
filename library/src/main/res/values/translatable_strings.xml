@@ -130,4 +130,6 @@
     <string name="notifications_permission_request">%1$s uses the Notifications permission to let you know of important updates.</string>
     <string name="app_language">App language</string>
     <string name="app_language_summary">Current language: %1$s</string>
+    <string name="go_to_previous_wallpaper">Go to previous wallpaper</string>
+    <string name="go_to_next_wallpaper">Go to next wallpaper</string>
 </resources>

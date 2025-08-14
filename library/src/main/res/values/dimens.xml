@@ -9,4 +9,8 @@
     <dimen name="cards_corner_size">6dp</dimen>
     <dimen name="medium_components_corner_size">8dp</dimen>
     <dimen name="large_components_corner_size">12dp</dimen>
+    <!-- Viewer arrows -->
+    <dimen name="viewer_arrow_size">48dp</dimen>
+    <dimen name="viewer_arrow_margin">16dp</dimen>
+    <dimen name="viewer_arrow_padding">0dp</dimen>
 </resources>
