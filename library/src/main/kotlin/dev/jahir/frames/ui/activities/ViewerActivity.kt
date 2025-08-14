@@ -4,7 +4,9 @@ package dev.jahir.frames.ui.activities
 
 import android.Manifest
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -26,6 +28,7 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.palette.graphics.Palette
+import coil.dispose
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
@@ -60,6 +63,7 @@ import dev.jahir.frames.extensions.views.setPaddingLeft
 import dev.jahir.frames.extensions.views.setPaddingRight
 import dev.jahir.frames.extensions.views.setPaddingTop
 import dev.jahir.frames.extensions.views.tint
+import dev.jahir.frames.extensions.views.visible
 import dev.jahir.frames.extensions.views.visibleIf
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.activities.base.BaseWallpaperApplierActivity
@@ -69,6 +73,8 @@ import dev.jahir.frames.ui.fragments.WallpapersFragment.Companion.WALLPAPER_IN_F
 import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
 import dev.jahir.frames.ui.fragments.viewer.SetAsOptionsDialog
 import kotlinx.coroutines.launch
+import androidx.core.graphics.drawable.toDrawable
+import dev.jahir.frames.extensions.context.resolveColor
 
 open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
 
@@ -295,33 +301,42 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         }
     }
 
-    private fun setBackgroundColor(@ColorInt color: Int = 0) {
-        findViewById<View?>(R.id.activity_root_view)?.setBackgroundColor(color)
+    private fun setBackgroundColor(@ColorInt color: Int? = null) {
+        findViewById<View?>(R.id.activity_root_view)?.setBackgroundColor(
+            color ?: resolveColor(android.R.attr.colorBackground)
+        )
     }
 
-    private fun loadWallpaper(wallpaper: Wallpaper?) {
+    private fun loadWallpaper(wallpaper: Wallpaper) {
+        findViewById<View?>(R.id.loading)?.visible()
         var placeholder: Drawable? = null
+        val wallpaperFromIntent = intent?.extras?.getParcelable<Wallpaper?>(WALLPAPER_EXTRA)?.url
         try {
-            openFileInput(SHARED_IMAGE_NAME)?.use {
-                placeholder = BitmapDrawable(resources, it)
+            if (wallpaperFromIntent == wallpaper?.url) {
+                openFileInput(SHARED_IMAGE_NAME)?.use {
+                    placeholder = BitmapDrawable(resources, it)
+                }
+            } else {
+                imageView?.dispose()
+                placeholder = Color.TRANSPARENT.toDrawable()
+                firstImageLoad = true
+                setBackgroundColor()
             }
         } catch (e: Exception) {
         }
-        wallpaper?.let {
-            imageView?.loadFramesPic(
-                wallpaper.url,
-                wallpaper.thumbnail,
-                placeholder,
-                forceLoadFullRes = true,
-                cropAsCircle = false,
-                saturate = false
-            ) { w ->
-                if (firstImageLoad) {
-                    firstImageLoad = false
-                    imageView?.resetZoomAnimated()
-                }
-                generatePalette(w)
+        imageView?.loadFramesPic(
+            wallpaper.url,
+            wallpaper.thumbnail,
+            placeholder,
+            forceLoadFullRes = true,
+            cropAsCircle = false,
+            saturate = false
+        ) { w ->
+            if (firstImageLoad) {
+                firstImageLoad = false
+                imageView?.resetZoomAnimated()
             }
+            generatePalette(w)
         }
     }
 
@@ -453,7 +468,6 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         internal const val FAVORITES_MODIFIED = "favorites_modified"
         internal const val FAVORITES_MODIFIED_RESULT = 1
         internal const val FAVORITES_NOT_MODIFIED_RESULT = 0
-        internal const val CURRENT_WALL_POSITION = "curr_wall_pos"
         internal const val LICENSE_CHECK_ENABLED = "license_check_enabled"
         internal const val CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY = "can_toggle_visibility"
         internal const val SHARED_IMAGE_NAME = "thumb.jpg"
