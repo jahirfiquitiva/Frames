@@ -45,11 +45,4 @@ class FramesBottomNavigationView @JvmOverloads constructor(
         } catch (e: Exception) {
         }
     }
-
-    fun removeItem(@IdRes itemId: Int) {
-        try {
-            menu.removeItem(itemId)
-        } catch (e: Exception) {
-        }
-    }
 }

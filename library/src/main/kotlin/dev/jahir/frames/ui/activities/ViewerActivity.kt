@@ -66,7 +66,6 @@ import dev.jahir.frames.extensions.views.visible
 import dev.jahir.frames.extensions.views.visibleIf
 import dev.jahir.frames.ui.activities.base.BaseWallpaperApplierActivity
 import dev.jahir.frames.ui.fragments.WallpapersFragment.Companion.WALLPAPER_EXTRA
-import dev.jahir.frames.ui.fragments.WallpapersFragment.Companion.WALLPAPER_IN_FAVS_EXTRA
 import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
 import dev.jahir.frames.ui.fragments.viewer.SetAsOptionsDialog
 import kotlinx.coroutines.launch
@@ -85,7 +84,10 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
     private var isInFavorites: Boolean = false
         set(value) {
             field = value
-            bottomNavigation?.setSelectedItemId(if (value) R.id.favorites else R.id.details, false)
+            bottomNavigation?.setSelectedItemId(
+                if (value) R.id.favorites else R.id.details,
+                false
+            )
         }
     private var collectionName: String? = null
     private var isForFavs: Boolean = false
@@ -139,6 +141,10 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
             }
         })
 
+        wallpapersViewModel.observeFavorites(this) {
+            this.isInFavorites = it.any { wall -> wall.url == wallpaperDownloadUrl }
+        }
+
         // WALLPAPER SPECIFIC RELATED SETUP ↓
         collectionName = intent?.extras?.getString(CollectionActivity.COLLECTION_NAME_KEY)
         isForFavs = intent?.extras?.getBoolean(IS_FOR_FAVS, false) ?: false
@@ -178,18 +184,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         detailsFragment.wallpaper = wallpaper
         loadWallpaper(wallpaper)
 
-        isInFavorites =
-            intent?.extras?.getBoolean(WALLPAPER_IN_FAVS_EXTRA, false)
-                ?: wallpaper.isInFavorites
-
-        wallpapersViewModel.observeFavorites(this) {
-            this.isInFavorites = it.any { wall -> wall.url == wallpaper.url }
-        }
-
-        bottomNavigation?.setSelectedItemId(
-            if (isInFavorites) R.id.favorites else R.id.details,
-            false
-        )
+        isInFavorites = wallpaper.isInFavorites
         loadWallpapersData()
 
         bottomNavigation?.setOnNavigationItemSelectedListener {
