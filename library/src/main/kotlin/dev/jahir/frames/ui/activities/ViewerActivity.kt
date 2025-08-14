@@ -6,10 +6,8 @@ import android.Manifest
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -24,6 +22,7 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.Toolbar
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
@@ -44,7 +43,7 @@ import dev.jahir.frames.extensions.context.firstInstallTime
 import dev.jahir.frames.extensions.context.isNetworkAvailable
 import dev.jahir.frames.extensions.context.isWifiConnected
 import dev.jahir.frames.extensions.context.navigationBarLight
-import dev.jahir.frames.extensions.context.restart
+import dev.jahir.frames.extensions.context.resolveColor
 import dev.jahir.frames.extensions.context.statusBarLight
 import dev.jahir.frames.extensions.context.string
 import dev.jahir.frames.extensions.fragments.mdDialog
@@ -65,16 +64,12 @@ import dev.jahir.frames.extensions.views.setPaddingTop
 import dev.jahir.frames.extensions.views.tint
 import dev.jahir.frames.extensions.views.visible
 import dev.jahir.frames.extensions.views.visibleIf
-import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.activities.base.BaseWallpaperApplierActivity
-import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.WallpapersFragment.Companion.WALLPAPER_EXTRA
 import dev.jahir.frames.ui.fragments.WallpapersFragment.Companion.WALLPAPER_IN_FAVS_EXTRA
 import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
 import dev.jahir.frames.ui.fragments.viewer.SetAsOptionsDialog
 import kotlinx.coroutines.launch
-import androidx.core.graphics.drawable.toDrawable
-import dev.jahir.frames.extensions.context.resolveColor
 
 open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
 
@@ -202,28 +197,24 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         }
 
         findViewById<AppCompatButton>(R.id.go_previous)?.setOnClickListener {
-            wallpaper?.let {
-                lifecycleScope.launch {
-                    val wallpaper = if (isForFavs) {
-                        wallpapersViewModel.getPreviousFavoriteWallpaper(it.url)
-                    } else {
-                        wallpapersViewModel.getPreviousWallpaper(it.url, collectionName)
-                    }
-                    configureUIForWallpaper(wallpaper)
+            lifecycleScope.launch {
+                val previousWallpaper = if (isForFavs) {
+                    wallpapersViewModel.getPreviousFavoriteWallpaper(wallpaper.url)
+                } else {
+                    wallpapersViewModel.getPreviousWallpaper(wallpaper.url, collectionName)
                 }
+                configureUIForWallpaper(previousWallpaper)
             }
         }
 
         findViewById<AppCompatButton>(R.id.go_next)?.setOnClickListener {
-            wallpaper?.let {
-                lifecycleScope.launch {
-                    val wallpaper = if (isForFavs) {
-                        wallpapersViewModel.getNextFavoriteWallpaper(it.url)
-                    } else {
-                        wallpapersViewModel.getNextWallpaper(it.url, collectionName)
-                    }
-                    configureUIForWallpaper(wallpaper)
+            lifecycleScope.launch {
+                val nextWallpaper = if (isForFavs) {
+                    wallpapersViewModel.getNextFavoriteWallpaper(wallpaper.url)
+                } else {
+                    wallpapersViewModel.getNextWallpaper(wallpaper.url, collectionName)
                 }
+                configureUIForWallpaper(nextWallpaper)
             }
         }
     }
@@ -312,7 +303,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         var placeholder: Drawable? = null
         val wallpaperFromIntent = intent?.extras?.getParcelable<Wallpaper?>(WALLPAPER_EXTRA)?.url
         try {
-            if (wallpaperFromIntent == wallpaper?.url) {
+            if (wallpaperFromIntent == wallpaper.url) {
                 openFileInput(SHARED_IMAGE_NAME)?.use {
                     placeholder = BitmapDrawable(resources, it)
                 }
@@ -322,7 +313,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
                 firstImageLoad = true
                 setBackgroundColor()
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
         imageView?.loadFramesPic(
             wallpaper.url,
