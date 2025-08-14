@@ -38,6 +38,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     var isForFavs: Boolean = false
     open val canShowFavoritesButton: Boolean = true
     private var openActivityLauncher: ActivityResultLauncher<Intent?>? = null
+    private var collectionName: String? = null
 
     private val wallsAdapter: WallpapersAdapter by lazy {
         wallpapersAdapter(
@@ -122,6 +123,8 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
                 ViewerActivity.LICENSE_CHECK_ENABLED,
                 (activity as? BaseLicenseCheckerActivity<*>)?.licenseCheckEnabled ?: false
             )
+            putExtra(CollectionActivity.COLLECTION_NAME_KEY, collectionName)
+            putExtra(ViewerActivity.IS_FOR_FAVS, isForFavs)
         }
 
         val options = ifNotNull(
@@ -147,6 +150,10 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         }
 
         openActivityLauncher?.launch(intent, options)
+    }
+
+    fun setCollectionName (newCollectionName:String?) {
+        collectionName = newCollectionName
     }
 
     override fun getTargetActivityIntent(): Intent = Intent(activity, ViewerActivity::class.java)

@@ -42,6 +42,7 @@ open class CollectionActivity : BaseChangelogDialogActivity<Preferences>() {
             finish()
             return
         }
+        wallpapersFragment.setCollectionName(collectionName)
 
         supportActionBar?.title = collection?.displayName ?: collectionName
 

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -22,6 +23,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import androidx.palette.graphics.Palette
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.transition.platform.MaterialContainerTransform
@@ -61,6 +63,7 @@ import dev.jahir.frames.ui.activities.base.BaseWallpaperApplierActivity
 import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
 import dev.jahir.frames.ui.fragments.viewer.SetAsOptionsDialog
+import kotlinx.coroutines.launch
 
 open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
 
@@ -79,6 +82,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
             field = value
             bottomNavigation?.setSelectedItemId(if (value) R.id.favorites else R.id.details, false)
         }
+    private var collectionName: String?= null
 
     private val detailsFragment: DetailsFragment by lazy {
         DetailsFragment.create(shouldShowPaletteDetails = shouldShowWallpapersPalette())
@@ -106,12 +110,16 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         super.onCreate(savedInstanceState)
         statusBarLight = false
         navigationBarLight = false
-        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE,
-            WindowManager.LayoutParams.FLAG_SECURE);
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        );
         setContentView(R.layout.activity_viewer)
         bottomNavigation?.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_LABELED
 
         currentWallPosition = intent?.extras?.getInt(CURRENT_WALL_POSITION, 0) ?: 0
+
+        collectionName = intent?.extras?.getString(CollectionActivity.COLLECTION_NAME_KEY)
 
         val wallpaper =
             intent?.extras?.getParcelable<Wallpaper?>(WallpapersFragment.WALLPAPER_EXTRA)
@@ -266,12 +274,20 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
                 forceLoadFullRes = true,
                 cropAsCircle = false,
                 saturate = false
-            ) {
+            ) { w ->
                 if (firstImageLoad) {
                     firstImageLoad = false
                     imageView?.resetZoomAnimated()
                 }
-                generatePalette(it)
+                generatePalette(w)
+            }
+
+            lifecycleScope.launch {
+                wallpapersViewModel.getNextWallpaper(it.url, collectionName)?.let { w ->
+                    Log.d("Frames", w.toString())
+                } ?: {
+                    Log.e("Frames", "Wallpaper not found")
+                }
             }
         }
     }
@@ -409,6 +425,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         internal const val CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY = "can_toggle_visibility"
         internal const val SHARED_IMAGE_NAME = "thumb.jpg"
         internal const val TRANSITION_NAME = "wallpaper_transition_container"
+        internal const val IS_FOR_FAVS = "viewer_is_for_favs"
         private const val ENTER_TRANSITION_DURATION = 300L
         private const val RETURN_TRANSITION_DURATION = 250L
         private const val CLOSING_KEY = "closing"
