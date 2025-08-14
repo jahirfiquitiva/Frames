@@ -80,7 +80,6 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
     private var firstImageLoad: Boolean = true
     private var transitioned: Boolean = false
     private var closing: Boolean = false
-    private var currentWallPosition: Int = 0
     private var favoritesModified: Boolean = false
     private var isInFavorites: Boolean = false
         set(value) {
@@ -140,8 +139,6 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         })
 
         // WALLPAPER SPECIFIC RELATED SETUP ↓
-        currentWallPosition = intent?.extras?.getInt(CURRENT_WALL_POSITION, 0) ?: 0
-
         collectionName = intent?.extras?.getString(CollectionActivity.COLLECTION_NAME_KEY)
         isForFavs = intent?.extras?.getBoolean(IS_FOR_FAVS, false) ?: false
 
@@ -206,7 +203,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
                     } else {
                         wallpapersViewModel.getPreviousWallpaper(it.url, collectionName)
                     }
-                    navigateToWallpaper(wallpaper)
+                    configureUIForWallpaper(wallpaper)
                 }
             }
         }
@@ -219,42 +216,14 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
                     } else {
                         wallpapersViewModel.getNextWallpaper(it.url, collectionName)
                     }
-                    navigateToWallpaper(wallpaper)
+                    configureUIForWallpaper(wallpaper)
                 }
             }
         }
     }
 
-    private fun navigateToWallpaper(wallpaper: Wallpaper?) {
-        if (wallpaper == null) return
-
-//        if (favoritesModified) {
-//            // TODO: Update favorites in previous activity
-//            loadWallpapersData(true)
-//        }
-
-        val wallPosition = intent?.extras?.getInt(CURRENT_WALL_POSITION, -1) ?: -1
-        configureUIForWallpaper(wallpaper)
-//        restart {
-//            putExtra(
-//                CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
-//                canToggleSystemUIVisibility()
-//            )
-//            putExtra(WALLPAPER_EXTRA, wallpaper)
-//            putExtra(WALLPAPER_IN_FAVS_EXTRA, isInFavorites)
-//            putExtra(CURRENT_WALL_POSITION, wallPosition)
-////            putExtra(
-////                ViewerActivity.LICENSE_CHECK_ENABLED,
-////                (activity as? BaseLicenseCheckerActivity<*>)?.licenseCheckEnabled ?: false
-////            )
-//            putExtra(CollectionActivity.COLLECTION_NAME_KEY, collectionName)
-//            putExtra(IS_FOR_FAVS, isForFavs)
-//        }
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(CURRENT_WALL_POSITION, currentWallPosition)
         outState.putBoolean(CLOSING_KEY, closing)
         outState.putBoolean(TRANSITIONED_KEY, transitioned)
         outState.putBoolean(IS_IN_FAVORITES_KEY, isInFavorites)
@@ -263,7 +232,6 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        this.currentWallPosition = savedInstanceState.getInt(CURRENT_WALL_POSITION, 0)
         this.closing = savedInstanceState.getBoolean(CLOSING_KEY, false)
         this.transitioned = savedInstanceState.getBoolean(TRANSITIONED_KEY, false)
         this.isInFavorites = savedInstanceState.getBoolean(IS_IN_FAVORITES_KEY, false)
