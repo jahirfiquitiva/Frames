@@ -27,4 +27,24 @@ interface FavoritesDao {
 
     @Query("delete from favorites")
     fun nuke()
+
+    @Query("""
+        SELECT * FROM favorites 
+        WHERE ROWID > (SELECT ROWID FROM favorites WHERE url = :currentUrl) 
+        ORDER BY ROWID ASC LIMIT 1
+    """)
+    suspend fun getNextFavorite(currentUrl: String): Favorite?
+
+    @Query("""
+        SELECT * FROM favorites 
+        WHERE ROWID < (SELECT ROWID FROM favorites WHERE url = :currentUrl) 
+        ORDER BY ROWID DESC LIMIT 1
+    """)
+    suspend fun getPreviousFavorite(currentUrl: String): Favorite?
+
+    @Query("SELECT * FROM favorites ORDER BY ROWID LIMIT 1")
+    suspend fun getFirstFavorite(): Favorite?
+
+    @Query("SELECT * FROM favorites ORDER BY ROWID DESC LIMIT 1")
+    suspend fun getLastFavorite(): Favorite?
 }

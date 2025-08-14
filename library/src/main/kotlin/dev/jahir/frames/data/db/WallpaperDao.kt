@@ -9,6 +9,9 @@ import dev.jahir.frames.data.models.Wallpaper
 
 @Dao // Data Access Object
 interface WallpaperDao {
+    @Query("SELECT * FROM wallpapers WHERE url = :url")
+    suspend fun getWallpaperByUrl(url: String): Wallpaper?
+
     @Query("select * from wallpapers")
     fun getAllWallpapers(): List<Wallpaper>
 

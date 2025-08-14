@@ -342,52 +342,63 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
         favoritesData.removeObservers(owner)
     }
 
-//    suspend fun getNextWallpaper(currentUrl: String, collections: String? = ""): Wallpaper? = withContext(IO) {
-//        var nextWallpaper: Wallpaper? = null
-//        try {
-//            nextWallpaper = FramesDatabase.getAppDatabase(context)?.wallpapersDao()
-//                ?.getNextWallpaper(currentUrl)
-////            if (nextWallpaper === null) {
-////                wallpapersData.value?.let { wallpapersList ->
-////                    val nextIndex = wallpapersList.indexOfFirst { it.url === currentUrl } + 1
-////                    if (nextIndex < wallpapersList.size)
-////                        nextWallpaper = wallpapersList[nextIndex]
-////                }
-////            }
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//        nextWallpaper
-//    }
-
-    private suspend fun getNextWallpaperInCollection(currentUrl: String, collection: String): Wallpaper? = withContext(IO) {
+    private suspend fun getNextWallpaperInCollection(
+        currentUrl: String,
+        collection: String
+    ): Wallpaper? = withContext(IO) {
         val wallpapersDao = FramesDatabase.getAppDatabase(context)?.wallpapersDao()
         wallpapersDao?.getNextWallpaperInCollection(currentUrl, collection)
             ?: wallpapersDao?.getFirstWallpaperInCollection(collection) // Wrap to beginning
     }
 
-    private suspend fun getPreviousWallpaperInCollection(currentUrl: String, collection: String): Wallpaper? = withContext(IO) {
+    private suspend fun getPreviousWallpaperInCollection(
+        currentUrl: String,
+        collection: String
+    ): Wallpaper? = withContext(IO) {
         val wallpapersDao = FramesDatabase.getAppDatabase(context)?.wallpapersDao()
         wallpapersDao?.getPreviousWallpaperInCollection(currentUrl, collection)
             ?: wallpapersDao?.getLastWallpaperInCollection(collection) // Wrap to end
     }
 
     // Get next wallpaper (any collection or specific collection)
-    suspend fun getNextWallpaper(currentUrl: String, collection: String? = null): Wallpaper? = withContext(IO) {
-        val wallpapersDao = FramesDatabase.getAppDatabase(context)?.wallpapersDao()
-        if (collection != null) {
-            getNextWallpaperInCollection(currentUrl, collection)
-        } else {
-            wallpapersDao?.getNextWallpaper(currentUrl) ?: wallpapersDao?.getFirstWallpaper()
+    suspend fun getNextWallpaper(currentUrl: String, collection: String? = null): Wallpaper? =
+        withContext(IO) {
+            val wallpapersDao = FramesDatabase.getAppDatabase(context)?.wallpapersDao()
+            if (collection != null) {
+                getNextWallpaperInCollection(currentUrl, collection)
+            } else {
+                wallpapersDao?.getNextWallpaper(currentUrl) ?: wallpapersDao?.getFirstWallpaper()
+            }
+        }
+
+    suspend fun getPreviousWallpaper(currentUrl: String, collection: String? = null): Wallpaper? =
+        withContext(IO) {
+            val wallpapersDao = FramesDatabase.getAppDatabase(context)?.wallpapersDao()
+            if (collection != null) {
+                getPreviousWallpaperInCollection(currentUrl, collection)
+            } else {
+                wallpapersDao?.getPreviousWallpaper(currentUrl) ?: wallpapersDao?.getLastWallpaper()
+            }
+        }
+
+    // Get next wallpaper (any collection or specific collection)
+    suspend fun getNextFavoriteWallpaper(currentUrl: String): Wallpaper? = withContext(IO) {
+        val db = FramesDatabase.getAppDatabase(context)
+        val favoritesDao = db?.favoritesDao()
+        val wallpaperUrl = favoritesDao?.getNextFavorite(currentUrl)?.url
+            ?: favoritesDao?.getFirstFavorite()?.url
+        wallpaperUrl?.let { url ->
+            db?.wallpapersDao()?.getWallpaperByUrl(url)
         }
     }
 
-    suspend fun getPreviousWallpaper(currentUrl: String, collection: String? = null): Wallpaper? = withContext(IO) {
-        val wallpapersDao = FramesDatabase.getAppDatabase(context)?.wallpapersDao()
-        if (collection != null) {
-            getPreviousWallpaperInCollection(currentUrl, collection)
-        } else {
-            wallpapersDao?.getPreviousWallpaper(currentUrl) ?: wallpapersDao?.getLastWallpaper()
+    suspend fun getPreviousFavoriteWallpaper(currentUrl: String): Wallpaper? = withContext(IO) {
+        val db = FramesDatabase.getAppDatabase(context)
+        val favoritesDao = db?.favoritesDao()
+        val wallpaperUrl = favoritesDao?.getPreviousFavorite(currentUrl)?.url
+            ?: favoritesDao?.getLastFavorite()?.url
+        wallpaperUrl?.let { url ->
+            db?.wallpapersDao()?.getWallpaperByUrl(url)
         }
     }
 

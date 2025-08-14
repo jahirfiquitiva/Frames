@@ -82,7 +82,8 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
             field = value
             bottomNavigation?.setSelectedItemId(if (value) R.id.favorites else R.id.details, false)
         }
-    private var collectionName: String?= null
+    private var collectionName: String? = null
+    private var isForFavs: Boolean = false
 
     private val detailsFragment: DetailsFragment by lazy {
         DetailsFragment.create(shouldShowPaletteDetails = shouldShowWallpapersPalette())
@@ -120,6 +121,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         currentWallPosition = intent?.extras?.getInt(CURRENT_WALL_POSITION, 0) ?: 0
 
         collectionName = intent?.extras?.getString(CollectionActivity.COLLECTION_NAME_KEY)
+        isForFavs = intent?.extras?.getBoolean(IS_FOR_FAVS, false) ?: false
 
         val wallpaper =
             intent?.extras?.getParcelable<Wallpaper?>(WallpapersFragment.WALLPAPER_EXTRA)
@@ -283,10 +285,18 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
             }
 
             lifecycleScope.launch {
-                wallpapersViewModel.getNextWallpaper(it.url, collectionName)?.let { w ->
-                    Log.d("Frames", w.toString())
-                } ?: {
-                    Log.e("Frames", "Wallpaper not found")
+                if (isForFavs) {
+                    wallpapersViewModel.getNextFavoriteWallpaper(it.url)?.let { w ->
+                        Log.d("Frames", w.toString())
+                    } ?: {
+                        Log.e("Frames", "Next favorite not found")
+                    }
+                } else {
+                    wallpapersViewModel.getNextWallpaper(it.url, collectionName)?.let { w ->
+                        Log.d("Frames", w.toString())
+                    } ?: {
+                        Log.e("Frames", "Next wallpaper not found")
+                    }
                 }
             }
         }
