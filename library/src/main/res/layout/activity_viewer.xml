@@ -74,6 +74,20 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/go_previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|start"
+        android:text="PREVIOUS" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/go_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|end"
+        android:text="NEXT" />
+
     <dev.jahir.frames.ui.widgets.FramesBottomNavigationView
         android:id="@+id/bottom_navigation"
         style="@style/Widget.Frames.ViewerBottomNavigationView"

@@ -20,6 +20,7 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
@@ -40,6 +41,7 @@ import dev.jahir.frames.extensions.context.firstInstallTime
 import dev.jahir.frames.extensions.context.isNetworkAvailable
 import dev.jahir.frames.extensions.context.isWifiConnected
 import dev.jahir.frames.extensions.context.navigationBarLight
+import dev.jahir.frames.extensions.context.restart
 import dev.jahir.frames.extensions.context.statusBarLight
 import dev.jahir.frames.extensions.context.string
 import dev.jahir.frames.extensions.fragments.mdDialog
@@ -59,8 +61,11 @@ import dev.jahir.frames.extensions.views.setPaddingRight
 import dev.jahir.frames.extensions.views.setPaddingTop
 import dev.jahir.frames.extensions.views.tint
 import dev.jahir.frames.extensions.views.visibleIf
+import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.activities.base.BaseWallpaperApplierActivity
 import dev.jahir.frames.ui.fragments.WallpapersFragment
+import dev.jahir.frames.ui.fragments.WallpapersFragment.Companion.WALLPAPER_EXTRA
+import dev.jahir.frames.ui.fragments.WallpapersFragment.Companion.WALLPAPER_IN_FAVS_EXTRA
 import dev.jahir.frames.ui.fragments.viewer.DetailsFragment
 import dev.jahir.frames.ui.fragments.viewer.SetAsOptionsDialog
 import kotlinx.coroutines.launch
@@ -123,9 +128,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         collectionName = intent?.extras?.getString(CollectionActivity.COLLECTION_NAME_KEY)
         isForFavs = intent?.extras?.getBoolean(IS_FOR_FAVS, false) ?: false
 
-        val wallpaper =
-            intent?.extras?.getParcelable<Wallpaper?>(WallpapersFragment.WALLPAPER_EXTRA)
-
+        val wallpaper = intent?.extras?.getParcelable<Wallpaper?>(WALLPAPER_EXTRA)
         if (wallpaper == null) {
             finish()
             return
@@ -178,6 +181,58 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
 
         bottomNavigation?.setOnNavigationItemSelectedListener {
             handleNavigationItemSelected(it.itemId, wallpaper)
+        }
+
+        findViewById<AppCompatButton>(R.id.go_previous)?.setOnClickListener {
+            wallpaper?.let {
+                lifecycleScope.launch {
+                    val wallpaper = if (isForFavs) {
+                        wallpapersViewModel.getPreviousFavoriteWallpaper(it.url)
+                    } else {
+                        wallpapersViewModel.getPreviousWallpaper(it.url, collectionName)
+                    }
+                    navigateToWallpaper(wallpaper)
+                }
+            }
+        }
+
+        findViewById<AppCompatButton>(R.id.go_next)?.setOnClickListener {
+            wallpaper?.let {
+                lifecycleScope.launch {
+                    val wallpaper = if (isForFavs) {
+                        wallpapersViewModel.getNextFavoriteWallpaper(it.url)
+                    } else {
+                        wallpapersViewModel.getNextWallpaper(it.url, collectionName)
+                    }
+                    navigateToWallpaper(wallpaper)
+                }
+            }
+        }
+    }
+
+    private fun navigateToWallpaper(wallpaper: Wallpaper?) {
+        if (wallpaper == null) return
+
+        if (favoritesModified) {
+            // TODO: Update favorites in previous activity
+            loadWallpapersData(true)
+        }
+
+        val wallPosition = intent?.extras?.getInt(CURRENT_WALL_POSITION, -1) ?: -1
+        restart {
+            putExtra(
+                CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY,
+                canToggleSystemUIVisibility()
+            )
+            putExtra(WALLPAPER_EXTRA, wallpaper)
+            putExtra(WALLPAPER_IN_FAVS_EXTRA, isInFavorites)
+            putExtra(CURRENT_WALL_POSITION, wallPosition)
+//            putExtra(
+//                ViewerActivity.LICENSE_CHECK_ENABLED,
+//                (activity as? BaseLicenseCheckerActivity<*>)?.licenseCheckEnabled ?: false
+//            )
+            putExtra(CollectionActivity.COLLECTION_NAME_KEY, collectionName)
+            putExtra(IS_FOR_FAVS, isForFavs)
         }
     }
 
@@ -282,22 +337,6 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
                     imageView?.resetZoomAnimated()
                 }
                 generatePalette(w)
-            }
-
-            lifecycleScope.launch {
-                if (isForFavs) {
-                    wallpapersViewModel.getNextFavoriteWallpaper(it.url)?.let { w ->
-                        Log.d("Frames", w.toString())
-                    } ?: {
-                        Log.e("Frames", "Next favorite not found")
-                    }
-                } else {
-                    wallpapersViewModel.getNextWallpaper(it.url, collectionName)?.let { w ->
-                        Log.d("Frames", w.toString())
-                    } ?: {
-                        Log.e("Frames", "Next wallpaper not found")
-                    }
-                }
             }
         }
     }
