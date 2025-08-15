@@ -101,7 +101,7 @@ afterEvaluate {
         }
         repositories {
             maven {
-                name = "ossrh-staging-api"
+                name = "sonatype"
                 url = "https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/"
 
                 credentials {
