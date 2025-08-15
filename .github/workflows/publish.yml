@@ -39,7 +39,7 @@ jobs:
 
         # Runs upload, and then closes & releases the repository
       - name: Publish to MavenCentral
-        run: ./gradlew publishReleasePublicationToSonatypeRepository --max-workers 1 # closeAndReleaseStagingRepository
+        run: ./gradlew publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseStagingRepositories
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
@@ -48,11 +48,11 @@ jobs:
           SIGNING_SECRET_KEY_RING_FILE: ${{ secrets.SIGNING_SECRET_KEY_RING_FILE }}
           SONATYPE_STAGING_PROFILE_ID: ${{ secrets.SONATYPE_STAGING_PROFILE_ID }}
 
-      - name: Manual MavenCentral Upload
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: 'https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/dev.jahir?publishing_type=automatic'
-          method: 'POST'
+#      - name: Manual MavenCentral Upload
+#        uses: fjogeleit/http-request-action@v1
+#        with:
+#          url: 'https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/dev.jahir?publishing_type=automatic'
+#          method: 'POST'
 
   apk:
     name: Build apk, upload to release and notify Discord
