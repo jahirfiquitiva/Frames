@@ -54,6 +54,7 @@ jobs:
           url: 'https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/dev.jahir?publishing_type=automatic'
           method: 'POST'
           bearerToken: ${{ secrets.OSSRH_TOKEN }}
+          timeout: 10000
 
   apk:
     name: Build apk, upload to release and notify Discord
