@@ -130,4 +130,6 @@
     <string name="notifications_permission_request">Aplikace %1$s používá oprávnění k oznámením, aby vás informovala o důležitých aktualizacích.</string>
     <string name="app_language">Jazyk aplikace</string>
     <string name="app_language_summary">Aktuální jazyk: %1$s</string>
+    <string name="go_to_previous_wallpaper">Přejít na předchozí tapetu</string>
+    <string name="go_to_next_wallpaper">Přejít na další tapetu</string>
 </resources>
