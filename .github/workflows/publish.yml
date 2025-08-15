@@ -55,6 +55,7 @@ jobs:
           method: 'POST'
           bearerToken: ${{ secrets.OSSRH_TOKEN }}
           timeout: 10000
+          preventFailureOnNoResponse: 'true'
 
   apk:
     name: Build apk, upload to release and notify Discord
