@@ -93,8 +93,8 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
         withContext(IO) {
             billingClient?.queryProductDetailsAsync(
                 buildQueryProductDetailsParams(productItemsIds, productType)
-            ) { _, detailsList ->
-                val details = detailsList.sortedBy { it.priceAmountMicros }
+            ) { _, details ->
+                val details = details.productDetailsList.sortedBy { it.priceAmountMicros }
                 when (productType) {
                     BillingClient.ProductType.INAPP -> {
                         inAppProductDetailsData.postValue(details)
