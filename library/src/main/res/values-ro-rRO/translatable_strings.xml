@@ -5,9 +5,9 @@
     <string name="favorites">Favorite</string>
     <string name="all">Imagini de fundal</string>
     <string name="loading">Se încarcă…</string>
-    <string name="data_error_network">Verifică-ți conexiunea la internet și încearcă din nou.</string>
-    <string name="data_error_network_wifi_only">Conectează-te la Wi-Fi și încearcă din nou sau dezactivează această opțiune în Setări.</string>
-    <string name="data_error_format">Datele sunt probabil incorect formate. Contactează dezvoltatorul.</string>
+    <string name="data_error_network">Verifică-ți conexiunea la internet și reîncearcă.</string>
+    <string name="data_error_network_wifi_only">Conectează-te la Wi-Fi și reîncearcă sau dezactivează această opțiune în Setări.</string>
+    <string name="data_error_format">Datele sunt probabil formate incorect. Contactează dezvoltatorul.</string>
     <string name="no_wallpapers_found">Nicio imagine de fundal</string>
     <string name="no_collections_found">Nicio colecție</string>
     <string name="no_favorites_found">Nu există favorite</string>
@@ -130,4 +130,6 @@
     <string name="notifications_permission_request">%1$s utilizează permisiunea privind notificările pentru a te informa cu privire la actualizări importante.</string>
     <string name="app_language">Limba aplicației</string>
     <string name="app_language_summary">Limba actuală: %1$s</string>
+    <string name="go_to_previous_wallpaper">Spre imaginea de fundal anterioară</string>
+    <string name="go_to_next_wallpaper">Spre imaginea de fundal următoare</string>
 </resources>
