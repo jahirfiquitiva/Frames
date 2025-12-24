@@ -130,4 +130,6 @@
     <string name="notifications_permission_request">%1$s maakt gebruik van de notificatie rechten om je op de hoogte te stellen van belangrijke updates.</string>
     <string name="app_language">App taal</string>
     <string name="app_language_summary">Huidige taal: %1$s</string>
+    <string name="go_to_previous_wallpaper">Ga naar vorige achtergrond</string>
+    <string name="go_to_next_wallpaper">Ga naar volgende achtergrond</string>
 </resources>
