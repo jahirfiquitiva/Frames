@@ -28,7 +28,7 @@ fun FastScrollRecyclerView.tint() {
     )
     setThumbColor(
         context.resolveColor(
-            com.google.android.material.R.attr.colorAccent,
+            com.google.android.material.R.attr.colorSecondary,
             context.color(R.color.accent)
         )
     )

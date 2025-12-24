@@ -76,7 +76,7 @@ abstract class BaseThemedActivity<out P : Preferences> : AppCompatActivity() {
         setTheme(getRightTheme())
         setDefaultDashboardTheme()
         resolveColor(
-            com.google.android.material.R.attr.colorPrimaryDark,
+            com.google.android.material.R.attr.colorPrimaryVariant,
             color(R.color.primaryDark)
         ).let {
             statusBarColor = it
