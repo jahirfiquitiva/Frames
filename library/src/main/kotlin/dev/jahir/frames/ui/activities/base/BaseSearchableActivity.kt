@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.annotation.MenuRes
 import androidx.appcompat.widget.Toolbar
 import dev.jahir.frames.R
@@ -48,11 +49,19 @@ abstract class BaseSearchableActivity<out P : Preferences> : BaseFavoritesConnec
         val fragment = supportFragmentManager.fragments
             .filterIsInstance<WallpapersFragment>()
             .firstOrNull { it.isVisible } ?: return
-        supportPostponeEnterTransition()
-        fragment.findWallpaperCard(url) { card ->
-            wallpaperReturnCallback.setReturnTarget(card)
-            supportStartPostponedEnterTransition()
+        var started = false
+        val startReturnTransition = { card: View? ->
+            if (!started) {
+                started = true
+                wallpaperReturnCallback.setReturnTarget(card)
+                supportStartPostponedEnterTransition()
+            }
         }
+        supportPostponeEnterTransition()
+        fragment.findWallpaperCard(url) { card -> startReturnTransition(card) }
+        // The screen stays frozen while the transition is postponed, so never wait for the card
+        // longer than this. Without a card it fades back instead of flying to the wrong one.
+        postDelayed(RETURN_TRANSITION_TIMEOUT) { startReturnTransition(null) }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -116,5 +125,6 @@ abstract class BaseSearchableActivity<out P : Preferences> : BaseFavoritesConnec
 
     companion object {
         private const val CURRENT_ITEM_KEY = "current_item"
+        private const val RETURN_TRANSITION_TIMEOUT = 300L
     }
 }
