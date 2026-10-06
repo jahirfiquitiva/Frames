@@ -152,6 +152,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         val lastWallpaper = savedInstanceState?.getString(WALLPAPER_URL_KEY)
         val wallpaperFromIntent = intent?.extras?.getParcelable<Wallpaper?>(WALLPAPER_EXTRA)?.url
 
+        loadWallpapersData()
         lifecycleScope.launch {
             configureUIForWallpaper(
                 wallpapersViewModel.findWallpaper(
@@ -161,7 +162,15 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         }
     }
 
-    private fun configureUIForWallpaper(wallpaper: Wallpaper?) {
+    private suspend fun getAdjacentWallpaper(wallpaper: Wallpaper, next: Boolean): Wallpaper? =
+        when {
+            isForFavs && next -> wallpapersViewModel.getNextFavoriteWallpaper(wallpaper.url)
+            isForFavs -> wallpapersViewModel.getPreviousFavoriteWallpaper(wallpaper.url)
+            next -> wallpapersViewModel.getNextWallpaper(wallpaper.url, collectionName)
+            else -> wallpapersViewModel.getPreviousWallpaper(wallpaper.url, collectionName)
+        }
+
+    private suspend fun configureUIForWallpaper(wallpaper: Wallpaper?) {
         if (wallpaper == null) {
             finish()
             return
@@ -184,32 +193,30 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         detailsFragment.wallpaper = wallpaper
         loadWallpaper(wallpaper)
 
-        isInFavorites = wallpaper.isInFavorites
-        loadWallpapersData()
+        // Wallpapers read from the database never have isInFavorites set
+        isInFavorites = wallpapersViewModel.favorites.any { it.url == wallpaper.url }
 
         bottomNavigation?.setOnNavigationItemSelectedListener {
             handleNavigationItemSelected(it.itemId, wallpaper)
         }
 
-        findViewById<AppCompatImageButton>(R.id.go_previous)?.setOnClickListener {
-            lifecycleScope.launch {
-                val previousWallpaper = if (isForFavs) {
-                    wallpapersViewModel.getPreviousFavoriteWallpaper(wallpaper.url)
-                } else {
-                    wallpapersViewModel.getPreviousWallpaper(wallpaper.url, collectionName)
+        // Next wraps around to the first wallpaper, so it matches the current one when it's the only one
+        val nextUrl = getAdjacentWallpaper(wallpaper, next = true)?.url
+        val canNavigate = nextUrl != null && nextUrl != wallpaper.url
+        findViewById<AppCompatImageButton>(R.id.go_previous)?.let { button ->
+            button.visibleIf(canNavigate)
+            button.setOnClickListener {
+                lifecycleScope.launch {
+                    configureUIForWallpaper(getAdjacentWallpaper(wallpaper, next = false))
                 }
-                configureUIForWallpaper(previousWallpaper)
             }
         }
-
-        findViewById<AppCompatImageButton>(R.id.go_next)?.setOnClickListener {
-            lifecycleScope.launch {
-                val nextWallpaper = if (isForFavs) {
-                    wallpapersViewModel.getNextFavoriteWallpaper(wallpaper.url)
-                } else {
-                    wallpapersViewModel.getNextWallpaper(wallpaper.url, collectionName)
+        findViewById<AppCompatImageButton>(R.id.go_next)?.let { button ->
+            button.visibleIf(canNavigate)
+            button.setOnClickListener {
+                lifecycleScope.launch {
+                    configureUIForWallpaper(getAdjacentWallpaper(wallpaper, next = true))
                 }
-                configureUIForWallpaper(nextWallpaper)
             }
         }
     }
