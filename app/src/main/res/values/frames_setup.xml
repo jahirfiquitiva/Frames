@@ -26,6 +26,7 @@
     <!--
     Show a custom image as placeholder while loading wallpapers or collections
     Use drawable name without extensions
+    If you set it, also add the drawable to res/raw/keep.xml, or the release build removes it
     -->
     <string name="wallpapers_placeholder" translatable="false"></string>
     <string name="collections_placeholder" translatable="false"></string>

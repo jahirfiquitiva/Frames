@@ -53,6 +53,8 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
         recyclerView?.loadingText = getLoadingText()
 
         recyclerView?.itemAnimator = DefaultItemAnimator()
+        // The list fills its parent, so its size never depends on the items
+        recyclerView?.setHasFixedSize(true)
         swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh)
         swipeRefreshLayout?.setOnRefreshListener { startRefreshing() }
         swipeRefreshLayout?.setColorSchemeColors(

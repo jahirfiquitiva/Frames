@@ -107,21 +107,15 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
         }
     }
 
-    private suspend fun deleteAllWallpapers() = withContext(IO) {
-        try {
-            FramesDatabase.getAppDatabase(context)?.wallpapersDao()
-                ?.nuke()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
     private suspend fun saveWallpapers(wallpapers: List<Wallpaper>) = withContext(IO) {
         try {
-            deleteAllWallpapers()
-            delay(10)
-            FramesDatabase.getAppDatabase(context)?.wallpapersDao()
-                ?.insertAll(wallpapers)
+            val database = FramesDatabase.getAppDatabase(context) ?: return@withContext
+            val wallpapersDao = database.wallpapersDao() ?: return@withContext
+            // One transaction, so readers never see the table empty between both calls
+            database.runInTransaction {
+                wallpapersDao.nuke()
+                wallpapersDao.insertAll(wallpapers)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -238,7 +232,7 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
             if (!areTheSameFavorites || favorites.isEmpty() || force)
                 postFavorites(actualFavorites)
         }
-        saveWallpapers(actualNewWallpapers)
+        if (!areTheSameWallpapers) saveWallpapers(actualNewWallpapers)
         postDelayed(10) { whenReady?.invoke() }
     }
 
@@ -349,22 +343,8 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
                 ?.getWallpaperByUrl(url)
         }
 
-    private fun <T> areTheSameLists(local: List<T>, remote: List<T>): Boolean {
-        try {
-            var areTheSame = true
-            for ((index, wallpaper) in remote.withIndex()) {
-                if (local.indexOf(wallpaper) != index) {
-                    areTheSame = false
-                    break
-                }
-            }
-            if (!areTheSame) return false
-            val difference = ArrayList<T>(remote).apply { removeAll(local.toSet()) }.size
-            return difference <= 0 && remote.size == local.size
-        } catch (e: Exception) {
-            return false
-        }
-    }
+    // Same elements in the same order. Linear, unlike an indexOf per element
+    private fun <T> areTheSameLists(local: List<T>, remote: List<T>): Boolean = local == remote
 
     enum class DataError {
         None, MalformedJson, NoNetwork, Unknown

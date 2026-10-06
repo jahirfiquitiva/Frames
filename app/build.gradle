@@ -23,6 +23,19 @@ android {
         }
     }
 
+    androidResources {
+        // Keep only the languages Frames is translated to. AndroidX and Material ship about 100,
+        // most of them for strings this app would show in English anyway. Each region is listed
+        // because a language code alone does not keep region folders like values-zh-rCN
+        localeFilters += [
+                "en", "ar", "bn", "ckb", "cs", "de", "es", "fr", "hi", "hu", "in", "it", "nb", "nl", "no",
+                "pl", "pt", "ro", "ru", "sv", "ta", "tr", "uk", "zh",
+                "ar-rEG", "bn-rBD", "ckb-rIR", "cs-rCZ", "de-rDE", "es-rES", "fr-rFR", "hi-rIN", "hu-rHU",
+                "in-rID", "it-rIT", "nl-rNL", "no-rNO", "pl-rPL", "pt-rBR", "ro-rRO", "ru-rRU", "sv-rSE",
+                "ta-rIN", "tr-rTR", "uk-rUA", "zh-rCN", "zh-rTW"
+        ]
+    }
+
     lint {
         abortOnError false
         checkReleaseBuilds true
@@ -62,7 +75,7 @@ android {
             debuggable false
             zipAlignEnabled true
             minifyEnabled true
-            shrinkResources false
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
