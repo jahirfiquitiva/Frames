@@ -62,6 +62,7 @@ import dev.jahir.frames.extensions.views.setPaddingLeft
 import dev.jahir.frames.extensions.views.setPaddingRight
 import dev.jahir.frames.extensions.views.setPaddingTop
 import dev.jahir.frames.extensions.views.tint
+import dev.jahir.frames.extensions.utils.filteredBy
 import dev.jahir.frames.extensions.views.visible
 import dev.jahir.frames.extensions.views.visibleIf
 import dev.jahir.frames.ui.activities.base.BaseWallpaperApplierActivity
@@ -91,6 +92,8 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         }
     private var collectionName: String? = null
     private var isForFavs: Boolean = false
+    private var searchQuery: String? = null
+    private var navigableWallpapers: List<Wallpaper> = emptyList()
 
     private val detailsFragment: DetailsFragment by lazy {
         DetailsFragment.create(shouldShowPaletteDetails = shouldShowWallpapersPalette())
@@ -141,13 +144,31 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
             }
         })
 
-        wallpapersViewModel.observeFavorites(this) {
-            this.isInFavorites = it.any { wall -> wall.url == wallpaperDownloadUrl }
-        }
-
         // WALLPAPER SPECIFIC RELATED SETUP ↓
         collectionName = intent?.extras?.getString(CollectionActivity.COLLECTION_NAME_KEY)
         isForFavs = intent?.extras?.getBoolean(IS_FOR_FAVS, false) ?: false
+        searchQuery = intent?.extras?.getString(SEARCH_QUERY)
+
+        wallpapersViewModel.observeFavorites(this) {
+            this.isInFavorites = it.any { wall -> wall.url == wallpaperDownloadUrl }
+            if (isForFavs) updateNavigableWallpapers(it)
+        }
+        when {
+            isForFavs -> {}
+            collectionName != null -> wallpapersViewModel.observeCollections(this) { collections ->
+                updateNavigableWallpapers(
+                    collections.firstOrNull { it.name == collectionName }?.wallpapers.orEmpty()
+                )
+            }
+            else -> wallpapersViewModel.observeWallpapers(this) { updateNavigableWallpapers(it) }
+        }
+
+        findViewById<AppCompatImageButton>(R.id.go_previous)?.setOnClickListener {
+            configureUIForWallpaper(getAdjacentWallpaper(next = false))
+        }
+        findViewById<AppCompatImageButton>(R.id.go_next)?.setOnClickListener {
+            configureUIForWallpaper(getAdjacentWallpaper(next = true))
+        }
 
         val lastWallpaper = savedInstanceState?.getString(WALLPAPER_URL_KEY)
         val wallpaperFromIntent = intent?.extras?.getParcelable<Wallpaper?>(WALLPAPER_EXTRA)?.url
@@ -162,15 +183,31 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         }
     }
 
-    private suspend fun getAdjacentWallpaper(wallpaper: Wallpaper, next: Boolean): Wallpaper? =
-        when {
-            isForFavs && next -> wallpapersViewModel.getNextFavoriteWallpaper(wallpaper.url)
-            isForFavs -> wallpapersViewModel.getPreviousFavoriteWallpaper(wallpaper.url)
-            next -> wallpapersViewModel.getNextWallpaper(wallpaper.url, collectionName)
-            else -> wallpapersViewModel.getPreviousWallpaper(wallpaper.url, collectionName)
-        }
+    /**
+     * Mirrors the list the viewer was opened from: same source, same search filter, same order
+     */
+    private fun updateNavigableWallpapers(source: List<Wallpaper>) {
+        navigableWallpapers = source.filteredBy(searchQuery)
+        updateNavigationArrows()
+    }
 
-    private suspend fun configureUIForWallpaper(wallpaper: Wallpaper?) {
+    private fun currentIndex(): Int =
+        navigableWallpapers.indexOfFirst { it.url == wallpaperDownloadUrl }
+
+    private fun updateNavigationArrows() {
+        val canNavigate = navigableWallpapers.size > 1 && currentIndex() >= 0
+        findViewById<AppCompatImageButton>(R.id.go_previous)?.visibleIf(canNavigate)
+        findViewById<AppCompatImageButton>(R.id.go_next)?.visibleIf(canNavigate)
+    }
+
+    private fun getAdjacentWallpaper(next: Boolean): Wallpaper? {
+        val index = currentIndex()
+        if (index < 0) return null
+        val size = navigableWallpapers.size
+        return navigableWallpapers[(index + (if (next) 1 else -1) + size) % size]
+    }
+
+    private fun configureUIForWallpaper(wallpaper: Wallpaper?) {
         if (wallpaper == null) {
             finish()
             return
@@ -200,25 +237,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
             handleNavigationItemSelected(it.itemId, wallpaper)
         }
 
-        // Next wraps around to the first wallpaper, so it matches the current one when it's the only one
-        val nextUrl = getAdjacentWallpaper(wallpaper, next = true)?.url
-        val canNavigate = nextUrl != null && nextUrl != wallpaper.url
-        findViewById<AppCompatImageButton>(R.id.go_previous)?.let { button ->
-            button.visibleIf(canNavigate)
-            button.setOnClickListener {
-                lifecycleScope.launch {
-                    configureUIForWallpaper(getAdjacentWallpaper(wallpaper, next = false))
-                }
-            }
-        }
-        findViewById<AppCompatImageButton>(R.id.go_next)?.let { button ->
-            button.visibleIf(canNavigate)
-            button.setOnClickListener {
-                lifecycleScope.launch {
-                    configureUIForWallpaper(getAdjacentWallpaper(wallpaper, next = true))
-                }
-            }
-        }
+        updateNavigationArrows()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -449,7 +468,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         boolean(R.bool.show_wallpaper_palette_details, true)
 
     open fun shouldShowDownloadOption() = true
-    override fun shouldLoadCollections(): Boolean = false
+    override fun shouldLoadCollections(): Boolean = collectionName != null
     override val shouldChangeStatusBarLightStatus: Boolean = false
     override val shouldChangeNavigationBarLightStatus: Boolean = false
 
@@ -458,6 +477,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
 
     companion object {
         internal const val MIN_TIME: Long = 3L * 60L * 60000L
+        internal const val SEARCH_QUERY = "search_query"
         internal const val FAVORITES_MODIFIED = "favorites_modified"
         internal const val FAVORITES_MODIFIED_RESULT = 1
         internal const val FAVORITES_NOT_MODIFIED_RESULT = 0

@@ -27,6 +27,8 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
     StatefulRecyclerView.StateDrawableModifier {
 
     private val originalItems: ArrayList<T> = ArrayList()
+    var activeFilter: String = ""
+        private set
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     var recyclerView: StatefulRecyclerView? = null
 
@@ -91,6 +93,7 @@ abstract class BaseFramesFragment<T> : Fragment(R.layout.fragment_stateful_recyc
     }
 
     internal fun applyFilter(filter: String, closed: Boolean) {
+        activeFilter = if (closed) "" else filter
         if (closed) setupContentBottomOffset() else clearContentBottomOffset()
         recyclerView?.searching = filter.hasContent() && !closed
         updateItemsInAdapter(

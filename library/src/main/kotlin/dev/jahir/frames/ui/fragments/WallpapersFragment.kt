@@ -20,7 +20,7 @@ import dev.jahir.frames.extensions.frames.onClick
 import dev.jahir.frames.extensions.frames.onFavClick
 import dev.jahir.frames.extensions.frames.wallpapersAdapter
 import dev.jahir.frames.extensions.resources.dpToPx
-import dev.jahir.frames.extensions.resources.lower
+import dev.jahir.frames.extensions.utils.filteredBy
 import dev.jahir.frames.extensions.utils.ifNotNull
 import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
@@ -91,11 +91,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         originalItems: ArrayList<Wallpaper>,
         filter: String
     ): ArrayList<Wallpaper> =
-        ArrayList(originalItems.filter {
-            it.name.lower().contains(filter.lower()) ||
-                    it.collections.orEmpty().lower().contains(filter.lower()) ||
-                    it.author.lower().contains(filter.lower())
-        })
+        ArrayList(originalItems.filteredBy(filter))
 
     private fun onFavClick(checked: Boolean, wallpaper: Wallpaper) {
         var updated = false
@@ -124,6 +120,7 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
             )
             putExtra(CollectionActivity.COLLECTION_NAME_KEY, collectionName)
             putExtra(ViewerActivity.IS_FOR_FAVS, isForFavs)
+            putExtra(ViewerActivity.SEARCH_QUERY, activeFilter)
         }
 
         val options = ifNotNull(
