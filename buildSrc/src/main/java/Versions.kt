@@ -63,7 +63,7 @@ object Versions {
     const val licenseChecker = "1.2.8"
 
     // In-App Billing
-    const val inAppBilling = "8.3.0"
+    const val inAppBilling = "9.1.0"
 
     // MultiDex
     const val multidex = "2.0.1"

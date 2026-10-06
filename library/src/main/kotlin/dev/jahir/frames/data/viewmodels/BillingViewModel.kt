@@ -16,7 +16,6 @@ import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
-import com.android.billingclient.api.QueryPurchaseHistoryParams
 import com.android.billingclient.api.QueryPurchasesParams
 import com.android.billingclient.api.consumePurchase
 import com.android.billingclient.api.queryPurchasesAsync
@@ -57,7 +56,7 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
 
     private val billingClientReadyData: MutableLiveData<Boolean> by lazyMutableLiveData()
     val isBillingClientReady: Boolean
-        get() = billingClientReadyData.value == true && billingClient?.isReady == true
+        get() = billingClientReadyData.value == true && billingClient != null
 
     fun initialize() {
         billingClient = BillingClient
@@ -67,6 +66,7 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
                 PendingPurchasesParams.newBuilder()
                     .enableOneTimeProducts().build()
             )
+            .enableAutoServiceReconnection()
             .build()
         billingClient?.startConnection(this)
     }
@@ -93,15 +93,17 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
         withContext(IO) {
             billingClient?.queryProductDetailsAsync(
                 buildQueryProductDetailsParams(productItemsIds, productType)
-            ) { _, details ->
-                val details = details.productDetailsList.sortedBy { it.priceAmountMicros }
-                when (productType) {
-                    BillingClient.ProductType.INAPP -> {
-                        inAppProductDetailsData.postValue(details)
-                    }
+            ) { billingResult, details ->
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    val details = details.productDetailsList.sortedBy { it.priceAmountMicros }
+                    when (productType) {
+                        BillingClient.ProductType.INAPP -> {
+                            inAppProductDetailsData.postValue(details)
+                        }
 
-                    BillingClient.ProductType.SUBS -> {
-                        subscriptionsProductDetailsData.postValue(details)
+                        BillingClient.ProductType.SUBS -> {
+                            subscriptionsProductDetailsData.postValue(details)
+                        }
                     }
                 }
             }
@@ -123,42 +125,31 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
     fun launchBillingFlow(activity: FragmentActivity?, productDetails: ProductDetails?) {
         activity ?: return
         productDetails ?: return
-        billingClient?.launchBillingFlow(
+        val productDetailsParams = BillingFlowParams.ProductDetailsParams.newBuilder()
+            .setProductDetails(productDetails)
+        // Same offer the displayed price comes from (see ProductDetails.price)
+        productDetails.subscriptionOfferDetails?.firstOrNull()?.offerToken?.let {
+            productDetailsParams.setOfferToken(it)
+        }
+        val billingResult = billingClient?.launchBillingFlow(
             activity,
-            BillingFlowParams.newBuilder().setProductDetailsParamsList(
-                listOf(
-                    BillingFlowParams.ProductDetailsParams.newBuilder()
-                        .setProductDetails(productDetails)
-                        .build()
-                )
-            ).build()
+            BillingFlowParams.newBuilder()
+                .setProductDetailsParamsList(listOf(productDetailsParams.build()))
+                .build()
         )
+        if (billingResult?.responseCode != BillingClient.BillingResponseCode.OK) {
+            billingProcessesListener?.onProductPurchaseError()
+        }
     }
 
     private fun postPurchasesHistory(
         @BillingClient.ProductType productType: String,
-        newPurchases: List<DetailedPurchaseRecord>
+        purchases: List<DetailedPurchaseRecord>
     ) {
-        val actualPurchases = ArrayList(
-            when (productType) {
-                BillingClient.ProductType.INAPP -> inAppPurchasesHistory
-                BillingClient.ProductType.SUBS -> subscriptionsPurchasesHistory
-                else -> listOf()
-            }
-        )
-        actualPurchases.addAll(newPurchases)
+        val sortedPurchases = purchases.sortedByDescending { it.purchaseTime }
         when (productType) {
-            BillingClient.ProductType.INAPP -> {
-                inAppPurchasesHistoryData.postValue(
-                    actualPurchases.sortedByDescending { it.purchaseTime }
-                )
-            }
-
-            BillingClient.ProductType.SUBS -> {
-                subscriptionsPurchasesHistoryData.postValue(
-                    actualPurchases.sortedByDescending { it.purchaseTime }
-                )
-            }
+            BillingClient.ProductType.INAPP -> inAppPurchasesHistoryData.postValue(sortedPurchases)
+            BillingClient.ProductType.SUBS -> subscriptionsPurchasesHistoryData.postValue(sortedPurchases)
         }
     }
 
@@ -175,26 +166,10 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    private suspend fun queryPurchasesHistory(@BillingClient.ProductType productType: String) {
-        if (!isBillingClientReady) return
-        val params = QueryPurchasesParams.newBuilder().setProductType(productType).build()
-        withContext(IO) {
-            billingClient?.queryPurchasesAsync(params) { billingResult, purchaseHistoryRecordList ->
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    postPurchasesHistory(productType,
-                        purchaseHistoryRecordList.orEmpty()
-                            .mapNotNull { purchase -> purchase.asDetailedPurchase() })
-                }
-            }
-        }
-    }
-
     fun loadPastPurchases() {
         if (!isBillingClientReady) return
         viewModelScope.launch {
-            queryPurchasesHistory(BillingClient.ProductType.SUBS)
             queryPurchases(BillingClient.ProductType.SUBS)
-            queryPurchasesHistory(BillingClient.ProductType.INAPP)
             queryPurchases(BillingClient.ProductType.INAPP)
         }
     }
@@ -251,25 +226,28 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
     }
 
     override fun onBillingServiceDisconnected() {
-        billingClientReadyData.postValue(false)
-        inAppProductDetailsData.postValue(null)
-        inAppPurchasesHistoryData.postValue(null)
-        subscriptionsProductDetailsData.postValue(null)
-        subscriptionsPurchasesHistoryData.postValue(null)
+        // No-op: enableAutoServiceReconnection() reconnects on the next API call, so the
+        // client stays usable and the loaded products and purchases stay valid.
+        // https://developer.android.com/google/play/billing/integrate#automatic-service-reconnection
     }
 
     override fun onPurchasesUpdated(
         billingResult: BillingResult,
         purchases: MutableList<Purchase>?
     ) {
-        purchases ?: return
-        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases.isNotEmpty()) {
-            viewModelScope.launch {
-                purchases.forEach {
-                    handlePurchase(it)
+        when (billingResult.responseCode) {
+            BillingClient.BillingResponseCode.OK -> {
+                if (purchases.isNullOrEmpty()) return
+                viewModelScope.launch {
+                    purchases.forEach {
+                        handlePurchase(it)
+                    }
                 }
+                loadPastPurchases()
             }
-            loadPastPurchases()
+
+            BillingClient.BillingResponseCode.USER_CANCELED -> {}
+            else -> billingProcessesListener?.onProductPurchaseError()
         }
     }
 
