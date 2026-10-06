@@ -1,8 +1,8 @@
 package dev.jahir.frames.ui
 
+import android.app.Application
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.multidex.MultiDexApplication
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
@@ -11,7 +11,7 @@ import coil.util.DebugLogger
 import dev.jahir.frames.BuildConfig
 import dev.jahir.frames.extensions.context.setDefaultDashboardTheme
 
-open class FramesApplication(val oneSignalAppId: String? = null) : MultiDexApplication(),
+open class FramesApplication(val oneSignalAppId: String? = null) : Application(),
     ImageLoaderFactory {
 
     override fun attachBaseContext(base: Context?) {

@@ -65,9 +65,6 @@ object Versions {
     // In-App Billing
     const val inAppBilling = "9.1.0"
 
-    // MultiDex
-    const val multidex = "2.0.1"
-
     // Muzei
     const val muzei = "3.4.2"
 }
