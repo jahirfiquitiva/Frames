@@ -11,10 +11,3 @@ data class CleanProductDetails(val originalDetails: ProductDetails) {
 
     override fun toString(): String = "$cleanTitle - ${originalDetails.price}"
 }
-
-@Deprecated(
-    "Use 'CleanProductDetails' instead",
-    ReplaceWith("CleanProductDetails"),
-    DeprecationLevel.ERROR
-)
-typealias CleanSkuDetails = CleanProductDetails
