@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.doOnPreDraw
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.jahir.frames.R
 import dev.jahir.frames.data.models.Wallpaper
@@ -146,6 +147,25 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         }
 
         openActivityLauncher?.launch(intent, options)
+    }
+
+    /**
+     * Scrolls to the wallpaper with [url] if it is off-screen, then passes its card once laid
+     * out, or null when the list does not show that wallpaper. [onResult] is always called.
+     */
+    internal fun findWallpaperCard(url: String, onResult: (View?) -> Unit) {
+        val position = wallsAdapter.wallpapers.indexOfFirst { it.url == url }
+        val recyclerView = recyclerView
+        if (position < 0 || recyclerView == null) {
+            onResult(null)
+            return
+        }
+        recyclerView.scrollToPosition(position)
+        recyclerView.doOnPreDraw {
+            val holder = recyclerView.findViewHolderForAdapterPosition(position)
+            onResult((holder as? WallpaperViewHolder)?.card)
+        }
+        recyclerView.requestLayout()
     }
 
     fun setCollectionName (newCollectionName:String?) {

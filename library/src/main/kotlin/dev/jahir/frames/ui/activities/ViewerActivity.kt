@@ -122,10 +122,10 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         super.onCreate(savedInstanceState)
         statusBarLight = false
         navigationBarLight = false
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_SECURE,
-            WindowManager.LayoutParams.FLAG_SECURE
-        );
+//        window.setFlags(
+//            WindowManager.LayoutParams.FLAG_SECURE,
+//            WindowManager.LayoutParams.FLAG_SECURE
+//        );
         setContentView(R.layout.activity_viewer)
         bottomNavigation?.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_LABELED
         // Set before the first frame, so the bar does not change once the wallpaper loads
@@ -226,6 +226,8 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         }
 
         currentWallpaper = wallpaper
+        // Set now, not only in finish(): the return transition reads the result when it starts
+        setViewerResult()
         updateDownloadVisibility(wallpaper)
 
         findViewById<View?>(R.id.toolbar_title)?.let {
@@ -272,15 +274,20 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun finish() {
-        imageView?.setZoom(1F)
+    private fun setViewerResult() {
         setResult(
             if (favoritesModified) FAVORITES_MODIFIED_RESULT
             else FAVORITES_NOT_MODIFIED_RESULT,
             Intent().apply {
                 putExtra(FAVORITES_MODIFIED, favoritesModified)
+                putExtra(CURRENT_WALLPAPER_URL_EXTRA, currentWallpaper?.url)
             }
         )
+    }
+
+    override fun finish() {
+        imageView?.setZoom(1F)
+        setViewerResult()
         super.finish()
     }
 
@@ -489,9 +496,12 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
     companion object {
         internal const val MIN_TIME: Long = 3L * 60L * 60000L
         internal const val SEARCH_QUERY = "search_query"
+        internal const val CURRENT_WALLPAPER_URL_EXTRA = "current_wallpaper_url"
         internal const val FAVORITES_MODIFIED = "favorites_modified"
         internal const val FAVORITES_MODIFIED_RESULT = 1
-        internal const val FAVORITES_NOT_MODIFIED_RESULT = 0
+        // Not RESULT_CANCELED (0): Android skips onActivityReenter for it, and the list needs that
+        // callback to return the transition to the wallpaper the viewer ended on
+        internal const val FAVORITES_NOT_MODIFIED_RESULT = RESULT_OK
         internal const val LICENSE_CHECK_ENABLED = "license_check_enabled"
         internal const val CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY = "can_toggle_visibility"
         internal const val SHARED_IMAGE_NAME = "thumb.jpg"
@@ -502,5 +512,6 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         private const val CLOSING_KEY = "closing"
         private const val TRANSITIONED_KEY = "transitioned"
         private const val IS_IN_FAVORITES_KEY = "is_in_favorites"
+        private const val CURRENT_WALLPAPER_KEY = "current_wallpaper"
     }
 }

@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.models.Collection
@@ -56,7 +55,6 @@ abstract class FramesActivity : BaseBillingActivity<Preferences>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         window.requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
-        setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
 
         super.onCreate(savedInstanceState)
         setContentView(getLayoutRes())

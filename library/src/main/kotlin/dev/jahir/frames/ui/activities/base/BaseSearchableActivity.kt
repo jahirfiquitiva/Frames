@@ -1,5 +1,6 @@
 package dev.jahir.frames.ui.activities.base
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -13,6 +14,9 @@ import dev.jahir.frames.extensions.views.gone
 import dev.jahir.frames.extensions.views.goneIf
 import dev.jahir.frames.extensions.views.tint
 import dev.jahir.frames.extensions.views.visible
+import dev.jahir.frames.ui.activities.ViewerActivity
+import dev.jahir.frames.ui.animations.WallpaperReturnSharedElementCallback
+import dev.jahir.frames.ui.fragments.WallpapersFragment
 import dev.jahir.frames.ui.widgets.CleanSearchView
 
 @Suppress("LeakingThis")
@@ -29,6 +33,27 @@ abstract class BaseSearchableActivity<out P : Preferences> : BaseFavoritesConnec
 
     private val searchOpen: Boolean
         get() = searchView?.isOpen ?: false
+
+    private val wallpaperReturnCallback = WallpaperReturnSharedElementCallback()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setExitSharedElementCallback(wallpaperReturnCallback)
+    }
+
+    // Runs before the return transition, so it can point it at the wallpaper the viewer ended on
+    override fun onActivityReenter(resultCode: Int, data: Intent?) {
+        super.onActivityReenter(resultCode, data)
+        val url = data?.getStringExtra(ViewerActivity.CURRENT_WALLPAPER_URL_EXTRA) ?: return
+        val fragment = supportFragmentManager.fragments
+            .filterIsInstance<WallpapersFragment>()
+            .firstOrNull { it.isVisible } ?: return
+        supportPostponeEnterTransition()
+        fragment.findWallpaperCard(url) { card ->
+            wallpaperReturnCallback.setReturnTarget(card)
+            supportStartPostponedEnterTransition()
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(getMenuRes(), menu)
