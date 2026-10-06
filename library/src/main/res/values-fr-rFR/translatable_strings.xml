@@ -98,6 +98,12 @@
     <string name="donate_success_title">Merci</string>
     <string name="donate_success_content">Merci beaucoup pour votre donation. J\'apprécie beaucoup votre geste et je suis ravis que vous appréciez %1$s.</string>
     <string name="donate_error">Une erreur inattendue avec le code %1$s est survenue en raison de %2$s</string>
+    <string name="billing_error_unavailable">Les achats Google Play ne sont pas disponibles sur cet appareil pour le moment.</string>
+    <string name="billing_error_network">Vérifiez votre connexion Internet et réessayez.</string>
+    <string name="billing_error_item_unavailable">Cet article n’est pas disponible à l’achat pour le moment.</string>
+    <string name="billing_error_already_owned">Vous possédez déjà cet article.</string>
+    <string name="billing_error_payment_declined">Votre paiement a été refusé. Vérifiez votre mode de paiement dans Google Play.</string>
+    <string name="billing_error_not_eligible">Votre compte n’est pas éligible à cette offre.</string>
     <string name="close">Fermer</string>
     <string name="open">Ouvrir</string>
     <string name="get">Obtenir</string>

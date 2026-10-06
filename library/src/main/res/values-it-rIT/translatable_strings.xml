@@ -98,6 +98,12 @@
     <string name="donate_success_title">Donazione Inviata</string>
     <string name="donate_success_content">Grazie per il tuo supporto.</string>
     <string name="donate_error">Qualcosa è andato storto. Codice errore: %1$s.</string>
+    <string name="billing_error_unavailable">Gli acquisti su Google Play non sono al momento disponibili su questo dispositivo.</string>
+    <string name="billing_error_network">Controlla la connessione a internet e riprova.</string>
+    <string name="billing_error_item_unavailable">Questo articolo non è al momento disponibile per l’acquisto.</string>
+    <string name="billing_error_already_owned">Possiedi già questo articolo.</string>
+    <string name="billing_error_payment_declined">Il pagamento è stato rifiutato. Controlla il metodo di pagamento in Google Play.</string>
+    <string name="billing_error_not_eligible">Il tuo account non è idoneo per questa offerta.</string>
     <string name="close">Chiudi</string>
     <string name="open">Apri</string>
     <string name="get">Ottieni</string>

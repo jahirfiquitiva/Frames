@@ -99,6 +99,12 @@
     <string name="donate_success_title">Спасибо</string>
     <string name="donate_success_content">Спасибо за Вашу поддержку.</string>
     <string name="donate_error">Что-то пошло не так. Код ошибки: %1$s.</string>
+    <string name="billing_error_unavailable">Покупки в Google Play сейчас недоступны на этом устройстве.</string>
+    <string name="billing_error_network">Проверьте подключение к интернету и повторите попытку.</string>
+    <string name="billing_error_item_unavailable">Этот товар сейчас недоступен для покупки.</string>
+    <string name="billing_error_already_owned">У вас уже есть этот товар.</string>
+    <string name="billing_error_payment_declined">Платёж отклонён. Проверьте способ оплаты в Google Play.</string>
+    <string name="billing_error_not_eligible">Ваш аккаунт не соответствует условиям этого предложения.</string>
     <string name="close">Закрыть</string>
     <string name="open">Открыть</string>
     <string name="get">Получить</string>

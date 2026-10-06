@@ -99,6 +99,12 @@
     <string name="donate_success_title">Darowizna wysłana</string>
     <string name="donate_success_content">Dziękuję za wsparcie.</string>
     <string name="donate_error">Coś poszło nie tak. Kod błędu: %1$s.</string>
+    <string name="billing_error_unavailable">Zakupy w Google Play są obecnie niedostępne na tym urządzeniu.</string>
+    <string name="billing_error_network">Sprawdź połączenie z internetem i spróbuj ponownie.</string>
+    <string name="billing_error_item_unavailable">Tego produktu nie można obecnie kupić.</string>
+    <string name="billing_error_already_owned">Masz już ten produkt.</string>
+    <string name="billing_error_payment_declined">Płatność została odrzucona. Sprawdź metodę płatności w Google Play.</string>
+    <string name="billing_error_not_eligible">Twoje konto nie kwalifikuje się do tej oferty.</string>
     <string name="close">Zamknij</string>
     <string name="open">Otwórz</string>
     <string name="get">Zdobądź</string>

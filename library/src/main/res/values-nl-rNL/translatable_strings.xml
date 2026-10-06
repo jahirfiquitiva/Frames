@@ -99,6 +99,12 @@
     <string name="donate_success_title">Bedankt</string>
     <string name="donate_success_content">Heel erg bedankt voor je donatie. Ik waardeer het echt en ik ben blij dat je geniet van %1$s.</string>
     <string name="donate_error">Onverwachte fout met code %1$s is opgetreden door %2$s</string>
+    <string name="billing_error_unavailable">Aankopen via Google Play zijn momenteel niet beschikbaar op dit apparaat.</string>
+    <string name="billing_error_network">Controleer je internetverbinding en probeer het opnieuw.</string>
+    <string name="billing_error_item_unavailable">Dit item is momenteel niet beschikbaar om te kopen.</string>
+    <string name="billing_error_already_owned">Je bezit dit item al.</string>
+    <string name="billing_error_payment_declined">Je betaling is geweigerd. Controleer je betaalmethode in Google Play.</string>
+    <string name="billing_error_not_eligible">Je account komt niet in aanmerking voor deze aanbieding.</string>
     <string name="close">Sluit</string>
     <string name="open">Open</string>
     <string name="get">Get</string>

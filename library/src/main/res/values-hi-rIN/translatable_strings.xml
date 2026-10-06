@@ -94,6 +94,12 @@
     <string name="donate_success_title">धन्यवाद!</string>
     <string name="donate_success_content">आपके सहयोग के लिए धन्यवाद</string>
     <string name="donate_error">कुछ गलत हो गया है | त्रुटि कोड: %1$s.</string>
+    <string name="billing_error_unavailable">इस डिवाइस पर अभी Google Play से ख़रीदारी उपलब्ध नहीं है।</string>
+    <string name="billing_error_network">अपना इंटरनेट कनेक्शन जाँचें और फिर से कोशिश करें।</string>
+    <string name="billing_error_item_unavailable">यह आइटम अभी ख़रीदने के लिए उपलब्ध नहीं है।</string>
+    <string name="billing_error_already_owned">यह आइटम पहले से आपके पास है।</string>
+    <string name="billing_error_payment_declined">आपका भुगतान अस्वीकार कर दिया गया। Google Play में अपना भुगतान तरीका जाँचें।</string>
+    <string name="billing_error_not_eligible">आपका खाता इस ऑफ़र के लिए योग्य नहीं है।</string>
     <string name="close">बंद करें</string>
     <string name="open">खुला</string>
     <string name="get">प्राप्त करें</string>

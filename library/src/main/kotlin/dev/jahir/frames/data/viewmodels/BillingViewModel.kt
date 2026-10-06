@@ -20,6 +20,7 @@ import com.android.billingclient.api.QueryPurchasesParams
 import com.android.billingclient.api.consumePurchase
 import com.android.billingclient.api.queryPurchasesAsync
 import dev.jahir.frames.data.listeners.BillingProcessesListener
+import dev.jahir.frames.data.models.BillingError
 import dev.jahir.frames.data.models.DetailedPurchaseRecord
 import dev.jahir.frames.extensions.utils.asDetailedPurchase
 import dev.jahir.frames.extensions.utils.context
@@ -138,7 +139,9 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
                 .build()
         )
         if (billingResult?.responseCode != BillingClient.BillingResponseCode.OK) {
-            billingProcessesListener?.onProductPurchaseError()
+            billingProcessesListener?.onProductPurchaseError(
+                billingResult?.let { BillingError.from(it) } ?: BillingError.Unavailable
+            )
         }
     }
 
@@ -190,11 +193,14 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
                     if (it.responseCode == BillingClient.BillingResponseCode.OK) {
                         billingProcessesListener?.onProductPurchaseSuccess(purchase.asDetailedPurchase())
                     } else {
-                        billingProcessesListener?.onProductPurchaseError(purchase.asDetailedPurchase())
+                        billingProcessesListener?.onProductPurchaseError(BillingError.from(it), purchase.asDetailedPurchase())
                     }
-                } ?: billingProcessesListener?.onProductPurchaseError(purchase.asDetailedPurchase())
+                } ?: billingProcessesListener?.onProductPurchaseError(BillingError.Unavailable, purchase.asDetailedPurchase())
             } catch (e: Exception) {
-                billingProcessesListener?.onProductPurchaseError(purchase.asDetailedPurchase())
+                billingProcessesListener?.onProductPurchaseError(
+                    BillingError.Unknown(BillingClient.BillingResponseCode.ERROR),
+                    purchase.asDetailedPurchase()
+                )
             }
 
             /* Non-Consumable Purchases (One-time only purchases)
@@ -208,13 +214,16 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
                         if (it.responseCode == BillingClient.BillingResponseCode.OK) {
                             billingProcessesListener?.onProductPurchaseSuccess(purchase.asDetailedPurchase())
                         } else {
-                            billingProcessesListener?.onProductPurchaseError(purchase.asDetailedPurchase())
+                            billingProcessesListener?.onProductPurchaseError(BillingError.from(it), purchase.asDetailedPurchase())
                         }
                     } ?: {
-                        billingProcessesListener?.onProductPurchaseError(purchase.asDetailedPurchase())
+                        billingProcessesListener?.onProductPurchaseError(BillingError.Unavailable, purchase.asDetailedPurchase())
                     }()
                 } catch (e: Exception) {
-                    billingProcessesListener?.onProductPurchaseError(purchase.asDetailedPurchase())
+                    billingProcessesListener?.onProductPurchaseError(
+                        BillingError.Unknown(BillingClient.BillingResponseCode.ERROR),
+                        purchase.asDetailedPurchase()
+                    )
                 }
             }
             */
@@ -247,7 +256,7 @@ class BillingViewModel(application: Application) : AndroidViewModel(application)
             }
 
             BillingClient.BillingResponseCode.USER_CANCELED -> {}
-            else -> billingProcessesListener?.onProductPurchaseError()
+            else -> billingProcessesListener?.onProductPurchaseError(BillingError.from(billingResult))
         }
     }
 

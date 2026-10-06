@@ -99,6 +99,12 @@
     <string name="donate_success_title">Donasi terkirim</string>
     <string name="donate_success_content">Terima kasih atas dukungan anda.</string>
     <string name="donate_error">Terjadi kesalahan. Kode eror: %1$s.</string>
+    <string name="billing_error_unavailable">Pembelian Google Play saat ini tidak tersedia di perangkat ini.</string>
+    <string name="billing_error_network">Periksa koneksi internet Anda, lalu coba lagi.</string>
+    <string name="billing_error_item_unavailable">Item ini saat ini tidak tersedia untuk dibeli.</string>
+    <string name="billing_error_already_owned">Anda sudah memiliki item ini.</string>
+    <string name="billing_error_payment_declined">Pembayaran Anda ditolak. Periksa metode pembayaran Anda di Google Play.</string>
+    <string name="billing_error_not_eligible">Akun Anda tidak memenuhi syarat untuk penawaran ini.</string>
     <string name="close">Tutup</string>
     <string name="open">Buka</string>
     <string name="get">Dapatkan</string>

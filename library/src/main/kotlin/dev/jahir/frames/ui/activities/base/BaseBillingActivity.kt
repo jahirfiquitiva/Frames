@@ -7,6 +7,7 @@ import com.android.billingclient.api.ProductDetails
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
 import dev.jahir.frames.data.listeners.BillingProcessesListener
+import dev.jahir.frames.data.models.BillingError
 import dev.jahir.frames.data.models.CleanProductDetails
 import dev.jahir.frames.data.models.DetailedPurchaseRecord
 import dev.jahir.frames.data.viewmodels.BillingViewModel
@@ -80,14 +81,14 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
 
     fun showDonationsDialog() {
         if (!isBillingClientReady) {
-            onProductPurchaseError()
+            onProductPurchaseError(BillingError.Unavailable)
             return
         }
         val productDetailsList =
             billingViewModel.inAppProductDetails.map { CleanProductDetails(it) }
                 .filter { getDonationItemsIds().contains(it.originalDetails.productId) }
         if (productDetailsList.isEmpty()) {
-            onProductPurchaseError()
+            onProductPurchaseError(BillingError.ItemUnavailable)
             return
         }
         dismissDialogs()
@@ -120,13 +121,23 @@ abstract class BaseBillingActivity<out P : Preferences> : BaseLicenseCheckerActi
         purchasesDialog?.show()
     }
 
-    override fun onProductPurchaseError(purchase: DetailedPurchaseRecord?) {
+    override fun onProductPurchaseError(error: BillingError, purchase: DetailedPurchaseRecord?) {
         dismissDialogs()
         purchasesDialog = mdDialog {
             title(R.string.error)
-            message(string(R.string.unexpected_error_occurred))
+            message(getBillingErrorMessage(error))
         }
         purchasesDialog?.show()
+    }
+
+    private fun getBillingErrorMessage(error: BillingError): String = when (error) {
+        BillingError.Unavailable -> string(R.string.billing_error_unavailable)
+        BillingError.Network -> string(R.string.billing_error_network)
+        BillingError.ItemUnavailable -> string(R.string.billing_error_item_unavailable)
+        BillingError.AlreadyOwned -> string(R.string.billing_error_already_owned)
+        BillingError.PaymentDeclined -> string(R.string.billing_error_payment_declined)
+        BillingError.NotEligible -> string(R.string.billing_error_not_eligible)
+        is BillingError.Unknown -> string(R.string.donate_error, error.responseCode)
     }
 
     override fun onBillingClientReady() {

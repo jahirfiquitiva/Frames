@@ -30,4 +30,10 @@
     <string name="downloading_wallpaper">டௌன்லோடிங் \'%1$s\'…</string>
     <string name="download_successful">வால்பேப்பர் வெற்றிகரமாக \'%1$s\' க்கு பதிவிறக்கம் செய்யப்பட்டது</string>
     <string name="download_successful_short">வால்பேப்பர் வெற்றிகரமாக பதிவிறக்கம் செய்யப்பட்டது</string>
+    <string name="billing_error_unavailable">இந்தச் சாதனத்தில் இப்போது Google Play வாங்குதல்கள் கிடைக்கவில்லை.</string>
+    <string name="billing_error_network">உங்கள் இணைய இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்.</string>
+    <string name="billing_error_item_unavailable">இந்த உருப்படியை இப்போது வாங்க முடியாது.</string>
+    <string name="billing_error_already_owned">இந்த உருப்படி ஏற்கனவே உங்களிடம் உள்ளது.</string>
+    <string name="billing_error_payment_declined">உங்கள் கட்டணம் நிராகரிக்கப்பட்டது. Google Play இல் உங்கள் கட்டண முறையைச் சரிபார்க்கவும்.</string>
+    <string name="billing_error_not_eligible">இந்தச் சலுகைக்கு உங்கள் கணக்கு தகுதியற்றது.</string>
 </resources>

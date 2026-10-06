@@ -99,6 +99,12 @@
     <string name="donate_success_title">Příspěvek odeslán</string>
     <string name="donate_success_content">Děkujeme Vám za podporu.</string>
     <string name="donate_error">Něco se pokazilo. Kód chyby je: %1$s.</string>
+    <string name="billing_error_unavailable">Nákupy přes Google Play nejsou na tomto zařízení momentálně dostupné.</string>
+    <string name="billing_error_network">Zkontrolujte připojení k internetu a zkuste to znovu.</string>
+    <string name="billing_error_item_unavailable">Tuto položku momentálně nelze zakoupit.</string>
+    <string name="billing_error_already_owned">Tuto položku již vlastníte.</string>
+    <string name="billing_error_payment_declined">Platba byla zamítnuta. Zkontrolujte platební metodu v Google Play.</string>
+    <string name="billing_error_not_eligible">Váš účet nesplňuje podmínky této nabídky.</string>
     <string name="close">Zavřít</string>
     <string name="open">Otevřít</string>
     <string name="get">Získat</string>

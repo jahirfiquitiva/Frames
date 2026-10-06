@@ -28,4 +28,10 @@
     <string name="cancel">取消</string>
     <string name="downloading_wallpaper">正在下載「%1$s」…</string>
     <string name="download_successful_short">桌布下載成功</string>
+    <string name="billing_error_unavailable">這部裝置目前無法使用 Google Play 購買。</string>
+    <string name="billing_error_network">請檢查網路連線，然後再試一次。</string>
+    <string name="billing_error_item_unavailable">這個項目目前無法購買。</string>
+    <string name="billing_error_already_owned">你已擁有這個項目。</string>
+    <string name="billing_error_payment_declined">付款遭拒。請在 Google Play 中檢查你的付款方式。</string>
+    <string name="billing_error_not_eligible">你的帳戶不符合這項優惠的資格。</string>
 </resources>

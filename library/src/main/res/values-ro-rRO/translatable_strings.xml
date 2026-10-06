@@ -99,6 +99,12 @@
     <string name="donate_success_title">Donație trimisă</string>
     <string name="donate_success_content">Îți mulțumim pentru susținere.</string>
     <string name="donate_error">A apărut o eroare. Cod de eroare: %1$s.</string>
+    <string name="billing_error_unavailable">Achizițiile Google Play nu sunt disponibile momentan pe acest dispozitiv.</string>
+    <string name="billing_error_network">Verifică conexiunea la internet și încearcă din nou.</string>
+    <string name="billing_error_item_unavailable">Acest articol nu este disponibil pentru cumpărare momentan.</string>
+    <string name="billing_error_already_owned">Deții deja acest articol.</string>
+    <string name="billing_error_payment_declined">Plata a fost refuzată. Verifică metoda de plată în Google Play.</string>
+    <string name="billing_error_not_eligible">Contul tău nu este eligibil pentru această ofertă.</string>
     <string name="close">Închide</string>
     <string name="open">Deschide</string>
     <string name="get">Obține</string>

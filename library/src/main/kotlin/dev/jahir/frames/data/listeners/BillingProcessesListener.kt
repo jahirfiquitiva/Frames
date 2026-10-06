@@ -1,6 +1,8 @@
 package dev.jahir.frames.data.listeners
 
+import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.ProductDetails
+import dev.jahir.frames.data.models.BillingError
 import dev.jahir.frames.data.models.DetailedPurchaseRecord
 
 interface BillingProcessesListener {
@@ -11,7 +13,7 @@ interface BillingProcessesListener {
     fun onInAppPurchasesHistoryUpdated(inAppPurchasesHistory: List<DetailedPurchaseRecord>) {}
     fun onSubscriptionsPurchasesHistoryUpdated(subscriptionsPurchasesHistory: List<DetailedPurchaseRecord>) {}
     fun onProductPurchaseSuccess(purchase: DetailedPurchaseRecord? = null)
-    fun onProductPurchaseError(purchase: DetailedPurchaseRecord? = null)
+    fun onProductPurchaseError(error: BillingError, purchase: DetailedPurchaseRecord? = null)
 
     @Deprecated(
         "Use 'onInAppProductDetailsListUpdated' instead",
@@ -46,6 +48,6 @@ interface BillingProcessesListener {
         DeprecationLevel.ERROR
     )
     fun onSkuPurchaseError(purchase: DetailedPurchaseRecord? = null) {
-        onProductPurchaseError(purchase)
+        onProductPurchaseError(BillingError.Unknown(BillingClient.BillingResponseCode.ERROR), purchase)
     }
 }

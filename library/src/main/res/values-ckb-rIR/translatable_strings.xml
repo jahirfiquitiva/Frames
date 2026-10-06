@@ -99,6 +99,12 @@
     <string name="donate_success_title">بەشداری سەرکەوتوو</string>
     <string name="donate_success_content">سوپاس بۆ پشتگیری.</string>
     <string name="donate_error">هەڵەیەک ڕوویدا. پەیامی هەڵە: %1$s.</string>
+    <string name="billing_error_unavailable">کڕین لە Google Play لە ئێستادا لەسەر ئەم ئامێرە بەردەست نییە.</string>
+    <string name="billing_error_network">پەیوەندی ئینتەرنێتەکەت بپشکنە و دووبارە هەوڵ بدەرەوە.</string>
+    <string name="billing_error_item_unavailable">ئەم بەرهەمە لە ئێستادا بۆ کڕین بەردەست نییە.</string>
+    <string name="billing_error_already_owned">تۆ پێشتر ئەم بەرهەمەت هەیە.</string>
+    <string name="billing_error_payment_declined">پارەدانەکەت ڕەتکرایەوە. ڕێگای پارەدانەکەت لە Google Play بپشکنە.</string>
+    <string name="billing_error_not_eligible">هەژمارەکەت شیاوی ئەم پێشکەشکراوە نییە.</string>
     <string name="close">داخستن</string>
     <string name="open">کردنەوە</string>
     <string name="get">داگرتن</string>

@@ -99,6 +99,12 @@
     <string name="donate_success_title">Donasjon sendt</string>
     <string name="donate_success_content">Takk for støtten.</string>
     <string name="donate_error">Noe gikk galt. Feilmelding: %1$s.</string>
+    <string name="billing_error_unavailable">Kjøp via Google Play er ikke tilgjengelig på denne enheten akkurat nå.</string>
+    <string name="billing_error_network">Sjekk internettilkoblingen og prøv igjen.</string>
+    <string name="billing_error_item_unavailable">Dette produktet kan ikke kjøpes akkurat nå.</string>
+    <string name="billing_error_already_owned">Du eier allerede dette produktet.</string>
+    <string name="billing_error_payment_declined">Betalingen ble avvist. Sjekk betalingsmåten din i Google Play.</string>
+    <string name="billing_error_not_eligible">Kontoen din er ikke kvalifisert for dette tilbudet.</string>
     <string name="close">Lukk</string>
     <string name="open">Åpne</string>
     <string name="get">Last ned</string>

@@ -99,6 +99,12 @@
     <string name="donate_success_title">Bağış yaptınız :)</string>
     <string name="donate_success_content">Desteğiniz için teşekkürler.</string>
     <string name="donate_error">Bir şeyler yanlış gitti. Hata kodu: “%1$s.</string>
+    <string name="billing_error_unavailable">Google Play satın alımları şu anda bu cihazda kullanılamıyor.</string>
+    <string name="billing_error_network">İnternet bağlantınızı kontrol edip tekrar deneyin.</string>
+    <string name="billing_error_item_unavailable">Bu öğe şu anda satın alınamıyor.</string>
+    <string name="billing_error_already_owned">Bu öğeye zaten sahipsiniz.</string>
+    <string name="billing_error_payment_declined">Ödemeniz reddedildi. Google Play’deki ödeme yönteminizi kontrol edin.</string>
+    <string name="billing_error_not_eligible">Hesabınız bu teklif için uygun değil.</string>
     <string name="close">Kapat</string>
     <string name="open">Aç</string>
     <string name="get">Al</string>

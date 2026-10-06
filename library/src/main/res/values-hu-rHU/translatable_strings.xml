@@ -99,6 +99,12 @@
     <string name="donate_success_title">A támogatás elküldve</string>
     <string name="donate_success_content">Köszönjük a támogatást.</string>
     <string name="donate_error">Hiba lépett fel. Hibaüzenet: %1$s.</string>
+    <string name="billing_error_unavailable">A Google Play-vásárlások jelenleg nem érhetők el ezen az eszközön.</string>
+    <string name="billing_error_network">Ellenőrizd az internetkapcsolatot, és próbáld újra.</string>
+    <string name="billing_error_item_unavailable">Ez a termék jelenleg nem vásárolható meg.</string>
+    <string name="billing_error_already_owned">Ez a termék már a tiéd.</string>
+    <string name="billing_error_payment_declined">A fizetést elutasították. Ellenőrizd a fizetési módot a Google Playen.</string>
+    <string name="billing_error_not_eligible">A fiókod nem jogosult erre az ajánlatra.</string>
     <string name="close">Bezár</string>
     <string name="open">Megnyitás</string>
     <string name="get">Letöltés</string>

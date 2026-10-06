@@ -95,6 +95,12 @@ Du måste tillåta detta i inställningar.</string>
     <string name="donate_success_title">Tackar</string>
     <string name="donate_success_content">Tack så mycket för din gåva. Jag det uppskattas verkligen och jag är glad att du gillar %1$s.</string>
     <string name="donate_error">Ett fel med koden %1$shar inträffat på grund av %2$s</string>
+    <string name="billing_error_unavailable">Köp via Google Play är inte tillgängliga på den här enheten just nu.</string>
+    <string name="billing_error_network">Kontrollera internetanslutningen och försök igen.</string>
+    <string name="billing_error_item_unavailable">Det här objektet går inte att köpa just nu.</string>
+    <string name="billing_error_already_owned">Du äger redan det här objektet.</string>
+    <string name="billing_error_payment_declined">Betalningen nekades. Kontrollera din betalningsmetod i Google Play.</string>
+    <string name="billing_error_not_eligible">Ditt konto uppfyller inte villkoren för det här erbjudandet.</string>
     <string name="close">Stäng</string>
     <string name="open">Öppna</string>
     <string name="get">Hämta</string>

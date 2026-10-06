@@ -99,6 +99,12 @@
     <string name="donate_success_title">অনুদান পাঠানো হয়েছে</string>
     <string name="donate_success_content">আপনার সহযোগিতার জন্য ধন্যবাদ!</string>
     <string name="donate_error">কিছু একটা তো এদিক ওদিক হয়েছে। ভুলের কোড: %1$s</string>
+    <string name="billing_error_unavailable">এই ডিভাইসে এখন Google Play কেনাকাটা উপলব্ধ নেই।</string>
+    <string name="billing_error_network">আপনার ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।</string>
+    <string name="billing_error_item_unavailable">এই আইটেমটি এখন কেনার জন্য উপলব্ধ নেই।</string>
+    <string name="billing_error_already_owned">এই আইটেমটি ইতিমধ্যে আপনার আছে।</string>
+    <string name="billing_error_payment_declined">আপনার পেমেন্ট প্রত্যাখ্যান করা হয়েছে। Google Play-এ আপনার পেমেন্ট পদ্ধতি পরীক্ষা করুন।</string>
+    <string name="billing_error_not_eligible">আপনার অ্যাকাউন্ট এই অফারের জন্য যোগ্য নয়।</string>
     <string name="close">বন্ধ করুন</string>
     <string name="open">খুলুন</string>
     <string name="get">নিন</string>

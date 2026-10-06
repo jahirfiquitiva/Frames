@@ -92,7 +92,12 @@
     <string name="terms_conditions">Правила та умови використання</string>
     <string name="donate_success_title">Дякуємо</string>
     <string name="donate_success_content">Ґречно дякую за вашу пожертву. Я дійсно ціную це, і я радий що вам сподобалось %1$s.</string>
-    <string name="donate_error">Непередбачувана помилка з кодом %1$s через %2$s</string>
-    <string name="donate_error_unknown">невідомі причини</string>
+    <string name="donate_error">Щось пішло не так. Код помилки: %1$s.</string>
+    <string name="billing_error_unavailable">Покупки в Google Play зараз недоступні на цьому пристрої.</string>
+    <string name="billing_error_network">Перевірте підключення до інтернету та спробуйте ще раз.</string>
+    <string name="billing_error_item_unavailable">Цей товар зараз недоступний для покупки.</string>
+    <string name="billing_error_already_owned">Ви вже маєте цей товар.</string>
+    <string name="billing_error_payment_declined">Платіж відхилено. Перевірте спосіб оплати в Google Play.</string>
+    <string name="billing_error_not_eligible">Ваш обліковий запис не відповідає умовам цієї пропозиції.</string>
     <string name="close">Закрити</string>
 </resources>

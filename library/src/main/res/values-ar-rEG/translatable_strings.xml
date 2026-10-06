@@ -98,8 +98,13 @@
     <string name="eduardo_description">مصمم واجهة المستخدم. مدافع عن المساحة السلبية.</string>
     <string name="donate_success_title">شكرا لك</string>
     <string name="donate_success_content">شكرا جزيلا على تبرعك. أنا حقا أقدر ذلك ويسعدني أن تستمتع بـ %1$s.</string>
-    <string name="donate_error">حدث خطأ غير متوقع في الرمز %1$s بسبب %2$s</string>
-    <string name="donate_error_unknown">أسباب غير معروفة</string>
+    <string name="donate_error">حدث خطأ ما. رمز الخطأ: %1$s.</string>
+    <string name="billing_error_unavailable">عمليات الشراء من Google Play غير متاحة على هذا الجهاز حاليًا.</string>
+    <string name="billing_error_network">تحقق من اتصالك بالإنترنت وحاول مرة أخرى.</string>
+    <string name="billing_error_item_unavailable">هذا العنصر غير متاح للشراء حاليًا.</string>
+    <string name="billing_error_already_owned">أنت تمتلك هذا العنصر بالفعل.</string>
+    <string name="billing_error_payment_declined">تم رفض الدفع. تحقق من طريقة الدفع في Google Play.</string>
+    <string name="billing_error_not_eligible">حسابك غير مؤهل لهذا العرض.</string>
     <string name="close">إغلاق</string>
     <string name="open">فتح</string>
 </resources>

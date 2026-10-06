@@ -99,6 +99,12 @@
     <string name="donate_success_title">捐款已发送</string>
     <string name="donate_success_content">感谢您的支持</string>
     <string name="donate_error">出错了，错误代码： %1$s</string>
+    <string name="billing_error_unavailable">此设备目前无法使用 Google Play 购买。</string>
+    <string name="billing_error_network">请检查网络连接，然后重试。</string>
+    <string name="billing_error_item_unavailable">此商品目前无法购买。</string>
+    <string name="billing_error_already_owned">你已拥有此商品。</string>
+    <string name="billing_error_payment_declined">付款被拒绝。请在 Google Play 中检查你的付款方式。</string>
+    <string name="billing_error_not_eligible">你的账号不符合此优惠的条件。</string>
     <string name="close">关闭</string>
     <string name="open">打开</string>
     <string name="get">获取</string>
