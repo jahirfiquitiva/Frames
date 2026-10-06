@@ -94,7 +94,14 @@
         <item name="itemTextColor">@drawable/bottom_navigation_states</item>
     </style>
 
+    <!-- Showing or hiding an item rebuilds the bar, and the default item transition makes the
+         old and new items overlap while they slide. Zero duration makes the change instant. -->
+    <style name="ThemeOverlay.Frames.ViewerBottomNavigationView" parent="">
+        <item name="motionDurationMedium4">0</item>
+    </style>
+
     <style name="Widget.Frames.ViewerBottomNavigationView" parent="Widget.Frames.BottomNavigationView">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Frames.ViewerBottomNavigationView</item>
         <item name="itemRippleColor">@color/viewer_item_ripple</item>
         <item name="itemIconTint">@drawable/bottom_actions_states</item>
         <item name="itemTextColor">@drawable/bottom_actions_states</item>

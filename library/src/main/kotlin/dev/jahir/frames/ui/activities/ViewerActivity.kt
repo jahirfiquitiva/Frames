@@ -92,6 +92,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         }
     private var collectionName: String? = null
     private var isForFavs: Boolean = false
+    private var currentWallpaper: Wallpaper? = null
     private var searchQuery: String? = null
     private var navigableWallpapers: List<Wallpaper> = emptyList()
 
@@ -127,6 +128,10 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         );
         setContentView(R.layout.activity_viewer)
         bottomNavigation?.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_LABELED
+        // Set before the first frame, so the bar does not change once the wallpaper loads
+        (savedInstanceState?.getParcelable<Wallpaper?>(CURRENT_WALLPAPER_KEY)
+            ?: intent?.extras?.getParcelable<Wallpaper?>(WALLPAPER_EXTRA))
+            ?.let { updateDownloadVisibility(it) }
 
         setSupportActionBar(toolbar)
         supportActionBar?.let {
@@ -207,16 +212,21 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         return navigableWallpapers[(index + (if (next) 1 else -1) + size) % size]
     }
 
+    private fun updateDownloadVisibility(wallpaper: Wallpaper) {
+        bottomNavigation?.setItemVisible(
+            R.id.download,
+            wallpaper.downloadable != false && shouldShowDownloadOption()
+        )
+    }
+
     private fun configureUIForWallpaper(wallpaper: Wallpaper?) {
         if (wallpaper == null) {
             finish()
             return
         }
 
-        bottomNavigation?.setItemVisible(
-            R.id.download,
-            !(wallpaper.downloadable == false || !shouldShowDownloadOption())
-        )
+        currentWallpaper = wallpaper
+        updateDownloadVisibility(wallpaper)
 
         findViewById<View?>(R.id.toolbar_title)?.let {
             (it as? TextView)?.text = wallpaper.name
@@ -246,6 +256,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         outState.putBoolean(TRANSITIONED_KEY, transitioned)
         outState.putBoolean(IS_IN_FAVORITES_KEY, isInFavorites)
         outState.putBoolean(FAVORITES_MODIFIED, favoritesModified)
+        outState.putParcelable(CURRENT_WALLPAPER_KEY, currentWallpaper)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {

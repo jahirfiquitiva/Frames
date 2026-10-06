@@ -106,6 +106,7 @@
     </style>
 
     <style name="Widget.Frames.ViewerBottomNavigationView.MaterialYou" parent="Widget.Frames.BottomNavigationView">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Frames.ViewerBottomNavigationView</item>
         <item name="itemRippleColor">@color/viewer_item_ripple</item>
         <item name="itemIconTint">@drawable/bottom_actions_states</item>
         <item name="itemTextColor">@drawable/bottom_actions_states</item>
