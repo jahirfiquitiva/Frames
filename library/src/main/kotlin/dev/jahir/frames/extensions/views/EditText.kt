@@ -3,6 +3,7 @@ package dev.jahir.frames.extensions.views
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.ColorInt
@@ -21,6 +22,11 @@ fun EditText.tint(@ColorInt color: Int) {
 
 @SuppressLint("DiscouragedPrivateApi", "SoonBlockedPrivateApi")
 fun EditText.tintCursor(@ColorInt color: Int) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        textCursorDrawable = textCursorDrawable?.tint(color)
+        return
+    }
+    // The private fields below are blocked for apps targeting API 29+, so this only works on API 28 and lower
     try {
         val fCursorDrawableRes = TextView::class.java.getDeclaredField("mCursorDrawableRes")
         fCursorDrawableRes.isAccessible = true
