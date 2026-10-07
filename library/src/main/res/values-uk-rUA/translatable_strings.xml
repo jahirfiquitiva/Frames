@@ -45,6 +45,7 @@
     <string name="applying_preparing">Підготування…</string>
     <string name="applying_wallpaper_def">Застосування…</string>
     <string name="applying_applied">Шпалери успішно застосовано</string>
+    <string name="applying_error">Не вдалося встановити ці шпалери.</string>
     <string name="search">Пошук</string>
     <string name="changelog">Список змін</string>
     <string name="donate">Підтримати</string>

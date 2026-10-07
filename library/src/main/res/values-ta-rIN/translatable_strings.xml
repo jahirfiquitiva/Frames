@@ -36,4 +36,5 @@
     <string name="billing_error_already_owned">இந்த உருப்படி ஏற்கனவே உங்களிடம் உள்ளது.</string>
     <string name="billing_error_payment_declined">உங்கள் கட்டணம் நிராகரிக்கப்பட்டது. Google Play இல் உங்கள் கட்டண முறையைச் சரிபார்க்கவும்.</string>
     <string name="billing_error_not_eligible">இந்தச் சலுகைக்கு உங்கள் கணக்கு தகுதியற்றது.</string>
+    <string name="applying_error">இந்த வால்பேப்பரைப் பயன்படுத்த முடியவில்லை.</string>
 </resources>

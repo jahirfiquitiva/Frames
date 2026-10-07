@@ -81,6 +81,7 @@
     <string name="downloaded_previously">Wallpaper sudah tersimpan.</string>
     <string name="both">Keduanya</string>
     <string name="applying_applied">Wallpaper diterapkan.</string>
+    <string name="applying_error">Tidak dapat menerapkan wallpaper ini.</string>
     <string name="applying_wallpaper">Menerapkan “%1$s”…</string>
     <string name="applying_preparing">Menyiapkan wallpaper…</string>
     <string name="applying_wallpaper_def">Menerapkan…</string>

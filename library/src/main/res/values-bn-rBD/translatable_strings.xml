@@ -81,6 +81,7 @@
     <string name="downloaded_previously">ওয়ালপেপার ইতোমধ্যে সংরক্ষণ করা হয়েছে।</string>
     <string name="both">দুটোই</string>
     <string name="applying_applied">ওয়ালপেপার প্রয়োগ করা হয়েছে।</string>
+    <string name="applying_error">এই ওয়ালপেপারটি প্রয়োগ করা যায়নি।</string>
     <string name="applying_wallpaper">\"%1$s\" প্রয়োগ করা হচ্ছে…</string>
     <string name="applying_preparing">ওয়ালপেপার প্রস্তুত করা হচ্ছে…</string>
     <string name="applying_wallpaper_def">প্রয়োগ করা হচ্ছে…</string>

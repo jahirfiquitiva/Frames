@@ -80,6 +80,7 @@
     <string name="downloaded_previously">Sfondo già salvato.</string>
     <string name="both">Entrambi</string>
     <string name="applying_applied">Sfondo applicato.</string>
+    <string name="applying_error">Impossibile applicare questo sfondo.</string>
     <string name="applying_wallpaper">Applicando \"%1$s\"…</string>
     <string name="applying_preparing">Preparazione sfondo…</string>
     <string name="applying_wallpaper_def">Applicazione in corso…</string>

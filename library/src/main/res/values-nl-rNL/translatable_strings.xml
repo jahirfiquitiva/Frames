@@ -81,6 +81,7 @@
     <string name="downloaded_previously">Achtergrond is al opgeslagen.</string>
     <string name="both">Beide</string>
     <string name="applying_applied">Achtergrond toegepast.</string>
+    <string name="applying_error">Deze achtergrond kon niet worden ingesteld.</string>
     <string name="applying_wallpaper">Toepassen \"%1$s\"…</string>
     <string name="applying_preparing">Achtergrond voorbereiden…</string>
     <string name="applying_wallpaper_def">Toepassen…</string>

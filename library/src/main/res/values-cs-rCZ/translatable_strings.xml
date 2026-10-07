@@ -81,6 +81,7 @@
     <string name="downloaded_previously">Tapeta již byla uložena.</string>
     <string name="both">Obojí</string>
     <string name="applying_applied">Tapeta byla nastavena.</string>
+    <string name="applying_error">Tuto tapetu se nepodařilo nastavit.</string>
     <string name="applying_wallpaper">Nastavuji “%1$s”…</string>
     <string name="applying_preparing">Příprava tapety…</string>
     <string name="applying_wallpaper_def">Nastavuji…</string>

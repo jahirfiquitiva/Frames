@@ -81,6 +81,7 @@
     <string name="downloaded_previously">Tapeta już zapisana.</string>
     <string name="both">Oba</string>
     <string name="applying_applied">Tapeta ustawiona.</string>
+    <string name="applying_error">Nie udało się ustawić tej tapety.</string>
     <string name="applying_wallpaper">Ustawianie „%1$s”…</string>
     <string name="applying_preparing">Przygotowywanie tapety…</string>
     <string name="applying_wallpaper_def">Ustawianie…</string>

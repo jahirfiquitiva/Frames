@@ -81,6 +81,7 @@
     <string name="downloaded_previously">Papel de parede já está salvo.</string>
     <string name="both">Ambos</string>
     <string name="applying_applied">Papel de parede definido.</string>
+    <string name="applying_error">Não foi possível aplicar este papel de parede.</string>
     <string name="applying_wallpaper">Definindo “%1$s”…</string>
     <string name="applying_preparing">Preparando plano de fundo…</string>
     <string name="applying_wallpaper_def">Aplicando…</string>

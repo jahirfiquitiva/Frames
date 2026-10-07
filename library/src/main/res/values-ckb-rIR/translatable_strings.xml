@@ -81,6 +81,7 @@
     <string name="downloaded_previously">وێنەی دیواری پێشتر پاشەکەوتکراوە.</string>
     <string name="both">هەردوو</string>
     <string name="applying_applied">وێنەی دیواری چالاککرا.</string>
+    <string name="applying_error">نەتوانرا ئەم وێنەی پاشبنەمایە دابنرێت.</string>
     <string name="applying_wallpaper">دامەزراندنی “%1$s“…</string>
     <string name="applying_preparing">ئامادەکردنی وێنەی دیواری…</string>
     <string name="applying_wallpaper_def">چالاککردن…</string>

@@ -81,6 +81,7 @@
     <string name="downloaded_previously">Обои уже сохранены.</string>
     <string name="both">Оба</string>
     <string name="applying_applied">Обои успешно установлены</string>
+    <string name="applying_error">Не удалось установить эти обои.</string>
     <string name="applying_wallpaper">Применение \'%1$s\'…</string>
     <string name="applying_preparing">Подготовка…</string>
     <string name="applying_wallpaper_def">Применение…</string>

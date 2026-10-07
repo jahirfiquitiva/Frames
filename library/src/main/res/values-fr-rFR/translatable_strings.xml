@@ -80,6 +80,7 @@
     <string name="downloaded_previously">Fond d\'écran téléchargé précédemment</string>
     <string name="both">Les deux</string>
     <string name="applying_applied">Fond d\'écran appliqué avec succès!</string>
+    <string name="applying_error">Impossible d’appliquer ce fond d’écran.</string>
     <string name="applying_wallpaper">Application de \'%1$s\'…</string>
     <string name="applying_preparing">Préparation…</string>
     <string name="applying_wallpaper_def">Application de…</string>

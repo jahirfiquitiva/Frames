@@ -81,6 +81,7 @@
     <string name="downloaded_previously">Wallpaper wurde bereits gespeichert.</string>
     <string name="both">Beides</string>
     <string name="applying_applied">Wallpaper aktiviert.</string>
+    <string name="applying_error">Dieses Hintergrundbild konnte nicht angewendet werden.</string>
     <string name="applying_wallpaper">Stelle “%1$s“ ein…</string>
     <string name="applying_preparing">Wallpaper wird vorbereitet…</string>
     <string name="applying_wallpaper_def">Übernehme…</string>

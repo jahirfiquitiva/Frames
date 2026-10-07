@@ -84,6 +84,7 @@
     <string name="applying_wallpaper">Applying “%1$s”…</string>
     <string name="applying_preparing">Preparing wallpaper…</string>
     <string name="applying_wallpaper_def">Applying…</string>
+    <string name="applying_error">Couldn’t apply this wallpaper.</string>
     <string name="apply_w_external_app">Set With…</string>
     <string name="dashboard">Dashboard</string>
     <string name="prevent_download_title">Saving Locked</string>

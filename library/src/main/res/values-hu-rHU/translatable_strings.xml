@@ -81,6 +81,7 @@
     <string name="downloaded_previously">A háttérkép már le van töltve.</string>
     <string name="both">Mindkettő</string>
     <string name="applying_applied">Háttérkép beállítva.</string>
+    <string name="applying_error">Nem sikerült beállítani ezt a háttérképet.</string>
     <string name="applying_wallpaper">Háttérkép beállítása \"%1$s\"…</string>
     <string name="applying_preparing">Háttérkép előkészítése…</string>
     <string name="applying_wallpaper_def">Háttérkép beállítása…</string>

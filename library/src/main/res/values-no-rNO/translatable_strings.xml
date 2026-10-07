@@ -81,6 +81,7 @@
     <string name="downloaded_previously">Bakgrunnsbilde har allerede blitt lagret.</string>
     <string name="both">Begge</string>
     <string name="applying_applied">Bakgrunnsbilde aktivert.</string>
+    <string name="applying_error">Kunne ikke bruke denne bakgrunnen.</string>
     <string name="applying_wallpaper">Setter “%1$s“…</string>
     <string name="applying_preparing">Forbereder bakgrunnsbilde…</string>
     <string name="applying_wallpaper_def">Setter…</string>

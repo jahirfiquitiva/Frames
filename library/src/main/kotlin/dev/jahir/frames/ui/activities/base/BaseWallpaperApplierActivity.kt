@@ -50,7 +50,7 @@ abstract class BaseWallpaperApplierActivity<out P : Preferences> :
                                     )
                                 } else onWallpaperApplied()
                             } else if (info.state == WorkInfo.State.FAILED) {
-                                onDownloadError()
+                                onWallpaperApplyError()
                             }
                         } else if (info.state == WorkInfo.State.ENQUEUED) {
                             onWallpaperApplicationEnqueued(applyOption)
@@ -70,6 +70,18 @@ abstract class BaseWallpaperApplierActivity<out P : Preferences> :
             )
         } catch (e: Exception) {
         }
+    }
+
+    private fun onWallpaperApplyError() {
+        try {
+            currentSnackbar = snackbar(
+                R.string.applying_error,
+                Snackbar.LENGTH_LONG,
+                snackbarAnchorId
+            )
+        } catch (_: Exception) {
+        }
+        cancelWorkManagerTasks()
     }
 
     private fun onWallpaperApplied() {

@@ -81,6 +81,7 @@
     <string name="downloaded_previously">Imagine de fundal salvată deja.</string>
     <string name="both">Ambele</string>
     <string name="applying_applied">Imagine de fundal aplicată.</string>
+    <string name="applying_error">Nu s-a putut aplica acest fundal.</string>
     <string name="applying_wallpaper">Se aplică „%1$s”…</string>
     <string name="applying_preparing">Se pregătește imaginea de fundal…</string>
     <string name="applying_wallpaper_def">Se aplică…</string>

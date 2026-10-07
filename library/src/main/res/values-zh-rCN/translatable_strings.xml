@@ -81,6 +81,7 @@
     <string name="downloaded_previously">壁纸已保存过。</string>
     <string name="both">两者</string>
     <string name="applying_applied">壁纸已应用。</string>
+    <string name="applying_error">无法应用此壁纸。</string>
     <string name="applying_wallpaper">正在应用 “%1$s”</string>
     <string name="applying_preparing">正在设置壁纸…</string>
     <string name="applying_wallpaper_def">正在应用…</string>

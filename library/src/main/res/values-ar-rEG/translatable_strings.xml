@@ -47,6 +47,7 @@
     <string name="applying_preparing">جارٍ التحضير…</string>
     <string name="applying_wallpaper_def">تطبيق \'\'...</string>
     <string name="applying_applied">تم تطبيق الخلفية بنجاح!</string>
+    <string name="applying_error">تعذّر تطبيق هذه الخلفية.</string>
     <string name="search">بحث</string>
     <string name="changelog">سِجل التغييرات</string>
     <string name="donate">تبرع</string>

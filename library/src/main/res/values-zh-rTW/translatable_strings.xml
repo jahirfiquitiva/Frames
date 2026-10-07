@@ -34,4 +34,5 @@
     <string name="billing_error_already_owned">你已擁有這個項目。</string>
     <string name="billing_error_payment_declined">付款遭拒。請在 Google Play 中檢查你的付款方式。</string>
     <string name="billing_error_not_eligible">你的帳戶不符合這項優惠的資格。</string>
+    <string name="applying_error">無法套用這張桌布。</string>
 </resources>

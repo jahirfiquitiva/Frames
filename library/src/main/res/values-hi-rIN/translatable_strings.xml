@@ -76,6 +76,7 @@
     <string name="downloaded_previously">वॉलपेपर सेव हो चुका है</string>
     <string name="both">दोनों</string>
     <string name="applying_applied">वॉलपेपर को सफलतापूर्वक लागू किया गया</string>
+    <string name="applying_error">यह वॉलपेपर लागू नहीं किया जा सका।</string>
     <string name="applying_wallpaper">लागू हो रहा है \"%1$s\"...</string>
     <string name="applying_preparing">वॉलपेपर तैयार हो रहा है...</string>
     <string name="applying_wallpaper_def">लागू हो रहा…</string>

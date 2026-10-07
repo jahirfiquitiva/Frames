@@ -81,6 +81,7 @@
     <string name="downloaded_previously">Fondo de pantalla ya guardado.</string>
     <string name="both">Ambos</string>
     <string name="applying_applied">Fondo aplicado.</string>
+    <string name="applying_error">No se pudo aplicar este fondo de pantalla.</string>
     <string name="applying_wallpaper">Aplicando “%1$s”…</string>
     <string name="applying_preparing">Preparando fondo de pantalla…</string>
     <string name="applying_wallpaper_def">Aplicando…</string>

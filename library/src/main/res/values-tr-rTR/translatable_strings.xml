@@ -81,6 +81,7 @@
     <string name="downloaded_previously">Duvar kağıdı zaten indirilmiş.</string>
     <string name="both">İkisi de</string>
     <string name="applying_applied">Duvar kağıdı uygulandı.</string>
+    <string name="applying_error">Bu duvar kağıdı uygulanamadı.</string>
     <string name="applying_wallpaper">Uygulanıyor “%1$s”…</string>
     <string name="applying_preparing">Duvar kağıdı hazırlanıyor…</string>
     <string name="applying_wallpaper_def">Uygulanıyor…</string>
