@@ -1,11 +1,11 @@
 package dev.jahir.frames.extensions.utils
 
 import androidx.palette.graphics.Palette
-import com.apitiphy.harmoniccolorextractor.HarmonicColors
 import dev.jahir.frames.extensions.resources.getDarker
 import dev.jahir.frames.extensions.resources.getLighter
 import dev.jahir.frames.extensions.resources.isDark
 import dev.jahir.frames.extensions.resources.withMinAlpha
+import dev.jahir.harmonic.colors.HarmonicColors
 
 internal const val MAX_FRAMES_PALETTE_COLORS = 6
 private const val MIN_TEXT_ALPHA = 1F

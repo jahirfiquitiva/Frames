@@ -52,7 +52,7 @@ object Libs {
 
     // Harmonic colors
     private const val harmonicColors =
-        "com.github.LeonardoSM04:HarmonicColorExtractor:${Versions.harmonicColors}"
+        "dev.jahir:harmonic-colors:${Versions.harmonicColors}"
 
     // Sectioned RecyclerView
     private const val sectionedRecyclerView =

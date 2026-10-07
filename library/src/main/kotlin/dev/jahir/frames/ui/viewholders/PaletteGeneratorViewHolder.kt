@@ -4,12 +4,12 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
-import com.apitiphy.harmoniccolorextractor.HarmonicColorExtractor
 import dev.jahir.frames.R
 import dev.jahir.frames.extensions.context.boolean
 import dev.jahir.frames.extensions.resources.asBitmap
 import dev.jahir.frames.extensions.utils.bestTextColor
 import dev.jahir.frames.extensions.views.context
+import dev.jahir.harmonic.colors.HarmonicColorExtractor
 
 abstract class PaletteGeneratorViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -21,13 +21,13 @@ abstract class PaletteGeneratorViewHolder(view: View) : RecyclerView.ViewHolder(
         val listener: ((drawable: Drawable?) -> Unit) = { drwb ->
             onDrawableReady(drwb)
             if (shouldColorTiles) {
-                val bitmap = drwb?.asBitmap()
-                HarmonicColorExtractor().Builder()
-                    .setBitmap(bitmap)
-                    .setBottomSide()
-                    .colors.let { harmonic ->
-                        doWithColors(harmonic.backgroundColor, harmonic.bestTextColor)
-                    }
+                drwb?.asBitmap()?.let { bitmap ->
+                    val harmonic = HarmonicColorExtractor()
+                        .setBitmap(bitmap)
+                        .setBottomSide()
+                        .getColors()
+                    doWithColors(harmonic.backgroundColor, harmonic.bestTextColor)
+                }
             }
         }
         listener
