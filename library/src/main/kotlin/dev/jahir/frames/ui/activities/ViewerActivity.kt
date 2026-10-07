@@ -27,7 +27,7 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.palette.graphics.Palette
-import coil.dispose
+import coil3.dispose
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback

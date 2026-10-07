@@ -4,9 +4,14 @@ import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.core.view.postDelayed
-import coil.load
-import coil.request.ImageRequest
-import coil.transform.CircleCropTransformation
+import coil3.load
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import coil3.request.error
+import coil3.request.fallback
+import coil3.request.placeholder
+import coil3.request.transformations
+import coil3.transform.CircleCropTransformation
 import dev.jahir.frames.extensions.context.drawable
 import dev.jahir.frames.extensions.context.preferences
 import dev.jahir.frames.extensions.resources.hasContent

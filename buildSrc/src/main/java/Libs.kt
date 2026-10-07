@@ -48,7 +48,9 @@ object Libs {
         "com.squareup.retrofit2:converter-scalars:${Versions.retrofit}"
 
     // Image loading and Touch Image View
-    private const val coil = "io.coil-kt:coil:${Versions.coil}"
+    private const val coil = "io.coil-kt.coil3:coil:${Versions.coil}"
+    // Coil 3 only loads from the network with a network artifact
+    private const val coilNetwork = "io.coil-kt.coil3:coil-network-okhttp:${Versions.coil}"
     private const val touchImageView =
         "com.github.MikeOrtiz:TouchImageView:${Versions.touchImageView}"
 
@@ -106,6 +108,7 @@ object Libs {
         retrofitGsonConverter,
         retrofitScalarsConverter,
         coil,
+        coilNetwork,
         touchImageView,
         harmonicColors,
         sectionedRecyclerView,
