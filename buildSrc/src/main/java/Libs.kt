@@ -1,9 +1,6 @@
 @file:Suppress("unused")
 
 object Libs {
-    // Kotlin
-    private const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
-
     // Coroutines
     private const val coroutines =
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
@@ -14,7 +11,6 @@ object Libs {
     private const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
     private const val appcompatResources =
         "androidx.appcompat:appcompat-resources:${Versions.appcompat}"
-    private const val cardView = "androidx.cardview:cardview:${Versions.cardView}"
     private const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerView}"
     private const val swipeRefreshLayout =
         "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefreshLayout}"
@@ -26,7 +22,6 @@ object Libs {
     private const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragmentKtx}"
 
     // ViewModel and LiveData
-    private const val lifecycle = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycleExt}"
     private const val livedataKtx =
         "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
     private const val viewmodelKtx =
@@ -81,12 +76,10 @@ object Libs {
 
     // Dependencies (must use api for they to work)
     val dependencies = arrayOf(
-        kotlin,
         coroutines,
         coroutinesAndroid,
         appcompat,
         appcompatResources,
-        cardView,
         recyclerView,
         swipeRefreshLayout,
         palette,
@@ -94,7 +87,6 @@ object Libs {
         materialComponents,
         activityKtx,
         fragmentKtx,
-        lifecycle,
         livedataKtx,
         viewmodelKtx,
         room,

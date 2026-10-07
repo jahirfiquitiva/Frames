@@ -20,7 +20,6 @@ object Versions {
 
     // Android UI
     const val appcompat = "1.8.0"
-    const val cardView = "1.0.0"
     const val recyclerView = "1.4.0"
     const val swipeRefreshLayout = "1.2.0"
     const val palette = "1.0.0"
@@ -31,7 +30,6 @@ object Versions {
 
     // ViewModel and LiveData
     const val lifecycle = "2.11.0"
-    const val lifecycleExt = "2.2.0"
 
     // Room Database
     const val room = "2.8.5"
