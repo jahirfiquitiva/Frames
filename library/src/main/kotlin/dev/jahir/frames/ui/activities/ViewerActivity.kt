@@ -3,9 +3,9 @@
 package dev.jahir.frames.ui.activities
 
 import android.Manifest
+import android.app.ActivityManager
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.GestureDetector
@@ -27,7 +27,15 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.palette.graphics.Palette
+import coil3.asDrawable
 import coil3.dispose
+import coil3.executeBlocking
+import coil3.imageLoader
+import coil3.memory.MemoryCache
+import coil3.request.CachePolicy
+import coil3.request.ImageRequest
+import coil3.request.SuccessResult
+import coil3.size.Scale
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
@@ -41,6 +49,7 @@ import dev.jahir.frames.extensions.context.compliesWithMinTime
 import dev.jahir.frames.extensions.context.findView
 import dev.jahir.frames.extensions.context.firstInstallTime
 import dev.jahir.frames.extensions.context.isNetworkAvailable
+import dev.jahir.frames.extensions.context.isActiveNetworkMetered
 import dev.jahir.frames.extensions.context.isWifiConnected
 import dev.jahir.frames.extensions.context.navigationBarLight
 import dev.jahir.frames.extensions.context.resolveColor
@@ -93,6 +102,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
     private var collectionName: String? = null
     private var isForFavs: Boolean = false
     private var currentWallpaper: Wallpaper? = null
+    private var preloadedNeighborsOf: String? = null
     private var searchQuery: String? = null
     private var navigableWallpapers: List<Wallpaper> = emptyList()
 
@@ -194,6 +204,8 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
     private fun updateNavigableWallpapers(source: List<Wallpaper>) {
         navigableWallpapers = source.filteredBy(searchQuery)
         updateNavigationArrows()
+        // The list can arrive after the current image loaded
+        if (!firstImageLoad) preloadAdjacentWallpapers()
     }
 
     private fun currentIndex(): Int =
@@ -343,9 +355,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         val wallpaperFromIntent = intent?.extras?.getParcelable<Wallpaper?>(WALLPAPER_EXTRA)?.url
         try {
             if (wallpaperFromIntent == wallpaper.url) {
-                openFileInput(SHARED_IMAGE_NAME)?.use {
-                    placeholder = BitmapDrawable(resources, it)
-                }
+                placeholder = cachedCardImage(wallpaper)
             } else {
                 imageView?.dispose()
                 placeholder = Color.TRANSPARENT.toDrawable()
@@ -367,6 +377,59 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
                 imageView?.resetZoomAnimated()
             }
             generatePalette(w)
+            preloadAdjacentWallpapers()
+        }
+    }
+
+    /**
+     * The image the grid card was showing, so the transition starts with it. Comes from the
+     * memory cache when possible, else from the disk cache, and never from the network.
+     */
+    private fun cachedCardImage(wallpaper: Wallpaper): Drawable? {
+        val keys = listOfNotNull(wallpaper.thumbnail?.takeIf { it.hasContent() }, wallpaper.url)
+            .distinct()
+        keys.firstNotNullOfOrNull { imageLoader.memoryCache?.get(MemoryCache.Key(it))?.image }
+            ?.let { return it.asDrawable(resources) }
+        // Only reached without a memory cache hit, e.g. after process death
+        val metrics = resources.displayMetrics
+        return keys.firstNotNullOfOrNull { key ->
+            val request = ImageRequest.Builder(this)
+                .data(key)
+                .networkCachePolicy(CachePolicy.DISABLED)
+                .size(metrics.widthPixels, metrics.heightPixels)
+                .build()
+            (imageLoader.executeBlocking(request) as? SuccessResult)?.image
+        }?.asDrawable(resources)
+    }
+
+    /**
+     * Loads the previous and next wallpapers at the viewer's size, so an arrow tap shows them
+     * from the memory cache. Skipped on metered networks, as they might never be viewed, and on
+     * low-RAM devices, as each one can take tens of MB of memory.
+     */
+    private fun preloadAdjacentWallpapers() {
+        val current = currentWallpaper ?: return
+        if (preloadedNeighborsOf == current.url || isActiveNetworkMetered()) return
+        if (getSystemService(ActivityManager::class.java)?.isLowRamDevice == true) return
+        val width = imageView?.width ?: 0
+        val height = imageView?.height ?: 0
+        if (width <= 0 || height <= 0) return
+        val neighbors =
+            listOfNotNull(getAdjacentWallpaper(next = true), getAdjacentWallpaper(next = false))
+                .filter { it.url != current.url }
+                .distinctBy { it.url }
+        if (neighbors.isEmpty()) return
+        preloadedNeighborsOf = current.url
+        neighbors.forEach {
+            imageLoader.enqueue(
+                ImageRequest.Builder(this)
+                    .data(it.url)
+                    .size(width, height)
+                    // The viewer's TouchImageView loads with FILL. A FIT decode is smaller, and
+                    // the memory cache would not use it for the viewer's request
+                    .scale(Scale.FILL)
+                    .build()
+            )
         }
     }
 
@@ -504,7 +567,6 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         internal const val FAVORITES_NOT_MODIFIED_RESULT = RESULT_OK
         internal const val LICENSE_CHECK_ENABLED = "license_check_enabled"
         internal const val CAN_TOGGLE_SYSTEMUI_VISIBILITY_KEY = "can_toggle_visibility"
-        internal const val SHARED_IMAGE_NAME = "thumb.jpg"
         internal const val TRANSITION_NAME = "wallpaper_transition_container"
         internal const val IS_FOR_FAVS = "viewer_is_for_favs"
         private const val ENTER_TRANSITION_DURATION = 300L

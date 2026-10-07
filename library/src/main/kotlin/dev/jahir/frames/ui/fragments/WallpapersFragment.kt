@@ -1,15 +1,12 @@
 package dev.jahir.frames.ui.fragments
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.doOnPreDraw
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.jahir.frames.R
@@ -25,14 +22,12 @@ import dev.jahir.frames.extensions.utils.filteredBy
 import dev.jahir.frames.extensions.utils.ifNotNull
 import dev.jahir.frames.ui.activities.CollectionActivity
 import dev.jahir.frames.ui.activities.ViewerActivity
-import dev.jahir.frames.ui.activities.ViewerActivity.Companion.SHARED_IMAGE_NAME
 import dev.jahir.frames.ui.activities.base.BaseFavoritesConnectedActivity
 import dev.jahir.frames.ui.activities.base.BaseLicenseCheckerActivity
 import dev.jahir.frames.ui.adapters.WallpapersAdapter
 import dev.jahir.frames.ui.decorations.GridSpacingItemDecoration
 import dev.jahir.frames.ui.fragments.base.BaseFramesFragment
 import dev.jahir.frames.ui.viewholders.WallpaperViewHolder
-import java.io.FileOutputStream
 
 open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
 
@@ -134,17 +129,6 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
                 ViewerActivity.TRANSITION_NAME,
             )
         }.takeIf { preferences.animationsEnabled }
-
-        var fos: FileOutputStream? = null
-
-        try {
-            fos = activity?.openFileOutput(SHARED_IMAGE_NAME, Context.MODE_PRIVATE)
-            if (fos != null)
-                holder.image?.drawable?.toBitmap()?.compress(Bitmap.CompressFormat.JPEG, 30, fos)
-        } finally {
-            fos?.flush()
-            fos?.close()
-        }
 
         openActivityLauncher?.launch(intent, options)
     }

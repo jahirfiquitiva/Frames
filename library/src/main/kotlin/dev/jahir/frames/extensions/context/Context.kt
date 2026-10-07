@@ -39,6 +39,11 @@ import dev.jahir.frames.extensions.resources.isLink
 import dev.jahir.frames.ui.activities.base.BaseThemedActivity
 import java.io.File
 
+/** True when the active network may cost the user money, or when it cannot be checked */
+internal fun Context.isActiveNetworkMetered(): Boolean =
+    ContextCompat.getSystemService(this, ConnectivityManager::class.java)?.isActiveNetworkMetered
+        ?: true
+
 @Suppress("DEPRECATION")
 fun Context.isNetworkAvailable(): Boolean {
     try {
