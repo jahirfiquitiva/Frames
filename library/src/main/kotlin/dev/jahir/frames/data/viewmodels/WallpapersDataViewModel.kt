@@ -5,15 +5,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
-import com.google.gson.stream.MalformedJsonException
 import dev.jahir.frames.data.db.FramesDatabase
 import dev.jahir.frames.data.models.Collection
 import dev.jahir.frames.data.models.Favorite
 import dev.jahir.frames.data.models.Wallpaper
-import dev.jahir.frames.data.network.WallpapersJSONService
+import dev.jahir.frames.data.network.framesHttpClient
+import dev.jahir.frames.data.network.parseWallpapersJson
 import dev.jahir.frames.extensions.context.isNetworkAvailable
 import dev.jahir.frames.extensions.resources.hasContent
 import dev.jahir.frames.extensions.utils.context
@@ -24,10 +21,9 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
-import java.lang.reflect.Type
+import okhttp3.Request
+import org.json.JSONException
+import java.io.IOException
 
 internal typealias CollectionWithWallpapers = Pair<String, List<Wallpaper>>
 
@@ -48,14 +44,6 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
 
     internal var whenReady: (() -> Unit)? = null
     internal var errorListener: ((error: DataError) -> Unit)? = null
-
-    private val service by lazy {
-        Retrofit.Builder()
-            .baseUrl("http://localhost/")
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-            .build().create(WallpapersJSONService::class.java)
-    }
 
     open fun internalTransformWallpapersToCollections(wallpapers: List<Wallpaper>): List<Collection> {
         val collectionsMap: MutableMap<String, CollectionWithWallpapers> = hashMapOf()
@@ -236,6 +224,14 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
         postDelayed(10) { whenReady?.invoke() }
     }
 
+    // An HTTP error throws instead of returning the error page as JSON
+    private suspend fun fetchJson(url: String): String = withContext(IO) {
+        framesHttpClient.newCall(Request.Builder().url(url).build()).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("HTTP ${response.code} for $url")
+            response.body?.string().orEmpty()
+        }
+    }
+
     private suspend fun loadRemoteData(
         url: String = "",
         loadCollections: Boolean = true,
@@ -251,19 +247,17 @@ open class WallpapersDataViewModel(application: Application) : AndroidViewModel(
             return
         }
         try {
-            val remoteWallpapers: List<Wallpaper>
-            if (isLocalFile) {
-                val jsonString = context.assets?.open(url.replace("file:///android_asset/", ""))
+            val json = if (isLocalFile) {
+                context.assets?.open(url.replace("file:///android_asset/", ""))
                     ?.bufferedReader()
-                    ?.readText()
-                val listType: Type = object : TypeToken<List<Wallpaper?>?>() {}.type
-                remoteWallpapers = Gson().fromJson(jsonString, listType)
+                    ?.use { it.readText() }
             } else {
-                remoteWallpapers = service.getJSON(url)
+                fetchJson(url)
             }
+            val remoteWallpapers = parseWallpapersJson(json.orEmpty())
             handleWallpapersData(loadCollections, loadFavorites, remoteWallpapers, force)
         } catch (e: Exception) {
-            if (triggerErrorListener && e is MalformedJsonException)
+            if (triggerErrorListener && e is JSONException)
                 errorListener?.invoke(DataError.MalformedJson)
         }
     }

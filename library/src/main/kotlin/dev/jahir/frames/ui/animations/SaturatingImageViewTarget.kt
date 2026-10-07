@@ -24,6 +24,7 @@ import androidx.lifecycle.LifecycleOwner
 import coil3.Image
 import coil3.asDrawable
 import coil3.decode.DataSource
+import coil3.request.ErrorResult
 import coil3.request.ImageRequest
 import coil3.request.SuccessResult
 import coil3.target.Target
@@ -40,6 +41,7 @@ open class SaturatingImageViewTarget(
 ) : ViewTarget<ImageView>, DefaultLifecycleObserver, ImageRequest.Listener {
 
     private val afterSuccessListeners: ArrayList<((drawable: Drawable?) -> Unit)> = ArrayList()
+    private val afterErrorListeners: ArrayList<() -> Unit> = ArrayList()
     private var isStarted = false
 
     override fun onStart(placeholder: Image?) = setDrawable(placeholder?.asDrawable(view.resources))
@@ -61,6 +63,12 @@ open class SaturatingImageViewTarget(
     }
 
     override fun onError(error: Image?) = setDrawable(error?.asDrawable(view.resources))
+
+    override fun onError(request: ImageRequest, result: ErrorResult) {
+        super<ImageRequest.Listener>.onError(request, result)
+        afterErrorListeners.forEach { it.invoke() }
+        afterErrorListeners.clear()
+    }
 
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
@@ -91,4 +99,7 @@ open class SaturatingImageViewTarget(
 
     fun addListener(listener: (drawable: Drawable?) -> Unit): SaturatingImageViewTarget =
         this.apply { this.afterSuccessListeners.add(listener) }
+
+    fun addErrorListener(listener: () -> Unit): SaturatingImageViewTarget =
+        this.apply { this.afterErrorListeners.add(listener) }
 }

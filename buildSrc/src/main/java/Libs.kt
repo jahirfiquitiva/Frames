@@ -40,12 +40,8 @@ object Libs {
     private const val work = "androidx.work:work-runtime-ktx:${Versions.work}"
 
     // Network & Serialization
-    private const val gson = "com.google.code.gson:gson:${Versions.gson}"
-    private const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-    private const val retrofitGsonConverter =
-        "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
-    private const val retrofitScalarsConverter =
-        "com.squareup.retrofit2:converter-scalars:${Versions.retrofit}"
+    // Same version coil-network-okhttp depends on
+    private const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
 
     // Image loading and Touch Image View
     private const val coil = "io.coil-kt.coil3:coil:${Versions.coil}"
@@ -103,10 +99,7 @@ object Libs {
         viewmodelKtx,
         room,
         work,
-        gson,
-        retrofit,
-        retrofitGsonConverter,
-        retrofitScalarsConverter,
+        okhttp,
         coil,
         coilNetwork,
         touchImageView,

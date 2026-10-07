@@ -10,6 +10,7 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
+import dev.jahir.frames.data.network.framesHttpClient
 import dev.jahir.frames.extensions.context.preferences
 import dev.jahir.frames.extensions.frames.filenameAndExtension
 import dev.jahir.frames.extensions.resources.createIfDidNotExist
@@ -18,10 +19,10 @@ import dev.jahir.frames.extensions.utils.ensureBackgroundThreadSuspended
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import androidx.core.graphics.scale
 import java.io.InputStream
 import java.io.OutputStream
@@ -114,10 +115,12 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
                         }
                     }
                 } else {
-                    val client = OkHttpClient()
                     val request = Request.Builder().url(url).build()
-                    val response = client.newCall(request).execute()
-                    fos.write(response.body?.bytes())
+                    framesHttpClient.newCall(request).execute().use { response ->
+                        // Otherwise the error page would be saved and applied as the wallpaper
+                        if (!response.isSuccessful) throw IOException("HTTP ${response.code} for $url")
+                        fos.write(response.body?.bytes())
+                    }
                 }
                 fos.flush()
                 fos.close()

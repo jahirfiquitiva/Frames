@@ -40,8 +40,7 @@ object Versions {
     const val work = "2.12.0"
 
     // Network & Serialization
-    const val gson = "2.14.0"
-    const val retrofit = "3.0.0"
+    const val okhttp = "4.12.0"
 
     // Image loading and Touch Image View
     const val coil = "3.6.3"
