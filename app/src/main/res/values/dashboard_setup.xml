@@ -5,6 +5,7 @@
         Do you want to show a custom logo in toolbar?
         Create a new drawable and put its name here (without extension)
         Note: it will only be shown in the main section
+        Also add the drawable to res/raw/keep.xml, or the release build removes it
     -->
     <string name="toolbar_logo"></string>
 

@@ -1,13 +1,24 @@
 apply plugin: 'com.android.application'
-apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'kotlin-parcelize'
 apply plugin: 'com.google.devtools.ksp'
 
+// Names the APK "<applicationId>-v<versionName>-<variant>.apk"
+base {
+    archivesName = "${MyApp.appId}-v${MyApp.versionName}"
+}
+
 android {
-    applicationVariants.configureEach { variant ->
-        variant.outputs.configureEach { output ->
-            outputFileName = defaultConfig.applicationId + "-v${variant.versionName}-${variant.name}.apk"
-        }
+    androidResources {
+        // Keep only the languages Frames is translated to. AndroidX and Material ship about 100,
+        // most of them for strings this app would show in English anyway. Each region is listed
+        // because a language code alone does not keep region folders like values-zh-rCN
+        localeFilters += [
+                "en", "ar", "bn", "ckb", "cs", "de", "es", "fr", "hi", "hu", "in", "it", "nb", "nl", "no",
+                "pl", "pt", "ro", "ru", "sv", "ta", "tr", "uk", "zh",
+                "ar-rEG", "bn-rBD", "ckb-rIR", "cs-rCZ", "de-rDE", "es-rES", "fr-rFR", "hi-rIN", "hu-rHU",
+                "in-rID", "it-rIT", "nl-rNL", "no-rNO", "pl-rPL", "pt-rBR", "ro-rRO", "ru-rRU", "sv-rSE",
+                "ta-rIN", "tr-rTR", "uk-rUA", "zh-rCN", "zh-rTW"
+        ]
     }
 
     lint {
@@ -30,9 +41,6 @@ android {
         versionCode MyApp.version
         versionName MyApp.versionName
         vectorDrawables.useSupportLibrary = true
-        multiDexEnabled true
-        proguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
-        consumerProguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -52,14 +60,9 @@ android {
             debuggable false
             zipAlignEnabled true
             minifyEnabled true
-            shrinkResources false
-            proguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
-            consumerProguardFiles 'proguard-android-optimize.txt', 'proguard-rules.pro'
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-    }
-
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
     }
 
     packagingOptions {
@@ -76,10 +79,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = '17'
     }
 
     buildFeatures {

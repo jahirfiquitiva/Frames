@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Resources the app loads by name, which the resource shrinker cannot detect.
+If you set toolbar_logo in dashboard_setup.xml, or wallpapers_placeholder or
+collections_placeholder in frames_setup.xml, keep those drawables here, e.g.:
+tools:keep="@drawable/my_logo,@drawable/my_placeholder"
+-->
+<resources xmlns:tools="http://schemas.android.com/tools" />
