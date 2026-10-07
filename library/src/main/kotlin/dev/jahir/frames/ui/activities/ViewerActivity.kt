@@ -98,6 +98,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
                 if (value) R.id.favorites else R.id.details,
                 false
             )
+            setViewerResult()
         }
     private var collectionName: String? = null
     private var isForFavs: Boolean = false
@@ -166,7 +167,9 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
 
         wallpapersViewModel.observeFavorites(this) {
             this.isInFavorites = it.any { wall -> wall.url == wallpaperDownloadUrl }
-            if (isForFavs) updateNavigableWallpapers(it)
+            // Set once, so a wallpaper removed from favorites here stays navigable until the
+            // viewer closes. The favorites list updates when the user goes back to it
+            if (isForFavs && navigableWallpapers.isEmpty()) updateNavigableWallpapers(it)
         }
         when {
             isForFavs -> {}
@@ -293,6 +296,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
             Intent().apply {
                 putExtra(FAVORITES_MODIFIED, favoritesModified)
                 putExtra(CURRENT_WALLPAPER_URL_EXTRA, currentWallpaper?.url)
+                putExtra(CURRENT_WALLPAPER_IN_FAVORITES_EXTRA, isInFavorites)
             }
         )
     }
@@ -481,6 +485,9 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
                     this.favoritesModified = true
                     if (isInFavorites) removeFromFavorites(wallpaper)
                     else addToFavorites(wallpaper)
+                    // Updated now instead of waiting for the database, so going back right away
+                    // already shows the new state. The favorites observer corrects it if it failed
+                    if (canShowFavoritesButton()) isInFavorites = !isInFavorites
                 } else onFavoritesLocked()
             }
         }
@@ -560,6 +567,7 @@ open class ViewerActivity : BaseWallpaperApplierActivity<Preferences>() {
         internal const val MIN_TIME: Long = 3L * 60L * 60000L
         internal const val SEARCH_QUERY = "search_query"
         internal const val CURRENT_WALLPAPER_URL_EXTRA = "current_wallpaper_url"
+        internal const val CURRENT_WALLPAPER_IN_FAVORITES_EXTRA = "current_wallpaper_in_favorites"
         internal const val FAVORITES_MODIFIED = "favorites_modified"
         internal const val FAVORITES_MODIFIED_RESULT = 1
         // Not RESULT_CANCELED (0): Android skips onActivityReenter for it, and the list needs that

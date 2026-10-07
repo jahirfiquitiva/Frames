@@ -58,7 +58,10 @@ abstract class BaseSearchableActivity<out P : Preferences> : BaseFavoritesConnec
             }
         }
         supportPostponeEnterTransition()
-        fragment.findWallpaperCard(url) { card -> startReturnTransition(card) }
+        val isInFavorites = data.extras?.takeIf {
+            it.containsKey(ViewerActivity.CURRENT_WALLPAPER_IN_FAVORITES_EXTRA)
+        }?.getBoolean(ViewerActivity.CURRENT_WALLPAPER_IN_FAVORITES_EXTRA)
+        fragment.findWallpaperCard(url, isInFavorites) { card -> startReturnTransition(card) }
         // The screen stays frozen while the transition is postponed, so never wait for the card
         // longer than this. Without a card it fades back instead of flying to the wrong one.
         postDelayed(RETURN_TRANSITION_TIMEOUT) { startReturnTransition(null) }

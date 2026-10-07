@@ -136,8 +136,14 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
     /**
      * Scrolls to the wallpaper with [url] if it is off-screen, then passes its card once laid
      * out, or null when the list does not show that wallpaper. [onResult] is always called.
+     * [isInFavorites] is the state the viewer ended with. The list only gets it after the return
+     * transition starts, so without it the card would show the old heart while it animates back.
      */
-    internal fun findWallpaperCard(url: String, onResult: (View?) -> Unit) {
+    internal fun findWallpaperCard(
+        url: String,
+        isInFavorites: Boolean?,
+        onResult: (View?) -> Unit
+    ) {
         val position = wallsAdapter.wallpapers.indexOfFirst { it.url == url }
         val recyclerView = recyclerView
         if (position < 0 || recyclerView == null) {
@@ -146,8 +152,14 @@ open class WallpapersFragment : BaseFramesFragment<Wallpaper>() {
         }
         recyclerView.scrollToPosition(position)
         recyclerView.doOnPreDraw {
-            val holder = recyclerView.findViewHolderForAdapterPosition(position)
-            onResult((holder as? WallpaperViewHolder)?.card)
+            val holder =
+                recyclerView.findViewHolderForAdapterPosition(position) as? WallpaperViewHolder
+            if (isInFavorites != null) {
+                wallsAdapter.wallpapers.getOrNull(position)?.isInFavorites = isInFavorites
+                // Not notifyItemChanged: rebinding reloads the image under the transition
+                holder?.favorite?.isChecked = isInFavorites
+            }
+            onResult(holder?.card)
         }
         recyclerView.requestLayout()
     }
