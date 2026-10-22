@@ -1,7 +1,10 @@
 package dev.jahir.frames.ui.fragments
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
@@ -13,6 +16,7 @@ import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.jahir.frames.R
 import dev.jahir.frames.data.Preferences
+import dev.jahir.frames.data.one4home.One4HomeBridge
 import dev.jahir.frames.data.viewmodels.LocalesViewModel
 import dev.jahir.frames.extensions.context.boolean
 import dev.jahir.frames.extensions.context.clearDataAndCache
@@ -22,6 +26,7 @@ import dev.jahir.frames.extensions.context.dataCacheSize
 import dev.jahir.frames.extensions.context.getAppName
 import dev.jahir.frames.extensions.context.hasNotificationsPermission
 import dev.jahir.frames.extensions.context.openLink
+import dev.jahir.frames.extensions.context.toast
 import dev.jahir.frames.extensions.fragments.mdDialog
 import dev.jahir.frames.extensions.fragments.positiveButton
 import dev.jahir.frames.extensions.fragments.preferences
@@ -45,6 +50,14 @@ open class SettingsFragment : BasePreferenceFragment() {
     private var dashboardName: String = "Unknown"
     private var dashboardVersion: String = "-1"
     private var currentThemeKey: Int = -1
+
+    // One4Home only grants access to the verified caller of an Activity result
+    private val connectOne4Home =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val connected = result.resultCode == Activity.RESULT_OK
+            if (connected) preferences.isOne4HomeConnected = true
+            findPreference<SwitchPreferenceCompat?>("share_with_one4home")?.isChecked = connected
+        }
 
     override fun onResume() {
         super.onResume()
@@ -161,6 +174,8 @@ open class SettingsFragment : BasePreferenceFragment() {
                 string(R.string.clear_data_cache_summary, context?.dataCacheSize ?: "")
         }
 
+        setupOne4HomeBridge()
+
         val notificationsPrefs = findPreference<SwitchPreferenceCompat?>("notifications")
         notificationsPrefs?.isChecked = preferences.notificationsEnabled
         notificationsPrefs?.setOnCheckedChangeListener {
@@ -184,6 +199,29 @@ open class SettingsFragment : BasePreferenceFragment() {
         }
 
         setupLegalLinks()
+    }
+
+    private fun setupOne4HomeBridge() {
+        if (context?.let { One4HomeBridge.canConnect(it) } != true) {
+            preferenceScreen?.removePreference(findPreference("integrations_prefs"))
+            return
+        }
+        val sharePref = findPreference<SwitchPreferenceCompat?>("share_with_one4home")
+        sharePref?.isChecked = preferences.isOne4HomeConnected
+        sharePref?.setOnPreferenceChangeListener { _, newValue ->
+            if (newValue == true) {
+                // Checked only once the user approves the connection in One4Home
+                try {
+                    connectOne4Home.launch(One4HomeBridge.connectionIntent())
+                } catch (e: ActivityNotFoundException) {
+                    context?.toast(R.string.one4home_update_required)
+                }
+                false
+            } else {
+                preferences.isOne4HomeConnected = false
+                true
+            }
+        }
     }
 
     @Suppress("RemoveExplicitTypeArguments")

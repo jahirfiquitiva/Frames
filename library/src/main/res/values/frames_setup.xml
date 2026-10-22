@@ -24,6 +24,15 @@
     <bool name="show_wallpaper_palette_details">true</bool>
 
     <!--
+    Optional One4Home launcher integration (https://one4home.app/developers/wallpaper-bridge)
+    When true and the One4Home launcher is installed, Settings shows a "Share with One4Home"
+    switch. Only after the user turns it on and approves it in One4Home, wallpapers applied to
+    the Home Screen are handed to One4Home so its effects can match them.
+    Nothing is shared before that, nor for Lock Screen-only applies. No network or service.
+    -->
+    <bool name="enable_one4home_bridge">true</bool>
+
+    <!--
     Show a custom image as placeholder while loading wallpapers or collections
     Use drawable name without extensions
     -->

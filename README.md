@@ -77,6 +77,7 @@ Free, feature-rich, easily customizable Android dashboard for wallpapers apps
 	- Option to change app theme (Light, Dark, System, AMOLED).
 	- Option to color navigation bar (Lollipop+).
 	- Option to clear app cache.
+- Optional [One4Home](https://one4home.app/developers/wallpaper-bridge) launcher integration.
 - Tablet layouts.
 - Lots of customizations.
 - Works with Android 5.0 and newer.
@@ -120,6 +121,16 @@ Frames is available via Maven, so getting it as simple as adding it as a depende
 ## How to implement
 
 :page_with_curl: Everything you need to know can be found in the **[Wiki Docs](https://github.com/jahirfiquitiva/Frames/wiki/)**
+
+### Optional One4Home launcher integration
+
+When the [One4Home](https://one4home.app/developers/wallpaper-bridge) launcher is installed, Settings shows a "Share with One4Home" switch. Once the user turns it on and approves the connection in One4Home, every wallpaper applied to the Home Screen (or Home and Lock Screens) is also handed to One4Home, so its effects can match the wallpaper. Nothing is shared before that, and never for Lock Screen-only applies. It uses a `FileProvider` limited to `cache/one4home-bridge/`, without a network call or a background service.
+
+To turn it off in your dashboard, add this to `frames_setup.xml`:
+
+```xml
+<bool name="enable_one4home_bridge">false</bool>
+```
 
 ## Still need help :question:
 Just join our Discord Server and make a post. We'll help you as soon as possible. [![Join chat on Discord](https://badgen.net/badge/discord/join%20chat/7289DA?icon=discord)](https://discord.gg/78h7xgj)

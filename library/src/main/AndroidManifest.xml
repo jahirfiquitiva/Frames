@@ -23,6 +23,11 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- Optional One4Home Wallpaper Bridge: see One4HomeBridge -->
+    <queries>
+        <package android:name="com.one4studio.one4home" />
+    </queries>
+
     <application
         android:allowBackup="true"
         android:configChanges="locale|layoutDirection"
@@ -65,6 +70,20 @@
             android:name=".ui.activities.MuzeiSettingsActivity"
             android:exported="true"
             android:label="@string/muzei_settings" />
+
+        <!--
+        Optional One4Home Wallpaper Bridge: shares only cache/one4home-bridge/, and only after
+        the user connects One4Home in Settings. Disable it with the enable_one4home_bridge bool
+        -->
+        <provider
+            android:name=".data.one4home.One4HomeBridgeFileProvider"
+            android:authorities="${applicationId}.one4home.bridge"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/one4home_bridge_paths" />
+        </provider>
 
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"

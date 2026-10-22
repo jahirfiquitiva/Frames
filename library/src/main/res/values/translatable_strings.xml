@@ -53,6 +53,10 @@
     <string name="download_location">Wallpapers Saved To</string>
     <string name="clear_data_cache">Clear App Data</string>
     <string name="clear_data_cache_summary">Free up %1$s of space.</string>
+    <string name="integrations">Integrations</string>
+    <string name="share_with_one4home">Share with One4Home</string>
+    <string name="share_with_one4home_summary">Let the One4Home launcher match its effects to wallpapers you set on your Home Screen.</string>
+    <string name="one4home_update_required">Update One4Home to connect it.</string>
     <string name="notifications">Notifications</string>
     <string name="enable_notifications">Allow Notifications</string>
     <string name="versions">Versions</string>
