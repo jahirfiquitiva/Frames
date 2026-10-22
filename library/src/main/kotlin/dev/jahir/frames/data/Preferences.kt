@@ -110,6 +110,11 @@ open class Preferences(private val context: Context) {
         get() = prefs.getString(MUZEI_COLLECTIONS, "").orEmpty()
         set(value) = prefsEditor.putString(MUZEI_COLLECTIONS, value).apply()
 
+    /** Set only after the user approved the connection in One4Home's consent dialog */
+    var isOne4HomeConnected: Boolean
+        get() = prefs.getBoolean(ONE4HOME_CONNECTED, false)
+        set(value) = prefsEditor.putBoolean(ONE4HOME_CONNECTED, value).apply()
+
     open fun getDefaultThemeKey(): ThemeKey = ThemeKey.FOLLOW_SYSTEM
 
     fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
@@ -151,5 +156,6 @@ open class Preferences(private val context: Context) {
         private const val NOTIFICATIONS_ENABLED = "notifications_enabled"
         private const val REFRESH_MUZEI_ON_WIFI_ONLY = "refresh_muzei_on_wifi_only"
         private const val MUZEI_COLLECTIONS = "muzei_collections"
+        private const val ONE4HOME_CONNECTED = "one4home_connected"
     }
 }

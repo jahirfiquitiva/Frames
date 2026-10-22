@@ -66,6 +66,18 @@
     </androidx.preference.PreferenceCategory>
 
     <androidx.preference.PreferenceCategory
+        android:key="integrations_prefs"
+        android:title="@string/integrations">
+
+        <androidx.preference.SwitchPreferenceCompat
+            android:key="share_with_one4home"
+            android:persistent="false"
+            android:summary="@string/share_with_one4home_summary"
+            android:title="@string/share_with_one4home" />
+
+    </androidx.preference.PreferenceCategory>
+
+    <androidx.preference.PreferenceCategory
         android:key="notifications_prefs"
         android:title="@string/notifications">
 

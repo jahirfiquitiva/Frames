@@ -10,6 +10,7 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
+import dev.jahir.frames.data.one4home.One4HomeBridge
 import dev.jahir.frames.data.network.framesHttpClient
 import dev.jahir.frames.extensions.context.preferences
 import dev.jahir.frames.extensions.frames.filenameAndExtension
@@ -61,18 +62,24 @@ class WallpaperApplier(context: Context, params: WorkerParameters) :
         } else bitmap
 
         val result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            var result = 0
+            var homeWallpaperId = 0
+            var lockWallpaperId = 0
             if (option == 0 || option == 2) {
-                result += wallpaperManager.setBitmap(
+                homeWallpaperId = wallpaperManager.setBitmap(
                     scaledBitmap, null, true, WallpaperManager.FLAG_SYSTEM
                 )
             }
             if (option == 1 || option == 2) {
-                result += wallpaperManager.setBitmap(
+                lockWallpaperId = wallpaperManager.setBitmap(
                     scaledBitmap, null, true, WallpaperManager.FLAG_LOCK
                 )
             }
-            result
+            // Only Home Screen applies are shared; this is a no-op unless the user connected it.
+            // The original file is shared: "Scale to Fit" keeps its aspect ratio, so it frames the same
+            context?.let {
+                One4HomeBridge.shareAppliedWallpaper(it, File(filePath), homeWallpaperId)
+            }
+            homeWallpaperId + lockWallpaperId
         } else {
             wallpaperManager.setBitmap(scaledBitmap)
             -1
